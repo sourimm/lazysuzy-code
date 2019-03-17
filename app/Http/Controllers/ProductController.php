@@ -28,4 +28,17 @@ class ProductController extends Controller
         $product = $service->addToWishList($request);
         return $product;
     }
+
+    public function getProductDepartmentWise(Request $request)
+    {
+        $products = Product::where('department','LIKE', '%'.$request->department.'%')->paginate(16);
+        return $products;
+    }
+
+    public function getProductCategoryWise(Request $request)
+    {
+        $products = Product::where('product_category','LIKE', '%'.$request->category.'%')->paginate(16);
+        return $products;
+    }
+
 }
