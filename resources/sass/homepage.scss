@@ -1,0 +1,105 @@
+.homepage {
+    background-image: url("/images/homepage-sofa-img.jpeg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    width: 100%;
+    height: 768px;
+
+    .searchbar-header {
+        display: none;
+    }
+
+    .category-links {
+        position: absolute;
+        top: 50vh;
+        width: 100%;
+        padding: 0px 75px;
+
+        .-heading {
+            font-family: Helvetica, sans-serif;
+            font-size: 24px;
+            color: $brown-text-color;
+        }
+
+        .-depts {
+            margin-top: 40px;
+
+            .-dept {
+                color: $yellow-text-color;
+                padding: 0px 20px;
+                font-size: 40px;
+            }
+        }
+    }
+
+    .searchbar-body {
+        top: 40vh;
+        height: 55px;
+        width: 50%;
+        max-width: 551px;
+        margin: auto;
+        left: calc(50% - 275px);
+        border: 4px solid $border-color;
+
+        .card-body {
+            padding: 0px 15px;
+
+            .search-icon {
+                font-size: 30px;
+                color: $primary-color;
+            }
+
+            .form-control[type="search"] {
+                border: none;
+                outline: none !important;
+                box-shadow: none !important;
+            }
+
+            .btn[type="submit"] {
+                padding: 0px 15px;
+                background-color: transparent;
+                border: 4px solid $border-color;
+                width: 130px;
+                outline: none !important;
+                box-shadow: none !important;
+                color: $secondary-color;
+            }
+        }
+    }
+
+    .brand-association {
+        background-color: rgba(255, 255, 255, 0.7);
+        position: absolute;
+        bottom: 30px;
+        width: 100%;
+        padding: 10px 30px;
+
+        .-text {
+            font-size: 26px;
+        }
+
+        .brand-logos {
+            padding: 0px 30px;
+
+            .brand-logo {
+                padding-left: 15px;
+                width: 15%;
+
+                &.more-soon {
+                    width: 25%;
+                }
+            }
+        }
+
+        .socials{
+            .-text{
+                font-size: 18px;
+                line-height: 2;
+            }
+            .-icon{
+                font-size: 20px;
+                padding: 0px 8px;
+            }
+        }
+    }
+}
