@@ -1,0 +1,29 @@
+.navbar {
+    height: 72px;
+    background-color: rgba(255, 255, 255, 0.3) !important;
+    color: $secondary-color;
+    font-size: 18px;
+    padding: 10px 75px;
+
+    .logo {
+        max-width: 270px;
+    }
+
+    .dropdown-toggle.user-icon::after {
+        display:none;
+    }
+
+    [class^="searchbar"] {
+        position: absolute;
+        left: calc(50% - 135px);
+    }
+
+    .navbar-nav{
+        .nav-item{
+            .-icon{
+                font-size: 30px;
+            }
+        }
+    }
+
+}
