@@ -1,16 +1,21 @@
 .navbar {
-    height: 72px;
+    height: $navbar-height;
     background-color: rgba(255, 255, 255, 0.3) !important;
     color: $secondary-color;
     font-size: 18px;
-    padding: 10px 75px;
+
+    // padding: 10px 75px;
 
     .logo {
         max-width: 270px;
+
+        @media only screen and (max-width: 768px) {
+            max-width: 130px;
+        }
     }
 
     .dropdown-toggle.user-icon::after {
-        display:none;
+        display: none;
     }
 
     [class^="searchbar"] {
@@ -18,12 +23,47 @@
         left: calc(50% - 135px);
     }
 
-    .navbar-nav{
-        .nav-item{
-            .-icon{
+    .navbar-nav {
+        .nav-item {
+            .-icon {
                 font-size: 30px;
             }
         }
     }
 
+    .navbar-toggler{
+        .-bars{
+            color: $primary-color;
+            font-size: 30px;
+        }
+    }
+
+    .-right{
+        display: flex;
+        flex-grow: 1;
+    }
+}
+
+@media only screen and (max-width: 768px) {
+    .navbar {
+        background-color: $secondary-color !important;
+        height: $navbar-height-mobile;
+        padding-top: 0px;
+        padding-bottom: 0px;
+        .navbar-toggler .-bars{
+            font-size: 18px;
+        }
+        .navbar-brand {
+            text-align: center;
+            margin: auto;
+        }
+
+        .nav-item.dropdown{
+            .user-icon{
+                padding: 0px;
+                font-size: 18px;
+                color: $primary-color;
+            }
+        }
+    }
 }

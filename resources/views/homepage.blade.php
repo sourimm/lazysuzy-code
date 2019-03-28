@@ -17,7 +17,7 @@
             @include('brandassoiciation')
 
             <div class="category-links">
-                <span class="-heading float-right">Browse by Department</span>
+                <span class="-heading float-md-right">Browse by Department</span>
                 <div class="-depts">
                     <a href="#"><span class="-dept">Accent</span></a>
                     <a href="#"><span class="-dept">Living</span></a>
