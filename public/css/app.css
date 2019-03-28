@@ -10660,11 +10660,16 @@ a.text-dark:focus {
   background-color: rgba(255, 255, 255, 0.3) !important;
   color: #0c1c31;
   font-size: 18px;
-  padding: 10px 75px;
 }
 
 .navbar .logo {
   max-width: 270px;
+}
+
+@media only screen and (max-width: 768px) {
+  .navbar .logo {
+    max-width: 130px;
+  }
 }
 
 .navbar .dropdown-toggle.user-icon::after {
@@ -10680,12 +10685,55 @@ a.text-dark:focus {
   font-size: 30px;
 }
 
+.navbar .navbar-toggler .-bars {
+  color: #ffcc00;
+  font-size: 30px;
+}
+
+.navbar .-right {
+  display: flex;
+  flex-grow: 1;
+}
+
+@media only screen and (max-width: 768px) {
+  .navbar {
+    background-color: #0c1c31 !important;
+    height: 33px;
+    padding-top: 0px;
+    padding-bottom: 0px;
+  }
+
+  .navbar .navbar-toggler .-bars {
+    font-size: 18px;
+  }
+
+  .navbar .navbar-brand {
+    text-align: center;
+    margin: auto;
+  }
+
+  .navbar .nav-item.dropdown .user-icon {
+    padding: 0px;
+    font-size: 18px;
+    color: #ffcc00;
+  }
+}
+
 .homepage {
+  background-color: #fbfcfb;
   background-image: url("/images/homepage-sofa-img.jpeg");
   background-size: cover;
   background-repeat: no-repeat;
-  width: 100%;
-  height: 768px;
+  background-position: center;
+  height: 100vh;
+  width: 100vw;
+}
+
+@media only screen and (max-width: 768px) {
+  .homepage {
+    background-size: contain;
+    background-position: top 33px left;
+  }
 }
 
 .homepage .searchbar-header {
@@ -10697,10 +10745,10 @@ a.text-dark:focus {
   top: 50vh;
   width: 100%;
   padding: 0px 75px;
+  text-align: right;
 }
 
 .homepage .category-links .-heading {
-  font-family: Helvetica, sans-serif;
   font-size: 24px;
   color: #b76e79;
 }
@@ -10711,7 +10759,7 @@ a.text-dark:focus {
 
 .homepage .category-links .-depts .-dept {
   color: #fefce0;
-  padding: 0px 20px;
+  padding-left: 50px;
   font-size: 40px;
 }
 
@@ -10783,6 +10831,68 @@ a.text-dark:focus {
 .homepage .brand-association .socials .-icon {
   font-size: 20px;
   padding: 0px 8px;
+}
+
+@media only screen and (max-width: 768px) {
+  .searchbar-body {
+    width: 292px !important;
+    left: calc(50% - 146px ) !important;
+    height: 34px !important;
+  }
+
+  .searchbar-body .search-icon {
+    font-size: 18px !important;
+  }
+
+  .searchbar-body .form-control[type=search] {
+    padding-top: 0px;
+    padding-bottom: 0px;
+    max-height: 24px;
+    line-height: 1;
+    font-size: 14px;
+  }
+
+  .category-links {
+    text-align: left !important;
+    padding: 0px 34px !important;
+  }
+
+  .category-links .-heading {
+    font-size: 14px !important;
+  }
+
+  .category-links .-depts {
+    margin-top: 0px !important;
+  }
+
+  .category-links .-depts .-dept {
+    padding: 0px 15px !important;
+    color: #0c1c31 !important;
+    font-size: 24px !important;
+  }
+
+  .brand-association {
+    padding: 0px 34px !important;
+    top: 73vh;
+  }
+
+  .brand-association .-text {
+    font-size: 14px !important;
+    color: #b76e79;
+    margin-bottom: 20px;
+  }
+
+  .brand-association .socials {
+    display: none;
+  }
+
+  .brand-association .brand-logos .brand-logo {
+    width: 20% !important;
+  }
+
+  .brand-association .brand-logos .brand-logo.more-soon {
+    width: 30% !important;
+  }
 }
 
 .footer {
