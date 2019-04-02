@@ -1627,16 +1627,16 @@ pre code {
 .table td {
   padding: 0.75rem;
   vertical-align: top;
-  border-top: 1px solid #f2f4f3;
+  border-top: 1px solid #F2F4F3;
 }
 
 .table thead th {
   vertical-align: bottom;
-  border-bottom: 2px solid #f2f4f3;
+  border-bottom: 2px solid #F2F4F3;
 }
 
 .table tbody + tbody {
-  border-top: 2px solid #f2f4f3;
+  border-top: 2px solid #F2F4F3;
 }
 
 .table-sm th,
@@ -1645,12 +1645,12 @@ pre code {
 }
 
 .table-bordered {
-  border: 1px solid #f2f4f3;
+  border: 1px solid #F2F4F3;
 }
 
 .table-bordered th,
 .table-bordered td {
-  border: 1px solid #f2f4f3;
+  border: 1px solid #F2F4F3;
 }
 
 .table-bordered thead th,
@@ -1874,7 +1874,7 @@ pre code {
 .table .thead-light th {
   color: #495057;
   background-color: #e9ecef;
-  border-color: #f2f4f3;
+  border-color: #F2F4F3;
 }
 
 .table-dark {
@@ -6049,7 +6049,7 @@ a.close.disabled {
   align-items: flex-start;
   justify-content: space-between;
   padding: 1rem 1rem;
-  border-bottom: 1px solid #f2f4f3;
+  border-bottom: 1px solid #F2F4F3;
   border-top-left-radius: 0.3rem;
   border-top-right-radius: 0.3rem;
 }
@@ -6075,7 +6075,7 @@ a.close.disabled {
   align-items: center;
   justify-content: flex-end;
   padding: 1rem;
-  border-top: 1px solid #f2f4f3;
+  border-top: 1px solid #F2F4F3;
   border-bottom-right-radius: 0.3rem;
   border-bottom-left-radius: 0.3rem;
 }
@@ -6825,23 +6825,23 @@ button.bg-dark:focus {
 }
 
 .border {
-  border: 1px solid #f2f4f3 !important;
+  border: 1px solid #F2F4F3 !important;
 }
 
 .border-top {
-  border-top: 1px solid #f2f4f3 !important;
+  border-top: 1px solid #F2F4F3 !important;
 }
 
 .border-right {
-  border-right: 1px solid #f2f4f3 !important;
+  border-right: 1px solid #F2F4F3 !important;
 }
 
 .border-bottom {
-  border-bottom: 1px solid #f2f4f3 !important;
+  border-bottom: 1px solid #F2F4F3 !important;
 }
 
 .border-left {
-  border-left: 1px solid #f2f4f3 !important;
+  border-left: 1px solid #F2F4F3 !important;
 }
 
 .border-0 {
@@ -10646,12 +10646,12 @@ a.text-dark:focus {
   .table-dark td,
   .table-dark thead th,
   .table-dark tbody + tbody {
-    border-color: #f2f4f3;
+    border-color: #F2F4F3;
   }
 
   .table .thead-dark th {
     color: inherit;
-    border-color: #f2f4f3;
+    border-color: #F2F4F3;
   }
 }
 
@@ -10703,6 +10703,10 @@ a.text-dark:focus {
     padding-bottom: 0px;
   }
 
+  .navbar .navbar-toggler {
+    padding-left: 0px;
+  }
+
   .navbar .navbar-toggler .-bars {
     font-size: 18px;
   }
@@ -10720,7 +10724,7 @@ a.text-dark:focus {
 }
 
 .homepage {
-  background-color: #fbfcfb;
+  background-color: #fbfbfb;
   background-image: url("/images/homepage-sofa-img.jpeg");
   background-size: cover;
   background-repeat: no-repeat;
@@ -10759,7 +10763,7 @@ a.text-dark:focus {
 
 .homepage .category-links .-depts .-dept {
   color: #fefce0;
-  padding-left: 50px;
+  padding-left: 30px;
   font-size: 40px;
 }
 
@@ -10770,7 +10774,7 @@ a.text-dark:focus {
   max-width: 551px;
   margin: auto;
   left: calc(50% - 275px);
-  border: 4px solid #f2f4f3;
+  border: 4px solid #F2F4F3;
 }
 
 .homepage .searchbar-body .card-body {
@@ -10791,7 +10795,7 @@ a.text-dark:focus {
 .homepage .searchbar-body .card-body .btn[type=submit] {
   padding: 0px 15px;
   background-color: transparent;
-  border: 4px solid #f2f4f3;
+  border: 4px solid #F2F4F3;
   width: 130px;
   outline: none !important;
   box-shadow: none !important;
@@ -10835,9 +10839,11 @@ a.text-dark:focus {
 
 @media only screen and (max-width: 768px) {
   .searchbar-body {
-    width: 292px !important;
-    left: calc(50% - 146px ) !important;
     height: 34px !important;
+    border: 1px solid #000 !important;
+    left: 0px !important;
+    border-radius: 0px;
+    width: 100% !important;
   }
 
   .searchbar-body .search-icon {
@@ -10854,21 +10860,33 @@ a.text-dark:focus {
 
   .category-links {
     text-align: left !important;
-    padding: 0px 34px !important;
+    padding: 0px !important;
   }
 
   .category-links .-heading {
     font-size: 14px !important;
+    margin-left: 34px;
   }
 
   .category-links .-depts {
     margin-top: 0px !important;
+    max-width: 100%;
+    margin: auto;
   }
 
   .category-links .-depts .-dept {
     padding: 0px 15px !important;
+    height: 30px;
+    background: #FFFFF9;
+    border-radius: 4px;
+    text-align: center;
+    border: 1px solid #F2F4F3;
+  }
+
+  .category-links .-depts .-dept a {
+    display: block;
+    font-size: 18px;
     color: #0c1c31 !important;
-    font-size: 24px !important;
   }
 
   .brand-association {

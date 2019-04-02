@@ -18,15 +18,16 @@
 
             <div class="category-links">
                 <span class="-heading float-md-right">Browse by Department</span>
-                <div class="-depts">
-                    <a href="#"><span class="-dept">Accent</span></a>
-                    <a href="#"><span class="-dept">Living</span></a>
-                    <a href="#"><span class="-dept">Bed</span></a>
-                    <a href="#"><span class="-dept">Dining</span></a>
-                    <a href="#"><span class="-dept">Hall</span></a>
-                    <a href="#"><span class="-dept">Bath</span></a>
-                    <a href="#"><span class="-dept">Outdoor</span></a>
-                    <a href="#"><span class="-dept">Pet</span></a>
+                <div class="-depts row">
+                    <div class="col-4 col-md-12 -dept"><a href="#"><span>Accent</span></a></div>
+                    <div class="col-4 col-md-12 -dept"><a href="#"><span>Living</span></a></div>
+                    <div class="col-4 col-md-12 -dept"><a href="#"><span>Bed</span></a></div>
+                    <div class="col-4 col-md-12 -dept"><a href="#"><span>Dining</span></a></div>
+                    <div class="col-4 col-md-12 -dept"><a href="#"><span>Hall</span></a></div>
+                    <div class="col-4 col-md-12 -dept"><a href="#"><span>Bath</span></a></div>
+                    <div class="col-4 col-md-12 -dept"><a href="#"><span>Outdoor</span></a></div>
+                    <div class="col-4 col-md-12 -dept"><a href="#"><span>Pet</span></a></div>
+                    <div class="col-4 col-md-12 -dept"><a href="#"><span>Kids</span></a></div>
                 </div>
             </div>
 

@@ -32,7 +32,7 @@
 
             .-dept {
                 color: $yellow-text-color;
-                padding-left: 50px;
+                padding-left: 30px;
                 font-size: 40px;
             }
         }
@@ -113,9 +113,11 @@
 
 @media only screen and (max-width: 768px) {
     .searchbar-body{
-        width: 292px !important;
-        left: calc(50% - 146px ) !important;
         height: 34px !important;
+        border: 1px solid #000 !important;
+        left: 0px !important;
+        border-radius: 0px;
+        width: 100% !important;
 
         .search-icon{
             font-size: 18px !important;
@@ -132,18 +134,29 @@
 
     .category-links{
         text-align: left !important;
-        padding: 0px 34px !important;
+        padding: 0px !important;
 
         .-heading{
             font-size: 14px !important;
+            margin-left: 34px;
         }
 
         .-depts{
             margin-top: 0px !important;
+            max-width: 100%;
+            margin: auto;
             .-dept{
                 padding: 0px 15px !important;
-                color: $secondary-color !important;
-                font-size: 24px !important;
+                height: 30px;
+                background: #FFFFF9;
+                border-radius: 4px;   
+                text-align: center;
+                border: 1px solid $border-color;
+                a{
+                    display: block;
+                    font-size: 18px;
+                    color: $secondary-color !important;
+                }
             }
         }
     }
