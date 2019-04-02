@@ -6,9 +6,82 @@
     background-position: center;
     height: 100vh;
     width: 100vw;
+
     @media only screen and (max-width: 768px) {
         background-size: contain;
         background-position: top $navbar-height-mobile left;
+    }
+
+    .submenu-area {
+        background: transparent;
+        padding-left: 40px;
+
+        .navbar {
+            height: 28px;
+            background-color: transparent !important;
+
+            .dropdown {
+                &:hover {
+                    .dropdown-menu {
+                        display: block;
+                    }
+                }
+
+                .dropdown-toggle {
+                    &:active {
+                        pointer-events: none; // Add this, to prevent clicking dropdown's default click function
+                   
+                    }
+                }
+
+                .dropdown-menu {
+                    border: 1px solid $border-color;
+                    border-radius: 4px;
+                    max-width: 157px;
+                    text-align: center;
+                    li{
+                        border-bottom: 1px solid $border-color;
+                        min-height: 30px
+                    }
+                }
+            }
+        }
+    }
+
+    .dropdown-menu {
+        padding: 0;
+        margin: 0;
+        border: 0 solid transition !important;
+        border: 0 solid rgba(0, 0, 0, 0.15);
+        border-radius: 0;
+        -webkit-box-shadow: none !important;
+        box-shadow: none !important;
+    }
+
+    .mainmenu a, .navbar-default .navbar-nav > li > a, .mainmenu ul li a, .navbar-expand-lg .navbar-nav .nav-link {
+        color: $secondary-color;
+        font-size: 20px;
+        text-transform: capitalize;
+        padding: 0px 15px;
+        display: block !important;
+    }
+
+    .mainmenu .active a, .mainmenu .active a:focus, .mainmenu .active a:hover, .mainmenu li a:hover, .mainmenu li a:focus, .navbar-default .navbar-nav > .show > a, .navbar-default .navbar-nav > .show > a:focus, .navbar-default .navbar-nav > .show > a:hover {
+        background-color: rgba(255, 255, 255, 0.7);
+        outline: 0;
+    }
+
+    /*==========Sub Menu=v==========*/
+    .mainmenu .collapse ul > li:hover > a {
+        background-color: rgba(255, 255, 255, 0.7);
+    }
+
+    .mainmenu .collapse ul ul > li:hover > a, .navbar-default .navbar-nav .show .dropdown-menu > li > a:focus, .navbar-default .navbar-nav .show .dropdown-menu > li > a:hover {
+        background-color: rgba(255, 255, 255, 0.7);
+    }
+
+    .mainmenu .collapse ul ul ul > li:hover > a {
+        background-color: rgba(255, 255, 255, 0.7);
     }
 
     .searchbar-header {
@@ -28,12 +101,17 @@
         }
 
         .-depts {
-            margin-top: 40px;
+            margin: 40px 0px 0px 0px;
 
             .-dept {
-                color: $yellow-text-color;
-                padding-left: 50px;
+                padding-left: 30px;
                 font-size: 40px;
+                padding-right: 0px;
+                flex: 1 1 auto;
+
+                a {
+                    color: $yellow-text-color;
+                }
             }
         }
     }
@@ -112,16 +190,18 @@
 }
 
 @media only screen and (max-width: 768px) {
-    .searchbar-body{
-        width: 292px !important;
-        left: calc(50% - 146px ) !important;
+    .searchbar-body {
         height: 34px !important;
+        border: 1px solid #000 !important;
+        left: 0px !important;
+        border-radius: 0px;
+        width: 100% !important;
 
-        .search-icon{
+        .search-icon {
             font-size: 18px !important;
         }
 
-        .form-control[type="search"]{
+        .form-control[type="search"] {
             padding-top: 0px;
             padding-bottom: 0px;
             max-height: 24px;
@@ -130,42 +210,59 @@
         }
     }
 
-    .category-links{
+    .category-links {
         text-align: left !important;
-        padding: 0px 34px !important;
+        padding: 0px !important;
 
-        .-heading{
+        .-heading {
             font-size: 14px !important;
+            margin-left: 34px;
         }
 
-        .-depts{
+        .-depts {
             margin-top: 0px !important;
-            .-dept{
+            max-width: 100%;
+            margin: auto;
+
+            .-dept {
                 padding: 0px 15px !important;
-                color: $secondary-color !important;
-                font-size: 24px !important;
+                height: 30px;
+                background: #FFFFF9;
+                border-radius: 4px;
+                text-align: center;
+                border: 1px solid $border-color;
+
+                a {
+                    display: block;
+                    font-size: 18px;
+                    color: $secondary-color !important;
+                }
             }
         }
     }
 
-    .brand-association{    
+    .brand-association {
         padding: 0px 34px !important;
         top: 73vh;
-        .-text{
+
+        .-text {
             font-size: 14px !important;
             color: $brown-text-color;
             margin-bottom: 20px;
         }
-        .socials{
+
+        .socials {
             display: none;
         }
-        .brand-logos{
-            .brand-logo{
+
+        .brand-logos {
+            .brand-logo {
                 width: 20% !important;
-                &.more-soon{
+
+                &.more-soon {
                     width: 30% !important;
                 }
             }
-        } 
+        }
     }
 }

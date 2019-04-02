@@ -7,7 +7,8 @@
     // padding: 10px 75px;
 
     .logo {
-        max-width: 270px;
+        max-width: 270px;    
+        padding-left: 24px;
 
         @media only screen and (max-width: 768px) {
             max-width: 130px;
@@ -50,8 +51,14 @@
         height: $navbar-height-mobile;
         padding-top: 0px;
         padding-bottom: 0px;
-        .navbar-toggler .-bars{
-            font-size: 18px;
+        .logo{
+            padding-left: 0px;
+        }
+        .navbar-toggler{
+            padding-left: 0px;
+            .-bars{
+                font-size: 18px;
+            }
         }
         .navbar-brand {
             text-align: center;
