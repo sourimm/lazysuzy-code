@@ -10664,6 +10664,7 @@ a.text-dark:focus {
 
 .navbar .logo {
   max-width: 270px;
+  padding-left: 24px;
 }
 
 @media only screen and (max-width: 768px) {
@@ -10703,6 +10704,10 @@ a.text-dark:focus {
     padding-bottom: 0px;
   }
 
+  .navbar .logo {
+    padding-left: 0px;
+  }
+
   .navbar .navbar-toggler {
     padding-left: 0px;
   }
@@ -10731,6 +10736,7 @@ a.text-dark:focus {
   background-position: center;
   height: 100vh;
   width: 100vw;
+  /*==========Sub Menu=v==========*/
 }
 
 @media only screen and (max-width: 768px) {
@@ -10738,6 +10744,82 @@ a.text-dark:focus {
     background-size: contain;
     background-position: top 33px left;
   }
+}
+
+.homepage .submenu-area {
+  background: transparent;
+  padding-left: 40px;
+}
+
+.homepage .submenu-area .navbar {
+  height: 28px;
+  background-color: transparent !important;
+}
+
+.homepage .submenu-area .navbar .dropdown:hover .dropdown-menu {
+  display: block;
+}
+
+.homepage .submenu-area .navbar .dropdown .dropdown-toggle:active {
+  pointer-events: none;
+}
+
+.homepage .submenu-area .navbar .dropdown .dropdown-menu {
+  border: 1px solid #F2F4F3;
+  border-radius: 4px;
+  max-width: 157px;
+  text-align: center;
+}
+
+.homepage .submenu-area .navbar .dropdown .dropdown-menu li {
+  border-bottom: 1px solid #F2F4F3;
+  min-height: 30px;
+}
+
+.homepage .dropdown-menu {
+  padding: 0;
+  margin: 0;
+  border: 0 solid transition !important;
+  border: 0 solid rgba(0, 0, 0, 0.15);
+  border-radius: 0;
+  box-shadow: none !important;
+}
+
+.homepage .mainmenu a,
+.homepage .navbar-default .navbar-nav > li > a,
+.homepage .mainmenu ul li a,
+.homepage .navbar-expand-lg .navbar-nav .nav-link {
+  color: #0c1c31;
+  font-size: 20px;
+  text-transform: capitalize;
+  padding: 0px 15px;
+  display: block !important;
+}
+
+.homepage .mainmenu .active a,
+.homepage .mainmenu .active a:focus,
+.homepage .mainmenu .active a:hover,
+.homepage .mainmenu li a:hover,
+.homepage .mainmenu li a:focus,
+.homepage .navbar-default .navbar-nav > .show > a,
+.homepage .navbar-default .navbar-nav > .show > a:focus,
+.homepage .navbar-default .navbar-nav > .show > a:hover {
+  background-color: rgba(255, 255, 255, 0.7);
+  outline: 0;
+}
+
+.homepage .mainmenu .collapse ul > li:hover > a {
+  background-color: rgba(255, 255, 255, 0.7);
+}
+
+.homepage .mainmenu .collapse ul ul > li:hover > a,
+.homepage .navbar-default .navbar-nav .show .dropdown-menu > li > a:focus,
+.homepage .navbar-default .navbar-nav .show .dropdown-menu > li > a:hover {
+  background-color: rgba(255, 255, 255, 0.7);
+}
+
+.homepage .mainmenu .collapse ul ul ul > li:hover > a {
+  background-color: rgba(255, 255, 255, 0.7);
 }
 
 .homepage .searchbar-header {
@@ -10758,13 +10840,18 @@ a.text-dark:focus {
 }
 
 .homepage .category-links .-depts {
-  margin-top: 40px;
+  margin: 40px 0px 0px 0px;
 }
 
 .homepage .category-links .-depts .-dept {
-  color: #fefce0;
   padding-left: 30px;
   font-size: 40px;
+  padding-right: 0px;
+  flex: 1 1 auto;
+}
+
+.homepage .category-links .-depts .-dept a {
+  color: #fefce0;
 }
 
 .homepage .searchbar-body {
