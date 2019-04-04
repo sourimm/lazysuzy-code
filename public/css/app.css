@@ -10721,10 +10721,15 @@ a.text-dark:focus {
     margin: auto;
   }
 
-  .navbar .nav-item.dropdown .user-icon {
+  .navbar .nav-item.dropdown .user-icon,
+  .navbar .nav-item.dropdown .search-icon-mobile {
     padding: 0px;
     font-size: 18px;
     color: #ffcc00;
+  }
+
+  .navbar .nav-item.dropdown .search-icon-mobile {
+    margin: 0px 10px;
   }
 }
 
@@ -10736,7 +10741,6 @@ a.text-dark:focus {
   background-position: center;
   height: 100vh;
   width: 100vw;
-  /*==========Sub Menu=v==========*/
 }
 
 @media only screen and (max-width: 768px) {
@@ -10744,82 +10748,6 @@ a.text-dark:focus {
     background-size: contain;
     background-position: top 33px left;
   }
-}
-
-.homepage .submenu-area {
-  background: transparent;
-  padding-left: 40px;
-}
-
-.homepage .submenu-area .navbar {
-  height: 28px;
-  background-color: transparent !important;
-}
-
-.homepage .submenu-area .navbar .dropdown:hover .dropdown-menu {
-  display: block;
-}
-
-.homepage .submenu-area .navbar .dropdown .dropdown-toggle:active {
-  pointer-events: none;
-}
-
-.homepage .submenu-area .navbar .dropdown .dropdown-menu {
-  border: 1px solid #F2F4F3;
-  border-radius: 4px;
-  max-width: 157px;
-  text-align: center;
-}
-
-.homepage .submenu-area .navbar .dropdown .dropdown-menu li {
-  border-bottom: 1px solid #F2F4F3;
-  min-height: 30px;
-}
-
-.homepage .dropdown-menu {
-  padding: 0;
-  margin: 0;
-  border: 0 solid transition !important;
-  border: 0 solid rgba(0, 0, 0, 0.15);
-  border-radius: 0;
-  box-shadow: none !important;
-}
-
-.homepage .mainmenu a,
-.homepage .navbar-default .navbar-nav > li > a,
-.homepage .mainmenu ul li a,
-.homepage .navbar-expand-lg .navbar-nav .nav-link {
-  color: #0c1c31;
-  font-size: 20px;
-  text-transform: capitalize;
-  padding: 0px 15px;
-  display: block !important;
-}
-
-.homepage .mainmenu .active a,
-.homepage .mainmenu .active a:focus,
-.homepage .mainmenu .active a:hover,
-.homepage .mainmenu li a:hover,
-.homepage .mainmenu li a:focus,
-.homepage .navbar-default .navbar-nav > .show > a,
-.homepage .navbar-default .navbar-nav > .show > a:focus,
-.homepage .navbar-default .navbar-nav > .show > a:hover {
-  background-color: rgba(255, 255, 255, 0.7);
-  outline: 0;
-}
-
-.homepage .mainmenu .collapse ul > li:hover > a {
-  background-color: rgba(255, 255, 255, 0.7);
-}
-
-.homepage .mainmenu .collapse ul ul > li:hover > a,
-.homepage .navbar-default .navbar-nav .show .dropdown-menu > li > a:focus,
-.homepage .navbar-default .navbar-nav .show .dropdown-menu > li > a:hover {
-  background-color: rgba(255, 255, 255, 0.7);
-}
-
-.homepage .mainmenu .collapse ul ul ul > li:hover > a {
-  background-color: rgba(255, 255, 255, 0.7);
 }
 
 .homepage .searchbar-header {
@@ -10852,41 +10780,6 @@ a.text-dark:focus {
 
 .homepage .category-links .-depts .-dept a {
   color: #fefce0;
-}
-
-.homepage .searchbar-body {
-  top: 40vh;
-  height: 55px;
-  width: 50%;
-  max-width: 551px;
-  margin: auto;
-  left: calc(50% - 275px);
-  border: 4px solid #F2F4F3;
-}
-
-.homepage .searchbar-body .card-body {
-  padding: 0px 15px;
-}
-
-.homepage .searchbar-body .card-body .search-icon {
-  font-size: 30px;
-  color: #ffcc00;
-}
-
-.homepage .searchbar-body .card-body .form-control[type=search] {
-  border: none;
-  outline: none !important;
-  box-shadow: none !important;
-}
-
-.homepage .searchbar-body .card-body .btn[type=submit] {
-  padding: 0px 15px;
-  background-color: transparent;
-  border: 4px solid #F2F4F3;
-  width: 130px;
-  outline: none !important;
-  box-shadow: none !important;
-  color: #0c1c31;
 }
 
 .homepage .brand-association {
@@ -10922,6 +10815,45 @@ a.text-dark:focus {
 .homepage .brand-association .socials .-icon {
   font-size: 20px;
   padding: 0px 8px;
+}
+
+.homepage .search-icon-mobile {
+  display: none;
+}
+
+.searchbar-body {
+  top: 40vh;
+  height: 55px;
+  width: 50%;
+  max-width: 551px;
+  margin: auto;
+  left: calc(50% - 275px);
+  border: 4px solid #F2F4F3;
+}
+
+.searchbar-body .card-body {
+  padding: 0px 15px;
+}
+
+.searchbar-body .card-body .search-icon {
+  font-size: 30px;
+  color: #ffcc00;
+}
+
+.searchbar-body .card-body .form-control[type=search] {
+  border: none;
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+.searchbar-body .card-body .btn[type=submit] {
+  padding: 0px 15px;
+  background-color: transparent;
+  border: 4px solid #F2F4F3;
+  width: 130px;
+  outline: none !important;
+  box-shadow: none !important;
+  color: #0c1c31;
 }
 
 @media only screen and (max-width: 768px) {
@@ -11000,6 +10932,84 @@ a.text-dark:focus {
   }
 }
 
+.submenu-area {
+  background: transparent;
+  padding-left: 40px;
+}
+
+.submenu-area .navbar {
+  height: 28px;
+  background-color: transparent !important;
+}
+
+.submenu-area .navbar .dropdown:hover .dropdown-menu {
+  display: block;
+}
+
+.submenu-area .navbar .dropdown .dropdown-toggle:active {
+  pointer-events: none;
+}
+
+.submenu-area .navbar .dropdown .dropdown-menu {
+  border: 1px solid #F2F4F3;
+  border-radius: 4px;
+  max-width: 157px;
+  text-align: center;
+}
+
+.submenu-area .navbar .dropdown .dropdown-menu li {
+  border-bottom: 1px solid #F2F4F3;
+  min-height: 30px;
+}
+
+.dropdown-menu {
+  padding: 0;
+  margin: 0;
+  border: 0 solid transition !important;
+  border: 0 solid rgba(0, 0, 0, 0.15);
+  border-radius: 0;
+  box-shadow: none !important;
+}
+
+.mainmenu a,
+.navbar-default .navbar-nav > li > a,
+.mainmenu ul li a,
+.navbar-expand-lg .navbar-nav .nav-link {
+  color: #0c1c31;
+  font-size: 20px;
+  text-transform: capitalize;
+  padding: 0px 15px;
+  display: block !important;
+}
+
+.mainmenu .active a,
+.mainmenu .active a:focus,
+.mainmenu .active a:hover,
+.mainmenu li a:hover,
+.mainmenu li a:focus,
+.navbar-default .navbar-nav > .show > a,
+.navbar-default .navbar-nav > .show > a:focus,
+.navbar-default .navbar-nav > .show > a:hover {
+  background-color: rgba(255, 255, 255, 0.7);
+  outline: 0;
+}
+
+/*==========Sub Menu=v==========*/
+
+.mainmenu .collapse ul > li:hover > a {
+  background-color: rgba(255, 255, 255, 0.7);
+}
+
+.mainmenu .collapse ul ul > li:hover > a,
+.navbar-default .navbar-nav .show .dropdown-menu > li > a:focus,
+.navbar-default .navbar-nav .show .dropdown-menu > li > a:hover {
+  background-color: rgba(255, 255, 255, 0.7);
+}
+
+.mainmenu .collapse ul ul ul > li:hover > a {
+  background-color: rgba(255, 255, 255, 0.7);
+}
+
 .footer {
   padding: 0px 15px;
   position: absolute;
@@ -11013,6 +11023,136 @@ a.text-dark:focus {
 
 .footer .policy-terms a {
   color: #0c1c31;
+}
+
+.listing .searchbar-body {
+  top: 0px;
+  display: none;
+}
+
+.listing .listing-container {
+  margin-top: 35px;
+}
+
+.listing .listing-container .filters {
+  width: 180px;
+}
+
+.listing .listing-container .filters .filter .filter-header {
+  font-size: 18px;
+}
+
+.listing .listing-container .filters .filter .clear-filter {
+  font-size: 14px;
+  color: #ffcc00;
+  cursor: pointer;
+}
+
+.listing .listing-container .filters .filter ul {
+  padding: 0px;
+  margin: 10px;
+}
+
+.listing .listing-container .filters .filter ul li {
+  list-style: none;
+  /* Customize the label (the container) */
+  /* Hide the browser's default checkbox */
+  /* Create a custom checkbox */
+  /* Create the checkmark/indicator (hidden when not checked) */
+  /* Show the checkmark when checked */
+  /* Style the checkmark/indicator */
+}
+
+.listing .listing-container .filters .filter ul li .container {
+  display: block;
+  position: relative;
+  padding-left: 25px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  font-size: 14px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  line-height: 1;
+}
+
+.listing .listing-container .filters .filter ul li .container input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+.listing .listing-container .filters .filter ul li .checkmark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 15px;
+  width: 15px;
+  /* background-color: #eee; */
+  border-radius: 2px;
+  border: 1px solid #0c1c31;
+}
+
+.listing .listing-container .filters .filter ul li .checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+.listing .listing-container .filters .filter ul li .container input:checked ~ .checkmark:after {
+  display: block;
+}
+
+.listing .listing-container .filters .filter ul li .container .checkmark:after {
+  left: 4px;
+  top: 1px;
+  width: 5px;
+  height: 10px;
+  border: solid #0c1c31;
+  border-width: 0 3px 3px 0;
+  -webkit-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
+
+.listing .listing-container .filters .filter .slider-container .-info {
+  margin-left: 10px;
+}
+
+.listing .listing-container .filters .filter .slider-container .slider {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 5px;
+  border: 1px solid #0c1c31;
+  background: #ffffff;
+  outline: none;
+  transition: opacity 0.2s;
+}
+
+.listing .listing-container .filters .filter .slider-container .slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 25px;
+  height: 25px;
+  background: #fbfbfb;
+  border: 1px solid #0c1c31;
+  cursor: pointer;
+}
+
+.listing .listing-container .filters .filter .slider-container .slider::-moz-range-thumb {
+  width: 25px;
+  height: 25px;
+  background: #fbfbfb;
+  border: 1px solid #0c1c31;
+  cursor: pointer;
+}
+
+@media only screen and (max-width: 768px) {
+  .listing .searchbar-body {
+    top: 33px;
+  }
 }
 
 html,
