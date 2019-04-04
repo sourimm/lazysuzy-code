@@ -10,11 +10,11 @@ class ProductController extends Controller
 {
     public function index(Request $request)
     {
-        $products = Product::get()->paginate(20);
+        $products = Product::paginate(20);
         if ($request->ajax()) {
             return $products;
         }
-        return $products;
+        return view('products');
     }
 
     public function productDetails(Request $request , $id)
