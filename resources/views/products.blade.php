@@ -18,8 +18,8 @@
         @include('navbar')
         @include('./partials/subnav')
 
-        <div class="listing-container container">
-            <div class="filters">
+        <div class="listing-container container row">
+            <div class="filters col-md-2">
                 <div class="filter">
                     <span class="filter-header">Brands</span>
                     <label for="" class="clear-filter float-right">Clear</label>
@@ -93,6 +93,39 @@
                 <div>
                 </div>
             </div>
+            <div class="products-container col-md-10">
+                <div class="float-right">
+                    <div class="sortby">
+                        <label for="sort">Sort By</label>
+                        <select class="form-control" id="sort">
+                            <option>Price : Low to High</option>
+                            <option>Price : High to Low</option>
+                            <option>Popularity</option>
+                            <option selected>Recommended</option>
+                        </select>
+                    </div>
+                    <div class="total-items">1024 Results</div>
+                </div>
+                <div class="ls-prod-container row">
+                    <div class="ls-product-div col-md-3">
+                        <div class="ls-product">
+                            <a href="#"><img class="img-fluid" src="https://via.placeholder.com/400x533" alt="product img"></a>
+                            <div class="prod-info">
+                                <span class="-cat-name">Some</span>
+                                <span class="-prices float-right">
+                                    <span class="-cprice">$123</span>
+                                    <span class="-oldprice">$222</span>
+                                </span>
+                            </div>
+                            <div class="wishlist-icon">
+                                <i class="far fa-heart -icon"></i>
+                            </div>
+                        </div>
+                        <div class="-name">Marlee Cream Club Chair</div>
+                    </div>
+                </div>
+            </div>
+
         </div>
         @include('footer')
 </body>

@@ -11032,10 +11032,13 @@ a.text-dark:focus {
 
 .listing .listing-container {
   margin-top: 35px;
+  margin: auto;
+  padding: 0px;
 }
 
 .listing .listing-container .filters {
   width: 180px;
+  margin-top: 45px;
 }
 
 .listing .listing-container .filters .filter .filter-header {
@@ -11147,6 +11150,71 @@ a.text-dark:focus {
   background: #fbfbfb;
   border: 1px solid #0c1c31;
   cursor: pointer;
+}
+
+.listing .listing-container .sortby .form-control {
+  display: inline-block;
+  width: auto;
+  margin-left: 10px;
+}
+
+.listing .listing-container .total-items {
+  text-align: right;
+}
+
+.listing .listing-container .products-container {
+  padding: 0px;
+}
+
+.listing .listing-container .products-container .ls-prod-container {
+  max-width: 100%;
+  margin: 65px auto auto auto;
+}
+
+.listing .listing-container .products-container .ls-prod-container .ls-product-div {
+  padding: 0px 10px;
+  text-align: center;
+  margin-bottom: 35px;
+}
+
+.listing .listing-container .products-container .ls-prod-container .ls-product-div .ls-product {
+  position: relative;
+  margin-bottom: 15px;
+}
+
+.listing .listing-container .products-container .ls-prod-container .ls-product-div .ls-product .prod-info {
+  position: absolute;
+  bottom: 0px;
+  padding: 0px 10px;
+  width: 100%;
+  background-color: rgba(255, 255, 255, 0.7);
+  height: 25px;
+  text-align: left;
+}
+
+.listing .listing-container .products-container .ls-prod-container .ls-product-div .ls-product .prod-info .-prices .-cprice {
+  color: #ffcc00;
+}
+
+.listing .listing-container .products-container .ls-prod-container .ls-product-div .ls-product .prod-info .-prices .-oldprice {
+  text-decoration: line-through;
+}
+
+.listing .listing-container .products-container .ls-prod-container .ls-product-div .ls-product .wishlist-icon {
+  position: absolute;
+  margin: 15px;
+  top: 0px;
+  right: 0px;
+}
+
+.listing .listing-container .products-container .ls-prod-container .ls-product-div .ls-product .wishlist-icon .-icon {
+  font-size: 15px;
+}
+
+.listing .listing-container .products-container .ls-prod-container .ls-product-div .ls-product .-name {
+  font-weight: bold;
+  font-size: 14px;
+  text-align: center;
 }
 
 @media only screen and (max-width: 768px) {
