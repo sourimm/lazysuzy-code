@@ -14,7 +14,7 @@ class CreateTableDepartmentCategories extends Migration
     public function up()
     {
         Schema::create('department_categories', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->increments('id');
             $table->unsignedInteger('department_id');
             $table->unsignedInteger('category_id');
             $table->foreign('department_id')

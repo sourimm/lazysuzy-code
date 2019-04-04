@@ -14,7 +14,7 @@ class CreateTableProductImpresions extends Migration
     public function up()
     {
         Schema::create('product_impressions', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->increments('id');
             $table->unsignedInteger('product_id');
             $table->unsignedInteger('user_id')->nullable();
             $table->ipAddress('ip_address');
