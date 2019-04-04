@@ -15,6 +15,3 @@ Route::get('/', function () {
     return view('homepage');
 });
 
-Route::get('/test', function () {
-    return view('test'); // test here is the test.blade.php
-});

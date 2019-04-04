@@ -14,7 +14,7 @@ class CreateTableProducts extends Migration
     public function up()
     {
         Schema::create('products', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->increments('id');
             $table->string('product_sku')->nullable();
             $table->string('product_name')->nullable();
             $table->string('sku_hash')->nullable();
@@ -35,9 +35,9 @@ class CreateTableProducts extends Migration
             $table->string('product_set')->nullable();
             $table->string('product_condition')->nullable();
             $table->string('product_description')->nullable();
+            $table->boolean('product_status')->nullable();
             $table->enum('level', ['active', 'inactive'])->nullable();
             $table->boolean('is_moved')->nullable();
-            $table->boolean('update_status')->nullable();
             $table->boolean('update_status')->nullable();
             $table->json('product_images')->nullable();
             $table->string('main_product_image')->nullable();
