@@ -66,10 +66,13 @@
         }
 
         .nav-item.dropdown{
-            .user-icon{
+            .user-icon, .search-icon-mobile{
                 padding: 0px;
                 font-size: 18px;
                 color: $primary-color;
+            }
+            .search-icon-mobile{
+                margin: 0px 10px;
             }
         }
     }
