@@ -10,7 +10,7 @@
         <img id="logo-navbar-middle" src="{{ asset('/images/color_logo_transparent.png') }}" alt="LazySuzy" class="logo d-block d-md-none">
     </a>
 
-    <form class="searchbar-body card card-sm">
+    <form id="searchbarBody" class="searchbar-body card card-sm">
         <div class="card-body row no-gutters align-items-center">
             <div class="col-auto">
                 <i class="fas fa-search search-icon"></i>
@@ -28,10 +28,6 @@
         </div>
     </form>
     <div class="-right d-none d-md-flex">
-        <form class="searchbar-header form-inline my-2 my-lg-0 ml-auto">
-            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-        </form>
         <ul class="navbar-nav ml-auto">
             <li class="nav-item">
                 <a class="nav-link" href="#">The Lazy Story</a>
@@ -54,6 +50,10 @@
     </div>
 
     <div class="nav-item dropdown d-flex d-md-none">
+        <a class="nav-link search-icon-mobile" href="#" id="searchIconMobile" role="button"
+            aria-expanded="false">
+            <i class="fas fa-search"></i>
+        </a>
         <a class="nav-link dropdown-toggle user-icon" href="#" id="userDropdown" role="button"
             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <i class="fas fa-user-circle -icon"></i>
