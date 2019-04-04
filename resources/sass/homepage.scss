@@ -6,6 +6,7 @@
     background-position: center;
     height: 100vh;
     width: 100vw;
+
     @media only screen and (max-width: 768px) {
         background-size: contain;
         background-position: top $navbar-height-mobile left;
@@ -28,47 +29,17 @@
         }
 
         .-depts {
-            margin-top: 40px;
+            margin: 40px 0px 0px 0px;
 
             .-dept {
-                color: $yellow-text-color;
-                padding-left: 50px;
+                padding-left: 30px;
                 font-size: 40px;
-            }
-        }
-    }
+                padding-right: 0px;
+                flex: 1 1 auto;
 
-    .searchbar-body {
-        top: 40vh;
-        height: 55px;
-        width: 50%;
-        max-width: 551px;
-        margin: auto;
-        left: calc(50% - 275px);
-        border: 4px solid $border-color;
-
-        .card-body {
-            padding: 0px 15px;
-
-            .search-icon {
-                font-size: 30px;
-                color: $primary-color;
-            }
-
-            .form-control[type="search"] {
-                border: none;
-                outline: none !important;
-                box-shadow: none !important;
-            }
-
-            .btn[type="submit"] {
-                padding: 0px 15px;
-                background-color: transparent;
-                border: 4px solid $border-color;
-                width: 130px;
-                outline: none !important;
-                box-shadow: none !important;
-                color: $secondary-color;
+                a {
+                    color: $yellow-text-color;
+                }
             }
         }
     }
@@ -109,19 +80,60 @@
             }
         }
     }
+
+    .search-icon-mobile{
+        display: none;
+    }
+}
+
+.searchbar-body {
+    top: 40vh;
+    height: 55px;
+    width: 50%;
+    max-width: 551px;
+    margin: auto;
+    left: calc(50% - 275px);
+    border: 4px solid $border-color;
+
+    .card-body {
+        padding: 0px 15px;
+
+        .search-icon {
+            font-size: 30px;
+            color: $primary-color;
+        }
+
+        .form-control[type="search"] {
+            border: none;
+            outline: none !important;
+            box-shadow: none !important;
+        }
+
+        .btn[type="submit"] {
+            padding: 0px 15px;
+            background-color: transparent;
+            border: 4px solid $border-color;
+            width: 130px;
+            outline: none !important;
+            box-shadow: none !important;
+            color: $secondary-color;
+        }
+    }
 }
 
 @media only screen and (max-width: 768px) {
-    .searchbar-body{
-        width: 292px !important;
-        left: calc(50% - 146px ) !important;
+    .searchbar-body {
         height: 34px !important;
+        border: 1px solid #000 !important;
+        left: 0px !important;
+        border-radius: 0px;
+        width: 100% !important;
 
-        .search-icon{
+        .search-icon {
             font-size: 18px !important;
         }
 
-        .form-control[type="search"]{
+        .form-control[type="search"] {
             padding-top: 0px;
             padding-bottom: 0px;
             max-height: 24px;
@@ -130,42 +142,59 @@
         }
     }
 
-    .category-links{
+    .category-links {
         text-align: left !important;
-        padding: 0px 34px !important;
+        padding: 0px !important;
 
-        .-heading{
+        .-heading {
             font-size: 14px !important;
+            margin-left: 34px;
         }
 
-        .-depts{
+        .-depts {
             margin-top: 0px !important;
-            .-dept{
+            max-width: 100%;
+            margin: auto;
+
+            .-dept {
                 padding: 0px 15px !important;
-                color: $secondary-color !important;
-                font-size: 24px !important;
+                height: 30px;
+                background: #FFFFF9;
+                border-radius: 4px;
+                text-align: center;
+                border: 1px solid $border-color;
+
+                a {
+                    display: block;
+                    font-size: 18px;
+                    color: $secondary-color !important;
+                }
             }
         }
     }
 
-    .brand-association{    
+    .brand-association {
         padding: 0px 34px !important;
         top: 73vh;
-        .-text{
+
+        .-text {
             font-size: 14px !important;
             color: $brown-text-color;
             margin-bottom: 20px;
         }
-        .socials{
+
+        .socials {
             display: none;
         }
-        .brand-logos{
-            .brand-logo{
+
+        .brand-logos {
+            .brand-logo {
                 width: 20% !important;
-                &.more-soon{
+
+                &.more-soon {
                     width: 30% !important;
                 }
             }
-        } 
+        }
     }
 }
