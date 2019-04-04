@@ -12,78 +12,6 @@
         background-position: top $navbar-height-mobile left;
     }
 
-    .submenu-area {
-        background: transparent;
-        padding-left: 40px;
-
-        .navbar {
-            height: 28px;
-            background-color: transparent !important;
-
-            .dropdown {
-                &:hover {
-                    .dropdown-menu {
-                        display: block;
-                    }
-                }
-
-                .dropdown-toggle {
-                    &:active {
-                        pointer-events: none; // Add this, to prevent clicking dropdown's default click function
-                   
-                    }
-                }
-
-                .dropdown-menu {
-                    border: 1px solid $border-color;
-                    border-radius: 4px;
-                    max-width: 157px;
-                    text-align: center;
-                    li{
-                        border-bottom: 1px solid $border-color;
-                        min-height: 30px
-                    }
-                }
-            }
-        }
-    }
-
-    .dropdown-menu {
-        padding: 0;
-        margin: 0;
-        border: 0 solid transition !important;
-        border: 0 solid rgba(0, 0, 0, 0.15);
-        border-radius: 0;
-        -webkit-box-shadow: none !important;
-        box-shadow: none !important;
-    }
-
-    .mainmenu a, .navbar-default .navbar-nav > li > a, .mainmenu ul li a, .navbar-expand-lg .navbar-nav .nav-link {
-        color: $secondary-color;
-        font-size: 20px;
-        text-transform: capitalize;
-        padding: 0px 15px;
-        display: block !important;
-    }
-
-    .mainmenu .active a, .mainmenu .active a:focus, .mainmenu .active a:hover, .mainmenu li a:hover, .mainmenu li a:focus, .navbar-default .navbar-nav > .show > a, .navbar-default .navbar-nav > .show > a:focus, .navbar-default .navbar-nav > .show > a:hover {
-        background-color: rgba(255, 255, 255, 0.7);
-        outline: 0;
-    }
-
-    /*==========Sub Menu=v==========*/
-    .mainmenu .collapse ul > li:hover > a {
-        background-color: rgba(255, 255, 255, 0.7);
-    }
-
-    .mainmenu .collapse ul ul > li:hover > a, .navbar-default .navbar-nav .show .dropdown-menu > li > a:focus, .navbar-default .navbar-nav .show .dropdown-menu > li > a:hover {
-        background-color: rgba(255, 255, 255, 0.7);
-    }
-
-    .mainmenu .collapse ul ul ul > li:hover > a {
-        background-color: rgba(255, 255, 255, 0.7);
-    }
-
     .searchbar-header {
         display: none;
     }
@@ -112,41 +40,6 @@
                 a {
                     color: $yellow-text-color;
                 }
-            }
-        }
-    }
-
-    .searchbar-body {
-        top: 40vh;
-        height: 55px;
-        width: 50%;
-        max-width: 551px;
-        margin: auto;
-        left: calc(50% - 275px);
-        border: 4px solid $border-color;
-
-        .card-body {
-            padding: 0px 15px;
-
-            .search-icon {
-                font-size: 30px;
-                color: $primary-color;
-            }
-
-            .form-control[type="search"] {
-                border: none;
-                outline: none !important;
-                box-shadow: none !important;
-            }
-
-            .btn[type="submit"] {
-                padding: 0px 15px;
-                background-color: transparent;
-                border: 4px solid $border-color;
-                width: 130px;
-                outline: none !important;
-                box-shadow: none !important;
-                color: $secondary-color;
             }
         }
     }
@@ -185,6 +78,45 @@
                 font-size: 20px;
                 padding: 0px 8px;
             }
+        }
+    }
+
+    .search-icon-mobile{
+        display: none;
+    }
+}
+
+.searchbar-body {
+    top: 40vh;
+    height: 55px;
+    width: 50%;
+    max-width: 551px;
+    margin: auto;
+    left: calc(50% - 275px);
+    border: 4px solid $border-color;
+
+    .card-body {
+        padding: 0px 15px;
+
+        .search-icon {
+            font-size: 30px;
+            color: $primary-color;
+        }
+
+        .form-control[type="search"] {
+            border: none;
+            outline: none !important;
+            box-shadow: none !important;
+        }
+
+        .btn[type="submit"] {
+            padding: 0px 15px;
+            background-color: transparent;
+            border: 4px solid $border-color;
+            width: 130px;
+            outline: none !important;
+            box-shadow: none !important;
+            color: $secondary-color;
         }
     }
 }
