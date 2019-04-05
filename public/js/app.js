@@ -36581,6 +36581,8 @@ module.exports = function(module) {
 
 __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
+__webpack_require__(/*! ./listing */ "./resources/js/listing.js");
+
 /***/ }),
 
 /***/ "./resources/js/bootstrap.js":
@@ -36641,6 +36643,41 @@ if (token) {
 
 /***/ }),
 
+/***/ "./resources/js/listing.js":
+/*!*********************************!*\
+  !*** ./resources/js/listing.js ***!
+  \*********************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+$(document).ready(function () {
+  // $('body').on('click', function () {
+  //     $('#searchbarBody').hide();
+  // })
+  // $('#searchIconMobile').click(function (event) {
+  //     $('#searchbarBody').toggle();
+  //     event.preventDefault();
+  // })
+  var $searchIcon = $('#searchIconMobile');
+  $searchIcon.on('click', function (e) {
+    var target = e ? e.target : window.event.srcElement;
+
+    if ($(target).attr('id') == 'searchIconMobile') {
+      if ($(this).hasClass('open')) {
+        $(this).removeClass('open');
+      } else {
+        $(this).addClass('open');
+      }
+    }
+  });
+  $("#priceRange").change(function () {
+    $("#priceInfo").find('.low').text($(this).attr('min'));
+    $("#priceInfo").find('.high').text($(this).val());
+  });
+});
+
+/***/ }),
+
 /***/ "./resources/sass/app.scss":
 /*!*********************************!*\
   !*** ./resources/sass/app.scss ***!
@@ -36659,8 +36696,13 @@ if (token) {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
+<<<<<<< HEAD
 __webpack_require__(/*! /home/ubuntu/lazysuzy/resources/js/app.js */"./resources/js/app.js");
 module.exports = __webpack_require__(/*! /home/ubuntu/lazysuzy/resources/sass/app.scss */"./resources/sass/app.scss");
+=======
+__webpack_require__(/*! /Users/kallolpratimsaikia/projects/lazysuzy/resources/js/app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! /Users/kallolpratimsaikia/projects/lazysuzy/resources/sass/app.scss */"./resources/sass/app.scss");
+>>>>>>> 6a43ac2a7ada3b32265fde563a0fae997ab862af
 
 
 /***/ })

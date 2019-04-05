@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Department;
 use App\Models\Product;
 use App\Services\ProductService;
 use Illuminate\Http\Request;
@@ -10,11 +11,12 @@ class ProductController extends Controller
 {
     public function index(Request $request)
     {
-        $products = Product::get()->paginate(20);
+        $departments = Department::all();
+        $products = Product::paginate(20);
         if ($request->ajax()) {
             return $products;
         }
-        return $products;
+        return view('products', compact('departments','products'));
     }
 
     public function productDetails(Request $request , $id)
