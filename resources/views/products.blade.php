@@ -107,21 +107,137 @@
                     <div class="total-items">1024 Results</div>
                 </div>
                 <div class="ls-prod-container row">
-                    <div class="ls-product-div col-md-3">
-                        <div class="ls-product">
-                            <a href="#"><img class="img-fluid" src="https://via.placeholder.com/400x533" alt="product img"></a>
-                            <div class="prod-info">
-                                <span class="-cat-name">Some</span>
-                                <span class="-prices float-right">
-                                    <span class="-cprice">$123</span>
-                                    <span class="-oldprice">$222</span>
-                                </span>
+                    <div class="ls-product-div col-md-3 col-6">
+                        <a href="#">
+                            <div class="ls-product">
+                                <img class="img-fluid" src="https://via.placeholder.com/400x533" alt="product img">
+                                <div class="prod-info">
+                                    <span class="-cat-name">Some</span>
+                                    <span class="-prices float-right">
+                                        <span class="-cprice">$123</span>
+                                        <span class="-oldprice">$222</span>
+                                    </span>
+                                </div>
+                                <div class="wishlist-icon">
+                                    <i class="far fa-heart -icon"></i>
+                                </div>
                             </div>
-                            <div class="wishlist-icon">
-                                <i class="far fa-heart -icon"></i>
-                            </div>
-                        </div>
+                        </a>    
                         <div class="-name">Marlee Cream Club Chair</div>
+                        <div class="responsive">
+                            <div class="mini-carousel-item"><img class="carousel-img img-fluid" src="http://placehold.it/30x30?text=1"></div>
+                            <div class="mini-carousel-item"><img class="carousel-img img-fluid" src="http://placehold.it/30x30?text=2"></div>
+                            <div class="mini-carousel-item"><img class="carousel-img img-fluid" src="http://placehold.it/30x30?text=3"></div>
+                            <div class="mini-carousel-item"><img class="carousel-img img-fluid" src="http://placehold.it/30x30?text=4"></div>
+                            <div class="mini-carousel-item"><img class="carousel-img img-fluid" src="http://placehold.it/30x30?text=5"></div>
+                            <div class="mini-carousel-item"><img class="carousel-img img-fluid" src="http://placehold.it/30x30?text=6"></div>
+                            <div class="mini-carousel-item"><img class="carousel-img img-fluid" src="http://placehold.it/30x30?text=7"></div>
+                            <div class="mini-carousel-item"><img class="carousel-img img-fluid" src="http://placehold.it/30x30?text=8"></div>
+                        </div>
+                        <div class="rating-container">
+                            <div class="rating">
+                            </div>
+                            <span class="total-ratings">312</span>
+                        </div>
+                    </div>
+                    <div class="ls-product-div col-md-3 col-6">
+                        <a href="#">
+                            <div class="ls-product">
+                                <img class="img-fluid" src="https://via.placeholder.com/400x533" alt="product img">
+                                <div class="prod-info">
+                                    <span class="-cat-name">Some</span>
+                                    <span class="-prices float-right">
+                                        <span class="-cprice">$123</span>
+                                        <span class="-oldprice">$222</span>
+                                    </span>
+                                </div>
+                                <div class="wishlist-icon">
+                                    <i class="far fa-heart -icon"></i>
+                                </div>
+                            </div>
+                        </a>    
+                        <div class="-name">Marlee Cream Club Chair</div>
+                        <div class="responsive">
+                            <div class="mini-carousel-item"><img class="carousel-img img-fluid" src="http://placehold.it/30x30?text=1"></div>
+                            <div class="mini-carousel-item"><img class="carousel-img img-fluid" src="http://placehold.it/30x30?text=2"></div>
+                            <div class="mini-carousel-item"><img class="carousel-img img-fluid" src="http://placehold.it/30x30?text=3"></div>
+                            <div class="mini-carousel-item"><img class="carousel-img img-fluid" src="http://placehold.it/30x30?text=4"></div>
+                            <div class="mini-carousel-item"><img class="carousel-img img-fluid" src="http://placehold.it/30x30?text=5"></div>
+                            <div class="mini-carousel-item"><img class="carousel-img img-fluid" src="http://placehold.it/30x30?text=6"></div>
+                            <div class="mini-carousel-item"><img class="carousel-img img-fluid" src="http://placehold.it/30x30?text=7"></div>
+                            <div class="mini-carousel-item"><img class="carousel-img img-fluid" src="http://placehold.it/30x30?text=8"></div>
+                        </div>
+                        <div class="rating-container">
+                            <div class="rating">
+                            </div>
+                            <span class="total-ratings">312</span>
+                        </div>
+                    </div>
+                    <div class="ls-product-div col-md-3 col-6">
+                        <a href="#">
+                            <div class="ls-product">
+                                <img class="img-fluid" src="https://via.placeholder.com/400x533" alt="product img">
+                                <div class="prod-info">
+                                    <span class="-cat-name">Some</span>
+                                    <span class="-prices float-right">
+                                        <span class="-cprice">$123</span>
+                                        <span class="-oldprice">$222</span>
+                                    </span>
+                                </div>
+                                <div class="wishlist-icon">
+                                    <i class="far fa-heart -icon"></i>
+                                </div>
+                            </div>
+                        </a>    
+                        <div class="-name">Marlee Cream Club Chair</div>
+                        <div class="responsive">
+                            <div class="mini-carousel-item"><img class="carousel-img img-fluid" src="http://placehold.it/30x30?text=1"></div>
+                            <div class="mini-carousel-item"><img class="carousel-img img-fluid" src="http://placehold.it/30x30?text=2"></div>
+                            <div class="mini-carousel-item"><img class="carousel-img img-fluid" src="http://placehold.it/30x30?text=3"></div>
+                            <div class="mini-carousel-item"><img class="carousel-img img-fluid" src="http://placehold.it/30x30?text=4"></div>
+                            <div class="mini-carousel-item"><img class="carousel-img img-fluid" src="http://placehold.it/30x30?text=5"></div>
+                            <div class="mini-carousel-item"><img class="carousel-img img-fluid" src="http://placehold.it/30x30?text=6"></div>
+                            <div class="mini-carousel-item"><img class="carousel-img img-fluid" src="http://placehold.it/30x30?text=7"></div>
+                            <div class="mini-carousel-item"><img class="carousel-img img-fluid" src="http://placehold.it/30x30?text=8"></div>
+                        </div>
+                        <div class="rating-container">
+                            <div class="rating">
+                            </div>
+                            <span class="total-ratings">312</span>
+                        </div>
+                    </div>
+                    <div class="ls-product-div col-md-3 col-6">
+                        <a href="#">
+                            <div class="ls-product">
+                                <img class="img-fluid" src="https://via.placeholder.com/400x533" alt="product img">
+                                <div class="prod-info">
+                                    <span class="-cat-name">Some</span>
+                                    <span class="-prices float-right">
+                                        <span class="-cprice">$123</span>
+                                        <span class="-oldprice">$222</span>
+                                    </span>
+                                </div>
+                                <div class="wishlist-icon">
+                                    <i class="far fa-heart -icon"></i>
+                                </div>
+                            </div>
+                        </a>    
+                        <div class="-name">Marlee Cream Club Chair</div>
+                        <div class="responsive">
+                            <div class="mini-carousel-item"><img class="carousel-img img-fluid" src="http://placehold.it/30x30?text=1"></div>
+                            <div class="mini-carousel-item"><img class="carousel-img img-fluid" src="http://placehold.it/30x30?text=2"></div>
+                            <div class="mini-carousel-item"><img class="carousel-img img-fluid" src="http://placehold.it/30x30?text=3"></div>
+                            <div class="mini-carousel-item"><img class="carousel-img img-fluid" src="http://placehold.it/30x30?text=4"></div>
+                            <div class="mini-carousel-item"><img class="carousel-img img-fluid" src="http://placehold.it/30x30?text=5"></div>
+                            <div class="mini-carousel-item"><img class="carousel-img img-fluid" src="http://placehold.it/30x30?text=6"></div>
+                            <div class="mini-carousel-item"><img class="carousel-img img-fluid" src="http://placehold.it/30x30?text=7"></div>
+                            <div class="mini-carousel-item"><img class="carousel-img img-fluid" src="http://placehold.it/30x30?text=8"></div>
+                        </div>
+                        <div class="rating-container">
+                            <div class="rating">
+                            </div>
+                            <span class="total-ratings">312</span>
+                        </div>
                     </div>
                 </div>
             </div>

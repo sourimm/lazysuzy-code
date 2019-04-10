@@ -1,0 +1,22 @@
+
+.rating-container {
+    height: 20px;
+    margin: 20px auto 0px auto;
+
+    .rating {
+        height: 20px;
+        width: 75px;
+        background-image: url(/images/rating.png);
+        background-size: 300px;
+        background-repeat: no-repeat;
+        display: inline-block;
+        margin: auto;
+    }
+
+    .total-ratings {
+        position: relative;
+        font-size: 20px;
+        vertical-align: top;
+        font-size: 12px;
+    }
+}
