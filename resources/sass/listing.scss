@@ -154,7 +154,9 @@
                     padding: 0px 10px;
                     text-align: center;
                     margin-bottom: 35px;
-
+                    a{
+                        color: $secondary-color;
+                    }
                     .ls-product {
                         position: relative;
                         margin-bottom: 15px;
