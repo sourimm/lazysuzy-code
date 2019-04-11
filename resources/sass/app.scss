@@ -1,20 +1,32 @@
-
 // Fonts
-@import url('https://fonts.googleapis.com/css?family=Nunito');
-@import url('https://fonts.googleapis.com/css?family=Marcellus+SC');
+@import url("https://fonts.googleapis.com/css?family=Nunito");
+
+@import url("https://fonts.googleapis.com/css?family=Marcellus+SC");
 
 // Variables
-@import 'variables';
+@import "variables";
 
 // Bootstrap
-@import '~bootstrap/scss/bootstrap';
+@import "~bootstrap/scss/bootstrap";
 
-@import 'navbar';
-@import 'homepage';
-@import 'subnav';
-@import 'footer';
-@import 'listing';
+//Slick carousel
+$slick-font-family: FontAwesome;
+$slick-prev-character: "";
+$slick-next-character: "";
+$slick-arrow-color: $secondary-color;
 
-html, body{
-  font-family: 'Marcellus SC', san-serif;
+@import "~slick-carousel/slick/slick";
+@import "~slick-carousel/slick/slick-theme";
+
+@import "navbar";
+@import "homepage";
+@import "subnav";
+@import "footer";
+@import "listing";
+@import "carousel";
+@import "rating";
+
+html, body {
+    font-family: 'Marcellus SC', san-serif;
 }
+

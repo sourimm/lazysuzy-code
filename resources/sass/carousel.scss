@@ -1,0 +1,25 @@
+
+.responsive{
+    height: 30px;    
+    max-width: 190px;
+    margin: auto;
+    .mini-carousel-item{
+        margin: auto;
+        text-align: center;
+        .carousel-img{
+            margin: auto;
+        }
+    }
+    .slick-prev{
+        left: -15px;
+        &:before{
+            color: $black;
+        }
+    }
+    .slick-next{
+        right: -15px;
+        &:after{
+            color: $black;    
+        }
+    }
+}
