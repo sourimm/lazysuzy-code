@@ -25,4 +25,13 @@ $(document).ready(function () {
     $("#priceInfo").find('.low').text($(this).attr('min'));
     $("#priceInfo").find('.high').text($(this).val());
   });
+
+  $(".price-range-slider").ionRangeSlider({
+    skin: "sharp",
+    min: 100,
+    max: 5000,
+    from: 1200,
+    prefix: "$",
+    prettify_separator: ","
+  });
 })
