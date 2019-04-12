@@ -11423,9 +11423,7 @@ a.text-dark:focus {
 }
 
 .listing .listing-container .sortby .form-control {
-  display: inline-block;
-  width: auto;
-  margin-left: 10px;
+  display: none;
 }
 
 .listing .listing-container .total-items {
@@ -11548,6 +11546,98 @@ a.text-dark:focus {
   font-size: 20px;
   vertical-align: top;
   font-size: 12px;
+}
+
+.select-hidden {
+  display: none;
+  padding-right: 10px;
+}
+
+.select {
+  cursor: pointer;
+  display: inline-block;
+  position: relative;
+  font-size: 16px;
+  color: #0c1c31;
+  width: 200px;
+  height: 20px;
+}
+
+.select-styled {
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-color: transparent;
+  padding: 8px 15px;
+  transition: all 0.2s ease-in;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .select-styled {
+    transition: none;
+  }
+}
+
+.select-styled:after {
+  content: "";
+  width: 0;
+  height: 0;
+  border: 7px solid transparent;
+  border-color: #0c1c31 transparent transparent transparent;
+  position: absolute;
+  top: 16px;
+  right: 10px;
+}
+
+.select-styled:hover {
+  background-color: #fafafa;
+}
+
+.select-styled:active,
+.select-styled.active {
+  background-color: #f2f2f2;
+}
+
+.select-styled:active:after,
+.select-styled.active:after {
+  top: 9px;
+  border-color: transparent transparent #0c1c31 transparent;
+}
+
+.select-options {
+  display: none;
+  position: absolute;
+  right: 0;
+  left: 0;
+  z-index: 999;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  background-color: #f2f2f2;
+}
+
+.select-options li {
+  margin: 0;
+  padding: 12px 0;
+  text-indent: 15px;
+  border-top: 1px solid #e6e6e6;
+  transition: all 0.15s ease-in;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .select-options li {
+    transition: none;
+  }
+}
+
+.select-options li:hover {
+  color: #ffffff;
+  background: #0c1c31;
+}
+
+.select-options li[rel=hide] {
+  display: none;
 }
 
 html,
