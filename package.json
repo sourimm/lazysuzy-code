@@ -25,6 +25,7 @@
     },
     "dependencies": {
         "@fortawesome/fontawesome-free": "^5.8.1",
+        "ion-rangeslider": "^2.3.0",
         "slick-carousel": "^1.8.1"
     }
 }

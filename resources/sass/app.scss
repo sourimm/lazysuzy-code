@@ -18,6 +18,8 @@ $slick-arrow-color: $secondary-color;
 @import "~slick-carousel/slick/slick";
 @import "~slick-carousel/slick/slick-theme";
 
+@import "~ion-rangeslider/css/ion.rangeSlider.min.css";
+
 @import "navbar";
 @import "homepage";
 @import "subnav";
@@ -26,6 +28,7 @@ $slick-arrow-color: $secondary-color;
 @import "carousel";
 @import "rating";
 @import "custom-selectbox";
+@import "custom-rangeslider";
 
 html, body {
     font-family: 'Marcellus SC', san-serif;

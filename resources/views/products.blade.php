@@ -21,6 +21,7 @@
         <div class="listing-container container row">
             <div class="filters col-md-2">
                 <div class="filter">
+                    <hr>
                     <span class="filter-header">Brands</span>
                     <label for="" class="clear-filter float-right">Clear</label>
                     <ul>
@@ -48,14 +49,15 @@
                 <div class="filter">
                     <span class="filter-header">Price</span>
                     <label for="" class="clear-filter float-right">Clear</label>
-                    <div class="slider-container">
+                    <!-- <div class="slider-container">
                         <div class="-info" id="priceInfo">
                             $<span class="low">100</span>
                             <span class="divider">-</span>
                             $<span class="high">1200</span>
                         </div>
                         <input type="range" min="100" max="10000" value="1200" class="slider" id="priceRange">
-                    </div>
+                    </div> -->
+                    <input type="text" class="price-range-slider" name="price_range" value="" />
                     <hr>
                 </div>
 
