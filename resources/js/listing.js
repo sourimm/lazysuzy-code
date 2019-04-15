@@ -28,10 +28,13 @@ $(document).ready(function () {
 
   $(".price-range-slider").ionRangeSlider({
     skin: "sharp",
+    type: "double",
     min: 100,
     max: 5000,
-    from: 1200,
+    from: 500,
+    to: 2500,
     prefix: "$",
     prettify_separator: ","
   });
+
 })
