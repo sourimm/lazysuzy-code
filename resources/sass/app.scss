@@ -9,24 +9,53 @@
 // Bootstrap
 @import "~bootstrap/scss/bootstrap";
 
-//Slick carousel
-$slick-font-family: FontAwesome;
-$slick-prev-character: "";
-$slick-next-character: "";
-$slick-arrow-color: $secondary-color;
+@import "bootstrap-overridden";
 
-@import "~slick-carousel/slick/slick";
-@import "~slick-carousel/slick/slick-theme";
+@import "~ion-rangeslider/css/ion.rangeSlider.min.css";
+
+// @import "~@fortawesome/fontawesome-free/scss/fontawesome.scss";
+// @import "~@fortawesome/fontawesome-free/scss/_icons.scss";
+// $fa-font-path: "../fonts/vendor/font-awesome/webfonts/" !default;
+// $fa-font-path: "~@fortawesome/fontawesome-free/font-awesome/fonts";
+// @import "vendor/fontawesome/scss/fontawesome.scss";
+// @import '~font-awesome/scss/font-awesome.scss';
+
+@import "~@fortawesome/fontawesome-free/scss/fontawesome";
+@import "~@fortawesome/fontawesome-free/scss/regular";
+@import "~@fortawesome/fontawesome-free/scss/solid";
+@import "~@fortawesome/fontawesome-free/scss/brands";
+@import "~@fortawesome/fontawesome-free/scss/v4-shims";
 
 @import "navbar";
 @import "homepage";
 @import "subnav";
 @import "footer";
 @import "listing";
+@import "products-container";
 @import "carousel";
 @import "rating";
+@import "custom-selectbox";
+@import "custom-rangeslider";
+
+//Slick carousel
+$slick-font-family: "Font Awesome 5 Free";
+$slick-prev-character: " ‹";
+$slick-next-character: " ›";
+$slick-arrow-color: $secondary-color;
+
+@import "~slick-carousel/slick/slick";
+@import "~slick-carousel/slick/slick-theme";
 
 html, body {
     font-family: 'Marcellus SC', san-serif;
 }
 
+.main-container {
+    min-height: calc(100vh - #{$navbar-height});
+}
+
+@media only screen and (max-width: 480px) {
+    .main-container {
+        min-height: calc(100vh - #{$navbar-height-mobile});
+    }
+}
