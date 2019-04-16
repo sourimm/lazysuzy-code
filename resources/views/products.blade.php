@@ -15,7 +15,7 @@
     <div class="listing">
         @include('navbar')
         @include('./partials/subnav')
-        {{ Breadcrumbs::render('products') }}
+        {{--{{ Breadcrumbs::render('products') }}--}}
         <div class="listing-container main-container container">
             <div class="row">
                 <div class="filters col-md-2 d-md-block" id="filters">
