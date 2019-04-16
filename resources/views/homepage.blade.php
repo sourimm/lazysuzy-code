@@ -16,7 +16,7 @@
         @include('navbar')
         @include('./partials/brandassoiciation')
         @include('./partials/subnav')
-
+        <div class="main-container">
         <div class="category-links d-sm-none">
             <span class="-heading float-md-right">Browse by Department</span>
             <div class="-depts row">
@@ -30,6 +30,7 @@
                 <div class="col-4 col-sm-auto -dept "><a href="#"><span>Pet</span></a></div>
                 <div class="col-4 col-sm-auto -dept "><a href="#"><span>Kids</span></a></div>
             </div>
+        </div>
         </div>
 
         @include('footer')

@@ -20,6 +20,15 @@
             width: 180px;
             margin-top: 45px;
             text-align: center;
+            @media only screen and (min-width: 768px){
+                position: sticky;
+                max-height: calc( 100vh - #{$navbar-height} );
+                position: -webkit-sticky;
+                position: -moz-sticky;
+                position: -ms-sticky;
+                position: -o-sticky;
+                top: 45px;
+            }
 
             .clearall-filter-btn {
                 color: $primary-color;
@@ -158,67 +167,6 @@
             right: 10px;
             position: relative;
         }
-
-        .products-container {
-            padding: 0px;
-
-            .ls-prod-container {
-                max-width: 100%;
-                margin: 65px auto auto auto;
-
-                .ls-product-div {
-                    padding: 0px 10px;
-                    text-align: center;
-                    margin-bottom: 35px;
-
-                    a {
-                        color: $secondary-color;
-                    }
-
-                    .ls-product {
-                        position: relative;
-                        margin-bottom: 15px;
-
-                        .prod-info {
-                            position: absolute;
-                            bottom: 0px;
-                            padding: 0px 10px;
-                            width: 100%;
-                            background-color: rgba(255, 255, 255, 0.7);
-                            height: 25px;
-                            text-align: left;
-
-                            .-prices {
-                                .-cprice {
-                                    color: $primary-color;
-                                }
-
-                                .-oldprice {
-                                    text-decoration: line-through;
-                                }
-                            }
-                        }
-
-                        .wishlist-icon {
-                            position: absolute;
-                            margin: 15px;
-                            top: 0px;
-                            right: 0px;
-
-                            .-icon {
-                                font-size: 15px;
-                            }
-                        }
-
-                        .-name {
-                            font-weight: bold;
-                            font-size: 14px;
-                            text-align: center;
-                        }
-                    }
-                }
-            }
-        }
     }
 }
 
@@ -233,6 +181,16 @@
 @media only screen and (max-width: 480px) {
     .listing {
         .listing-container {
+            .listing-top-controls{
+                position: absolute;
+                width: 100%;    
+                height: $listing-top-ctrl-height;
+                .filter-toggle, .view-items-toggle {
+                    margin: 5px;
+                    font-size: 23px;
+                }
+            }
+
             .products-container {
                 margin-top: 45px;
                 .ls-prod-container {
@@ -254,6 +212,23 @@
                 color: $white;
                 position: absolute;
                 z-index: 1;
+                display: none;
+                &.show{
+                    display: block;
+                }
+
+                &:before{
+                    content: "";
+                    position: absolute;
+                    width: 0;
+                    height: 0;
+                    top: -18px;
+                    right: 5px;
+                    border-top: solid 10px transparent;
+                    border-bottom: solid 10px $secondary-color;
+                    border-left: solid 10px transparent;
+                    border-right: solid 10px transparent;
+                }
 
                 hr {
                     color: $white;
@@ -291,10 +266,8 @@
                 }
             }
         }
-
-        .footer {
-            position: relative;
-            margin-top: 20px;
-        }
+    }
+    .main-container {
+        min-height: calc(100vh - #{$navbar-height-mobile} - #{$listing-top-ctrl-height}) !important;
     }
 }

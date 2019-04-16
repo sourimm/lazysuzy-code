@@ -1,0 +1,61 @@
+.products-container {
+    padding: 0px;
+
+    .ls-prod-container {
+        max-width: 100%;
+        margin: 65px auto auto auto;
+        padding: 0px;
+
+        .ls-product-div {
+            padding: 0px 10px;
+            text-align: center;
+            margin-bottom: 35px;
+
+            a {
+                color: $secondary-color;
+            }
+
+            .ls-product {
+                position: relative;
+                margin-bottom: 15px;
+
+                .prod-info {
+                    position: absolute;
+                    bottom: 0px;
+                    padding: 0px 10px;
+                    width: 100%;
+                    background-color: rgba(255, 255, 255, 0.7);
+                    height: 25px;
+                    text-align: left;
+
+                    .-prices {
+                        .-cprice {
+                            color: $primary-color;
+                        }
+
+                        .-oldprice {
+                            text-decoration: line-through;
+                        }
+                    }
+                }
+
+                .wishlist-icon {
+                    position: absolute;
+                    margin: 15px;
+                    top: 0px;
+                    right: 0px;
+
+                    .-icon {
+                        font-size: 15px;
+                    }
+                }
+
+                .-name {
+                    font-weight: bold;
+                    font-size: 14px;
+                    text-align: center;
+                }
+            }
+        }
+    }
+}
