@@ -10,6 +10,6 @@ class HomeController extends Controller
     public function index(Request $request)
     {
         $departments = Department::get();
-        return $departments;
+        return view('homepage' , compact('departments'));
     }
 }

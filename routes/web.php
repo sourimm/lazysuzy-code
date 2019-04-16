@@ -11,9 +11,6 @@
 |
 */
 
-Route::get('/', function () {
-    return view('homepage');
-});
 
-
+Route::get('/','HomeController@index')->name('index');
 Route::get('/products','ProductController@index')->name('products');
