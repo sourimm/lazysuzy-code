@@ -7,9 +7,6 @@
 
     <title>LazySuzy Homepage</title>
 
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
-        integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
-
     <link href="{{ asset('css/app.css')}}" rel="stylesheet">
 
 </head>
@@ -19,7 +16,7 @@
         @include('navbar')
         @include('./partials/brandassoiciation')
         @include('./partials/subnav')
-
+        <div class="main-container">
         <div class="category-links d-sm-none">
             <span class="-heading float-md-right">Browse by Department</span>
             <div class="-depts row">
@@ -33,6 +30,7 @@
                 <div class="col-4 col-sm-auto -dept "><a href="#"><span>Pet</span></a></div>
                 <div class="col-4 col-sm-auto -dept "><a href="#"><span>Kids</span></a></div>
             </div>
+        </div>
         </div>
 
         @include('footer')

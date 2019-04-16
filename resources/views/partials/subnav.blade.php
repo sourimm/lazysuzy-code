@@ -1,4 +1,4 @@
-<div class="submenu-area d-none d-md-block">
+<div class="submenu-area d-none d-md-block container-fluid">
     <div class="row">
         <nav class="navbar navbar-light navbar-expand-lg mainmenu">
             <button class="navbar-toggler" type="button" data-toggle="collapse"
