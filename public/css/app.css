@@ -19898,7 +19898,8 @@ readers do not read off random characters that represent icons */
   background-color: rgba(255, 255, 255, 0.7);
   height: 25px;
   text-align: left;
-  font-size: 10px;
+  font-size: 14px;
+  line-height: 14px;
 }
 
 .products-container .ls-prod-container .ls-product-div .ls-product .prod-info .-prices .-cprice {
@@ -19917,13 +19918,50 @@ readers do not read off random characters that represent icons */
 }
 
 .products-container .ls-prod-container .ls-product-div .ls-product .wishlist-icon .-icon {
-  font-size: 15px;
+  font-size: 20px;
 }
 
 .products-container .ls-prod-container .ls-product-div .ls-product .-name {
   font-weight: bold;
   font-size: 14px;
   text-align: center;
+}
+
+.products-container .ls-prod-container .ls-product-div.item-3 {
+  flex: 0 0 33.3333333333%;
+  max-width: 33.3333333333%;
+}
+
+.products-container .ls-prod-container .ls-product-div.item-3 .wishlist-icon {
+  margin: 10px;
+}
+
+.products-container .ls-prod-container .ls-product-div.item-3 .wishlist-icon .-icon {
+  font-size: 14px;
+}
+
+.products-container .ls-prod-container .ls-product-div.item-3 .prod-info {
+  font-size: 12px;
+}
+
+.products-container .ls-prod-container .ls-product-div.item-2 {
+  flex: 0 0 50%;
+  max-width: 50%;
+}
+
+.products-container .ls-prod-container .ls-product-div.item-1 {
+  flex: 0 0 100%;
+  max-width: 100%;
+}
+
+.products-container .ls-prod-container .ls-product-div.item-1 .wishlist-icon .-icon {
+  font-size: 30px;
+}
+
+.products-container .ls-prod-container .ls-product-div.item-1 .prod-info {
+  height: 40px;
+  font-size: 22px;
+  line-height: 30px;
 }
 
 .responsive {

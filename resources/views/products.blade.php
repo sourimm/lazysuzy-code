@@ -141,7 +141,7 @@
                     </div>
                     <div class="ls-prod-container container-fluid" id="productsContainerDiv">
                         <div class="row">
-                            <div class="ls-product-div col-md-3 col-4">
+                            <div class="ls-product-div col-md-3 item-3">
                                 <a href="#">
                                     <div class="ls-product">
                                         <img class="img-fluid" src="https://via.placeholder.com/400x533" alt="product img">
@@ -176,7 +176,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="ls-product-div col-md-3 col-4">
+                            <div class="ls-product-div col-md-3 item-3">
                                 <a href="#">
                                     <div class="ls-product">
                                         <img class="img-fluid" src="https://via.placeholder.com/400x533" alt="product img">
@@ -211,7 +211,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="ls-product-div col-md-3 col-4">
+                            <div class="ls-product-div col-md-3 item-3">
                                 <a href="#">
                                     <div class="ls-product">
                                         <img class="img-fluid" src="https://via.placeholder.com/400x533" alt="product img">
@@ -246,7 +246,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="ls-product-div col-md-3 col-4">
+                            <div class="ls-product-div col-md-3 item-3">
                                 <a href="#">
                                     <div class="ls-product">
                                         <img class="img-fluid" src="https://via.placeholder.com/400x533" alt="product img">
@@ -281,7 +281,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="ls-product-div col-md-3 col-4">
+                            <div class="ls-product-div col-md-3 item-3">
                                 <a href="#">
                                     <div class="ls-product">
                                         <img class="img-fluid" src="https://via.placeholder.com/400x533" alt="product img">
@@ -316,7 +316,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="ls-product-div col-md-3 col-4">
+                            <div class="ls-product-div col-md-3 item-3">
                                 <a href="#">
                                     <div class="ls-product">
                                         <img class="img-fluid" src="https://via.placeholder.com/400x533" alt="product img">
@@ -351,7 +351,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="ls-product-div col-md-3 col-4">
+                            <div class="ls-product-div col-md-3 item-3">
                                 <a href="#">
                                     <div class="ls-product">
                                         <img class="img-fluid" src="https://via.placeholder.com/400x533" alt="product img">
@@ -386,7 +386,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="ls-product-div col-md-3 col-4">
+                            <div class="ls-product-div col-md-3 item-3">
                                 <a href="#">
                                     <div class="ls-product">
                                         <img class="img-fluid" src="https://via.placeholder.com/400x533" alt="product img">
@@ -421,7 +421,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="ls-product-div col-md-3 col-4">
+                            <div class="ls-product-div col-md-3 item-3">
                                 <a href="#">
                                     <div class="ls-product">
                                         <img class="img-fluid" src="https://via.placeholder.com/400x533" alt="product img">
@@ -456,7 +456,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="ls-product-div col-md-3 col-4">
+                            <div class="ls-product-div col-md-3 item-3">
                                 <a href="#">
                                     <div class="ls-product">
                                         <img class="img-fluid" src="https://via.placeholder.com/400x533" alt="product img">
@@ -491,7 +491,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="ls-product-div col-md-3 col-4">
+                            <div class="ls-product-div col-md-3 item-3">
                                 <a href="#">
                                     <div class="ls-product">
                                         <img class="img-fluid" src="https://via.placeholder.com/400x533" alt="product img">
@@ -526,7 +526,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="ls-product-div col-md-3 col-4">
+                            <div class="ls-product-div col-md-3 item-3">
                                 <a href="#">
                                     <div class="ls-product">
                                         <img class="img-fluid" src="https://via.placeholder.com/400x533" alt="product img">
@@ -561,7 +561,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="ls-product-div col-md-3 col-4">
+                            <div class="ls-product-div col-md-3 item-3">
                                 <a href="#">
                                     <div class="ls-product">
                                         <img class="img-fluid" src="https://via.placeholder.com/400x533" alt="product img">
@@ -596,7 +596,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="ls-product-div col-md-3 col-4">
+                            <div class="ls-product-div col-md-3 item-3">
                                 <a href="#">
                                     <div class="ls-product">
                                         <img class="img-fluid" src="https://via.placeholder.com/400x533" alt="product img">
@@ -631,7 +631,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="ls-product-div col-md-3 col-4">
+                            <div class="ls-product-div col-md-3 item-3">
                                 <a href="#">
                                     <div class="ls-product">
                                         <img class="img-fluid" src="https://via.placeholder.com/400x533" alt="product img">
@@ -666,7 +666,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="ls-product-div col-md-3 col-4">
+                            <div class="ls-product-div col-md-3 item-3">
                                 <a href="#">
                                     <div class="ls-product">
                                         <img class="img-fluid" src="https://via.placeholder.com/400x533" alt="product img">
@@ -701,7 +701,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="ls-product-div col-md-3 col-4">
+                            <div class="ls-product-div col-md-3 item-3">
                                 <a href="#">
                                     <div class="ls-product">
                                         <img class="img-fluid" src="https://via.placeholder.com/400x533" alt="product img">
@@ -736,7 +736,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="ls-product-div col-md-3 col-4">
+                            <div class="ls-product-div col-md-3 item-3">
                                 <a href="#">
                                     <div class="ls-product">
                                         <img class="img-fluid" src="https://via.placeholder.com/400x533" alt="product img">
@@ -771,7 +771,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="ls-product-div col-md-3 col-4">
+                            <div class="ls-product-div col-md-3 item-3">
                                 <a href="#">
                                     <div class="ls-product">
                                         <img class="img-fluid" src="https://via.placeholder.com/400x533" alt="product img">
@@ -806,7 +806,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="ls-product-div col-md-3 col-4">
+                            <div class="ls-product-div col-md-3 item-3">
                                 <a href="#">
                                     <div class="ls-product">
                                         <img class="img-fluid" src="https://via.placeholder.com/400x533" alt="product img">
