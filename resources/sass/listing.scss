@@ -192,13 +192,48 @@
                     font-size: 23px;
                 }
 
-                .dropdown{
+                .dropdown {
+                    margin: 5px;
+                    text-align: center;
 
+                    .dropdown-menu{
+                        text-align: left;
+                    }
+
+                    .dropdown-toggle {
+
+                        &:not(.dropdown-item) {
+                            font-size: 22px;
+                            color: $secondary-color;
+                            &::after {
+                                display: none;
+                            }
+                        }
+
+                    }
+
+                    .dropdown-item {
+                        &:hover {
+                            .dropdown-menu {
+                                display: block;
+                            }
+                        }
+                        &:active{
+                            background-color: $secondary-color;
+                        }
+                        &::after{
+                            display: none;
+                        }
+                        .fas.fa-angle-right{
+                            font-size: 20px;
+                        }
+                    }
                 }
 
-                .breadcrumb{
+                .breadcrumb {
                     position: relative;
                     float: left;
+                    padding: 12px 5px;
                 }
             }
 

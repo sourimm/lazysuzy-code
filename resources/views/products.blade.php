@@ -100,17 +100,22 @@
                 <div class="listing-top-controls d-block d-md-none">
                     <div class="dropdown show float-left">
                         <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fas fa-angle-down"></i>
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                            <li><a class="dropdown-item" href="#">Science</a></li>
-                            <li><a class="dropdown-item" href="#">Commerce</a></li>
-                            <li class="dropdown-submenu"><a class="dropdown-item dropdown-toggle" href="#">Arts</a>
+                            <li><a class="dropdown-item" href="#">Accent</a></li>
+                            <li class="dropdown-submenu"><a class="dropdown-item dropdown-toggle" href="#">Living<i class="fas fa-angle-right float-right"></i></a>
                                 <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item" href="#">History</a></li>
-                                    <li><a class="dropdown-item" href="#">Geography</a></li>
-                                    <li><a class="dropdown-item" href="#">Sociology</a></li>
+                                    <li><a class="dropdown-item" href="#">All</a></li>
+                                    <li><a class="dropdown-item" href="#">Sofa</a></li>
+                                    <li><a class="dropdown-item" href="#">Seating</a></li>
+                                    <li><a class="dropdown-item" href="#">Table</a></li>
+                                    <li><a class="dropdown-item" href="#">Remaining</a></li>
                                 </ul>
                             </li>
+                            <li><a class="dropdown-item" href="#">Bed</a></li>
+                            <li><a class="dropdown-item" href="#">Kitchen</a></li>
+                            <li><a class="dropdown-item" href="#">Remaining</a></li>
                         </ul>
                     </div>
                     {{ Breadcrumbs::render('products') }}
