@@ -16,6 +16,7 @@
         @include('navbar')
         @include('./partials/brandassoiciation')
         @include('./partials/subnav')
+        <div class="d-none">{{ Breadcrumbs::render('/') }}</div>
         <div class="main-container">
         <div class="category-links d-sm-none">
             <span class="-heading float-md-right">Browse by Department</span>
