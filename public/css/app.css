@@ -10660,6 +10660,31 @@ a.text-dark:focus {
   margin: 0px;
 }
 
+.breadcrumb {
+  position: absolute;
+  background: transparent;
+  cursor: pointer;
+}
+
+.breadcrumb .breadcrumb-item {
+  color: #0c1c31;
+  font-size: 24px;
+}
+
+.breadcrumb .breadcrumb-item.active {
+  color: #ffcc00;
+}
+
+@media only screen and (max-width: 480px) {
+  .breadcrumb .breadcrumb-item {
+    font-size: 12px;
+  }
+
+  .breadcrumb .breadcrumb-item.active {
+    color: #0c1c31;
+  }
+}
+
 /*!
  * Font Awesome Free 5.8.1 by @fontawesome - https://fontawesome.com
  * License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License)
@@ -19730,6 +19755,11 @@ readers do not read off random characters that represent icons */
     font-size: 23px;
   }
 
+  .listing .listing-container .listing-top-controls .breadcrumb {
+    position: relative;
+    float: left;
+  }
+
   .listing .listing-container .products-container {
     margin-top: 45px;
   }
@@ -19808,6 +19838,25 @@ readers do not read off random characters that represent icons */
   .main-container {
     min-height: calc(100vh - 33px - 45px) !important;
   }
+
+  .dropdown-submenu {
+    position: relative;
+  }
+
+  .dropdown-submenu a::after {
+    -webkit-transform: rotate(-90deg);
+            transform: rotate(-90deg);
+    position: absolute;
+    right: 6px;
+    top: 0.8em;
+  }
+
+  .dropdown-submenu .dropdown-menu {
+    top: 0;
+    left: 100%;
+    margin-left: 0.1rem;
+    margin-right: 0.1rem;
+  }
 }
 
 .products-container {
@@ -19838,11 +19887,12 @@ readers do not read off random characters that represent icons */
 .products-container .ls-prod-container .ls-product-div .ls-product .prod-info {
   position: absolute;
   bottom: 0px;
-  padding: 0px 10px;
+  padding: 5px;
   width: 100%;
   background-color: rgba(255, 255, 255, 0.7);
   height: 25px;
   text-align: left;
+  font-size: 10px;
 }
 
 .products-container .ls-prod-container .ls-product-div .ls-product .prod-info .-prices .-cprice {

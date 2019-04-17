@@ -15,8 +15,10 @@
     <div class="listing">
         @include('navbar')
         @include('./partials/subnav')
-        {{--{{ Breadcrumbs::render('products') }}--}}
         <div class="listing-container main-container container">
+            <div class="d-none d-md-block">
+                {{ Breadcrumbs::render('products') }}
+            </div>
             <div class="row">
                 <div class="filters col-md-2 d-md-block" id="filters">
                     <div class="filter">
@@ -96,8 +98,24 @@
                     </div>
                 </div>
                 <div class="listing-top-controls d-block d-md-none">
+                    <div class="dropdown show float-left">
+                        <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                            <li><a class="dropdown-item" href="#">Science</a></li>
+                            <li><a class="dropdown-item" href="#">Commerce</a></li>
+                            <li class="dropdown-submenu"><a class="dropdown-item dropdown-toggle" href="#">Arts</a>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" href="#">History</a></li>
+                                    <li><a class="dropdown-item" href="#">Geography</a></li>
+                                    <li><a class="dropdown-item" href="#">Sociology</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                    {{ Breadcrumbs::render('products') }}
                     <span class="filter-toggle float-right" id="filterToggleBtn">
-                        <i class="fal fa-filter"></i>
+                        <i class="fas fa-filter"></i>
                     </span>
                     <span class="view-items-toggle float-right" id="viewItemsBtn">
                         <i class="fab fa-buromobelexperte"></i>
