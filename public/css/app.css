@@ -19879,6 +19879,8 @@ readers do not read off random characters that represent icons */
   padding: 0px 10px;
   text-align: center;
   margin-bottom: 35px;
+  flex: 0 0 25%;
+  max-width: 25%;
 }
 
 .products-container .ls-prod-container .ls-product-div a {
@@ -19927,41 +19929,43 @@ readers do not read off random characters that represent icons */
   text-align: center;
 }
 
-.products-container .ls-prod-container .ls-product-div.item-3 {
-  flex: 0 0 33.3333333333%;
-  max-width: 33.3333333333%;
-}
+@media only screen and (max-width: 768px) {
+  .products-container .ls-prod-container .ls-product-div.item-3 {
+    flex: 0 0 33.3333333333%;
+    max-width: 33.3333333333%;
+  }
 
-.products-container .ls-prod-container .ls-product-div.item-3 .wishlist-icon {
-  margin: 10px;
-}
+  .products-container .ls-prod-container .ls-product-div.item-3 .wishlist-icon {
+    margin: 10px;
+  }
 
-.products-container .ls-prod-container .ls-product-div.item-3 .wishlist-icon .-icon {
-  font-size: 14px;
-}
+  .products-container .ls-prod-container .ls-product-div.item-3 .wishlist-icon .-icon {
+    font-size: 14px;
+  }
 
-.products-container .ls-prod-container .ls-product-div.item-3 .prod-info {
-  font-size: 12px;
-}
+  .products-container .ls-prod-container .ls-product-div.item-3 .prod-info {
+    font-size: 12px;
+  }
 
-.products-container .ls-prod-container .ls-product-div.item-2 {
-  flex: 0 0 50%;
-  max-width: 50%;
-}
+  .products-container .ls-prod-container .ls-product-div.item-2 {
+    flex: 0 0 50%;
+    max-width: 50%;
+  }
 
-.products-container .ls-prod-container .ls-product-div.item-1 {
-  flex: 0 0 100%;
-  max-width: 100%;
-}
+  .products-container .ls-prod-container .ls-product-div.item-1 {
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
 
-.products-container .ls-prod-container .ls-product-div.item-1 .wishlist-icon .-icon {
-  font-size: 30px;
-}
+  .products-container .ls-prod-container .ls-product-div.item-1 .wishlist-icon .-icon {
+    font-size: 30px;
+  }
 
-.products-container .ls-prod-container .ls-product-div.item-1 .prod-info {
-  height: 40px;
-  font-size: 22px;
-  line-height: 30px;
+  .products-container .ls-prod-container .ls-product-div.item-1 .prod-info {
+    height: 40px;
+    font-size: 22px;
+    line-height: 30px;
+  }
 }
 
 .responsive {
