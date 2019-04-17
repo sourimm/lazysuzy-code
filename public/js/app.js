@@ -42256,6 +42256,18 @@ $(document).ready(function () {
       }
     });
   });
+  $('.dropdown-menu a.dropdown-toggle').on('click', function (e) {
+    if (!$(this).next().hasClass('show')) {
+      $(this).parents('.dropdown-menu').first().find('.show').removeClass("show");
+    }
+
+    var $subMenu = $(this).next(".dropdown-menu");
+    $subMenu.toggleClass('show');
+    $(this).parents('li.nav-item.dropdown.show').on('hidden.bs.dropdown', function (e) {
+      $('.dropdown-submenu .show').removeClass("show");
+    });
+    return false;
+  });
 });
 
 /***/ }),
@@ -42320,8 +42332,8 @@ $(document).ready(function () {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /Users/kallolpratimsaikia/projects/lazysuzy/resources/js/app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! /Users/kallolpratimsaikia/projects/lazysuzy/resources/sass/app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! /Volumes/WorkspaceDrive/My work/LazyCode/lazysuzy-code/resources/js/app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! /Volumes/WorkspaceDrive/My work/LazyCode/lazysuzy-code/resources/sass/app.scss */"./resources/sass/app.scss");
 
 
 /***/ })
