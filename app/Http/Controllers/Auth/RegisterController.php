@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\User;
+use App\Models\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -67,6 +67,13 @@ class RegisterController extends Controller
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
+            'first_name' => explode(" ", $data['name'])[0],
+            'last_name' => explode(" ", $data['name'])[1],
+            'gender' => 'default',
+            'oauth_provider' => 'basic',
+            'oauth_uid' => rand(0,100),
+            'picture' => 'null',
+            'locale' => 'null',
         ]);
     }
 }
