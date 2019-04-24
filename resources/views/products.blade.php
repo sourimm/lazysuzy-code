@@ -1,19 +1,11 @@
-<!doctype html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+@extends('layouts.layout')
 
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+@push('styles')
+    <link href="{{ mix('css/app.css') }}" rel="stylesheet">
+@endpush
 
-    <title>LazySuzy Homepage</title>
-
-    <link href="{{ mix('css/app.css')}}" rel="stylesheet">
-
-</head>
-
-<body>
+@section('middle_content')
     <div class="listing">
-        @include('navbar')
         @include('./partials/subnav')
         <div class="listing-container main-container container">
             <div class="d-none d-md-block">
@@ -847,11 +839,9 @@
 
             </div>
         </div>
-        @include('footer')
-</body>
-
-<script src="{{ mix('js/manifest.js')}}"></script>
-<script src="{{ mix('js/vendor.js')}}"></script>
-<script src="{{ mix('js/app.js')}}"></script>
-
-</html>
+@endsection
+@push('scripts')
+    <script src="{{ mix('js/manifest.js')}}"></script>
+    <script src="{{ mix('js/vendor.js')}}"></script>
+    <script src="{{ mix('js/app.js')}}"></script>
+@endpush
