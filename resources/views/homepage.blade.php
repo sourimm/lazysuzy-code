@@ -1,47 +1,38 @@
-<!doctype html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+@extends('layouts.layout')
 
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+@push('styles')
+    <link href="{{ mix('css/app.css') }}" rel="stylesheet">
+@endpush
 
-    <title>LazySuzy Homepage</title>
-
-    <link href="{{ mix('css/app.css')}}" rel="stylesheet">
-
-</head>
-
-<body>
+@section('middle_content')
     <div class="homepage">
-        @include('navbar')
+        
         @include('./partials/brandassoiciation')
         @include('./partials/subnav')
         <div class="d-none">{{ Breadcrumbs::render('/') }}</div>
         <div class="main-container">
-        <div class="category-links d-sm-none">
-            <span class="-heading float-md-right">Browse by Department</span>
-            <div class="-depts row">
+            <div class="category-links d-sm-none">
+                <span class="-heading float-md-right">Browse by Department</span>
+                <div class="-depts row">
 
-                    <div class="col-4 col-sm-auto -dept "><a href="#"><span>Accent</span></a></div>
-                    <div class="col-4 col-sm-auto -dept "><a href="#"><span>Living</span></a></div>
-                    <div class="col-4 col-sm-auto -dept "><a href="#"><span>Bed</span></a></div>
-                    <div class="col-4 col-sm-auto -dept "><a href="#"><span>Dining</span></a></div>
-                    <div class="col-4 col-sm-auto -dept "><a href="#"><span>Hall</span></a></div>
-                    <div class="col-4 col-sm-auto -dept "><a href="#"><span>Bath</span></a></div>
-                    <div class="col-4 col-sm-auto -dept "><a href="#"><span>Outdoor</span></a></div>
-                    <div class="col-4 col-sm-auto -dept "><a href="#"><span>Pet</span></a></div>
-                    <div class="col-4 col-sm-auto -dept "><a href="#"><span>Kids</span></a></div>
+                        <div class="col-4 col-sm-auto -dept "><a href="#"><span>Accent</span></a></div>
+                        <div class="col-4 col-sm-auto -dept "><a href="#"><span>Living</span></a></div>
+                        <div class="col-4 col-sm-auto -dept "><a href="#"><span>Bed</span></a></div>
+                        <div class="col-4 col-sm-auto -dept "><a href="#"><span>Dining</span></a></div>
+                        <div class="col-4 col-sm-auto -dept "><a href="#"><span>Hall</span></a></div>
+                        <div class="col-4 col-sm-auto -dept "><a href="#"><span>Bath</span></a></div>
+                        <div class="col-4 col-sm-auto -dept "><a href="#"><span>Outdoor</span></a></div>
+                        <div class="col-4 col-sm-auto -dept "><a href="#"><span>Pet</span></a></div>
+                        <div class="col-4 col-sm-auto -dept "><a href="#"><span>Kids</span></a></div>
 
+                </div>
             </div>
         </div>
-        </div>
-
-        @include('footer')
     </div>
-</body>
+@endsection
 
-<script src="{{ mix('js/manifest.js')}}"></script>
-<script src="{{ mix('js/vendor.js')}}"></script>
-<script src="{{ mix('js/app.js')}}"></script>
-
-</html>
+@push('scripts')
+    <script src="{{ mix('js/manifest.js')}}"></script>
+    <script src="{{ mix('js/vendor.js')}}"></script>
+    <script src="{{ mix('js/app.js')}}"></script>
+@endpush
