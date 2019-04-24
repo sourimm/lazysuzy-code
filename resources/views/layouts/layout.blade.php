@@ -9,16 +9,20 @@
     @stack('styles')
 </head>
 
-<body>
+<body   
+    @unless(empty($body_class))
+        class="{{$body_class}}"
+    @endunless 
+>
     <div class="main">    
-        @component('layouts.components.navbar') 
+        @component('components.navbar') 
         @endcomponent
 
         <div class="main_content">
             @yield("middle_content")
         </div> 
 
-        @component('layouts.components.footer') 
+        @component('components.footer') 
         @endcomponent
     </div>
 
