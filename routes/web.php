@@ -18,7 +18,7 @@ Route::get('/login', 'Auth\LoginController@index')->name('signup');
 
 Auth::routes();
 
-Route::get('logout', 'Auth\LoginController@logout');
+Route::get('/logout', 'Auth\LoginController@logout');
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('redirect/{driver}', 'Auth\LoginController@redirectToProvider')
     ->name('login.provider')
