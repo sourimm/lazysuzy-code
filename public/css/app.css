@@ -19311,6 +19311,10 @@ readers do not read off random characters that represent icons */
     display: none;
   }
 
+  .homepage-main-div .searchbar.sb-body {
+    display: block;
+  }
+
   .homepage-main-div .footer {
     position: absolute;
     padding: 0px 15px;
@@ -20129,6 +20133,7 @@ readers do not read off random characters that represent icons */
 
 .searchbar.sb-body {
   top: 40vh;
+  display: none;
 }
 
 .searchbar .card-body {

@@ -4,6 +4,9 @@
             &:not(.sb-body) {
                 display: none;
             }
+            &.sb-body{
+                display: block;
+            }
         }
         .footer{
             position: absolute;
