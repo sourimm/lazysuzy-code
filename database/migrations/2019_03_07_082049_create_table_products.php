@@ -22,6 +22,7 @@ class CreateTableProducts extends Migration
             $table->string('product_url')->nullable();
             $table->string('model_name')->nullable();
             $table->longText('images')->nullable();
+
             $table->text('thumb')->nullable();
             $table->text('product_dimension')->nullable();
             $table->string('color')->nullable();
