@@ -1,8 +1,6 @@
 @extends('layouts.layout', ['body_class' => 'listing-main-div'])
 
-@push('styles')
-    <link href="{{ mix('css/app.css') }}" rel="stylesheet">
-@endpush
+
 
 @section('middle_content')
     <div class="listing">
@@ -833,8 +831,6 @@
         </div>
     </div>
 @endsection
-@push('scripts')
-    <script src="{{ mix('js/manifest.js')}}"></script>
-    <script src="{{ mix('js/vendor.js')}}"></script>
-    <script src="{{ mix('js/app.js')}}"></script>
+@push('pageSpecificScripts')
+    <script src="{{ mix('js/listing.js')}}"></script>
 @endpush

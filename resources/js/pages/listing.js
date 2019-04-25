@@ -1,11 +1,6 @@
+require('ion-rangeslider');
+
 $(document).ready(function () {
-  // $('body').on('click', function () {
-  //     $('#searchbarBody').hide();
-  // })
-  // $('#searchIconMobile').click(function (event) {
-  //     $('#searchbarBody').toggle();
-  //     event.preventDefault();
-  // })
   let iItemsToShow = 3;
 
   $("#priceRange").change(function () {
