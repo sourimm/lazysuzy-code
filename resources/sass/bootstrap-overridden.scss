@@ -1,4 +1,30 @@
-.row{
+.row {
     max-width: 100%;
     margin: 0px;
+}
+
+.breadcrumb {
+    position: absolute;
+    background: transparent;
+    cursor: pointer;
+
+    .breadcrumb-item {
+        color: $secondary-color;
+        font-size: 24px;
+
+        &.active {
+            color: $primary-color;
+        }
+    }
+}
+
+@media only screen and (max-width: 480px){
+    .breadcrumb {
+        .breadcrumb-item{
+            font-size: 12px;        
+            &.active {
+                color: $secondary-color;
+            }
+        }
+    }
 }
