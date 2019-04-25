@@ -1,0 +1,35 @@
+.dropdown {
+
+    .dropdown-toggle {
+        &:active {
+            // pointer-events: none; // Add this, to prevent clicking dropdown's default click function
+        }
+    }
+
+    .dropdown-menu {
+        border: 1px solid $border-color;
+        border-radius: 4px;
+        max-width: 157px;
+        text-align: center;
+        // max-width: 100px !important;
+        // width: 100px !important;
+
+        @media only screen and (max-width: 480px) {
+        }
+
+        li {
+            border-bottom: 1px solid $border-color;
+            min-height: 30px;
+        }
+    }
+}
+
+.dropdown-menu {
+    padding: 0;
+    margin: 0;
+    border: 0 solid transition !important;
+    border: 0 solid rgba(0, 0, 0, 0.15);
+    border-radius: 0;
+    -webkit-box-shadow: none !important;
+    box-shadow: none !important;
+}
