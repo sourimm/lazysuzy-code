@@ -19,11 +19,6 @@
         display: none;
     }
 
-    [class^="searchbar"] {
-        position: absolute;
-        left: calc(50% - 135px);
-    }
-
     .navbar-nav {
         .nav-item {
             .-icon {

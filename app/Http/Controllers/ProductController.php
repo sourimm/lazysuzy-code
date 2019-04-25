@@ -16,7 +16,7 @@ class ProductController extends Controller
         if ($request->ajax()) {
             return $products;
         }
-        return view('products', compact('departments','products'));
+        return view('pages.listing', compact('departments','products'));
     }
 
     public function productDetails(Request $request , $id)

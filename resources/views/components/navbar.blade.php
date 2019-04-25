@@ -6,11 +6,11 @@
         <i class="fas fa-bars -bars"></i>
     </button>
     <a class="navbar-brand" href="#">
-        <img id="logo-navbar-middle" src="{{ asset('/images/dark_logo_transparent.png') }}" alt="LazySuzy" class="logo d-none d-md-block">
-        <img id="logo-navbar-middle" src="{{ asset('/images/color_logo_transparent.png') }}" alt="LazySuzy" class="logo d-block d-md-none">
+        <img id="logo-navbar-middle" src="{{ asset('/images/dark_logo_transparent.png') }}" alt="asd" class="logo d-none d-md-block">
+        <img id="logo-navbar-middle" src="{{ asset('/images/color_logo_transparent.png') }}" alt="asd" class="logo d-block d-md-none">
     </a>
 
-    <form id="searchbarBody" class="searchbar-body card card-sm">
+    <form id="searchbarBody" class="searchbar sb-body card card-sm">
         <div class="card-body row no-gutters align-items-center">
             <div class="col-auto">
                 <i class="fas fa-search search-icon"></i>
@@ -27,6 +27,26 @@
             <!--end of col-->
         </div>
     </form>
+
+    <form id="searchbarHeader" class="searchbar card card-sm">
+        <div class="card-body row no-gutters align-items-center">
+            <div class="col-auto">
+                <i class="fas fa-search search-icon"></i>
+            </div>
+            <!--end of col-->
+            <div class="col">
+                <input class="form-control form-control-lg form-control-borderless" type="search"
+                    placeholder="Find your accent">
+            </div>
+            <!--end of col-->
+            <div class="col-auto d-none d-md-block">
+                <button class="btn btn-lg btn-success" type="submit">Search</button>
+            </div>
+            <!--end of col-->
+        </div>
+    </form>
+
+
     <div class="-right d-none d-md-flex">
         <ul class="navbar-nav ml-auto">
             <li class="nav-item">
