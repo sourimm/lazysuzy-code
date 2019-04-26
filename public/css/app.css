@@ -19321,7 +19321,7 @@ readers do not read off random characters that represent icons */
   }
 }
 
-.homepage {
+.homepage-main-div .main {
   background-color: #fbfbfb;
   background-image: url("/images/homepage-sofa-img.jpeg");
   background-size: cover;
@@ -19329,13 +19329,6 @@ readers do not read off random characters that represent icons */
   background-position: center;
   height: 100vh;
   width: 100vw;
-}
-
-@media only screen and (max-width: 768px) {
-  .homepage {
-    background-size: contain;
-    background-position: top left;
-  }
 }
 
 .homepage .category-links {
@@ -19406,6 +19399,11 @@ readers do not read off random characters that represent icons */
 }
 
 @media only screen and (max-width: 768px) {
+  .homepage-main-div .main {
+    background-size: contain;
+    background-position: top 33px left;
+  }
+
   .category-links {
     text-align: left !important;
     padding: 0px !important;
@@ -20461,16 +20459,6 @@ readers do not read off random characters that represent icons */
 html,
 body {
   font-family: "Marcellus SC", san-serif;
-}
-
-.main-container {
-  min-height: calc(100vh - 72px);
-}
-
-@media only screen and (max-width: 480px) {
-  .main-container {
-    min-height: calc(100vh - 33px);
-  }
 }
 
 
