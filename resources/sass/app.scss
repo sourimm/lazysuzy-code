@@ -51,13 +51,3 @@ $slick-arrow-color: $secondary-color;
 html, body {
     font-family: 'Marcellus SC', san-serif;
 }
-
-.main-container {
-    min-height: calc(100vh - #{$navbar-height});
-}
-
-@media only screen and (max-width: 480px) {
-    .main-container {
-        min-height: calc(100vh - #{$navbar-height-mobile});
-    }
-}
