@@ -1,14 +1,15 @@
+.listing-main-div{
+    .searchbar {
+        top: 8px;
+    }
+}
+
 .listing {
     .slick-prev, .slick-next {
         &:before {
             font-size: 30px;
             line-height: 10px;
         }
-    }
-
-    .searchbar-body {
-        top: 0px;
-        display: none;
     }
 
     .listing-container {
@@ -173,7 +174,7 @@
 
 @media only screen and (max-width: 768px) {
     .listing {
-        .searchbar-body {
+        .searchbar {
             top: 33px;
         }
     }

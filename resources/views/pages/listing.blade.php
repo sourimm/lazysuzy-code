@@ -1,19 +1,9 @@
-<!doctype html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+@extends('layouts.layout', ['body_class' => 'listing-main-div'])
 
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>LazySuzy Homepage</title>
 
-    <link href="{{ asset('css/app.css')}}" rel="stylesheet">
-
-</head>
-
-<body>
+@section('middle_content')
     <div class="listing">
-        @include('navbar')
         @include('./partials/subnav')
         <div class="listing-container main-container container">
             <div class="d-none d-md-block">
@@ -50,14 +40,6 @@
                     <div class="filter">
                         <span class="filter-header">Price</span>
                         <label for="" class="clear-filter float-right">Clear</label>
-                        <!-- <div class="slider-container">
-                        <div class="-info" id="priceInfo">
-                            $<span class="low">100</span>
-                            <span class="divider">-</span>
-                            $<span class="high">1200</span>
-                        </div>
-                        <input type="range" min="100" max="10000" value="1200" class="slider" id="priceRange">
-                    </div> -->
                         <input type="text" class="price-range-slider" name="price_range" value="" />
                         <hr>
                     </div>
@@ -847,9 +829,8 @@
 
             </div>
         </div>
-        @include('footer')
-</body>
-
-<script src="{{ asset('js/app.js')}}"></script>
-
-</html>
+    </div>
+@endsection
+@push('pageSpecificScripts')
+    <script src="{{ mix('js/listing.js')}}"></script>
+@endpush
