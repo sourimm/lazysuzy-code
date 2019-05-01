@@ -21,7 +21,7 @@ class CreateTableProducts extends Migration
             $table->string('model_code')->nullable();
             $table->string('product_url')->nullable();
             $table->string('model_name')->nullable();
-            $table->json('images')->nullable();
+            $table->text('images')->nullable();
             $table->text('thumb')->nullable();
             $table->text('product_dimension')->nullable();
             $table->string('color')->nullable();
@@ -39,7 +39,7 @@ class CreateTableProducts extends Migration
             $table->enum('level', ['active', 'inactive'])->nullable();
             $table->boolean('is_moved')->nullable();
             $table->boolean('update_status')->nullable();
-            $table->json('product_images')->nullable();
+            $table->text('product_images')->nullable();
             $table->string('main_product_image')->nullable();
             $table->string('site_name')->nullable();
             $table->string('reviews')->nullable();
