@@ -12,4 +12,10 @@ class CategoryController extends Controller
         $categories = Category::all();
         return $categories;
     }
+
+    public function get_all_categories()
+    {
+        return response()->json(Category::get_categories());
+    }
+
 }
