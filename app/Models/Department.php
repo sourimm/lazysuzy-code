@@ -18,8 +18,10 @@ class Department extends Model
     {
 
         $departments = [];
+        $base_site = request()->getHttpHost();
 
-        $rows = Department::select(['department', 'LS_ID'])
+
+        $rows = Department::select(['department', 'department_', 'LS_ID'])
             ->whereRaw('LENGTH(product_category) = 0 AND LENGTH(product_sub_category) = 0')
             ->get()
             ->toArray();
@@ -32,10 +34,10 @@ class Department extends Model
             array_push($departments, [
                 'department' => $dept,
                 'LS_ID'      => $dept_LS_ID,
+                'link'       => $base_site . '/' . $row['department_'], 
                 'categories' => $categories,
             ]);
         }
-
         return $departments;
     }
 
