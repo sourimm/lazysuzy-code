@@ -25,17 +25,15 @@ class Department extends Model
             ->toArray();
 
         foreach ($rows as $row) {
-            $department = [];
             $dept       = $row['department'];
             $dept_LS_ID = $row['LS_ID'];
 
             $categories = Category::get_categories($dept);
-            array_push($department, [
+            array_push($departments, [
                 'department' => $dept,
                 'LS_ID'      => $dept_LS_ID,
                 'categories' => $categories,
             ]);
-            array_push($departments, $department);
         }
 
         return $departments;
