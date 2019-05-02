@@ -20119,6 +20119,10 @@ readers do not read off random characters that represent icons */
   box-shadow: none !important;
 }
 
+.dropdown-submenu .dropdown-menu {
+  left: 100%;
+}
+
 .searchbar {
   height: 55px;
   width: 50%;
