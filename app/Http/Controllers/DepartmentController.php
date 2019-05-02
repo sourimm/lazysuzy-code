@@ -14,6 +14,7 @@ class DepartmentController extends Controller
 
     public function get_department($dept)
     {
+
         return response()->json(Department::get_single_department($dept));
     }
 }
