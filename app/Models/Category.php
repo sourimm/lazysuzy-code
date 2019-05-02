@@ -30,7 +30,7 @@ class Category extends Model
             array_push($c_cat, [
                 'category' => $row['product_category'],
                 'LS_ID' => $row['LS_ID'],
-                'link' => $base_site . '/' . $dept . '/' . $row['product_category_'],   
+                'link' => $base_site . '/' . strtolower($dept) . '/' . strtolower($row['product_category_']),   
                 'sub_categories' => $sub_categories
             ]);
         }
