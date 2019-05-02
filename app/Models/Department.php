@@ -34,7 +34,7 @@ class Department extends Model
             array_push($departments, [
                 'department' => $dept,
                 'LS_ID'      => $dept_LS_ID,
-                'link'       => $base_site . '/' . $row['department_'], 
+                'link'       => $base_site . '/' . strtolower($row['department_']), 
                 'categories' => $categories,
             ]);
         }
