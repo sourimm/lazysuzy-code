@@ -21,10 +21,13 @@ class CreateTableProducts extends Migration
             $table->string('model_code')->nullable();
             $table->string('product_url')->nullable();
             $table->string('model_name')->nullable();
-            $table->text('images')->nullable();
+            $table->longText('images')->nullable();
+
             $table->text('thumb')->nullable();
             $table->text('product_dimension')->nullable();
             $table->string('color')->nullable();
+            $table->string('min_price')->nullable();
+            $table->string('max_price')->nullable();
             $table->string('price')->nullable();
             $table->string('mrp')->nullable();
             $table->string('parent_category')->nullable();
@@ -39,7 +42,7 @@ class CreateTableProducts extends Migration
             $table->enum('level', ['active', 'inactive'])->nullable();
             $table->boolean('is_moved')->nullable();
             $table->boolean('update_status')->nullable();
-            $table->text('product_images')->nullable();
+            $table->longText('product_images')->nullable();
             $table->string('main_product_image')->nullable();
             $table->string('site_name')->nullable();
             $table->string('reviews')->nullable();
