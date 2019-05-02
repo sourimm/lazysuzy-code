@@ -17,7 +17,7 @@ class Department extends Model
     public static function get_all_departments()
     {
 
-        $departments = [];
+        $department = [];
 
         $rows = Department::select(['department', 'LS_ID'])
             ->whereRaw('LENGTH(product_category) = 0 AND LENGTH(product_sub_category) = 0')
@@ -25,7 +25,6 @@ class Department extends Model
             ->toArray();
 
         foreach ($rows as $row) {
-            $department = [];
             $dept       = $row['department'];
             $dept_LS_ID = $row['LS_ID'];
 
@@ -35,10 +34,9 @@ class Department extends Model
                 'LS_ID'      => $dept_LS_ID,
                 'categories' => $categories,
             ]);
-            array_push($departments, $department);
         }
 
-        return $departments;
+        return $department;
     }
 
     public static function get_single_department($dept)
