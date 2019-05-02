@@ -7,10 +7,7 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav mr-auto">
-                    @foreach($departments as $department)
-                        <li><a href="{{route('products' , ['department_name'=>$department->name])}}">{{$department->name}}</a></li>
-                    @endforeach
+                <ul class="navbar-nav mr-auto" id="departmentsNav">
                 </ul>
             </div>
         </nav>
