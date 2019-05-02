@@ -33,3 +33,9 @@
     -webkit-box-shadow: none !important;
     box-shadow: none !important;
 }
+
+.dropdown-submenu{
+    .dropdown-menu{
+        left: 100%;
+    }
+}
