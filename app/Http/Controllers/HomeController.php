@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Department;
+use App\Models\DepartmentMapping;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -23,6 +25,7 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('pages.homepage');
+        $departments = Department::get();
+        return view('pages.homepage' ,compact('departments'));
     }
 }

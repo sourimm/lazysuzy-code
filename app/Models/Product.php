@@ -78,5 +78,10 @@ class Product extends Model
 
             echo "<pre>" . print_r($products, true);
         }
+
+        public function productMap()
+        {
+            return $this->belongsTo(DepartmentMapping::class, 'ls_id');
+        }
     }
 }
