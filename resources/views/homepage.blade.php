@@ -6,7 +6,7 @@
 
 @section('middle_content')
     <div class="homepage">
-        
+
         @include('./partials/brandassoiciation')
         @include('./partials/subnav')
         <div class="d-none">{{ Breadcrumbs::render('/') }}</div>
@@ -41,7 +41,7 @@
 @endsection
 
 @push('scripts')
-    <script src="{{ mix('js/manifest.js')}}"></script>
-    <script src="{{ mix('js/vendor.js')}}"></script>
+    <!-- <script src="{{ mix('js/manifest.js')}}"></script>
+    <script src="{{ mix('js/vendor.js')}}"></script> -->
     <script src="{{ mix('js/app.js')}}"></script>
 @endpush
