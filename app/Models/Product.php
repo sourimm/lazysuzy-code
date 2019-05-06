@@ -86,7 +86,7 @@ class Product extends Model
                 'is_price'         => $product->price,
                 'model_code'       => $product->model_code,
                 'description'      => $product->product_description,
-                'thumb'            => $product->thumb,
+                'thumb'            => explode("\n", $product->thumb),
                 'color'            => $product->color,
                 'images'           => explode(",", $product->images),
                 'was_price'        => $product->was_price,
