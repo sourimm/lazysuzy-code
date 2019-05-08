@@ -75,6 +75,61 @@ class Product extends Model
         }
 
         $products = $query->get()->toArray();
+
+        return Product::getProductObj($products);
+    }
+
+    public static function get_filter_products()
+    {
+        $perPage = 20;
+        DB::enableQueryLog();
+
+        $brand_filters        = Input::get('brandFilters');
+        $sub_category_filters = Input::get('subCategoryFilters');
+        $page                 = Input::get('page');
+        $min_val              = Input::get('minPrice');
+        $max_val              = Input::get('maxPrice');
+        $deptartment          = Input::get('deptartment');
+        $category             = Input::get('category');
+        $ls_ids               = Input::get('IDs');
+        $start                = $page * $perPage;
+        $query                = DB::table('master_data')
+            ->offset($start)
+            ->limit($perPage);
+
+        if (isset($ls_ids)) {
+            $ls_ids = explode(",", $ls_ids);
+            $query  = $query
+                ->whereRaw('LS_ID REGEXP "' . implode("|", $ls_ids) . '"');
+        }
+        if (isset($min_val)) {
+            $query = $query
+                ->whereRaw('min_price >= ' . $min_val . '');
+        }
+        if (isset($max_val)) {
+            $query = $query
+                ->whereRaw('max_price <= ' . $max_val . '');
+        }
+        if (isset($brand_filters)) {
+            $brand_filters = explode(",", $brand_filters);
+            $query         = $query
+                ->whereIn('site_name', $brand_filters);
+        }
+        if (isset($sub_category_filters)) {
+            $sub_category_filters = explode(",", $sub_category_filters);
+            $query                = $query
+                ->whereRaw('LS_ID REGEXP "' . implode("|", $sub_category_filters) . '"');
+        }
+
+        $products = $query->get();
+
+        return Product::getProductObj($products);
+    }
+
+    public static function getProductObj($products)
+    {
+        $p_send = [];
+
         foreach ($products as $product) {
             array_push($p_send, [
                 'id'               => $product->id,
@@ -105,7 +160,6 @@ class Product extends Model
             ]);
         }
 
-//echo "<pre>" . print_r($products, true);
         return $p_send;
     }
 };

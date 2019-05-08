@@ -35,3 +35,5 @@ Route::get('/api/departments/{dept}', 'DepartmentController@get_department')->na
 Route::get('/api/categories', 'CategoryController@get_all_categories')->name('get_category');
 
 Route::get('/api/products/{dept}/{cat?}', 'API@getProducts')->name('get-products');
+
+Route::get('/api/filter/products', 'API@filter_products')->name('get-products');
