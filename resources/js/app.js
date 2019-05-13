@@ -18,15 +18,15 @@ $(document).ready(function () {
     }
   });
 
-  $('body').on("click", '.dropdown-submenu a', function(e){
+  $('body').on("click", '.dropdown-submenu a', function (e) {
     var self = this;
-    $('.dropdown-submenu').each(function(){
-      if( $(this).find('.dropdown-menu')[0] != $(self).next('ul')[0] ){
+    $('.dropdown-submenu').each(function () {
+      if ($(this).find('.dropdown-menu')[0] != $(self).next('ul')[0]) {
         $(this).find('.dropdown-menu').hide();
       }
     });
     $(this).next('ul').toggle();
-    $(this).next('.dropdown-menu').css('top', $(this).position().top );
+    $(this).next('.dropdown-menu').css('top', $(this).position().top);
     e.stopPropagation();
     e.preventDefault();
   });
@@ -37,6 +37,15 @@ $(document).ready(function () {
     dataType: "json",
     success: function (departments) {
       var deptToAppend = '';
+      if (isMobile()) {
+        var singleDeptMobile = '';
+        for (i = 0; i < departments.length; i++) {
+          if (departments.length != 0) {
+            singleDeptMobile = '<div class="col-4 col-sm-auto -dept "><a href="' + departments[i].link + '">' + departments[i].department + '</a></div>';
+          }
+          $('#mobileDepartments').append(singleDeptMobile);
+        }
+      }
       for (i = 0; i < departments.length; i++) {
         console.log(departments[i]);
         if (departments[i].categories.length == 0) {
@@ -51,7 +60,7 @@ $(document).ready(function () {
             }
             else {
               catgToAppend += '<li class="dropdown-submenu">';
-              catgToAppend += '<a href="#">'+departments[i].categories[j].category+'<span class="mx-2"><i class="fas fa-angle-right"></i></span>';
+              catgToAppend += '<a href="#">' + departments[i].categories[j].category + '<span class="mx-2"><i class="fas fa-angle-right"></i></span>';
               var subcatToAppend = '<ul class="dropdown-menu">';
               for (k = 0; k < departments[i].categories[j].sub_categories.length; k++) {
                 subcatToAppend += '<li><a href="' + departments[i].categories[j].sub_categories[k].link + '">' + departments[i].categories[j].sub_categories[k].sub_category + '</a></li>'
@@ -70,9 +79,14 @@ $(document).ready(function () {
       $('#departmentsNav').append(deptToAppend);
 
     },
-    error: function (jqXHR, exception){
+    error: function (jqXHR, exception) {
       console.log(jqXHR);
       console.log(exception);
     }
   });
 })
+
+isMobile = function(){
+  var isMobile = window.matchMedia("only screen and (max-width: 768px)");
+  return isMobile.matches ? true : false
+}
