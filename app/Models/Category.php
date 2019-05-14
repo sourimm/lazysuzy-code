@@ -8,12 +8,13 @@ class Category extends Model
 {
     protected $table = "mapping_core";
     protected $base_site = "https://lazysuzy.com";
+    protected $listing_base_url = "/products";
 
     public static function get_categories($dept = null)
     {
         $c_cat = [];
         $base_site = request()->getHttpHost();
-
+        $listing_base_url = "/products";
 
         if (isset($_GET['dept'])) {
             $dept = strtolower(trim($_GET['dept']));
@@ -30,7 +31,7 @@ class Category extends Model
             array_push($c_cat, [
                 'category' => $row['product_category'],
                 'LS_ID' => $row['LS_ID'],
-                'link' => $base_site . '/' . strtolower($dept) . '/' . strtolower($row['product_category_']),   
+                'link' => $listing_base_url . '/' . strtolower($dept) . '/' . strtolower($row['product_category_']),   
                 'sub_categories' => $sub_categories
             ]);
         }

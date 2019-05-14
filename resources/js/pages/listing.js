@@ -1,4 +1,5 @@
 require('ion-rangeslider');
+require('../apis/listing-api');
 
 $(document).ready(function () {
   let iItemsToShow = 3;
