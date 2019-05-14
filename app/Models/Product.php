@@ -128,6 +128,9 @@ class Product extends Model
 
     public static function getProductObj($products)
     {
+        $productObj = (object)[];
+        $productObj->total = count($products);
+        
         $p_send = [];
 
         foreach ($products as $product) {
@@ -160,6 +163,8 @@ class Product extends Model
             ]);
         }
 
-        return $p_send;
+        $productObj->productData = $p_send;
+
+        return json_encode($productObj, JSON_PRETTY_PRINT);
     }
 };

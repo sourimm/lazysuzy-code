@@ -47,7 +47,6 @@ $(document).ready(function () {
         }
       }
       for (i = 0; i < departments.length; i++) {
-        console.log(departments[i]);
         if (departments[i].categories.length == 0) {
           deptToAppend += '<li><a href="' + departments[i].link + '">' + departments[i].department + '</a></li>';
         }

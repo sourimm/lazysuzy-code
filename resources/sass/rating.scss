@@ -5,12 +5,48 @@
 
     .rating {
         height: 20px;
-        width: 75px;
-        background-image: url(/images/rating.png);
+        width: 74px;
+        background-image: url(/images/rating2.png);
         background-size: 300px;
         background-repeat: no-repeat;
         display: inline-block;
-        margin: auto;
+        margin: auto 10px;
+    }
+
+    //Rating specific classes.
+    .rating-0_0,.rating-0_1,.rating-0_2,.rating-0_3,.rating-0_4 {
+        background-position: -227px;
+    }
+    .rating-0_5,.rating-0_6,.rating-0_7,.rating-0_8,.rating-0_9{
+        background-position: -212px;
+    }
+
+    .rating-1_0,.rating-1_1,.rating-1_2,.rating-1_3,.rating-1_4 {
+        background-position: -58px;
+    }
+    .rating-1_5,.rating-1_6,.rating-1_7,.rating-1_8,.rating-1_9{
+        background-position: -198px;
+    }
+
+    .rating-2_0,.rating-2_1,.rating-2_2,.rating-2_3,.rating-2_4 {
+        background-position: -43px;
+    }
+    .rating-2_5,.rating-2_6,.rating-2_7,.rating-2_8,.rating-2_9{
+        background-position: -184px;
+    }
+
+    .rating-3_0,.rating-3_1,.rating-3_2,.rating-3_3,.rating-3_4 {
+        background-position: -29px;
+    }
+    .rating-3_5,.rating-3_6,.rating-3_7,.rating-3_8,.rating-3_9{
+        background-position: -169px;
+    }
+
+    .rating-4_0,.rating-4_1,.rating-4_2,.rating-4_3,.rating-4_4 {
+        background-position: -14px;
+    }
+    .rating-4_5,.rating-4_6,.rating-4_7,.rating-4_8,.rating-4_9{
+        background-position: -155px;
     }
 
     .total-ratings {
