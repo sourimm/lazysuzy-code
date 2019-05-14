@@ -121,56 +121,14 @@
                         </div>
                         <div class="total-items">1024 Results</div>
                     </div>
-                    <div class="ls-prod-container container-fluid" id="productsContainerDiv">
-                        <div class="row">
+                    <div class="ls-prod-container container-fluid">
+                        <div class="row" id="productsContainerDiv">
 
                             @foreach($products as $product)
                                 @php
                                     $images = explode(',', $product->images);
 
                                 @endphp
-                                <div class="ls-product-div col-md-3 item-3">
-                                    <a href="#">
-                                        <div class="ls-product">
-                                            <img class="img-fluid" style="height:400px; width:533px;" src={{$images[0]}} alt="product-img">
-                                            <div class="prod-info">
-
-                                                <span class="-cat-name">
-                                                    @foreach($categories as $category)
-                                                        @if($category->ls_id ==   explode(',', $product->ls_id)[0] )
-                                                            {{$category->product_category}}
-                                                        @endif
-                                                    @endforeach
-                                                </span>
-                                                <span class="-prices float-right">
-                                                <span class="-cprice">{{$product->mrp}}</span>
-                                                <span class="-oldprice">{{$product->price}}</span>
-                                            </span>
-                                            </div>
-                                            <div class="wishlist-icon">
-                                                <i class="far fa-heart -icon"></i>
-                                            </div>
-                                        </div>
-                                    </a>
-                                    <div class="d-none d-md-block">
-                                        <div class="-name">{{$product->product_name}}</div>
-                                        <div class="responsive">
-                                            @if(!empty($product->images))
-
-                                               @foreach($images as $image)
-                                                    <div class="mini-carousel-item"><img class="carousel-img img-fluid" src={{$image}}></div>
-                                                @endforeach
-
-                                            @endif
-                                        </div>
-                                        <div class="rating-container">
-                                            <div class="rating">
-
-                                            </div>
-                                            <span class="total-ratings">{{number_format($product->ratings , 1)}}</span>
-                                        </div>
-                                    </div>
-                                </div>
                             @endforeach
                         </div>
                     </div>

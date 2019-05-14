@@ -12,7 +12,7 @@
  */
 
 Route::get('/', 'HomeController@index')->name('index');
-Route::get('/products', 'ProductController@index')->name('products');
+Route::get('/products/{dept}/{cat?}', 'ProductController@index')->name('products');
 Route::get('/login', 'Auth\LoginController@index')->name('signup');
 
 Auth::routes();
