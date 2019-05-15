@@ -10,121 +10,161 @@ class Product extends Model
 {
     protected $table = "master_data";
 
-    public static function get_LS_IDs($department, $category = null)
+    public static function get_LS_IDs($dept, $cat = null)
     {
         $LS_IDs = [];
+        $data   = DB::table('mapping_core')
+            ->select('LS_ID');
 
-        if (null == $category) {
-            $data = DB::table('mapping_core')
-                ->select('LS_ID')
-                ->where('department_', $department)
-                ->get();
-
-            // var_dump($data);
-            foreach ($data as $key => $val) {
-                array_push($LS_IDs, $val->LS_ID);
-            }
-            // echo " < pre > " . print_r($LS_IDs, TRUE);
+        if (null == $cat) {
+            $data = $data
+                ->where('department_', $dept);
         } else {
-            $data = DB::table("mapping_core")
-                ->select('LS_ID')
-                ->where('department_', $department)
-                ->where('product_category_', $category)
-                ->get();
+            $data = $data
+                ->where('department_', $dept)
+                ->where('product_category_', $cat);
+        }
 
-            // var_dump($data);
-            foreach ($data as $key => $val) {
-                array_push($LS_IDs, $val->LS_ID);
-            }
+        $data = $data->get();
+
+        foreach ($data as $key => $val) {
+            array_push($LS_IDs, $val->LS_ID);
         }
 
         return $LS_IDs;
     }
 
-    public static function get_department_products($department, $category = null)
+    public static function get_sub_cat_LS_IDs($dept, $cat, $sub_categories)
     {
-        $perPage = 20;
-        $p_send  = [];
-
-        if (Input::get("page") > 0) {
-            $start = ceil(Input::get("page") * $perPage);
-            if (null == $category) {
-                $query = DB::table("master_data")
-                    ->whereRaw('LS_ID REGEXP "' . implode("|", Product::get_LS_IDs($department)) . '"')
-                    ->offset($start)
-                    ->limit($perPage);
-            } else {
-                $query = DB::table("master_data")
-                    ->whereRaw('LS_ID REGEXP "' . implode("|", Product::get_LS_IDs($department, $category)) . '"')
-                    ->offset($start)
-                    ->limit($perPage);
-            }
-
-            //$result           = $this->load->view('user/ajax_products', $data);
-        } else {
-
-            if (null == $category) {
-                $query = DB::table("master_data")
-                    ->whereRaw('LS_ID REGEXP "' . implode("|", Product::get_LS_IDs($department)) . '"')
-                    ->limit(20);
-            } else {
-                $query = DB::table("master_data")
-                    ->whereRaw('LS_ID REGEXP "' . implode("|", Product::get_LS_IDs($department, $category)) . '"')
-                    ->limit(20);
-            }
+        $LS_IDs = [];
+        foreach ($sub_categories as $sub_category) {
+            $ls_id = DB::table('mapping_core')
+                ->select('LS_ID')
+                ->where('department_', $dept)
+                ->where('product_category_', $cat)
+                ->where('product_sub_category_', $sub_category)
+                ->get();
+            array_push($LS_IDs, $ls_id[0]->LS_ID);
         }
 
-        $products = $query->get()->toArray();
-
-        return Product::getProductObj($products);
+        return $LS_IDs;
     }
 
-    public static function get_filter_products()
+    public static function get_filter_products($dept, $cat = null)
     {
         $perPage = 20;
         DB::enableQueryLog();
+        $LS_IDs = null;
 
-        $brand_filters        = Input::get('brandFilters');
-        $sub_category_filters = Input::get('subCategoryFilters');
-        $page                 = Input::get('page');
-        $min_val              = Input::get('minPrice');
-        $max_val              = Input::get('maxPrice');
-        $deptartment          = Input::get('deptartment');
-        $category             = Input::get('category');
-        $ls_ids               = Input::get('IDs');
-        $start                = $page * $perPage;
-        $query                = DB::table('master_data')
-            ->offset($start)
-            ->limit($perPage);
+        $page_num    = Input::get("pageno");
+        $limit       = Input::get("limit");
+        $sort_type   = Input::get("sort_type");
+        $filters     = Input::get("filters");
+        $all_filters = [];
+        $query       = DB::table('master_data');
 
-        if (isset($ls_ids)) {
-            $ls_ids = explode(",", $ls_ids);
-            $query  = $query
-                ->whereRaw('LS_ID REGEXP "' . implode("|", $ls_ids) . '"');
-        }
-        if (isset($min_val)) {
-            $query = $query
-                ->whereRaw('min_price >= ' . $min_val . '');
-        }
-        if (isset($max_val)) {
-            $query = $query
-                ->whereRaw('max_price <= ' . $max_val . '');
-        }
-        if (isset($brand_filters)) {
-            $brand_filters = explode(",", $brand_filters);
-            $query         = $query
-                ->whereIn('site_name', $brand_filters);
-        }
-        if (isset($sub_category_filters)) {
-            $sub_category_filters = explode(",", $sub_category_filters);
-            $query                = $query
-                ->whereRaw('LS_ID REGEXP "' . implode("|", $sub_category_filters) . '"');
+        if (!isset($limit)) {
+            $limit = 20;
         }
 
-        $products = $query->get();
+        $start = $page_num * $limit;
 
-        return Product::getProductObj($products);
+        if (isset($filters)) {
+            $filter_blocks = explode(";", $filters);
+            foreach ($filter_blocks as $block) {
+                $block_str                  = explode(":", $block);
+                $all_filters[$block_str[0]] = explode(",", $block_str[1]);
+            }
+
+            // FILTERS
+            // 1. brand_names
+            if (isset($all_filters['brand_names'])) {
+                $query = $query->whereIn('site_name', $all_filters['brand_names']);
+            }
+
+            // 2. price_from
+            if (isset($all_filters['price_from'])) {
+                $query = $query
+                    ->whereRaw('min_price >= ' . $all_filters['price_from'][0] . '');
+            }
+
+            // 3. price_to
+            if (isset($all_filters['price_to'])) {
+                $query = $query
+                    ->whereRaw('max_price <= ' . $all_filters['price_to'][0] . '');
+            }
+
+            // 4. type
+            if (isset($all_filters['type'])) {
+                // will only return products that match the LS_IDs for the `types` mentioned.
+                $LS_IDs = Product::get_sub_cat_LS_IDs($dept, $cat, $all_filters['type']);
+            } else {
+                // 5. departments and categories
+                if (null == $cat) {
+                    $LS_IDs = Product::get_LS_IDs($dept, $cat);
+                } else {
+                    $LS_IDs = Product::get_LS_IDs($dept);
+                }
+            }
+        }
+
+        $query = $query->whereRaw('LS_ID REGEXP "' . implode("|", $LS_IDs) . '"');
+
+        // 7. sort_type
+
+        if (isset($sort_type)) {
+            $query = $query->orderBy('popularity', 'desc');
+        }
+
+        // 6. limit
+        $query = $query->offset($start)->limit($limit);
+
+        //echo "<pre>" . print_r($all_filters, true);
+        return Product::getProductObj($query->get());
     }
+
+/* if (!isset($limit)) {
+$limit = 20;
+}
+
+$start = $page * $perPage;
+
+$query = DB::table('master_data')
+->offset($start)
+->limit($perPage);
+if (null != $cat) {
+$query = $query->whereRaw('LS_ID REGEXP "' . implode("|", Product::get_LS_IDs($dept, $cat)) . '"');
+} else {
+$query = $query->whereRaw('LS_ID REGEXP "' . implode("|", Product::get_LS_IDs($dept)) . '"');
+}
+
+if (isset($ls_ids)) {
+$ls_ids = explode(",", $ls_ids);
+$query  = $query
+->whereRaw('LS_ID REGEXP "' . implode("|", $ls_ids) . '"');
+}
+if (isset($min_val)) {
+$query = $query
+->whereRaw('min_price >= ' . $min_val . '');
+}
+if (isset($max_val)) {
+$query = $query
+->whereRaw('max_price <= ' . $max_val . '');
+}
+if (isset($brand_filters)) {
+$brand_filters = explode(",", $brand_filters);
+$query         = $query
+->whereIn('site_name', $brand_filters);
+}
+if (isset($sub_category_filters)) {
+$sub_category_filters = explode(",", $sub_category_filters);
+$query                = $query
+->whereRaw('LS_ID REGEXP "' . implode("|", $sub_category_filters) . '"');
+}
+
+$products = $query->get();
+
+return Product::getProductObj($products);*/
 
     public static function getProductObj($products)
     {
@@ -141,9 +181,9 @@ class Product extends Model
                 'is_price'         => $product->price,
                 'model_code'       => $product->model_code,
                 'description'      => $product->product_description,
-                'thumb'            => explode("\n", $product->thumb),
+                'thumb'            => explode("[US]", $product->thumb),
                 'color'            => $product->color,
-                'images'           => explode(",", $product->images),
+                'images'           => explode("[US]", $product->images),
                 'was_price'        => $product->was_price,
                 'features'         => explode("<br>", $product->product_feature),
                 'collection'       => $product->collection,
