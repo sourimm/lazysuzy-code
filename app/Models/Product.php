@@ -183,7 +183,7 @@ return Product::getProductObj($products);*/
                 'description'      => $product->product_description,
                 'thumb'            => explode("[US]", $product->thumb),
                 'color'            => $product->color,
-                'images'           => explode("[US]", $product->images),
+                'images'           => explode(",", $product->images),
                 'was_price'        => $product->was_price,
                 'features'         => explode("<br>", $product->product_feature),
                 'collection'       => $product->collection,
