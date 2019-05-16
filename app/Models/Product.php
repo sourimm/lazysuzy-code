@@ -30,7 +30,6 @@ class Product extends Model
         foreach ($data as $key => $val) {
             array_push($LS_IDs, $val->LS_ID);
         }
-
         return $LS_IDs;
     }
 
@@ -93,22 +92,22 @@ class Product extends Model
                 $query = $query
                     ->whereRaw('max_price <= ' . $all_filters['price_to'][0] . '');
             }
+        }
 
-            // 4. type
-            if (isset($all_filters['type'])) {
-                // will only return products that match the LS_IDs for the `types` mentioned.
-                $LS_IDs = Product::get_sub_cat_LS_IDs($dept, $cat, $all_filters['type']);
+        // 4. type
+        if (isset($all_filters['type'])) {
+            // will only return products that match the LS_IDs for the `types` mentioned.
+            $LS_IDs = Product::get_sub_cat_LS_IDs($dept, $cat, $all_filters['type']);
+        } else {
+            // 5. departments and categories
+            if (null != $cat) {
+                $LS_IDs = Product::get_LS_IDs($dept, $cat);
             } else {
-                // 5. departments and categories
-                if (null == $cat) {
-                    $LS_IDs = Product::get_LS_IDs($dept, $cat);
-                } else {
-                    $LS_IDs = Product::get_LS_IDs($dept);
-                }
+                $LS_IDs = Product::get_LS_IDs($dept);
             }
         }
 
-        $query = $query->whereRaw('LS_ID REGEXP "' . implode("|", $LS_IDs) . '"');
+        //$query = $query->whereRaw('LS_ID REGEXP "' . implode("|", $LS_IDs) . '"');
 
         // 7. sort_type
 
