@@ -119,7 +119,7 @@ class Product extends Model
         $query = $query->offset($start)->limit($limit);
 
         //echo "<pre>" . print_r($all_filters, true);
-        return Product::getProductObj($query->get());
+        return Product::getProductObj($query->get(), $all_filters);
     }
 
 /* if (!isset($limit)) {
@@ -165,8 +165,9 @@ $products = $query->get();
 
 return Product::getProductObj($products);*/
 
-    public static function getProductObj($products)
+    public static function getProductObj($products, $all_filters)
     {
+        $output = [];
         $p_send = [];
 
         foreach ($products as $product) {
@@ -199,6 +200,6 @@ return Product::getProductObj($products);*/
             ]);
         }
 
-        return $p_send;
+        return ["filterData" => $all_filters, "products" => $p_send];
     }
 };
