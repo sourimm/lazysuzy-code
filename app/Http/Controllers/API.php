@@ -17,9 +17,9 @@ class API extends Controller
         return Product::get_department_products($dept, $cat);
     }
 
-    public function filter_products()
+    public function filter_products($dept, $cat = null)
     {
-        return Product::get_filter_products();
+        return Product::get_filter_products($dept, $cat);
     }
 
 }
