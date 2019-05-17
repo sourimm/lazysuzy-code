@@ -171,6 +171,11 @@ return Product::getProductObj($products);*/
         $p_send = [];
         $totalProducts = count($products);
         $base_siteurl = 'https://lazysuzy.com';
+            
+        
+        //**********Temporarily add filter static JSON *********/
+        $filterJsonString = file_get_contents(base_path('resources/filterData.json'));
+        $all_filters = json_decode($filterJsonString, true);
 
         foreach ($products as $product) {
             array_push($p_send, [
