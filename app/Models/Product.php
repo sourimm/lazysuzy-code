@@ -147,6 +147,8 @@ class Product extends Model
         $price_holder        = [];
         $product_type_holder = [];
         $LS_ID_count = [];
+        $base_siteurl = 'https://lazysuzy.com';
+
         //dd(DB::getQueryLog());
 
         if (isset($all_filters['brand_names'])) {
@@ -202,7 +204,7 @@ class Product extends Model
                 'created_date'     => $product->created_date,
                 'updated_date'     => $product->updated_date,
                 'on_server_images' => explode(",", $product->product_images),
-                'main_image'       => $product->main_product_images,
+                'main_image'       => $base_siteurl.$product->main_product_images,
                 'reviews'          => $product->reviews,
                 'rating'           => $product->rating,
                 'LS_ID'            => $product->LS_ID,
