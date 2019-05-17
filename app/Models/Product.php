@@ -171,7 +171,7 @@ class Product extends Model
             $LS_ID_count[$type_LSID] = 0;
         }
 
-        foreach ($products as $product) {
+        foreach ($products as $product) {   
             if (isset($brand_count[$product->site_name])){
                 $brand_count[$product->site_name]++;
              }
@@ -183,6 +183,7 @@ class Product extends Model
                 }
             }
 
+            $variations = Product::get_variations($product->product_sku);
             array_push($p_send , [
                 'id'               => $product->id,
                 'sku'              => $product->product_sku,
@@ -208,6 +209,7 @@ class Product extends Model
                 'reviews'          => $product->reviews,
                 'rating'           => $product->rating,
                 'LS_ID'            => $product->LS_ID,
+                'variations'       => $variations
 
             ]);
         
@@ -254,5 +256,20 @@ class Product extends Model
             "filterData" => $filter_data,
             "products"   => $p_send,
         ];
+    }
+
+    public static function get_variations($sku) {
+        $product_variations = [];
+        $variations = DB::table("cb2_products_variations")
+            ->where('product_sku', $sku)
+            ->get();
+        foreach($variations as $variation) {
+            array_push($product_variations, [
+                "name" => $variation->variation_name,
+                "image" => $variation->variation_images
+            ]);
+        }
+
+        return $product_variations;
     }
 };
