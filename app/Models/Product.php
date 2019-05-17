@@ -169,6 +169,8 @@ return Product::getProductObj($products);*/
     {
         $output = [];
         $p_send = [];
+        $totalProducts = count($products);
+        $base_siteurl = 'https://lazysuzy.com';
 
         foreach ($products as $product) {
             array_push($p_send, [
@@ -192,7 +194,7 @@ return Product::getProductObj($products);*/
                 'created_date'     => $product->created_date,
                 'updated_date'     => $product->updated_date,
                 'on_server_images' => explode(",", $product->product_images),
-                'main_image'       => $product->main_product_images,
+                'main_image'       => $base_siteurl.$product->main_product_images,
                 'reviews'          => $product->reviews,
                 'rating'           => $product->rating,
                 'LS_ID'            => $product->LS_ID,
@@ -200,6 +202,6 @@ return Product::getProductObj($products);*/
             ]);
         }
 
-        return ["filterData" => $all_filters, "products" => $p_send];
+        return [ "total" => $totalProducts, "filterData" => $all_filters, "productData" => $p_send];
     }
 };
