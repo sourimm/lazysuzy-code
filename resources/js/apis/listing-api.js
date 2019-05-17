@@ -1,18 +1,33 @@
 import * as multiCarouselFuncs from '../components/multi-carousel';
 
 $(document).ready(function () {
-    const LISTING_API_PATH = '/api'+location.pathname;
+    const LISTING_API_PATH = '/api' + location.pathname;
     const LISTING_FILTER_API_PATH = '/api/filter/products';
+    var totalResults = 0;
+
+    $(window).scroll(function() {
+        var position = $(window).scrollTop();
+        var bottom = $(document).height() - $(window).height();
+      
+        if( position == bottom ){
+            fetchProducts(LISTING_API_PATH);
+        }
+    });
+
     function fetchProducts(listingApiPath) {
-        
+        $('#loaderImg').show();
         $.ajax({
             type: "GET",
             url: listingApiPath,
             dataType: "json",
             success: function (data) {
-                $('#productsContainerDiv').empty();
-                if( data.total != undefined ){
-                    for( var i=0 ; i<data.total; i++){
+                // $('#productsContainerDiv').empty();
+                $('#loaderImg').hide();
+                if (data.total != undefined) {
+                    totalResults += data.total;
+                    $('#totalResults').text(totalResults);
+
+                    for (var i = 0; i < data.total; i++) {
                         createProductDiv(data.productData[i]);
                     }
                     multiCarouselFuncs.makeMultiCarousel();
@@ -25,7 +40,7 @@ $(document).ready(function () {
         });
     }
 
-    function createProductDiv(productDetails){
+    function createProductDiv(productDetails) {
         //Make product main div
         var mainProductDiv = jQuery('<div/>', {
             id: productDetails.id,
@@ -33,8 +48,8 @@ $(document).ready(function () {
             site: productDetails.site,
             class: 'ls-product-div col-md-3 item-3'
         }).appendTo('#productsContainerDiv');
-        
-        var productLink = jQuery('<a/>',{
+
+        var productLink = jQuery('<a/>', {
             href: productDetails.product_url
         }).appendTo(mainProductDiv);
 
@@ -42,10 +57,10 @@ $(document).ready(function () {
             class: 'ls-product'
         }).appendTo(productLink);
 
-        jQuery('<img />',{
+        jQuery('<img />', {
             class: 'img-fluid',
             src: productDetails.main_image,
-            alt: productDetails.name 
+            alt: productDetails.name
         }).appendTo(product);
 
         //Product information
@@ -62,18 +77,20 @@ $(document).ready(function () {
         var currPrice = jQuery('<span/>', {
             class: '-cprice',
         }).appendTo(prices);
-        $(currPrice).text(productDetails.is_price);
-        var oldPrice = jQuery('<span/>', {
-            class: '-oldprice',
-        }).appendTo(prices);
-        $(oldPrice).text(productDetails.was_price);
+        $(currPrice).text('$' + productDetails.is_price);
+        if (productDetails.is_price < productDetails.was_price) {
+            var oldPrice = jQuery('<span/>', {
+                class: '-oldprice',
+            }).appendTo(prices);
+            $(oldPrice).text('$' + productDetails.was_price);
+        }
 
         $(product).append('<div class="wishlist-icon"><i class="far fa-heart -icon"></i></div>');
 
         var productInfoNext = jQuery('<div/>', {
             class: 'd-none d-md-block',
         }).appendTo(mainProductDiv);
-        $(productInfoNext).append('<div class="-name">'+productDetails.name+'</div>');
+        $(productInfoNext).append('<div class="-name">' + productDetails.name + '</div>');
 
         var carouselMainDiv = jQuery('<div/>', {
             class: 'responsive',
@@ -83,22 +100,22 @@ $(document).ready(function () {
             var responsiveImgDiv = jQuery('<div/>', {
                 class: 'mini-carousel-item',
             }).appendTo(carouselMainDiv);
-            var responsiveImg =jQuery('<img/>', {
+            var responsiveImg = jQuery('<img/>', {
                 class: 'carousel-img img-fluid',
                 src: img
             }).appendTo(responsiveImgDiv);
-            
+
         });
 
         var ratingValue = parseFloat(productDetails.rating).toFixed(1);
-        var ratingClass = ratingValue.toString().replace('.',"_");
-        $(productInfoNext).append('<div class="rating-container"><div class="rating  rating-'+ratingClass+'"></div><span class="total-ratings">'+ratingValue+'</span></div>');
+        var ratingClass = ratingValue.toString().replace('.', "_");
+        $(productInfoNext).append('<div class="rating-container"><div class="rating  rating-' + ratingClass + '"></div><span class="total-ratings">' + ratingValue + '</span></div>');
 
     }
 
     fetchProducts(LISTING_API_PATH);
 
-    $('body').on('click', '.filter input[type="checkbox"]', function() {
+    $('body').on('click', '.filter input[type="checkbox"]', function () {
         // do something
         var params = '';
 
