@@ -30,7 +30,6 @@ class Product extends Model
         foreach ($data as $key => $val) {
             array_push($LS_IDs, $val->LS_ID);
         }
-
         return $LS_IDs;
     }
 
@@ -93,22 +92,22 @@ class Product extends Model
                 $query = $query
                     ->whereRaw('max_price <= ' . $all_filters['price_to'][0] . '');
             }
+        }
 
-            // 4. type
-            if (isset($all_filters['type'])) {
-                // will only return products that match the LS_IDs for the `types` mentioned.
-                $LS_IDs = Product::get_sub_cat_LS_IDs($dept, $cat, $all_filters['type']);
+        // 4. type
+        if (isset($all_filters['type'])) {
+            // will only return products that match the LS_IDs for the `types` mentioned.
+            $LS_IDs = Product::get_sub_cat_LS_IDs($dept, $cat, $all_filters['type']);
+        } else {
+            // 5. departments and categories
+            if (null != $cat) {
+                $LS_IDs = Product::get_LS_IDs($dept, $cat);
             } else {
-                // 5. departments and categories
-                if (null == $cat) {
-                    $LS_IDs = Product::get_LS_IDs($dept, $cat);
-                } else {
-                    $LS_IDs = Product::get_LS_IDs($dept);
-                }
+                $LS_IDs = Product::get_LS_IDs($dept);
             }
         }
 
-        $query = $query->whereRaw('LS_ID REGEXP "' . implode("|", $LS_IDs) . '"');
+        //$query = $query->whereRaw('LS_ID REGEXP "' . implode("|", $LS_IDs) . '"');
 
         // 7. sort_type
 
@@ -120,7 +119,7 @@ class Product extends Model
         $query = $query->offset($start)->limit($limit);
 
         //echo "<pre>" . print_r($all_filters, true);
-        return Product::getProductObj($query->get());
+        return Product::getProductObj($query->get(), $all_filters);
     }
 
 /* if (!isset($limit)) {
@@ -166,11 +165,9 @@ $products = $query->get();
 
 return Product::getProductObj($products);*/
 
-    public static function getProductObj($products)
+    public static function getProductObj($products, $all_filters)
     {
-        $productObj = (object)[];
-        $productObj->total = count($products);
-        
+        $output = [];
         $p_send = [];
 
         foreach ($products as $product) {
@@ -203,8 +200,6 @@ return Product::getProductObj($products);*/
             ]);
         }
 
-        $productObj->productData = $p_send;
-
-        return json_encode($productObj, JSON_PRETTY_PRINT);
+        return ["filterData" => $all_filters, "products" => $p_send];
     }
 };
