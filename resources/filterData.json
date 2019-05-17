@@ -1,0 +1,35 @@
+    {
+
+            "count": 3,
+            "filters": {
+                "brand_name": [
+                    {
+                        "name": "CB2",
+                        "value": "cb2",
+                        "enabled": true,
+                        "count": 2
+                    },
+                    {
+                        "name": "Pier 1",
+                        "value": "peir1",
+                        "enabled": false,
+                        "count": 2
+                    }
+                ],
+                "price": {
+                    "from": "100",
+                    "to": "2000",
+                    "min": "0",
+                    "max": "6000"
+                },
+                "product_type": [
+                    {
+                        "name": "Armchair",
+                        "value": "armchair",
+                        "enabled": false,
+                        "count": 12
+                    }
+                ]
+            }
+
+    }
