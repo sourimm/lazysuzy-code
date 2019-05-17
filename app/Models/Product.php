@@ -33,17 +33,30 @@ class Product extends Model
         return $LS_IDs;
     }
 
+    public static function get_sub_cat_LS_ID($dept, $cat, $sub_category)
+    {
+        $ls_id = DB::table('mapping_core')
+            ->select('LS_ID')
+            ->where('department_', $dept)
+            ->where('product_category_', $cat)
+            ->where('product_sub_category_', $sub_category)
+            ->get();
+
+        if ($ls_id) {
+            return $ls_id[0]->LS_ID;
+        } else {
+            return null;
+        }
+    }
+
     public static function get_sub_cat_LS_IDs($dept, $cat, $sub_categories)
     {
         $LS_IDs = [];
         foreach ($sub_categories as $sub_category) {
-            $ls_id = DB::table('mapping_core')
-                ->select('LS_ID')
-                ->where('department_', $dept)
-                ->where('product_category_', $cat)
-                ->where('product_sub_category_', $sub_category)
-                ->get();
-            array_push($LS_IDs, $ls_id[0]->LS_ID);
+            $ls_id = Product::get_sub_cat_LS_ID($dept, $cat, $sub_category);
+            if (null != $ls_id) {
+                array_push($LS_IDs, $ls_id);
+            }
         }
 
         return $LS_IDs;
@@ -107,7 +120,7 @@ class Product extends Model
             }
         }
 
-        //$query = $query->whereRaw('LS_ID REGEXP "' . implode("|", $LS_IDs) . '"');
+        $query = $query->whereRaw('LS_ID REGEXP "' . implode("|", $LS_IDs) . '"');
 
         // 7. sort_type
 
@@ -119,59 +132,56 @@ class Product extends Model
         $query = $query->offset($start)->limit($limit);
 
         //echo "<pre>" . print_r($all_filters, true);
-        return Product::getProductObj($query->get(), $all_filters);
+        return Product::getProductObj($query->get(), $all_filters, $dept, $cat);
     }
 
-/* if (!isset($limit)) {
-$limit = 20;
-}
-
-$start = $page * $perPage;
-
-$query = DB::table('master_data')
-->offset($start)
-->limit($perPage);
-if (null != $cat) {
-$query = $query->whereRaw('LS_ID REGEXP "' . implode("|", Product::get_LS_IDs($dept, $cat)) . '"');
-} else {
-$query = $query->whereRaw('LS_ID REGEXP "' . implode("|", Product::get_LS_IDs($dept)) . '"');
-}
-
-if (isset($ls_ids)) {
-$ls_ids = explode(",", $ls_ids);
-$query  = $query
-->whereRaw('LS_ID REGEXP "' . implode("|", $ls_ids) . '"');
-}
-if (isset($min_val)) {
-$query = $query
-->whereRaw('min_price >= ' . $min_val . '');
-}
-if (isset($max_val)) {
-$query = $query
-->whereRaw('max_price <= ' . $max_val . '');
-}
-if (isset($brand_filters)) {
-$brand_filters = explode(",", $brand_filters);
-$query         = $query
-->whereIn('site_name', $brand_filters);
-}
-if (isset($sub_category_filters)) {
-$sub_category_filters = explode(",", $sub_category_filters);
-$query                = $query
-->whereRaw('LS_ID REGEXP "' . implode("|", $sub_category_filters) . '"');
-}
-
-$products = $query->get();
-
-return Product::getProductObj($products);*/
-
-    public static function getProductObj($products, $all_filters)
+    public static function getProductObj($products, $all_filters, $dept, $cat)
     {
-        $output = [];
-        $p_send = [];
+        $output             = [];
+        $p_send             = [];
+        $brand_count        = [];
+        $product_type_count = [];
+        $product_type_LS_ID = [];        
+        $filter_data         = [];
+        $brand_holder        = [];
+        $price_holder        = [];
+        $product_type_holder = [];
+        $LS_ID_count = [];
+        //dd(DB::getQueryLog());
+
+        if (isset($all_filters['brand_names'])) {
+            foreach ($all_filters['brand_names'] as $brand_name) {
+                $brand_count[$brand_name] = 0;
+            }
+        }
+
+        if (isset($all_filters['type'])) {
+            foreach ($all_filters['type'] as $type) {
+                $product_type_count[$type] = 0;
+                $ls_id                     = Product::get_sub_cat_LS_ID($dept, $cat, $type);
+                if (null != $ls_id) {
+                    $product_type_LS_ID[$type] = $ls_id;
+                }
+            }
+        }
+
+        foreach ($product_type_LS_ID as $type_LSID) {
+            $LS_ID_count[$type_LSID] = 0;
+        }
 
         foreach ($products as $product) {
-            array_push($p_send, [
+            if (isset($brand_count[$product->site_name])){
+                $brand_count[$product->site_name]++;
+             }
+
+            foreach ($product_type_LS_ID as $type_LSID) {
+
+                if (preg_match("/{$type_LSID}/i", $product->LS_ID)) {
+                    $LS_ID_count[$type_LSID]++;
+                }
+            }
+
+            array_push($p_send , [
                 'id'               => $product->id,
                 'sku'              => $product->product_sku,
                 'sku_hash'         => $product->sku_hash,
@@ -198,8 +208,49 @@ return Product::getProductObj($products);*/
                 'LS_ID'            => $product->LS_ID,
 
             ]);
+        
+       }
+
+
+       // now generating filters.
+        if (isset($all_filters['brand_names'])) {
+            foreach ($all_filters['brand_names'] as $name) {
+                array_push($brand_holder, [
+                    "name"    => $name,
+                    "enabled" => true,
+                    "count"   => $brand_count[$name],
+                ]);
+            }
         }
 
-        return ["filterData" => $all_filters, "products" => $p_send];
+        if (isset($all_filters['price_from'])) {
+            $price_holder["from"] = $all_filters['price_from'][0];
+        }
+
+        if (isset($all_filters['price_to'])) {
+             $price_holder["to"]   = $all_filters['price_to'][0];    
+        }
+
+        if (isset($all_filters['type'])) {
+            foreach ($all_filters['type'] as $type) {
+                if (isset($LS_ID_count[$product_type_LS_ID[$type]]))
+                array_push($product_type_holder, [
+                    "name"    => $type,
+                    "enabled" => true,
+                    "count"   => $LS_ID_count[$product_type_LS_ID[$type]],
+                ]);
+            }
+        }
+
+        $filter_data = [
+            "brand_names"  => $brand_holder,
+            "price"        => $price_holder,
+            "product_type" => $product_type_holder,
+        ];
+
+        return [
+            "filterData" => $filter_data,
+            "products"   => $p_send,
+        ];
     }
 };
