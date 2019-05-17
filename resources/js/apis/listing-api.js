@@ -1,16 +1,21 @@
+import * as multiCarouselFuncs from '../components/multi-carousel';
+
 $(document).ready(function () {
     const LISTING_API_PATH = '/api'+location.pathname;
-    function fetchProducts() {
+    const LISTING_FILTER_API_PATH = '/api/filter/products';
+    function fetchProducts(listingApiPath) {
         
         $.ajax({
             type: "GET",
-            url: LISTING_API_PATH,
+            url: listingApiPath,
             dataType: "json",
             success: function (data) {
+                $('#productsContainerDiv').empty();
                 if( data.total != undefined ){
-                    for( i=0 ; i<data.total; i++){
+                    for( var i=0 ; i<data.total; i++){
                         createProductDiv(data.productData[i]);
                     }
+                    multiCarouselFuncs.makeMultiCarousel();
                 }
             },
             error: function (jqXHR, exception) {
@@ -39,7 +44,7 @@ $(document).ready(function () {
 
         jQuery('<img />',{
             class: 'img-fluid',
-            src: productDetails.images[0],
+            src: productDetails.main_image,
             alt: productDetails.name 
         }).appendTo(product);
 
@@ -74,19 +79,29 @@ $(document).ready(function () {
             class: 'responsive',
         }).appendTo(productInfoNext);
 
-        var ratingClass = parseFloat(productDetails.rating).toFixed(1).toString().replace('.',"_");
-        $(productInfoNext).append('<div class="rating-container"><div class="rating  rating-'+ratingClass+'"></div><span class="total-ratings">'+productDetails.rating+'</span></div>');
-
-
-        //************TBD when API is updated as per requirements.**********/
-
-        // console.log(productDetails.images);
-        // productDetails.images.forEach(element => {
-        //     $(carouselMainDiv).append('<div class="mini-carousel-item"><img class="carousel-img img-fluid" src='+element+'></div>');
+        productDetails.images.forEach(img => {
+            var responsiveImgDiv = jQuery('<div/>', {
+                class: 'mini-carousel-item',
+            }).appendTo(carouselMainDiv);
+            var responsiveImg =jQuery('<img/>', {
+                class: 'carousel-img img-fluid',
+                src: img
+            }).appendTo(responsiveImgDiv);
             
-        // });
+        });
+
+        var ratingValue = parseFloat(productDetails.rating).toFixed(1);
+        var ratingClass = ratingValue.toString().replace('.',"_");
+        $(productInfoNext).append('<div class="rating-container"><div class="rating  rating-'+ratingClass+'"></div><span class="total-ratings">'+ratingValue+'</span></div>');
 
     }
 
-    fetchProducts();
+    fetchProducts(LISTING_API_PATH);
+
+    $('body').on('click', '.filter input[type="checkbox"]', function() {
+        // do something
+        var params = '';
+
+        fetchProducts(LISTING_FILTER_API_PATH);
+    });
 });
