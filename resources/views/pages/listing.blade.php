@@ -18,13 +18,13 @@
                         <ul>
                             <li>
                                 <label class="container">CB2
-                                    <input type="checkbox" checked="checked">
+                                    <input type="checkbox" checked="checked" value="cb2">
                                     <span class="checkmark"></span>
                                 </label>
                             </li>
                             <li>
                                 <label class="container">Pier
-                                    <input type="checkbox">
+                                    <input type="checkbox" value="pier1">
                                     <span class="checkmark"></span>
                                 </label>
                             </li>
@@ -124,12 +124,6 @@
                     <div class="ls-prod-container container-fluid">
                         <div class="row" id="productsContainerDiv">
 
-                            @foreach($products as $product)
-                                @php
-                                    $images = explode(',', $product->images);
-
-                                @endphp
-                            @endforeach
                         </div>
                     </div>
                 </div>
