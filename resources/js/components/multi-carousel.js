@@ -1,5 +1,5 @@
 export function makeMultiCarousel() {
-    $('.responsive').slick({
+    $('.responsive:not(.slick-slider)').slick({
         infinite: false,
         speed: 300,
         slidesToShow: 4,

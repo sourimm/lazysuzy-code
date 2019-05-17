@@ -119,11 +119,13 @@
                                 <option selected>Recommended</option>
                             </select>
                         </div>
-                        <div class="total-items">1024 Results</div>
+                        <div class="total-items"><span id="totalResults">0</span> Results</div>
                     </div>
-                    <div class="ls-prod-container container-fluid">
+                    <div class="ls-prod-container container-fluid text-center">
                         <div class="row" id="productsContainerDiv">
-
+                        </div>
+                        <div class="mx-auto" id="loaderImg">
+                            <img src="{{ asset('/images/Spinner-1s-100px.gif') }}" alt="Spinner">
                         </div>
                     </div>
                 </div>
