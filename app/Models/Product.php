@@ -158,20 +158,22 @@ class Product extends Model
             $all_brands[$brand->value] = [
                 "name" => $brand->name,
                 "value" => strtolower($brand->value),
-                "enabled" => false
+                "enabled" => false,
+                "count" => 0
             ];
         }
         
         if (sizeof($all_filters) == 0) {
 
             $product_brands = DB::table("master_data")
-                        ->select("site_name")
+                        ->selectRaw("count(product_name) AS products, site_name")
                         ->whereRaw('LS_ID REGEXP "' . implode("|", $LS_IDs) . '"')
-                        ->distinct()
+                        ->groupBy('site_name')
                         ->get();
             foreach($product_brands as $b) {
                 if (isset($all_brands[$b->site_name]))
                     $all_brands[$b->site_name]["enabled"] = true;
+                    $all_brands[$b->site_name]["count"] = $b->products;
             } 
 
             $brands_holder = [];
