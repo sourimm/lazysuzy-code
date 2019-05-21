@@ -179,20 +179,23 @@ class Product extends Model
             if (isset($all_filters['type'])) {
 
                 $LS_IDs = Product::get_sub_cat_LS_IDs($dept, $cat, $all_filters['type']);
-                $product_brands = DB::table("master_data")
-                            ->selectRaw("count(product_name) AS products, site_name")
-                            ->whereRaw('LS_ID REGEXP "' . implode("|", $LS_IDs) . '"')
-                            ->groupBy('site_name')
-                            ->get();
+                
                
             }
         }
 
-         foreach($product_brands as $b) {
-                if (isset($all_brands[$b->site_name]))
-                    $all_brands[$b->site_name]["checked"] = true;
-                    $all_brands[$b->site_name]["count"] = $b->products;
-            } 
+        $product_brands = DB::table("master_data")
+                            ->selectRaw("count(product_name) AS products, site_name")
+                            ->whereRaw('LS_ID REGEXP "' . implode("|", $LS_IDs) . '"')
+                            ->groupBy('site_name')
+                            ->get();
+
+        foreach($product_brands as $b) {
+            if (isset($all_brands[$b->site_name])) {
+                $all_brands[$b->site_name]["checked"] = true;
+                $all_brands[$b->site_name]["count"] = $b->products;
+            }
+        } 
 
             $brands_holder = [];
 
