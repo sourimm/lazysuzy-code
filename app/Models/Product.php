@@ -154,7 +154,13 @@ class Product extends Model
         $LS_IDs = Product::get_dept_cat_LS_ID_arr($dept, $cat);
         
 
-        foreach($all_b as $brand) $all_brands[$brand->value] = false;
+        foreach($all_b as $brand) { 
+            $all_brands[$brand->value] = [
+                "name" => $brand->name,
+                "value" => strtolower($brand->value),
+                "enabled" => false
+            ];
+        }
         
         if (sizeof($all_filters) == 0) {
 
@@ -165,16 +171,13 @@ class Product extends Model
                         ->get();
             foreach($product_brands as $b) {
                 if (isset($all_brands[$b->site_name]))
-                    $all_brands[$b->site_name] = true;
+                    $all_brands[$b->site_name]["enabled"] = true;
             } 
 
             $brands_holder = [];
 
             foreach($all_brands as $name => $value) {
-                array_push($brands_holder, [
-                    "name" => $name,
-                    "enabled" => $value
-                ]);
+                array_push($brands_holder, $value);
             }
 
             return $brands_holder;
