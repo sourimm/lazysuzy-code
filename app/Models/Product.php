@@ -135,6 +135,130 @@ class Product extends Model
         return Product::getProductObj($query->get(), $all_filters, $dept, $cat);
     }
 
+    public static function get_dept_cat_LS_ID_arr($dept, $cat) {
+        $LS_IDs = null;
+       
+        if (null != $cat) {
+                $LS_IDs = Product::get_LS_IDs($dept, $cat);
+        } 
+        else {
+                $LS_IDs = Product::get_LS_IDs($dept);
+        }
+
+        return $LS_IDs;
+    }
+
+    public static function get_brands_filter($dept, $cat, $all_filters) {
+        $all_brands = [];
+        $all_b = DB::table("master_brands")->get();
+        $LS_IDs = Product::get_dept_cat_LS_ID_arr($dept, $cat);
+        
+
+        foreach($all_b as $brand) $all_brands[$brand->value] = false;
+        
+        if (sizeof($all_filters) == 0) {
+
+            $product_brands = DB::table("master_data")
+                        ->select("site_name")
+                        ->whereRaw('LS_ID REGEXP "' . implode("|", $LS_IDs) . '"')
+                        ->distinct()
+                        ->get();
+            foreach($product_brands as $b) {
+                if (isset($all_brands[$b->site_name]))
+                    $all_brands[$b->site_name] = true;
+            } 
+
+            $brands_holder = [];
+
+            foreach($all_brands as $name => $value) {
+                array_push($brands_holder, [
+                    "name" => $name,
+                    "enabled" => $value
+                ]);
+            }
+
+            return $brands_holder;
+        }
+        else {
+
+            // code  here
+        }
+    }
+
+    public static function get_price_filter($dept, $cat, $all_filters) {
+
+        $LS_IDs = Product::get_dept_cat_LS_ID_arr($dept, $cat);
+
+        if (sizeof($all_filters) == 0) {
+            // get min price and max price for all the products
+            
+            return [
+                "min_price" => DB::table("master_data")
+                            ->whereRaw('LS_ID REGEXP "' . implode("|", $LS_IDs) . '"')
+                            ->min('min_price'),
+
+                "max_price" => DB::table("master_data")
+                            ->whereRaw('LS_ID REGEXP "' . implode("|", $LS_IDs) . '"')
+                            ->max('max_price')
+            ];
+
+        }
+        else {
+
+            // code here
+        }
+    }
+
+    public static function get_product_type_filter($dept, $cat, $all_filters) {
+        $LS_IDs = Product::get_dept_cat_LS_ID_arr($dept, $cat);
+        $sub_cat_LS_IDs = DB::table("mapping_core")
+                            ->select(["product_sub_category", "product_sub_category_", "LS_ID"])
+                            ->where("department_", $dept);
+
+        if ($cat != null)
+            $sub_cat_LS_IDs = $sub_cat_LS_IDs->where("product_category_", $cat);
+
+        $sub_cat_LS_IDs = $sub_cat_LS_IDs->whereRaw("LENGTH(product_sub_category_) != 0")->get();
+        
+        $products = DB::table("master_data")
+                ->select("LS_ID")
+                ->whereRaw('LS_ID REGEXP "' . implode("|", $LS_IDs) . '"')
+                ->get();
+
+        $sub_cat_arr = [];
+
+        foreach($sub_cat_LS_IDs as $cat) {
+            $sub_cat_arr[$cat->product_sub_category_] = [
+                "name" => $cat->product_sub_category,
+                "value" => strtolower($cat->product_sub_category_),
+                "enabled" => false
+            ];
+        }
+
+        if (sizeof($all_filters) == 0) {
+            foreach($sub_cat_LS_IDs as $cat) {
+                foreach($products as $p) {
+                    if (strpos($p->LS_ID, (string)$cat->LS_ID) !== false) {
+                        if (isset($sub_cat_arr[$cat->product_sub_category_])) {
+                            $sub_cat_arr[$cat->product_sub_category_]["enabled"] = true;
+                        }
+                    }
+                }
+            }
+
+            $arr = [];
+            foreach ($sub_cat_arr as $key => $value) {
+                array_push($arr, $value);
+            }
+
+            return $arr;
+        }
+        else {
+
+            // code here
+        }
+
+    }
     public static function getProductObj($products, $all_filters, $dept, $cat)
     {
         $output             = [];
@@ -147,7 +271,10 @@ class Product extends Model
         $price_holder        = [];
         $product_type_holder = [];
         $LS_ID_count = [];
+        $brands_is_enabled = [];
         $base_siteurl = 'https://lazysuzy.com';
+        $b = DB::table("master_brands")->get();
+        foreach($b as $brand) $brands_is_enabled[$brand->value] = false;
 
         //dd(DB::getQueryLog());
 
@@ -171,7 +298,11 @@ class Product extends Model
             $LS_ID_count[$type_LSID] = 0;
         }
 
-        foreach ($products as $product) {   
+        foreach ($products as $product) {
+
+            if (isset($brands_is_enabled[$product->site_name]))
+                $brands_is_enabled[$product->site_name] = true;
+
             if (isset($brand_count[$product->site_name])){
                 $brand_count[$product->site_name]++;
              }
@@ -215,42 +346,58 @@ class Product extends Model
         
        }
 
+       if (sizeof($all_filters) > 0) {
 
-       // now generating filters.
-        if (isset($all_filters['brand_names'])) {
-            foreach ($all_filters['brand_names'] as $name) {
-                array_push($brand_holder, [
-                    "name"    => $name,
-                    "enabled" => true,
-                    "count"   => $brand_count[$name],
-                ]);
+           // now generating filters.
+            if (isset($all_filters['brand_names'])) {
+                foreach ($all_filters['brand_names'] as $name) {
+                    array_push($brand_holder, [
+                        "name"    => $name,
+                        "enabled" => true,
+                        "count"   => $brand_count[$name],
+                    ]);
+                }
             }
-        }
 
-        if (isset($all_filters['price_from'])) {
-            $price_holder["from"] = $all_filters['price_from'][0];
-        }
-
-        if (isset($all_filters['price_to'])) {
-             $price_holder["to"]   = $all_filters['price_to'][0];    
-        }
-
-        if (isset($all_filters['type'])) {
-            foreach ($all_filters['type'] as $type) {
-                if (isset($LS_ID_count[$product_type_LS_ID[$type]]))
-                array_push($product_type_holder, [
-                    "name"    => $type,
-                    "enabled" => true,
-                    "count"   => $LS_ID_count[$product_type_LS_ID[$type]],
-                ]);
+            if (isset($all_filters['price_from'])) {
+                $price_holder["from"] = $all_filters['price_from'][0];
             }
-        }
 
-        $filter_data = [
-            "brand_names"  => $brand_holder,
-            "price"        => $price_holder,
-            "product_type" => $product_type_holder,
+            if (isset($all_filters['price_to'])) {
+                 $price_holder["to"]   = $all_filters['price_to'][0];    
+            }
+
+            if (isset($all_filters['type'])) {
+                foreach ($all_filters['type'] as $type) {
+                    if (isset($LS_ID_count[$product_type_LS_ID[$type]]))
+                    array_push($product_type_holder, [
+                        "name"    => $type,
+                        "enabled" => true,
+                        "count"   => $LS_ID_count[$product_type_LS_ID[$type]],
+                    ]);
+                }
+            }
+
+            
+       }
+       else {
+        foreach ($brands_is_enabled as $name => $value) {
+            array_push($brand_holder, [
+                "name" => $name,
+                "enabled" => $value
+            ]);
+        }
+       } 
+
+       $brand_holder = Product::get_brands_filter($dept, $cat, $all_filters);
+       $price_holder = Product::get_price_filter($dept, $cat, $all_filters);
+       $product_type_holder = Product::get_product_type_filter($dept, $cat, $all_filters);
+       $filter_data = [
+                "brand_names"  => $brand_holder,
+                "price"        => $price_holder,
+                "product_type" => $product_type_holder,
         ];
+
 
         return [
             "filterData" => $filter_data,
@@ -260,14 +407,30 @@ class Product extends Model
 
     public static function get_variations($sku) {
         $product_variations = [];
+        $base_siteurl = 'https://lazysuzy.com';
+
         $variations = DB::table("cb2_products_variations")
             ->where('product_sku', $sku)
             ->get();
+
         foreach($variations as $variation) {
-            array_push($product_variations, [
-                "name" => $variation->variation_name,
-                "image" => $variation->variation_images
-            ]);
+            if ($variation->product_sku != $variation->variation_sku){
+                    $link = $base_siteurl."/product-detail/";
+                if($variation->has_parent_sku) {
+                    $link .=$variation->variation_sku;
+                }
+                else {
+                    $link .=$variation->product_sku; 
+                }
+                array_push($product_variations, [
+                    "product_sku" => $variation->product_sku,
+                    "variation_sku" => $variation->variation_sku,
+                    "name" => $variation->variation_name,
+                    "has_parent_sku" => $variation->has_parent_sku,
+                    "image" => $variation->variation_images,
+                    "link" => $link
+                ]);   
+            }
         }
 
         return $product_variations;
