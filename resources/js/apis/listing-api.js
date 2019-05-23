@@ -1,34 +1,53 @@
 import * as multiCarouselFuncs from '../components/multi-carousel';
+// import * as priceSliderContainer from '../pages/listing';
 
 $(document).ready(function () {
     const LISTING_API_PATH = '/api' + location.pathname;
     const LISTING_FILTER_API_PATH = '/api/filter/products';
     var totalResults = 0;
-    var UrlSearchParams = new URLSearchParams();
+    var UrlSearchParams = new Object();
     var objGlobalFilterData;
+    var bFiltersCreated = false;
+    var strFilters = '';
+    var strSortType = '';
+    var iPageNo = 0, iLimit;
 
     $(window).scroll(function () {
         var position = $(window).scrollTop();
         var bottom = $(document).height() - $(window).height();
 
         if (position == bottom) {
-            fetchProducts(LISTING_API_PATH, {}, false);
+            iPageNo += 1;
+            fetchProducts(false);
         }
     });
 
-    function fetchProducts(listingApiPath, dataToSend, bClearPrevProducts) {
+
+    $('body').on("change", '#priceRange',  function () {
+        var $inp = $(this);
+        var from = $inp.prop("value"); // reading input value
+        var from2 = $inp.data("from"); // reading input data-from attribute
+
+        console.log(from, from2); // FROM value
+    });
+
+    function fetchProducts(bClearPrevProducts) {
+        var strLimit = iLimit === undefined ? '' : '&limit=' + iLimit;
+        var listingApiPath = LISTING_API_PATH + '?filters=' + strFilters + '&sort_type=' + strSortType + '&pageno=' + iPageNo + strLimit;
         $('#loaderImg').show();
         $.ajax({
             type: "GET",
             url: listingApiPath,
             dataType: "json",
-            data: dataToSend,
             success: function (data) {
-                if (bClearPrevProducts) { 
-                    $('#productsContainerDiv').empty() 
+                if (bClearPrevProducts) {
+                    $('#productsContainerDiv').empty()
                     totalResults = 0;
                 };
                 $('#loaderImg').hide();
+                if (data == null) {
+                    return;
+                }
                 if (data.total != undefined) {
                     totalResults += data.total;
                     $('#totalResults').text(totalResults);
@@ -125,97 +144,116 @@ $(document).ready(function () {
     }
 
     function createUpdateFilterData(filterData) {
-        $('#filters').empty();
-        Object.keys(filterData.filters).forEach((key, index) => {
-            const data = filterData.filters[key];
-            var filterDiv = jQuery('<div/>', {
-                class: 'filter',
-                "data-filter": key
-            }).appendTo('#filters');
-            $(filterDiv).append('<hr/>');
-
-            $(filterDiv).append('<span class="filter-header">' + key.replace('_', ' ') + '</span>')
-            $(filterDiv).append('<label for="' + key + '" class="clear-filter float-right">Clear</label>')
-
-            if (key != "price") {
-                var filterUl = jQuery('<ul/>', {
-                }).appendTo(filterDiv);
-                data.forEach(element => {
-                    var filterLi = jQuery('<li/>', {
-                    }).appendTo(filterUl);
-                    var filterLabel = jQuery('<label/>', {
-                        class: 'container'
-                    }).appendTo(filterLi);
-                    $(filterLabel).text(element.name);
-                    var filterCheckbox = jQuery('<input />', {
-                        type: "checkbox",
-                        checked: element.enabled,
-                        value: element.value,
-                        belongsTo: key
-                    }).appendTo(filterLabel);
-                    $(filterLabel).append('<span class="checkmark"></span>')
-
-                });
-            }
-            else {
-                var priceRangeSlider = jQuery('<input/>', {
-                    type: "text",
-                    class: "price-range-slider",
-                    name: "price_range",
-                    value: "",
-                    "data-from": data.from,
-                    "data-to": data.to,
-                    "data-min": data.min,
-                    "data-max": data.max,
-                }).appendTo(filterDiv);
-                $(priceRangeSlider).ionRangeSlider({
-                    skin: "sharp",
-                    type: "double",
-                    prefix: "$",
-                    prettify_separator: ","
-                });
-            }
-            if (index == Object.keys(filterData.filters).length - 1) {
+        if (!bFiltersCreated) {
+            bFiltersCreated = true;
+            $('#filters').empty();
+            Object.keys(filterData.filters).forEach((key, index) => {
+                const data = filterData.filters[key];
+                var filterDiv = jQuery('<div/>', {
+                    class: 'filter',
+                    "data-filter": key
+                }).appendTo('#filters');
                 $(filterDiv).append('<hr/>');
-            }
+
+                $(filterDiv).append('<span class="filter-header">' + key.replace('_', ' ') + '</span>')
+                $(filterDiv).append('<label for="' + key + '" class="clear-filter float-right">Clear</label>')
+
+                if (key != "price") {
+                    var filterUl = jQuery('<ul/>', {
+                    }).appendTo(filterDiv);
+                    data.forEach(element => {
+                        var filterLi = jQuery('<li/>', {
+                        }).appendTo(filterUl);
+                        var filterLabel = jQuery('<label/>', {
+                            class: 'container'
+                        }).appendTo(filterLi);
+                        $(filterLabel).text(element.name);
+                        var filterCheckbox = jQuery('<input />', {
+                            type: "checkbox",
+                            checked: element.checked,
+                            value: element.value,
+                            belongsTo: key
+                        }).appendTo(filterLabel);
+                        $(filterLabel).append('<span class="checkmark"></span>')
+
+                    });
+                }
+                else {
+                    var priceRangeSlider = jQuery('<input/>', {
+                        type: "text",
+                        class: "price-range-slider",
+                        name: "price_range",
+                        value: "",
+                        "data-from": data.from,
+                        "data-to": data.to,
+                        "data-min": data.min,
+                        "data-max": data.max,
+                    }).appendTo(filterDiv);
+                    $(priceRangeSlider).ionRangeSlider({
+                        skin: "sharp",
+                        type: "double",
+                        prefix: "$",
+                        prettify_separator: ","
+                    });
+                }
+                if (index == Object.keys(filterData.filters).length - 1) {
+                    $(filterDiv).append('<hr/>');
+                }
+            });
+
+            // $(filterDiv).append('<hr/>');
+            $('#filters').append('<a class="btn clearall-filter-btn" href="#" id="clearAllFiltersBtn">Clear All</a>');
+
+            $('#filters').append('<hr/>');
+        }
+        else {
+            Object.keys(filterData.filters).forEach((key, index) => {
+                const data = filterData.filters[key];
+                data.forEach(element => {
+                    $('input[type="checkbox"][value=' + element.value + ']').attr('checked', element.checked);
+                    $('input[type="checkbox"][value=' + element.value + ']').attr('disabled', !element.enabled);
+                });
+            });
+        }
+    }
+
+    fetchProducts(false);
+
+    /***************Implementation of filter changes **************/
+    $('body').on('change', '.filter input[type="checkbox"]', function () {
+        // do something
+        //var params = '';
+        // delete UrlSearchParams.filters;
+        // const params = UrlSearchParams;
+        // var filtersActive = new Object();
+
+        // if(this.checked) {
+        //     // console.log('checked');
+        //     var strCurrFilter = $(this).attr('belongsto');
+        //     filtersActive[strCurrFilter] = new Array();
+        //     filtersActive[strCurrFilter].push($(this).attr('value'));
+        // }
+
+        // console.log('crrent: ' + $(this).attr('checked'));
+
+        // Object.keys(objGlobalFilterData.filters).forEach((key, index) => {
+
+        // }
+        strFilters = '';
+        $('.filter').each(function () {
+            var currFilter = $(this).attr('data-filter');
+            strFilters += currFilter + ':';
+            $(this).find('input[type="checkbox"]').each(function () {
+                if (this.checked) {
+                    strFilters += $(this).attr('value') + ',';
+                }
+            });
+            strFilters += ';'
         });
 
 
-        // $(filterDiv).append('<hr/>');
-        $('#filters').append('<a class="btn clearall-filter-btn" href="#" id="clearAllFiltersBtn">Clear All</a>');
+        //  UrlSearchParams.filters = filtersActive;//Object.keys(filtersActive).map(function(k){return filtersActive[k]}).join(";");;
 
-        $('#filters').append('<hr/>');
-    }
-
-    fetchProducts(LISTING_API_PATH, {}, false);
-
-    /***************Implementation of filter changes **************/
-    // $('body').on('change', '.filter input[type="checkbox"]', function () {
-    //     // do something
-    //     //var params = '';
-    //     delete UrlSearchParams.filter;
-    //     const params = UrlSearchParams;
-    //     var filtersActive = new Object();
-
-    //     if(this.checked) {
-    //         console.log('checked');
-    //         var strCurrFilter = $(this).attr('belongsto');
-    //         filtersActive[strCurrFilter] = $(this).attr('value');
-    //     }
-
-    //     // console.log('crrent: ' + $(this).attr('checked'));
-        
-    //     Object.keys(objGlobalFilterData.filters).forEach((key, index) => {
-
-    //     }
-    //     $('.filter[key='++'] input[type="checkbox"]').each(function () {
-    //         if (this.checked) {
-    //             filtersActive[strCurrFilter] += $(this).attr('value');
-    //         }
-    //     });
-
-    //     UrlSearchParams.filter = filtersActive;
-
-    //     fetchProducts(LISTING_API_PATH, UrlSearchParams, true);
-    // });
+        fetchProducts(true);
+    });
 });
