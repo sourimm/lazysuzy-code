@@ -2,17 +2,19 @@
 
             "count": 3,
             "filters": {
-                "brand_name": [
+                "brand_names": [
                     {
                         "name": "CB2",
                         "value": "cb2",
+                        "checked": false,
                         "enabled": true,
                         "count": 2
                     },
                     {
                         "name": "Pier 1",
                         "value": "peir1",
-                        "enabled": false,
+                        "checked": true,
+                        "enabled": true,
                         "count": 2
                     }
                 ],
@@ -26,8 +28,16 @@
                     {
                         "name": "Armchair",
                         "value": "armchair",
+                        "checked": false,
                         "enabled": false,
                         "count": 12
+                    },
+                    {
+                        "name": "Chair",
+                        "value": "chair",
+                        "checked": false,
+                        "enabled": true,
+                        "count": 11
                     }
                 ]
             }
