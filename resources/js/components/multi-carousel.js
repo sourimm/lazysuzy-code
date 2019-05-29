@@ -1,6 +1,5 @@
-$(document).ready(function () {
-
-    $('.responsive').slick({
+export function makeMultiCarousel() {
+    $('.responsive:not(.slick-slider)').slick({
         infinite: false,
         speed: 300,
         slidesToShow: 4,
@@ -12,7 +11,7 @@ $(document).ready(function () {
                 breakpoint: 1024,
                 settings: {
                     slidesToShow: 4,
-                    slidesToScroll:4,
+                    slidesToScroll: 4,
                 }
             },
             {
@@ -34,4 +33,4 @@ $(document).ready(function () {
             // instead of a settings object
         ]
     });
-});
+}

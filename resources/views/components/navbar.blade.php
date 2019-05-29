@@ -6,8 +6,8 @@
         <i class="fas fa-bars -bars"></i>
     </button>
     <a class="navbar-brand" href="#">
-        <img id="logo-navbar-middle" src="{{ asset('/images/dark_logo_transparent.png') }}" alt="asd" class="logo d-none d-md-block">
-        <img id="logo-navbar-middle" src="{{ asset('/images/color_logo_transparent.png') }}" alt="asd" class="logo d-block d-md-none">
+        <img id="logo-navbar-middle" src="{{ asset('/images/dark_logo_transparents.png') }}" alt="asd" class="logo d-none d-md-block">
+        <img id="logo-navbar-middle" src="{{ asset('/images/color_logo_transparents.png') }}" alt="asd" class="logo d-block d-md-none">
     </a>
 
     <form id="searchbarBody" class="searchbar sb-body card card-sm">

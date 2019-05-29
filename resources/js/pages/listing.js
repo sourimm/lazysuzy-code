@@ -1,4 +1,5 @@
 require('ion-rangeslider');
+require('../apis/listing-api');
 
 $(document).ready(function () {
   let iItemsToShow = 3;
@@ -8,7 +9,9 @@ $(document).ready(function () {
     $("#priceInfo").find('.high').text($(this).val());
   });
 
-  $(".price-range-slider").ionRangeSlider({
+  $priceRangeSlider = $(".price-range-slider");
+
+  $priceRangeSlider.ionRangeSlider({
     skin: "sharp",
     type: "double",
     min: 100,
@@ -19,17 +22,27 @@ $(document).ready(function () {
     prettify_separator: ","
   });
 
+  // var priceSlider = priceSliderContainer.$priceRangeSlider;
+
+  // $('body').on('change', '.price-range-slider', function () {
+  //     var $inp = $(this);
+  //     var from = $inp.prop("value"); // reading input value
+  //     var from2 = $inp.data("from"); // reading input data-from attribute
+
+  //     console.log(from, from2); // FROM value
+  // });
+
   $('#filterToggleBtn').click(function () {
     $('#filters').toggleClass('show');
   });
 
   $('#viewItemsBtn').click(function () {
-    iItemsToShow = (iItemsToShow == 1) ? 3 : iItemsToShow-1;
+    iItemsToShow = (iItemsToShow == 1) ? 3 : iItemsToShow - 1;
     $('#productsContainerDiv').find('.ls-product-div').each(function () {
-      $(this).removeClass (function (index, className) {
-        return (className.match (/(^|\s)item-\S+/g) || []).join(' ');
+      $(this).removeClass(function (index, className) {
+        return (className.match(/(^|\s)item-\S+/g) || []).join(' ');
       });
-      $(this).addClass('item-'+iItemsToShow);
+      $(this).addClass('item-' + iItemsToShow);
     })
   });
 
