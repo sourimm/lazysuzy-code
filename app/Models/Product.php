@@ -208,7 +208,7 @@ class Product extends Model
     }
 
     public static function get_price_filter($dept, $cat, $all_filters) {
-
+        
         $p_to = $p_from = null;
         $LS_IDs = Product::get_dept_cat_LS_ID_arr($dept, $cat);
 
