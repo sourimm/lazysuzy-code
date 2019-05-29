@@ -82,11 +82,11 @@ class Product extends Model
         $start = $page_num * $limit;
 
         if (isset($filters)) {
-            // $filter_blocks = explode(";", $filters);
-            // foreach ($filter_blocks as $block) {
-            //     $block_str                  = explode(":", $block);
-            //     $all_filters[$block_str[0]] = explode(",", $block_str[1]);
-            // }
+            $filter_blocks = explode(";", $filters);
+            foreach ($filter_blocks as $block) {
+                $block_str                  = explode(":", $block);
+                $all_filters[$block_str[0]] = explode(",", $block_str[1]);
+            }
 
             // FILTERS
             // 1. brand_names
@@ -208,7 +208,7 @@ class Product extends Model
     }
 
     public static function get_price_filter($dept, $cat, $all_filters) {
-
+        
         $p_to = $p_from = null;
         $LS_IDs = Product::get_dept_cat_LS_ID_arr($dept, $cat);
 
@@ -289,24 +289,24 @@ class Product extends Model
             ];
         }
 
-            foreach($sub_cat_LS_IDs as $cat) {
-                foreach($products as $p) {
-                    if (strpos($p->LS_ID, (string)$cat->LS_ID) !== false) {
-                        if (isset($sub_cat_arr[$cat->product_sub_category_])) {
-                            $sub_cat_arr[$cat->product_sub_category_]["checked"] = true;
-                            $sub_cat_arr[$cat->product_sub_category_]["count"]++;
+        foreach($sub_cat_LS_IDs as $cat) {
+            foreach($products as $p) {
+                if (strpos($p->LS_ID, (string)$cat->LS_ID) !== false) {
+                    if (isset($sub_cat_arr[$cat->product_sub_category_])) {
+                        $sub_cat_arr[$cat->product_sub_category_]["checked"] = true;
+                        $sub_cat_arr[$cat->product_sub_category_]["count"]++;
 
-                        }
                     }
                 }
             }
+        }
 
-            $arr = [];
-            foreach ($sub_cat_arr as $key => $value) {
-                array_push($arr, $value);
-            }
+        $arr = [];
+        foreach ($sub_cat_arr as $key => $value) {
+            array_push($arr, $value);
+        }
 
-            return $arr;
+        return $arr;
     }
     public static function getProductObj($products, $all_filters, $dept, $cat)
     {
