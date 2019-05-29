@@ -82,11 +82,11 @@ class Product extends Model
         $start = $page_num * $limit;
 
         if (isset($filters)) {
-            $filter_blocks = explode(";", $filters);
-            foreach ($filter_blocks as $block) {
-                $block_str                  = explode(":", $block);
-                $all_filters[$block_str[0]] = explode(",", $block_str[1]);
-            }
+            // $filter_blocks = explode(";", $filters);
+            // foreach ($filter_blocks as $block) {
+            //     $block_str                  = explode(":", $block);
+            //     $all_filters[$block_str[0]] = explode(",", $block_str[1]);
+            // }
 
             // FILTERS
             // 1. brand_names
@@ -320,11 +320,42 @@ class Product extends Model
         $price_holder        = [];
         $product_type_holder = [];
         $LS_ID_count = [];
-        $brands_is_checked = [];
         $base_siteurl = 'https://lazysuzy.com';
         $b = DB::table("master_brands")->get();
 
-        foreach ($products as $product) {
+        //dd(DB::getQueryLog());
+
+        if (isset($all_filters['brand_names'])) {
+            foreach ($all_filters['brand_names'] as $brand_name) {
+                $brand_count[$brand_name] = 0;
+            }
+        }
+
+        if (isset($all_filters['type'])) {
+            foreach ($all_filters['type'] as $type) {
+                $product_type_count[$type] = 0;
+                $ls_id                     = Product::get_sub_cat_LS_ID($dept, $cat, $type);
+                if (null != $ls_id) {
+                    $product_type_LS_ID[$type] = $ls_id;
+                }
+            }
+        }
+
+        foreach ($product_type_LS_ID as $type_LSID) {
+            $LS_ID_count[$type_LSID] = 0;
+        }
+
+        foreach ($products as $product) {   
+            if (isset($brand_count[$product->site_name])){
+                $brand_count[$product->site_name]++;
+             }
+
+            foreach ($product_type_LS_ID as $type_LSID) {
+
+                if (preg_match("/{$type_LSID}/i", $product->LS_ID)) {
+                    $LS_ID_count[$type_LSID]++;
+                }
+            }
 
             $variations = Product::get_variations($product->product_sku);
             array_push($p_send , [
@@ -358,48 +389,63 @@ class Product extends Model
         
        }
 
-       $brand_holder = Product::get_brands_filter($dept, $cat, $all_filters);
-       $price_holder = Product::get_price_filter($dept, $cat, $all_filters);
-       $product_type_holder = Product::get_product_type_filter($dept, $cat, $all_filters);
-       $filter_data = [
-                "brand_names"  => $brand_holder,
-                "price"        => $price_holder,
-                "product_type" => $product_type_holder,
-        ];
 
+       // now generating filters.
+        if (isset($all_filters['brand_names'])) {
+            foreach ($all_filters['brand_names'] as $name) {
+                array_push($brand_holder, [
+                    "name"    => $name,
+                    "enabled" => true,
+                    "count"   => $brand_count[$name],
+                ]);
+            }
+        }
+
+        if (isset($all_filters['price_from'])) {
+            $price_holder["from"] = $all_filters['price_from'][0];
+        }
+
+        if (isset($all_filters['price_to'])) {
+             $price_holder["to"]   = $all_filters['price_to'][0];    
+        }
+
+        if (isset($all_filters['type'])) {
+            foreach ($all_filters['type'] as $type) {
+                if (isset($LS_ID_count[$product_type_LS_ID[$type]]))
+                array_push($product_type_holder, [
+                    "name"    => $type,
+                    "enabled" => true,
+                    "count"   => $LS_ID_count[$product_type_LS_ID[$type]],
+                ]);
+            }
+        }
+
+        $filter_data = [
+            "brand_names"  => $brand_holder,
+            "price"        => $price_holder,
+            "product_type" => $product_type_holder,
+        ];
+        //**********Temporarily add filter static JSON *********/
+        $filterJsonString = file_get_contents(base_path('resources/filterData.json'));
+        $all_filters = json_decode($filterJsonString, true);
 
         return [
-            "filterData" => $filter_data,
-            "products"   => $p_send,
+            "total" => count($products),
+            "filterData" => $all_filters,
+            "productData"   => $p_send,
         ];
     }
 
     public static function get_variations($sku) {
         $product_variations = [];
-        $base_siteurl = 'https://lazysuzy.com';
-
         $variations = DB::table("cb2_products_variations")
             ->where('product_sku', $sku)
             ->get();
-
         foreach($variations as $variation) {
-            if ($variation->product_sku != $variation->variation_sku){
-                    $link = $base_siteurl."/product-detail/";
-                if($variation->has_parent_sku) {
-                    $link .=$variation->variation_sku;
-                }
-                else {
-                    $link .=$variation->product_sku; 
-                }
-                array_push($product_variations, [
-                    "product_sku" => $variation->product_sku,
-                    "variation_sku" => $variation->variation_sku,
-                    "name" => $variation->variation_name,
-                    "has_parent_sku" => $variation->has_parent_sku,
-                    "image" => $variation->variation_images,
-                    "link" => $link
-                ]);   
-            }
+            array_push($product_variations, [
+                "name" => $variation->variation_name,
+                "image" => $variation->variation_images
+            ]);
         }
 
         return $product_variations;

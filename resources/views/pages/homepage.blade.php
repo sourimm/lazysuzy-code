@@ -9,6 +9,8 @@
         <div class="main-container">
             <div class="category-links d-sm-none">
                 <span class="-heading float-md-right">Browse by Department</span>
+                <div class="-depts row" id="mobileDepartments">
+                </div>
             </div>
         </div>
     </div>
