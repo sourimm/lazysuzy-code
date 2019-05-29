@@ -135,6 +135,179 @@ class Product extends Model
         return Product::getProductObj($query->get(), $all_filters, $dept, $cat);
     }
 
+    public static function get_dept_cat_LS_ID_arr($dept, $cat) {
+        $LS_IDs = null;
+       
+        if (null != $cat) {
+                $LS_IDs = Product::get_LS_IDs($dept, $cat);
+        } 
+        else {
+                $LS_IDs = Product::get_LS_IDs($dept);
+        }
+
+        return $LS_IDs;
+    }
+
+    public static function get_brands_filter($dept, $cat, $all_filters) {
+        $all_brands = [];
+        $all_b = DB::table("master_brands")->get();
+        $LS_IDs = Product::get_dept_cat_LS_ID_arr($dept, $cat);
+        
+
+        foreach($all_b as $brand) { 
+            $all_brands[$brand->value] = [
+                "name" => $brand->name,
+                "value" => strtolower($brand->value),
+                "enabled" => true,
+                "checked" => false,
+                "count" => 0
+            ];
+        }
+        
+        if (sizeof($all_filters) == 0) {
+
+            $product_brands = DB::table("master_data")
+                        ->selectRaw("count(product_name) AS products, site_name")
+                        ->whereRaw('LS_ID REGEXP "' . implode("|", $LS_IDs) . '"')
+                        ->groupBy('site_name')
+                        ->get();
+
+           
+
+        }
+        else {
+            if (isset($all_filters['type'])) {
+
+                $LS_IDs = Product::get_sub_cat_LS_IDs($dept, $cat, $all_filters['type']);
+                
+               
+            }
+        }
+
+        $product_brands = DB::table("master_data")
+                            ->selectRaw("count(product_name) AS products, site_name")
+                            ->whereRaw('LS_ID REGEXP "' . implode("|", $LS_IDs) . '"')
+                            ->groupBy('site_name')
+                            ->get();
+
+        foreach($product_brands as $b) {
+            if (isset($all_brands[$b->site_name])) {
+                $all_brands[$b->site_name]["checked"] = true;
+                $all_brands[$b->site_name]["count"] = $b->products;
+            }
+        } 
+
+            $brands_holder = [];
+
+            foreach($all_brands as $name => $value) {
+                array_push($brands_holder, $value);
+            }
+
+        return $brands_holder;
+
+    }
+
+    public static function get_price_filter($dept, $cat, $all_filters) {
+
+        $p_to = $p_from = null;
+        $LS_IDs = Product::get_dept_cat_LS_ID_arr($dept, $cat);
+
+        $min = DB::table("master_data")
+                ->whereRaw('LS_ID REGEXP "' . implode("|", $LS_IDs) . '"')
+                ->min('min_price');
+
+        $max = DB::table("master_data")
+                ->whereRaw('LS_ID REGEXP "' . implode("|", $LS_IDs) . '"')
+                ->max('max_price');
+
+        if (sizeof($all_filters) == 0) {
+            // get min price and max price for all the products
+            
+            return [
+                "min_price" => $min,
+                "max_price" => $max
+            ];
+
+        }
+        else {
+
+            if (isset($all_filters['price_from'])) {
+                $p_from = $all_filters['price_from'][0];
+            }
+
+            if (isset($all_filters['price_to'])) {
+                 $p_to = $all_filters['price_to'][0];    
+            }
+
+            return [
+                "price_from" => (int)$p_from,
+                "price_to" => (int)$p_to,
+                "max_price" => $max,
+                "min_price" => $min
+            ];
+        }
+    }
+
+    public static function get_product_type_filter($dept, $cat, $all_filters) {
+        $sub_cat_LS_IDs = DB::table("mapping_core")
+                            ->select(["product_sub_category", "product_sub_category_", "LS_ID"])
+                            ->where("department_", $dept);
+
+        if ($cat != null)
+            $sub_cat_LS_IDs = $sub_cat_LS_IDs->where("product_category_", $cat);
+
+        $sub_cat_LS_IDs = $sub_cat_LS_IDs->whereRaw("LENGTH(product_sub_category_) != 0")->get();
+        
+
+        $LS_IDs = Product::get_dept_cat_LS_ID_arr($dept, $cat);
+      
+        
+        if (isset($all_filters['type'])) {
+            // comment this line if you want to show count for all those 
+            // sub_categories that are paased in the request.
+            //$LS_IDs = Product::get_sub_cat_LS_IDs($dept, $cat, $all_filters['type']);
+            
+            // if uncommenting the above line, comment this one
+            $LS_IDs = Product::get_dept_cat_LS_ID_arr($dept, $cat); 
+            
+        }
+        
+        $products = DB::table("master_data")
+                ->select("LS_ID")
+                ->whereRaw('LS_ID REGEXP "' . implode("|", $LS_IDs) . '"')
+                ->get();
+
+        $sub_cat_arr = [];
+
+        foreach($sub_cat_LS_IDs as $cat) {
+            $sub_cat_arr[$cat->product_sub_category_] = [
+                "name" => $cat->product_sub_category,
+                "value" => strtolower($cat->product_sub_category_),
+                "enabled" => true,
+                "checked" => false,
+                "count" => 0
+            ];
+        }
+
+            foreach($sub_cat_LS_IDs as $cat) {
+                foreach($products as $p) {
+                    if (strpos($p->LS_ID, (string)$cat->LS_ID) !== false) {
+                        if (isset($sub_cat_arr[$cat->product_sub_category_])) {
+                            $sub_cat_arr[$cat->product_sub_category_]["checked"] = true;
+                            $sub_cat_arr[$cat->product_sub_category_]["count"]++;
+
+                        }
+                    }
+                }
+            }
+
+            $arr = [];
+            foreach ($sub_cat_arr as $key => $value) {
+                array_push($arr, $value);
+            }
+
+            return $arr;
+    }
     public static function getProductObj($products, $all_filters, $dept, $cat)
     {
         $output             = [];
@@ -148,6 +321,7 @@ class Product extends Model
         $product_type_holder = [];
         $LS_ID_count = [];
         $base_siteurl = 'https://lazysuzy.com';
+        $b = DB::table("master_brands")->get();
 
         //dd(DB::getQueryLog());
 
@@ -194,7 +368,7 @@ class Product extends Model
                 'is_price'         => $product->price,
                 'model_code'       => $product->model_code,
                 'description'      => $product->product_description,
-                'thumb'            => explode("[US]", $product->thumb),
+                'thumb'            => explode(",", $product->thumb),
                 'color'            => $product->color,
                 'images'           => explode(",", $product->images),
                 'was_price'        => $product->was_price,
