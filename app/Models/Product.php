@@ -420,18 +420,21 @@ class Product extends Model
             }
         }
 
+        $brand_holder = Product::get_brands_filter($dept, $cat, $all_filters);
+        $price_holder = Product::get_price_filter($dept, $cat, $all_filters);
+        $product_type_holder = Product::get_product_type_filter($dept, $cat, $all_filters);
         $filter_data = [
             "brand_names"  => $brand_holder,
             "price"        => $price_holder,
             "product_type" => $product_type_holder,
         ];
         //**********Temporarily add filter static JSON *********/
-        $filterJsonString = file_get_contents(base_path('resources/filterData.json'));
-        $all_filters = json_decode($filterJsonString, true);
+        //$filterJsonString = file_get_contents(base_path('resources/filterData.json'));
+        //$all_filters = json_decode($filterJsonString, true);
 
         return [
             "total" => count($products),
-            "filterData" => $all_filters,
+            "filterData" => $filter_data,
             "productData"   => $p_send,
         ];
     }
