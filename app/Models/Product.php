@@ -89,7 +89,7 @@ class Product extends Model
                 $all_filters[$block_str[0]] = array_map("strtolower", $all_filters[$block_str[0]]);
             }
 
-            
+
 
             // FILTERS
             // 1. brand_names
@@ -290,7 +290,7 @@ class Product extends Model
             ];
         }
 
-         //echo "<pre>" . print_r($all_filters, true);
+        //echo "<pre>" . print_r($all_filters, true);
         foreach ($sub_cat_LS_IDs as $cat) {
             foreach ($products as $p) {
                 if (strpos($p->LS_ID, (string)$cat->LS_ID) !== false) {
@@ -302,7 +302,6 @@ class Product extends Model
                             $sub_category = strtolower($cat->product_sub_category_);
                             if (in_array($sub_category, $all_filters['type'])) {
                                 $sub_cat_arr[$cat->product_sub_category_]["checked"] = true;
-
                             }
                         }
                     }
@@ -377,6 +376,7 @@ class Product extends Model
 
 
         return [
+            "count"      => count($products),
             "filterData" => $filter_data,
             "products"   => $p_send,
         ];
