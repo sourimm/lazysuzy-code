@@ -208,7 +208,7 @@ class Product extends Model
     }
 
     public static function get_price_filter($dept, $cat, $all_filters) {
-
+        
         $p_to = $p_from = null;
         $LS_IDs = Product::get_dept_cat_LS_ID_arr($dept, $cat);
 
@@ -259,24 +259,19 @@ class Product extends Model
         $sub_cat_LS_IDs = $sub_cat_LS_IDs->whereRaw("LENGTH(product_sub_category_) != 0")->get();
         
 
-        if (sizeof($all_filters) == 0) {
-                    $LS_IDs = Product::get_dept_cat_LS_ID_arr($dept, $cat);
-
-           
-                   
+        $LS_IDs = Product::get_dept_cat_LS_ID_arr($dept, $cat);
+      
+        
+        if (isset($all_filters['type'])) {
+            // comment this line if you want to show count for all those 
+            // sub_categories that are paased in the request.
+            //$LS_IDs = Product::get_sub_cat_LS_IDs($dept, $cat, $all_filters['type']);
+            
+            // if uncommenting the above line, comment this one
+            $LS_IDs = Product::get_dept_cat_LS_ID_arr($dept, $cat); 
+            
         }
-        else {
-            if (isset($all_filters['type'])) {
-                // comment this line if you want to show count for all those 
-                // sub_categories that are paased in the request.
-                //$LS_IDs = Product::get_sub_cat_LS_IDs($dept, $cat, $all_filters['type']);
-                
-                // if uncommenting the above line, comment this one
-                $LS_IDs = Product::get_dept_cat_LS_ID_arr($dept, $cat); 
-               
-            }
-        }
-         
+        
         $products = DB::table("master_data")
                 ->select("LS_ID")
                 ->whereRaw('LS_ID REGEXP "' . implode("|", $LS_IDs) . '"')
@@ -294,27 +289,24 @@ class Product extends Model
             ];
         }
 
-            foreach($sub_cat_LS_IDs as $cat) {
-                foreach($products as $p) {
-                    if (strpos($p->LS_ID, (string)$cat->LS_ID) !== false) {
-                        if (isset($sub_cat_arr[$cat->product_sub_category_])) {
-                            $sub_cat_arr[$cat->product_sub_category_]["checked"] = true;
-                            $sub_cat_arr[$cat->product_sub_category_]["count"]++;
+        foreach($sub_cat_LS_IDs as $cat) {
+            foreach($products as $p) {
+                if (strpos($p->LS_ID, (string)$cat->LS_ID) !== false) {
+                    if (isset($sub_cat_arr[$cat->product_sub_category_])) {
+                        $sub_cat_arr[$cat->product_sub_category_]["checked"] = true;
+                        $sub_cat_arr[$cat->product_sub_category_]["count"]++;
 
-                        }
                     }
                 }
             }
+        }
 
-            $arr = [];
-            foreach ($sub_cat_arr as $key => $value) {
-                array_push($arr, $value);
-            }
+        $arr = [];
+        foreach ($sub_cat_arr as $key => $value) {
+            array_push($arr, $value);
+        }
 
-            return $arr;
-        
-      
-
+        return $arr;
     }
     public static function getProductObj($products, $all_filters, $dept, $cat)
     {
@@ -331,9 +323,6 @@ class Product extends Model
         $brands_is_checked = [];
         $base_siteurl = 'https://lazysuzy.com';
         $b = DB::table("master_brands")->get();
-        foreach($b as $brand) $brands_is_checked[$brand->value] = false;
-
-        //dd(DB::getQueryLog());
 
         foreach ($products as $product) {
 
@@ -348,7 +337,7 @@ class Product extends Model
                 'is_price'         => $product->price,
                 'model_code'       => $product->model_code,
                 'description'      => $product->product_description,
-                'thumb'            => explode("[US]", $product->thumb),
+                'thumb'            => explode(",", $product->thumb),
                 'color'            => $product->color,
                 'images'           => explode(",", $product->images),
                 'was_price'        => $product->was_price,
