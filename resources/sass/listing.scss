@@ -17,6 +17,10 @@
         margin: auto;
         padding: 0px;
 
+        @media only screen and (min-width: 1200px) {
+            max-width: 75%;
+        }
+
         .filters {
             width: 180px;
             margin-top: 45px;
