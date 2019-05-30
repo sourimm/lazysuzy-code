@@ -48,12 +48,12 @@ $(document).ready(function () {
                 if (data == null) {
                     return;
                 }
-                if (data.total != undefined) {
-                    totalResults += data.total;
+                if (data.products != undefined) {
+                    totalResults += data.products.length;
                     $('#totalResults').text(totalResults);
 
-                    for (var i = 0; i < data.total; i++) {
-                        createProductDiv(data.productData[i]);
+                    for (var i = 0; i < data.products.length; i++) {
+                        createProductDiv(data.products[i]);
                     }
                     multiCarouselFuncs.makeMultiCarousel();
                 }
@@ -147,8 +147,8 @@ $(document).ready(function () {
         if (!bFiltersCreated) {
             bFiltersCreated = true;
             $('#filters').empty();
-            Object.keys(filterData.filters).forEach((key, index) => {
-                const data = filterData.filters[key];
+            Object.keys(filterData).forEach((key, index) => {
+                const data = filterData[key];
                 var filterDiv = jQuery('<div/>', {
                     class: 'filter',
                     "data-filter": key
@@ -196,7 +196,7 @@ $(document).ready(function () {
                         prettify_separator: ","
                     });
                 }
-                if (index == Object.keys(filterData.filters).length - 1) {
+                if (index == Object.keys(filterData).length - 1) {
                     $(filterDiv).append('<hr/>');
                 }
             });
@@ -207,8 +207,8 @@ $(document).ready(function () {
             $('#filters').append('<hr/>');
         }
         else {
-            Object.keys(filterData.filters).forEach((key, index) => {
-                const data = filterData.filters[key];
+            Object.keys(filterData).forEach((key, index) => {
+                const data = filterData[key];
                 data.forEach(element => {
                     $('input[type="checkbox"][value=' + element.value + ']').attr('checked', element.checked);
                     $('input[type="checkbox"][value=' + element.value + ']').attr('disabled', !element.enabled);
