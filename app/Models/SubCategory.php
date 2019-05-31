@@ -12,7 +12,7 @@ class SubCategory extends Model
     {
         $sub_categories = [];
 
-        $rows = SubCategory::select(['product_sub_category', 'LS_ID'])
+        $rows = SubCategory::select(['product_sub_category', 'LS_ID', 'product_sub_category_'])
             ->where('department_', $department)
             ->where('product_category_', $category)
             ->whereRaw('LENGTH(product_sub_category) != 0')
@@ -20,7 +20,11 @@ class SubCategory extends Model
             ->toArray();
 
         foreach ($rows as $row) {
-            array_push($sub_categories, ['sub_category' => $row['product_sub_category'], 'LS_ID' => $row['LS_ID']]);
+            array_push($sub_categories, [
+                'sub_category' => $row['product_sub_category'],
+                'link' => "/products/" . strtolower($department) . "/" . strtolower($category) . "/" . strtolower( $row['product_sub_category_']), 
+                'LS_ID' => $row['LS_ID']
+            ]);
         }
 
         return $sub_categories;
