@@ -248,9 +248,12 @@ class Product extends Model
                 $p_to = $all_filters['price_to'][0];
             }
 
+            if ($p_from == 0) $p_from = $min;
+            if ($p_to == 0) $p_to = $max; 
+
             return [
-                "from" => (int)$p_from,
-                "to" => (int)$p_to,
+                "from" => (float)$p_from,
+                "to" => (float)$p_to,
                 "max" => $max,
                 "min" => $min
             ];
