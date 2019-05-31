@@ -95,7 +95,8 @@ class Product extends Model
 
             // FILTERS
             // 1. brand_names
-            if (isset($all_filters['brand_names'])) {
+            if (isset($all_filters['brand_names']) 
+                && strlen($all_filters['brand_names'][0]) > 0) {
                 $query = $query->whereIn('site_name', $all_filters['brand_names']);
             }
 
