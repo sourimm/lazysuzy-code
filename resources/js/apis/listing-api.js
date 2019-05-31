@@ -243,9 +243,10 @@ $(document).ready(function () {
         $('.filter').each(function () {
             var currFilter = $(this).attr('data-filter');
             strFilters += currFilter + ':';
-            $(this).find('input[type="checkbox"]').each(function () {
+            $(this).find('input[type="checkbox"]').each(function (idx) {
+                var delim = (idx === 0) ? '' : ',';
                 if (this.checked) {
-                    strFilters += $(this).attr('value') + ',';
+                    strFilters += delim + $(this).attr('value');
                 }
             });
             strFilters += ';'
