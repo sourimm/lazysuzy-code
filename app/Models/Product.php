@@ -227,8 +227,8 @@ class Product extends Model
             // get min price and max price for all the products
 
             return [
-                "min_price" => $min,
-                "max_price" => $max
+                "min" => $min,
+                "max" => $max
             ];
         } else {
 
@@ -241,10 +241,10 @@ class Product extends Model
             }
 
             return [
-                "price_from" => (int)$p_from,
-                "price_to" => (int)$p_to,
-                "max_price" => $max,
-                "min_price" => $min
+                "from" => (int)$p_from,
+                "to" => (int)$p_to,
+                "max" => $max,
+                "min" => $min
             ];
         }
     }
