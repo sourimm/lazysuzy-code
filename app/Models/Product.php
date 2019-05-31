@@ -62,7 +62,7 @@ class Product extends Model
         return $LS_IDs;
     }
 
-    public static function get_filter_products($dept, $cat = null)
+    public static function get_filter_products($dept, $cat = null, $subCat = null)
     {
         $perPage = 20;
         DB::enableQueryLog();
@@ -84,12 +84,14 @@ class Product extends Model
         if (isset($filters)) {
             $filter_blocks = explode(";", $filters);
             foreach ($filter_blocks as $block) {
-                $block_str                  = explode(":", $block);
-                $all_filters[$block_str[0]] = explode(",", $block_str[1]);
-                $all_filters[$block_str[0]] = array_map("strtolower", $all_filters[$block_str[0]]);
+                $block_str = explode(":", $block);
+
+                if (isset($block_str[0]) && isset($block_str[1])) {
+                    $all_filters[$block_str[0]] = explode(",", $block_str[1]);
+                    $all_filters[$block_str[0]] = array_map("strtolower", $all_filters[$block_str[0]]);
+                }
+                
             }
-
-
 
             // FILTERS
             // 1. brand_names
@@ -121,6 +123,11 @@ class Product extends Model
             } else {
                 $LS_IDs = Product::get_LS_IDs($dept);
             }
+        }
+
+        // only include sub category products if subcategory is not null
+        if ($subCat != null) {
+            $LS_IDs = [Product::get_sub_cat_LS_ID($dept, $cat, $subCat)];
         }
 
         $query = $query->whereRaw('LS_ID REGEXP "' . implode("|", $LS_IDs) . '"');
