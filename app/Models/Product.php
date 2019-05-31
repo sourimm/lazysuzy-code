@@ -385,7 +385,6 @@ class Product extends Model
 
 
         return [
-            "count"      => count($products),
             "filterData" => $filter_data,
             "products"   => $p_send,
         ];
