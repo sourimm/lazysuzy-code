@@ -142,7 +142,7 @@ class Product extends Model
         $query = $query->offset($start)->limit($limit);
 
         //echo "<pre>" . print_r($all_filters, true);
-        return Product::getProductObj($query->get(), $all_filters, $dept, $cat);
+        return Product::getProductObj($query->get(), $all_filters, $dept, $cat, $subCat);
     }
 
     public static function get_dept_cat_LS_ID_arr($dept, $cat)
@@ -256,7 +256,7 @@ class Product extends Model
         }
     }
 
-    public static function get_product_type_filter($dept, $cat, $all_filters)
+    public static function get_product_type_filter($dept, $cat, $subCat, $all_filters)
     {
         $sub_cat_LS_IDs = DB::table("mapping_core")
             ->select(["product_sub_category", "product_sub_category_", "LS_ID"])
@@ -288,11 +288,13 @@ class Product extends Model
         $sub_cat_arr = [];
 
         foreach ($sub_cat_LS_IDs as $cat) {
+            $selected = false;
+            if (strtolower($cat->product_sub_category_) == strtolower($subCat)) $selected = true;
             $sub_cat_arr[$cat->product_sub_category_] = [
                 "name" => $cat->product_sub_category,
                 "value" => strtolower($cat->product_sub_category_),
                 "enabled" => false,
-                "checked" => false,
+                "checked" => $selected,
                 "count" => 0
             ];
         }
@@ -323,7 +325,7 @@ class Product extends Model
 
         return $arr;
     }
-    public static function getProductObj($products, $all_filters, $dept, $cat)
+    public static function getProductObj($products, $all_filters, $dept, $cat, $subCat)
     {
         $output             = [];
         $p_send             = [];
@@ -374,7 +376,7 @@ class Product extends Model
 
         $brand_holder = Product::get_brands_filter($dept, $cat, $all_filters);
         $price_holder = Product::get_price_filter($dept, $cat, $all_filters);
-        $product_type_holder = Product::get_product_type_filter($dept, $cat, $all_filters);
+        $product_type_holder = Product::get_product_type_filter($dept, $cat, $subCat, $all_filters);
         $filter_data = [
             "brand_names"  => $brand_holder,
             "price"        => $price_holder,
