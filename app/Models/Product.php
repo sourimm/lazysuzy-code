@@ -271,7 +271,6 @@ class Product extends Model
 
         $sub_cat_LS_IDs = $sub_cat_LS_IDs->whereRaw("LENGTH(product_sub_category_) != 0")->get();
 
-
         $LS_IDs = Product::get_dept_cat_LS_ID_arr($dept, $cat);
 
 
@@ -331,19 +330,12 @@ class Product extends Model
     }
     public static function getProductObj($products, $all_filters, $dept, $cat, $subCat)
     {
-        $output             = [];
         $p_send             = [];
-        $brand_count        = [];
-        $product_type_count = [];
-        $product_type_LS_ID = [];
         $filter_data         = [];
         $brand_holder        = [];
         $price_holder        = [];
         $product_type_holder = [];
-        $LS_ID_count = [];
-        $brands_is_checked = [];
         $base_siteurl = 'https://lazysuzy.com';
-        $b = DB::table("master_brands")->get();
 
         foreach ($products as $product) {
 
