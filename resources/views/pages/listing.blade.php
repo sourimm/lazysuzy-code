@@ -1,7 +1,5 @@
 @extends('layouts.layout', ['body_class' => 'listing-main-div'])
 
-
-
 @section('middle_content')
     <div class="listing">
         @include('./partials/subnav')
@@ -40,7 +38,7 @@
                     <div class="filter">
                         <span class="filter-header">Price</span>
                         <label for="" class="clear-filter float-right">Clear</label>
-                        <input type="text" class="price-range-slider" name="price_range" value="" />
+                        <input type="text" class="price-range-slider" id="priceRangeSlider" name="price_range" value="" />
                         <hr>
                     </div>
 
@@ -76,8 +74,6 @@
                         <hr>
                     </div>
                     <a class="btn clearall-filter-btn" href="https://lazysuzy.com/filter/clear_filter/all">Clear All</a>
-                    <div>
-                    </div>
                 </div>
                 <div class="listing-top-controls d-block d-md-none">
                     <div class="dropdown show float-left">

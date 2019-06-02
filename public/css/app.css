@@ -19527,6 +19527,12 @@ readers do not read off random characters that represent icons */
   top: 8px;
 }
 
+input:disabled + .checkmark,
+input:disabled + .checkmark + .text {
+  color: #ccc;
+  border-color: #ccc !important;
+}
+
 .listing .slick-prev:before,
 .listing .slick-next:before {
   font-size: 30px;

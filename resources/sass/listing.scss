@@ -1,7 +1,12 @@
-.listing-main-div{
+.listing-main-div {
     .searchbar {
         top: 8px;
     }
+}
+
+input:disabled + .checkmark, input:disabled + .checkmark + .text{
+    color: #ccc;
+    border-color: #ccc !important;
 }
 
 .listing {
@@ -201,20 +206,19 @@
                     margin: 5px;
                     text-align: center;
 
-                    .dropdown-menu{
+                    .dropdown-menu {
                         text-align: left;
                     }
 
                     .dropdown-toggle {
-
                         &:not(.dropdown-item) {
                             font-size: 22px;
                             color: $secondary-color;
+
                             &::after {
                                 display: none;
                             }
                         }
-
                     }
 
                     .dropdown-item {
@@ -223,13 +227,16 @@
                                 display: block;
                             }
                         }
-                        &:active{
+
+                        &:active {
                             background-color: $secondary-color;
                         }
-                        &::after{
+
+                        &::after {
                             display: none;
                         }
-                        .fas.fa-angle-right{
+
+                        .fas.fa-angle-right {
                             font-size: 20px;
                         }
                     }
