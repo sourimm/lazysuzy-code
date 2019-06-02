@@ -285,6 +285,20 @@ $(document).ready(function () {
 
     $('body').on('click', '#clearAllFiltersBtn', function () {
         strFilters = '';
+        $('.filter').each(function () {
+            if ($(this).attr('id') === 'priceFilter') {
+                var $inp = $(this);
+                price_from = $inp.data("from");
+                price_to = $inp.data("to");
+            }
+            else {
+                $(this).find('input[type="checkbox"]').each(function () {
+                    if (this.checked) {
+                        this.checked = false;
+                    }
+                });
+            }
+        })
         fetchProducts(true);
     })
 
@@ -303,7 +317,7 @@ $(document).ready(function () {
                 if (price_from) {
                     strFilters += 'price_from:' + price_from + ';';
                 }
-                if(price_to){
+                if (price_to) {
                     strFilters += 'price_to:' + price_to + ";";
                 }
             }
