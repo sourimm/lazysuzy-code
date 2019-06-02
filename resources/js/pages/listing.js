@@ -4,12 +4,12 @@ require('../apis/listing-api');
 $(document).ready(function () {
   let iItemsToShow = 3;
 
-  $("#priceRange").change(function () {
+  $("#priceRangeSlider").change(function () {
     $("#priceInfo").find('.low').text($(this).attr('min'));
     $("#priceInfo").find('.high').text($(this).val());
   });
 
-  $priceRangeSlider = $(".price-range-slider");
+  $priceRangeSlider = $("#priceRangeSlider");
 
   $priceRangeSlider.ionRangeSlider({
     skin: "sharp",
