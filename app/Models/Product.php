@@ -67,6 +67,28 @@ class Product extends Model
         $perPage = 20;
         DB::enableQueryLog();
         $LS_IDs = null;
+        $PRICE_ASC = "price_low_to_high";
+        $PRICE_DESC = "price_high_to_low";
+        $POPULARITY = "popularity";
+
+        $sort_type_filter = [
+            [   
+                "name" => "PRICE: LOW TO HIGH",
+                "value" => $PRICE_ASC,
+                "enabled" => false
+            ],
+            [
+                "name" => "PRICE: HIGH TO LOW",
+                "value" => $PRICE_DESC,
+                "enabled" => false
+            ],
+            [
+                "name" => "POPULARITY",
+                "value" => $POPULARITY,
+                "enabled" => false
+            ]
+        ];
+        $s = $sort_type_filter;
 
         $page_num    = Input::get("pageno");
         $limit       = Input::get("limit");
@@ -75,6 +97,15 @@ class Product extends Model
         $all_filters = [];
         $query       = DB::table('master_data');
 
+        if (isset($sort_type)) {
+            for($i=0; $i<sizeof($sort_type_filter); $i++) {
+                if ($sort_type_filter[$i]['value'] == $sort_type) {
+                    $sort_type_filter[$i]['enabled'] = true;
+                }
+            }
+        }
+
+        $all_filters['sort_type'] = $sort_type_filter;
         if (!isset($limit)) {
             $limit = 20;
         }
@@ -114,9 +145,9 @@ class Product extends Model
         }
 
         // 4. type
-        if (isset($all_filters['type'])) {
+        if (isset($all_filters['product_ype'])) {
             // will only return products that match the LS_IDs for the `types` mentioned.
-            $LS_IDs = Product::get_sub_cat_LS_IDs($dept, $cat, $all_filters['type']);
+            $LS_IDs = Product::get_sub_cat_LS_IDs($dept, $cat, $all_filters['product_type']);
         } else {
             // 5. departments and categories
             if (null != $cat) {
@@ -134,12 +165,21 @@ class Product extends Model
         $query = $query->whereRaw('LS_ID REGEXP "' . implode("|", $LS_IDs) . '"');
 
         // 7. sort_type
-
         if (isset($sort_type)) {
-            $query = $query->orderBy('popularity', 'desc');
+
+            if ($sort_type == $PRICE_ASC) {
+                $query = $query->orderBy('min_price', 'asc');
+            }
+            else if ($sort_type == $PRICE_DESC) {
+                $query = $query->orderBy('min_price', 'desc');
+            }
+            else if ($sort_type == $POPULARITY) {
+                $query = $query->orderBy('popularity', 'desc');
+            }
         }
 
         // 6. limit
+        $all_filters['limit'] = $limit;
         $query = $query->offset($start)->limit($limit);
 
         //echo "<pre>" . print_r($all_filters, true);
@@ -184,9 +224,9 @@ class Product extends Model
                 ->groupBy('site_name')
                 ->get();
         } else {
-            if (isset($all_filters['type'])) {
+            if (isset($all_filters['product_type'])) {
 
-                $LS_IDs = Product::get_sub_cat_LS_IDs($dept, $cat, $all_filters['type']);
+                $LS_IDs = Product::get_sub_cat_LS_IDs($dept, $cat, $all_filters['product_type']);
             }
         }
 
@@ -271,11 +311,10 @@ class Product extends Model
 
         $sub_cat_LS_IDs = $sub_cat_LS_IDs->whereRaw("LENGTH(product_sub_category_) != 0")->get();
 
-
         $LS_IDs = Product::get_dept_cat_LS_ID_arr($dept, $cat);
 
 
-        if (isset($all_filters['type'])) {
+        if (isset($all_filters['product_type'])) {
             // comment this line if you want to show count for all those 
             // sub_categories that are paased in the request.
             //$LS_IDs = Product::get_sub_cat_LS_IDs($dept, $cat, $all_filters['type']);
@@ -311,9 +350,9 @@ class Product extends Model
                         $sub_cat_arr[$cat->product_sub_category_]["enabled"] = true;
                         $sub_cat_arr[$cat->product_sub_category_]["count"]++;
 
-                        if (isset($all_filters['type'])) {
+                        if (isset($all_filters['product_type'])) {
                             $sub_category = strtolower($cat->product_sub_category_);
-                            if (in_array($sub_category, $all_filters['type'])) {
+                            if (in_array($sub_category, $all_filters['product_type'])) {
                                 $sub_cat_arr[$cat->product_sub_category_]["checked"] = true;
                             }
                         }
@@ -331,19 +370,12 @@ class Product extends Model
     }
     public static function getProductObj($products, $all_filters, $dept, $cat, $subCat)
     {
-        $output             = [];
         $p_send             = [];
-        $brand_count        = [];
-        $product_type_count = [];
-        $product_type_LS_ID = [];
         $filter_data         = [];
         $brand_holder        = [];
         $price_holder        = [];
         $product_type_holder = [];
-        $LS_ID_count = [];
-        $brands_is_checked = [];
         $base_siteurl = 'https://lazysuzy.com';
-        $b = DB::table("master_brands")->get();
 
         foreach ($products as $product) {
 
@@ -389,6 +421,8 @@ class Product extends Model
 
 
         return [
+            "sort_type"  => isset($all_filters['sort_type']) ? $all_filters['sort_type'] : null, 
+            "limit"      => isset($all_filters['limit']) ? $all_filters['limit'] : null,
             "filterData" => $filter_data,
             "products"   => $p_send,
         ];
