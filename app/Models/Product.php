@@ -395,7 +395,7 @@ class Product extends Model
                 'on_server_images' => preg_split("/,|\\[US\\]/", $product->product_images),
                 'main_image'       => $base_siteurl . $product->main_product_images,
                 'reviews'          => $product->reviews,
-                'rating'           => $product->rating,
+                'rating'           => (double)$product->rating,
                 'LS_ID'            => $product->LS_ID,
                 'variations'       => $variations
 
