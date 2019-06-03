@@ -67,6 +67,9 @@ class Product extends Model
         $perPage = 20;
         DB::enableQueryLog();
         $LS_IDs = null;
+        $PRICE_ASC = "price_low_to_high";
+        $PRICE_DESC = "price_high_to_low";
+        $POPULARITY = "popularity";
 
         $page_num    = Input::get("pageno");
         $limit       = Input::get("limit");
@@ -134,12 +137,23 @@ class Product extends Model
         $query = $query->whereRaw('LS_ID REGEXP "' . implode("|", $LS_IDs) . '"');
 
         // 7. sort_type
-
         if (isset($sort_type)) {
-            $query = $query->orderBy('popularity', 'desc');
+            // add sort type to $all_filters
+            $all_filters['sort_type'] = $sort_type;
+
+            if ($sort_type == $PRICE_ASC) {
+                $query = $query->orderBy('min_price', 'asc');
+            }
+            else if ($sort_type == $PRICE_DESC) {
+                $query = $query->orderBy('min_price', 'desc');
+            }
+            else if ($sort_type == $POPULARITY) {
+                $query = $query->orderBy('popularity', 'desc');
+            }
         }
 
         // 6. limit
+        $all_filters['limit'] = $limit;
         $query = $query->offset($start)->limit($limit);
 
         //echo "<pre>" . print_r($all_filters, true);
@@ -381,6 +395,8 @@ class Product extends Model
 
 
         return [
+            "sort_type"  => isset($all_filters['sort_type']) ? $all_filters['sort_type'] : null, 
+            "limit"      => isset($all_filters['limit']) ? $all_filters['limit'] : null,
             "filterData" => $filter_data,
             "products"   => $p_send,
         ];
