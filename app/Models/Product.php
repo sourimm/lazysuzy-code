@@ -216,16 +216,8 @@ class Product extends Model
             ];
         }
 
-        if (sizeof($all_filters) == 0) {
-
-            $product_brands = DB::table("master_data")
-                ->selectRaw("count(product_name) AS products, site_name")
-                ->whereRaw('LS_ID REGEXP "' . implode("|", $LS_IDs) . '"')
-                ->groupBy('site_name')
-                ->get();
-        } else {
-            if (isset($all_filters['product_type'])) {
-
+        if (sizeof($all_filters) != 0) {
+            if (isset($all_filters['product_type']) && strlen($all_filters['product_type'][0]) > 0) {
                 $LS_IDs = Product::get_sub_cat_LS_IDs($dept, $cat, $all_filters['product_type']);
             }
         }
