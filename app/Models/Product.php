@@ -145,7 +145,7 @@ class Product extends Model
         }
 
         // 4. type
-        if (isset($all_filters['product_ype'])) {
+        if (isset($all_filters['product_type'])) {
             // will only return products that match the LS_IDs for the `types` mentioned.
             $LS_IDs = Product::get_sub_cat_LS_IDs($dept, $cat, $all_filters['product_type']);
         } else {
