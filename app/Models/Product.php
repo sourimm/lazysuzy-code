@@ -72,7 +72,7 @@ class Product extends Model
         $POPULARITY = "popularity";
 
         $sort_type_filter = [
-            [   
+            [
                 "name" => "PRICE: LOW TO HIGH",
                 "value" => $PRICE_ASC,
                 "enabled" => false
@@ -98,7 +98,7 @@ class Product extends Model
         $query       = DB::table('master_data');
 
         if (isset($sort_type)) {
-            for($i=0; $i<sizeof($sort_type_filter); $i++) {
+            for ($i = 0; $i < sizeof($sort_type_filter); $i++) {
                 if ($sort_type_filter[$i]['value'] == $sort_type) {
                     $sort_type_filter[$i]['enabled'] = true;
                 }
@@ -121,13 +121,14 @@ class Product extends Model
                     $all_filters[$block_str[0]] = explode(",", $block_str[1]);
                     $all_filters[$block_str[0]] = array_map("strtolower", $all_filters[$block_str[0]]);
                 }
-                
             }
 
             // FILTERS
             // 1. brand_names
-            if (isset($all_filters['brand_names']) 
-                && strlen($all_filters['brand_names'][0]) > 0) {
+            if (
+                isset($all_filters['brand_names'])
+                && strlen($all_filters['brand_names'][0]) > 0
+            ) {
                 $query = $query->whereIn('site_name', $all_filters['brand_names']);
             }
 
@@ -169,11 +170,9 @@ class Product extends Model
 
             if ($sort_type == $PRICE_ASC) {
                 $query = $query->orderBy('min_price', 'asc');
-            }
-            else if ($sort_type == $PRICE_DESC) {
+            } else if ($sort_type == $PRICE_DESC) {
                 $query = $query->orderBy('min_price', 'desc');
-            }
-            else if ($sort_type == $POPULARITY) {
+            } else if ($sort_type == $POPULARITY) {
                 $query = $query->orderBy('popularity', 'desc');
             }
         }
@@ -281,7 +280,7 @@ class Product extends Model
             }
 
             if ($p_from == 0) $p_from = $min;
-            if ($p_to == 0) $p_to = $max; 
+            if ($p_to == 0) $p_to = $max;
 
             return [
                 "from" => (float)$p_from,
@@ -371,7 +370,7 @@ class Product extends Model
 
         foreach ($products as $product) {
 
-            $variations = Product::get_variations($product->product_sku);
+            $variations = Product::get_variations($product);
             array_push($p_send, [
                 'id'               => $product->id,
                 'sku'              => $product->product_sku,
@@ -392,7 +391,7 @@ class Product extends Model
                 'condition'        => $product->product_condition,
                 'created_date'     => $product->created_date,
                 'updated_date'     => $product->updated_date,
-                'on_server_images' => preg_split("/,|\\[US\\]/", $product->product_images),
+                'on_server_images' => array_map([__CLASS__, "baseUrl"], preg_split("/,|\\[US\\]/", $product->product_images)),
                 'main_image'       => $base_siteurl . $product->main_product_images,
                 'reviews'          => $product->reviews,
                 'rating'           => (double)$product->rating,
@@ -413,18 +412,22 @@ class Product extends Model
 
 
         return [
-            "sort_type"  => isset($all_filters['sort_type']) ? $all_filters['sort_type'] : null, 
+            "sort_type"  => isset($all_filters['sort_type']) ? $all_filters['sort_type'] : null,
             "limit"      => isset($all_filters['limit']) ? $all_filters['limit'] : null,
             "filterData" => $filter_data,
             "products"   => $p_send,
         ];
     }
 
-    public static function get_variations($sku)
-    {
-        $product_variations = [];
+    public static function baseUrl($link) {
         $base_siteurl = 'https://lazysuzy.com';
 
+        return $base_siteurl . $link;
+    }
+    
+    public static function get_cb2_variations($sku, $base_siteurl)
+    {
+        $product_variations = [];
         $variations = DB::table("cb2_products_variations")
             ->where('product_sku', $sku)
             ->get();
@@ -449,5 +452,50 @@ class Product extends Model
         }
 
         return $product_variations;
+    }
+
+    public static function get_pier1_variations($product, $base_siteurl)
+    {
+        $product_variations = [];
+
+        if ($product->master_id == null) return $product_variations;
+
+        $executionStartTime = microtime(true);
+        $variations = DB::table("pier1_products")
+            ->where("master_id", $product->master_id)
+            ->get();
+        $executionEndTime =  microtime(true) - $executionStartTime ;
+
+        foreach($variations as $variation) {
+            if ($product->product_sku != $variation->product_sku) {
+                array_push($product_variations, [
+                    "time_taken" => $executionEndTime,
+                    "product_sku" => $product->product_sku,
+                    "variation_sku" => $variation->product_sku,
+                    "name" => $variation->color,
+                    "image" => $base_siteurl . explode(",", $variation->product_images)[0],
+                    "link" =>  $base_siteurl . "/product-detail/" . $variation->product_sku
+                ]);
+            }
+            
+        }
+
+        return $product_variations;
+    }
+
+    public static function get_variations($product)
+    {
+        $base_siteurl = 'https://lazysuzy.com';
+
+        switch ($product->site_name) {
+            case 'cb2':
+                return Product::get_CB2_variations($product->product_sku, $base_siteurl);
+                break;
+            case 'pier1':
+                return Product::get_pier1_variations($product, $base_siteurl);
+            default:
+                return [];
+                break;
+        }
     }
 };
