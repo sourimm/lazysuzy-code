@@ -493,6 +493,7 @@ class Product extends Model
                 break;
             case 'pier1':
                 return Product::get_pier1_variations($product, $base_siteurl);
+                break;
             default:
                 return [];
                 break;
