@@ -12,14 +12,16 @@ $(document).ready(function () {
     var strSortType = '';
     var iPageNo = 0, iLimit;
     var price_from, price_to;
+    var bNoMoreProductsToShow = false;
 
     $(window).scroll(function () {
-        var position = $(window).scrollTop();
-        var bottom = $(document).height() - $(window).height();
+        if (!bNoMoreProductsToShow) {
+            var position = $(window).scrollTop();
+            var bottom = $(document).height() - $(window).height();
 
-        if (position == bottom) {
-            iPageNo += 1;
-            fetchProducts(false);
+            if (position == bottom) {
+                fetchProducts(false);
+            }
         }
     });
 
@@ -28,6 +30,8 @@ $(document).ready(function () {
         var listingApiPath = LISTING_API_PATH + '?filters=' + strFilters + '&sort_type=' + strSortType + '&pageno=' + iPageNo + strLimit;
         console.log(listingApiPath);
         $('#loaderImg').show();
+        $('#noProductsText').hide();
+        iPageNo += 1;
         $.ajax({
             type: "GET",
             url: listingApiPath,
@@ -42,7 +46,9 @@ $(document).ready(function () {
                 if (data == null) {
                     return;
                 }
-                if (data.products != undefined) {
+                if (data.products != undefined && data.products.length != 0) {
+                    bNoMoreProductsToShow = true;
+
                     totalResults += data.products.length;
                     $('#totalResults').text(totalResults);
 
@@ -50,6 +56,14 @@ $(document).ready(function () {
                         createProductDiv(data.products[i]);
                     }
                     multiCarouselFuncs.makeMultiCarousel();
+                }
+                else {
+                    if (!bClearPrevProducts) {
+                        bNoMoreProductsToShow = true;
+                        iPageNo -= 1;
+                        $('#noProductsText').show();
+                        return;
+                    }
                 }
                 if (data.filterData) {
                     objGlobalFilterData = data.filterData;
@@ -72,6 +86,10 @@ $(document).ready(function () {
             site: productDetails.site,
             class: 'ls-product-div col-md-3 item-3'
         }).appendTo('#productsContainerDiv');
+
+        var anchor = $('<a/>', {
+            href: '#page' + iPageNo
+        }).appendTo(mainProductDiv);
 
         var productLink = jQuery('<a/>', {
             href: productDetails.product_url
@@ -131,13 +149,19 @@ $(document).ready(function () {
 
         });
 
-        var ratingValue = parseFloat(productDetails.rating).toFixed(1);
-        var ratingClass = ratingValue.toString().replace('.', "_");
-        $(productInfoNext).append('<div class="rating-container"><div class="rating  rating-' + ratingClass + '"></div><span class="total-ratings">' + ratingValue + '</span></div>');
+        if (parseInt(productDetails.reviews) != 0) {
 
+            var reviewValue = parseInt(productDetails.reviews);
+            var ratingValue = parseFloat(productDetails.rating).toFixed(1);
+            var ratingClass = ratingValue.toString().replace('.', "_");
+            $(productInfoNext).append('<div class="rating-container"><div class="rating  rating-' + ratingClass + '"></div><span class="total-ratings">' + reviewValue + '</span></div>');
+        }
+
+        scrollToAnchor();
     }
 
     function createUpdateFilterData(filterData) {
+        bNoMoreProductsToShow = false;
         if (!bFiltersCreated) {
             bFiltersCreated = true;
             $('#filters').empty();
@@ -192,8 +216,8 @@ $(document).ready(function () {
                     $priceRangeSlider.ionRangeSlider({
                         skin: "sharp",
                         type: "double",
-                        min: data.min,
-                        max: data.max,
+                        min: data.min ? data.min : 0,
+                        max: data.max ? data.max : 10000,
                         from: data.from ? data.from : data.min,
                         to: data.to ? data.to : data.max,
                         prefix: "$",
@@ -211,7 +235,8 @@ $(document).ready(function () {
                             price_from = $inp.data("from"); // reading input data-from attribute
                             price_to = $inp.data("to"); // reading input data-to attribute
 
-                            console.log(price_from, price_to);
+                            // console.log(price_from, price_to);
+                            iPageNo = 0;
                             updateFilters();
                             fetchProducts(true);
                         },
@@ -256,7 +281,14 @@ $(document).ready(function () {
 
     fetchProducts(false);
 
+    function scrollToAnchor() {
+        var aTag = $("a[href='#page" + iPageNo + "']");
+        $('html,body').scrollTop(aTag.offset().top);
+    }
+
     $('body').on('click', '.clear-filter', function () {
+        iPageNo = 0;
+
         var $filter = $(this).closest('.filter');
         if ($filter.attr('id') === 'priceFilter') {
             var $inp = $(this);
@@ -286,6 +318,8 @@ $(document).ready(function () {
     // });
 
     $('body').on('click', '#clearAllFiltersBtn', function () {
+        iPageNo = 0;
+
         strFilters = '';
         $('.filter').each(function () {
             if ($(this).attr('id') === 'priceFilter') {
@@ -306,6 +340,7 @@ $(document).ready(function () {
 
     /***************Implementation of filter changes **************/
     $('body').on('change', '.filter input[type="checkbox"]', function () {
+        iPageNo = 0;
         updateFilters();
         fetchProducts(true);
     });
