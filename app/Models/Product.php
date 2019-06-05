@@ -146,7 +146,7 @@ class Product extends Model
         }
 
         // 4. type
-        if (isset($all_filters['product_type'])) {
+        if (isset($all_filters['product_type']) && strlen($all_filters['product_type'][0]) > 0) {
             // will only return products that match the LS_IDs for the `types` mentioned.
             $LS_IDs = Product::get_sub_cat_LS_IDs($dept, $cat, $all_filters['product_type']);
         } else {
@@ -419,12 +419,13 @@ class Product extends Model
         ];
     }
 
-    public static function baseUrl($link) {
+    public static function baseUrl($link)
+    {
         $base_siteurl = 'https://lazysuzy.com';
 
         return $base_siteurl . $link;
     }
-    
+
     public static function get_cb2_variations($sku, $base_siteurl)
     {
         $product_variations = [];
@@ -464,9 +465,9 @@ class Product extends Model
         $variations = DB::table("pier1_products")
             ->where("master_id", $product->master_id)
             ->get();
-        $executionEndTime =  microtime(true) - $executionStartTime ;
+        $executionEndTime =  microtime(true) - $executionStartTime;
 
-        foreach($variations as $variation) {
+        foreach ($variations as $variation) {
             if ($product->product_sku != $variation->product_sku) {
                 array_push($product_variations, [
                     "time_taken" => $executionEndTime,
@@ -477,7 +478,6 @@ class Product extends Model
                     "link" =>  $base_siteurl . "/product-detail/" . $variation->product_sku
                 ]);
             }
-            
         }
 
         return $product_variations;
