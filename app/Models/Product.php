@@ -463,6 +463,7 @@ class Product extends Model
 
         $executionStartTime = microtime(true);
         $variations = DB::table("pier1_products")
+            ->where("product_status", "active")
             ->where("master_id", $product->master_id)
             ->get();
         $executionEndTime =  microtime(true) - $executionStartTime;
