@@ -58,12 +58,12 @@ $(document).ready(function () {
                     multiCarouselFuncs.makeMultiCarousel();
                 }
                 else {
-                    if (!bClearPrevProducts) {
+                    // if (!bClearPrevProducts) {
                         bNoMoreProductsToShow = true;
                         iPageNo -= 1;
                         $('#noProductsText').show();
                         return;
-                    }
+                    // }
                 }
                 if (data.filterData) {
                     objGlobalFilterData = data.filterData;
