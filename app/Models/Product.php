@@ -305,7 +305,7 @@ class Product extends Model
         $LS_IDs = Product::get_dept_cat_LS_ID_arr($dept, $cat);
 
 
-        if (isset($all_filters['product_type'])) {
+        if (isset($all_filters['product_type']) && strlen($all_filters['product_type'][0]) > 0) {
             // comment this line if you want to show count for all those 
             // sub_categories that are paased in the request.
             //$LS_IDs = Product::get_sub_cat_LS_IDs($dept, $cat, $all_filters['type']);
@@ -316,8 +316,13 @@ class Product extends Model
 
         $products = DB::table("master_data")
             ->select("LS_ID")
-            ->whereRaw('LS_ID REGEXP "' . implode("|", $LS_IDs) . '"')
-            ->get();
+            ->whereRaw('LS_ID REGEXP "' . implode("|", $LS_IDs) . '"');
+
+        if (isset($all_filters['brand_names']) && strlen($all_filters['brand_names'][0]) > 0 ){
+            $products = $products->whereIn('site_name', $all_filters['brand_names']); 
+        }
+        
+        $products = $products->get();
 
         $sub_cat_arr = [];
 
