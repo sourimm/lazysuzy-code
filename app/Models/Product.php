@@ -477,11 +477,11 @@ class Product extends Model
         $executionEndTime =  microtime(true) - $executionStartTime;
 
         foreach ($variations as $variation) {
-            $img = $variation->main_product_images;
+           /*  $img = $base_siteurl . $variation->main_product_images;
             $img = Image::make($img);
             $img->resize(300, null, function ($constraint) {
                 $constraint->aspectRatio();
-            });
+            }); */
 
             if ($product->product_sku != $variation->product_sku) {
                 array_push($product_variations, [
@@ -489,7 +489,7 @@ class Product extends Model
                     "product_sku" => $product->product_sku,
                     "variation_sku" => $variation->product_sku,
                     "name" => $variation->color,
-                    "image" => $img,
+                    "image" => $variation->main_product_images,
                     "link" =>  $base_siteurl . "/product-detail/" . $variation->product_sku
                 ]);
             }
