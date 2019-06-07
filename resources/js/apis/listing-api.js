@@ -1,4 +1,5 @@
 import * as multiCarouselFuncs from '../components/multi-carousel';
+import makeSelectBox from '../components/custom-selectbox';
 // import * as priceSliderContainer from '../pages/listing';
 
 $(document).ready(function () {
@@ -47,7 +48,7 @@ $(document).ready(function () {
                 if (data.products != undefined && data.products.length != 0) {
                     bNoMoreProductsToShow = true;
 
-                    totalResults += data.products.length;
+                    totalResults = data.total;
                     $('#totalResults').text(totalResults);
 
                     for (var i = 0; i < data.products.length; i++) {
@@ -66,6 +67,20 @@ $(document).ready(function () {
                 if (data.filterData) {
                     objGlobalFilterData = data.filterData;
                     createUpdateFilterData(data.filterData);
+                }
+                if(data.sortType) {
+                    $('#sort').empty();
+                    data.sortType.forEach(element => {
+                        var sortElm = jQuery('<option />', {
+                            value: element.value,
+                            selected: element.enabled,
+                            text: element.name
+                        }).appendTo('#sort');
+                        if( element.enabled ){
+                            strSortType = element.value;
+                        }
+                    });
+                    makeSelectBox();
                 }
 
             },
@@ -136,7 +151,9 @@ $(document).ready(function () {
             class: 'responsive',
         }).appendTo(productInfoNext);
 
-        productDetails.images.forEach(img => {
+        var variationImages = productDetails.variations.map( variation => variation.image );
+
+        variationImages.forEach(img => {
             var responsiveImgDiv = jQuery('<div/>', {
                 class: 'mini-carousel-item',
             }).appendTo(carouselMainDiv);
