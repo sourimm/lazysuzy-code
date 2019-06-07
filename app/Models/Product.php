@@ -179,6 +179,7 @@ class Product extends Model
 
         // 6. limit
         $all_filters['limit'] = $limit;
+        $all_filters['count_all'] = $query->count();
         $query = $query->offset($start)->limit($limit);
 
         //echo "<pre>" . print_r($all_filters, true);
@@ -264,11 +265,11 @@ class Product extends Model
 
         if (sizeof($all_filters) == 0) {
             // get min price and max price for all the products
-
             return [
                 "min" => $min,
                 "max" => $max
             ];
+
         } else {
 
             if (isset($all_filters['price_from'])) {
@@ -396,10 +397,10 @@ class Product extends Model
                 'condition'        => $product->product_condition,
                 'created_date'     => $product->created_date,
                 'updated_date'     => $product->updated_date,
-                'on_server_images' => array_map([__CLASS__, "baseUrl"], preg_split("/,|\\[US\\]/", $product->product_images)),
+                'on_server_images' => array_map([ __CLASS__ , "baseUrl"], preg_split("/,|\\[US\\]/", $product->product_images)),
                 'main_image'       => $base_siteurl . $product->main_product_images,
                 'reviews'          => $product->reviews,
-                'rating'           => (double)$product->rating,
+                'rating'           => (double) $product->rating,
                 'LS_ID'            => $product->LS_ID,
                 'variations'       => $variations
 
@@ -417,6 +418,7 @@ class Product extends Model
 
 
         return [
+            "total"      => $all_filters['count_all'], 
             "sort_type"  => isset($all_filters['sort_type']) ? $all_filters['sort_type'] : null,
             "limit"      => isset($all_filters['limit']) ? $all_filters['limit'] : null,
             "filterData" => $filter_data,
