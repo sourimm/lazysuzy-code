@@ -20212,8 +20212,17 @@ input:disabled + .checkmark + .text {
   box-shadow: none !important;
 }
 
+.dropdown-submenu a {
+  padding: 0px;
+}
+
 .dropdown-submenu .dropdown-menu {
   left: 100%;
+}
+
+.dropdown:hover > .dropdown-menu {
+  display: block;
+  margin-top: -4px;
 }
 
 .searchbar {
