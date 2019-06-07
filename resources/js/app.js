@@ -27,8 +27,6 @@ $(document).ready(function () {
     });
     $(this).next('ul').toggle();
     $(this).next('.dropdown-menu').css('top', $(this).position().top);
-    e.stopPropagation();
-    e.preventDefault();
   });
 
   $.ajax({

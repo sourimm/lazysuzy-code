@@ -420,7 +420,7 @@ class Product extends Model
 
         return [
             "total"      => $all_filters['count_all'], 
-            "sort_type"  => isset($all_filters['sort_type']) ? $all_filters['sort_type'] : null,
+            "sortType"  => isset($all_filters['sort_type']) ? $all_filters['sort_type'] : null,
             "limit"      => isset($all_filters['limit']) ? $all_filters['limit'] : null,
             "filterData" => $filter_data,
             "products"   => $p_send,
