@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Input;
+use Image;
 
 class Product extends Model
 {
@@ -476,13 +477,19 @@ class Product extends Model
         $executionEndTime =  microtime(true) - $executionStartTime;
 
         foreach ($variations as $variation) {
+            $img = $variation->main_product_images;
+            $img = Image::make($img);
+            $img->resize(300, null, function ($constraint) {
+                $constraint->aspectRatio();
+            });
+
             if ($product->product_sku != $variation->product_sku) {
                 array_push($product_variations, [
                     "time_taken" => $executionEndTime,
                     "product_sku" => $product->product_sku,
                     "variation_sku" => $variation->product_sku,
                     "name" => $variation->color,
-                    "image" => $base_siteurl . explode(",", $variation->product_images)[0],
+                    "image" => $img,
                     "link" =>  $base_siteurl . "/product-detail/" . $variation->product_sku
                 ]);
             }
