@@ -29,6 +29,7 @@ $(document).ready(function () {
     function fetchProducts(bClearPrevProducts) {
         var strLimit = iLimit === undefined ? '' : '&limit=' + iLimit;
         var listingApiPath = LISTING_API_PATH + '?filters=' + strFilters + '&sort_type=' + strSortType + '&pageno=' + iPageNo + strLimit;
+        console.log(listingApiPath);
         $('#loaderImg').show();
         $('#noProductsText').hide();
         iPageNo += 1;
@@ -37,6 +38,7 @@ $(document).ready(function () {
             url: listingApiPath,
             dataType: "json",
             success: function (data) {
+                console.log(data);
                 if (bClearPrevProducts) {
                     $('#productsContainerDiv').empty()
                     totalResults = 0;
