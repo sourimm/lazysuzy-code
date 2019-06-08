@@ -18,15 +18,15 @@ $(document).ready(function () {
     }
   });
 
-  $('body').on("click", '.dropdown-submenu a', function (e) {
+  $('body').on("mouseover", '.dropdown-submenu', function (e) {
     var self = this;
     $('.dropdown-submenu').each(function () {
       if ($(this).find('.dropdown-menu')[0] != $(self).next('ul')[0]) {
         $(this).find('.dropdown-menu').hide();
       }
     });
-    $(this).next('ul').toggle();
-    $(this).next('.dropdown-menu').css('top', $(this).position().top);
+    $(this).find('ul').toggle();
+    $(this).find('.dropdown-menu').css('top', $(this).position().top);
   });
 
   $.ajax({
@@ -57,7 +57,7 @@ $(document).ready(function () {
             }
             else {
               catgToAppend += '<li class="dropdown-submenu">';
-              catgToAppend += '<a href="#">' + departments[i].categories[j].category + '<span class="mx-2"><i class="fas fa-angle-right"></i></span>';
+              catgToAppend += '<a href="'+departments[i].categories[j].link+'">' + departments[i].categories[j].category + '<span class="mx-2"><i class="fas fa-angle-right"></i></span>';
               var subcatToAppend = '<ul class="dropdown-menu">';
               for (k = 0; k < departments[i].categories[j].sub_categories.length; k++) {
                 subcatToAppend += '<li><a href="' + departments[i].categories[j].sub_categories[k].link + '">' + departments[i].categories[j].sub_categories[k].sub_category + '</a></li>'
