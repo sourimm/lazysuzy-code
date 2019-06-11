@@ -398,8 +398,8 @@ class Product extends Model
                 'condition'        => $product->product_condition,
                 'created_date'     => $product->created_date,
                 'updated_date'     => $product->updated_date,
-                'on_server_images' => array_map([ __CLASS__ , "baseUrl"], preg_split("/,|\\[US\\]/", $product->product_images)),
-                'main_image'       => $base_siteurl . $product->main_product_images,
+                'on_server_images' => array_map([ __CLASS__ , "baseUrl"], preg_split("/,|\\[US\\]/", $product->product_images), [$product->site_name]),
+                'main_image'       => $product->site_name =="nw" ? $product->main_product_images : $base_siteurl . $product->main_product_images,
                 'reviews'          => $product->reviews,
                 'rating'           => (double) $product->rating,
                 'LS_ID'            => $product->LS_ID,
@@ -427,9 +427,12 @@ class Product extends Model
         ];
     }
 
-    public static function baseUrl($link)
+    public static function baseUrl($link, $site_name)
     {
         $base_siteurl = 'https://lazysuzy.com';
+
+        if ($site_name == "nw")
+            return $link;
 
         return $base_siteurl . $link;
     }
