@@ -164,6 +164,16 @@ $(document).ready(function () {
 
         var variationImages = productDetails.variations.map(variation => variation.image);
 
+        if(variationImages.length > 0){
+
+            jQuery('<img />', {
+                id: 'variationImg',
+                class: 'variation-img img-fluid',
+                src: variationImages[0],
+                alt: 'variation-img'
+            }).appendTo(product);
+        }
+
         variationImages.forEach(img => {
             var responsiveImgDiv = jQuery('<div/>', {
                 class: 'mini-carousel-item',
@@ -411,6 +421,10 @@ $(document).ready(function () {
             }
         });
     }
+
+    $('body').on('mouseover', '.slick-slide', function(){
+        $(this).closest('.ls-product-div').find('.variation-img').attr('src', $(this).find('.carousel-img').attr('src'));
+    });
 
     $.ajax({
         type: "GET",
