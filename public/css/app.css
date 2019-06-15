@@ -20212,8 +20212,10 @@ input:disabled + .checkmark + .text {
   box-shadow: none !important;
 }
 
-.dropdown-submenu a {
-  padding: 0px;
+@media only screen and (min-width: 768px) {
+  .dropdown-submenu a {
+    padding: 0px;
+  }
 }
 
 .dropdown-submenu .dropdown-menu {

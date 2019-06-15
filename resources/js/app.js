@@ -26,7 +26,9 @@ $(document).ready(function () {
       }
     });
     $(this).find('ul').toggle();
-    $(this).find('.dropdown-menu').css('top', $(this).position().top);
+    if( !isMobile() ){
+      $(this).find('.dropdown-menu').css('top', $(this).position().top);
+    }
   });
 
   $.ajax({
@@ -37,21 +39,21 @@ $(document).ready(function () {
       var deptToAppend = '';
       if (isMobile()) {
         var singleDeptMobile = '';
-        for (i = 0; i < departments.length; i++) {
+        for (var i = 0; i < departments.length; i++) {
           if (departments.length != 0) {
             singleDeptMobile = '<div class="col-4 col-sm-auto -dept "><a href="' + departments[i].link + '">' + departments[i].department + '</a></div>';
           }
           $('#mobileDepartments').append(singleDeptMobile);
         }
       }
-      for (i = 0; i < departments.length; i++) {
+      for (var i = 0; i < departments.length; i++) {
         if (departments[i].categories.length == 0) {
           deptToAppend += '<li><a href="' + departments[i].link + '">' + departments[i].department + '</a></li>';
         }
         else {
           deptToAppend += '<li class="dropdown"><a  href="'+departments[i].link+'" id="navbarDropdown'+i+'" role="button"  aria-haspopup="true" aria-expanded="false">' + departments[i].department + '</a>';
           var catgToAppend = '<ul class="dropdown-menu" aria-labelledby="navbarDropdown">';
-          for (j = 0; j < departments[i].categories.length; j++) {
+          for (var j = 0; j < departments[i].categories.length; j++) {
             // if (departments[i].categories[j].sub_categories.length == 0) {
               catgToAppend += '<li><a href="' + departments[i].categories[j].link + '">' + departments[i].categories[j].category + '</a></li>'
             // }
@@ -83,7 +85,7 @@ $(document).ready(function () {
   });
 })
 
-isMobile = function(){
+export default function isMobile(){
   var isMobile = window.matchMedia("only screen and (max-width: 768px)");
   return isMobile.matches ? true : false
 }
