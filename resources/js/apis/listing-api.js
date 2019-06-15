@@ -1,10 +1,12 @@
 import * as multiCarouselFuncs from '../components/multi-carousel';
 import makeSelectBox from '../components/custom-selectbox';
+import isMobile from '../app.js'
 // import * as priceSliderContainer from '../pages/listing';
 
 $(document).ready(function () {
     const LISTING_API_PATH = '/api' + location.pathname;
     const LISTING_FILTER_API_PATH = '/api/filter/products';
+    const DEPT_API = '/api/all-departments'
     var totalResults = 0;
     var UrlSearchParams = new Object();
     var objGlobalFilterData;
@@ -409,4 +411,56 @@ $(document).ready(function () {
             }
         });
     }
+
+    $.ajax({
+        type: "GET",
+        url: DEPT_API,
+        dataType: "json",
+        success: function (departments) {
+            $('ul[rel="dropdownMobileListing"]').empty();
+            var deptToAppend = '';
+            for (var i = 0; i < departments.length; i++) {
+                if (departments[i].categories.length == 0) {
+                    deptToAppend += '<li ><a class="dropdown-item" href="' + departments[i].link + '">' + departments[i].department + '</a></li>';
+                }
+                else {
+                    deptToAppend += '<li class="dropdown-submenu"><a  class="dropdown-item dropdown-toggle" href="'+departments[i].link+'" id="navbarDropdown'+i+'">' + departments[i].department + '<i class="fas fa-angle-right float-right"></i></a>';
+                    var catgToAppend = '<ul class="dropdown-menu" aria-labelledby="navbarDropdown">';
+                    for (var j = 0; j < departments[i].categories.length; j++) {
+                        catgToAppend += '<li><a class="dropdown-item" href="' + departments[i].categories[j].link + '">' + departments[i].categories[j].category + '</a></li>'
+                    }
+                    catgToAppend += '</ul>';
+                    deptToAppend += catgToAppend;
+                    deptToAppend += '</li>';
+                }
+            }
+            $('ul[rel="dropdownMobileListing"]').append(deptToAppend);
+
+        },
+        error: function (jqXHR, exception) {
+        console.log(jqXHR);
+        console.log(exception);
+        }
+    });
+
+    $('body').on('click', '.dropdown-submenu a', function(e) {
+        if( isMobile() ){
+            console.log('clicked');
+            // early return if the parent has no hover-class
+            if(!$(this).hasClass('hover')) return;
+
+            // prevent click when delay is too small
+            var delay = Date.now() - $(this).data('hovered');
+            if(delay < 100) e.preventDefault();
+        }
+    });
+
+    $('body').on('mouseover', '.dropdown-submenu a',function(e) {
+        if( isMobile() ){
+            var time = Date.now();
+            $(this).data('hovered', time);
+        }
+    });
+
+
 });
