@@ -22,4 +22,8 @@ class API extends Controller
         return Product::get_filter_products($dept, $cat, $subCat);
     }
 
+    public function get_product_details($sku) {
+        return Product::get_product_details($sku);
+    }
+
 }

@@ -10,6 +10,8 @@ use Image;
 class Product extends Model
 {
     protected $table = "master_data";
+    public static $base_siteurl = 'https://lazysuzy.com';
+
 
     public static function get_LS_IDs($dept, $cat = null)
     {
@@ -270,7 +272,6 @@ class Product extends Model
                 "min" => $min,
                 "max" => $max
             ];
-
         } else {
 
             if (isset($all_filters['price_from'])) {
@@ -320,10 +321,10 @@ class Product extends Model
             ->select("LS_ID")
             ->whereRaw('LS_ID REGEXP "' . implode("|", $LS_IDs) . '"');
 
-        if (isset($all_filters['brand_names']) && strlen($all_filters['brand_names'][0]) > 0 ){
-            $products = $products->whereIn('site_name', $all_filters['brand_names']); 
+        if (isset($all_filters['brand_names']) && strlen($all_filters['brand_names'][0]) > 0) {
+            $products = $products->whereIn('site_name', $all_filters['brand_names']);
         }
-        
+
         $products = $products->get();
 
         $sub_cat_arr = [];
@@ -378,34 +379,7 @@ class Product extends Model
         foreach ($products as $product) {
 
             $variations = Product::get_variations($product);
-            array_push($p_send, [
-                'id'               => $product->id,
-                'sku'              => $product->product_sku,
-                'sku_hash'         => $product->sku_hash,
-                'site'             => $product->site_name,
-                'name'             => $product->product_name,
-                'product_url'      => $product->product_url,
-                'is_price'         => $product->price,
-                'model_code'       => $product->model_code,
-                'description'      => $product->product_description,
-                'thumb'            => preg_split("/,|\\[US\\]/", $product->thumb),
-                'color'            => $product->color,
-                'images'           => preg_split("/,|\\[US\\]/", $product->images),
-                'was_price'        => $product->was_price,
-                'features'         => preg_split("/,|\\[US\\]/", $product->product_feature),
-                'collection'       => $product->collection,
-                'set'              => $product->product_set,
-                'condition'        => $product->product_condition,
-                'created_date'     => $product->created_date,
-                'updated_date'     => $product->updated_date,
-                'on_server_images' => array_map([ __CLASS__ , "baseUrl"], preg_split("/,|\\[US\\]/", $product->product_images)),
-                'main_image'       => $base_siteurl . $product->main_product_images,
-                'reviews'          => $product->reviews,
-                'rating'           => (double) $product->rating,
-                'LS_ID'            => $product->LS_ID,
-                'variations'       => $variations
-
-            ]);
+            array_push($p_send, Product::get_details($product, $base_siteurl, $variations));
         }
 
         $brand_holder = Product::get_brands_filter($dept, $cat, $all_filters);
@@ -419,7 +393,7 @@ class Product extends Model
 
 
         return [
-            "total"      => $all_filters['count_all'], 
+            "total"      => $all_filters['count_all'],
             "sortType"  => isset($all_filters['sort_type']) ? $all_filters['sort_type'] : null,
             "limit"      => isset($all_filters['limit']) ? $all_filters['limit'] : null,
             "filterData" => $filter_data,
@@ -427,11 +401,41 @@ class Product extends Model
         ];
     }
 
+    public static function get_details($product, $base_siteurl, $variations)
+    {
+        return [
+            'id'               => $product->id,
+            'sku'              => $product->product_sku,
+            'sku_hash'         => $product->sku_hash,
+            'site'             => $product->site_name,
+            'name'             => $product->product_name,
+            'product_url'      => urldecode($product->product_url),
+            'is_price'         => $product->price,
+            'model_code'       => $product->model_code,
+            'description'      => $product->product_description,
+            'thumb'            => preg_split("/,|\\[US\\]/", $product->thumb),
+            'color'            => $product->color,
+            'images'           => preg_split("/,|\\[US\\]/", $product->images),
+            'was_price'        => $product->was_price,
+            'features'         => preg_split("/,|\\[US\\]/", $product->product_feature),
+            'collection'       => $product->collection,
+            'set'              => $product->product_set,
+            'condition'        => $product->product_condition,
+            'created_date'     => $product->created_date,
+            'updated_date'     => $product->updated_date,
+            'on_server_images' => array_map([__CLASS__, "baseUrl"], preg_split("/,|\\[US\\]/", $product->product_images)),
+            'main_image'       => $base_siteurl . $product->main_product_images,
+            'reviews'          => $product->reviews,
+            'rating'           => (double)$product->rating,
+            'LS_ID'            => $product->LS_ID,
+            'variations'       => $variations
+
+        ];
+    }
+
     public static function baseUrl($link)
     {
-        $base_siteurl = 'https://lazysuzy.com';
-
-        return $base_siteurl . $link;
+        return Product::$base_siteurl . $link;
     }
 
     public static function get_cb2_variations($sku, $base_siteurl)
@@ -477,11 +481,6 @@ class Product extends Model
         $executionEndTime =  microtime(true) - $executionStartTime;
 
         foreach ($variations as $variation) {
-           /*  $img = $base_siteurl . $variation->main_product_images;
-            $img = Image::make($img);
-            $img->resize(300, null, function ($constraint) {
-                $constraint->aspectRatio();
-            }); */
 
             if ($product->product_sku != $variation->product_sku) {
                 array_push($product_variations, [
@@ -489,7 +488,7 @@ class Product extends Model
                     "product_sku" => $product->product_sku,
                     "variation_sku" => $variation->product_sku,
                     "name" => $variation->color,
-                    "image" => $variation->main_product_images,
+                    "image" => $base_siteurl . $variation->main_product_images,
                     "link" =>  $base_siteurl . "/product-detail/" . $variation->product_sku
                 ]);
             }
@@ -513,5 +512,16 @@ class Product extends Model
                 return [];
                 break;
         }
+    }
+
+
+    public static function get_product_details($sku)
+    {
+        $product = [];
+        $prod = Product::where('product_sku', $sku)
+            ->get();
+        
+        $variations = Product::get_variations($prod[0]);
+        return Product::get_details($prod[0], Product::$base_siteurl, $variations);
     }
 };
