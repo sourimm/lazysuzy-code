@@ -20,6 +20,12 @@
                 position: relative;
                 margin-bottom: 15px;
 
+                .variation-img{
+                    position: absolute;
+                    z-index: 1;
+                    left: 0;
+                }
+
                 .prod-info {
                     position: absolute;
                     bottom: 0px;
