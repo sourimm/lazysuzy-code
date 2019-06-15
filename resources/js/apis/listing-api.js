@@ -163,15 +163,30 @@ $(document).ready(function () {
         }).appendTo(productInfoNext);
 
         var variationImages = productDetails.variations.map(variation => variation.image);
+        var variationLinks = productDetails.variations.map(variation => variation.link);
 
-        variationImages.forEach(img => {
+        if(variationImages.length > 0){
+
+            jQuery('<img />', {
+                id: 'variationImg',
+                class: 'variation-img img-fluid',
+                src: variationImages[0],
+                alt: 'variation-img'
+            }).appendTo(product);
+        }
+
+        variationImages.forEach((img, idx) => {
             var responsiveImgDiv = jQuery('<div/>', {
                 class: 'mini-carousel-item',
             }).appendTo(carouselMainDiv);
+            var anchor = jQuery('<a/>', {
+                class: 'responsive-img-a',
+                href: variationLinks[idx]
+            }).appendTo(responsiveImgDiv);
             var responsiveImg = jQuery('<img/>', {
                 class: 'carousel-img img-fluid',
                 src: img
-            }).appendTo(responsiveImgDiv);
+            }).appendTo(anchor);
 
         });
 
@@ -411,6 +426,10 @@ $(document).ready(function () {
             }
         });
     }
+
+    $('body').on('mouseover', '.slick-slide', function(){
+        $(this).closest('.ls-product-div').find('.variation-img').attr('src', $(this).find('.carousel-img').attr('src'));
+    });
 
     $.ajax({
         type: "GET",

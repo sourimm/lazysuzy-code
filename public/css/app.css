@@ -19852,6 +19852,12 @@ input:disabled + .checkmark + .text {
   margin-bottom: 15px;
 }
 
+.products-container .ls-prod-container .ls-product-div .ls-product .variation-img {
+  position: absolute;
+  z-index: 1;
+  left: 0;
+}
+
 .products-container .ls-prod-container .ls-product-div .ls-product .prod-info {
   position: absolute;
   bottom: 0px;
