@@ -19937,6 +19937,72 @@ input:disabled + .checkmark + .text {
   }
 }
 
+.detailspage-main-div {
+  font-family: Helvetica, sans-serif;
+}
+
+.detailspage-main-div .detailspage .-images-container {
+  height: 300px;
+  overflow-x: auto;
+  margin: 15px 0px;
+}
+
+.detailspage-main-div .detailspage .-images-container .-images {
+  overflow-x: scroll;
+  overflow-y: hidden;
+  height: 300px;
+  white-space: nowrap;
+}
+
+.detailspage-main-div .detailspage .-images-container .-images .-prod-img {
+  max-height: 100%;
+  display: inline-block;
+}
+
+.detailspage-main-div .detailspage .prod-price-card {
+  border-radius: 20px;
+  background-color: white;
+  margin-top: -50px;
+  padding: 30px 10px;
+  font-size: 24px;
+  font-weight: 600;
+}
+
+.detailspage-main-div .detailspage .prod-price-card .pdp-buy-btn {
+  width: 100%;
+  color: #ffcc00;
+  background-color: #0c1c31;
+  font-size: 24px;
+  border-radius: 10px;
+  margin: 15px 0px;
+}
+
+.detailspage-main-div .detailspage .rating-container {
+  margin: auto;
+}
+
+.detailspage-main-div .detailspage .rating-container .rating {
+  margin-left: 0px;
+}
+
+.detailspage-main-div .detailspage .brand-association {
+  padding: 0px 20px;
+  font-family: "Marcellus SC", san-serif;
+}
+
+.detailspage-main-div .detailspage .brand-association .-text {
+  font-size: 26px;
+  font-weight: 600;
+}
+
+.detailspage-main-div .detailspage .brand-association .brand-logos .brand-logo {
+  max-width: 100px;
+}
+
+.detailspage-main-div .detailspage .brand-association .socials .-icons {
+  font-size: 22px;
+}
+
 .responsive {
   height: 30px;
   max-width: 190px;
