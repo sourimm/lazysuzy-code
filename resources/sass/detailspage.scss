@@ -1,0 +1,63 @@
+.detailspage-main-div{
+    font-family: Helvetica, sans-serif;
+    .detailspage{
+        .-images-container{
+            height: 300px;
+            overflow-x: auto;
+            margin: 15px 0px;
+            .-images{
+                overflow-x: scroll;
+                overflow-y: hidden;
+                height: 300px;
+                white-space: nowrap;
+                .-prod-img{
+                    max-height: 100%;
+                    display: inline-block;
+                }
+            }
+        }
+
+        .prod-price-card{
+            border-radius: 20px;
+            background-color: white;
+            margin-top: -50px;
+            padding: 30px 10px;
+            font-size: 24px;
+            font-weight: 600;
+            .pdp-buy-btn{    
+                width: 100%;
+                color: $primary-color;
+                background-color: $secondary-color;
+                font-size: 24px;
+                border-radius: 10px;
+                margin: 15px 0px;
+            }
+        }
+
+        .rating-container{
+            margin: auto;
+            .rating{
+                margin-left: 0px;
+            }
+        }
+
+        .brand-association{
+            padding: 0px 20px;
+            font-family: 'Marcellus SC', san-serif;
+            .-text{
+                font-size: 26px;
+                font-weight: 600;
+            }
+            .brand-logos{
+                .brand-logo{
+                    max-width: 100px;
+                }
+            }
+            .socials{
+                .-icons{
+                    font-size: 22px;
+                }
+            }
+        }
+    }
+}
