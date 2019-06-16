@@ -19959,9 +19959,13 @@ input:disabled + .checkmark + .text {
   display: inline-block;
 }
 
+.detailspage-main-div .detailspage .responsive {
+  height: 50px;
+}
+
 .detailspage-main-div .detailspage .prod-price-card {
   border-radius: 20px;
-  background-color: white;
+  background-color: aliceblue;
   margin-top: -50px;
   padding: 30px 10px;
   font-size: 24px;

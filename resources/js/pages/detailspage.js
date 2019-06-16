@@ -1,3 +1,5 @@
+import * as multiCarouselFuncs from '../components/multi-carousel';
+
 $(document).ready(function () {
     const PDP_API = '/api' + window.location.pathname;
 
@@ -7,13 +9,12 @@ $(document).ready(function () {
         dataType: "json",
         success: function (data) {
             console.log(data);
-            $product = $('#detailPage');
+            var $product = $('#detailPage');
 
-            $imagesContainer = $product.find('.-images-container');
-            $images = $imagesContainer.find('.-images');
+            var $imagesContainer = $product.find('.-images-container');
+            var $images = $imagesContainer.find('.-images');
             var imgContainerWidth = 0;
             data.images.forEach(img => {
-
                 var responsiveImg = jQuery('<img/>', {
                     class: '-prod-img img-fluid',
                     src: img,
@@ -21,8 +22,32 @@ $(document).ready(function () {
                 }).appendTo($images);
             });
 
+            var variationImages = data.variations.map(variation => variation.image);
+            var variationLinks = data.variations.map(variation => variation.link);
+
+            var $variationsCarousel = $product.find('.-variations-carousel');
+            var carouselMainDiv = jQuery('<div/>', {
+                class: 'responsive',
+            }).appendTo($variationsCarousel);
+
+            variationImages.forEach((img, idx) => {
+                var responsiveImgDiv = jQuery('<div/>', {
+                    class: 'mini-carousel-item',
+                }).appendTo(carouselMainDiv);
+                var anchor = jQuery('<a/>', {
+                    class: 'responsive-img-a',
+                    href: variationLinks[idx]
+                }).appendTo(responsiveImgDiv);
+                var responsiveImg = jQuery('<img/>', {
+                    class: 'carousel-img img-fluid',
+                    src: img
+                }).appendTo(anchor);
+
+            });
+            multiCarouselFuncs.makeMultiCarousel();
+
             //Product description
-            $desc = $product.find('.prod-desc');
+            var $desc = $product.find('.prod-desc');
             $desc.find('.-name').text(data.name);
 
             var ratingValue = parseFloat(data.rating).toFixed(1);
@@ -38,7 +63,7 @@ $(document).ready(function () {
                 }).appendTo($featuresList);
             });
 
-            $prodPriceCard = $product.find('.prod-price-card');
+            var $prodPriceCard = $product.find('.prod-price-card');
             var site = $('<span/>',{
                 text: data.site,
                 class: 'float-left text-uppercase'

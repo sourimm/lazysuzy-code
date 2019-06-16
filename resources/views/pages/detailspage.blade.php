@@ -8,6 +8,7 @@
 
         <div class="row container">
             <div class="prod-desc col-9">
+                <div class="-variations-carousel"></div>
                 <h2 class="-name">product name</h2>
                 <div class="rating-container"><div class="rating"></div><span class="total-ratings"></span></div>
                 <p class="-desc"></p>
