@@ -3,7 +3,7 @@
 @section('middle_content')
     <div class="homepage">
         
-        @include('./partials/brandassoiciation')
+        @include('./partials/brandassociation')
         @include('./partials/subnav')
         <div class="d-none">{{ Breadcrumbs::render('/') }}</div>
         <div class="main-container">
