@@ -11,7 +11,7 @@ class Product extends Model
 {
     protected $table = "master_data";
     public static $base_siteurl = 'https://lazysuzy.com';
-
+    static $count = 0;
 
     public static function get_LS_IDs($dept, $cat = null)
     {
@@ -35,6 +35,8 @@ class Product extends Model
         }
         return $LS_IDs;
     }
+
+   
 
     public static function get_sub_cat_LS_ID($dept, $cat, $sub_category)
     {
@@ -375,10 +377,23 @@ class Product extends Model
         $price_holder        = [];
         $product_type_holder = [];
         $base_siteurl = 'https://lazysuzy.com';
+        $westelm_cache_data  = DB::table("westelm_products_skus")
+            ->selectRaw("COUNT(product_id) AS product_count, product_id")
+            ->groupBy("product_id")
+            ->get();
+        $westelm_variations_data = [];
+        if (sizeof($westelm_cache_data) > 0) {
+            foreach ($westelm_cache_data as $row) {
+                $westelm_variations_data[$row->product_id] = $row->product_count;
+            }
+        }
+
+        $westelm_cache_data = [];
+
 
         foreach ($products as $product) {
 
-            $variations = Product::get_variations($product);
+            $variations = Product::get_variations($product, $westelm_variations_data);
             array_push($p_send, Product::get_details($product, $base_siteurl, $variations));
         }
 
@@ -394,6 +409,7 @@ class Product extends Model
 
         return [
             "total"      => $all_filters['count_all'],
+            "constructor_count" => Product::$count,
             "sortType"  => isset($all_filters['sort_type']) ? $all_filters['sort_type'] : null,
             "limit"      => isset($all_filters['limit']) ? $all_filters['limit'] : null,
             "filterData" => $filter_data,
@@ -417,7 +433,7 @@ class Product extends Model
             'color'            => $product->color,
             'images'           => preg_split("/,|\\[US\\]/", $product->images),
             'was_price'        => $product->was_price,
-            'features'         => preg_split("/,|\\[US\\]/", $product->product_feature),
+            'features'         => preg_split("/\\[US\\]|<br>/", $product->product_feature),
             'collection'       => $product->collection,
             'set'              => $product->product_set,
             'condition'        => $product->product_condition,
@@ -497,7 +513,43 @@ class Product extends Model
         return $product_variations;
     }
 
-    public static function get_variations($product)
+    public static function get_westelm_variations($product, $wl_v) {
+      
+        if (isset($wl_v[$product->product_sku])) {
+            if ($wl_v[$product->product_sku]) {
+                $var = DB::table("westelm_products_skus")
+                                ->where("product_id", $product->product_sku)
+                                ->limit(20)
+                                ->get();
+                $variations = [];
+                foreach($var as $prod) {
+                    $features = [];
+                    for($i=1; $i<=6; $i++) {
+                        $col = "attribute_" . $i;
+                        $str = $prod->$col;
+                        $str_exp = explode(":", $str);
+                        if (isset($str_exp[0]) && isset($str_exp[1])) {
+                            $str_exp[0] = preg_replace('/please|Please|select|Select/', '', $str_exp[0]);
+                            $features[$str_exp[0]] = $str_exp[1];
+                        }
+                    }
+                    array_push($variations, [
+                        "product_sku" => $product->product_sku,
+                        "variation_sku" => $prod->sku,
+                        "features" => $features,
+                        "image" => Product::$base_siteurl . $prod->image_path,
+                        "swatch_image" => Product::$base_siteurl . $prod->swatch_image_path
+                    ]);
+                }
+
+                return $variations;
+            }
+        }
+
+        return [];
+    }
+
+    public static function get_variations($product, $wl_v)
     {
         $base_siteurl = 'https://lazysuzy.com';
 
@@ -507,6 +559,9 @@ class Product extends Model
                 break;
             case 'pier1':
                 return Product::get_pier1_variations($product, $base_siteurl);
+                break;
+            case 'westelm':
+                return Product::get_westelm_variations($product, $wl_v);
                 break;
             default:
                 return [];
