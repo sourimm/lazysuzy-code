@@ -35,8 +35,11 @@
 }
 
 .dropdown-submenu{
-    a{
-        padding: 0px;
+
+    @media only screen and (min-width: 768px) {
+        a{
+            padding: 0px;
+        }
     }
     .dropdown-menu{
         left: 100%;

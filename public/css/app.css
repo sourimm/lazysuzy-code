@@ -19555,6 +19555,8 @@ input:disabled + .checkmark + .text {
   width: 180px;
   margin-top: 45px;
   text-align: center;
+  overflow: auto;
+  padding: 20px;
 }
 
 @media only screen and (min-width: 768px) {
@@ -19748,7 +19750,7 @@ input:disabled + .checkmark + .text {
     background: #0c1c31;
     color: #ffffff;
     position: absolute;
-    z-index: 1;
+    z-index: 100;
     display: none;
   }
 
@@ -19852,6 +19854,12 @@ input:disabled + .checkmark + .text {
   margin-bottom: 15px;
 }
 
+.products-container .ls-prod-container .ls-product-div .ls-product .variation-img {
+  position: absolute;
+  z-index: 1;
+  left: 0;
+}
+
 .products-container .ls-prod-container .ls-product-div .ls-product .prod-info {
   position: absolute;
   bottom: 0px;
@@ -19927,6 +19935,76 @@ input:disabled + .checkmark + .text {
     font-size: 22px;
     line-height: 30px;
   }
+}
+
+.detailspage-main-div {
+  font-family: Helvetica, sans-serif;
+}
+
+.detailspage-main-div .detailspage .-images-container {
+  height: 300px;
+  overflow-x: auto;
+  margin: 15px 0px;
+}
+
+.detailspage-main-div .detailspage .-images-container .-images {
+  overflow-x: scroll;
+  overflow-y: hidden;
+  height: 300px;
+  white-space: nowrap;
+}
+
+.detailspage-main-div .detailspage .-images-container .-images .-prod-img {
+  max-height: 100%;
+  display: inline-block;
+}
+
+.detailspage-main-div .detailspage .responsive {
+  height: 50px;
+}
+
+.detailspage-main-div .detailspage .prod-price-card {
+  border-radius: 20px;
+  background-color: aliceblue;
+  margin-top: -50px;
+  padding: 30px 10px;
+  font-size: 24px;
+  font-weight: 600;
+}
+
+.detailspage-main-div .detailspage .prod-price-card .pdp-buy-btn {
+  width: 100%;
+  color: #ffcc00;
+  background-color: #0c1c31;
+  font-size: 24px;
+  border-radius: 10px;
+  margin: 15px 0px;
+}
+
+.detailspage-main-div .detailspage .rating-container {
+  margin: auto;
+}
+
+.detailspage-main-div .detailspage .rating-container .rating {
+  margin-left: 0px;
+}
+
+.detailspage-main-div .detailspage .brand-association {
+  padding: 0px 20px;
+  font-family: "Marcellus SC", san-serif;
+}
+
+.detailspage-main-div .detailspage .brand-association .-text {
+  font-size: 26px;
+  font-weight: 600;
+}
+
+.detailspage-main-div .detailspage .brand-association .brand-logos .brand-logo {
+  max-width: 100px;
+}
+
+.detailspage-main-div .detailspage .brand-association .socials .-icons {
+  font-size: 22px;
 }
 
 .responsive {
@@ -20212,8 +20290,10 @@ input:disabled + .checkmark + .text {
   box-shadow: none !important;
 }
 
-.dropdown-submenu a {
-  padding: 0px;
+@media only screen and (min-width: 768px) {
+  .dropdown-submenu a {
+    padding: 0px;
+  }
 }
 
 .dropdown-submenu .dropdown-menu {
