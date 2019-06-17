@@ -433,7 +433,7 @@ class Product extends Model
             'color'            => $product->color,
             'images'           => preg_split("/,|\\[US\\]/", $product->images),
             'was_price'        => $product->was_price,
-            'features'         => preg_split("/\\[US\\]|<br>/", $product->product_feature),
+            'features'         => preg_split("/\\[US\\]|<br>|\\n/", $product->product_feature),
             'collection'       => $product->collection,
             'set'              => $product->product_set,
             'condition'        => $product->product_condition,
@@ -576,8 +576,20 @@ class Product extends Model
         $product = [];
         $prod = Product::where('product_sku', $sku)
             ->get();
+        $westelm_cache_data  = DB::table("westelm_products_skus")
+            ->selectRaw("COUNT(product_id) AS product_count, product_id")
+            ->groupBy("product_id")
+            ->get();
+        $westelm_variations_data = [];
+        if (sizeof($westelm_cache_data) > 0) {
+            foreach ($westelm_cache_data as $row) {
+                $westelm_variations_data[$row->product_id] = $row->product_count;
+            }
+        }
+
+        $westelm_cache_data = [];
         
-        $variations = Product::get_variations($prod[0]);
+        $variations = Product::get_variations($prod[0], $westelm_variations_data);
         return Product::get_details($prod[0], Product::$base_siteurl, $variations);
     }
 };
