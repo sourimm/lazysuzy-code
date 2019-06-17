@@ -429,6 +429,7 @@ class Product extends Model
             'is_price'         => $product->price,
             'model_code'       => $product->model_code,
             'description'      => $product->product_description,
+            'dimension'       => $product->product_dimension,
             'thumb'            => preg_split("/,|\\[US\\]/", $product->thumb),
             'color'            => $product->color,
             'images'           => preg_split("/,|\\[US\\]/", $product->images),
