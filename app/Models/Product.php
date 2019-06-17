@@ -536,6 +536,7 @@ class Product extends Model
                     array_push($variations, [
                         "product_sku" => $product->product_sku,
                         "variation_sku" => $prod->sku,
+                        "name" => $prod->name,
                         "features" => $features,
                         "image" => Product::$base_siteurl . $prod->image_path,
                         "swatch_image" => Product::$base_siteurl . $prod->swatch_image_path
