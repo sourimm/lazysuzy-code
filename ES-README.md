@@ -22,7 +22,7 @@ inital mapping includes
 ```
 {
     "mappings": {
-        "_doc": {
+        "data": {
             "properties": {
                 "product_name": {
                     "type" : "completion"
