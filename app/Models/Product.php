@@ -520,7 +520,7 @@ class Product extends Model
             if ($wl_v[$product->product_sku]) {
                 $var = DB::table("westelm_products_skus")
                                 ->where("product_id", $product->product_sku)
-                                ->limit(20)
+                                //->limit(20)
                                 ->get();
                 $variations = [];
                 foreach($var as $prod) {
