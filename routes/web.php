@@ -35,4 +35,5 @@ Route::get('/api/all-departments', 'DepartmentController@index')->name('get_all_
 Route::get('/api/departments/{dept}', 'DepartmentController@get_department')->name('get_department');
 Route::get('/api/categories', 'CategoryController@get_all_categories')->name('get_category');
 Route::get('/api/products/{dept}/{cat?}/{subCat?}', 'API@filter_products')->name('get-products');
-Route::get('api/product/{sku}', 'API@get_product_details')->name('get-product-details');
+Route::get('/api/product/{sku}', 'API@get_product_details')->name('get-product-details');
+Route::get('/api/product/variation/{sku}', 'API@get_product_variations')->name('get-product-variations');

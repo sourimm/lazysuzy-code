@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
+use App\Models\Variations;
 use Illuminate\Http\Request;
 
 class API extends Controller
@@ -22,8 +23,13 @@ class API extends Controller
         return Product::get_filter_products($dept, $cat, $subCat);
     }
 
-    public function get_product_details($sku) {
+    public function get_product_details($sku)
+    {
         return Product::get_product_details($sku);
     }
 
+    public function get_product_variations($sku)
+    {
+        return Variations::get_variations($sku);
+    }
 }
