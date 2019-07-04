@@ -9,7 +9,8 @@ class Variations extends Model {
     public static $base_siteurl = 'https://lazysuzy.com';
 
     public static function sanitize($text) {
-        return strip_tags($text);
+         $text = preg_replace("/-/", " ", $text);
+         return strip_tags($text);
     }
 
     public static function get_variations($sku) {
@@ -23,6 +24,7 @@ class Variations extends Model {
             "image",
             "swatch_image"
         ];
+        
         $col_mapper = [
             "color" => "attribute_1",
             "size" => "attribute_2",
@@ -45,7 +47,7 @@ class Variations extends Model {
             $query = $query->where($col_mapper[$key], 'like', '%' . Variations::sanitize($value) . '%');
             array_push($filters, [$key => Variations::sanitize($value)]); 
         }
-        
+
         return [
             "main_image" => $main_img[0]->main_product_images,
             "variations" => $query->get(),

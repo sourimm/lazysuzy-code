@@ -35,7 +35,7 @@ class Product extends Model
         return $LS_IDs;
     }
 
-   
+
 
     public static function get_sub_cat_LS_ID($dept, $cat, $sub_category)
     {
@@ -287,8 +287,8 @@ class Product extends Model
             if ($p_to == 0) $p_to = $max;
 
             return [
-                "from" => (float)$p_from,
-                "to" => (float)$p_to,
+                "from" => (float) $p_from,
+                "to" => (float) $p_to,
                 "max" => $max,
                 "min" => $min
             ];
@@ -345,7 +345,7 @@ class Product extends Model
         //echo "<pre>" . print_r($all_filters, true);
         foreach ($sub_cat_LS_IDs as $cat) {
             foreach ($products as $p) {
-                if (strpos($p->LS_ID, (string)$cat->LS_ID) !== false) {
+                if (strpos($p->LS_ID, (string) $cat->LS_ID) !== false) {
                     if (isset($sub_cat_arr[$cat->product_sub_category_])) {
                         $sub_cat_arr[$cat->product_sub_category_]["enabled"] = true;
                         $sub_cat_arr[$cat->product_sub_category_]["count"]++;
@@ -442,7 +442,7 @@ class Product extends Model
             'on_server_images' => array_map([__CLASS__, "baseUrl"], preg_split("/,|\\[US\\]/", $product->product_images)),
             'main_image'       => $base_siteurl . $product->main_product_images,
             'reviews'          => $product->reviews,
-            'rating'           => (double)$product->rating,
+            'rating'           => (float) $product->rating,
             'LS_ID'            => $product->LS_ID,
             'variations'       => $variations
 
@@ -513,24 +513,68 @@ class Product extends Model
         return $product_variations;
     }
 
-    public static function get_westelm_variations($product, $wl_v) {
-      
+    public static function get_filter_key($key)
+    {
+        return strtolower(preg_replace("' '", "-", $key));
+    }
+
+    public static function get_westelm_variations($product, $wl_v)
+    {
+
         if (isset($wl_v[$product->product_sku])) {
             if ($wl_v[$product->product_sku]) {
                 $var = DB::table("westelm_products_skus")
-                                ->where("product_id", $product->product_sku)
-                                //->limit(20)
-                                ->get();
+                    ->where("product_id", $product->product_sku)
+                    //->limit(20)
+                    ->get();
+
                 $variations = [];
-                foreach($var as $prod) {
+                $variation_filters = [];
+
+                foreach ($var as $prod) {
                     $features = [];
-                    for($i=1; $i<=6; $i++) {
+                    for ($i = 1; $i <= 6; $i++) {
                         $col = "attribute_" . $i;
                         $str = $prod->$col;
                         $str_exp = explode(":", $str);
                         if (isset($str_exp[0]) && isset($str_exp[1])) {
+                            //echo $filter_key . "<br>";
+
                             $str_exp[0] = preg_replace('/please|Please|select|Select/', '', $str_exp[0]);
-                            $features[$str_exp[0]] = $str_exp[1];
+                            $filter_key = Product::get_filter_key($str_exp[0]);
+                            $features[$filter_key] = $str_exp[1];
+
+                            // setting array indexes for each filter category 
+                            if (!isset($variation_filters[$filter_key]))
+                                $variation_filters[$filter_key] = [];
+
+                            // saving unique data values for the filter value display
+                            /*if (!in_array($str_exp[1], $variation_filters[$str_exp[0]], true)) {
+                                array_push($variation_filters[$str_exp[0]], [
+                                    "name" => $str_exp[1],
+                                    "value" => strtolower(preg_replace("' '", "-", $str_exp[1])),
+                                    "enabled" => true
+                                ]);
+                            }*/
+                            $found = false;
+                            //echo sizeof($variation_filters[$filter_key]);
+                            foreach ($variation_filters[$filter_key] as $filter) {
+                                //echo "comparing " . $filter["value"] . " %% " . $str_exp[1] . "<br>";
+                                if (isset($filter["name"])) {
+                                    if ($filter["name"] == $str_exp[1]) {
+                                        $found = true;
+                                        break;
+                                    }
+                                }
+                            }
+
+                            if (!$found) {
+                                array_push($variation_filters[$filter_key], [
+                                    "name" => $str_exp[1],
+                                    "value" => strtolower(preg_replace("' '", "-", $str_exp[1])),
+                                    "enabled" => true
+                                ]);
+                            }
                         }
                     }
                     array_push($variations, [
@@ -539,9 +583,13 @@ class Product extends Model
                         "name" => $prod->name,
                         "features" => $features,
                         "image" => Product::$base_siteurl . $prod->image_path,
-                        "swatch_image" => Product::$base_siteurl . $prod->swatch_image_path
+                        "swatch_image" => Product::$base_siteurl . $prod->swatch_image_path,
                     ]);
                 }
+
+                array_push($variations, [
+                    "filters" => $variation_filters
+                ]);
 
                 return $variations;
             }
@@ -588,7 +636,7 @@ class Product extends Model
         }
 
         $westelm_cache_data = [];
-        
+
         $variations = Product::get_variations($prod[0], $westelm_variations_data);
         return Product::get_details($prod[0], Product::$base_siteurl, $variations);
     }
