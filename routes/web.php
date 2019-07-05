@@ -27,6 +27,7 @@ Route::get('login/{driver}/callback', 'Auth\LoginController@handleProviderCallba
     ->name('login.callback')
     ->where('driver', implode('|', config('auth.socialite.drivers')));
 
+
 /*
 API ROUTES
  */
@@ -36,4 +37,4 @@ Route::get('/api/departments/{dept}', 'DepartmentController@get_department')->na
 Route::get('/api/categories', 'CategoryController@get_all_categories')->name('get_category');
 Route::get('/api/products/{dept}/{cat?}/{subCat?}', 'API@filter_products')->name('get-products');
 Route::get('/api/product/{sku}', 'API@get_product_details')->name('get-product-details');
-Route::get('/api/product/variation/{sku}', 'API@get_product_variations')->name('get-product-variations');
+Route::get( '/api/variation/product/{sku}', 'API@get_product_variations')->name('get-product-variations');
