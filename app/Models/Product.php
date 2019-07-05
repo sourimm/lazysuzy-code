@@ -515,6 +515,7 @@ class Product extends Model
 
     public static function get_filter_key($key)
     {
+        $key = preg_replace('/please|Please|select|Select/', '', $key);
         return strtolower(preg_replace("' '", "-", $key));
     }
 
@@ -540,7 +541,6 @@ class Product extends Model
                         if (isset($str_exp[0]) && isset($str_exp[1])) {
                             //echo $filter_key . "<br>";
 
-                            $str_exp[0] = preg_replace('/please|Please|select|Select/', '', $str_exp[0]);
                             $filter_key = Product::get_filter_key($str_exp[0]);
                             $features[$filter_key] = $str_exp[1];
 
@@ -588,7 +588,7 @@ class Product extends Model
                 }
 
                 array_push($variations, [
-                    "filters" => $variation_filters
+                    "filters" => Product::get_all_variation_filters($product->product_sku)
                 ]);
 
                 return $variations;
@@ -629,6 +629,7 @@ class Product extends Model
             ->groupBy("product_id")
             ->get();
         $westelm_variations_data = [];
+        
         if (sizeof($westelm_cache_data) > 0) {
             foreach ($westelm_cache_data as $row) {
                 $westelm_variations_data[$row->product_id] = $row->product_count;
@@ -639,5 +640,57 @@ class Product extends Model
 
         $variations = Product::get_variations($prod[0], $westelm_variations_data);
         return Product::get_details($prod[0], Product::$base_siteurl, $variations);
+    }
+
+    public static function get_all_variation_filters($sku) {
+        $var = DB::table("westelm_products_skus")
+            ->where("product_id", $sku)
+            //->limit(20)
+            ->get();
+        $variation_filters = [];
+
+        foreach ($var as $prod) {
+            for ($i = 1; $i <= 6; $i++) {
+                $col = "attribute_" . $i;
+                $str = $prod->$col;
+                $str_exp = explode(":", $str);
+                if (isset($str_exp[0]) && isset($str_exp[1])) {
+                    //echo $filter_key . "<br>";
+
+                    $str_exp[0] = preg_replace('/please|Please|select|Select/', '', $str_exp[0]);
+                    $filter_key = Product::get_filter_key($str_exp[0]);
+                    $features[$filter_key] = $str_exp[1];
+
+                    // setting array indexes for each filter category 
+                    if (!isset($variation_filters[$filter_key]))
+                        $variation_filters[$filter_key] = [];
+
+                    // saving unique data values for the filter value display
+                   
+                    $found = false;
+                    //echo sizeof($variation_filters[$filter_key]);
+                    foreach ($variation_filters[$filter_key] as $filter) {
+                        //echo "comparing " . $filter["value"] . " %% " . $str_exp[1] . "<br>";
+                        if (isset($filter["name"])) {
+                            if ($filter["name"] == $str_exp[1]) {
+                                $found = true;
+                                break;
+                            }
+                        }
+                    }
+
+                    if (!$found) {
+                        array_push($variation_filters[$filter_key], [
+                            "name" => $str_exp[1],
+                            "value" => strtolower(preg_replace("' '", "-", $str_exp[1])),
+                            "enabled" => true
+                        ]);
+                    }
+                }
+            }
+        }
+
+        return $variation_filters;
+
     }
 };
