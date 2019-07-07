@@ -1,15 +1,19 @@
 import * as multiCarouselFuncs from '../components/multi-carousel';
+import makeSelectBox from '../components/custom-selectbox';
 
 $(document).ready(function () {
     const PDP_API = '/api' + window.location.pathname;
+    const VARIATION_API = '/api/variation' + window.location.pathname;
+    const $product = $('#detailPage');
+    const $prodPriceCard = $product.find('.prod-price-card');
+    var $filtersDiv = '';
 
     $.ajax({
         type: "GET",
         url: PDP_API,
         dataType: "json",
         success: function (data) {
-            console.log(data);
-            var $product = $('#detailPage');
+            // console.log(data);
 
             var $imagesContainer = $product.find('.-images-container');
             var $images = $imagesContainer.find('.-images');
@@ -21,30 +25,33 @@ $(document).ready(function () {
                     alt: 'product image'
                 }).appendTo($images);
             });
+            var site = $('<span/>',{
+                text: data.site + ' ',
+                class: 'float-left text-uppercase'
+            }).appendTo($prodPriceCard);
+            var price = $('<span/>',{
+                text: ' $' + data.is_price.replace('-', ' - $'),
+                class: 'float-right'
+            }).appendTo($prodPriceCard);
+            $('<div />',{
+                class: 'clearfix'
+            }).appendTo($prodPriceCard);
+            var buyBtn = $('<a/>',{
+                class: 'btn pdp-buy-btn',
+                href: data.product_url,
+                text: 'Buy'
+            }).appendTo($prodPriceCard);
 
-            var variationImages = data.variations.map(variation => variation.image);
-            var variationLinks = data.variations.map(variation => variation.link);
+            $filtersDiv = jQuery( '<div/>', {
+                id: 'filtersDiv'
+            }).appendTo($prodPriceCard);
 
-            var $variationsCarousel = $product.find('.-variations-carousel');
-            var carouselMainDiv = jQuery('<div/>', {
-                class: 'responsive',
-            }).appendTo($variationsCarousel);
-
-            variationImages.forEach((img, idx) => {
-                var responsiveImgDiv = jQuery('<div/>', {
-                    class: 'mini-carousel-item',
-                }).appendTo(carouselMainDiv);
-                var anchor = jQuery('<a/>', {
-                    class: 'responsive-img-a',
-                    href: variationLinks[idx]
-                }).appendTo(responsiveImgDiv);
-                var responsiveImg = jQuery('<img/>', {
-                    class: 'carousel-img img-fluid',
-                    src: img
-                }).appendTo(anchor);
-
-            });
-            multiCarouselFuncs.makeMultiCarousel();
+            if( data.variations != null){
+                makeVariationCarousel(data.variations);
+            }
+            else{
+                fetchVariations();
+            }
 
             //Product description
             var $desc = $product.find('.prod-desc');
@@ -62,28 +69,108 @@ $(document).ready(function () {
                     html: feature
                 }).appendTo($featuresList);
             });
-
-            var $prodPriceCard = $product.find('.prod-price-card');
-            var site = $('<span/>',{
-                text: data.site,
-                class: 'float-left text-uppercase'
-            }).appendTo($prodPriceCard);
-            var price = $('<span/>',{
-                text: '$' +data.is_price,
-                class: 'float-right'
-            }).appendTo($prodPriceCard);
-            $('<div />',{
-                class: 'clearfix'
-            }).appendTo($prodPriceCard);
-            var buyBtn = $('<a/>',{
-                class: 'btn pdp-buy-btn',
-                href: data.product_url,
-                text: 'Buy'
-            }).appendTo($prodPriceCard);
         },
         error: function (jqXHR, exception) {
             console.log(jqXHR);
             console.log(exception);
         }
     });
+
+    function fetchVariations(queryParams = null){
+        $.ajax({
+            type: "GET",
+            url: VARIATION_API,
+            data: queryParams,
+            dataType: "json",
+            success: function (data) {
+                console.log(data);
+
+                if( data.variations != null){
+                    makeVariationCarousel(data.variations);
+                }
+
+                var $prodMainImgDiv = $product.find('.prod-main-img');
+                $prodMainImgDiv.empty();
+                var carouselMainDiv = jQuery('<img/>', {
+                    src: data.main_image,
+                    alt: 'Product image'
+                }).appendTo($prodMainImgDiv);
+                $filtersDiv.empty();
+
+                if( data.filters != null ){
+                    Object.keys(data.filters).forEach(function (filter) {
+                        // data.filters.filter.forEach(options => {
+                            var $filterLabel = jQuery( '<label/>', {
+                                text: filter + ':',
+                                for: 'selectbox-attr-'+filter,
+                                class: 'select-label',
+                                value: filter
+                            }).appendTo($filtersDiv);
+                            var $filterSelectBox = jQuery( '<select/>', {
+                                class: 'form-control',
+                                id: 'attr-'+filter
+                            }).appendTo($filtersDiv);
+                            data.filters[filter].forEach(element => {
+                                var attrElm = jQuery('<option />', {
+                                    value: element.value,
+                                    selected: element.enabled,
+                                    text: element.name
+                                }).appendTo($filterSelectBox);
+                            });
+                        // });
+                    });
+
+                    makeSelectBox();
+                }
+            },
+            error: function (jqXHR, exception) {
+                console.log(jqXHR);
+                console.log(exception);
+            }
+        });        
+    }
+
+    function makeVariationCarousel(variationData){
+
+
+        var variationImages = variationData.map(variation => variation.image);
+        var variationLinks = variationData.map(variation => variation.link);
+
+        var $variationsCarousel = $product.find('.-variations-carousel');
+        var carouselMainDiv = jQuery('<div/>', {
+            class: 'responsive',
+        }).appendTo($variationsCarousel);
+
+        variationImages.forEach((img, idx) => {
+            var responsiveImgDiv = jQuery('<div/>', {
+                class: 'mini-carousel-item',
+            }).appendTo(carouselMainDiv);
+            var anchor = jQuery('<a/>', {
+                class: 'responsive-img-a',
+                href: variationLinks[idx]
+            }).appendTo(responsiveImgDiv);
+            var responsiveImg = jQuery('<img/>', {
+                class: 'carousel-img img-fluid',
+                src: img
+            }).appendTo(anchor);
+
+        });
+        multiCarouselFuncs.makeMultiCarousel();
+    }
+
+    $(document).on('select-value-changed', function () {
+        onFilterChange();
+    });
+
+    function onFilterChange(){
+        var oQueryParams = new Object();
+        $('.select-styled').each(function () {
+            var strLabelText = $filtersDiv.find('label[for='+$(this).attr('id')+']').attr('value');
+            var currFilter = $(this).attr('active');
+            if( strLabelText !== 'shape' ){
+                oQueryParams[strLabelText] = currFilter;
+            }
+        });
+        fetchVariations(oQueryParams);
+    }
 });
