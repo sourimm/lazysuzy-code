@@ -5,6 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Input;
+use Auth;
+
 
 class Product extends Model
 {
@@ -444,7 +446,7 @@ class Product extends Model
             'reviews'          => $product->reviews,
             'rating'           => (float) $product->rating,
             'LS_ID'            => $product->LS_ID,
-            'variations'       => $variations
+            //'variations'       => $variations
 
         ];
     }
@@ -516,7 +518,7 @@ class Product extends Model
     public static function get_filter_key($key)
     {
         $key = preg_replace('/please|Please|select|Select/', '', $key);
-        return strtolower(preg_replace("' '", "-", $key));
+        return strtolower(preg_replace("/' '/", "-", $key));
     }
 
     public static function get_westelm_variations($product, $wl_v)
@@ -691,6 +693,7 @@ class Product extends Model
         }
 
         return $variation_filters;
-
     }
+
+    
 };
