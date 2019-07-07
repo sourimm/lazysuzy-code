@@ -38,3 +38,7 @@ Route::get('/api/categories', 'CategoryController@get_all_categories')->name('ge
 Route::get('/api/products/{dept}/{cat?}/{subCat?}', 'API@filter_products')->name('get-products');
 Route::get('/api/product/{sku}', 'API@get_product_details')->name('get-product-details');
 Route::get( '/api/variation/product/{sku}', 'API@get_product_variations')->name('get-product-variations');
+
+Route::get('/api/wishlist', 'API@get_wishlist')->name('get-wishlist');
+Route::get('/api/mark/favourite/{sku}', 'API@mark_favourite')->name('mark-favourite');
+Route::get('/api/unmark/favourite/{sku}', 'API@unmark_favourite')->name('unmark-favourite');

@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
+use App\Models\Whislist;
 use App\Models\Variations;
 use Illuminate\Http\Request;
+use App\Models\Wishlist;
 
 class API extends Controller
 {
@@ -31,5 +33,19 @@ class API extends Controller
     public function get_product_variations($sku)
     {
         return Variations::get_variations($sku);
+    }
+
+    public function mark_favourite($sku)
+    {
+        return Wishlist::mark_favourite_product($sku);
+    }
+
+    public function unmark_favourite($sku)
+    {
+        return Wishlist::unmark_favourite_product($sku);
+    }
+
+    public function get_wishlist() {
+        return Wishlist::get_whishlist();
     }
 }
