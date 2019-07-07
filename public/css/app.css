@@ -19981,6 +19981,37 @@ input:disabled + .checkmark + .text {
   margin: 15px 0px;
 }
 
+.detailspage-main-div .detailspage .prod-price-card .select-label {
+  display: block;
+  font-weight: 400;
+  text-transform: capitalize;
+  font-size: 16px;
+  margin: 10px 0px;
+}
+
+.detailspage-main-div .detailspage .prod-price-card .select {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.detailspage-main-div .detailspage .prod-price-card .select .select-styled {
+  padding: 5px 15px;
+  border: 1px solid #ffcc00;
+  border-radius: 4px;
+}
+
+.detailspage-main-div .detailspage .prod-price-card .select .select-options {
+  max-height: 250px;
+  overflow-y: scroll;
+}
+
+.detailspage-main-div .detailspage .prod-price-card .select .select-options li {
+  text-align: center;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
 .detailspage-main-div .detailspage .rating-container {
   margin: auto;
 }
