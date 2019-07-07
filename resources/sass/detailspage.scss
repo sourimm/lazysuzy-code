@@ -36,6 +36,34 @@
                 border-radius: 10px;
                 margin: 15px 0px;
             }
+
+            .select-label{
+                display: block;
+                font-weight: 400;
+                text-transform: capitalize;
+                font-size: 16px;
+                margin: 10px 0px;
+            }
+
+            .select{
+                display: block;
+                width: 100%;
+                height: auto;
+                .select-styled{
+                    padding: 5px 15px;
+                    border: 1px solid $primary-color;
+                    border-radius: 4px;
+                }
+                .select-options{
+                    max-height: 250px;
+                    overflow-y: scroll;
+                    li{
+                        text-align: center;
+                        padding-left: 15px;
+                        padding-right: 15px;
+                    }
+                }
+            }
         }
 
         .rating-container{
