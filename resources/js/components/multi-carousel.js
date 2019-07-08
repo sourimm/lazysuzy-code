@@ -1,9 +1,9 @@
-export function makeMultiCarousel() {
+export function makeMultiCarousel(slidesShow = 4, slidesScroll = 4) {
     $('.responsive:not(.slick-slider)').slick({
         infinite: false,
         speed: 300,
-        slidesToShow: 4,
-        slidesToScroll: 4,
+        slidesToShow: slidesShow,
+        slidesToScroll: slidesScroll,
         arrows: true,
         // centerMode: true,
         responsive: [

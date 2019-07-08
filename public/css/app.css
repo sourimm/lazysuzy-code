@@ -19941,6 +19941,10 @@ input:disabled + .checkmark + .text {
   font-family: Helvetica, sans-serif;
 }
 
+.detailspage-main-div .detailspage .zoom-img {
+  cursor: zoom-in;
+}
+
 .detailspage-main-div .detailspage .-images-container {
   height: 300px;
   overflow-x: auto;
@@ -19960,7 +19964,8 @@ input:disabled + .checkmark + .text {
 }
 
 .detailspage-main-div .detailspage .responsive {
-  height: 50px;
+  height: auto;
+  max-width: 100%;
 }
 
 .detailspage-main-div .detailspage .prod-price-card {
@@ -20038,6 +20043,18 @@ input:disabled + .checkmark + .text {
   font-size: 22px;
 }
 
+.drift-zoom-pane {
+  position: absolute;
+  width: 150px;
+  height: 150px;
+  border-radius: 75px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.3);
+}
+
+.drift-zoom-pane.carousel-zoom-pane {
+  margin-top: 100px;
+}
+
 .responsive {
   height: 30px;
   max-width: 190px;
@@ -20051,6 +20068,10 @@ input:disabled + .checkmark + .text {
 
 .responsive .mini-carousel-item .carousel-img {
   margin: auto;
+}
+
+.responsive .mini-carousel-item .responsive-img-a {
+  outline: none;
 }
 
 .responsive .slick-prev {

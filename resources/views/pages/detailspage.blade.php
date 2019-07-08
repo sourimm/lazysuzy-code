@@ -7,14 +7,18 @@
         <div class="-images-container"><div class="-images"></div></div>
 
         <div class="row container">
-            <div class="prod-desc col-6">
-                <div class="-variations-carousel"></div>
-                <h2 class="-name">product name</h2>
-                <div class="rating-container"><div class="rating"></div><span class="total-ratings"></span></div>
-                <p class="-desc"></p>
-                <ul class="-features"></ul>
-            </div>
-            <div class="prod-main-img col-3">
+            <div class="prod-desc col-9">
+                <div class="-variations-carousel col-12"></div>
+                <div class="row">
+                    <div class="col-7">
+                        <h2 class="-name">product name</h2>
+                        <div class="rating-container"><div class="rating"></div><span class="total-ratings"></span></div>
+                        <p class="-desc"></p>
+                        <ul class="-features"></ul>
+                    </div>
+                    <div class="prod-main-img col-5">
+                    </div>
+                </div>
             </div>
             <div class="prod-price-card col-3">
             </div>
