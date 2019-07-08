@@ -446,7 +446,7 @@ class Product extends Model
             'reviews'          => $product->reviews,
             'rating'           => (float) $product->rating,
             'LS_ID'            => $product->LS_ID,
-            //'variations'       => $variations
+            'variations'       => $variations
 
         ];
     }
@@ -640,7 +640,7 @@ class Product extends Model
 
         $westelm_cache_data = [];
 
-        $variations = Product::get_variations($prod[0], $westelm_variations_data);
+        $variations = null;
         return Product::get_details($prod[0], Product::$base_siteurl, $variations);
     }
 
