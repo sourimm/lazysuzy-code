@@ -1,5 +1,6 @@
 import * as multiCarouselFuncs from '../components/multi-carousel';
 import makeSelectBox from '../components/custom-selectbox';
+import Drift from 'drift-zoom';
 
 $(document).ready(function () {
     const PDP_API = '/api' + window.location.pathname;
@@ -92,9 +93,18 @@ $(document).ready(function () {
                 var $prodMainImgDiv = $product.find('.prod-main-img');
                 $prodMainImgDiv.empty();
                 var carouselMainDiv = jQuery('<img/>', {
-                    src: data.main_image,
-                    alt: 'Product image'
+                    src: "http://assets.imgix.net/unsplash/lighthouse.jpg?w=400",
+                    alt: 'Product image',
+                    class: 'zoom-img img-fluid',
+                    "data-zoom": "http://assets.imgix.net/unsplash/lighthouse.jpg"
                 }).appendTo($prodMainImgDiv);
+                $('.zoom-img').each(function(){
+                    var options = {};
+                    if( $(this).hasClass('carousel-img') ){
+	                    options = { namespace: 'carousel' };
+                    }
+                    new Drift(this, options);
+                })
                 $filtersDiv.empty();
 
                 if( data.filters != null ){
@@ -147,15 +157,16 @@ $(document).ready(function () {
             }).appendTo(carouselMainDiv);
             var anchor = jQuery('<a/>', {
                 class: 'responsive-img-a',
-                href: variationLinks[idx]
+                href: variationLinks[idx] ? variationLinks[idx] : '#'
             }).appendTo(responsiveImgDiv);
             var responsiveImg = jQuery('<img/>', {
-                class: 'carousel-img img-fluid',
-                src: img
+                class: 'zoom-img carousel-img img-fluid',
+                src: img,
+                "data-zoom" : img
             }).appendTo(anchor);
 
         });
-        multiCarouselFuncs.makeMultiCarousel();
+        multiCarouselFuncs.makeMultiCarousel(10,10);
     }
 
     $(document).on('select-value-changed', function () {
