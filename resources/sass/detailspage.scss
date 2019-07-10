@@ -1,6 +1,10 @@
 .detailspage-main-div{
     font-family: Helvetica, sans-serif;
     .detailspage{
+        .zoom-img{
+            cursor: zoom-in;
+        }
+
         .-images-container{
             height: 300px;
             overflow-x: auto;
@@ -18,7 +22,8 @@
         }
 
         .responsive{
-            height: 50px;
+            height: auto;
+            max-width: 100%;
         }
 
         .prod-price-card{
@@ -91,5 +96,16 @@
                 }
             }
         }
+    }
+}
+
+.drift-zoom-pane {
+    position: absolute;
+    width: 150px;
+    height: 150px;
+    border-radius: 75px;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.3);
+    &.carousel-zoom-pane{
+        margin-top: 100px;
     }
 }
