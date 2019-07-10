@@ -33,7 +33,7 @@ class Variations extends Model {
         
         $col_mapper = [
             "color" => "attribute_1",
-            "size" => "attribute_2",
+            "shape" => "attribute_2",
             "fabric" => "attribute_3",
             "furniture-piece" => "attribute_4",
             "delivery" => "attribute_5",
