@@ -27,6 +27,7 @@
     },
     "dependencies": {
         "@fortawesome/fontawesome-free": "^5.8.1",
+        "drift-zoom": "^1.3.4",
         "ion-rangeslider": "^2.3.0",
         "slick-carousel": "^1.8.1"
     }
