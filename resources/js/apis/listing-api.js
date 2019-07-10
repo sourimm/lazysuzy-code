@@ -7,6 +7,7 @@ $(document).ready(function () {
     const LISTING_API_PATH = '/api' + location.pathname;
     const LISTING_FILTER_API_PATH = '/api/filter/products';
     const DEPT_API = '/api/all-departments'
+    const PRODUCT_URL = location.origin + '/product/';
     var totalResults = 0;
     var UrlSearchParams = new Object();
     var objGlobalFilterData;
@@ -116,7 +117,7 @@ $(document).ready(function () {
         }).appendTo('#productsContainerDiv');
 
         var productLink = jQuery('<a/>', {
-            href: productDetails.product_url
+            href: PRODUCT_URL + productDetails.sku
         }).appendTo(mainProductDiv);
 
         var product = jQuery('<div/>', {
