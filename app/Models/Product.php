@@ -465,7 +465,7 @@ class Product extends Model
 
         foreach ($variations as $variation) {
             if ($variation->product_sku != $variation->variation_sku) {
-                $link = $base_siteurl . "/product-detail/";
+                $link = $base_siteurl . "/product/";
                 if ($variation->has_parent_sku) {
                     $link .= $variation->variation_sku;
                 } else {
@@ -507,7 +507,7 @@ class Product extends Model
                     "variation_sku" => $variation->product_sku,
                     "name" => $variation->color,
                     "image" => $base_siteurl . $variation->main_product_images,
-                    "link" =>  $base_siteurl . "/product-detail/" . $variation->product_sku
+                    "link" =>  $base_siteurl . "/product/" . $variation->product_sku
                 ]);
             }
         }
