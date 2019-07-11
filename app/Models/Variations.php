@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Input;
 
 class Variations extends Model {
-    public static $base_siteurl = 'https://lazysuzy.com';
+    public static $base_siteurl = 'http://lazysuzy.com';
 
     public static function sanitize($text) {
          $text = preg_replace("/-/", " ", $text);
@@ -35,9 +35,9 @@ class Variations extends Model {
             "color" => "attribute_1",
             "shape" => "attribute_2",
             "fabric" => "attribute_3",
-            "furniture-piece" => "attribute_4",
+            "furniture_piece" => "attribute_4",
             "delivery" => "attribute_5",
-            "leg-style" => "attribute_6"
+            "leg_style" => "attribute_6"
         ];
         
         $all_filters = Product::get_all_variation_filters($sku);
