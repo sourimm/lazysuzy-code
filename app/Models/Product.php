@@ -519,7 +519,7 @@ class Product extends Model
     public static function get_filter_key($key)
     {
         $key = preg_replace('/please|Please|select|Select/', '', $key);
-        return strtolower(preg_replace("/' '/", "-", $key));
+        return strtolower(preg_replace("/[\s]+/", "_", $key));
     }
 
     public static function get_westelm_variations($product, $wl_v)
