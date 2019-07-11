@@ -377,7 +377,6 @@ class Product extends Model
         $brand_holder        = [];
         $price_holder        = [];
         $product_type_holder = [];
-        $base_siteurl = 'https://lazysuzy.com';
         $westelm_cache_data  = DB::table("westelm_products_skus")
             ->selectRaw("COUNT(product_id) AS product_count, product_id")
             ->groupBy("product_id")
@@ -395,7 +394,7 @@ class Product extends Model
         foreach ($products as $product) {
 
             $variations = Product::get_variations($product, $westelm_variations_data);
-            array_push($p_send, Product::get_details($product, $base_siteurl, $variations));
+            array_push($p_send, Product::get_details($product, Product::$base_siteurl, $variations));
         }
 
         $brand_holder = Product::get_brands_filter($dept, $cat, $all_filters);
@@ -431,7 +430,7 @@ class Product extends Model
             'is_price'         => $product->price,
             'model_code'       => $product->model_code,
             'description'      => $product->product_description,
-            'dimension'       => $product->product_dimension,
+            'dimension'       => $product->site_name == "cb2" ? Product::cb2_dimensions($product->product_dimension) : $product->product_dimension,
             'thumb'            => preg_split("/,|\\[US\\]/", $product->thumb),
             'color'            => $product->color,
             'images'           => preg_split("/,|\\[US\\]/", $product->images),
@@ -450,6 +449,25 @@ class Product extends Model
             'variations'       => $variations
 
         ];
+    }
+
+    public static function cb2_dimensions($json_string)
+    {
+        $dim = json_decode($json_string);
+        $d_arr = [];
+        $dd_arr = [];
+
+        foreach ($dim as $d) {
+            if ($d->hasDimensions) {
+                array_push($d_arr, [
+                    "description" => $d->description,
+                    "value" => $d->width . "\"" . "W " . $d->depth . "\"D " . $d->height . "\"H"
+                ]);
+            }
+        }
+
+        //return $json_string;
+        return $d_arr;
     }
 
     public static function baseUrl($link)
@@ -603,14 +621,13 @@ class Product extends Model
 
     public static function get_variations($product, $wl_v)
     {
-        $base_siteurl = 'https://lazysuzy.com';
 
         switch ($product->site_name) {
             case 'cb2':
-                return Product::get_CB2_variations($product->product_sku, $base_siteurl);
+                return Product::get_CB2_variations($product->product_sku, Product::$base_siteurl);
                 break;
             case 'pier1':
-                return Product::get_pier1_variations($product, $base_siteurl);
+                return Product::get_pier1_variations($product, Product::$base_siteurl);
                 break;
             case 'westelm':
                 return Product::get_westelm_variations($product, $wl_v);
@@ -632,7 +649,7 @@ class Product extends Model
             ->groupBy("product_id")
             ->get();
         $westelm_variations_data = [];
-        
+
         if (sizeof($westelm_cache_data) > 0) {
             foreach ($westelm_cache_data as $row) {
                 $westelm_variations_data[$row->product_id] = $row->product_count;
@@ -645,7 +662,8 @@ class Product extends Model
         return Product::get_details($prod[0], Product::$base_siteurl, $variations);
     }
 
-    public static function get_all_variation_filters($sku) {
+    public static function get_all_variation_filters($sku)
+    {
         $var = DB::table("westelm_products_skus")
             ->where("product_id", $sku)
             //->limit(20)
@@ -669,7 +687,7 @@ class Product extends Model
                         $variation_filters[$filter_key] = [];
 
                     // saving unique data values for the filter value display
-                   
+
                     $found = false;
                     //echo sizeof($variation_filters[$filter_key]);
                     foreach ($variation_filters[$filter_key] as $filter) {
@@ -695,6 +713,4 @@ class Product extends Model
 
         return $variation_filters;
     }
-
-    
 };
