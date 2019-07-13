@@ -93,10 +93,10 @@ $(document).ready(function () {
                 var $prodMainImgDiv = $product.find('.prod-main-img');
                 $prodMainImgDiv.empty();
                 var carouselMainDiv = jQuery('<img/>', {
-                    src: "http://assets.imgix.net/unsplash/lighthouse.jpg?w=400",
+                    src: data.main_image,
                     alt: 'Product image',
                     class: 'zoom-img img-fluid',
-                    "data-zoom": "http://assets.imgix.net/unsplash/lighthouse.jpg"
+                    "data-zoom": data.main_image
                 }).appendTo($prodMainImgDiv);
                 $('.zoom-img').each(function(){
                     var options = {};
@@ -176,11 +176,9 @@ $(document).ready(function () {
     function onFilterChange(){
         var oQueryParams = new Object();
         $('.select-styled').each(function () {
-            var strLabelText = $filtersDiv.find('label[for='+$(this).attr('id')+']').attr('value');
+            var strLabelText = $filtersDiv.find('label[for="'+$(this).attr('id')+'"]').attr('value');
             var currFilter = $(this).attr('active');
-            if( strLabelText !== 'shape' ){
-                oQueryParams[strLabelText] = currFilter;
-            }
+            oQueryParams[strLabelText] = currFilter;
         });
         fetchVariations(oQueryParams);
     }
