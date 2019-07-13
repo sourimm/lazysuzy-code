@@ -164,19 +164,19 @@ $(document).ready(function () {
         }).appendTo(productInfoNext);
 
         var variationImages = productDetails.variations.map(variation => variation.image);
+        var variationSwatchImages = productDetails.variations.map(variation => variation.swatch_image) || variationImages;
         var variationLinks = productDetails.variations.map(variation => variation.link);
 
-        if(variationImages.length > 0){
-
+        if(productDetails.main_image != null){
             jQuery('<img />', {
                 id: 'variationImg',
                 class: 'variation-img img-fluid',
-                src: variationImages[0],
+                src: productDetails.main_image,
                 alt: 'variation-img'
             }).appendTo(product);
         }
 
-        variationImages.forEach((img, idx) => {
+        variationSwatchImages.forEach((img, idx) => {
             var responsiveImgDiv = jQuery('<div/>', {
                 class: 'mini-carousel-item',
             }).appendTo(carouselMainDiv);

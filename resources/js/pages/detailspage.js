@@ -21,7 +21,7 @@ $(document).ready(function () {
             var $imagesContainer = $product.find('.-images-container');
             var $images = $imagesContainer.find('.-images');
             var imgContainerWidth = 0;
-            data.images.forEach(img => {
+            data.on_server_images.forEach(img => {
                 var responsiveImg = jQuery('<img/>', {
                     class: '-prod-img img-fluid',
                     src: img,
