@@ -19968,6 +19968,10 @@ input:disabled + .checkmark + .text {
   max-width: 100%;
 }
 
+.detailspage-main-div .detailspage .responsive .slick-slide {
+  margin: 0px 5px;
+}
+
 .detailspage-main-div .detailspage .prod-price-card {
   border-radius: 20px;
   background-color: aliceblue;

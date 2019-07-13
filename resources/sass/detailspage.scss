@@ -24,6 +24,9 @@
         .responsive{
             height: auto;
             max-width: 100%;
+            .slick-slide{
+                margin: 0px 5px;
+            }
         }
 
         .prod-price-card{
