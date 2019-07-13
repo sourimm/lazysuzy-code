@@ -8,6 +8,8 @@ $(document).ready(function () {
     const $product = $('#detailPage');
     const $prodPriceCard = $product.find('.prod-price-card');
     var $filtersDiv = '';
+    var variationDrift = '';
+    var variationImgEl = '';
 
     $.ajax({
         type: "GET",
@@ -93,16 +95,14 @@ $(document).ready(function () {
                 var $prodMainImgDiv = $product.find('.prod-main-img');
                 $prodMainImgDiv.empty();
                 var carouselMainDiv = jQuery('<img/>', {
-                    src: data.main_image,
-                    alt: 'Product image',
-                    class: 'zoom-img img-fluid',
-                    "data-zoom": data.main_image
+                    id: 'variationImg',
+                    class: 'zoom-img-variation img-fluid'
                 }).appendTo($prodMainImgDiv);
+                variationImgEl = document.querySelector('#variationImg');
+                variationDrift = new Drift(variationImgEl, {});
+
                 $('.zoom-img').each(function(){
-                    var options = {};
-                    if( $(this).hasClass('carousel-img') ){
-	                    options = { namespace: 'carousel' };
-                    }
+                    var options = { namespace: 'carousel' };
                     new Drift(this, options);
                 })
                 $filtersDiv.empty();
@@ -144,6 +144,7 @@ $(document).ready(function () {
 
 
         var variationImages = variationData.map(variation => variation.image);
+        var variationSwatchImages = variationData.map(variation => variation.swatch_image) || variationImages;
         var variationLinks = variationData.map(variation => variation.link);
 
         var $variationsCarousel = $product.find('.-variations-carousel');
@@ -151,13 +152,13 @@ $(document).ready(function () {
             class: 'responsive',
         }).appendTo($variationsCarousel);
 
-        variationImages.forEach((img, idx) => {
+        variationSwatchImages.forEach((img, idx) => {
             var responsiveImgDiv = jQuery('<div/>', {
                 class: 'mini-carousel-item',
             }).appendTo(carouselMainDiv);
             var anchor = jQuery('<a/>', {
                 class: 'responsive-img-a',
-                href: variationLinks[idx] ? variationLinks[idx] : '#'
+                "data-image": variationImages[idx] ? variationImages[idx] : ''
             }).appendTo(responsiveImgDiv);
             var responsiveImg = jQuery('<img/>', {
                 class: 'zoom-img carousel-img img-fluid',
@@ -171,6 +172,14 @@ $(document).ready(function () {
 
     $(document).on('select-value-changed', function () {
         onFilterChange();
+    });
+
+    $('body').on('click', '.responsive-img-a', function(){
+        $('#variationImg').attr('src', $(this).attr("data-image"));
+        
+       var triggerEl = document.querySelector('#variationImg');
+       variationDrift.setZoomImageURL($(this).attr("data-image"));
+       triggerEl.setAttribute("data-zoom", $(this).attr("data-image"));
     });
 
     function onFilterChange(){
