@@ -13,6 +13,11 @@ class Variations extends Model {
          return strip_tags($text);
     }
 
+    public static function get_attr_value($attr_str) {
+        $str_exp = explode(":", $attr_str);
+        return isset($str_exp[1]) ? $str_exp[1] : null;
+    }
+
     public static function get_variations($sku) {
         $filters = [];
         $cols = [
@@ -21,8 +26,8 @@ class Variations extends Model {
             "name",
             "price",
             "was_price",
-            DB::raw('CONCAT("'. Product::$base_siteurl .'",image_path) as image_path'),
-            DB::raw('CONCAT("' . Product::$base_siteurl . '",swatch_image_path) as swatch_image_path'),
+            DB::raw('CONCAT("'. Product::$base_siteurl .'", image_path) as image'),
+            DB::raw('CONCAT("' . Product::$base_siteurl . '", swatch_image_path) as swatch_image'),
             "attribute_1",
             "attribute_2",
             "attribute_3",
@@ -58,18 +63,36 @@ class Variations extends Model {
 
         $variations = $query->get();
         $filters = [];
+        $products = [];
 
         $filter_values_unique = [];
         if (isset($main_img[0])) {
             foreach ($variations as $variation) {
+                 $product = [];
                 $col = "attribute_";
+
+                // load basic details about the product
+                $product = [
+                    "product_sku" => $variation->product_sku,
+                    "variation_sku" => $variation->variation_sku,
+                    "name" => $variation->name,
+                    "price" => $variation->price,
+                    "image" => $variation->image,
+                    "swatch_image" => $variation->swatch_image
+                ];
                 for ($i = 1; $i <= 6; $i++) {
                     $col_name = $col . $i;
 
                     $str_exp = explode(":", $variation->$col_name);
                     if (isset($str_exp[0]) && isset($str_exp[1])) {
                         $filter_key = Product::get_filter_key($str_exp[0]);
-
+                        
+                        // load attr details for product
+                        $product[$filter_key] = [
+                            "name" => $str_exp[1],
+                            "value" =>  strtolower(preg_replace("/[\s]/", "-", $str_exp[1]))
+                        ];
+                        
                         if (!isset($filter_values_unique[$filter_key]))
                             $filter_values_unique[$filter_key] = [];
 
@@ -78,7 +101,10 @@ class Variations extends Model {
                         }
                     }
                 }
+
+                array_push($products, $product);
             }
+
 
             //echo "<pre>" . print_r($filter_values_unique, true);
 
@@ -111,7 +137,7 @@ class Variations extends Model {
             // return ;
             return [
                 "main_image" => Product::$base_siteurl . $main_img[0]->main_product_images,
-                "variations" => $query->get(),
+                "variations" => $products,
                 "filters" => $filters
             ];
         
