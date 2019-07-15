@@ -21,8 +21,8 @@ class Variations extends Model {
             "name",
             "price",
             "was_price",
-            "image",
-            "swatch_image",
+            DB::raw('CONCAT("'. Product::$base_siteurl .'",image_path) as image_path'),
+            DB::raw('CONCAT("' . Product::$base_siteurl . '",swatch_image_path) as swatch_image_path'),
             "attribute_1",
             "attribute_2",
             "attribute_3",
@@ -110,7 +110,7 @@ class Variations extends Model {
             }
             // return ;
             return [
-                "main_image" => $main_img[0]->main_product_images,
+                "main_image" => Product::$base_siteurl . $main_img[0]->main_product_images,
                 "variations" => $query->get(),
                 "filters" => $filters
             ];
