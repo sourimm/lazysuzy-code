@@ -394,7 +394,7 @@ class Product extends Model
         foreach ($products as $product) {
 
             $variations = Product::get_variations($product, $westelm_variations_data);
-            array_push($p_send, Product::get_details($product, Product::$base_siteurl, $variations));
+            array_push($p_send, Product::get_details($product, $variations));
         }
 
         $brand_holder = Product::get_brands_filter($dept, $cat, $all_filters);
@@ -417,7 +417,7 @@ class Product extends Model
         ];
     }
 
-    public static function get_details($product, $base_siteurl, $variations)
+    public static function get_details($product, $variations)
     {
         return [
             'id'               => $product->id,
@@ -433,7 +433,7 @@ class Product extends Model
             'dimension'       => $product->site_name == "cb2" ? Product::cb2_dimensions($product->product_dimension) : $product->product_dimension,
             'thumb'            => preg_split("/,|\\[US\\]/", $product->thumb),
             'color'            => $product->color,
-            'images'           => preg_split("/,|\\[US\\]/", $product->images),
+            'images'           => array_map([__CLASS__, "baseUrl"], preg_split("/,|\\[US\\]/", $product->images)),
             'was_price'        => $product->was_price,
             'features'         => preg_split("/\\[US\\]|<br>|\\n/", $product->product_feature),
             'collection'       => $product->collection,
@@ -442,7 +442,7 @@ class Product extends Model
             'created_date'     => $product->created_date,
             'updated_date'     => $product->updated_date,
             'on_server_images' => array_map([__CLASS__, "baseUrl"], preg_split("/,|\\[US\\]/", $product->product_images)),
-            'main_image'       => $base_siteurl . $product->main_product_images,
+            'main_image'       => Product::$base_siteurl . $product->main_product_images,
             'reviews'          => $product->reviews,
             'rating'           => (float) $product->rating,
             'LS_ID'            => $product->LS_ID,
@@ -475,7 +475,7 @@ class Product extends Model
         return Product::$base_siteurl . $link;
     }
 
-    public static function get_cb2_variations($sku, $base_siteurl)
+    public static function get_cb2_variations($sku)
     {
         $product_variations = [];
         $variations = DB::table("cb2_products_variations")
@@ -484,7 +484,7 @@ class Product extends Model
 
         foreach ($variations as $variation) {
             if ($variation->product_sku != $variation->variation_sku) {
-                $link = $base_siteurl . "/product/";
+                $link = Product::$base_siteurl . "/product/";
                 if ($variation->has_parent_sku) {
                     $link .= $variation->variation_sku;
                 } else {
@@ -504,7 +504,7 @@ class Product extends Model
         return $product_variations;
     }
 
-    public static function get_pier1_variations($product, $base_siteurl)
+    public static function get_pier1_variations($product)
     {
         $product_variations = [];
 
@@ -525,8 +525,8 @@ class Product extends Model
                     "product_sku" => $product->product_sku,
                     "variation_sku" => $variation->product_sku,
                     "name" => $variation->color,
-                    "image" => $base_siteurl . $variation->main_product_images,
-                    "link" =>  $base_siteurl . "/product/" . $variation->product_sku
+                    "image" => Product::$base_siteurl . $variation->main_product_images,
+                    "link" => Product::$base_siteurl . "/product/" . $variation->product_sku
                 ]);
             }
         }
@@ -624,10 +624,10 @@ class Product extends Model
 
         switch ($product->site_name) {
             case 'cb2':
-                return Product::get_CB2_variations($product->product_sku, Product::$base_siteurl);
+                return Product::get_CB2_variations($product->product_sku);
                 break;
             case 'pier1':
-                return Product::get_pier1_variations($product, Product::$base_siteurl);
+                return Product::get_pier1_variations($product);
                 break;
             case 'westelm':
                 return Product::get_westelm_variations($product, $wl_v);
@@ -659,7 +659,7 @@ class Product extends Model
         $westelm_cache_data = [];
 
         $variations = null;
-        return Product::get_details($prod[0], Product::$base_siteurl, $variations);
+        return Product::get_details($prod[0], $variations);
     }
 
     public static function get_all_variation_filters($sku)
