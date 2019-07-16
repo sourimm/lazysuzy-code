@@ -19941,8 +19941,12 @@ input:disabled + .checkmark + .text {
   font-family: Helvetica, sans-serif;
 }
 
-.detailspage-main-div .detailspage .zoom-img {
+.detailspage-main-div .detailspage .zoom-img-variation {
   cursor: zoom-in;
+}
+
+.detailspage-main-div .detailspage .carousel-img {
+  cursor: pointer;
 }
 
 .detailspage-main-div .detailspage .-images-container {

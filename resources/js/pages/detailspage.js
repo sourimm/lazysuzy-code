@@ -10,6 +10,7 @@ $(document).ready(function () {
     var $filtersDiv = '';
     var variationDrift = '';
     var variationImgEl = '';
+    var arrFilters = [];
 
     $.ajax({
         type: "GET",
@@ -87,27 +88,10 @@ $(document).ready(function () {
             dataType: "json",
             success: function (data) {
                 console.log(data);
-
-                if( data.variations != null){
-                    makeVariationCarousel(data.variations);
-                }
-
-                var $prodMainImgDiv = $product.find('.prod-main-img');
-                $prodMainImgDiv.empty();
-                var carouselMainDiv = jQuery('<img/>', {
-                    id: 'variationImg',
-                    class: 'zoom-img-variation img-fluid'
-                }).appendTo($prodMainImgDiv);
-                variationImgEl = document.querySelector('#variationImg');
-                variationDrift = new Drift(variationImgEl, {});
-
-                $('.zoom-img').each(function(){
-                    var options = { namespace: 'carousel' };
-                    new Drift(this, options);
-                })
                 $filtersDiv.empty();
 
                 if( data.filters != null ){
+                    arrFilters = Object.keys(data.filters);
                     Object.keys(data.filters).forEach(function (filter) {
                         // data.filters.filter.forEach(options => {
                             var $filterLabel = jQuery( '<label/>', {
@@ -132,6 +116,24 @@ $(document).ready(function () {
 
                     makeSelectBox();
                 }
+
+                if( data.variations != null){
+                    makeVariationCarousel(data.variations);
+                }
+
+                var $prodMainImgDiv = $product.find('.prod-main-img');
+                $prodMainImgDiv.empty();
+                var carouselMainDiv = jQuery('<img/>', {
+                    id: 'variationImg',
+                    class: 'zoom-img-variation img-fluid'
+                }).appendTo($prodMainImgDiv);
+                variationImgEl = document.querySelector('#variationImg');
+                variationDrift = new Drift(variationImgEl, {});
+
+                $('.zoom-img').each(function(){
+                    var options = { namespace: 'carousel' };
+                    new Drift(this, options);
+                })
             },
             error: function (jqXHR, exception) {
                 console.log(jqXHR);
@@ -148,6 +150,7 @@ $(document).ready(function () {
         var variationLinks = variationData.map(variation => variation.link);
 
         var $variationsCarousel = $product.find('.-variations-carousel');
+        $variationsCarousel.empty();
         var carouselMainDiv = jQuery('<div/>', {
             class: 'responsive',
         }).appendTo($variationsCarousel);
@@ -158,7 +161,7 @@ $(document).ready(function () {
             }).appendTo(carouselMainDiv);
             var anchor = jQuery('<a/>', {
                 class: 'responsive-img-a',
-                "data-image": variationImages[idx] ? variationImages[idx] : ''
+                "data-image": variationImages[idx] ? variationImages[idx] : '',
             }).appendTo(responsiveImgDiv);
             var responsiveImg = jQuery('<img/>', {
                 class: 'zoom-img carousel-img img-fluid',
@@ -166,6 +169,9 @@ $(document).ready(function () {
                 "data-zoom" : img
             }).appendTo(anchor);
 
+            arrFilters.forEach(filter => {
+                anchor.attr(filter, variationData[idx][filter].value);
+            });
         });
         multiCarouselFuncs.makeMultiCarousel(10,10);
     }
@@ -180,6 +186,18 @@ $(document).ready(function () {
        var triggerEl = document.querySelector('#variationImg');
        variationDrift.setZoomImageURL($(this).attr("data-image"));
        triggerEl.setAttribute("data-zoom", $(this).attr("data-image"));
+
+       arrFilters.forEach(filter => {
+           var filterId = 'selectbox-attr-'+filter;
+           var filterValue = $(this).attr(filter);
+           var strSelectedValue = $('#'+filterId).next().find('li[rel="'+filterValue+'"]').text();
+           $('#'+filterId).text(strSelectedValue)
+           $('#'+filterId).attr('active', filterValue);
+       });
+    //    $styledSelect.text($(this).text()).removeClass('active');
+    //         var strSelectedValue = $(this).attr('rel');
+    //         $styledSelect.attr('active', strSelectedValue);
+    //         $(document).trigger('select-value-changed');
     });
 
     function onFilterChange(){
