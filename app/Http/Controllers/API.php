@@ -35,6 +35,11 @@ class API extends Controller
         return Variations::get_variations($sku);
     }
 
+    public function get_swatch_filter($sku)
+    { 
+        return Variations::get_swatch_filter($sku);
+    }
+
     public function mark_favourite($sku)
     {
         return Wishlist::mark_favourite_product($sku);
@@ -45,7 +50,8 @@ class API extends Controller
         return Wishlist::unmark_favourite_product($sku);
     }
 
-    public function get_wishlist() {
+    public function get_wishlist()
+    {
         return Wishlist::get_whishlist();
     }
 }
