@@ -1,8 +1,12 @@
 .detailspage-main-div{
     font-family: Helvetica, sans-serif;
     .detailspage{
-        .zoom-img{
+        .zoom-img-variation{
             cursor: zoom-in;
+        }
+        .carousel-img
+        {
+            cursor: pointer;
         }
 
         .-images-container{
