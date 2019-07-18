@@ -18,14 +18,28 @@ class Variations extends Model
         "delivery" => "attribute_5",
         "leg_style" => "attribute_6"
     ];
-    
 
+
+    /**
+     * returns a string after striping all the `-`
+     * and HTML tags (if any) 
+     *
+     * @param string $text
+     * @return string
+     */
     public static function sanitize($text)
     {
         $text = preg_replace("/-/", " ", $text);
         return strip_tags($text);
     }
 
+    /**
+     * will explode the string on `:` and 
+     * return string before the colon 
+     *
+     * @param string $attr_str
+     * @return string || NULL
+     */
     public static function get_attr_value($attr_str)
     {
         $str_exp = explode(":", $attr_str);
@@ -41,8 +55,8 @@ class Variations extends Model
             "name",
             "price",
             "was_price",
-            DB::raw('CONCAT("' . Product::$base_siteurl . '", image) as image'),
-            DB::raw('CONCAT("' . Product::$base_siteurl . '", swatch_image) as swatch_image'),
+            DB::raw('CONCAT("' . Product::$base_siteurl . '", image_path) as image'),
+            DB::raw('CONCAT("' . Product::$base_siteurl . '", swatch_image_path) as swatch_image'),
             "attribute_1",
             "attribute_2",
             "attribute_3",
@@ -88,6 +102,9 @@ class Variations extends Model
                     "image" => $variation->image,
                     "swatch_image" => $variation->swatch_image
                 ];
+
+                // will have to remove this for loop and replace it with 
+                // get_filter_content method 
                 for ($i = 1; $i <= 6; $i++) {
                     $col_name = $col . $i;
 
@@ -153,7 +170,16 @@ class Variations extends Model
         return ["error" => "No Product wit SKU " . $sku . " found."];
     }
 
-    public static function in_multiarray($elem, $array) {
+    /**
+     * use this to search elements inside multi-dim
+     * array copied from PHP Docs. extends (in a way) in_array()
+     *
+     * @param string $elem
+     * @param array $array
+     * @return void
+     */
+    public static function in_multiarray($elem, $array)
+    {
         while (current($array) !== false) {
             if (current($array) == $elem) {
                 return true;
@@ -167,12 +193,12 @@ class Variations extends Model
         return false;
     }
 
-    public static function get_filter_content($data_with_attr) {
+    public static function get_filter_content($data_with_attr)
+    {
 
-        $filters = [];
         $filter_values_unique = [];
-        foreach($data_with_attr as $data) {
-            for($i = 1; $i <= 6; $i++) {
+        foreach ($data_with_attr as $data) {
+            for ($i = 1; $i <= 6; $i++) {
                 $col = "attribute_" . $i;
 
                 $str_exp = explode(":", $data->$col);
@@ -190,19 +216,15 @@ class Variations extends Model
                     }
                 }
             }
-       }
+        }
 
-       return $filter_values_unique;
-
+        return $filter_values_unique;
     }
 
     public static function get_swatch_filter($sku)
     {
         $swatch_url = Input::get('swatch');
         $cols = [
-            "swatch_image",
-            "product_id",
-            "sku",
             "attribute_1",
             "attribute_2",
             "attribute_3",
@@ -216,8 +238,7 @@ class Variations extends Model
             ->where("swatch_image", $swatch_url)
             ->where("product_id", $sku)
             ->get();
-        
+
         return Variations::get_filter_content($rows);
-        
     }
 }
