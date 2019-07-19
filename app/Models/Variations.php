@@ -170,7 +170,8 @@ class Variations extends Model
                 foreach($filter as $flt) {
                     array_push($data, [
                         "name"  => $flt["name"],
-                        "value" => $flt["value"]
+                        "value" => $flt["value"],
+                        "enabled" => $flt["enabled"]
                     ]);
                 }
                 array_push($filters_struct, [
