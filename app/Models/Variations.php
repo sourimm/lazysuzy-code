@@ -164,10 +164,25 @@ class Variations extends Model
                 }
             }
             // return ;
+            $filters_struct = [];
+            foreach($filters as $filter_key => $filter) {
+                $data = [];
+                foreach($filter as $flt) {
+                    array_push($data, [
+                        "name"  => $flt["name"],
+                        "value" => $flt["value"]
+                    ]);
+                }
+                array_push($filters_struct, [
+                    "label" => $filters[$filter_key][0]["label"],
+                    "data" => $data
+                ]);
+            }
+
             return [
                 "main_image" => Product::$base_siteurl . $main_img[0]->main_product_images,
                 "variations" => $products,
-                "filters" => $filters
+                "filters" => $filters_struct
             ];
         }
 

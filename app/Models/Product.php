@@ -708,6 +708,7 @@ class Product extends Model
                     }
 
                     if (!$found) {
+                        
                         array_push($variation_filters[$filter_key], [
                             "label" => $str_exp[0],
                             "name" => $str_exp[1],
