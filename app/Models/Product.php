@@ -685,7 +685,8 @@ class Product extends Model
                     //echo $filter_key . "<br>";
 
                     $str_exp[0] = preg_replace('/please|Please|select|Select/', '', $str_exp[0]);
-                    $filter_key = Product::get_filter_key($str_exp[0]);
+                    // $filter_key = Product::get_filter_key($str_exp[0]);
+                    $filter_key = $col;
                     $features[$filter_key] = $str_exp[1];
 
                     // setting array indexes for each filter category 
@@ -708,6 +709,7 @@ class Product extends Model
 
                     if (!$found) {
                         array_push($variation_filters[$filter_key], [
+                            "label" => $str_exp[0],
                             "name" => $str_exp[1],
                             "value" => strtolower(preg_replace("' '", "-", $str_exp[1])),
                             "enabled" => true
