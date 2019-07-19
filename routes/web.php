@@ -29,7 +29,7 @@ Route::get('login/{driver}/callback', 'Auth\LoginController@handleProviderCallba
 
 
 /*
-API ROUTES
+ *   API ROUTES
  */
 
 Route::get('/api/all-departments', 'DepartmentController@index')->name('get_all_departments');
@@ -37,7 +37,11 @@ Route::get('/api/departments/{dept}', 'DepartmentController@get_department')->na
 Route::get('/api/categories', 'CategoryController@get_all_categories')->name('get_category');
 Route::get('/api/products/{dept}/{cat?}/{subCat?}', 'API@filter_products')->name('get-products');
 Route::get('/api/product/{sku}', 'API@get_product_details')->name('get-product-details');
+
+// has a filter attached. request has format attribute_1=<val>&attribute_2=<val> and so on...
 Route::get('/api/variation/product/{sku}', 'API@get_product_variations')->name('get-product-variations');
+
+// takes a swatch image url as input ?swatch=<url>
 Route::get('/api/filters/variation/product/{sku}', 'API@get_swatch_filter')->name('get-product-attribute-filters');
 
 Route::get('/api/wishlist', 'API@get_wishlist')->name('get-wishlist');

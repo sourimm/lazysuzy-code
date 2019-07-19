@@ -65,7 +65,6 @@ class Variations extends Model
             "attribute_6"
         ];
 
-        $all_filters = Product::get_all_variation_filters($sku);
 
         $main_img = DB::table("master_data")
             ->select("main_product_images")
@@ -135,6 +134,7 @@ class Variations extends Model
 
 
             //echo "<pre>" . print_r($filter_values_unique, true);
+            $all_filters = Product::get_all_variation_filters($sku);
 
             foreach ($all_filters as $all_filter_key => $filter) {
                 $found = false;
@@ -155,6 +155,7 @@ class Variations extends Model
                         }
 
                         array_push($filters[$all_filter_key], [
+                            "label" => $f["label"],
                             "name" => $f["name"],
                             "value" => $f["value"],
                             "enabled" => $found
