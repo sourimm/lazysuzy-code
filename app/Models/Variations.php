@@ -12,10 +12,10 @@ class Variations extends Model
     public static $base_siteurl = 'http://lazysuzy.com';
     public static $col_mapper = [
         "color" => "attribute_1",
+        "fabric" => "attribute_2",
+        "delivery" => "attribute_3",
         "shape" => "attribute_2",
-        "fabric" => "attribute_3",
         "furniture_piece" => "attribute_4",
-        "delivery" => "attribute_5",
         "leg_style" => "attribute_6"
     ];
 
@@ -65,8 +65,6 @@ class Variations extends Model
             "attribute_6"
         ];
 
-
-
         $all_filters = Product::get_all_variation_filters($sku);
 
         $main_img = DB::table("master_data")
@@ -79,9 +77,11 @@ class Variations extends Model
             ->where('product_id', $sku);
 
         foreach ($_GET as $key => $value) {
-            $query = $query->where(Variations::$col_mapper[$key], 'like', '%' . Variations::sanitize($value) . '%');
+            $query = $query->where($key, 'like', '%' . Variations::sanitize($value) . '%');
             array_push($filters, [$key => Variations::sanitize($value)]);
+
         }
+
 
         $variations = $query->get();
         $filters = [];
@@ -110,10 +110,13 @@ class Variations extends Model
 
                     $str_exp = explode(":", $variation->$col_name);
                     if (isset($str_exp[0]) && isset($str_exp[1])) {
-                        $filter_key = Product::get_filter_key($str_exp[0]);
+                       // $filter_key = Product::get_filter_key($str_exp[0]);
+
+                        $filter_key = $col_name;
 
                         // load attr details for product
                         $product[$filter_key] = [
+                            "label" => Product::get_filter_label($str_exp[0]),
                             "name" => urldecode($str_exp[1]),
                             "value" => (strtolower(preg_replace("/[\s]+/", "-", urldecode($str_exp[1]))))
                         ];
@@ -167,7 +170,7 @@ class Variations extends Model
             ];
         }
 
-        return ["error" => "No Product wit SKU " . $sku . " found."];
+        return ["error" => "No Product with SKU " . $sku . " found."];
     }
 
     /**
@@ -203,13 +206,14 @@ class Variations extends Model
 
                 $str_exp = explode(":", $data->$col);
                 if (isset($str_exp[0]) && isset($str_exp[1])) {
-                    $filter_key = Product::get_filter_key($str_exp[0]);
-
+                    //$filter_key = Product::get_filter_key($str_exp[0]);
+                    $filter_key = $col;
                     if (!isset($filter_values_unique[$filter_key]))
                         $filter_values_unique[$filter_key] = [];
 
                     if (!Variations::in_multiarray($str_exp[1], $filter_values_unique[$filter_key])) {
                         array_push($filter_values_unique[$filter_key], [
+                            "label" => Product::get_filter_label($str_exp[0]),
                             "name" => $str_exp[1],
                             "value" => preg_replace("/[\s]+/", "-", strtolower($str_exp[1]))
                         ]);
