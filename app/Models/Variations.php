@@ -176,6 +176,7 @@ class Variations extends Model
                 }
                 array_push($filters_struct, [
                     "label" => $filters[$filter_key][0]["label"],
+                    "key" => $filter_key,
                     "options" => $data
                 ]);
             }
