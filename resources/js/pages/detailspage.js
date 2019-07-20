@@ -5,6 +5,7 @@ import Drift from 'drift-zoom';
 $(document).ready(function () {
     const PDP_API = '/api' + window.location.pathname;
     const VARIATION_API = '/api/variation' + window.location.pathname;
+    const SWATCH_API = '/api/filters/variation' + window.location.pathname;
     const $product = $('#detailPage');
     const $prodPriceCard = $product.find('.prod-price-card');
     var $filtersDiv = '';
@@ -17,8 +18,6 @@ $(document).ready(function () {
         url: PDP_API,
         dataType: "json",
         success: function (data) {
-            // console.log(data);
-
             var $imagesContainer = $product.find('.-images-container');
             var $images = $imagesContainer.find('.-images');
             var imgContainerWidth = 0;
@@ -81,9 +80,17 @@ $(document).ready(function () {
     });
 
     function fetchVariations(queryParams = null){
+        updateFiltersAndVariations(queryParams, VARIATION_API, true);
+    }
+
+    function fetchFilters(queryParams = null){
+        updateFiltersAndVariations(queryParams, SWATCH_API, false);
+    }
+
+    function updateFiltersAndVariations(queryParams, apiPath, bUpdateVariations = true){
         $.ajax({
             type: "GET",
-            url: VARIATION_API,
+            url: apiPath,
             data: queryParams,
             dataType: "json",
             success: function (data) {
@@ -94,22 +101,35 @@ $(document).ready(function () {
                     arrFilters = Object.keys(data.filters);
                     Object.keys(data.filters).forEach(function (filter) {
                         // data.filters.filter.forEach(options => {
+                            var transformedLabel = data.filters[filter].label.toLowerCase().replace(' ', '_');
                             var $filterLabel = jQuery( '<label/>', {
-                                text: filter + ':',
-                                for: 'selectbox-attr-'+filter,
+                                text: data.filters[filter].label + ':',
+                                for: 'selectbox-attr-'+transformedLabel,
                                 class: 'select-label',
-                                value: filter
+                                value: data.filters[filter].label
                             }).appendTo($filtersDiv);
                             var $filterSelectBox = jQuery( '<select/>', {
                                 class: 'form-control',
-                                id: 'attr-'+filter
+                                id: 'attr-'+transformedLabel
                             }).appendTo($filtersDiv);
-                            data.filters[filter].forEach(element => {
+                            
+                            var bFilterEnabled = false;
+                            data.filters[filter].options.forEach((element,idx) => {
+                                if( !bFilterEnabled ){ 
+                                    bFilterEnabled = element.enabled;
+                                }
                                 var attrElm = jQuery('<option />', {
                                     value: element.value,
                                     selected: element.enabled,
                                     text: element.name
                                 }).appendTo($filterSelectBox);
+                                if( idx == data.filters[filter].options.length - 1){
+                                    var attrElm2 = jQuery('<option />', {
+                                        value: 'unselected-value',
+                                        selected: !bFilterEnabled,
+                                        text: 'Please select a value'
+                                    }).appendTo($filterSelectBox);
+                                }
                             });
                         // });
                     });
@@ -117,7 +137,7 @@ $(document).ready(function () {
                     makeSelectBox();
                 }
 
-                if( data.variations != null){
+                if( data.variations != null && bUpdateVariations){
                     makeVariationCarousel(data.variations);
                 }
 
@@ -139,7 +159,7 @@ $(document).ready(function () {
                 console.log(jqXHR);
                 console.log(exception);
             }
-        });        
+        });   
     }
 
     function makeVariationCarousel(variationData){
@@ -176,37 +196,49 @@ $(document).ready(function () {
         multiCarouselFuncs.makeMultiCarousel(10,10);
     }
 
-    $(document).on('select-value-changed', function () {
+    $(document).on('select-value-changed', function (e, changedElm) {
+        $('.select-styled').not(changedElm).each(function(){
+            $(this).attr('active','unselected-value');
+        });
         onFilterChange();
     });
 
     $('body').on('click', '.responsive-img-a', function(){
         $('#variationImg').attr('src', $(this).attr("data-image"));
+        $('.select-styled').each(function(){
+            $(this).attr('active','unselected-value');
+        });
         
        var triggerEl = document.querySelector('#variationImg');
        variationDrift.setZoomImageURL($(this).attr("data-image"));
        triggerEl.setAttribute("data-zoom", $(this).attr("data-image"));
 
-       arrFilters.forEach(filter => {
-           var filterId = 'selectbox-attr-'+filter;
-           var filterValue = $(this).attr(filter);
-           var strSelectedValue = $('#'+filterId).next().find('li[rel="'+filterValue+'"]').text();
-           $('#'+filterId).text(strSelectedValue)
-           $('#'+filterId).attr('active', filterValue);
-       });
-    //    $styledSelect.text($(this).text()).removeClass('active');
-    //         var strSelectedValue = $(this).attr('rel');
-    //         $styledSelect.attr('active', strSelectedValue);
-    //         $(document).trigger('select-value-changed');
+    //    arrFilters.forEach(filter => {
+    //        var filterId = 'selectbox-attr-'+filter;
+    //        var filterValue = $(this).attr(filter);
+    //        var strSelectedValue = $('#'+filterId).next().find('li[rel="'+filterValue+'"]').text();
+    //        $('#'+filterId).text(strSelectedValue)
+    //        $('#'+filterId).attr('active', filterValue);
+    //    });
+        onSwatchChange($(this).attr("data-image"));
     });
 
-    function onFilterChange(){
+    function onFilterChange(swatchUrl = null){
         var oQueryParams = new Object();
-        $('.select-styled').each(function () {
-            var strLabelText = $filtersDiv.find('label[for="'+$(this).attr('id')+'"]').attr('value');
+        $('.select-styled').each(function (idx) {
+            // var strLabelText = $filtersDiv.find('label[for="'+$(this).attr('id')+'"]').attr('value');
             var currFilter = $(this).attr('active');
-            oQueryParams[strLabelText] = currFilter;
+            if( currFilter != 'unselected-value'){
+                oQueryParams['attribute_'+(idx+1)] = currFilter;
+            }
         });
         fetchVariations(oQueryParams);
+    }
+
+    function onSwatchChange(swatchUrl){
+
+        var oQueryParams = new Object();
+        oQueryParams["swatch"] = swatchUrl;
+        fetchFilters(oQueryParams);
     }
 });

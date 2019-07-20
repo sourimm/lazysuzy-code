@@ -45,7 +45,7 @@ export default function makeSelectBox() {
             $styledSelect.text($(this).text()).removeClass('active');
             var strSelectedValue = $(this).attr('rel');
             $styledSelect.attr('active', strSelectedValue);
-            $(document).trigger('select-value-changed');
+            $(document).trigger('select-value-changed', $styledSelect);
             
             $this.val($(this).attr('rel'));
             $list.hide();
