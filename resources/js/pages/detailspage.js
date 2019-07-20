@@ -211,7 +211,9 @@ $(document).ready(function () {
 
     function onFilterChange(swatchUrl = null){
         var oQueryParams = new Object();
-        oQueryParams["swatch"] = swatchUrl;
+        if( swatchUrl != null ){
+            oQueryParams["swatch"] = swatchUrl;
+        }
         $('.select-styled').each(function (idx) {
             // var strLabelText = $filtersDiv.find('label[for="'+$(this).attr('id')+'"]').attr('value');
             var currFilter = $(this).attr('active');
