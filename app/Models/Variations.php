@@ -174,11 +174,15 @@ class Variations extends Model
                         "enabled" => $flt["enabled"]
                     ]);
                 }
-                array_push($filters_struct, [
+                $filters_struct[$filter_key] = [
+                    "label" => $filters[$filter_key][0]["label"],
+                    "options" => $data
+                ];
+                /* array_push($filters_struct[$filter_key], [
                     "label" => $filters[$filter_key][0]["label"],
                     "key" => $filter_key,
                     "options" => $data
-                ]);
+                ]); */
             }
 
             return [
