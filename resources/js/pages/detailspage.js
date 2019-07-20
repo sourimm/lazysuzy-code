@@ -5,6 +5,7 @@ import Drift from 'drift-zoom';
 $(document).ready(function () {
     const PDP_API = '/api' + window.location.pathname;
     const VARIATION_API = '/api/variation' + window.location.pathname;
+    const SWATCH_API = '/api/filters/variation' + window.location.pathname;
     const $product = $('#detailPage');
     const $prodPriceCard = $product.find('.prod-price-card');
     var $filtersDiv = '';
@@ -79,9 +80,17 @@ $(document).ready(function () {
     });
 
     function fetchVariations(queryParams = null){
+        updateFiltersAndVariations(queryParams, VARIATION_API, true);
+    }
+
+    function fetchFilters(queryParams = null){
+        updateFiltersAndVariations(queryParams, SWATCH_API, false);
+    }
+
+    function updateFiltersAndVariations(queryParams, apiPath, bUpdateVariations = true){
         $.ajax({
             type: "GET",
-            url: VARIATION_API,
+            url: apiPath,
             data: queryParams,
             dataType: "json",
             success: function (data) {
@@ -103,7 +112,12 @@ $(document).ready(function () {
                                 class: 'form-control',
                                 id: 'attr-'+transformedLabel
                             }).appendTo($filtersDiv);
+                            
+                            var bFilterEnabled = false;
                             data.filters[filter].options.forEach((element,idx) => {
+                                if( !bFilterEnabled ){ 
+                                    bFilterEnabled = element.enabled;
+                                }
                                 var attrElm = jQuery('<option />', {
                                     value: element.value,
                                     selected: element.enabled,
@@ -112,7 +126,7 @@ $(document).ready(function () {
                                 if( idx == data.filters[filter].options.length - 1){
                                     var attrElm2 = jQuery('<option />', {
                                         value: 'unselected-value',
-                                        selected: false,
+                                        selected: !bFilterEnabled,
                                         text: 'Please select a value'
                                     }).appendTo($filterSelectBox);
                                 }
@@ -123,7 +137,7 @@ $(document).ready(function () {
                     makeSelectBox();
                 }
 
-                if( data.variations != null){
+                if( data.variations != null && bUpdateVariations){
                     makeVariationCarousel(data.variations);
                 }
 
@@ -145,7 +159,7 @@ $(document).ready(function () {
                 console.log(jqXHR);
                 console.log(exception);
             }
-        });        
+        });   
     }
 
     function makeVariationCarousel(variationData){
@@ -206,14 +220,11 @@ $(document).ready(function () {
     //        $('#'+filterId).text(strSelectedValue)
     //        $('#'+filterId).attr('active', filterValue);
     //    });
-        onFilterChange($(this).attr("data-image"));
+        onSwatchChange($(this).attr("data-image"));
     });
 
     function onFilterChange(swatchUrl = null){
         var oQueryParams = new Object();
-        if( swatchUrl != null ){
-            oQueryParams["swatch"] = swatchUrl;
-        }
         $('.select-styled').each(function (idx) {
             // var strLabelText = $filtersDiv.find('label[for="'+$(this).attr('id')+'"]').attr('value');
             var currFilter = $(this).attr('active');
@@ -222,5 +233,12 @@ $(document).ready(function () {
             }
         });
         fetchVariations(oQueryParams);
+    }
+
+    function onSwatchChange(swatchUrl){
+
+        var oQueryParams = new Object();
+        oQueryParams["swatch"] = swatchUrl;
+        fetchFilters(oQueryParams);
     }
 });
