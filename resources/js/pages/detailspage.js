@@ -116,19 +116,20 @@ $(document).ready(function () {
                             var bFilterEnabled = false;
                             data.filters[filter].options.forEach((element,idx) => {
                                 if( !bFilterEnabled ){ 
-                                    bFilterEnabled = element.enabled;
+                                    bFilterEnabled = element.in_request;
                                 }
                                 var attrElm = jQuery('<option />', {
                                     value: element.value,
-                                    selected: element.enabled,
+                                    selected: element.in_request,
                                     text: element.name
                                 }).appendTo($filterSelectBox);
-                                if( idx == data.filters[filter].options.length - 1){
+                                if( idx == (data.filters[filter].options.length - 1) ){
                                     var attrElm2 = jQuery('<option />', {
                                         value: 'unselected-value',
                                         selected: !bFilterEnabled,
                                         text: 'Please select a value'
                                     }).appendTo($filterSelectBox);
+                                    bFilterEnabled = false;
                                 }
                             });
                         // });
@@ -198,7 +199,9 @@ $(document).ready(function () {
 
     $(document).on('select-value-changed', function (e, changedElm) {
         $('.select-styled').not(changedElm).each(function(){
-            $(this).attr('active','unselected-value');
+            if($(this).attr('active') == '' || $(this).attr('active') == 'unselected-value'){
+                $(this).attr('active','unselected-value');
+            }
         });
         onFilterChange();
     });
