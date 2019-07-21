@@ -78,7 +78,6 @@ class Variations extends Model
         foreach ($_GET as $key => $value) {
             $query = $query->where($key, 'like', '%' . Variations::sanitize($value) . '%');
             array_push($filters, [$key => Variations::sanitize($value)]);
-
         }
 
 
@@ -109,7 +108,7 @@ class Variations extends Model
 
                     $str_exp = explode(":", $variation->$col_name);
                     if (isset($str_exp[0]) && isset($str_exp[1])) {
-                       // $filter_key = Product::get_filter_key($str_exp[0]);
+                        // $filter_key = Product::get_filter_key($str_exp[0]);
 
                         $filter_key = $col_name;
 
@@ -165,13 +164,14 @@ class Variations extends Model
             }
             // return ;
             $filters_struct = [];
-            foreach($filters as $filter_key => $filter) {
+            foreach ($filters as $filter_key => $filter) {
                 $data = [];
-                foreach($filter as $flt) {
+                foreach ($filter as $flt) {
                     array_push($data, [
                         "name"  => $flt["name"],
                         "value" => $flt["value"],
-                        "enabled" => in_array($flt["value"], $_GET, true)
+                        "enabled" => $flt["enabled"],
+                        "in_request" => in_array($flt["value"], $_GET)
                     ]);
                 }
                 $filters_struct[$filter_key] = [
@@ -188,7 +188,8 @@ class Variations extends Model
             return [
                 "main_image" => Product::$base_siteurl . $main_img[0]->main_product_images,
                 "variations" => $products,
-                "filters" => $filters_struct
+                "filters" => $filters_struct,
+                "raw_rseults" => $query->get()
             ];
         }
 
@@ -261,7 +262,7 @@ class Variations extends Model
 
         $rows = DB::table('westelm_products_skus')
             ->select($cols)
-            ->where("swatch_image", $swatch_url)
+            ->where("swatch_image_path", $swatch_url)
             ->where("product_id", $sku)
             ->get();
 
