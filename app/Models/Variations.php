@@ -192,7 +192,7 @@ class Variations extends Model
                 "main_image" => Product::$base_siteurl . $main_img[0]->main_product_images,
                 "variations" => $products,
                 "filters" => $filters_struct,
-                "raw_rseults" => $query->get()
+                //"raw_rseults" => $query->get()
             ];
         }
 
