@@ -668,6 +668,7 @@ class Product extends Model
         return Product::get_details($prod[0], $variations);
     }
 
+    // sends unique filter values.
     public static function get_all_variation_filters($sku)
     {
         $var = DB::table("westelm_products_skus")
