@@ -108,7 +108,7 @@ class Variations extends Model
 
                     $str_exp = explode(":", $variation->$col_name);
                     if (isset($str_exp[0]) && isset($str_exp[1])) {
-                       // $filter_key = Product::get_filter_key($str_exp[0]);
+                        // $filter_key = Product::get_filter_key($str_exp[0]);
 
                         $filter_key = $col_name;
 
@@ -164,9 +164,9 @@ class Variations extends Model
             }
             // return ;
             $filters_struct = [];
-            foreach($filters as $filter_key => $filter) {
+            foreach ($filters as $filter_key => $filter) {
                 $data = [];
-                foreach($filter as $flt) {
+                foreach ($filter as $flt) {
                     array_push($data, [
                         "name"  => $flt["name"],
                         "value" => $flt["value"],
