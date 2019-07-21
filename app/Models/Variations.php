@@ -167,12 +167,15 @@ class Variations extends Model
             foreach ($filters as $filter_key => $filter) {
                 $data = [];
                 foreach ($filter as $flt) {
-                    array_push($data, [
-                        "name"  => $flt["name"],
-                        "value" => $flt["value"],
-                        "enabled" => $flt["enabled"],
-                        "in_request" => in_array($flt["value"], $_GET)
-                    ]);
+                    if ($flt["enabled"]) {
+                        array_push($data, [
+                            "name"  => $flt["name"],
+                            "value" => $flt["value"],
+                            "enabled" => $flt["enabled"],
+                            "in_request" => in_array($flt["value"], $_GET)
+                        ]);
+                    }
+                   
                 }
                 $filters_struct[$filter_key] = [
                     "label" => $filters[$filter_key][0]["label"],
