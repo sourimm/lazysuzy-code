@@ -241,7 +241,14 @@ $(document).ready(function () {
     function onSwatchChange(swatchUrl){
 
         var oQueryParams = new Object();
-        oQueryParams["swatch"] = swatchUrl;
+        var arrSwatchUrl = swatchUrl.split('//');
+        var arrNewPathname = arrSwatchUrl[1].split('/');
+        var newPathname = '';
+        for (var i = 1; i < arrNewPathname.length; i++) {
+            newPathname += "/";
+            newPathname += arrNewPathname[i];
+        }
+        oQueryParams["swatch"] = decodeURIComponent( newPathname );
         fetchFilters(oQueryParams);
     }
 });
