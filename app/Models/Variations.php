@@ -253,7 +253,14 @@ class Variations extends Model
 
     public static function get_swatch_filter($sku)
     {
-        $swatch_url = Input::get('swatch');
+        $swatch_url = urldecode(Input::get('swatch'));
+      /*   if ($swatch_url == "%2Fwestelm%2Fhwestelm_images%2Fandes-loveseat-h3165-2627923_sku-img.jpg") {
+            echo "Equal";
+        }
+        else {
+            echo "Not Equal";
+        } */
+       
         $cols = [
             "attribute_1",
             "attribute_2",
