@@ -253,7 +253,7 @@ class Variations extends Model
 
     public static function get_swatch_filter($sku)
     {
-        $swatch_url = Input::get('swatch');
+        $swatch_url = urldecode(Input::get('swatch'));
         $cols = [
             "attribute_1",
             "attribute_2",
