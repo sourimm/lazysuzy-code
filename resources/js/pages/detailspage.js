@@ -1,6 +1,7 @@
 import * as multiCarouselFuncs from '../components/multi-carousel';
 import makeSelectBox from '../components/custom-selectbox';
 import Drift from 'drift-zoom';
+import isMobile from '../app.js'
 
 $(document).ready(function () {
     const PDP_API = '/api' + window.location.pathname;
@@ -206,11 +207,17 @@ $(document).ready(function () {
         onFilterChange();
     });
 
-    $('body').on('click', '.responsive-img-a', function(){
+    $('body').on('click touchstart', '.responsive-img-a', function(){
         $('#variationImg').attr('src', $(this).attr("data-image"));
         $('.select-styled').each(function(){
             $(this).attr('active','unselected-value');
         });
+
+        if( isMobile() ){
+            $("html, body").delay(1000).animate({
+                scrollTop: $(this).offset().top - 15 
+            }, 1000);
+        }
         
        var triggerEl = document.querySelector('#variationImg');
        variationDrift.setZoomImageURL($(this).attr("data-image"));
