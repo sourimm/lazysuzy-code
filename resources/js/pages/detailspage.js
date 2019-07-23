@@ -141,16 +141,19 @@ $(document).ready(function () {
 
                 if( data.variations != null && bUpdateVariations){
                     makeVariationCarousel(data.variations);
-                }
 
-                var $prodMainImgDiv = $product.find('.prod-main-img');
-                $prodMainImgDiv.empty();
-                var carouselMainDiv = jQuery('<img/>', {
-                    id: 'variationImg',
-                    class: 'zoom-img-variation img-fluid'
-                }).appendTo($prodMainImgDiv);
-                variationImgEl = document.querySelector('#variationImg');
-                variationDrift = new Drift(variationImgEl, {});
+                    var $prodMainImgDiv = $product.find('.prod-main-img');
+                    $prodMainImgDiv.empty();
+                    var carouselMainDiv = jQuery('<img/>', {
+                        id: 'variationImg',
+                        class: 'zoom-img-variation img-fluid',
+                        src: data.main_image,
+                        "data-image": data.main_image,
+                        "data-zoom": data.main_image,
+                    }).appendTo($prodMainImgDiv);
+                    variationImgEl = document.querySelector('#variationImg');
+                    variationDrift = new Drift(variationImgEl, {});
+                }
 
                 $('.zoom-img').each(function(){
                     var options = { namespace: 'carousel' };
