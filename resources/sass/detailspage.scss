@@ -12,7 +12,10 @@
         .-images-container{
             height: 300px;
             overflow-x: auto;
-            margin: 15px 0px;
+            margin: 0px 0px 15px 0px;
+            @include media-breakpoint-up(md) {
+                margin: 15px 0px;
+            }
             .-images{
                 overflow-x: scroll;
                 overflow-y: hidden;
