@@ -223,7 +223,7 @@ $(document).ready(function () {
     //        $('#'+filterId).text(strSelectedValue)
     //        $('#'+filterId).attr('active', filterValue);
     //    });
-        onSwatchChange($(this).attr("data-image"));
+        onSwatchChange($(this).find('.carousel-img').attr("data-zoom"));
     });
 
     function onFilterChange(swatchUrl = null){
