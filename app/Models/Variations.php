@@ -175,7 +175,6 @@ class Variations extends Model
                             "in_request" => in_array($flt["value"], $_GET)
                         ]);
                     }
-                   
                 }
                 $filters_struct[$filter_key] = [
                     "label" => $filters[$filter_key][0]["label"],
@@ -248,7 +247,30 @@ class Variations extends Model
             }
         }
 
-        return $filter_values_unique;
+        $filters_struct = [];
+        foreach ($filter_values_unique as $filter_key => $filter) {
+            $data = [];
+            foreach ($filter as $flt) {
+
+                array_push($data, [
+                    "name"  => $flt["name"],
+                    "value" => $flt["value"],
+                    "enabled" => true,
+                    "in_request" => in_array($flt["value"], $_GET)
+                ]);
+            }
+            $filters_struct[$filter_key] = [
+                "label" => $filter_values_unique[$filter_key][0]["label"],
+                "options" => $data
+            ];
+            /* array_push($filters_struct[$filter_key], [
+                    "label" => $filters[$filter_key][0]["label"],
+                    "key" => $filter_key,
+                    "options" => $data
+                ]); */
+        }
+
+        return $filters_struct;
     }
 
     public static function get_swatch_filter($sku)
@@ -268,7 +290,14 @@ class Variations extends Model
             ->where("swatch_image_path", $swatch_url)
             ->where("product_id", $sku)
             ->get();
+        $main_img = DB::table('master_data')
+            ->select('main_product_images')
+            ->where("product_sku", $sku)
+            ->get();
 
-        return Variations::get_filter_content($rows);
+        return [
+            "main_image" => Variations::$base_siteurl .  $main_img[0]->main_product_images,
+            "filters" => Variations::get_filter_content($rows)
+        ];
     }
 }
