@@ -12,7 +12,10 @@
         .-images-container{
             height: 300px;
             overflow-x: auto;
-            margin: 15px 0px;
+            margin: 0px 0px 15px 0px;
+            @include media-breakpoint-up(md) {
+                margin: 15px 0px;
+            }
             .-images{
                 overflow-x: scroll;
                 overflow-y: hidden;
@@ -111,7 +114,7 @@
     width: 150px;
     height: 150px;
     border-radius: 75px;
-    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.3) !important;
     &.carousel-zoom-pane{
         margin-top: 100px;
     }
