@@ -1,6 +1,7 @@
 import * as multiCarouselFuncs from '../components/multi-carousel';
 import makeSelectBox from '../components/custom-selectbox';
 import Drift from 'drift-zoom';
+import isMobile from '../app.js'
 
 $(document).ready(function () {
     const PDP_API = '/api' + window.location.pathname;
@@ -140,16 +141,19 @@ $(document).ready(function () {
 
                 if( data.variations != null && bUpdateVariations){
                     makeVariationCarousel(data.variations);
-                }
 
-                var $prodMainImgDiv = $product.find('.prod-main-img');
-                $prodMainImgDiv.empty();
-                var carouselMainDiv = jQuery('<img/>', {
-                    id: 'variationImg',
-                    class: 'zoom-img-variation img-fluid'
-                }).appendTo($prodMainImgDiv);
-                variationImgEl = document.querySelector('#variationImg');
-                variationDrift = new Drift(variationImgEl, {});
+                    var $prodMainImgDiv = $product.find('.prod-main-img');
+                    $prodMainImgDiv.empty();
+                    var carouselMainDiv = jQuery('<img/>', {
+                        id: 'variationImg',
+                        class: 'zoom-img-variation img-fluid',
+                        src: data.main_image,
+                        "data-image": data.main_image,
+                        "data-zoom": data.main_image,
+                    }).appendTo($prodMainImgDiv);
+                    variationImgEl = document.querySelector('#variationImg');
+                    variationDrift = new Drift(variationImgEl, {});
+                }
 
                 $('.zoom-img').each(function(){
                     var options = { namespace: 'carousel' };
@@ -206,11 +210,17 @@ $(document).ready(function () {
         onFilterChange();
     });
 
-    $('body').on('click', '.responsive-img-a', function(){
+    $('body').on('click touchstart', '.responsive-img-a', function(){
         $('#variationImg').attr('src', $(this).attr("data-image"));
         $('.select-styled').each(function(){
             $(this).attr('active','unselected-value');
         });
+
+        if( isMobile() ){
+            $("html, body").delay(1000).animate({
+                scrollTop: $(this).offset().top - 15 
+            }, 1000);
+        }
         
        var triggerEl = document.querySelector('#variationImg');
        variationDrift.setZoomImageURL($(this).attr("data-image"));
