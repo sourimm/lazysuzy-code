@@ -459,10 +459,7 @@ class Product extends Model
 
         foreach ($dim as $d) {
             if ($d->hasDimensions) {
-                array_push($d_arr, [
-                    "description" => $d->description,
-                    "value" => $d->width . "\"" . "W " . $d->depth . "\"D " . $d->height . "\"H"
-                ]);
+                array_push($d_arr, $d);
             }
         }
 
