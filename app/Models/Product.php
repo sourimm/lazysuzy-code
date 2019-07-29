@@ -622,7 +622,7 @@ class Product extends Model
         return [];
     }
 
-    public static function get_variations($product, $wl_v)
+    public static function get_variations($product, $wl_v = null)
     {
 
         switch ($product->site_name) {
@@ -662,6 +662,11 @@ class Product extends Model
         $westelm_cache_data = [];
 
         $variations = null;
+        if ($prod[0]->site_name === 'westelm') {
+            $variations = Product::get_variations($prod[0], $westelm_variations_data);
+        } else {
+            $variations = Product::get_variations($prod[0]);
+        }
         return Product::get_details($prod[0], $variations);
     }
 
