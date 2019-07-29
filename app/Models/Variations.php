@@ -66,8 +66,7 @@ class Variations extends Model
         ];
 
 
-        $main_img = DB::table("master_data")
-            ->select("main_product_images")
+        $master_prod = DB::table("master_data")
             ->where("product_sku", $sku)
             ->get();
 
@@ -75,6 +74,16 @@ class Variations extends Model
             ->select($cols)
             ->where('product_id', $sku);
 
+        if (in_array($master_prod[0]->site_name, ['pier1', 'cb2', 'nw'])) {
+            return [
+                "main_image" => Product::$base_siteurl . $master_prod[0]->main_product_images,
+                "variations" => Product::get_variations($master_prod[0]),
+                "filters" => null,
+                //"raw_rseults" => $query->get()
+            ];
+        }
+
+        
         foreach ($_GET as $key => $value) {
             $query = $query->where($key, 'like', '%' . Variations::sanitize($value) . '%');
             array_push($filters, [$key => Variations::sanitize($value)]);
@@ -86,7 +95,7 @@ class Variations extends Model
         $products = [];
 
         $filter_values_unique = [];
-        if (isset($main_img[0])) {
+        if (isset($master_prod[0])) {
             foreach ($variations as $variation) {
                 $product = [];
                 $col = "attribute_";
@@ -188,7 +197,7 @@ class Variations extends Model
             }
 
             return [
-                "main_image" => Product::$base_siteurl . $main_img[0]->main_product_images,
+                "main_image" => Product::$base_siteurl . $master_prod[0]->main_product_images,
                 "variations" => $products,
                 "filters" => $filters_struct,
                 //"raw_rseults" => $query->get()

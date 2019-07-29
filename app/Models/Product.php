@@ -663,7 +663,7 @@ class Product extends Model
 
         $variations = null;
         if ($prod[0]->site_name === 'westelm') {
-            $variations = Product::get_variations($prod[0], $westelm_variations_data);
+            $variations = null;
         } else {
             $variations = Product::get_variations($prod[0]);
         }
