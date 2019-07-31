@@ -164,7 +164,9 @@ $(document).ready(function () {
         }).appendTo(productInfoNext);
 
         var variationImages = productDetails.variations.map(variation => variation.image);
-        var variationSwatchImages = productDetails.variations.map(variation => variation.swatch_image) || variationImages;
+        var variationSwatchImages = productDetails.variations.map(( variation, idx) => { 
+            return variation.swatch_image || variationImages[idx];
+        });
         var variationLinks = productDetails.variations.map(variation => variation.link);
 
         if(productDetails.main_image != null){
