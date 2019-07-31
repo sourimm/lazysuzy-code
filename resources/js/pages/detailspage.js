@@ -171,7 +171,9 @@ $(document).ready(function () {
 
 
         var variationImages = variationData.map(variation => variation.image);
-        var variationSwatchImages = variationData.map(variation => variation.swatch_image) || variationImages;
+        var variationSwatchImages = variationData.map(( variation, idx) => { 
+            return variation.swatch_image || variationImages[idx];
+        });
         var variationLinks = variationData.map(variation => variation.link);
 
         var $variationsCarousel = $product.find('.-variations-carousel');
