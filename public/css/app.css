@@ -19941,12 +19941,79 @@ input:disabled + .checkmark + .text {
   font-family: Helvetica, sans-serif;
 }
 
+.detailspage-main-div .detailspage .filters.filters-mobile {
+  width: 100% !important;
+  background: #0c1c31;
+  color: #ffffff;
+  position: absolute;
+  z-index: 100;
+  display: none;
+}
+
+.detailspage-main-div .detailspage .filters.filters-mobile.show {
+  display: block;
+}
+
+.detailspage-main-div .detailspage .filters.filters-mobile .single-filter {
+  margin: 20px;
+}
+
+.detailspage-main-div .detailspage .filters.filters-mobile .single-filter .select-styled {
+  background: white;
+  border-radius: 10px;
+  padding-right: 30px;
+}
+
+.detailspage-main-div .detailspage .filters.filters-mobile .single-filter .select-styled::after {
+  border: none;
+  background: url(/images/filter-arrow.png?d6dca143ac1004d323e0bcf2e2c628f3);
+}
+
+.detailspage-main-div .detailspage .filters.filters-mobile .single-filter .select-label {
+  margin-right: 10px;
+  font-size: 16px;
+  color: #ffcc00;
+}
+
+.detailspage-main-div .detailspage .filters.filters-mobile .single-filter ul li {
+  display: inline-block;
+}
+
+.detailspage-main-div .detailspage .filters.filters-mobile .single-filter ul li .container .checkmark {
+  border: 1px solid #ffffff !important;
+}
+
+.detailspage-main-div .detailspage .filters.filters-mobile .single-filter ul li .container .checkmark:after {
+  left: 4px;
+  top: 1px;
+  width: 5px;
+  height: 10px;
+  border: solid #F2F4F3;
+  border-width: 0 3px 3px 0;
+  -webkit-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
+
+.detailspage-main-div .detailspage .filters.filters-mobile .single-filter .irs-line {
+  border: 1px solid #ffffff;
+  background-color: #ffffff !important;
+}
+
 .detailspage-main-div .detailspage .zoom-img-variation {
   cursor: zoom-in;
 }
 
 .detailspage-main-div .detailspage .carousel-img {
   cursor: pointer;
+}
+
+.detailspage-main-div .detailspage .controls-div {
+  height: 33px;
+}
+
+.detailspage-main-div .detailspage .controls-div .-icon {
+  font-size: 22px;
+  margin: 5px;
 }
 
 .detailspage-main-div .detailspage .-images-container {
