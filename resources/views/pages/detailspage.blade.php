@@ -4,6 +4,15 @@
     <div class="detailspage" id="detailPage">
         @include('./partials/subnav')
 
+        <div class="d-block d-md-none controls-div">
+            
+            <div class="wishlist-icon float-right m-10" id="wishlistBtn">
+                <i class="far fa-heart -icon"></i>
+            </div>
+            <div class="filter-toggle float-right m-10" id="filterToggleBtn">
+                <i class="fas fa-filter -icon"></i>
+            </div>
+        </div>
         <div class="-images-container"><div class="-images"></div></div>
 
         <div class="row container">
