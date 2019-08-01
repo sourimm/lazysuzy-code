@@ -15,12 +15,24 @@
 
                 .single-filter {
                     margin: 20px;
+                    .select{
+                        .select-styled{
+                            background: white;
+                            border-radius: 10px;
+                            padding-right: 50px;
+                            min-width: 220px;
 
-                    .select-styled{
-                        background: white;
-                        border-radius: 10px;
-                        padding-right: 30px;
-
+                            &::after{
+                                border: none;
+                                background: url('../../public/images/filter-arrow.png');
+                                width: 41px;
+                                height: 41px;
+                                top: 0px;
+                                right: -20px;
+                                background-size: cover;
+                                border-radius: 0 10px 10px 0;                        
+                            }
+                        }
                     }
 
                     .select-label{
