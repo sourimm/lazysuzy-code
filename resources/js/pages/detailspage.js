@@ -30,22 +30,25 @@ $(document).ready(function () {
                     alt: 'product image'
                 }).appendTo($images);
             });
+            var $prodDetails = $('<div />', {
+                class: '-product-details'
+            }).appendTo($prodPriceCard);
             var site = $('<span/>',{
                 text: data.site + ' ',
                 class: 'float-left text-uppercase'
-            }).appendTo($prodPriceCard);
+            }).appendTo($prodDetails);
             var price = $('<span/>',{
                 text: ' $' + data.is_price.replace('-', ' - $'),
                 class: 'float-right'
-            }).appendTo($prodPriceCard);
+            }).appendTo($prodDetails);
             $('<div />',{
                 class: 'clearfix'
-            }).appendTo($prodPriceCard);
+            }).appendTo($prodDetails);
             var buyBtn = $('<a/>',{
                 class: 'btn pdp-buy-btn',
                 href: data.product_url,
                 text: 'Buy'
-            }).appendTo($prodPriceCard);
+            }).appendTo($prodDetails);
 
             $filtersDivMobile = jQuery( '<div/>', {
                 id: 'filtersDivMobile',
@@ -67,6 +70,10 @@ $(document).ready(function () {
             //Product description
             var $desc = $product.find('.prod-desc');
             $desc.find('.-name').text(data.name);
+            if( isMobile() ){
+                var $mobileProdDetails = $('.-product-details').clone();
+                $mobileProdDetails.insertAfter('.-name');
+            }
 
             var ratingValue = parseFloat(data.rating).toFixed(1);
             var ratingClass = 'rating-' + ratingValue.toString().replace('.', "_");
