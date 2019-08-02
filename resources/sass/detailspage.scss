@@ -195,3 +195,19 @@
         margin-top: 100px;
     }
 }
+
+@include media-breakpoint-down(md){
+    .-product-details{
+        border-radius: 20px;
+        font-size: 14px;
+        font-weight: 600;
+        .pdp-buy-btn{    
+            width: 100%;
+            color: $primary-color;
+            background-color: $secondary-color;
+            font-size: 24px;
+            border-radius: 10px;
+            margin: 10px 0px;
+        }
+    }
+}
