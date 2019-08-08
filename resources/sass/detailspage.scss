@@ -158,7 +158,7 @@
         }
 
         .rating-container{
-            margin: auto;
+            margin: auto auto 10px auto;
             .rating{
                 margin-left: 0px;
             }
@@ -243,4 +243,29 @@
 
 .tab-pane{
     margin-top: 10px;
+}
+
+.card .card-header{
+    background: $secondary-color;
+    .btn.btn-link {
+        &:hover{
+            color: $primary-color;
+        }
+        .-text{
+            color: $primary-color;
+            &:hover{
+                color: $primary-color;
+            }
+            &:after{
+                content: "";
+                width: 0;
+                height: 0;
+                border: 5px solid transparent;
+                border-color: $primary-color transparent transparent transparent;
+                top: 10px;
+                left: 7px;
+                position: relative;
+            }
+        }
+    }
 }
