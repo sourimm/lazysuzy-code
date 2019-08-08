@@ -15,6 +15,12 @@ $(document).ready(function () {
     var variationImgEl = '';
     var arrFilters = [];
 
+    $('#features').find('.nav-link').on('click', function() {
+        if (!$('#collapseB').hasClass('show')) {
+          $('#collapseB').collapse('toggle')
+        }
+    })
+
     $.ajax({
         type: "GET",
         url: PDP_API,
@@ -81,12 +87,17 @@ $(document).ready(function () {
             $desc.find('.total-ratings').text(data.reviews);
 
             $desc.find('.-desc').text(data.description);
+            $('#descp').text(data.description);
+            $('#dimen').text(data.dimension);
+
             var $featuresList = $desc.find('.-features');
             data.features.forEach(feature => {
                 var li = $('<li>',{
                     html: feature
                 }).appendTo($featuresList);
             });
+
+            $($featuresList).clone().appendTo('#feat');
         },
         error: function (jqXHR, exception) {
             console.log(jqXHR);

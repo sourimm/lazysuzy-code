@@ -24,14 +24,41 @@
                     <div class="col-12 col-md-7">
                         <h2 class="-name">product name</h2>
                         <div class="rating-container"><div class="rating"></div><span class="total-ratings"></span></div>
-                        <p class="-desc"></p>
-                        <ul class="-features"></ul>
+                        
+                        <div class="d-none d-md-block">
+                            <p class="-desc"></p>
+                            <ul class="-features"></ul>
+                        </div>
+
+                        <div class="d-sm-block d-md-none">
+                            <!-- Nav tabs -->
+                            <ul class="nav nav-tabs">
+                                <li class="nav-item">
+                                    <a class="nav-link active" data-toggle="tab" href="#descp">Description</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" data-toggle="tab" href="#feat">Features</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" data-toggle="tab" href="#dimen">Dimensions</a>
+                                </li>
+                            </ul>
+
+                            <!-- Tab panes -->
+                            <div class="tab-content">
+                            <div class="tab-pane container active" id="descp"></div>
+                            <div class="tab-pane container fade" id="feat"></div>
+                            <div class="tab-pane container fade" id="dimen"></div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
+
             <div class="prod-price-card col-3 d-none d-md-block">
             </div>
         </div>
+
 
         @include('./partials/brandassociation')
     </div>
