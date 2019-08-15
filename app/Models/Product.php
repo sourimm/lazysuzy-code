@@ -464,7 +464,7 @@ class Product extends Model
                 array_push($d_arr, $d);
             }
         }
-        
+
         //return $json_string;
         return $d_arr;
     }
@@ -494,8 +494,8 @@ class Product extends Model
                     "variation_sku" => $variation->variation_sku,
                     "name" => $variation->variation_name,
                     "has_parent_sku" => $variation->has_parent_sku,
-                    "swatch" => $variation->swatch_image,
-                    "image" => $variation->variation_image,
+                    "swatch" => Product::$base_siteurl . $variation->swatch_image,
+                    "image" => Product::$base_siteurl . $variation->variation_image,
                     "link" => $link
                 ]);
             }
