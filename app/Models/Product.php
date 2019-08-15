@@ -476,8 +476,18 @@ class Product extends Model
 
     public static function get_cb2_variations($sku)
     {
+        $cols = [
+            "product_sku",
+            "variation_sku",
+            "swatch_image",
+            "variation_image",
+            "variation_name",
+            "has_parent_sku"
+        ];
         $product_variations = [];
         $variations = DB::table("cb2_products_variations")
+            ->select($cols)
+            ->distinct('variation_sku')
             ->where('product_sku', $sku)
             ->get();
 
