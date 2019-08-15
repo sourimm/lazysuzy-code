@@ -504,7 +504,7 @@ class Product extends Model
                     "variation_sku" => $variation->variation_sku,
                     "name" => $variation->variation_name,
                     "has_parent_sku" => $variation->has_parent_sku,
-                    "swatch" => Product::$base_siteurl . $variation->swatch_image,
+                    "swatch_image" => Product::$base_siteurl . $variation->swatch_image,
                     "image" => Product::$base_siteurl . $variation->variation_image,
                     "link" => $link
                 ]);
