@@ -1,12 +1,88 @@
 .detailspage-main-div{
     font-family: Helvetica, sans-serif;
     .detailspage{
+        .filters.filters-mobile {
+                width: 100% !important;
+                background: $secondary-color;
+                color: $white;
+                position: absolute;
+                z-index: 100;
+                display: none;
+
+                &.show {
+                    display: block;
+                }
+
+                .single-filter {
+                    margin: 20px;
+                    .select{
+                        .select-styled{
+                            background: white;
+                            border-radius: 10px;
+                            padding-right: 50px;
+                            min-width: 220px;
+
+                            &::after{
+                                border: none;
+                                background: url('../../public/images/filter-arrow.png');
+                                width: 41px;
+                                height: 41px;
+                                top: 0px;
+                                right: -20px;
+                                background-size: cover;
+                                border-radius: 0 10px 10px 0;                        
+                            }
+                        }
+                    }
+
+                    .select-label{
+                        margin-right: 10px;
+                        font-size: 16px;
+                        color: $primary-color;
+                    }
+
+                    ul {
+                        li {
+                            display: inline-block;
+
+                            .container {
+                                .checkmark {
+                                    border: 1px solid $white !important;
+
+                                    &:after {
+                                        left: 4px;
+                                        top: 1px;
+                                        width: 5px;
+                                        height: 10px;
+                                        border: solid $border-color;
+                                        border-width: 0 3px 3px 0;
+                                        -webkit-transform: rotate(45deg);
+                                        transform: rotate(45deg);
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    .irs-line {
+                        border: 1px solid $white;
+                        background-color: $white !important;
+                    }
+                }
+            }
         .zoom-img-variation{
             cursor: zoom-in;
         }
         .carousel-img
         {
             cursor: pointer;
+        }
+        .controls-div{
+            height: 33px;
+            .-icon{
+               font-size: 22px;
+               margin: 5px; 
+            }
         }
 
         .-images-container{
@@ -82,7 +158,7 @@
         }
 
         .rating-container{
-            margin: auto;
+            margin: auto auto 10px auto;
             .rating{
                 margin-left: 0px;
             }
@@ -107,6 +183,35 @@
             }
         }
     }
+
+    // .nav-tabs {
+    //     display:none;
+    // }
+
+    // @media(min-width:768px) {
+    //     .nav-tabs {
+    //         display: flex;
+    //     }
+
+    //     .card {
+    //         border: none;
+    //     }
+
+    //     .card .card-header {
+    //         display:none;
+    //     }  
+
+    //     .card .collapse{
+    //         display:block;
+    //     }
+    // }
+
+    // @media(max-width:767px){
+    //     .tab-pane {
+    //         display: block !important;
+    //         opacity: 1;
+    //     }
+    // }
 }
 
 .drift-zoom-pane {
@@ -117,5 +222,50 @@
     box-shadow: 0 6px 18px rgba(0, 0, 0, 0.3) !important;
     &.carousel-zoom-pane{
         margin-top: 100px;
+    }
+}
+
+@include media-breakpoint-down(md){
+    .-product-details{
+        border-radius: 20px;
+        font-size: 14px;
+        font-weight: 600;
+        .pdp-buy-btn{    
+            width: 100%;
+            color: $primary-color;
+            background-color: $secondary-color;
+            font-size: 24px;
+            border-radius: 10px;
+            margin: 10px 0px;
+        }
+    }
+}
+
+.tab-pane{
+    margin-top: 10px;
+}
+
+.card .card-header{
+    background: $secondary-color;
+    .btn.btn-link {
+        &:hover{
+            color: $primary-color;
+        }
+        .-text{
+            color: $primary-color;
+            &:hover{
+                color: $primary-color;
+            }
+            &:after{
+                content: "";
+                width: 0;
+                height: 0;
+                border: 5px solid transparent;
+                border-color: $primary-color transparent transparent transparent;
+                top: 10px;
+                left: 7px;
+                position: relative;
+            }
+        }
     }
 }

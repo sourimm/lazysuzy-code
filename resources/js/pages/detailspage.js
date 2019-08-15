@@ -10,9 +10,16 @@ $(document).ready(function () {
     const $product = $('#detailPage');
     const $prodPriceCard = $product.find('.prod-price-card');
     var $filtersDiv = '';
+    var $filtersDivMobile = '';
     var variationDrift = '';
     var variationImgEl = '';
     var arrFilters = [];
+
+    $('#features').find('.nav-link').on('click', function() {
+        if (!$('#collapseB').hasClass('show')) {
+          $('#collapseB').collapse('toggle')
+        }
+    })
 
     $.ajax({
         type: "GET",
@@ -29,25 +36,34 @@ $(document).ready(function () {
                     alt: 'product image'
                 }).appendTo($images);
             });
+            var $prodDetails = $('<div />', {
+                class: '-product-details'
+            }).appendTo($prodPriceCard);
             var site = $('<span/>',{
                 text: data.site + ' ',
                 class: 'float-left text-uppercase'
-            }).appendTo($prodPriceCard);
+            }).appendTo($prodDetails);
             var price = $('<span/>',{
                 text: ' $' + data.is_price.replace('-', ' - $'),
                 class: 'float-right'
-            }).appendTo($prodPriceCard);
+            }).appendTo($prodDetails);
             $('<div />',{
                 class: 'clearfix'
-            }).appendTo($prodPriceCard);
+            }).appendTo($prodDetails);
             var buyBtn = $('<a/>',{
                 class: 'btn pdp-buy-btn',
                 href: data.product_url,
                 text: 'Buy'
-            }).appendTo($prodPriceCard);
+            }).appendTo($prodDetails);
+
+            $filtersDivMobile = jQuery( '<div/>', {
+                id: 'filtersDivMobile',
+                class: 'filters filters-mobile'
+            }).insertBefore($imagesContainer);
 
             $filtersDiv = jQuery( '<div/>', {
-                id: 'filtersDiv'
+                id: 'filtersDiv',
+                class: 'filters'
             }).appendTo($prodPriceCard);
 
             if( data.variations != null){
@@ -60,6 +76,10 @@ $(document).ready(function () {
             //Product description
             var $desc = $product.find('.prod-desc');
             $desc.find('.-name').text(data.name);
+            if( isMobile() ){
+                var $mobileProdDetails = $('.-product-details').clone();
+                $mobileProdDetails.insertAfter('.-name');
+            }
 
             var ratingValue = parseFloat(data.rating).toFixed(1);
             var ratingClass = 'rating-' + ratingValue.toString().replace('.', "_");
@@ -67,12 +87,17 @@ $(document).ready(function () {
             $desc.find('.total-ratings').text(data.reviews);
 
             $desc.find('.-desc').text(data.description);
+            $('#descp').text(data.description);
+            $('#dimen').text(data.dimension);
+
             var $featuresList = $desc.find('.-features');
             data.features.forEach(feature => {
                 var li = $('<li>',{
                     html: feature
                 }).appendTo($featuresList);
             });
+
+            $($featuresList).clone().appendTo('#feat');
         },
         error: function (jqXHR, exception) {
             console.log(jqXHR);
@@ -88,6 +113,48 @@ $(document).ready(function () {
         updateFiltersAndVariations(queryParams, SWATCH_API, false);
     }
 
+    function makeFilters(data, isMobile){
+        var currFilterDiv = isMobile ? $filtersDivMobile : $filtersDiv;
+        Object.keys(data.filters).forEach(function (filter) {
+            // data.filters.filter.forEach(options => {
+                var transformedLabel = data.filters[filter].label.toLowerCase().replace(' ', '_');
+                var $singleFilter = jQuery( '<div/>', {
+                    class: ( 'single-filter' ) + ( isMobile ? ' text-center' : '' )
+                }).appendTo(currFilterDiv);
+                var $filterLabel = jQuery( '<label/>', {
+                    text: data.filters[filter].label + ':',
+                    for: 'selectbox-attr-'+transformedLabel,
+                    class: 'select-label',
+                    value: data.filters[filter].label
+                }).appendTo($singleFilter);
+                var $filterSelectBox = jQuery( '<select/>', {
+                    class: 'form-control',
+                    id: 'attr-'+transformedLabel
+                }).appendTo($singleFilter);
+                
+                var bFilterEnabled = false;
+                data.filters[filter].options.forEach((element,idx) => {
+                    if( !bFilterEnabled ){ 
+                        bFilterEnabled = element.in_request;
+                    }
+                    var attrElm = jQuery('<option />', {
+                        value: element.value,
+                        selected: element.in_request,
+                        text: element.name
+                    }).appendTo($filterSelectBox);
+                    if( idx == (data.filters[filter].options.length - 1) ){
+                        var attrElm2 = jQuery('<option />', {
+                            value: 'unselected-value',
+                            selected: !bFilterEnabled,
+                            text: 'Please select a value'
+                        }).appendTo($filterSelectBox);
+                        bFilterEnabled = false;
+                    }
+                });
+            // });
+        });
+    }
+
     function updateFiltersAndVariations(queryParams, apiPath, bUpdateVariations = true){
         $.ajax({
             type: "GET",
@@ -97,44 +164,11 @@ $(document).ready(function () {
             success: function (data) {
                 console.log(data);
                 $filtersDiv.empty();
+                $filtersDivMobile.empty();
 
                 if( data.filters != null ){
                     arrFilters = Object.keys(data.filters);
-                    Object.keys(data.filters).forEach(function (filter) {
-                        // data.filters.filter.forEach(options => {
-                            var transformedLabel = data.filters[filter].label.toLowerCase().replace(' ', '_');
-                            var $filterLabel = jQuery( '<label/>', {
-                                text: data.filters[filter].label + ':',
-                                for: 'selectbox-attr-'+transformedLabel,
-                                class: 'select-label',
-                                value: data.filters[filter].label
-                            }).appendTo($filtersDiv);
-                            var $filterSelectBox = jQuery( '<select/>', {
-                                class: 'form-control',
-                                id: 'attr-'+transformedLabel
-                            }).appendTo($filtersDiv);
-                            
-                            var bFilterEnabled = false;
-                            data.filters[filter].options.forEach((element,idx) => {
-                                if( !bFilterEnabled ){ 
-                                    bFilterEnabled = element.in_request;
-                                }
-                                var attrElm = jQuery('<option />', {
-                                    value: element.value,
-                                    selected: element.in_request,
-                                    text: element.name
-                                }).appendTo($filterSelectBox);
-                                if( idx == (data.filters[filter].options.length - 1) ){
-                                    var attrElm2 = jQuery('<option />', {
-                                        value: 'unselected-value',
-                                        selected: !bFilterEnabled,
-                                        text: 'Please select a value'
-                                    }).appendTo($filterSelectBox);
-                                    bFilterEnabled = false;
-                                }
-                            });
-                        // });
-                    });
+                    makeFilters(data, isMobile());
 
                     makeSelectBox();
                 }
@@ -147,9 +181,6 @@ $(document).ready(function () {
                     var carouselMainDiv = jQuery('<img/>', {
                         id: 'variationImg',
                         class: 'zoom-img-variation img-fluid',
-                        src: data.main_image,
-                        "data-image": data.main_image,
-                        "data-zoom": data.main_image,
                     }).appendTo($prodMainImgDiv);
                     variationImgEl = document.querySelector('#variationImg');
                     variationDrift = new Drift(variationImgEl, {});
@@ -171,7 +202,9 @@ $(document).ready(function () {
 
 
         var variationImages = variationData.map(variation => variation.image);
-        var variationSwatchImages = variationData.map(variation => variation.swatch_image) || variationImages;
+        var variationSwatchImages = variationData.map(( variation, idx) => { 
+            return variation.swatch_image || variationImages[idx];
+        });
         var variationLinks = variationData.map(variation => variation.link);
 
         var $variationsCarousel = $product.find('.-variations-carousel');
@@ -261,4 +294,8 @@ $(document).ready(function () {
         oQueryParams["swatch"] = decodeURIComponent( newPathname );
         fetchFilters(oQueryParams);
     }
+
+    $('#filterToggleBtn').on('click', function(){
+        $('#filtersDivMobile').toggle();
+    });
 });
