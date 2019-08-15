@@ -429,8 +429,8 @@ class Product extends Model
             'product_detail_url' => Product::$base_siteurl . "/product/" . $product->product_sku,
             'is_price'         => $product->price,
             'model_code'       => $product->model_code,
-            'description'      => $product->product_description,
-            'dimension'       => $product->site_name == "cb2" ? Product::cb2_dimensions($product->product_dimension) : $product->product_dimension,
+            'description'      => preg_split("/\\[US\\]|<br>|\\n/", $product->product_description),
+            'dimension'        => $product->site_name == "cb2" ? Product::cb2_dimensions($product->product_dimension) : $product->product_dimension,
             'thumb'            => preg_split("/,|\\[US\\]/", $product->thumb),
             'color'            => $product->color,
             'images'           => array_map([__CLASS__, "baseUrl"], preg_split("/,|\\[US\\]/", $product->images)),
@@ -457,12 +457,14 @@ class Product extends Model
         $d_arr = [];
         $dd_arr = [];
 
+        if (json_last_error()) return [];
+
         foreach ($dim as $d) {
             if ($d->hasDimensions) {
                 array_push($d_arr, $d);
             }
         }
-
+        
         //return $json_string;
         return $d_arr;
     }
@@ -492,7 +494,8 @@ class Product extends Model
                     "variation_sku" => $variation->variation_sku,
                     "name" => $variation->variation_name,
                     "has_parent_sku" => $variation->has_parent_sku,
-                    "image" => $variation->variation_images,
+                    "swatch" => $variation->swatch_image,
+                    "image" => $variation->variation_image,
                     "link" => $link
                 ]);
             }
@@ -523,7 +526,8 @@ class Product extends Model
                     "variation_sku" => $variation->product_sku,
                     "name" => $variation->color,
                     "image" => Product::$base_siteurl . $variation->main_product_images,
-                    "link" => Product::$base_siteurl . "/product/" . $variation->product_sku
+                    "link" => Product::$base_siteurl . "/product/" . $variation->product_sku,
+                    "swatch" => ""
                 ]);
             }
         }
