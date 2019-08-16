@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Input;
 use PhpParser\Node\Expr\Variable;
 
+// majorly writen for westelm products
+
 class Variations extends Model
 {
     public static $base_siteurl = 'http://lazysuzy.com';
@@ -57,6 +59,7 @@ class Variations extends Model
             "was_price",
             DB::raw('CONCAT("' . Product::$base_siteurl . '", image_path) as image'),
             DB::raw('CONCAT("' . Product::$base_siteurl . '", swatch_image_path) as swatch_image'),
+            "swatch_image_path",
             "attribute_1",
             "attribute_2",
             "attribute_3",
@@ -72,6 +75,7 @@ class Variations extends Model
 
         $query = DB::table("westelm_products_skus")
             ->select($cols)
+            ->distinct('swatch_image')
             ->where('product_id', $sku);
 
         if (in_array($master_prod[0]->site_name, ['pier1', 'cb2', 'nw'])) {
@@ -100,6 +104,8 @@ class Variations extends Model
                 $product = [];
                 $col = "attribute_";
 
+                // checking if swatch image col has a path or not
+
                 // load basic details about the product
                 $product = [
                     "product_sku" => $variation->product_sku,
@@ -107,7 +113,7 @@ class Variations extends Model
                     "name" => $variation->name,
                     "price" => $variation->price,
                     "image" => $variation->image,
-                    "swatch_image" => $variation->swatch_image
+                    "swatch_image" => strlen($variation->swatch_image_path) > 0 ? $variation->swatch_image : null
                 ];
 
                 // will have to remove this for loop and replace it with 
