@@ -189,7 +189,7 @@ class Product extends Model
         $query = $query->offset($start)->limit($limit);
 
         //echo "<pre>" . print_r($all_filters, true);
-        return Product::getProductObj($query->get(), $all_filters, $dept, $cat, $subCat);
+        return Product::getProductObj($query->get(), $all_filters, $dept, $cat, $subCat, true);
     }
 
     public static function get_dept_cat_LS_ID_arr($dept, $cat)
@@ -370,7 +370,7 @@ class Product extends Model
 
         return $arr;
     }
-    public static function getProductObj($products, $all_filters, $dept, $cat, $subCat)
+    public static function getProductObj($products, $all_filters, $dept, $cat, $subCat, $isListingAPICall = null)
     {
         $p_send             = [];
         $filter_data         = [];
@@ -393,7 +393,7 @@ class Product extends Model
 
         foreach ($products as $product) {
 
-            $variations = Product::get_variations($product, $westelm_variations_data);
+            $variations = Product::get_variations($product, $westelm_variations_data, true);
             array_push($p_send, Product::get_details($product, $variations));
         }
 
@@ -431,7 +431,7 @@ class Product extends Model
             'model_code'       => $product->model_code,
         //    'description'      => preg_split("/\\[US\\]|<br>|\\n/", $product->product_description),
         //    'dimension'        => $product->site_name == "cb2" ? Product::cb2_dimensions($product->product_dimension) : $product->product_dimension,
-            'thumb'            => preg_split("/,|\\[US\\]/", $product->thumb),
+        //    'thumb'            => preg_split("/,|\\[US\\]/", $product->thumb),
             'color'            => $product->color,
         //    'images'           => array_map([__CLASS__, "baseUrl"], preg_split("/,|\\[US\\]/", $product->images)),
             'was_price'        => $product->was_price,
@@ -557,7 +557,7 @@ class Product extends Model
         return $key;
     }
 
-    public static function get_westelm_variations($product, $wl_v)
+    public static function get_westelm_variations($product, $wl_v, $isListingAPICall = null)
     {
         $cols = [
             "sku",
@@ -572,16 +572,19 @@ class Product extends Model
             "attribute_4",
             "attribute_5",
             "attribute_6",
+           
         ];
 
         if (isset($wl_v[$product->product_sku])) {
             if ($wl_v[$product->product_sku]) {
                 $var = DB::table("westelm_products_skus")
                     ->select($cols)
-                    ->distinct("swatch_image")
-                    ->where("product_id", $product->product_sku)
+                    ->groupBy("swatch_image")
+                    ->where("product_id", $product->product_sku); 
+                
+                if ($isListingAPICall) $var = $var->limit(7);
                     //->limit(20)
-                    ->get();
+                $var = $var->get();
 
                 $variations = [];
                 $variation_filters = [];
@@ -643,9 +646,11 @@ class Product extends Model
                    
                 }
 
-                array_push($variations, [
-                    "filters" => Product::get_all_variation_filters($product->product_sku)
-                ]);
+                if (!$isListingAPICall) {
+                    array_push($variations, [
+                        "filters" => Product::get_all_variation_filters($product->product_sku)
+                    ]);
+                }
 
                 return $variations;
             }
@@ -654,7 +659,7 @@ class Product extends Model
         return [];
     }
 
-    public static function get_variations($product, $wl_v = null)
+    public static function get_variations($product, $wl_v = null, $isListingAPICall = null)
     {
 
         switch ($product->site_name) {
@@ -665,7 +670,7 @@ class Product extends Model
                 return Product::get_pier1_variations($product);
                 break;
             case 'westelm':
-                return Product::get_westelm_variations($product, $wl_v);
+                return Product::get_westelm_variations($product, $wl_v, $isListingAPICall);
                 break;
             default:
                 return [];
