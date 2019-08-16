@@ -466,11 +466,15 @@ class Product extends Model
 
     public static function cb2_dimensions($json_string)
     {
+        
+        if ($json_string === "null") return [];
         $dim = json_decode($json_string);
+        if (json_last_error()) return [];
+        
         $d_arr = [];
         $dd_arr = [];
 
-        if (json_last_error()) return [];
+       
 
         foreach ($dim as $d) {
             if ($d->hasDimensions) {
