@@ -417,9 +417,9 @@ class Product extends Model
         ];
     }
 
-    public static function get_details($product, $variations)
+    public static function get_details($product, $variations, $isListingAPICall = null)
     {
-        return [
+        $data =  [
             'id'               => $product->id,
             'sku'              => $product->product_sku,
         //    'sku_hash'         => $product->sku_hash,
@@ -449,6 +449,19 @@ class Product extends Model
             'variations'       => $variations
 
         ];
+
+        if (!$isListingAPICall) {
+            $data['description'] = preg_split("/\\[US\\]|<br>|\\n/", $product->product_description);
+            $data['dimension'] = $product->site_name == "cb2" ? Product::cb2_dimensions($product->product_dimension) : $product->product_dimension;
+            $data['thumb'] = preg_split("/,|\\[US\\]/", $product->thumb);
+            $data['features'] = preg_split("/\\[US\\]|<br>|\\n/", $product->product_feature);
+            $data['on_server_images'] = array_map([__CLASS__, "baseUrl"], preg_split("/,|\\[US\\]/", $product->product_images));
+
+            return $data;
+        }
+        else {
+            return $data;
+        }
     }
 
     public static function cb2_dimensions($json_string)
@@ -578,8 +591,11 @@ class Product extends Model
         if (isset($wl_v[$product->product_sku])) {
             if ($wl_v[$product->product_sku]) {
                 $var = DB::table("westelm_products_skus")
-                    ->select($cols)
-                    ->groupBy("swatch_image")
+                    ->select($cols);
+
+                if ($isListingAPICall) $var = $var->groupBy("swatch_image_path");
+
+                $var = $var->groupBy("swatch_image")
                     ->where("product_id", $product->product_sku); 
                 
                 if ($isListingAPICall) $var = $var->limit(7);
@@ -684,6 +700,8 @@ class Product extends Model
         $product = [];
         $prod = Product::where('product_sku', $sku)
             ->get();
+
+        if (!isset($prod[0])) return ["error" => "No such product found"];
         $westelm_cache_data  = DB::table("westelm_products_skus")
             ->selectRaw("COUNT(product_id) AS product_count, product_id")
             ->groupBy("product_id")
@@ -699,11 +717,9 @@ class Product extends Model
         $westelm_cache_data = [];
 
         $variations = null;
-        if ($prod[0]->site_name === 'westelm') {
-            $variations = null;
-        } else {
-            $variations = Product::get_variations($prod[0]);
-        }
+        
+        $variations = Product::get_variations($prod[0], $westelm_variations_data);
+
         return Product::get_details($prod[0], $variations);
     }
 
