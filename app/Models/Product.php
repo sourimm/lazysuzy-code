@@ -559,17 +559,33 @@ class Product extends Model
 
     public static function get_westelm_variations($product, $wl_v)
     {
+        $cols = [
+            "sku",
+            "product_id",
+            "swatch_image_path",
+            "image_path",
+            "name",
+            "swatch_image",
+            "attribute_1",
+            "attribute_2",
+            "attribute_3",
+            "attribute_4",
+            "attribute_5",
+            "attribute_6",
+        ];
 
         if (isset($wl_v[$product->product_sku])) {
             if ($wl_v[$product->product_sku]) {
                 $var = DB::table("westelm_products_skus")
+                    ->select($cols)
+                    ->distinct("swatch_image")
                     ->where("product_id", $product->product_sku)
                     //->limit(20)
                     ->get();
 
                 $variations = [];
                 $variation_filters = [];
-
+                $swatches = [];
                 foreach ($var as $prod) {
                     $features = [];
                     for ($i = 1; $i <= 6; $i++) {
@@ -615,14 +631,16 @@ class Product extends Model
                             }
                         }
                     }
+
                     array_push($variations, [
                         "product_sku" => $product->product_sku,
                         "variation_sku" => $prod->sku,
                         "name" => $prod->name,
                         "features" => $features,
                         "image" => Product::$base_siteurl . $prod->image_path,
-                        "swatch_image" => Product::$base_siteurl . $prod->swatch_image_path,
+                        "swatch_image" => strlen($prod->swatch_image) != 0 ? Product::$base_siteurl . $prod->swatch_images : null
                     ]);
+                   
                 }
 
                 array_push($variations, [
