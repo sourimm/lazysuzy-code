@@ -53,7 +53,8 @@ $(document).ready(function () {
             var buyBtn = $('<a/>',{
                 class: 'btn pdp-buy-btn',
                 href: data.product_url,
-                text: 'Buy'
+                text: 'Buy',
+                target: '_blank'
             }).appendTo($prodDetails);
 
             $filtersDivMobile = jQuery( '<div/>', {
