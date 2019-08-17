@@ -27,7 +27,7 @@
                         
                         <div class="d-none d-md-block">
                             <div class="accordion" id="accordionExample">
-                                <div class="card">
+                                <div class="card d-none">
                                     <div class="card-header" id="headingOne">
                                     <h2 class="mb-0">
                                         <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
@@ -75,7 +75,7 @@
                         <div class="d-sm-block d-md-none">
                             <!-- Nav tabs -->
                             <ul class="nav nav-tabs">
-                                <li class="nav-item">
+                                <li class="nav-item d-none">
                                     <a class="nav-link active" data-toggle="tab" href="#descp">Description</a>
                                 </li>
                                 <li class="nav-item">
@@ -88,8 +88,8 @@
 
                             <!-- Tab panes -->
                             <div class="tab-content">
-                            <div class="tab-pane container active" id="descp"></div>
-                            <div class="tab-pane container fade" id="feat"></div>
+                            <div class="tab-pane container fade d-none" id="descp"></div>
+                            <div class="tab-pane container active" id="feat"></div>
                             <div class="tab-pane container fade" id="dimen"></div>
                             </div>
                         </div>

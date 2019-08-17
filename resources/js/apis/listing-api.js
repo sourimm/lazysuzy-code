@@ -132,7 +132,7 @@ $(document).ready(function () {
 
         //Product information
         var prodInfo = jQuery('<div/>', {
-            class: 'prod-info'
+            class: 'prod-info d-none d-md-block'
         }).appendTo(product);
         var catDetails = jQuery('<span/>', {
             class: '-cat-name',
@@ -178,20 +178,25 @@ $(document).ready(function () {
             }).appendTo(product);
         }
 
-        variationSwatchImages.forEach((img, idx) => {
-            var responsiveImgDiv = jQuery('<div/>', {
-                class: 'mini-carousel-item',
-            }).appendTo(carouselMainDiv);
-            var anchor = jQuery('<a/>', {
-                class: 'responsive-img-a',
-                href: variationLinks[idx]
-            }).appendTo(responsiveImgDiv);
-            var responsiveImg = jQuery('<img/>', {
-                class: 'carousel-img img-fluid',
-                src: img
-            }).appendTo(anchor);
+        if( variationSwatchImages.length > 0 ){
+            variationSwatchImages.forEach((img, idx) => {
+                var responsiveImgDiv = jQuery('<div/>', {
+                    class: 'mini-carousel-item',
+                }).appendTo(carouselMainDiv);
+                var anchor = jQuery('<a/>', {
+                    class: 'responsive-img-a',
+                    href: variationLinks[idx]
+                }).appendTo(responsiveImgDiv);
+                var responsiveImg = jQuery('<img/>', {
+                    class: 'carousel-img img-fluid',
+                    src: img
+                }).appendTo(anchor);
 
-        });
+            });
+        }
+        else{
+            carouselMainDiv.addClass('d-none');
+        }
 
         if (parseInt(productDetails.reviews) != 0) {
 
