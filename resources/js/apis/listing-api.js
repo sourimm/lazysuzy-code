@@ -171,7 +171,6 @@ $(document).ready(function () {
 
         if(productDetails.main_image != null){
             jQuery('<img />', {
-                id: 'variationImg',
                 class: 'variation-img img-fluid',
                 src: productDetails.main_image,
                 alt: 'variation-img'
@@ -189,7 +188,8 @@ $(document).ready(function () {
                 }).appendTo(responsiveImgDiv);
                 var responsiveImg = jQuery('<img/>', {
                     class: 'carousel-img img-fluid',
-                    src: img
+                    src: img,
+                    "data-prodimg": variationImages[idx]
                 }).appendTo(anchor);
 
             });
@@ -436,7 +436,12 @@ $(document).ready(function () {
     }
 
     $('body').on('mouseover', '.slick-slide', function(){
-        $(this).closest('.ls-product-div').find('.variation-img').attr('src', $(this).find('.carousel-img').attr('src'));
+        $(this).closest('.ls-product-div').find('.variation-img').attr('src', $(this).find('.carousel-img').attr('data-prodimg'));
+        $(this).closest('.ls-product-div').find('.variation-img').show();
+    });
+
+    $('body').on('mouseleave', '.slick-slide', function(){
+        $(this).closest('.ls-product-div').find('.variation-img').hide();
     });
 
     $.ajax({

@@ -86,6 +86,9 @@ $(document).ready(function () {
             var ratingClass = 'rating-' + ratingValue.toString().replace('.', "_");
             $desc.find('.rating').addClass(ratingClass);
             $desc.find('.total-ratings').text(data.reviews);
+            if( data.reviews <= 0){
+                $desc.find('.rating-container').hide();
+            }
 
             $desc.find('.-desc').text(data.description);
             $('#descp').text(data.description);
@@ -167,11 +170,14 @@ $(document).ready(function () {
                 $filtersDiv.empty();
                 $filtersDivMobile.empty();
 
-                if( data.filters != null ){
+                if( data.filters != null && !$.isEmptyObject( data.filters ) ){
                     arrFilters = Object.keys(data.filters);
                     makeFilters(data, isMobile());
 
                     makeSelectBox();
+                }
+                else{
+                    $('#filterToggleBtn').hide();
                 }
 
                 if( data.variations != null && bUpdateVariations){
