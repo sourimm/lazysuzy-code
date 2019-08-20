@@ -185,6 +185,10 @@ $(document).ready(function () {
 
                     var $prodMainImgDiv = $product.find('.prod-main-img');
                     $prodMainImgDiv.empty();
+                    var carouselMainDiv = jQuery('<i/>', {
+                        id: 'closeMainImgBtn',
+                        class: 'far fa-times-circle close-main-btn',
+                    }).appendTo($prodMainImgDiv);
                     var carouselMainDiv = jQuery('<img/>', {
                         id: 'variationImg',
                         class: 'zoom-img-variation img-fluid',
@@ -250,8 +254,13 @@ $(document).ready(function () {
         onFilterChange();
     });
 
+    $('body').on('click touchstart', '#closeMainImgBtn', function(){
+        $('.prod-main-img').hide();
+    });
+
     $('body').on('click touchstart', '.responsive-img-a', function(){
         $('#variationImg').attr('src', $(this).attr("data-image"));
+        $('.prod-main-img').show();
         $('.select-styled').each(function(){
             $(this).attr('active','unselected-value');
         });
