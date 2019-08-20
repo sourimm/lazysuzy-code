@@ -283,3 +283,16 @@
         }
     }
 }
+
+.close-main-btn{
+    position: absolute;
+    right: 0;
+    font-size: 30px;
+    margin: 20px;
+    z-index: 1000;
+    cursor: pointer;
+}
+
+.prod-main-img{
+    display: none;
+}
