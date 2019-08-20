@@ -25,6 +25,13 @@
                 font-size: 30px;
             }
         }
+
+        & > li:not(.nav-item) > a{
+            &:hover, &:active, &:focus{
+                text-decoration: none;
+                background-color: $primary-color !important;
+            }
+        }
     }
 
     .navbar-toggler{
