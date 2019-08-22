@@ -21,9 +21,7 @@ $(document).ready(function () {
 
     $(window).scroll(function () {
         if (!bNoMoreProductsToShow) {
-            var scrollHeight = $(document).height();
-            var scrollPosition = $(window).height() + $(window).scrollTop();
-            if ((scrollHeight - scrollPosition) / scrollHeight === 0) {
+            if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
                 fetchProducts(false);
             }
         }
