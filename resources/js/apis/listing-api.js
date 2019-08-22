@@ -21,10 +21,9 @@ $(document).ready(function () {
 
     $(window).scroll(function () {
         if (!bNoMoreProductsToShow) {
-            var position = $(window).scrollTop();
-            var bottom = $(document).height() - $(window).height();
-
-            if (position == bottom) {
+            var scrollHeight = $(document).height();
+            var scrollPosition = $(window).height() + $(window).scrollTop();
+            if ((scrollHeight - scrollPosition) / scrollHeight === 0) {
                 fetchProducts(false);
             }
         }
