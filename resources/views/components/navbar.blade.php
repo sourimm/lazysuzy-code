@@ -52,20 +52,33 @@
             <li class="nav-item">
                 <a class="nav-link" href="#">The Lazy Story</a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#"><i class="far fa-heart -icon"></i></a>
-            </li>
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle user-icon" href="#" id="userDropdown" role="button"
-                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <i class="fas fa-user-circle -icon"></i>
-                </a>
-                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
-                    <a class="dropdown-item" href="#">Account</a>
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="#">Log Out</a>
-                </div>
-            </li>
+            <!-- Authentication Links -->
+            @if (Auth::guest())
+                {{-- <li class="nav-item"><a class="nav-link" href="{{ url('/login') }}">Login</a></li>
+                <li class="nav-item"><a class="nav-link" href="#" id="register">Register</a></li> --}}
+
+                <li class="nav-item">
+                    <a class="nav-link dropdown-toggle user-icon" href="#" id="userLoginModal" role="button" aria-haspopup="true" aria-expanded="false">
+                        <i class="fas fa-user-circle -icon"></i>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#"><i class="far fa-heart -icon"></i></a>
+                </li>
+            @else
+                <li class="nav-item">
+                    <a class="nav-link" href="#"><i class="far fa-heart -icon"></i></a>
+                </li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                        {{ Auth::user()->name }} <span class="caret"></span>
+                    </a>
+
+                    <ul class="dropdown-menu" role="menu">
+                        <li><a href="{{ url('/logout') }}"><i class="fa fa-btn fa-sign-out"></i>Logout</a></li>
+                    </ul>
+                </li>
+            @endif
         </ul>
     </div>
 

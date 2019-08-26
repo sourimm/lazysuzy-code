@@ -1,6 +1,6 @@
-@extends('layouts.app')
+@extends('layouts.layout', ['body_class' => 'register-main-div'])
 
-@section('content')
+@section('middle_content')
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
@@ -62,16 +62,12 @@
 
                         <div class="form-group row mb-0">
                             <div class="col-md-6 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
+                                <button type="submit" class="btn -btn">
                                     {{ __('Register') }}
                                 </button>
                             </div>
-                            <div class="col-md-6">
-                                <a href="{{ route('login.provider', 'google') }}" class="btn btn-secondary">{{ __('Google Sign in') }}</a>
-                            </div>
-                            <div class="col-md-4">
-                                <a href="{{ route('login.provider', 'twitter') }}" class="btn btn-twitter btn-secondary"><i class="fa fa-twitter"></i> Twitter</a>
-
+                            <div class="col-md-6 offset-md-4">
+                                <a href="{{ route('login.provider', 'google') }}" class="btn btn-danger btn-block">{{ __('Google Sign in') }}</a>
                             </div>
                         </div>
                     </form>
