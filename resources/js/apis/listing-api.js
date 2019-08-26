@@ -132,7 +132,7 @@ $(document).ready(function () {
 
         //Product information
         var prodInfo = jQuery('<div/>', {
-            class: 'prod-info'
+            class: 'prod-info d-none d-md-block'
         }).appendTo(product);
         var catDetails = jQuery('<span/>', {
             class: '-cat-name',
@@ -171,27 +171,32 @@ $(document).ready(function () {
 
         if(productDetails.main_image != null){
             jQuery('<img />', {
-                id: 'variationImg',
                 class: 'variation-img img-fluid',
                 src: productDetails.main_image,
                 alt: 'variation-img'
             }).appendTo(product);
         }
 
-        variationSwatchImages.forEach((img, idx) => {
-            var responsiveImgDiv = jQuery('<div/>', {
-                class: 'mini-carousel-item',
-            }).appendTo(carouselMainDiv);
-            var anchor = jQuery('<a/>', {
-                class: 'responsive-img-a',
-                href: variationLinks[idx]
-            }).appendTo(responsiveImgDiv);
-            var responsiveImg = jQuery('<img/>', {
-                class: 'carousel-img img-fluid',
-                src: img
-            }).appendTo(anchor);
+        if( variationSwatchImages.length > 0 ){
+            variationSwatchImages.forEach((img, idx) => {
+                var responsiveImgDiv = jQuery('<div/>', {
+                    class: 'mini-carousel-item',
+                }).appendTo(carouselMainDiv);
+                var anchor = jQuery('<a/>', {
+                    class: 'responsive-img-a',
+                    href: variationLinks[idx]
+                }).appendTo(responsiveImgDiv);
+                var responsiveImg = jQuery('<img/>', {
+                    class: 'carousel-img img-fluid',
+                    src: img,
+                    "data-prodimg": variationImages[idx]
+                }).appendTo(anchor);
 
-        });
+            });
+        }
+        else{
+            carouselMainDiv.addClass('d-none');
+        }
 
         if (parseInt(productDetails.reviews) != 0) {
 
@@ -431,7 +436,12 @@ $(document).ready(function () {
     }
 
     $('body').on('mouseover', '.slick-slide', function(){
-        $(this).closest('.ls-product-div').find('.variation-img').attr('src', $(this).find('.carousel-img').attr('src'));
+        $(this).closest('.ls-product-div').find('.variation-img').attr('src', $(this).find('.carousel-img').attr('data-prodimg'));
+        $(this).closest('.ls-product-div').find('.variation-img').show();
+    });
+
+    $('body').on('mouseleave', '.slick-slide', function(){
+        $(this).closest('.ls-product-div').find('.variation-img').hide();
     });
 
     $.ajax({
