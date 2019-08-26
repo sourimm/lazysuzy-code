@@ -393,8 +393,8 @@ class Product extends Model
 
         foreach ($products as $product) {
 
-            $variations = Product::get_variations($product, $westelm_variations_data, true);
-            array_push($p_send, Product::get_details($product, $variations));
+            $variations = Product::get_variations($product, $westelm_variations_data, $isListingAPICall);
+            array_push($p_send, Product::get_details($product, $variations, $isListingAPICall));
         }
 
         $brand_holder = Product::get_brands_filter($dept, $cat, $all_filters);
@@ -451,7 +451,8 @@ class Product extends Model
            
 
         ];
-        if ($product->site_name == "westelm") {
+
+        if ($product->site_name == "westelm" && !$isListingAPICall ) {
             $data['filters'] = end($variations)['filters'];
             array_pop($variations);
         }
@@ -730,9 +731,9 @@ class Product extends Model
 
         $variations = null;
         
-        $variations = Product::get_variations($prod[0], $westelm_variations_data);
+        $variations = Product::get_variations($prod[0], $westelm_variations_data, false);
 
-        return Product::get_details($prod[0], $variations);
+        return Product::get_details($prod[0], $variations, false);
     }
 
     // sends unique filter values.
