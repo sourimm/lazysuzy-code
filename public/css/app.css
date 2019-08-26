@@ -19259,6 +19259,13 @@ readers do not read off random characters that represent icons */
   font-size: 30px;
 }
 
+.navbar .navbar-nav > li:not(.nav-item) > a:hover,
+.navbar .navbar-nav > li:not(.nav-item) > a:active,
+.navbar .navbar-nav > li:not(.nav-item) > a:focus {
+  text-decoration: none;
+  background-color: #ffcc00 !important;
+}
+
 .navbar .navbar-toggler .-bars {
   color: #ffcc00;
   font-size: 30px;
@@ -19870,6 +19877,7 @@ input:disabled + .checkmark + .text {
   text-align: left;
   font-size: 14px;
   line-height: 14px;
+  z-index: 100;
 }
 
 .products-container .ls-prod-container .ls-product-div .ls-product .prod-info .-prices .-cprice {
@@ -20106,7 +20114,7 @@ input:disabled + .checkmark + .text {
 }
 
 .detailspage-main-div .detailspage .rating-container {
-  margin: auto;
+  margin: auto auto 10px auto;
 }
 
 .detailspage-main-div .detailspage .rating-container .rating {
@@ -20158,10 +20166,62 @@ input:disabled + .checkmark + .text {
     border-radius: 10px;
     margin: 10px 0px;
   }
+
+  .prod-desc {
+    padding: 0px;
+  }
+
+  .detailspage .container {
+    padding: 0px;
+  }
+
+  .tab-content {
+    padding: 15px;
+  }
 }
 
 .tab-pane {
   margin-top: 10px;
+}
+
+.card .card-header {
+  background: #0c1c31;
+}
+
+.card .card-header .btn.btn-link:hover {
+  color: #ffcc00;
+}
+
+.card .card-header .btn.btn-link .-text {
+  color: #ffcc00;
+}
+
+.card .card-header .btn.btn-link .-text:hover {
+  color: #ffcc00;
+}
+
+.card .card-header .btn.btn-link .-text:after {
+  content: "";
+  width: 0;
+  height: 0;
+  border: 5px solid transparent;
+  border-color: #ffcc00 transparent transparent transparent;
+  top: 10px;
+  left: 7px;
+  position: relative;
+}
+
+.close-main-btn {
+  position: absolute;
+  right: 0;
+  font-size: 30px;
+  margin: 20px;
+  z-index: 1000;
+  cursor: pointer;
+}
+
+.prod-main-img {
+  display: none;
 }
 
 .responsive {
@@ -20199,9 +20259,13 @@ input:disabled + .checkmark + .text {
   color: #000;
 }
 
+.responsive .slick-slide {
+  padding: 0px 5px;
+}
+
 .rating-container {
   height: 20px;
-  margin: 20px auto 0px auto;
+  margin: 10px auto 0px auto;
 }
 
 .rating-container .rating {
