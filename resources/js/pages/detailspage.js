@@ -53,7 +53,8 @@ $(document).ready(function () {
             var buyBtn = $('<a/>',{
                 class: 'btn pdp-buy-btn',
                 href: data.product_url,
-                text: 'Buy'
+                text: 'Buy',
+                target: '_blank'
             }).appendTo($prodDetails);
 
             $filtersDivMobile = jQuery( '<div/>', {
@@ -85,6 +86,9 @@ $(document).ready(function () {
             var ratingClass = 'rating-' + ratingValue.toString().replace('.', "_");
             $desc.find('.rating').addClass(ratingClass);
             $desc.find('.total-ratings').text(data.reviews);
+            if( data.reviews <= 0){
+                $desc.find('.rating-container').hide();
+            }
 
             $desc.find('.-desc').text(data.description);
             $('#descp').text(data.description);
@@ -166,11 +170,14 @@ $(document).ready(function () {
                 $filtersDiv.empty();
                 $filtersDivMobile.empty();
 
-                if( data.filters != null ){
+                if( data.filters != null && !$.isEmptyObject( data.filters ) ){
                     arrFilters = Object.keys(data.filters);
                     makeFilters(data, isMobile());
 
                     makeSelectBox();
+                }
+                else{
+                    $('#filterToggleBtn').hide();
                 }
 
                 if( data.variations != null && bUpdateVariations){
@@ -178,6 +185,10 @@ $(document).ready(function () {
 
                     var $prodMainImgDiv = $product.find('.prod-main-img');
                     $prodMainImgDiv.empty();
+                    var carouselMainDiv = jQuery('<i/>', {
+                        id: 'closeMainImgBtn',
+                        class: 'far fa-times-circle close-main-btn',
+                    }).appendTo($prodMainImgDiv);
                     var carouselMainDiv = jQuery('<img/>', {
                         id: 'variationImg',
                         class: 'zoom-img-variation img-fluid',
@@ -243,8 +254,13 @@ $(document).ready(function () {
         onFilterChange();
     });
 
+    $('body').on('click touchstart', '#closeMainImgBtn', function(){
+        $('.prod-main-img').hide();
+    });
+
     $('body').on('click touchstart', '.responsive-img-a', function(){
         $('#variationImg').attr('src', $(this).attr("data-image"));
+        $('.prod-main-img').show();
         $('.select-styled').each(function(){
             $(this).attr('active','unselected-value');
         });
