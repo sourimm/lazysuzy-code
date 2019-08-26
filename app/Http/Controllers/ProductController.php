@@ -45,4 +45,8 @@ class ProductController extends Controller
         return $products;
     }
 
+    public function showWishList(Request $request) {
+        return view('pages/wishlist');
+    }
+
 }
