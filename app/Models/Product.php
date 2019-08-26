@@ -419,6 +419,8 @@ class Product extends Model
 
     public static function get_details($product, $variations, $isListingAPICall = null)
     {
+        
+
         $data =  [
             'id'               => $product->id,
             'sku'              => $product->product_sku,
@@ -446,10 +448,17 @@ class Product extends Model
             'reviews'          => $product->reviews,
             'rating'           => (float) $product->rating,
         //    'LS_ID'            => $product->LS_ID,
-            'variations'       => $variations
+           
 
         ];
+        if ($product->site_name == "westelm") {
+            $data['filters'] = end($variations)['filters'];
+            array_pop($variations);
+        }
+        
+        $data['variations'] = $variations;
 
+       
         if (!$isListingAPICall) {
             $data['description'] = preg_split("/\\[US\\]|<br>|\\n/", $product->product_description);
             $data['dimension'] = $product->site_name == "cb2" ? Product::cb2_dimensions($product->product_dimension) : $product->product_dimension;
@@ -664,7 +673,8 @@ class Product extends Model
                    
                 }
 
-                if (!$isListingAPICall) {
+              
+                if (!$isListingAPICall) {      
                     array_push($variations, [
                         "filters" => Product::get_all_variation_filters($product->product_sku)
                     ]);
