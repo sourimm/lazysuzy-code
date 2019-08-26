@@ -474,8 +474,6 @@ class Product extends Model
         $d_arr = [];
         $dd_arr = [];
 
-       
-
         foreach ($dim as $d) {
             if ($d->hasDimensions) {
                 array_push($d_arr, $d);
