@@ -5,6 +5,8 @@
 
 // Variables
 @import "variables";
+// Mixins
+@import "mixins";
 
 // Bootstrap
 @import "~bootstrap/scss/bootstrap";
@@ -39,6 +41,7 @@
 @import "custom-rangeslider";
 @import "dropdown";
 @import "searchbar";
+@import "authmodal";
 
 //Slick carousel
 $slick-font-family: "Font Awesome 5 Free";
@@ -51,4 +54,23 @@ $slick-arrow-color: $secondary-color;
 
 html, body {
     font-family: 'Marcellus SC', san-serif;
+}
+
+.-btn{
+    @include primary-button;
+}
+
+.email-pswd-main-div{
+    .-btn{
+        font-size: 16px;
+    }
+}
+
+.register-main-div{
+    .-btn{
+        font-size: 16px;
+    }
+    .col-form-label, .form-control{
+        margin: 10px 0px;
+    }
 }
