@@ -111,7 +111,7 @@ class Variations extends Model
                     "product_sku" => $variation->product_sku,
                     "variation_sku" => $variation->variation_sku,
                     "name" => $variation->name,
-                    "price" => $variation->price,
+                    "price" => round($variation->price),
                     "image" => $variation->image,
                     "swatch_image" => strlen($variation->swatch_image_path) > 0 ? $variation->swatch_image : null
                 ];

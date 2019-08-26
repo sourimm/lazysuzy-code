@@ -278,19 +278,19 @@ class Product extends Model
         } else {
 
             if (isset($all_filters['price_from'])) {
-                $p_from = $all_filters['price_from'][0];
+                $p_from = round($all_filters['price_from'][0]);
             }
 
             if (isset($all_filters['price_to'])) {
-                $p_to = $all_filters['price_to'][0];
+                $p_to = round($all_filters['price_to'][0]);
             }
 
             if ($p_from == 0) $p_from = $min;
             if ($p_to == 0) $p_to = $max;
 
             return [
-                "from" => (float) $p_from,
-                "to" => (float) $p_to,
+                "from" => round($p_from),
+                "to" => round($p_to),
                 "max" => $max,
                 "min" => $min
             ];
@@ -429,14 +429,14 @@ class Product extends Model
             'name'             => $product->product_name,
             'product_url'      => urldecode($product->product_url),
             'product_detail_url' => Product::$base_siteurl . "/product/" . $product->product_sku,
-            'is_price'         => $product->price,
+            'is_price'         => round($product->price),
             'model_code'       => $product->model_code,
         //    'description'      => preg_split("/\\[US\\]|<br>|\\n/", $product->product_description),
         //    'dimension'        => $product->site_name == "cb2" ? Product::cb2_dimensions($product->product_dimension) : $product->product_dimension,
         //    'thumb'            => preg_split("/,|\\[US\\]/", $product->thumb),
             'color'            => $product->color,
         //    'images'           => array_map([__CLASS__, "baseUrl"], preg_split("/,|\\[US\\]/", $product->images)),
-            'was_price'        => $product->was_price,
+            'was_price'        => round($product->was_price),
         //    'features'         => preg_split("/\\[US\\]|<br>|\\n/", $product->product_feature),
             'collection'       => $product->collection,
         //    'set'              => $product->product_set,
