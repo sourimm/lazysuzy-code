@@ -69,7 +69,7 @@
                 <li class="nav-item">
                     <a class="nav-link" href="#"><i class="far fa-heart -icon"></i></a>
                 </li>
-                <li class="dropdown">
+                <li class="dropdown nav-item -username">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
                         {{ Auth::user()->name }} <span class="caret"></span>
                     </a>
