@@ -338,6 +338,15 @@ input:disabled + .checkmark, input:disabled + .checkmark + .text{
 
     .dropdown-submenu {
         position: relative;
+
+        @include media-breakpoint-down(md){
+            .dropdown-item{
+                width: 90%;
+            }
+            .dropdown-toggle{
+                margin-top: 4px;
+            }  
+        }
     }
 
     .dropdown-submenu a::after {

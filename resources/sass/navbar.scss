@@ -32,6 +32,14 @@
                 background-color: $primary-color !important;
             }
         }
+        & > li.-username{
+            a{
+                color: $font-color-black;
+                .fa-sign-out{
+                    margin: 7px;
+                }
+            }
+        }
     }
 
     .navbar-toggler{
