@@ -1,6 +1,6 @@
-@extends('layouts.app')
+@extends('layouts.layout', ['body_class' => 'login-main-div'])
 
-@section('content')
+@section('middle_content')
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">

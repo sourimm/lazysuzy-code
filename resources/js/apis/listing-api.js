@@ -21,10 +21,8 @@ $(document).ready(function () {
 
     $(window).scroll(function () {
         if (!bNoMoreProductsToShow) {
-            var position = $(window).scrollTop();
-            var bottom = $(document).height() - $(window).height();
-
-            if (position == bottom) {
+            var iOffset = isMobile() ? 50 : 0; 
+            if ((window.innerHeight + window.scrollY + iOffset) >= document.body.offsetHeight) {
                 fetchProducts(false);
             }
         }
@@ -125,7 +123,7 @@ $(document).ready(function () {
         }).appendTo(productLink);
 
         jQuery('<img />', {
-            class: 'img-fluid',
+            class: 'prod-img img-fluid',
             src: productDetails.main_image,
             alt: productDetails.name
         }).appendTo(product);
@@ -437,11 +435,13 @@ $(document).ready(function () {
 
     $('body').on('mouseover', '.slick-slide', function(){
         $(this).closest('.ls-product-div').find('.variation-img').attr('src', $(this).find('.carousel-img').attr('data-prodimg'));
+        $(this).closest('.ls-product-div').find('.prod-img').css('visibility','hidden');
         $(this).closest('.ls-product-div').find('.variation-img').show();
     });
 
     $('body').on('mouseleave', '.slick-slide', function(){
         $(this).closest('.ls-product-div').find('.variation-img').hide();
+        $(this).closest('.ls-product-div').find('.prod-img').css('visibility','unset');
     });
 
     $.ajax({
@@ -456,7 +456,7 @@ $(document).ready(function () {
                     deptToAppend += '<li ><a class="dropdown-item" href="' + departments[i].link + '">' + departments[i].department + '</a></li>';
                 }
                 else {
-                    deptToAppend += '<li class="dropdown-submenu"><a  class="dropdown-item dropdown-toggle" href="'+departments[i].link+'" id="navbarDropdown'+i+'">' + departments[i].department + '<i class="fas fa-angle-right float-right"></i></a>';
+                    deptToAppend += '<li class="dropdown-submenu row"><a  class="dropdown-item" href="'+departments[i].link+'">' + departments[i].department + '</a><a  class="dropdown-toggle" id="navbarDropdown'+i+'"><i class="fas fa-angle-right float-right"></i></a>';
                     var catgToAppend = '<ul class="dropdown-menu" aria-labelledby="navbarDropdown">';
                     for (var j = 0; j < departments[i].categories.length; j++) {
                         catgToAppend += '<li><a class="dropdown-item" href="' + departments[i].categories[j].link + '">' + departments[i].categories[j].category + '</a></li>'
