@@ -22,13 +22,25 @@ $(document).ready(function () {
     var bFetchingProducts = false;
 
     $(window).scroll(function () {
-        if (!bNoMoreProductsToShow) {
-            var iOffset = isMobile() ? 50 : 0; 
-            if ((window.innerHeight + window.scrollY + iOffset) >= document.body.offsetHeight) {
+        if (!bNoMoreProductsToShow) { 
+            if ( isScrolledIntoView( $('#loaderImg')[0]) ) {
                 fetchProducts(false);
             }
         }
     });
+
+    function isScrolledIntoView(el)
+    {
+        var rect = el.getBoundingClientRect();
+        var elemTop = rect.top;
+        var elemBottom = rect.bottom;
+    
+        // Only completely visible elements return true:
+        var isVisible = (elemTop >= 0) && (elemBottom <= window.innerHeight);
+        // Partially visible elements return true:
+        //isVisible = elemTop < window.innerHeight && elemBottom >= 0;
+        return isVisible;
+    }
 
     function fetchProducts(bClearPrevProducts) {
         if (!bFetchingProducts) {
@@ -36,7 +48,7 @@ $(document).ready(function () {
             var strLimit = iLimit === undefined ? '' : '&limit=' + iLimit;
             var listingApiPath = LISTING_API_PATH + '?filters=' + strFilters + '&sort_type=' + strSortType + '&pageno=' + iPageNo + strLimit;
             console.log(listingApiPath);
-            $('#loaderImg').show();
+            //$('#loaderImg').show();
             $('#noProductsText').hide();
             iPageNo += 1;
             $.ajax({
@@ -50,7 +62,7 @@ $(document).ready(function () {
                         $('#productsContainerDiv').empty()
                         totalResults = 0;
                     };
-                    $('#loaderImg').hide();
+                    //$('#loaderImg').hide();
                     if (data == null) {
                         return;
                     }
@@ -61,12 +73,13 @@ $(document).ready(function () {
                         $('#totalResults').text(totalResults);
 
                         var anchor = $('<a/>', {
-                            href: '#page' + iPageNo
+                            href: '#page' + iPageNo,
+                            id: '#anchor-page' + iPageNo
                         }).appendTo('#productsContainerDiv');
                         for (var i = 0; i < data.products.length; i++) {
                             createProductDiv(data.products[i]);
                         }
-                        scrollToAnchor();
+                       // scrollToAnchor();
                         multiCarouselFuncs.makeMultiCarousel();
                     }
                     else {
@@ -95,6 +108,8 @@ $(document).ready(function () {
                         });
                         makeSelectBox();
                     }
+
+               //     $("#anchor-page"+iPageNo)[0].click()
 
                 },
                 error: function (jqXHR, exception) {
