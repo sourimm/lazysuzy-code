@@ -15,6 +15,9 @@ Route::get('/', 'HomeController@index')->name('index');
 Route::get('/products/{dept}/{cat?}', 'ProductController@index')->name('products');
 Route::get('/product/{sku}', 'PdpController@index')->name('index');
 Route::get('/login', 'Auth\LoginController@index')->name('signup');
+Route::get('/wishlist', function () {
+    return view('pages.wishlist');
+});
 
 Auth::routes();
 
