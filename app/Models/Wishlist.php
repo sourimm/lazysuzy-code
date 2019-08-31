@@ -10,8 +10,10 @@ use Auth;
 class Wishlist extends Model {
     public static function get_whishlist() {
         if(Auth::check()) {
+            $user = Auth::user();
             $products = DB::table("user_wishlists")
                 ->join("master_data", "master_data.product_sku", "=", "user_wishlists.product_id")
+                ->where("user_id", $user->id)
                 ->get();
             
             return $products;
