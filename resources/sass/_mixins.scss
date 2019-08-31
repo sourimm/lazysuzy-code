@@ -1,0 +1,11 @@
+@mixin primary-button{
+    color: $primary-color;
+    background-color: $secondary-color;
+    font-size: 24px;
+    border-radius: 10px;
+    margin: 15px 0px;
+    &:hover{
+        opacity: 0.9;
+        color: $primary-color;
+    }
+}
