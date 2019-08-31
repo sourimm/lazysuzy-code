@@ -1,0 +1,22 @@
+.auth-modal{
+    .modal-dialog{
+        width: 400px;
+        max-width: 100%;
+    }
+    .-btn{
+        width: 100%;
+    }
+        
+    .or-seperator{
+        margin: 20px 0 10px;
+        text-align: center;
+        border-top: 1px solid #ccc;
+        i{
+            padding: 0 10px;
+            background: $white;
+            position: relative;
+            top: -11px;
+            z-index: 1;
+        }
+    }
+}
