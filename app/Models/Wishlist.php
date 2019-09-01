@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Product;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Input;
 use Auth;
@@ -15,8 +16,14 @@ class Wishlist extends Model {
                 ->join("master_data", "master_data.product_sku", "=", "user_wishlists.product_id")
                 ->where("user_id", $user->id)
                 ->get();
+            $productus_structured = [];
+            foreach($products as $prod) {
+                $variations = Product::get_variations($prod, null, true);
+                 array_push($productus_structured, Product::get_details($prod, $variations, true));
+            }
             
-            return $products;
+            return $productus_structured;
+            
         }
         
     }
@@ -50,6 +57,7 @@ class Wishlist extends Model {
             }
         } else {
             $result["type"] = "temporary";
+            // handle no login requests
         }
 
         return $result;
@@ -69,7 +77,9 @@ class Wishlist extends Model {
             } else {
                 return false;
             }
-        } else { }
+        } else { 
+            // handle no login requests
+        }
         return $result;
     }
 }
