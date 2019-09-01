@@ -6,7 +6,9 @@ import isMobile from '../app.js'
 $(document).ready(function () {
     const LISTING_API_PATH = '/api' + location.pathname;
     const LISTING_FILTER_API_PATH = '/api/filter/products';
-    const DEPT_API = '/api/all-departments'
+    const DEPT_API = '/api/all-departments';
+    const FAV_MARK_API = '/api/mark/favourite/';
+    const FAV_UNMARK_API = '/api/unmark/favourite/';
     const PRODUCT_URL = location.origin + '/product/';
     var totalResults = 0;
     var UrlSearchParams = new Object();
@@ -20,13 +22,25 @@ $(document).ready(function () {
     var bFetchingProducts = false;
 
     $(window).scroll(function () {
-        if (!bNoMoreProductsToShow) {
-            var iOffset = isMobile() ? 50 : 0; 
-            if ((window.innerHeight + window.scrollY + iOffset) >= document.body.offsetHeight) {
+        if (!bNoMoreProductsToShow) { 
+            if ( isScrolledIntoView( $('#loaderImg')[0]) ) {
                 fetchProducts(false);
             }
         }
     });
+
+    function isScrolledIntoView(el)
+    {
+        var rect = el.getBoundingClientRect();
+        var elemTop = rect.top;
+        var elemBottom = rect.bottom;
+    
+        // Only completely visible elements return true:
+        var isVisible = (elemTop >= 0) && (elemBottom <= window.innerHeight);
+        // Partially visible elements return true:
+        //isVisible = elemTop < window.innerHeight && elemBottom >= 0;
+        return isVisible;
+    }
 
     function fetchProducts(bClearPrevProducts) {
         if (!bFetchingProducts) {
@@ -34,7 +48,7 @@ $(document).ready(function () {
             var strLimit = iLimit === undefined ? '' : '&limit=' + iLimit;
             var listingApiPath = LISTING_API_PATH + '?filters=' + strFilters + '&sort_type=' + strSortType + '&pageno=' + iPageNo + strLimit;
             console.log(listingApiPath);
-            $('#loaderImg').show();
+            //$('#loaderImg').show();
             $('#noProductsText').hide();
             iPageNo += 1;
             $.ajax({
@@ -48,7 +62,7 @@ $(document).ready(function () {
                         $('#productsContainerDiv').empty()
                         totalResults = 0;
                     };
-                    $('#loaderImg').hide();
+                    //$('#loaderImg').hide();
                     if (data == null) {
                         return;
                     }
@@ -59,12 +73,13 @@ $(document).ready(function () {
                         $('#totalResults').text(totalResults);
 
                         var anchor = $('<a/>', {
-                            href: '#page' + iPageNo
+                            href: '#page' + iPageNo,
+                            id: '#anchor-page' + iPageNo
                         }).appendTo('#productsContainerDiv');
                         for (var i = 0; i < data.products.length; i++) {
                             createProductDiv(data.products[i]);
                         }
-                        scrollToAnchor();
+                       // scrollToAnchor();
                         multiCarouselFuncs.makeMultiCarousel();
                     }
                     else {
@@ -93,6 +108,8 @@ $(document).ready(function () {
                         });
                         makeSelectBox();
                     }
+
+               //     $("#anchor-page"+iPageNo)[0].click()
 
                 },
                 error: function (jqXHR, exception) {
@@ -150,7 +167,7 @@ $(document).ready(function () {
             $(oldPrice).text('$' + productDetails.was_price);
         }
 
-        $(product).append('<div class="wishlist-icon"><i class="far fa-heart -icon"></i></div>');
+        $(product).append('<div class="wishlist-icon" sku='+productDetails.sku+'><i class="far fa-heart -icon"></i></div>');
 
         var productInfoNext = jQuery('<div/>', {
             class: 'd-none d-md-block',
@@ -494,5 +511,37 @@ $(document).ready(function () {
         }
     });
 
+    $('body').on('click', '.wishlist-icon', function(e){
+        e.preventDefault();
+        var iSku = $(this).attr('sku');
+        callWishlistAPI($(this));
+    });
 
+    function callWishlistAPI($elm){
+        var strApiToCall = ''; 
+        if(!$elm.hasClass('marked')){
+            strApiToCall = FAV_MARK_API + $elm.attr('sku');
+        }
+        else{
+            strApiToCall = FAV_UNMARK_API + $elm.attr('sku');
+        }
+        $.ajax({
+            type: "GET",
+            url: strApiToCall,
+            dataType: "json",
+            success: function (data) {
+                console.log(data);
+                if( !$elm.hasClass('marked')){
+                    $elm.addClass('marked');
+                }
+                else{
+                    $elm.removeClass('marked');
+                }
+            },
+            error: function (jqXHR, exception) {
+                console.log(jqXHR);
+                console.log(exception);
+            }
+        });
+    }
 });
