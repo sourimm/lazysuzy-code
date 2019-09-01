@@ -6,8 +6,8 @@
         <i class="fas fa-bars -bars"></i>
     </button>
     <a class="navbar-brand" href="/">
-        <img id="logo-navbar-middle" src="{{ asset('/images/dark_logo_transparent.png') }}" alt="asd" class="logo d-none d-md-block">
-        <img id="logo-navbar-middle" src="{{ asset('/images/color_logo_transparent.png') }}" alt="asd" class="logo d-block d-md-none">
+        <img id="logo-navbar-middle" src="{{ asset('/images/dark_logo_transparents.png') }}" alt="asd" class="logo d-none d-md-block">
+        <img id="logo-navbar-middle" src="{{ asset('/images/color_logo_transparents.png') }}" alt="asd" class="logo d-block d-md-none">
     </a>
 
     <form id="searchbarBody" class="searchbar sb-body card card-sm">
@@ -63,11 +63,11 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#"><i class="far fa-heart -icon"></i></a>
+                <a class="nav-link" href="{{ url('/wishlist') }}"><i class="far fa-heart -icon"></i></a>
                 </li>
             @else
                 <li class="nav-item">
-                    <a class="nav-link" href="#"><i class="far fa-heart -icon"></i></a>
+                    <a class="nav-link" href="{{ url('/wishlist') }}"><i class="far fa-heart -icon"></i></a>
                 </li>
                 <li class="dropdown nav-item -username">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
