@@ -22,7 +22,9 @@ class Wishlist extends Model {
                 array_push($products_structured, Product::get_details($prod, $variations, true));
             }
             
-            return $products_structured;
+            return [
+                "products" => $products_structured
+            ];
             
         }
         
