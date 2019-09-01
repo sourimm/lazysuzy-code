@@ -16,13 +16,13 @@ class Wishlist extends Model {
                 ->join("master_data", "master_data.product_sku", "=", "user_wishlists.product_id")
                 ->where("user_id", $user->id)
                 ->get();
-            $productus_structured = [];
+            $products_structured = [];
             foreach($products as $prod) {
                 $variations = Product::get_variations($prod, null, true);
-                 array_push($productus_structured, Product::get_details($prod, $variations, true));
+                array_push($products_structured, Product::get_details($prod, $variations, true));
             }
             
-            return $productus_structured;
+            return $products_structured;
             
         }
         
