@@ -372,29 +372,54 @@ class Product extends Model
     }
     public static function getProductObj($products, $all_filters, $dept, $cat, $subCat, $isListingAPICall = null)
     {
-        $p_send             = [];
+        $p_send              = [];
         $filter_data         = [];
         $brand_holder        = [];
         $price_holder        = [];
         $product_type_holder = [];
+
         $westelm_cache_data  = DB::table("westelm_products_skus")
             ->selectRaw("COUNT(product_id) AS product_count, product_id")
             ->groupBy("product_id")
             ->get();
+        
         $westelm_variations_data = [];
+        
         if (sizeof($westelm_cache_data) > 0) {
             foreach ($westelm_cache_data as $row) {
                 $westelm_variations_data[$row->product_id] = $row->product_count;
             }
         }
 
+        // removing waste data
         $westelm_cache_data = [];
 
-
+        // check if the prodcuts is in a wishlist
+        $wishlist_products = [];
+        if (Auth::check()) {
+            $user = Auth::user();
+            $w_products = DB::table("user_wishlists")
+                        ->select("product_id")
+                        ->where("user_id", $user->id)
+                        ->get();
+            
+            // cleaning the array 
+            foreach ($w_products as $p) 
+                array_push($wishlist_products, $p->product_id);
+            
+        }
+        
         foreach ($products as $product) {
+            
+            $isMarked = false;
+            if (Auth::check()) {
+                if (in_array($product->product_sku, $wishlist_products)) {
+                    $isMarked = true;
+                }
+            }
 
             $variations = Product::get_variations($product, $westelm_variations_data, $isListingAPICall);
-            array_push($p_send, Product::get_details($product, $variations, $isListingAPICall));
+            array_push($p_send, Product::get_details($product, $variations, $isListingAPICall, $isMarked));
         }
 
         $brand_holder = Product::get_brands_filter($dept, $cat, $all_filters);
@@ -417,7 +442,7 @@ class Product extends Model
         ];
     }
 
-    public static function get_details($product, $variations, $isListingAPICall = null)
+    public static function get_details($product, $variations, $isListingAPICall = null, $isMarked = false)
     {
         
 
@@ -447,6 +472,7 @@ class Product extends Model
             'main_image'       => Product::$base_siteurl . $product->main_product_images,
             'reviews'          => $product->reviews,
             'rating'           => (float) $product->rating,
+            'isMarked'         => $isMarked  
         //    'LS_ID'            => $product->LS_ID,
            
 
