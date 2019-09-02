@@ -472,7 +472,7 @@ class Product extends Model
             'main_image'       => Product::$base_siteurl . $product->main_product_images,
             'reviews'          => $product->reviews,
             'rating'           => (float) $product->rating,
-            'isMarked'         => $isMarked  
+            'wishlisted'       => $isMarked  
         //    'LS_ID'            => $product->LS_ID,
            
 
