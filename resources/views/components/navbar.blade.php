@@ -63,7 +63,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                <a class="nav-link" href="{{ url('/wishlist') }}"><i class="far fa-heart -icon"></i></a>
+                    <a class="nav-link" href="#" id="wishlistLoginModal"><i class="far fa-heart -icon"></i></a>
                 </li>
             @else
                 <li class="nav-item">
