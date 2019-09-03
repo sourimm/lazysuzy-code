@@ -4,7 +4,7 @@ import isMobile from '../app.js'
 // import * as priceSliderContainer from '../pages/listing';
 
 $(document).ready(function () {
-    const LISTING_API_PATH = '/api' + location.pathname;
+    const LISTING_API_PATH = '//lazysuzy.com:9200/products/_search';
     const LISTING_FILTER_API_PATH = '/api/filter/products';
     const DEPT_API = '/api/all-departments';
     const FAV_MARK_API = '/api/mark/favourite/';
@@ -49,7 +49,7 @@ $(document).ready(function () {
         if (!bFetchingProducts) {
             bFetchingProducts = true;
             var strLimit = iLimit === undefined ? '' : '&limit=' + iLimit;
-            var listingApiPath = LISTING_API_PATH + '?filters=' + strFilters + '&sort_type=' + strSortType + '&pageno=' + iPageNo + strLimit;
+            var listingApiPath = LISTING_API_PATH;
             console.log(listingApiPath);
             //$('#loaderImg').show();
             $('#noProductsText').hide();
@@ -69,18 +69,19 @@ $(document).ready(function () {
                     if (data == null) {
                         return;
                     }
-                    if (data.products != undefined && data.products.length != 0) {
+                    if (data.hits.hits != undefined && data.hits.hits.length != 0) {
                         bNoMoreProductsToShow = true;
 
-                        totalResults = data.total;
+                        //Temporary value
+                        totalResults = 10;//data.total;
                         $('#totalResults').text(totalResults);
 
                         var anchor = $('<a/>', {
                             href: '#page' + iPageNo,
                             id: '#anchor-page' + iPageNo
                         }).appendTo('#productsContainerDiv');
-                        for (var i = 0; i < data.products.length; i++) {
-                            createProductDiv(data.products[i]);
+                        for (var i = 0; i < data.hits.hits.length; i++) {
+                            createProductDiv(data.hits.hits[i]);
                         }
                        // scrollToAnchor();
                         multiCarouselFuncs.makeMultiCarousel();
@@ -93,6 +94,7 @@ $(document).ready(function () {
                         return;
                         // }
                     }
+
                     if (data.filterData) {
                         objGlobalFilterData = data.filterData;
                         createUpdateFilterData(data.filterData);
@@ -128,14 +130,14 @@ $(document).ready(function () {
 
         //Make product main div
         var mainProductDiv = jQuery('<div/>', {
-            id: productDetails.id,
-            sku: productDetails.sku,
-            site: productDetails.site,
+            id: productDetails._id,
+            sku: productDetails._source.product_sku,
+            site: productDetails._source.site_name,
             class: 'ls-product-div col-md-3 item-3'
         }).appendTo('#productsContainerDiv');
 
         var productLink = jQuery('<a/>', {
-            href: PRODUCT_URL + productDetails.sku
+            href: PRODUCT_URL + productDetails._source.product_sku
         }).appendTo(mainProductDiv);
 
         var product = jQuery('<div/>', {
@@ -144,8 +146,8 @@ $(document).ready(function () {
 
         jQuery('<img />', {
             class: 'prod-img img-fluid',
-            src: productDetails.main_image,
-            alt: productDetails.name
+            src: productDetails._source.main_product_images,
+            alt: productDetails._source.name
         }).appendTo(product);
 
         //Product information
@@ -155,47 +157,49 @@ $(document).ready(function () {
         var catDetails = jQuery('<span/>', {
             class: '-cat-name',
         }).appendTo(prodInfo);
-        $(catDetails).text(productDetails.site)
+        $(catDetails).text(productDetails._source.site_name)
         var prices = jQuery('<span/>', {
             class: '-prices float-right',
         }).appendTo(prodInfo);
         var currPrice = jQuery('<span/>', {
             class: '-cprice',
         }).appendTo(prices);
-        $(currPrice).text('$' + productDetails.is_price);
-        if (productDetails.is_price < productDetails.was_price) {
+        $(currPrice).text('$' + productDetails._source.price);
+        if (productDetails.is_price < productDetails._source.was_price) {
             var oldPrice = jQuery('<span/>', {
                 class: '-oldprice',
             }).appendTo(prices);
-            $(oldPrice).text('$' + productDetails.was_price);
+            $(oldPrice).text('$' + productDetails._source.was_price);
         }
 
-        $(product).append('<div class="wishlist-icon" sku='+productDetails.sku+'><i class="far fa-heart -icon"></i></div>');
+        $(product).append('<div class="wishlist-icon" sku='+productDetails._source.product_sku+'><i class="far fa-heart -icon"></i></div>');
 
         var productInfoNext = jQuery('<div/>', {
             class: 'd-none d-md-block',
         }).appendTo(mainProductDiv);
-        $(productInfoNext).append('<div class="-name">' + productDetails.name + '</div>');
+        $(productInfoNext).append('<div class="-name">' + productDetails._source.name + '</div>');
 
         var carouselMainDiv = jQuery('<div/>', {
             class: 'responsive',
         }).appendTo(productInfoNext);
 
-        var variationImages = productDetails.variations.map(variation => variation.image);
-        var variationSwatchImages = productDetails.variations.map(( variation, idx) => { 
-            return variation.swatch_image || variationImages[idx];
-        });
-        var variationLinks = productDetails.variations.map(variation => variation.link);
+        if( productDetails._source.variations ){
+            var variationImages = productDetails._source.variations.map(variation => variation.image);
+            var variationSwatchImages = productDetails._source.variations.map(( variation, idx) => { 
+                return variation.swatch_image || variationImages[idx];
+            });
+            var variationLinks = productDetails._source.variations.map(variation => variation.link);
+        }
 
-        if(productDetails.main_image != null){
+        if(productDetails._source.main_product_images != null){
             jQuery('<img />', {
                 class: 'variation-img img-fluid',
-                src: productDetails.main_image,
+                src: productDetails._source.main_product_images,
                 alt: 'variation-img'
             }).appendTo(product);
         }
 
-        if( variationSwatchImages.length > 0 ){
+        if( variationSwatchImages && variationSwatchImages.length > 0 ){
             variationSwatchImages.forEach((img, idx) => {
                 var responsiveImgDiv = jQuery('<div/>', {
                     class: 'mini-carousel-item',
@@ -216,10 +220,10 @@ $(document).ready(function () {
             carouselMainDiv.addClass('d-none');
         }
 
-        if (parseInt(productDetails.reviews) != 0) {
+        if (parseInt(productDetails._source.reviews) != 0) {
 
-            var reviewValue = parseInt(productDetails.reviews);
-            var ratingValue = parseFloat(productDetails.rating).toFixed(1);
+            var reviewValue = parseInt(productDetails._source.reviews);
+            var ratingValue = parseFloat(productDetails._source.rating).toFixed(1);
             var ratingClass = ratingValue.toString().replace('.', "_");
             $(productInfoNext).append('<div class="rating-container"><div class="rating  rating-' + ratingClass + '"></div><span class="total-ratings">' + reviewValue + '</span></div>');
         }

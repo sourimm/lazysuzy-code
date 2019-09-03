@@ -18,6 +18,9 @@ Route::get('/login', 'Auth\LoginController@index')->name('signup');
 Route::get('/wishlist', function () {
     return view('pages.wishlist');
 });
+Route::get('/search', function () {
+    return view('pages.search');
+});
 
 Auth::routes();
 

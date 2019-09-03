@@ -34,7 +34,7 @@
                         <i class="fab fa-buromobelexperte"></i>
                     </span>
                 </div>
-                <div class="products-container col-md-10">
+                <div class="products-container col-md-12">
                     <div class="float-right d-none d-md-block">
                         <div class="sortby">
                             <label for="sort">Sort By</label>
@@ -51,9 +51,6 @@
                         <div class="row" id="productsContainerDiv">
                         </div>
                         <div class="text-center" id="noProductsText">Sorry, no more products to show.</div>
-                        <div class="mx-auto" id="loaderImg">
-                            <img src="{{ asset('/images/Spinner-1s-100px.gif') }}" alt="Spinner">
-                        </div>
                     </div>
                 </div>
 
