@@ -22,6 +22,10 @@ $(document).ready(function () {
       $('#modalLoginForm').modal();
   });
 
+  $('#wishlistLoginModal').click(function() {
+    $('#modalLoginForm').modal();
+  });
+
   $('body').on("mouseover", '.dropdown-submenu', function (e) {
     var self = this;
     $('.dropdown-submenu').each(function () {
