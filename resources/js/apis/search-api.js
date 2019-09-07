@@ -26,6 +26,7 @@ function getQueryStringParameters(url) {
 }
 
 $(document).ready(function () {
+
     const LISTING_API_PATH = '//lazysuzy.com:9200/products/_search';
     const LISTING_FILTER_API_PATH = location.origin+ '/api/products/living';
     const DEPT_API = '/api/all-departments';
@@ -121,7 +122,7 @@ $(document).ready(function () {
 
             var strQuery = JSON.stringify({
                 "sort": [{
-                    [strSortType]: {
+                    "popularity": {
                         "order": "desc"
                     }
                 }],
@@ -480,7 +481,7 @@ $(document).ready(function () {
     });
 
     $(document).on('select-value-changed', function () {
-        strSortType = $('#selectbox-sort').attr('active');
+        strSortType = $('#selectbox-sort').text();
         iPageNo = 0;
         updateFilters();
         fetchProducts(true);
