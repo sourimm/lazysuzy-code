@@ -188,7 +188,8 @@ class Product extends Model
         $all_filters['count_all'] = $query->count();
         $query = $query->offset($start)->limit($limit);
 
-        //echo "<pre>" . print_r($all_filters, true);
+        //echo "<pre>" . print_r($all_filters, ""true);
+        $query = $query->join("master_brands", "master_data.site_name", "=", "master_brands.value");
         return Product::getProductObj($query->get(), $all_filters, $dept, $cat, $subCat, true);
     }
 
@@ -450,7 +451,7 @@ class Product extends Model
             'id'               => $product->id,
             'sku'              => $product->product_sku,
         //    'sku_hash'         => $product->sku_hash,
-            'site'             => $product->site_name,
+            'site'             => $product->name,
             'name'             => $product->product_name,
             'product_url'      => urldecode($product->product_url),
             'product_detail_url' => Product::$base_siteurl . "/product/" . $product->product_sku,
@@ -738,6 +739,7 @@ class Product extends Model
     {
         $product = [];
         $prod = Product::where('product_sku', $sku)
+            ->join("master_brands", "master_data.site_name", "=", "master_brands.value")
             ->get();
 
         if (!isset($prod[0])) return ["error" => "No such product found"];
