@@ -3,6 +3,28 @@ import makeSelectBox from '../components/custom-selectbox';
 import isMobile from '../app.js'
 // import * as priceSliderContainer from '../pages/listing';
 
+function getQueryStringParameters(url) {
+
+    var urlParams = {},
+        match,
+        additional = /\+/g, // Regex for replacing additional symbol with a space
+        search = /([^&=]+)=?([^&]*)/g,
+        decode = function (s) { return decodeURIComponent(s.replace(additional, " ")); },
+        query;
+    if (url) {
+        if (url.split("?").length > 0) {
+            query = url.split("?")[1];
+        }
+    } else {
+        url = window.location.href;
+        query = window.location.search.substring(1);
+    }
+    while (match = search.exec(query)) {
+        urlParams[decode(match[1])] = decode(match[2]);
+    }
+    return urlParams;
+}
+
 $(document).ready(function () {
     const LISTING_API_PATH = '//lazysuzy.com:9200/products/_search';
     const LISTING_FILTER_API_PATH = '/api/filter/products';
@@ -22,22 +44,21 @@ $(document).ready(function () {
     var bFetchingProducts = false;
 
     $(window).scroll(function () {
-        if (!bNoMoreProductsToShow) { 
-            if ( $('#loaderImg') && isScrolledIntoView( $('#loaderImg')[0]) ) {
+        if (!bNoMoreProductsToShow) {
+            if ($('#loaderImg') && isScrolledIntoView($('#loaderImg')[0])) {
                 fetchProducts(false);
             }
-            else if ($('#loaderImg') === null){
+            else if ($('#loaderImg') === null) {
                 fetchProducts(false);
             }
         }
     });
 
-    function isScrolledIntoView(el)
-    {
+    function isScrolledIntoView(el) {
         var rect = el.getBoundingClientRect();
         var elemTop = rect.top;
         var elemBottom = rect.bottom;
-    
+
         // Only completely visible elements return true:
         var isVisible = (elemTop >= 0) && (elemBottom <= window.innerHeight);
         // Partially visible elements return true:
@@ -54,10 +75,33 @@ $(document).ready(function () {
             //$('#loaderImg').show();
             $('#noProductsText').hide();
             iPageNo += 1;
+
+            var strUrlParams = getQueryStringParameters(location.href);
+
+            var strQuery = JSON.stringify({
+                "sort": [{
+                    "popularity": {
+                        "order": "desc"
+                    }
+                }],
+                "from": 0,
+                "size": 5,
+                "query": {
+                    "wildcard": {
+                        "name": strUrlParams.query+"*"
+                    }
+                }
+            })
             $.ajax({
                 type: "GET",
                 url: listingApiPath,
                 dataType: "json",
+                crossDomain: true,
+                data: {
+                    source: strQuery,
+                    source_content_type: "application/json"
+                },
+                contentType: 'application/json; charset=utf-8',
                 success: function (data) {
                     bFetchingProducts = false;
                     console.log(data);
@@ -83,7 +127,7 @@ $(document).ready(function () {
                         for (var i = 0; i < data.hits.hits.length; i++) {
                             createProductDiv(data.hits.hits[i]);
                         }
-                       // scrollToAnchor();
+                        // scrollToAnchor();
                         multiCarouselFuncs.makeMultiCarousel();
                     }
                     else {
@@ -114,7 +158,7 @@ $(document).ready(function () {
                         makeSelectBox();
                     }
 
-               //     $("#anchor-page"+iPageNo)[0].click()
+                    //     $("#anchor-page"+iPageNo)[0].click()
 
                 },
                 error: function (jqXHR, exception) {
@@ -172,7 +216,7 @@ $(document).ready(function () {
             $(oldPrice).text('$' + productDetails._source.was_price);
         }
 
-        $(product).append('<div class="wishlist-icon" sku='+productDetails._source.product_sku+'><i class="far fa-heart -icon"></i></div>');
+        $(product).append('<div class="wishlist-icon" sku=' + productDetails._source.product_sku + '><i class="far fa-heart -icon"></i></div>');
 
         var productInfoNext = jQuery('<div/>', {
             class: 'd-none d-md-block',
@@ -183,15 +227,15 @@ $(document).ready(function () {
             class: 'responsive',
         }).appendTo(productInfoNext);
 
-        if( productDetails._source.variations ){
+        if (productDetails._source.variations) {
             var variationImages = productDetails._source.variations.map(variation => variation.image);
-            var variationSwatchImages = productDetails._source.variations.map(( variation, idx) => { 
+            var variationSwatchImages = productDetails._source.variations.map((variation, idx) => {
                 return variation.swatch_image || variationImages[idx];
             });
             var variationLinks = productDetails._source.variations.map(variation => variation.link);
         }
 
-        if(productDetails._source.main_product_images != null){
+        if (productDetails._source.main_product_images != null) {
             jQuery('<img />', {
                 class: 'variation-img img-fluid',
                 src: productDetails._source.main_product_images,
@@ -199,7 +243,7 @@ $(document).ready(function () {
             }).appendTo(product);
         }
 
-        if( variationSwatchImages && variationSwatchImages.length > 0 ){
+        if (variationSwatchImages && variationSwatchImages.length > 0) {
             variationSwatchImages.forEach((img, idx) => {
                 var responsiveImgDiv = jQuery('<div/>', {
                     class: 'mini-carousel-item',
@@ -216,7 +260,7 @@ $(document).ready(function () {
 
             });
         }
-        else{
+        else {
             carouselMainDiv.addClass('d-none');
         }
 
@@ -457,15 +501,15 @@ $(document).ready(function () {
         });
     }
 
-    $('body').on('mouseover', '.slick-slide', function(){
+    $('body').on('mouseover', '.slick-slide', function () {
         $(this).closest('.ls-product-div').find('.variation-img').attr('src', $(this).find('.carousel-img').attr('data-prodimg'));
-        $(this).closest('.ls-product-div').find('.prod-img').css('visibility','hidden');
+        $(this).closest('.ls-product-div').find('.prod-img').css('visibility', 'hidden');
         $(this).closest('.ls-product-div').find('.variation-img').show();
     });
 
-    $('body').on('mouseleave', '.slick-slide', function(){
+    $('body').on('mouseleave', '.slick-slide', function () {
         $(this).closest('.ls-product-div').find('.variation-img').hide();
-        $(this).closest('.ls-product-div').find('.prod-img').css('visibility','unset');
+        $(this).closest('.ls-product-div').find('.prod-img').css('visibility', 'unset');
     });
 
     $.ajax({
@@ -480,7 +524,7 @@ $(document).ready(function () {
                     deptToAppend += '<li ><a class="dropdown-item" href="' + departments[i].link + '">' + departments[i].department + '</a></li>';
                 }
                 else {
-                    deptToAppend += '<li class="dropdown-submenu row"><a  class="dropdown-item" href="'+departments[i].link+'">' + departments[i].department + '</a><a  class="dropdown-toggle" id="navbarDropdown'+i+'"><i class="fas fa-angle-right float-right"></i></a>';
+                    deptToAppend += '<li class="dropdown-submenu row"><a  class="dropdown-item" href="' + departments[i].link + '">' + departments[i].department + '</a><a  class="dropdown-toggle" id="navbarDropdown' + i + '"><i class="fas fa-angle-right float-right"></i></a>';
                     var catgToAppend = '<ul class="dropdown-menu" aria-labelledby="navbarDropdown">';
                     for (var j = 0; j < departments[i].categories.length; j++) {
                         catgToAppend += '<li><a class="dropdown-item" href="' + departments[i].categories[j].link + '">' + departments[i].categories[j].category + '</a></li>'
@@ -494,42 +538,42 @@ $(document).ready(function () {
 
         },
         error: function (jqXHR, exception) {
-        console.log(jqXHR);
-        console.log(exception);
+            console.log(jqXHR);
+            console.log(exception);
         }
     });
 
-    $('body').on('click', '.dropdown-submenu a', function(e) {
-        if( isMobile() ){
+    $('body').on('click', '.dropdown-submenu a', function (e) {
+        if (isMobile()) {
             console.log('clicked');
             // early return if the parent has no hover-class
-            if(!$(this).hasClass('hover')) return;
+            if (!$(this).hasClass('hover')) return;
 
             // prevent click when delay is too small
             var delay = Date.now() - $(this).data('hovered');
-            if(delay < 100) e.preventDefault();
+            if (delay < 100) e.preventDefault();
         }
     });
 
-    $('body').on('mouseover', '.dropdown-submenu a',function(e) {
-        if( isMobile() ){
+    $('body').on('mouseover', '.dropdown-submenu a', function (e) {
+        if (isMobile()) {
             var time = Date.now();
             $(this).data('hovered', time);
         }
     });
 
-    $('body').on('click', '.wishlist-icon', function(e){
+    $('body').on('click', '.wishlist-icon', function (e) {
         e.preventDefault();
         var iSku = $(this).attr('sku');
         callWishlistAPI($(this));
     });
 
-    function callWishlistAPI($elm){
-        var strApiToCall = ''; 
-        if(!$elm.hasClass('marked')){
+    function callWishlistAPI($elm) {
+        var strApiToCall = '';
+        if (!$elm.hasClass('marked')) {
             strApiToCall = FAV_MARK_API + $elm.attr('sku');
         }
-        else{
+        else {
             strApiToCall = FAV_UNMARK_API + $elm.attr('sku');
         }
         $.ajax({
@@ -538,10 +582,10 @@ $(document).ready(function () {
             dataType: "json",
             success: function (data) {
                 console.log(data);
-                if( !$elm.hasClass('marked')){
+                if (!$elm.hasClass('marked')) {
                     $elm.addClass('marked');
                 }
-                else{
+                else {
                     $elm.removeClass('marked');
                 }
             },

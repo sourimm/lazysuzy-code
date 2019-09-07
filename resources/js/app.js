@@ -4,6 +4,12 @@ require('./components/multi-carousel');
 require('./components/custom-selectbox');
 
 $(document).ready(function () {
+
+  $('#searchbarHeader','#searchbarBody').submit(function(e){
+    e.preventDefault();
+    window.location.href = '/search?query='+$(this).find('input').val(); //relative to domain
+  });
+  
   var $searchIcon = $('#searchIconMobile');
 
   const DEPT_API = '/api/all-departments'
