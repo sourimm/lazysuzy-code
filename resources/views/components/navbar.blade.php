@@ -10,7 +10,7 @@
         <img id="logo-navbar-middle" src="{{ asset('/images/color_logo_transparents.png') }}" alt="asd" class="logo d-block d-md-none">
     </a>
 
-    <form id="searchbarBody" class="searchbar sb-body card card-sm">
+    <form id="searchbarBody" role="form" class="searchbar sb-body card card-sm">
         <div class="card-body row no-gutters align-items-center">
             <div class="col-auto">
                 <i class="fas fa-search search-icon"></i>
@@ -28,7 +28,7 @@
         </div>
     </form>
 
-    <form id="searchbarHeader" class="searchbar card card-sm">
+    <form id="searchbarHeader" role="form" class="searchbar card card-sm">
         <div class="card-body row no-gutters align-items-center">
             <div class="col-auto">
                 <i class="fas fa-search search-icon"></i>
