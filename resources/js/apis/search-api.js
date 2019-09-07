@@ -27,7 +27,7 @@ function getQueryStringParameters(url) {
 
 $(document).ready(function () {
     const LISTING_API_PATH = '//lazysuzy.com:9200/products/_search';
-    const LISTING_FILTER_API_PATH = '/api/filter/products';
+    const LISTING_FILTER_API_PATH = location.origin+ '/api/products/living';
     const DEPT_API = '/api/all-departments';
     const FAV_MARK_API = '/api/mark/favourite/';
     const FAV_UNMARK_API = '/api/unmark/favourite/';
@@ -38,21 +38,23 @@ $(document).ready(function () {
     var bFiltersCreated = false;
     var strFilters = '';
     var strSortType = '';
-    var iPageNo = 0, iLimit;
+    var iPageNo = 0, iLimit = 10;
     var price_from, price_to;
     var bNoMoreProductsToShow = false;
     var bFetchingProducts = false;
 
     $(window).scroll(function () {
-        if (!bNoMoreProductsToShow) {
+        // if (!bNoMoreProductsToShow) {
             if ($('#loaderImg') && isScrolledIntoView($('#loaderImg')[0])) {
                 fetchProducts(false);
             }
             else if ($('#loaderImg') === null) {
                 fetchProducts(false);
             }
-        }
+        // }
     });
+
+    fetchFilters();
 
     function isScrolledIntoView(el) {
         var rect = el.getBoundingClientRect();
@@ -66,6 +68,46 @@ $(document).ready(function () {
         return isVisible;
     }
 
+    function fetchFilters(){
+        $.ajax({
+            type: "GET",
+            url: LISTING_FILTER_API_PATH,
+            dataType: "json",
+            crossDomain: true,
+            contentType: 'application/json; charset=utf-8',
+            success: function (data) {
+                console.log(data);
+
+
+                if (data.filterData) {
+                    objGlobalFilterData = data.filterData;
+                    createUpdateFilterData(data.filterData);
+                }
+                if (data.sortType) {
+                    $('#sort').empty();
+                    data.sortType.forEach(element => {
+                        var sortElm = jQuery('<option />', {
+                            value: element.value,
+                            selected: element.enabled,
+                            text: element.name
+                        }).appendTo('#sort');
+                        if (element.enabled) {
+                            strSortType = element.value;
+                        }
+                    });
+                    makeSelectBox();
+                }
+
+                fetchProducts(false);
+            },
+            error: function (jqXHR, exception) {
+                bFetchingProducts = false;
+                console.log(jqXHR);
+                console.log(exception);
+            }
+        });
+    }
+
     function fetchProducts(bClearPrevProducts) {
         if (!bFetchingProducts) {
             bFetchingProducts = true;
@@ -74,24 +116,24 @@ $(document).ready(function () {
             console.log(listingApiPath);
             //$('#loaderImg').show();
             $('#noProductsText').hide();
-            iPageNo += 1;
 
             var strUrlParams = getQueryStringParameters(location.href);
 
             var strQuery = JSON.stringify({
                 "sort": [{
-                    "popularity": {
+                    [strSortType]: {
                         "order": "desc"
                     }
                 }],
-                "from": 0,
-                "size": 5,
+                "from": iPageNo,
+                "size": iLimit,
                 "query": {
                     "wildcard": {
                         "name": strUrlParams.query+"*"
                     }
                 }
             })
+            iPageNo += 1;
             $.ajax({
                 type: "GET",
                 url: listingApiPath,
@@ -116,8 +158,7 @@ $(document).ready(function () {
                     if (data.hits.hits != undefined && data.hits.hits.length != 0) {
                         bNoMoreProductsToShow = true;
 
-                        //Temporary value
-                        totalResults = 10;//data.total;
+                        totalResults += data.hits.hits.length;
                         $('#totalResults').text(totalResults);
 
                         var anchor = $('<a/>', {
@@ -137,25 +178,6 @@ $(document).ready(function () {
                         $('#noProductsText').show();
                         return;
                         // }
-                    }
-
-                    if (data.filterData) {
-                        objGlobalFilterData = data.filterData;
-                        createUpdateFilterData(data.filterData);
-                    }
-                    if (data.sortType) {
-                        $('#sort').empty();
-                        data.sortType.forEach(element => {
-                            var sortElm = jQuery('<option />', {
-                                value: element.value,
-                                selected: element.enabled,
-                                text: element.name
-                            }).appendTo('#sort');
-                            if (element.enabled) {
-                                strSortType = element.value;
-                            }
-                        });
-                        makeSelectBox();
                     }
 
                     //     $("#anchor-page"+iPageNo)[0].click()
@@ -190,7 +212,7 @@ $(document).ready(function () {
 
         jQuery('<img />', {
             class: 'prod-img img-fluid',
-            src: productDetails._source.main_product_images,
+            src: '//www.lazysuzy.com'+productDetails._source.main_product_images,
             alt: productDetails._source.name
         }).appendTo(product);
 
@@ -238,7 +260,7 @@ $(document).ready(function () {
         if (productDetails._source.main_product_images != null) {
             jQuery('<img />', {
                 class: 'variation-img img-fluid',
-                src: productDetails._source.main_product_images,
+                src: '//www.lazysuzy.com'+productDetails._source.main_product_images,
                 alt: 'variation-img'
             }).appendTo(product);
         }
@@ -392,8 +414,6 @@ $(document).ready(function () {
             });
         }
     }
-
-    fetchProducts(false);
 
     function scrollToAnchor() {
         var aTag = $("a[href='#page" + iPageNo + "']");
