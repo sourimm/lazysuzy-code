@@ -739,6 +739,7 @@ class Product extends Model
     {
         $product = [];
         $prod = Product::where('product_sku', $sku)
+            ->join("master_brands", "master_data.site_name", "=", "master_brands.value")
             ->get();
 
         if (!isset($prod[0])) return ["error" => "No such product found"];
