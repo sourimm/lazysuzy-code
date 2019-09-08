@@ -4,12 +4,19 @@ require('./components/multi-carousel');
 require('./components/custom-selectbox');
 
 $(document).ready(function () {
-
-  $('#searchbarHeader','#searchbarBody').submit(function(e){
-    e.preventDefault();
-    window.location.href = '/search?query='+$(this).find('input').val(); //relative to domain
+  $('#searchbarHeader').submit(function(e){
+    callSearch(e,this);
   });
-  
+
+  $('#searchbarBody').submit(function(e){
+      callSearch(e,this);
+  });
+
+  function callSearch(e, elm){
+      e.preventDefault();
+      window.location.href = '/search?query='+$(elm).find('input').val(); //relative to domain
+  }
+
   var $searchIcon = $('#searchIconMobile');
 
   const DEPT_API = '/api/all-departments'
