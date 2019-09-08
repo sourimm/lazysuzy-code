@@ -14,6 +14,7 @@ class Wishlist extends Model {
             $user = Auth::user();
             $products = DB::table("user_wishlists")
                 ->join("master_data", "master_data.product_sku", "=", "user_wishlists.product_id")
+                ->join("master_brands", "master_data.site_name", "=", "master_brands.name")
                 ->where("user_id", $user->id)
                 ->get();
             $productus_structured = [];
