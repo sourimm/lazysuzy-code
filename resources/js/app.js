@@ -28,14 +28,14 @@ $(document).ready(function () {
       } else {
         $('#searchbarHeader').addClass('open');
       }
-    }
+    }  
   });
 
-  $('#userLoginModal').click(function() {
+  $('.user-login-modal').click(function() {
       $('#modalLoginForm').modal();
   });
 
-  $('#wishlistLoginModal').click(function() {
+  $('.wishlist-login-modal').click(function() {
     $('#modalLoginForm').modal();
   });
 
