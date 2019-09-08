@@ -55,8 +55,6 @@ $(document).ready(function () {
         // }
     });
 
-    fetchFilters();
-
     function isScrolledIntoView(el) {
         var rect = el.getBoundingClientRect();
         var elemTop = rect.top;
@@ -69,45 +67,7 @@ $(document).ready(function () {
         return isVisible;
     }
 
-    function fetchFilters(){
-        $.ajax({
-            type: "GET",
-            url: LISTING_FILTER_API_PATH,
-            dataType: "json",
-            crossDomain: true,
-            contentType: 'application/json; charset=utf-8',
-            success: function (data) {
-                console.log(data);
-
-
-                if (data.filterData) {
-                    objGlobalFilterData = data.filterData;
-                    createUpdateFilterData(data.filterData);
-                }
-                if (data.sortType) {
-                    $('#sort').empty();
-                    data.sortType.forEach(element => {
-                        var sortElm = jQuery('<option />', {
-                            value: element.value,
-                            selected: element.enabled,
-                            text: element.name
-                        }).appendTo('#sort');
-                        if (element.enabled) {
-                            strSortType = element.value;
-                        }
-                    });
-                    makeSelectBox();
-                }
-
-                fetchProducts(false);
-            },
-            error: function (jqXHR, exception) {
-                bFetchingProducts = false;
-                console.log(jqXHR);
-                console.log(exception);
-            }
-        });
-    }
+    fetchProducts(false);
 
     function fetchProducts(bClearPrevProducts) {
         if (!bFetchingProducts) {

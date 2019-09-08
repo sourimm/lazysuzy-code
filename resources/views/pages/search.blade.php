@@ -8,7 +8,7 @@
                 {{ Breadcrumbs::render('products') }}
             </div>
             <div class="row">
-                <div class="filters col-md-2 d-md-block" id="filters">
+                <!-- <div class="filters col-md-2 d-md-block" id="filters">
                     <div class="filter">
                         <hr>
                         <span class="filter-header">Brands</span>
@@ -74,7 +74,7 @@
                         <hr>
                     </div>
                     <a class="btn clearall-filter-btn" href="https://lazysuzy.com/filter/clear_filter/all">Clear All</a>
-                </div>
+                </div> -->
                 <div class="listing-top-controls d-block d-md-none">
                     <div class="dropdown show float-left">
                         <a class="dropdown-toggle" href="#" role="button" id="dropdownMobileListing" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -97,16 +97,16 @@
                         </ul>
                     </div>
                     {{ Breadcrumbs::render('products') }}
-                    <span class="filter-toggle float-right" id="filterToggleBtn">
+                    <!-- <span class="filter-toggle float-right" id="filterToggleBtn">
                         <i class="fas fa-filter"></i>
-                    </span>
+                    </span> -->
                     <span class="view-items-toggle float-right" id="viewItemsBtn">
                         <i class="fab fa-buromobelexperte"></i>
                     </span>
                 </div>
-                <div class="products-container col-md-10">
+                <div class="products-container col-md-12">
                     <div class="float-right d-none d-md-block">
-                        <div class="sortby">
+                        <div class="sortby d-none">
                             <label for="sort">Sort By</label>
                             <select class="form-control" id="sort">
                                 <option>Price : Low to High</option>
