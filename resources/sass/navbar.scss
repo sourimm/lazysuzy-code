@@ -75,14 +75,12 @@
             margin: auto;
         }
 
-        .nav-item.dropdown{
-            .user-icon, .search-icon-mobile{
+        .nav-item.mobile-some-icons{
+            .user-icon, .search-icon-mobile, .wishlist-icon{
                 padding: 0px;
                 font-size: 18px;
                 color: $primary-color;
-            }
-            .search-icon-mobile{
-                margin: 0px 10px;
+                margin: 0px 5px;
             }
         }
     }
