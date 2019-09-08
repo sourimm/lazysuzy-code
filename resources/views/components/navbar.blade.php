@@ -54,16 +54,14 @@
             </li>
             <!-- Authentication Links -->
             @if (Auth::guest())
-                {{-- <li class="nav-item"><a class="nav-link" href="{{ url('/login') }}">Login</a></li>
-                <li class="nav-item"><a class="nav-link" href="#" id="register">Register</a></li> --}}
 
                 <li class="nav-item">
-                    <a class="nav-link dropdown-toggle user-icon" href="#" id="userLoginModal" role="button" aria-haspopup="true" aria-expanded="false">
+                    <a class="nav-link dropdown-toggle user-icon user-login-modal" href="#" role="button" aria-haspopup="true" aria-expanded="false">
                         <i class="fas fa-user-circle -icon"></i>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#" id="wishlistLoginModal"><i class="far fa-heart -icon"></i></a>
+                    <a class="nav-link wishlist-login-modal" href="#"><i class="far fa-heart -icon"></i></a>
                 </li>
             @else
                 <li class="nav-item">
@@ -82,19 +80,26 @@
         </ul>
     </div>
 
-    <div class="nav-item dropdown d-flex d-md-none">
-        <a class="nav-link search-icon-mobile" href="#" id="searchIconMobile" role="button"
-            aria-expanded="false">
+    <div class="nav-item mobile-some-icons d-flex d-md-none">
+        <a class="nav-link search-icon-mobile" href="#" id="searchIconMobile" >
             <i class="fas fa-search"></i>
         </a>
-        <a class="nav-link dropdown-toggle user-icon" href="#" id="userDropdown" role="button"
-            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <i class="fas fa-user-circle -icon"></i>
-        </a>
-        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
-            <a class="dropdown-item" href="#">Account</a>
-            <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="#">Log Out</a>
-        </div>
+        @if (Auth::guest())
+                <a class="nav-link dropdown-toggle user-icon user-login-modal" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+                    <i class="fas fa-user-circle -icon"></i>
+                </a>
+                <a class="nav-link wishlist-login-modal wishlist-icon" href="#"><i class="far fa-heart -icon"></i></a>
+        @else
+            <a class="nav-link wishlist-icon" href="{{ url('/wishlist') }}"><i class="far fa-heart -icon"></i></a>
+            <a class="nav-link dropdown-toggle user-icon" href="#" id="userDropdown" role="button"
+                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="fas fa-user-circle -icon"></i>
+            </a>
+            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
+                <a class="dropdown-item" href="#">{{ Auth::user()->name }}</a>
+                <div class="dropdown-divider"></div>
+                <a href="{{ url('/logout') }}" class="dropdown-item"><i class="fa fa-btn fa-sign-out"></i>Logout</a></li>
+            </div>
+        @endif
     </div>
 </nav>

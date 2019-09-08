@@ -2,6 +2,10 @@
     .modal-dialog{
         width: 400px;
         max-width: 100%;
+        @include media-breakpoint-down(md){
+            max-width: 80%;
+            margin: auto;
+        }
     }
     .-btn{
         width: 100%;
