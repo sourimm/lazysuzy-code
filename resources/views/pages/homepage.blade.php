@@ -2,8 +2,9 @@
 
 @section('middle_content')
     <div class="homepage">
-        
-        @include('./partials/brandassociation')
+        <img class="img-fluid d-md-none" src="{{ asset('/images/homepage-sofa-img.jpeg') }}" alt="">
+        <div class="d-md-none"> @include('./partials/sbbody') </div>
+        <div class="d-none d-md-block">@include('./partials/brandassociation') </div>
         @include('./partials/subnav')
         <div class="d-none">{{ Breadcrumbs::render('/') }}</div>
         <div class="main-container">
@@ -13,6 +14,7 @@
                 </div>
             </div>
         </div>
+        <div class="d-md-none">@include('./partials/brandassociation') </div>
     </div>
     <form method="POST" action="{{ route('login') }}" class="d-none">
             @csrf

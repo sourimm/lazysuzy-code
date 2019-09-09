@@ -8,7 +8,7 @@ $(document).ready(function () {
     callSearch(e,this);
   });
 
-  $('#searchbarBody').submit(function(e){
+  $('.sb-body').submit(function(e){
       callSearch(e,this);
   });
 
