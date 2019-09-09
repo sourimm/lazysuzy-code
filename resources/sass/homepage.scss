@@ -1,7 +1,7 @@
 @media only screen and (min-width: 768px) {
   .homepage-main-div {
     .searchbar {
-      &:not(.sb-body) {
+      &:not(.open) {
         display: none;
       }
 
@@ -13,6 +13,22 @@
     .footer {
       position: absolute;
       padding: 0px 15px;
+    }
+  }
+}
+
+@include media-breakpoint-down(md){
+  .homepage-main-div {
+    .searchbar.sb-body{
+      position: relative;
+      top: 0px;
+      display: block; 
+      .card-body{
+        padding: 4px 15px;
+      }
+    }
+    .main-container{
+      min-height: auto !important;
     }
   }
 }
@@ -36,6 +52,11 @@
     width: 100%;
     padding: 0px 75px;
     text-align: right;
+    @include media-breakpoint-down(md){
+      position: relative;
+      top: 0px;
+      margin-top: 20px;
+    }
 
     .-heading {
       font-size: 24px;
@@ -64,6 +85,12 @@
     bottom: 30px;
     width: 100%;
     padding: 10px 30px;
+
+    @include media-breakpoint-down(md){
+      position: relative;
+      top: 0px;
+      margin-top: 20px;
+    }
 
     .-text {
       font-size: 26px;
@@ -103,8 +130,7 @@
 @media only screen and (max-width: 768px) {
   .homepage-main-div {
     .main {
-      background-size: contain;
-      background-position: top $navbar-height-mobile left;
+      background-image: none;
     }
   }
   .category-links {
