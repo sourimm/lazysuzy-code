@@ -3,6 +3,7 @@ require('../apis/listing-api');
 
 $(document).ready(function () {
   let iItemsToShow = 3;
+  strItemsNumClass = 'item-3';
 
   $("#priceRangeSlider").change(function () {
     $("#priceInfo").find('.low').text($(this).attr('min'));
@@ -42,7 +43,8 @@ $(document).ready(function () {
       $(this).removeClass(function (index, className) {
         return (className.match(/(^|\s)item-\S+/g) || []).join(' ');
       });
-      $(this).addClass('item-' + iItemsToShow);
+      strItemsNumClass = 'item-' + iItemsToShow;
+      $(this).addClass(strItemsNumClass);
     })
   });
 
