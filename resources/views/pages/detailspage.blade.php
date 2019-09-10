@@ -25,6 +25,7 @@
                         <h2 class="-name">product name</h2>
                         <div class="rating-container"><div class="rating"></div><span class="total-ratings"></span></div>
                         
+                        <p class="-desc d-none d-md-block"></p>
                         <div class="d-none d-md-block">
                             <div class="accordion" id="accordionExample">
                                 <div class="card d-none">
@@ -66,6 +67,7 @@
                                     </div>
                                     <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
                                         <div class="card-body">
+                                            <ul class="-dimen"></ul>
                                         </div>
                                     </div>
                                 </div>
@@ -75,7 +77,7 @@
                         <div class="d-sm-block d-md-none">
                             <!-- Nav tabs -->
                             <ul class="nav nav-tabs">
-                                <li class="nav-item d-none">
+                                <li class="nav-item">
                                     <a class="nav-link active" data-toggle="tab" href="#descp">Description</a>
                                 </li>
                                 <li class="nav-item">
@@ -88,8 +90,8 @@
 
                             <!-- Tab panes -->
                             <div class="tab-content">
-                            <div class="tab-pane container fade d-none" id="descp"></div>
-                            <div class="tab-pane container active" id="feat"></div>
+                            <div class="tab-pane container active" id="descp"></div>
+                            <div class="tab-pane container fade" id="feat"></div>
                             <div class="tab-pane container fade" id="dimen"></div>
                             </div>
                         </div>
