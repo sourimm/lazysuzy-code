@@ -739,10 +739,7 @@ class Product extends Model
     {
         $product = [];
         $prod = Product::where('product_sku', $sku)
-            ->join("master_brands", "master_data.site_name", "=", "master_brands.value")
             ->get();
-
-        if (!isset($prod[0])) return ["error" => "No such product found"];
         $westelm_cache_data  = DB::table("westelm_products_skus")
             ->selectRaw("COUNT(product_id) AS product_count, product_id")
             ->groupBy("product_id")
@@ -758,10 +755,12 @@ class Product extends Model
         $westelm_cache_data = [];
 
         $variations = null;
-        
-        $variations = Product::get_variations($prod[0], $westelm_variations_data, false);
-
-        return Product::get_details($prod[0], $variations, false);
+        if ($prod[0]->site_name === 'westelm') {
+            $variations = null;
+        } else {
+            $variations = Product::get_variations($prod[0]);
+        }
+        return Product::get_details($prod[0], $variations);
     }
 
     // sends unique filter values.
