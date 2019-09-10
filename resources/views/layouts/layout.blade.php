@@ -7,6 +7,9 @@
 
     <title>@yield('title')</title>
     <link href="{{ mix('css/app.css') }}" rel="stylesheet">
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-126036769-1"></script> 
+    <script> window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', 'UA-126036769-1');</script>
+
     @stack('pageSpecificStyles')
 </head>
 
