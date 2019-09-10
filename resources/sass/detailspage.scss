@@ -258,6 +258,8 @@
 .card .card-header{
     background: $secondary-color;
     .btn.btn-link {
+        width: 100%;
+        text-align: left;
         &:hover{
             color: $primary-color;
         }

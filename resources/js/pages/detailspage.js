@@ -90,9 +90,10 @@ $(document).ready(function () {
                 $desc.find('.rating-container').hide();
             }
 
-            $desc.find('.-desc').text(data.description);
-            $('#descp').text(data.description);
-            $('#dimen').text(data.dimension);
+            $desc.find('.-desc').html(data.description);
+            $desc.find('.-dimen').html(data.dimension);
+            $('#descp').html(data.description);
+            $('#dimen').html(data.dimension);
 
             var $featuresList = $desc.find('.-features');
             data.features.forEach(feature => {
