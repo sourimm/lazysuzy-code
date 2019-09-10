@@ -479,10 +479,10 @@ class Product extends Model
 
         ];
 
-        if ($product->site_name == "westelm" && !$isListingAPICall ) {
+        /* if ($product->site_name == "westelm" && !$isListingAPICall ) {
             $data['filters'] = end($variations)['filters'];
             array_pop($variations);
-        }
+        } */
         
         $data['variations'] = $variations;
 
@@ -739,6 +739,8 @@ class Product extends Model
     {
         $product = [];
         $prod = Product::where('product_sku', $sku)
+            ->join("master_brands", "master_data.site_name", "=", "master_brands.value")
+
             ->get();
         $westelm_cache_data  = DB::table("westelm_products_skus")
             ->selectRaw("COUNT(product_id) AS product_count, product_id")
