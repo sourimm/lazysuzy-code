@@ -1,6 +1,7 @@
 import * as multiCarouselFuncs from '../components/multi-carousel';
 import makeSelectBox from '../components/custom-selectbox';
-import isMobile from '../app.js'
+import isMobile from '../app.js';
+// import strItemsNumClass from '../pages/listing';
 // import * as priceSliderContainer from '../pages/listing';
 
 $(document).ready(function () {
@@ -131,7 +132,7 @@ $(document).ready(function () {
             id: productDetails.id,
             sku: productDetails.sku,
             site: productDetails.site,
-            class: 'ls-product-div col-md-3 item-3'
+            class: 'ls-product-div col-md-3 '+ strItemsNumClass
         }).appendTo('#productsContainerDiv');
 
         var productLink = jQuery('<a/>', {
