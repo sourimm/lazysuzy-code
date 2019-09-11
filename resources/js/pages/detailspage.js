@@ -69,6 +69,9 @@ $(document).ready(function () {
 
             if( data.variations != null){
                 makeVariationCarousel(data.variations);
+                if( data.filters == null && $.isEmptyObject( data.filters ) ){
+                    $('#filterToggleBtn').hide();
+                }
             }
             else{
                 fetchVariations();

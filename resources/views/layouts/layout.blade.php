@@ -9,6 +9,17 @@
     <link href="{{ mix('css/app.css') }}" rel="stylesheet">
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-126036769-1"></script> 
     <script> window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', 'UA-126036769-1');</script>
+    <script type="text/javascript">
+        var vglnk = {key: '7c7cd49fe471830c75c9967f05d5f292'};
+        (function(d, t) {
+            var s = d.createElement(t);
+                s.type = 'text/javascript';
+                s.async = true;
+                s.src = '//cdn.viglink.com/api/vglnk.js';
+            var r = d.getElementsByTagName(t)[0];
+                r.parentNode.insertBefore(s, r);
+        }(document, 'script'));
+    </script>
 
     @stack('pageSpecificStyles')
 </head>
