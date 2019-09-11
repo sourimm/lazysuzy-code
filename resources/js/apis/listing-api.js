@@ -170,8 +170,8 @@ $(document).ready(function () {
             }).appendTo(prices);
             $(oldPrice).text('$' + productDetails.was_price);
         }
-
-        $(product).append('<div class="wishlist-icon" sku='+productDetails.sku+'><i class="far fa-heart -icon"></i></div>');
+        var strMarked = productDetails.wishlisted ? 'marked' : '';
+        $(product).append('<div class="wishlist-icon '+strMarked+'" sku='+productDetails.sku+'><i class="far fa-heart -icon"></i></div>');
 
         var productInfoNext = jQuery('<div/>', {
             class: 'd-none d-md-block',
@@ -515,7 +515,7 @@ $(document).ready(function () {
         }
     });
 
-    $('body').on('click', '.wishlist-icon', function(e){
+    $('body').on('click', '.wishlist-icon:not(.nav-link)', function(e){
         e.preventDefault();
         var iSku = $(this).attr('sku');
         callWishlistAPI($(this));
