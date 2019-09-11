@@ -91,6 +91,7 @@ $(document).ready(function () {
                         bNoMoreProductsToShow = true;
                         iPageNo -= 1;
                         $('#noProductsText').show();
+                        $('#loaderImg').hide();
                         return;
                         // }
                     }
@@ -217,7 +218,7 @@ $(document).ready(function () {
             carouselMainDiv.addClass('d-none');
         }
 
-        if (parseInt(productDetails.reviews) != 0) {
+        if (productDetails.reviews!=null && parseInt(productDetails.reviews) != 0) {
 
             var reviewValue = parseInt(productDetails.reviews);
             var ratingValue = parseFloat(productDetails.rating).toFixed(1);
