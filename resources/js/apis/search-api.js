@@ -81,12 +81,7 @@ $(document).ready(function () {
             var strUrlParams = getQueryStringParameters(location.href);
 
             var strQuery = JSON.stringify({
-                "sort": [{
-                    "popularity": {
-                        "order": "desc"
-                    }
-                }],
-                "from": iPageNo,
+                "from": iPageNo*iLimit,
                 "size": iLimit,
                 "query": {
                     "match": {
