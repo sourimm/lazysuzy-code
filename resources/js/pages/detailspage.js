@@ -7,6 +7,8 @@ $(document).ready(function () {
     const PDP_API = '/api' + window.location.pathname;
     const VARIATION_API = '/api/variation' + window.location.pathname;
     const SWATCH_API = '/api/filters/variation' + window.location.pathname;
+    const FAV_MARK_API = '/api/mark/favourite/';
+    const FAV_UNMARK_API = '/api/unmark/favourite/';
     const $product = $('#detailPage');
     const $prodPriceCard = $product.find('.prod-price-card');
     var $filtersDiv = '';
@@ -15,9 +17,9 @@ $(document).ready(function () {
     var variationImgEl = '';
     var arrFilters = [];
 
-    $('#features').find('.nav-link').on('click', function() {
+    $('#features').find('.nav-link').on('click', function () {
         if (!$('#collapseB').hasClass('show')) {
-          $('#collapseB').collapse('toggle')
+            $('#collapseB').collapse('toggle')
         }
     })
 
@@ -29,6 +31,10 @@ $(document).ready(function () {
             var $imagesContainer = $product.find('.-images-container');
             var $images = $imagesContainer.find('.-images');
             var imgContainerWidth = 0;
+            $('.wishlist-icon').attr('sku', data.sku);
+            if( data.wishlisted ){
+                $('.wishlist-icon').addClass('marked');
+            }
             data.on_server_images.forEach(img => {
                 var responsiveImg = jQuery('<img/>', {
                     class: '-prod-img img-fluid',
@@ -39,48 +45,48 @@ $(document).ready(function () {
             var $prodDetails = $('<div />', {
                 class: '-product-details'
             }).appendTo($prodPriceCard);
-            var site = $('<span/>',{
+            var site = $('<span/>', {
                 text: data.site + ' ',
                 class: 'float-left text-uppercase'
             }).appendTo($prodDetails);
-            var price = $('<span/>',{
+            var price = $('<span/>', {
                 text: ' $' + data.is_price.replace('-', ' - $'),
                 class: 'float-right'
             }).appendTo($prodDetails);
-            $('<div />',{
+            $('<div />', {
                 class: 'clearfix'
             }).appendTo($prodDetails);
-            var buyBtn = $('<a/>',{
+            var buyBtn = $('<a/>', {
                 class: 'btn pdp-buy-btn',
                 href: data.product_url,
                 text: 'Buy',
                 target: '_blank'
             }).appendTo($prodDetails);
 
-            $filtersDivMobile = jQuery( '<div/>', {
+            $filtersDivMobile = jQuery('<div/>', {
                 id: 'filtersDivMobile',
                 class: 'filters filters-mobile'
             }).insertBefore($imagesContainer);
 
-            $filtersDiv = jQuery( '<div/>', {
+            $filtersDiv = jQuery('<div/>', {
                 id: 'filtersDiv',
                 class: 'filters'
             }).appendTo($prodPriceCard);
 
-            if( data.variations != null){
+            if (data.variations != null) {
                 makeVariationCarousel(data.variations);
-                if( data.filters == null && $.isEmptyObject( data.filters ) ){
+                if (data.filters == null && $.isEmptyObject(data.filters)) {
                     $('#filterToggleBtn').hide();
                 }
             }
-            else{
+            else {
                 fetchVariations();
             }
 
             //Product description
             var $desc = $product.find('.prod-desc');
             $desc.find('.-name').text(data.name);
-            if( isMobile() ){
+            if (isMobile()) {
                 var $mobileProdDetails = $('.-product-details').clone();
                 $mobileProdDetails.insertAfter('.-name');
             }
@@ -89,7 +95,7 @@ $(document).ready(function () {
             var ratingClass = 'rating-' + ratingValue.toString().replace('.', "_");
             $desc.find('.rating').addClass(ratingClass);
             $desc.find('.total-ratings').text(data.reviews);
-            if( data.reviews <= 0){
+            if (data.reviews <= 0) {
                 $desc.find('.rating-container').hide();
             }
 
@@ -100,7 +106,7 @@ $(document).ready(function () {
 
             var $featuresList = $desc.find('.-features');
             data.features.forEach(feature => {
-                var li = $('<li>',{
+                var li = $('<li>', {
                     html: feature
                 }).appendTo($featuresList);
             });
@@ -113,57 +119,57 @@ $(document).ready(function () {
         }
     });
 
-    function fetchVariations(queryParams = null){
+    function fetchVariations(queryParams = null) {
         updateFiltersAndVariations(queryParams, VARIATION_API, true);
     }
 
-    function fetchFilters(queryParams = null){
+    function fetchFilters(queryParams = null) {
         updateFiltersAndVariations(queryParams, SWATCH_API, false);
     }
 
-    function makeFilters(data, isMobile){
+    function makeFilters(data, isMobile) {
         var currFilterDiv = isMobile ? $filtersDivMobile : $filtersDiv;
         Object.keys(data.filters).forEach(function (filter) {
             // data.filters.filter.forEach(options => {
-                var transformedLabel = data.filters[filter].label.toLowerCase().replace(' ', '_');
-                var $singleFilter = jQuery( '<div/>', {
-                    class: ( 'single-filter' ) + ( isMobile ? ' text-center' : '' )
-                }).appendTo(currFilterDiv);
-                var $filterLabel = jQuery( '<label/>', {
-                    text: data.filters[filter].label + ':',
-                    for: 'selectbox-attr-'+transformedLabel,
-                    class: 'select-label',
-                    value: data.filters[filter].label
-                }).appendTo($singleFilter);
-                var $filterSelectBox = jQuery( '<select/>', {
-                    class: 'form-control',
-                    id: 'attr-'+transformedLabel
-                }).appendTo($singleFilter);
-                
-                var bFilterEnabled = false;
-                data.filters[filter].options.forEach((element,idx) => {
-                    if( !bFilterEnabled ){ 
-                        bFilterEnabled = element.in_request;
-                    }
-                    var attrElm = jQuery('<option />', {
-                        value: element.value,
-                        selected: element.in_request,
-                        text: element.name
+            var transformedLabel = data.filters[filter].label.toLowerCase().replace(' ', '_');
+            var $singleFilter = jQuery('<div/>', {
+                class: ('single-filter') + (isMobile ? ' text-center' : '')
+            }).appendTo(currFilterDiv);
+            var $filterLabel = jQuery('<label/>', {
+                text: data.filters[filter].label + ':',
+                for: 'selectbox-attr-' + transformedLabel,
+                class: 'select-label',
+                value: data.filters[filter].label
+            }).appendTo($singleFilter);
+            var $filterSelectBox = jQuery('<select/>', {
+                class: 'form-control',
+                id: 'attr-' + transformedLabel
+            }).appendTo($singleFilter);
+
+            var bFilterEnabled = false;
+            data.filters[filter].options.forEach((element, idx) => {
+                if (!bFilterEnabled) {
+                    bFilterEnabled = element.in_request;
+                }
+                var attrElm = jQuery('<option />', {
+                    value: element.value,
+                    selected: element.in_request,
+                    text: element.name
+                }).appendTo($filterSelectBox);
+                if (idx == (data.filters[filter].options.length - 1)) {
+                    var attrElm2 = jQuery('<option />', {
+                        value: 'unselected-value',
+                        selected: !bFilterEnabled,
+                        text: 'Please select a value'
                     }).appendTo($filterSelectBox);
-                    if( idx == (data.filters[filter].options.length - 1) ){
-                        var attrElm2 = jQuery('<option />', {
-                            value: 'unselected-value',
-                            selected: !bFilterEnabled,
-                            text: 'Please select a value'
-                        }).appendTo($filterSelectBox);
-                        bFilterEnabled = false;
-                    }
-                });
+                    bFilterEnabled = false;
+                }
+            });
             // });
         });
     }
 
-    function updateFiltersAndVariations(queryParams, apiPath, bUpdateVariations = true){
+    function updateFiltersAndVariations(queryParams, apiPath, bUpdateVariations = true) {
         $.ajax({
             type: "GET",
             url: apiPath,
@@ -174,17 +180,17 @@ $(document).ready(function () {
                 $filtersDiv.empty();
                 $filtersDivMobile.empty();
 
-                if( data.filters != null && !$.isEmptyObject( data.filters ) ){
+                if (data.filters != null && !$.isEmptyObject(data.filters)) {
                     arrFilters = Object.keys(data.filters);
                     makeFilters(data, isMobile());
 
                     makeSelectBox();
                 }
-                else{
+                else {
                     $('#filterToggleBtn').hide();
                 }
 
-                if( data.variations != null && bUpdateVariations){
+                if (data.variations != null && bUpdateVariations) {
                     makeVariationCarousel(data.variations);
 
                     var $prodMainImgDiv = $product.find('.prod-main-img');
@@ -201,7 +207,7 @@ $(document).ready(function () {
                     variationDrift = new Drift(variationImgEl, {});
                 }
 
-                $('.zoom-img').each(function(){
+                $('.zoom-img').each(function () {
                     var options = { namespace: 'carousel' };
                     new Drift(this, options);
                 })
@@ -210,25 +216,25 @@ $(document).ready(function () {
                 console.log(jqXHR);
                 console.log(exception);
             }
-        });   
+        });
     }
 
-    function makeVariationCarousel(variationData){
+    function makeVariationCarousel(variationData) {
 
 
         var variationImages = variationData.map(variation => variation.image);
-        var variationSwatchImages = variationData.map(( variation, idx) => { 
+        var variationSwatchImages = variationData.map((variation, idx) => {
             return variation.swatch_image || variationImages[idx];
         });
         var arrDupes = [];
-        var variationSwatchImagesNew = variationSwatchImages.filter(function(item, index,self){
-            if( self.indexOf(item) === index ){
+        var variationSwatchImagesNew = variationSwatchImages.filter(function (item, index, self) {
+            if (self.indexOf(item) === index) {
                 arrDupes.push(index);
             }
             return self.indexOf(item) === index;
         });
         console.log(arrDupes);
-        var variationImagesNew = variationImages.filter(function(item, index){
+        var variationImagesNew = variationImages.filter(function (item, index) {
             return arrDupes.indexOf(index) >= 0
         });
         // for( var i=0; i< arrDupes.length ; i++){
@@ -253,69 +259,69 @@ $(document).ready(function () {
             var responsiveImg = jQuery('<img/>', {
                 class: 'zoom-img carousel-img img-fluid',
                 src: img,
-                "data-zoom" : img
+                "data-zoom": img
             }).appendTo(anchor);
 
             arrFilters.forEach(filter => {
                 anchor.attr(filter, variationData[idx][filter].value);
             });
         });
-        multiCarouselFuncs.makeMultiCarousel(10,10);
+        multiCarouselFuncs.makeMultiCarousel(10, 10);
     }
 
     $(document).on('select-value-changed', function (e, changedElm) {
-        $('.select-styled').not(changedElm).each(function(){
-            if($(this).attr('active') == '' || $(this).attr('active') == 'unselected-value'){
-                $(this).attr('active','unselected-value');
+        $('.select-styled').not(changedElm).each(function () {
+            if ($(this).attr('active') == '' || $(this).attr('active') == 'unselected-value') {
+                $(this).attr('active', 'unselected-value');
             }
         });
         onFilterChange();
     });
 
-    $('body').on('click touchstart', '#closeMainImgBtn', function(){
+    $('body').on('click touchstart', '#closeMainImgBtn', function () {
         $('.prod-main-img').hide();
     });
 
-    $('body').on('click touchstart', '.responsive-img-a', function(){
+    $('body').on('click touchstart', '.responsive-img-a', function () {
         $('#variationImg').attr('src', $(this).attr("data-image"));
         $('.prod-main-img').show();
-        $('.select-styled').each(function(){
-            $(this).attr('active','unselected-value');
+        $('.select-styled').each(function () {
+            $(this).attr('active', 'unselected-value');
         });
 
-        if( isMobile() ){
+        if (isMobile()) {
             $("html, body").delay(1000).animate({
-                scrollTop: $(this).offset().top - 15 
+                scrollTop: $(this).offset().top - 15
             }, 1000);
         }
-        
-       var triggerEl = document.querySelector('#variationImg');
-       variationDrift.setZoomImageURL($(this).attr("data-image"));
-       triggerEl.setAttribute("data-zoom", $(this).attr("data-image"));
 
-    //    arrFilters.forEach(filter => {
-    //        var filterId = 'selectbox-attr-'+filter;
-    //        var filterValue = $(this).attr(filter);
-    //        var strSelectedValue = $('#'+filterId).next().find('li[rel="'+filterValue+'"]').text();
-    //        $('#'+filterId).text(strSelectedValue)
-    //        $('#'+filterId).attr('active', filterValue);
-    //    });
+        var triggerEl = document.querySelector('#variationImg');
+        variationDrift.setZoomImageURL($(this).attr("data-image"));
+        triggerEl.setAttribute("data-zoom", $(this).attr("data-image"));
+
+        //    arrFilters.forEach(filter => {
+        //        var filterId = 'selectbox-attr-'+filter;
+        //        var filterValue = $(this).attr(filter);
+        //        var strSelectedValue = $('#'+filterId).next().find('li[rel="'+filterValue+'"]').text();
+        //        $('#'+filterId).text(strSelectedValue)
+        //        $('#'+filterId).attr('active', filterValue);
+        //    });
         onSwatchChange($(this).find('.carousel-img').attr("data-zoom"));
     });
 
-    function onFilterChange(swatchUrl = null){
+    function onFilterChange(swatchUrl = null) {
         var oQueryParams = new Object();
         $('.select-styled').each(function (idx) {
             // var strLabelText = $filtersDiv.find('label[for="'+$(this).attr('id')+'"]').attr('value');
             var currFilter = $(this).attr('active');
-            if( currFilter != 'unselected-value'){
-                oQueryParams['attribute_'+(idx+1)] = currFilter;
+            if (currFilter != 'unselected-value') {
+                oQueryParams['attribute_' + (idx + 1)] = currFilter;
             }
         });
         fetchVariations(oQueryParams);
     }
 
-    function onSwatchChange(swatchUrl){
+    function onSwatchChange(swatchUrl) {
 
         var oQueryParams = new Object();
         var arrSwatchUrl = swatchUrl.split('//');
@@ -325,11 +331,52 @@ $(document).ready(function () {
             newPathname += "/";
             newPathname += arrNewPathname[i];
         }
-        oQueryParams["swatch"] = decodeURIComponent( newPathname );
+        oQueryParams["swatch"] = decodeURIComponent(newPathname);
         fetchFilters(oQueryParams);
     }
 
-    $('#filterToggleBtn').on('click', function(){
+    $('#filterToggleBtn').on('click', function () {
         $('#filtersDivMobile').toggle();
     });
+
+    $('body').on('click', '.wishlist-icon:not(.nav-link)', function (e) {
+        e.preventDefault();
+        if ($('#isLoggedIn').val() == 0) {
+            $('#modalLoginForm').modal();
+        }
+        else {
+            var iSku = $(this).attr('sku');
+            callWishlistAPI($(this));
+        }
+    });
+
+
+
+    function callWishlistAPI($elm){
+        var strApiToCall = ''; 
+        if(!$elm.hasClass('marked')){
+            strApiToCall = FAV_MARK_API + $elm.attr('sku');
+        }
+        else{
+            strApiToCall = FAV_UNMARK_API + $elm.attr('sku');
+        }
+        $.ajax({
+            type: "GET",
+            url: strApiToCall,
+            dataType: "json",
+            success: function (data) {
+                console.log(data);
+                if( !$elm.hasClass('marked')){
+                    $elm.addClass('marked');
+                }
+                else{
+                    $elm.removeClass('marked');
+                }
+            },
+            error: function (jqXHR, exception) {
+                console.log(jqXHR);
+                console.log(exception);
+            }
+        });
+    }
 });

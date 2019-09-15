@@ -36,6 +36,13 @@
         class="{{$body_class}}"
     @endunless 
 >
+
+    @if (Auth::guest())
+        <input type="hidden" id="isLoggedIn" name="isLoggedIn" value="0">
+    @else
+        <input type="hidden" id="isLoggedIn" name="isLoggedIn" value="1">
+    @endif
+
     <div class="main">    
         @component('components.navbar') 
         @endcomponent
