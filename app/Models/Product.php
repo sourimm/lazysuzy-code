@@ -402,6 +402,7 @@ class Product extends Model
             $w_products = DB::table("user_wishlists")
                         ->select("product_id")
                         ->where("user_id", $user->id)
+                        ->where("is_active", 1)
                         ->get();
             
             // cleaning the array 
