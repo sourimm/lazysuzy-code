@@ -20,7 +20,7 @@ class Wishlist extends Model {
             $products_structured = [];
             foreach($products as $prod) {
                 $variations = Product::get_variations($prod, null, true);
-                array_push($products_structured, Product::get_details($prod, $variations, true));
+                array_push($products_structured, Product::get_details($prod, $variations, true, true));
             }
             
             return [
@@ -76,12 +76,19 @@ class Wishlist extends Model {
                 ->where("product_id", $sku)
                 ->update(["is_active" => 0]);
             if ($update) {
-                return true;
+                return [
+                    "status" => true,
+                    "msg" => "Unmark Success"
+                ];
             } else {
-                return false;
+                return [
+                    "status" => false,
+                    "msg" => json_encode($update)
+                ];
             }
         } else { 
             // handle no login requests
+            return [];
         }
         return $result;
     }
