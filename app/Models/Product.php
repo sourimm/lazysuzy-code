@@ -11,7 +11,7 @@ use Auth;
 class Product extends Model
 {
     protected $table = "master_data";
-    public static $base_siteurl = 'http://lazysuzy.com';
+    public static $base_siteurl = 'http://www.lazysuzy.com';
     static $count = 0;
 
     public static function get_LS_IDs($dept, $cat = null)
@@ -737,7 +737,6 @@ class Product extends Model
 
     public static function get_product_details($sku)
     {
-        $product = [];
         $prod = Product::where('product_sku', $sku)
             ->join("master_brands", "master_data.site_name", "=", "master_brands.value")
 
