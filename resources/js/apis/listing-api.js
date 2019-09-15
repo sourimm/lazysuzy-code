@@ -454,7 +454,7 @@ $(document).ready(function () {
             }
         });
 
-        window.location.search = strFilters;
+      //  window.location.search = strFilters;
     }
 
     $('body').on('mouseover', '.slick-slide', function(){
