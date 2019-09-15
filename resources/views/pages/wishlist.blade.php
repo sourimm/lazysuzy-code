@@ -37,7 +37,7 @@
                     </span>
                 </div>
                 <div class="products-container col-md-12">
-                    <div class="float-right d-none d-md-block">
+                    <div class="float-right d-none">
                         <div class="sortby">
                             <label for="sort">Sort By</label>
                             <select class="form-control" id="sort">
