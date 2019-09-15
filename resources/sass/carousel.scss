@@ -7,7 +7,12 @@
         margin: auto;
         text-align: center;
         .carousel-img{
-            margin: auto;
+            margin: auto;  
+            &:not(.zoom-img){  
+                width: 35px;
+                height: 35px;
+                object-fit: cover;
+            }
         }
         .responsive-img-a{
             outline: none;
