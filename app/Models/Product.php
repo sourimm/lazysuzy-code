@@ -489,7 +489,7 @@ class Product extends Model
        
         if (!$isListingAPICall) {
             $data['description'] = preg_split("/\\[US\\]|<br>|\\n/", $product->product_description);
-            $data['dimension'] = $product->site_name == "cb2" ? Product::cb2_dimensions($product->product_dimension) : $product->product_dimension;
+            $data['dimension'] = in_array($product->site_name, ['cb2', 'cab'])  ? Product::cb2_dimensions($product->product_dimension) : $product->product_dimension;
             $data['thumb'] = preg_split("/,|\\[US\\]/", $product->thumb);
             $data['features'] = preg_split("/\\[US\\]|<br>|\\n/", $product->product_feature);
             $data['on_server_images'] = array_map([__CLASS__, "baseUrl"], preg_split("/,|\\[US\\]/", $product->product_images));
