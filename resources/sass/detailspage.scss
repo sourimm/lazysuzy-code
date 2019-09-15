@@ -1,6 +1,13 @@
 .detailspage-main-div{
     font-family: Helvetica, sans-serif;
     .detailspage{
+        .wishlist-icon{
+            &.marked{
+                .-icon{
+                    font-weight: 900;
+                }
+            }
+        }
         .filters.filters-mobile {
                 width: 100% !important;
                 background: $secondary-color;
@@ -108,7 +115,16 @@
             height: auto;
             max-width: 100%;
             .slick-slide{
-                margin: 0px 5px;
+                margin: 0px;
+                padding: 0px;
+            }
+            .slick-track{
+                margin: 0px;
+            }
+            .mini-carousel-item{
+                .carousel-img{
+                    margin: 0px;
+                }
             }
         }
 
