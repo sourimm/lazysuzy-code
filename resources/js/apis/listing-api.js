@@ -453,6 +453,8 @@ $(document).ready(function () {
                 strFilters += ';'
             }
         });
+
+        window.location.search = strFilters;
     }
 
     $('body').on('mouseover', '.slick-slide', function(){
@@ -518,8 +520,13 @@ $(document).ready(function () {
 
     $('body').on('click', '.wishlist-icon:not(.nav-link)', function(e){
         e.preventDefault();
-        var iSku = $(this).attr('sku');
-        callWishlistAPI($(this));
+        if( $('#isLoggedIn').val() == 0){
+            $('#modalLoginForm').modal();
+        }
+        else{
+            var iSku = $(this).attr('sku');
+            callWishlistAPI($(this));
+        }
     });
 
     function callWishlistAPI($elm){
