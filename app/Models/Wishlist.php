@@ -42,6 +42,7 @@ class Wishlist extends Model {
             $wishlist_product_count = DB::table("user_wishlists")
                 ->where("user_id", $user->id)
                 ->where("product_id", $sku)
+                ->where("is_active", 1)
                 ->get();
 
             if (count($wishlist_product_count) == 0) {
