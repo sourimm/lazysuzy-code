@@ -69,6 +69,9 @@ $(document).ready(function () {
 
             if( data.variations != null){
                 makeVariationCarousel(data.variations);
+                if( data.filters == null && $.isEmptyObject( data.filters ) ){
+                    $('#filterToggleBtn').hide();
+                }
             }
             else{
                 fetchVariations();
@@ -217,6 +220,20 @@ $(document).ready(function () {
         var variationSwatchImages = variationData.map(( variation, idx) => { 
             return variation.swatch_image || variationImages[idx];
         });
+        var arrDupes = [];
+        var variationSwatchImagesNew = variationSwatchImages.filter(function(item, index,self){
+            if( self.indexOf(item) === index ){
+                arrDupes.push(index);
+            }
+            return self.indexOf(item) === index;
+        });
+        console.log(arrDupes);
+        var variationImagesNew = variationImages.filter(function(item, index){
+            return arrDupes.indexOf(index) >= 0
+        });
+        // for( var i=0; i< arrDupes.length ; i++){
+        //     variationImages.splice(i,1);
+        // }
         var variationLinks = variationData.map(variation => variation.link);
 
         var $variationsCarousel = $product.find('.-variations-carousel');
@@ -225,13 +242,13 @@ $(document).ready(function () {
             class: 'responsive',
         }).appendTo($variationsCarousel);
 
-        variationSwatchImages.forEach((img, idx) => {
+        variationSwatchImagesNew.forEach((img, idx) => {
             var responsiveImgDiv = jQuery('<div/>', {
                 class: 'mini-carousel-item',
             }).appendTo(carouselMainDiv);
             var anchor = jQuery('<a/>', {
                 class: 'responsive-img-a',
-                "data-image": variationImages[idx] ? variationImages[idx] : '',
+                "data-image": variationImagesNew[idx] ? variationImagesNew[idx] : '',
             }).appendTo(responsiveImgDiv);
             var responsiveImg = jQuery('<img/>', {
                 class: 'zoom-img carousel-img img-fluid',

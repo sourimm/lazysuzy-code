@@ -81,16 +81,13 @@ $(document).ready(function () {
             var strUrlParams = getQueryStringParameters(location.href);
 
             var strQuery = JSON.stringify({
-                "sort": [{
-                    "popularity": {
-                        "order": "desc"
-                    }
-                }],
-                "from": iPageNo,
+                "from": iPageNo*iLimit,
                 "size": iLimit,
                 "query": {
-                    "wildcard": {
-                        "name": strUrlParams.query+"*"
+                    "match": {
+                        "name": {
+                            "query": strUrlParams.query+"*"
+                        }
                     }
                 }
             })
@@ -199,7 +196,8 @@ $(document).ready(function () {
             $(oldPrice).text('$' + productDetails._source.was_price);
         }
 
-        $(product).append('<div class="wishlist-icon" sku=' + productDetails._source.product_sku + '><i class="far fa-heart -icon"></i></div>');
+        var strMarked = productDetails.wishlisted ? 'marked' : '';
+        $(product).append('<div class="wishlist-icon '+strMarked+'" sku=' + productDetails._source.product_sku + '><i class="far fa-heart -icon"></i></div>');
 
         var productInfoNext = jQuery('<div/>', {
             class: 'd-none d-md-block',
@@ -543,7 +541,7 @@ $(document).ready(function () {
         }
     });
 
-    $('body').on('click', '.wishlist-icon', function (e) {
+    $('body').on('click', '.wishlist-icon:not(.nav-link)', function (e) {
         e.preventDefault();
         var iSku = $(this).attr('sku');
         callWishlistAPI($(this));
