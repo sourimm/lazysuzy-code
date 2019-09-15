@@ -16,6 +16,7 @@ class Wishlist extends Model {
                 ->join("master_data", "master_data.product_sku", "=", "user_wishlists.product_id")
                 ->join("master_brands", "master_data.site_name", "=", "master_brands.value")
                 ->where("user_id", $user->id)
+                ->where("is_active", 1)
                 ->get();
             $products_structured = [];
             foreach($products as $prod) {
@@ -42,7 +43,6 @@ class Wishlist extends Model {
             $wishlist_product_count = DB::table("user_wishlists")
                 ->where("user_id", $user->id)
                 ->where("product_id", $sku)
-                ->where("is_active", 1)
                 ->get();
 
             if (count($wishlist_product_count) == 0) {
