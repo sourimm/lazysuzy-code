@@ -20,8 +20,12 @@ Route::get('/wishlist', function () {
 });
 Route::get('/search', function () {
     return view('pages.search');
-});Route::get('/privacypolicy', function () {
+});
+Route::get('/privacypolicy', function () {
     return view('pages.privacypolicy');
+});
+Route::get('/termsofservice', function () {
+    return view('pages.terms');
 });
 
 Auth::routes();
