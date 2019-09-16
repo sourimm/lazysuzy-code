@@ -3,6 +3,6 @@
     <span class="policy-terms float-right">
         <a href="/privacypolicy">Privacy Policy</a>
         <span>|</span>
-        <a href="#">Terms of service</a>
+        <a href="/termsofservice">Terms of service</a>
     </span>
 </div>
