@@ -20,6 +20,8 @@ Route::get('/wishlist', function () {
 });
 Route::get('/search', function () {
     return view('pages.search');
+});Route::get('/privacypolicy', function () {
+    return view('pages.privacypolicy');
 });
 
 Auth::routes();
