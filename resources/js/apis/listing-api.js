@@ -185,7 +185,12 @@ $(document).ready(function () {
 
         var variationImages = productDetails.variations.map(variation => variation.image);
         var variationSwatchImages = productDetails.variations.map(( variation, idx) => { 
-            return variation.swatch_image || variationImages[idx];
+            if( productDetails.site !== 'Westelm'){
+                return variation.swatch_image || variationImages[idx];
+            }
+            else{
+                return variation.swatch_image;
+            }
         });
         var variationLinks = productDetails.variations.map(variation => variation.link);
 
