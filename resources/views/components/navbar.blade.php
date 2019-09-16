@@ -1,7 +1,7 @@
 <!-- <a class="navbar-brand mx-auto" href="#"><img id="logo-navbar-middle" src="{{ asset('/images/dark_logo_transparent.png') }}" alt="LazySuzy" class="logo"></a> -->
 
 <nav class="navbar navbar-expand-lg navbar-light bg-light px-md-75 py-10">
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+    <button class="navbar-toggler d-none" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
         aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <i class="fas fa-bars -bars"></i>
     </button>
@@ -35,7 +35,7 @@
 
     <div class="-right d-none d-md-flex">
         <ul class="navbar-nav ml-auto">
-            <li class="nav-item">
+            <li class="nav-item d-none">
                 <a class="nav-link" href="#">The Lazy Story</a>
             </li>
             <!-- Authentication Links -->
