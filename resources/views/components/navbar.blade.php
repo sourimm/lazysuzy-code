@@ -35,8 +35,8 @@
 
     <div class="-right d-none d-md-flex">
         <ul class="navbar-nav ml-auto">
-            <li class="nav-item d-none">
-                <a class="nav-link" href="#">The Lazy Story</a>
+            <li class="nav-item">
+                <a class="nav-link" href="/aboutus">The Lazy Story</a>
             </li>
             <!-- Authentication Links -->
             @if (Auth::guest())

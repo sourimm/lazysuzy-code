@@ -27,6 +27,9 @@ Route::get('/privacypolicy', function () {
 Route::get('/termsofservice', function () {
     return view('pages.terms');
 });
+Route::get('/aboutus', function () {
+    return view('pages.aboutus');
+});
 
 Auth::routes();
 
