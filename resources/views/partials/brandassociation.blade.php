@@ -14,9 +14,9 @@
         <div class="socials col-md-2 px-0">
             <div class="-text">Get in touch</div>
             <div class="-icons">
-                <i class="fab fa-facebook-f -icon"></i>
-                <i class="fab fa-instagram -icon"></i>
-                <i class="fab fa-pinterest -icon"></i>
+                <a target="_blank" href="//www.facebook.com/shoplazysuzy" class="-icon"><i class="fab fa-facebook-f -cicon"></i></a>
+                <i class="fab d-none fa-instagram -icon"></i>
+                <i class="fab d-none fa-pinterest -icon"></i>
             </div>
         </div>
     </div>
