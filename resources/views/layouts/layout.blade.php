@@ -20,13 +20,33 @@
                 r.parentNode.insertBefore(s, r);
         }(document, 'script'));
     </script>
+
+
+    <!-- Authentication Links -->
+    @if (Auth::guest())
     <script>
         window.intercomSettings = {
-        app_id: "es5imqpc"
+            app_id: "es5imqpc"
         };
     </script>
 
     <script>(function(){var w=window;var ic=w.Intercom;if(typeof ic==="function"){ic('reattach_activator');ic('update',w.intercomSettings);}else{var d=document;var i=function(){i.c(arguments);};i.q=[];i.c=function(args){i.q.push(args);};w.Intercom=i;var l=function(){var s=d.createElement('script');s.type='text/javascript';s.async=true;s.src='https://widget.intercom.io/widget/es5imqpc';var x=d.getElementsByTagName('script')[0];x.parentNode.insertBefore(s,x);};if(w.attachEvent){w.attachEvent('onload',l);}else{w.addEventListener('load',l,false);}}})();</script>
+    
+    @else
+
+    <script>
+        window.intercomSettings = {
+            app_id: "es5imqpc",
+            name: "<%= current_user.name %>", // Full name
+            email: "<%= current_user.email %>", // Email address
+            created_at: "<%= current_user.created_at.to_i %>" // Signup date as a Unix timestamp
+        };
+    </script>
+
+    <script>(function(){var w=window;var ic=w.Intercom;if(typeof ic==="function"){ic('reattach_activator');ic('update',w.intercomSettings);}else{var d=document;var i=function(){i.c(arguments);};i.q=[];i.c=function(args){i.q.push(args);};w.Intercom=i;var l=function(){var s=d.createElement('script');s.type='text/javascript';s.async=true;s.src='https://widget.intercom.io/widget/es5imqpc';var x=d.getElementsByTagName('script')[0];x.parentNode.insertBefore(s,x);};if(w.attachEvent){w.attachEvent('onload',l);}else{w.addEventListener('load',l,false);}}})();</script>
+
+    @endif
+    
 
     @stack('pageSpecificStyles')
 </head>
