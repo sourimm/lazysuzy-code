@@ -1,7 +1,7 @@
 <div class="brand-association">
-    <div class="-text">Shop your favourite brands:</div>
     <div class="row">
         <div class="brand-logos col-md-10 px-0">
+            <div class="-text">Shop your favourite brands:</div>
             <a href="#"><img class="brand-logo -cb2" src="{{ asset('/images/brand-images/cb2.png') }}" alt="CB2 brand"></a>
             <a href="#"><img class="brand-logo -crate" src="{{ asset('/images/brand-images/crate-barrel.png') }}" alt="Crate and barrel brand"></a>
             <a href="#"><img class="brand-logo -pier1" src="{{ asset('/images/brand-images/pier1.png') }}" alt="Pier1 brand"></a>
