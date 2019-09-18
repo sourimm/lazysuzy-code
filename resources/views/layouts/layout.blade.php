@@ -37,9 +37,9 @@
     <script>
         window.intercomSettings = {
             app_id: "es5imqpc",
-            name: "<%= current_user.name %>", // Full name
-            email: "<%= current_user.email %>", // Email address
-            created_at: "<%= current_user.created_at.to_i %>" // Signup date as a Unix timestamp
+            name: {{ Auth::user()->name }}, // Full name
+            email: {{ Auth::user()->email }}, // Email address
+            created_at: {{ strtotime(Auth::user()->created_at) }} // Signup date as a Unix timestamp
         };
     </script>
 
