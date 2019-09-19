@@ -20,16 +20,25 @@
                 position: relative;
                 margin-bottom: 15px;
 
+                .variation-img{
+                    position: absolute;
+                    bottom: 0px;
+                    z-index: 1;
+                    left: 0;
+                }
+
                 .prod-info {
                     position: absolute;
                     bottom: 0px;
                     padding: 5px;
-                    width: 100%;
-                    background-color: rgba(255, 255, 255, 0.7);
+                    width: 100%;    
+                    background-color: rgba(0,0,0, 0.4);
                     height: 25px;
                     text-align: left;
                     font-size: 14px;
                     line-height: 14px;
+                    z-index: 100;
+                    color: $white;
 
                     .-prices {
                         .-cprice {
@@ -48,9 +57,16 @@
                     margin: 15px;
                     top: 0px;
                     right: 0px;
-
+                    z-index:100;
+                    
                     .-icon {
                         font-size: 20px;
+                    }
+
+                    &.marked{
+                        .-icon{
+                            font-weight: 900;
+                        }
                     }
                 }
 

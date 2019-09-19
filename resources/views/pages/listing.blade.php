@@ -1,7 +1,5 @@
 @extends('layouts.layout', ['body_class' => 'listing-main-div'])
 
-
-
 @section('middle_content')
     <div class="listing">
         @include('./partials/subnav')
@@ -40,7 +38,7 @@
                     <div class="filter">
                         <span class="filter-header">Price</span>
                         <label for="" class="clear-filter float-right">Clear</label>
-                        <input type="text" class="price-range-slider" name="price_range" value="" />
+                        <input type="text" class="price-range-slider" id="priceRangeSlider" name="price_range" value="" />
                         <hr>
                     </div>
 
@@ -76,15 +74,13 @@
                         <hr>
                     </div>
                     <a class="btn clearall-filter-btn" href="https://lazysuzy.com/filter/clear_filter/all">Clear All</a>
-                    <div>
-                    </div>
                 </div>
                 <div class="listing-top-controls d-block d-md-none">
                     <div class="dropdown show float-left">
-                        <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <a class="dropdown-toggle" href="#" role="button" id="dropdownMobileListing" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="fas fa-angle-down"></i>
                         </a>
-                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMobileListing" rel="dropdownMobileListing">
                             <li><a class="dropdown-item" href="#">Accent</a></li>
                             <li class="dropdown-submenu"><a class="dropdown-item dropdown-toggle" href="#">Living<i class="fas fa-angle-right float-right"></i></a>
                                 <ul class="dropdown-menu">
@@ -124,6 +120,7 @@
                     <div class="ls-prod-container container-fluid text-center">
                         <div class="row" id="productsContainerDiv">
                         </div>
+                        <div class="text-center" id="noProductsText">Sorry, no more products to show.</div>
                         <div class="mx-auto" id="loaderImg">
                             <img src="{{ asset('/images/Spinner-1s-100px.gif') }}" alt="Spinner">
                         </div>
