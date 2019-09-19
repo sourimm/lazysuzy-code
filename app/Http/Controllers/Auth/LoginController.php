@@ -84,6 +84,7 @@ class LoginController extends Controller
         return redirect($this->redirectPath());
     }
     
+    // explode() - will work on multiple delimeters 
     public function explodeX( $delimiters, $string )
     {
         return explode(chr(1), str_replace($delimiters, chr(1), $string));
@@ -101,6 +102,7 @@ class LoginController extends Controller
         } else {
            $user = User::whereEmail($providerUser->getEmail())->first();
            $f_l_name = $this->explodeX(array(' ', '_'), $providerUser->getName());
+
            if (! $user) {
                $user = User::create([
                     'email' => $providerUser->getEmail(),
@@ -120,6 +122,7 @@ class LoginController extends Controller
                'provider_id'   => $providerUser->getId(),
                'provider_name' => $provider,
            ]);
+
            return $user;
        }
     }

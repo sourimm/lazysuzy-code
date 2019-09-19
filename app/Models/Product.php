@@ -5,10 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Input;
+use Auth;
+
 
 class Product extends Model
 {
     protected $table = "master_data";
+    public static $base_siteurl = 'http://www.lazysuzy.com';
+    static $count = 0;
 
     public static function get_LS_IDs($dept, $cat = null)
     {
@@ -32,6 +36,8 @@ class Product extends Model
         }
         return $LS_IDs;
     }
+
+
 
     public static function get_sub_cat_LS_ID($dept, $cat, $sub_category)
     {
@@ -62,11 +68,33 @@ class Product extends Model
         return $LS_IDs;
     }
 
-    public static function get_filter_products($dept, $cat = null)
+    public static function get_filter_products($dept, $cat = null, $subCat = null)
     {
         $perPage = 20;
         DB::enableQueryLog();
         $LS_IDs = null;
+        $PRICE_ASC = "price_low_to_high";
+        $PRICE_DESC = "price_high_to_low";
+        $POPULARITY = "popularity";
+
+        $sort_type_filter = [
+            [
+                "name" => "PRICE: LOW TO HIGH",
+                "value" => $PRICE_ASC,
+                "enabled" => false
+            ],
+            [
+                "name" => "PRICE: HIGH TO LOW",
+                "value" => $PRICE_DESC,
+                "enabled" => false
+            ],
+            [
+                "name" => "POPULARITY",
+                "value" => $POPULARITY,
+                "enabled" => false
+            ]
+        ];
+        $s = $sort_type_filter;
 
         $page_num    = Input::get("pageno");
         $limit       = Input::get("limit");
@@ -75,6 +103,15 @@ class Product extends Model
         $all_filters = [];
         $query       = DB::table('master_data');
 
+        if (isset($sort_type)) {
+            for ($i = 0; $i < sizeof($sort_type_filter); $i++) {
+                if ($sort_type_filter[$i]['value'] == $sort_type) {
+                    $sort_type_filter[$i]['enabled'] = true;
+                }
+            }
+        }
+
+        $all_filters['sort_type'] = $sort_type_filter;
         if (!isset($limit)) {
             $limit = 20;
         }
@@ -84,16 +121,20 @@ class Product extends Model
         if (isset($filters)) {
             $filter_blocks = explode(";", $filters);
             foreach ($filter_blocks as $block) {
-                $block_str                  = explode(":", $block);
-                $all_filters[$block_str[0]] = explode(",", $block_str[1]);
-                $all_filters[$block_str[0]] = array_map("strtolower", $all_filters[$block_str[0]]);
-            }
+                $block_str = explode(":", $block);
 
-            
+                if (isset($block_str[0]) && isset($block_str[1])) {
+                    $all_filters[$block_str[0]] = explode(",", $block_str[1]);
+                    $all_filters[$block_str[0]] = array_map("strtolower", $all_filters[$block_str[0]]);
+                }
+            }
 
             // FILTERS
             // 1. brand_names
-            if (isset($all_filters['brand_names'])) {
+            if (
+                isset($all_filters['brand_names'])
+                && strlen($all_filters['brand_names'][0]) > 0
+            ) {
                 $query = $query->whereIn('site_name', $all_filters['brand_names']);
             }
 
@@ -111,9 +152,9 @@ class Product extends Model
         }
 
         // 4. type
-        if (isset($all_filters['type'])) {
+        if (isset($all_filters['product_type']) && strlen($all_filters['product_type'][0]) > 0) {
             // will only return products that match the LS_IDs for the `types` mentioned.
-            $LS_IDs = Product::get_sub_cat_LS_IDs($dept, $cat, $all_filters['type']);
+            $LS_IDs = Product::get_sub_cat_LS_IDs($dept, $cat, $all_filters['product_type']);
         } else {
             // 5. departments and categories
             if (null != $cat) {
@@ -123,19 +164,33 @@ class Product extends Model
             }
         }
 
+        // only include sub category products if subcategory is not null
+        if ($subCat != null) {
+            $LS_IDs = [Product::get_sub_cat_LS_ID($dept, $cat, $subCat)];
+        }
+
         $query = $query->whereRaw('LS_ID REGEXP "' . implode("|", $LS_IDs) . '"');
 
         // 7. sort_type
-
         if (isset($sort_type)) {
-            $query = $query->orderBy('popularity', 'desc');
+
+            if ($sort_type == $PRICE_ASC) {
+                $query = $query->orderBy('min_price', 'asc');
+            } else if ($sort_type == $PRICE_DESC) {
+                $query = $query->orderBy('min_price', 'desc');
+            } else if ($sort_type == $POPULARITY) {
+                $query = $query->orderBy('popularity', 'desc');
+            }
         }
 
         // 6. limit
+        $all_filters['limit'] = $limit;
+        $all_filters['count_all'] = $query->count();
         $query = $query->offset($start)->limit($limit);
 
-        //echo "<pre>" . print_r($all_filters, true);
-        return Product::getProductObj($query->get(), $all_filters, $dept, $cat);
+        //echo "<pre>" . print_r($all_filters, ""true);
+        $query = $query->join("master_brands", "master_data.site_name", "=", "master_brands.value");
+        return Product::getProductObj($query->get(), $all_filters, $dept, $cat, $subCat, true);
     }
 
     public static function get_dept_cat_LS_ID_arr($dept, $cat)
@@ -168,17 +223,9 @@ class Product extends Model
             ];
         }
 
-        if (sizeof($all_filters) == 0) {
-
-            $product_brands = DB::table("master_data")
-                ->selectRaw("count(product_name) AS products, site_name")
-                ->whereRaw('LS_ID REGEXP "' . implode("|", $LS_IDs) . '"')
-                ->groupBy('site_name')
-                ->get();
-        } else {
-            if (isset($all_filters['type'])) {
-
-                $LS_IDs = Product::get_sub_cat_LS_IDs($dept, $cat, $all_filters['type']);
+        if (sizeof($all_filters) != 0) {
+            if (isset($all_filters['product_type']) && strlen($all_filters['product_type'][0]) > 0) {
+                $LS_IDs = Product::get_sub_cat_LS_IDs($dept, $cat, $all_filters['product_type']);
             }
         }
 
@@ -225,31 +272,33 @@ class Product extends Model
 
         if (sizeof($all_filters) == 0) {
             // get min price and max price for all the products
-
             return [
-                "min_price" => $min,
-                "max_price" => $max
+                "min" => $min,
+                "max" => $max
             ];
         } else {
 
             if (isset($all_filters['price_from'])) {
-                $p_from = $all_filters['price_from'][0];
+                $p_from = round($all_filters['price_from'][0]);
             }
 
             if (isset($all_filters['price_to'])) {
-                $p_to = $all_filters['price_to'][0];
+                $p_to = round($all_filters['price_to'][0]);
             }
 
+            if ($p_from == 0) $p_from = $min;
+            if ($p_to == 0) $p_to = $max;
+
             return [
-                "price_from" => (int)$p_from,
-                "price_to" => (int)$p_to,
-                "max_price" => $max,
-                "min_price" => $min
+                "from" => round($p_from),
+                "to" => round($p_to),
+                "max" => $max,
+                "min" => $min
             ];
         }
     }
 
-    public static function get_product_type_filter($dept, $cat, $all_filters)
+    public static function get_product_type_filter($dept, $cat, $subCat, $all_filters)
     {
         $sub_cat_LS_IDs = DB::table("mapping_core")
             ->select(["product_sub_category", "product_sub_category_", "LS_ID"])
@@ -260,11 +309,10 @@ class Product extends Model
 
         $sub_cat_LS_IDs = $sub_cat_LS_IDs->whereRaw("LENGTH(product_sub_category_) != 0")->get();
 
-
         $LS_IDs = Product::get_dept_cat_LS_ID_arr($dept, $cat);
 
 
-        if (isset($all_filters['type'])) {
+        if (isset($all_filters['product_type']) && strlen($all_filters['product_type'][0]) > 0) {
             // comment this line if you want to show count for all those 
             // sub_categories that are paased in the request.
             //$LS_IDs = Product::get_sub_cat_LS_IDs($dept, $cat, $all_filters['type']);
@@ -275,34 +323,40 @@ class Product extends Model
 
         $products = DB::table("master_data")
             ->select("LS_ID")
-            ->whereRaw('LS_ID REGEXP "' . implode("|", $LS_IDs) . '"')
-            ->get();
+            ->whereRaw('LS_ID REGEXP "' . implode("|", $LS_IDs) . '"');
+
+        if (isset($all_filters['brand_names']) && strlen($all_filters['brand_names'][0]) > 0) {
+            $products = $products->whereIn('site_name', $all_filters['brand_names']);
+        }
+
+        $products = $products->get();
 
         $sub_cat_arr = [];
 
         foreach ($sub_cat_LS_IDs as $cat) {
+            $selected = false;
+            if (strtolower($cat->product_sub_category_) == strtolower($subCat)) $selected = true;
             $sub_cat_arr[$cat->product_sub_category_] = [
                 "name" => $cat->product_sub_category,
                 "value" => strtolower($cat->product_sub_category_),
                 "enabled" => false,
-                "checked" => false,
+                "checked" => $selected,
                 "count" => 0
             ];
         }
 
-         //echo "<pre>" . print_r($all_filters, true);
+        //echo "<pre>" . print_r($all_filters, true);
         foreach ($sub_cat_LS_IDs as $cat) {
             foreach ($products as $p) {
-                if (strpos($p->LS_ID, (string)$cat->LS_ID) !== false) {
+                if (strpos($p->LS_ID, (string) $cat->LS_ID) !== false) {
                     if (isset($sub_cat_arr[$cat->product_sub_category_])) {
                         $sub_cat_arr[$cat->product_sub_category_]["enabled"] = true;
                         $sub_cat_arr[$cat->product_sub_category_]["count"]++;
 
-                        if (isset($all_filters['type'])) {
+                        if (isset($all_filters['product_type'])) {
                             $sub_category = strtolower($cat->product_sub_category_);
-                            if (in_array($sub_category, $all_filters['type'])) {
+                            if (in_array($sub_category, $all_filters['product_type'])) {
                                 $sub_cat_arr[$cat->product_sub_category_]["checked"] = true;
-
                             }
                         }
                     }
@@ -317,58 +371,62 @@ class Product extends Model
 
         return $arr;
     }
-    public static function getProductObj($products, $all_filters, $dept, $cat)
+    public static function getProductObj($products, $all_filters, $dept, $cat, $subCat, $isListingAPICall = null)
     {
-        $output             = [];
-        $p_send             = [];
-        $brand_count        = [];
-        $product_type_count = [];
-        $product_type_LS_ID = [];
+        $p_send              = [];
         $filter_data         = [];
         $brand_holder        = [];
         $price_holder        = [];
         $product_type_holder = [];
-        $LS_ID_count = [];
-        $brands_is_checked = [];
-        $base_siteurl = 'https://lazysuzy.com';
-        $b = DB::table("master_brands")->get();
 
+        $westelm_cache_data  = DB::table("westelm_products_skus")
+            ->selectRaw("COUNT(product_id) AS product_count, product_id")
+            ->groupBy("product_id")
+            ->get();
+        
+        $westelm_variations_data = [];
+        
+        if (sizeof($westelm_cache_data) > 0) {
+            foreach ($westelm_cache_data as $row) {
+                $westelm_variations_data[$row->product_id] = $row->product_count;
+            }
+        }
+
+        // removing waste data
+        $westelm_cache_data = [];
+
+        // check if the prodcuts is in a wishlist
+        $wishlist_products = [];
+        if (Auth::check()) {
+            $user = Auth::user();
+            $w_products = DB::table("user_wishlists")
+                        ->select("product_id")
+                        ->where("user_id", $user->id)
+                        ->where("is_active", 1)
+                        ->get();
+            
+            // cleaning the array 
+            foreach ($w_products as $p) 
+                array_push($wishlist_products, $p->product_id);
+            
+        }
+        
         foreach ($products as $product) {
+            
+            $isMarked = false;
+            if (Auth::check()) {
+                if (in_array($product->product_sku, $wishlist_products)) {
+                    $isMarked = true;
+                }
+            }
 
-            $variations = Product::get_variations($product->product_sku);
-            array_push($p_send, [
-                'id'               => $product->id,
-                'sku'              => $product->product_sku,
-                'sku_hash'         => $product->sku_hash,
-                'site'             => $product->site_name,
-                'name'             => $product->product_name,
-                'product_url'      => $product->product_url,
-                'is_price'         => $product->price,
-                'model_code'       => $product->model_code,
-                'description'      => $product->product_description,
-                'thumb'            => explode(",", $product->thumb),
-                'color'            => $product->color,
-                'images'           => explode(",", $product->images),
-                'was_price'        => $product->was_price,
-                'features'         => explode("<br>", $product->product_feature),
-                'collection'       => $product->collection,
-                'set'              => $product->product_set,
-                'condition'        => $product->product_condition,
-                'created_date'     => $product->created_date,
-                'updated_date'     => $product->updated_date,
-                'on_server_images' => explode(",", $product->product_images),
-                'main_image'       => $base_siteurl . $product->main_product_images,
-                'reviews'          => $product->reviews,
-                'rating'           => $product->rating,
-                'LS_ID'            => $product->LS_ID,
-                'variations'       => $variations
-
-            ]);
+            $variations = Product::get_variations($product, $westelm_variations_data, $isListingAPICall);
+            array_push($p_send, Product::get_details($product, $variations, $isListingAPICall, $isMarked));
         }
 
         $brand_holder = Product::get_brands_filter($dept, $cat, $all_filters);
         $price_holder = Product::get_price_filter($dept, $cat, $all_filters);
-        $product_type_holder = Product::get_product_type_filter($dept, $cat, $all_filters);
+        $product_type_holder = Product::get_product_type_filter($dept, $cat, $subCat, $all_filters);
         $filter_data = [
             "brand_names"  => $brand_holder,
             "price"        => $price_holder,
@@ -377,23 +435,118 @@ class Product extends Model
 
 
         return [
+            "total"      => $all_filters['count_all'],
+            "constructor_count" => Product::$count,
+            "sortType"  => isset($all_filters['sort_type']) ? $all_filters['sort_type'] : null,
+            "limit"      => isset($all_filters['limit']) ? $all_filters['limit'] : null,
             "filterData" => $filter_data,
             "products"   => $p_send,
         ];
     }
 
-    public static function get_variations($sku)
+    public static function get_details($product, $variations, $isListingAPICall = null, $isMarked = false)
     {
-        $product_variations = [];
-        $base_siteurl = 'https://lazysuzy.com';
+        
 
+        $data =  [
+            'id'               => $product->id,
+            'sku'              => $product->product_sku,
+        //    'sku_hash'         => $product->sku_hash,
+            'site'             => $product->name,
+            'name'             => $product->product_name,
+            'product_url'      => urldecode($product->product_url),
+            'product_detail_url' => Product::$base_siteurl . "/product/" . $product->product_sku,
+            'is_price'         => $product->price,
+            'model_code'       => $product->model_code,
+        //    'description'      => preg_split("/\\[US\\]|<br>|\\n/", $product->product_description),
+        //    'dimension'        => $product->site_name == "cb2" ? Product::cb2_dimensions($product->product_dimension) : $product->product_dimension,
+        //    'thumb'            => preg_split("/,|\\[US\\]/", $product->thumb),
+            'color'            => $product->color,
+        //    'images'           => array_map([__CLASS__, "baseUrl"], preg_split("/,|\\[US\\]/", $product->images)),
+            'was_price'        => $product->was_price,
+        //    'features'         => preg_split("/\\[US\\]|<br>|\\n/", $product->product_feature),
+            'collection'       => $product->collection,
+        //    'set'              => $product->product_set,
+            'condition'        => $product->product_condition,
+        //    'created_date'     => $product->created_date,
+        //    'updated_date'     => $product->updated_date,
+        //    'on_server_images' => array_map([__CLASS__, "baseUrl"], preg_split("/,|\\[US\\]/", $product->product_images)),
+            'main_image'       => Product::$base_siteurl . $product->main_product_images,
+            'reviews'          => $product->reviews,
+            'rating'           => (float) $product->rating,
+            'wishlisted'       => $isMarked  
+        //    'LS_ID'            => $product->LS_ID,
+           
+
+        ];
+
+        /* if ($product->site_name == "westelm" && !$isListingAPICall ) {
+            $data['filters'] = end($variations)['filters'];
+            array_pop($variations);
+        } */
+        
+        $data['variations'] = $variations;
+
+       
+        if (!$isListingAPICall) {
+            $data['description'] = preg_split("/\\[US\\]|<br>|\\n/", $product->product_description);
+            $data['dimension'] = in_array($product->site_name, ['cb2', 'cab'])  ? Product::cb2_dimensions($product->product_dimension) : $product->product_dimension;
+            $data['thumb'] = preg_split("/,|\\[US\\]/", $product->thumb);
+            $data['features'] = preg_split("/\\[US\\]|<br>|\\n/", $product->product_feature);
+            $data['on_server_images'] = array_map([__CLASS__, "baseUrl"], preg_split("/,|\\[US\\]/", $product->product_images));
+
+            return $data;
+        }
+        else {
+            return $data;
+        }
+    }
+
+    public static function cb2_dimensions($json_string)
+    {
+        
+        if ($json_string === "null") return [];
+        $dim = json_decode($json_string);
+        if (json_last_error()) return [];
+        
+        $d_arr = [];
+        $dd_arr = [];
+
+        foreach ($dim as $d) {
+            if ($d->hasDimensions) {
+                array_push($d_arr, $d);
+            }
+        }
+
+        //return $json_string;
+        return $d_arr;
+    }
+
+    public static function baseUrl($link)
+    {
+        return Product::$base_siteurl . $link;
+    }
+
+    public static function get_cb2_variations($sku)
+    {
+        $cols = [
+            "product_sku",
+            "variation_sku",
+            "swatch_image",
+            "variation_image",
+            "variation_name",
+            "has_parent_sku"
+        ];
+        $product_variations = [];
         $variations = DB::table("cb2_products_variations")
+            ->select($cols)
+            ->distinct('variation_sku')
             ->where('product_sku', $sku)
             ->get();
 
         foreach ($variations as $variation) {
             if ($variation->product_sku != $variation->variation_sku) {
-                $link = $base_siteurl . "/product-detail/";
+                $link = Product::$base_siteurl . "/product/";
                 if ($variation->has_parent_sku) {
                     $link .= $variation->variation_sku;
                 } else {
@@ -404,12 +557,267 @@ class Product extends Model
                     "variation_sku" => $variation->variation_sku,
                     "name" => $variation->variation_name,
                     "has_parent_sku" => $variation->has_parent_sku,
-                    "image" => $variation->variation_images,
+                    "swatch_image" => Product::$base_siteurl . $variation->swatch_image,
+                    "image" => Product::$base_siteurl . $variation->variation_image,
                     "link" => $link
                 ]);
             }
         }
 
         return $product_variations;
+    }
+
+    public static function get_pier1_variations($product)
+    {
+        $product_variations = [];
+
+        if ($product->master_id == null) return $product_variations;
+
+        $executionStartTime = microtime(true);
+        $variations = DB::table("pier1_products")
+            ->where("product_status", "active")
+            ->where("master_id", $product->master_id)
+            ->get();
+        $executionEndTime =  microtime(true) - $executionStartTime;
+
+        foreach ($variations as $variation) {
+
+            if ($product->product_sku != $variation->product_sku) {
+                array_push($product_variations, [
+                    "time_taken" => $executionEndTime,
+                    "product_sku" => $product->product_sku,
+                    "variation_sku" => $variation->product_sku,
+                    "name" => $variation->color,
+                    "image" => Product::$base_siteurl . $variation->main_product_images,
+                    "link" => Product::$base_siteurl . "/product/" . $variation->product_sku,
+                    "swatch" => ""
+                ]);
+            }
+        }
+
+        return $product_variations;
+    }
+
+    public static function get_filter_key($key)
+    {
+        $key = preg_replace('/please|Please|select|Select/', '', $key);
+        return (strtolower(preg_replace("/[\s]+/", "_", trim($key))));
+    }
+
+    public static function get_filter_label($key)
+    {
+        $key = preg_replace('/please|Please|select|Select/', '', $key);
+        return $key;
+    }
+
+    public static function get_westelm_variations($product, $wl_v, $isListingAPICall = null)
+    {
+        $cols = [
+            "sku",
+            "product_id",
+            "swatch_image_path",
+            "image_path",
+            "name",
+            "swatch_image",
+            "attribute_1",
+            "attribute_2",
+            "attribute_3",
+            "attribute_4",
+            "attribute_5",
+            "attribute_6",
+           
+        ];
+
+        if (isset($wl_v[$product->product_sku])) {
+            if ($wl_v[$product->product_sku]) {
+                $var = DB::table("westelm_products_skus")
+                    ->select($cols);
+
+                if ($isListingAPICall) $var = $var->groupBy("swatch_image_path");
+
+                $var = $var->groupBy("swatch_image")
+                    ->where("product_id", $product->product_sku); 
+                
+                if ($isListingAPICall) $var = $var->limit(7);
+                    //->limit(20)
+                $var = $var->get();
+
+                $variations = [];
+                $variation_filters = [];
+                $swatches = [];
+                foreach ($var as $prod) {
+                    $features = [];
+                    for ($i = 1; $i <= 6; $i++) {
+                        $col = "attribute_" . $i;
+                        $str = $prod->$col;
+                        $str_exp = explode(":", $str);
+                        if (isset($str_exp[0]) && isset($str_exp[1])) {
+                            //echo $filter_key . "<br>";
+
+                            $filter_key = Product::get_filter_key($str_exp[0]);
+                            $features[$filter_key] = $str_exp[1];
+
+                            // setting array indexes for each filter category 
+                            if (!isset($variation_filters[$filter_key]))
+                                $variation_filters[$filter_key] = [];
+
+                            // saving unique data values for the filter value display
+                            /*if (!in_array($str_exp[1], $variation_filters[$str_exp[0]], true)) {
+                                array_push($variation_filters[$str_exp[0]], [
+                                    "name" => $str_exp[1],
+                                    "value" => strtolower(preg_replace("' '", "-", $str_exp[1])),
+                                    "enabled" => true
+                                ]);
+                            }*/
+                            $found = false;
+                            //echo sizeof($variation_filters[$filter_key]);
+                            foreach ($variation_filters[$filter_key] as $filter) {
+                                //echo "comparing " . $filter["value"] . " %% " . $str_exp[1] . "<br>";
+                                if (isset($filter["name"])) {
+                                    if ($filter["name"] == $str_exp[1]) {
+                                        $found = true;
+                                        break;
+                                    }
+                                }
+                            }
+
+                            if (!$found) {
+                                array_push($variation_filters[$filter_key], [
+                                    "name" => $str_exp[1],
+                                    "value" => strtolower(preg_replace("' '", "-", $str_exp[1])),
+                                    "enabled" => true
+                                ]);
+                            }
+                        }
+                    }
+
+                    array_push($variations, [
+                        "product_sku" => $product->product_sku,
+                        "variation_sku" => $prod->sku,
+                        "name" => $prod->name,
+                        "features" => $features,
+                        "image" => Product::$base_siteurl . $prod->image_path,
+                        "swatch_image" => strlen($prod->swatch_image) != 0 ? Product::$base_siteurl . $prod->swatch_image_path : null
+                    ]);
+                   
+                }
+
+              
+                if (!$isListingAPICall) {      
+                    array_push($variations, [
+                        "filters" => Product::get_all_variation_filters($product->product_sku)
+                    ]);
+                }
+
+                return $variations;
+            }
+        }
+
+        return [];
+    }
+
+    public static function get_variations($product, $wl_v = null, $isListingAPICall = null)
+    {
+
+        switch ($product->site_name) {
+            case 'cb2':
+                return Product::get_CB2_variations($product->product_sku);
+                break;
+            case 'pier1':
+                return Product::get_pier1_variations($product);
+                break;
+            case 'westelm':
+                return Product::get_westelm_variations($product, $wl_v, $isListingAPICall);
+                break;
+            default:
+                return [];
+                break;
+        }
+    }
+
+
+    public static function get_product_details($sku)
+    {
+        $prod = Product::where('product_sku', $sku)
+            ->join("master_brands", "master_data.site_name", "=", "master_brands.value")
+
+            ->get();
+        $westelm_cache_data  = DB::table("westelm_products_skus")
+            ->selectRaw("COUNT(product_id) AS product_count, product_id")
+            ->groupBy("product_id")
+            ->get();
+        $westelm_variations_data = [];
+
+        if (sizeof($westelm_cache_data) > 0) {
+            foreach ($westelm_cache_data as $row) {
+                $westelm_variations_data[$row->product_id] = $row->product_count;
+            }
+        }
+
+        $westelm_cache_data = [];
+
+        $variations = null;
+        if ($prod[0]->site_name === 'westelm') {
+            $variations = null;
+        } else {
+            $variations = Product::get_variations($prod[0]);
+        }
+        return Product::get_details($prod[0], $variations);
+    }
+
+    // sends unique filter values.
+    public static function get_all_variation_filters($sku)
+    {
+        $var = DB::table("westelm_products_skus")
+            ->where("product_id", $sku)
+            //->limit(20)
+            ->get();
+        $variation_filters = [];
+
+        foreach ($var as $prod) {
+            for ($i = 1; $i <= 6; $i++) {
+                $col = "attribute_" . $i;
+                $str = $prod->$col;
+                $str_exp = explode(":", $str);
+                if (isset($str_exp[0]) && isset($str_exp[1])) {
+                    //echo $filter_key . "<br>";
+
+                    $str_exp[0] = preg_replace('/please|Please|select|Select/', '', $str_exp[0]);
+                    // $filter_key = Product::get_filter_key($str_exp[0]);
+                    $filter_key = $col;
+                    $features[$filter_key] = $str_exp[1];
+
+                    // setting array indexes for each filter category 
+                    if (!isset($variation_filters[$filter_key]))
+                        $variation_filters[$filter_key] = [];
+
+                    // saving unique data values for the filter value display
+
+                    $found = false;
+                    //echo sizeof($variation_filters[$filter_key]);
+                    foreach ($variation_filters[$filter_key] as $filter) {
+                        //echo "comparing " . $filter["value"] . " %% " . $str_exp[1] . "<br>";
+                        if (isset($filter["name"])) {
+                            if ($filter["name"] == $str_exp[1]) {
+                                $found = true;
+                                break;
+                            }
+                        }
+                    }
+
+                    if (!$found) {
+
+                        array_push($variation_filters[$filter_key], [
+                            "label" => $str_exp[0],
+                            "name" => $str_exp[1],
+                            "value" => strtolower(preg_replace("' '", "-", $str_exp[1])),
+                            "enabled" => true
+                        ]);
+                    }
+                }
+            }
+        }
+
+        return $variation_filters;
     }
 };

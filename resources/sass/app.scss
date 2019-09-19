@@ -5,6 +5,8 @@
 
 // Variables
 @import "variables";
+// Mixins
+@import "mixins";
 
 // Bootstrap
 @import "~bootstrap/scss/bootstrap";
@@ -32,12 +34,14 @@
 @import "footer";
 @import "listing";
 @import "products-container";
+@import "detailspage";
 @import "carousel";
 @import "rating";
 @import "custom-selectbox";
 @import "custom-rangeslider";
 @import "dropdown";
 @import "searchbar";
+@import "authmodal";
 
 //Slick carousel
 $slick-font-family: "Font Awesome 5 Free";
@@ -50,4 +54,74 @@ $slick-arrow-color: $secondary-color;
 
 html, body {
     font-family: 'Marcellus SC', san-serif;
+}
+
+.-btn{
+    @include primary-button;
+}
+
+.email-pswd-main-div{
+    .-btn{
+        font-size: 16px;
+    }
+}
+
+.register-main-div{
+    .-btn{
+        font-size: 16px;
+    }
+    .col-form-label, .form-control{
+        margin: 10px 0px;
+    }
+}
+
+.privacy-policy, .terms-container, .aboutus{
+    margin: 20px auto;
+}
+
+.aboutus-main-div{
+    background-color: $body-bg-option;
+    .footer{
+        padding: 0px 15px;
+        position: absolute;
+    }
+    .main-heading{
+        color: $primary-color;
+        margin: 30px 0px 20px 0px;
+        font-size: 30px;
+    }
+    .secondary-heading{
+        margin: 25px 0px;
+    }
+    p{
+        margin: 15px 0px;
+        font-size: 18px;
+    }
+}
+
+.socials{
+    .-icon{
+        color: $secondary-color;
+    }
+}
+
+.brand-logos{
+    .-cb2{
+        max-width: 57px;
+    }
+    .-crate{
+        max-width: 141px;
+    }
+    .-pier1{
+        max-width: 107px;
+    }
+    .-westelm{
+        max-width: 127px;
+    }
+    .-worldmarket{
+        max-width: 116px;
+    }
+    .more-soon{
+        max-width: 189px;
+    }
 }

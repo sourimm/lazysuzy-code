@@ -1,166 +1,194 @@
 @media only screen and (min-width: 768px) {
-    .homepage-main-div {
+  .homepage-main-div {
+    .searchbar {
+      &:not(.open) {
+        display: none;
+      }
 
-        .searchbar {
-            &:not(.sb-body) {
-                display: none;
-            }
-
-            &.sb-body {
-                display: block;
-            }
-        }
-
-        .footer {
-            position: absolute;
-            padding: 0px 15px;
-        }
+      &.sb-body {
+        display: block;
+      }
     }
+
+    .footer {
+      position: absolute;
+      padding: 0px 15px;
+    }
+  }
 }
 
-.homepage-main-div{
-    .main {
-        background-color: $background-color;
-        background-image: url("/images/homepage-sofa-img.jpeg");
-        background-size: cover;
-        background-repeat: no-repeat;
-        background-position: center;
-        height: 100vh;
-        width: 100vw;
+@include media-breakpoint-down(md){
+  .homepage-main-div {
+    .searchbar.sb-body{
+      position: relative;
+      top: 0px;
+      display: block; 
+      .card-body{
+        padding: 4px 15px;
+      }
     }
+    .main-container{
+      min-height: auto !important;
+    }
+    .search-icon-mobile{
+      display: none;
+    }
+  }
+}
+
+.homepage-main-div {
+  .main {
+    background-color: $background-color;
+    background-image: url("/images/homepage-sofa-img.jpeg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    height: 100vh;
+    width: 100vw;
+  }
 }
 
 .homepage {
-    .category-links {
-        position: absolute;
-        top: 50vh;
-        width: 100%;
-        padding: 0px 75px;
-        text-align: right;
-
-        .-heading {
-            font-size: 24px;
-            color: $brown-text-color;
-        }
-
-        .-depts {
-            margin: 40px 0px 0px 0px;
-
-            .-dept {
-                padding-left: 30px;
-                font-size: 40px;
-                padding-right: 0px;
-                flex: 1 1 auto;
-
-                a {
-                    color: $yellow-text-color;
-                }
-            }
-        }
+  .category-links {
+    position: absolute;
+    top: 50vh;
+    width: 100%;
+    padding: 0px 75px;
+    text-align: right;
+    @include media-breakpoint-down(md){
+      position: relative;
+      top: 0px;
+      margin-top: 20px;
     }
 
-    .brand-association {
-        background-color: rgba(255, 255, 255, 0.7);
-        position: absolute;
-        bottom: 30px;
-        width: 100%;
-        padding: 10px 30px;
-
-        .-text {
-            font-size: 26px;
-        }
-
-        .brand-logos {
-            padding: 0px 30px;
-
-            .brand-logo {
-                padding-left: 15px;
-                width: 15%;
-
-                &.more-soon {
-                    width: 25%;
-                }
-            }
-        }
-
-        .socials {
-            .-text {
-                font-size: 18px;
-                line-height: 2;
-            }
-
-            .-icon {
-                font-size: 20px;
-                padding: 0px 8px;
-            }
-        }
+    .-heading {
+      font-size: 24px;
+      color: $brown-text-color;
     }
 
-    .search-icon-mobile {
-        display: none;
+    .-depts {
+      margin: 40px 0px 0px 0px;
+
+      .-dept {
+        padding-left: 30px;
+        font-size: 40px;
+        padding-right: 0px;
+        flex: 1 1 auto;
+
+        a {
+          color: $yellow-text-color;
+        }
+      }
     }
+  }
+
+  .brand-association {
+    background-color: rgba(255, 255, 255, 0.7);
+    position: absolute;
+    bottom: 30px;
+    width: 100%;
+    padding: 10px 30px;
+
+    @include media-breakpoint-down(md){
+      position: relative;
+      top: 0px;
+      margin-top: 20px;
+    }
+
+    .-text {
+      font-size: 26px;
+    }
+
+    .brand-logos {
+      padding: 0px 30px;
+
+      .brand-logo {
+        padding-left: 15px;
+        width: 12%;
+
+        &.more-soon {
+          width: 25%;
+        }
+      }
+    }
+
+    .socials {
+      .-text {
+        font-size: 18px;
+        line-height: 2;
+      }
+
+      .-icon {
+        font-size: 20px;
+        padding: 0px 8px;
+      }
+    }
+  }
+
+  .search-icon-mobile {
+    display: none;
+  }
 }
 
 @media only screen and (max-width: 768px) {
-    .homepage-main-div{
-        .main{
-            background-size: contain;
-            background-position: top $navbar-height-mobile left;
-        }
+  .homepage-main-div {
+    .main {
+      background-image: none;
     }
-    .category-links {
-        text-align: left !important;
-        padding: 0px !important;
+  }
+  .category-links {
+    text-align: left !important;
+    padding: 0px !important;
 
-        .-heading {
-            font-size: 14px !important;
-            margin-left: 34px;
-        }
-
-        .-depts {
-            margin-top: 0px !important;
-            max-width: 100%;
-            margin: auto;
-
-            .-dept {
-                padding: 0px 15px !important;
-                height: 30px;
-                background: #FFFFF9;
-                border-radius: 4px;
-                text-align: center;
-                border: 1px solid $border-color;
-
-                a {
-                    display: block;
-                    font-size: 18px;
-                    color: $secondary-color !important;
-                }
-            }
-        }
+    .-heading {
+      font-size: 14px !important;
+      margin-left: 34px;
     }
 
-    .brand-association {
-        padding: 0px 34px !important;
-        top: 73vh;
+    .-depts {
+      margin-top: 0px !important;
+      max-width: 100%;
+      margin: auto;
 
-        .-text {
-            font-size: 14px !important;
-            color: $brown-text-color;
-            margin-bottom: 20px;
+      .-dept {
+        padding: 0px 15px !important;
+        height: 30px;
+        background: #fffff9;
+        border-radius: 4px;
+        text-align: center;
+        border: 1px solid $border-color;
+
+        a {
+          display: block;
+          font-size: 18px;
+          color: $secondary-color !important;
         }
-
-        .socials {
-            display: none;
-        }
-
-        .brand-logos {
-            .brand-logo {
-                width: 20% !important;
-
-                &.more-soon {
-                    width: 30% !important;
-                }
-            }
-        }
+      }
     }
+  }
+
+  .brand-association {
+    padding: 0px 34px !important;
+    top: 73vh;
+
+    .-text {
+      font-size: 14px !important;
+      color: $brown-text-color;
+      margin-bottom: 20px;
+    }
+
+    .socials {
+      display: none;
+    }
+
+    .brand-logos {
+      .brand-logo {
+        width: 20% !important;
+
+        &.more-soon {
+          width: 30% !important;
+        }
+      }
+    }
+  }
 }

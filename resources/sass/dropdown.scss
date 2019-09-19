@@ -35,7 +35,24 @@
 }
 
 .dropdown-submenu{
+
+    @media only screen and (min-width: 768px) {
+        a{
+            padding: 0px;
+        }
+    }
     .dropdown-menu{
         left: 100%;
     }
 }
+
+.dropdown:hover > .dropdown-menu {
+    display: block;
+    margin-top: -4px; // remove the gap so it doesn't close
+ }
+
+//  .dropdown-submenu a:hover{
+//      + .dropdown-menu{
+//         display: block;
+//      }
+//  }
