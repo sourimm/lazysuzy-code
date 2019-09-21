@@ -11,7 +11,7 @@ use PhpParser\Node\Expr\Variable;
 
 class Variations extends Model
 {
-    public static $base_siteurl = 'http://www.lazysuzy.com';
+    public static $base_siteurl = 'https://www.lazysuzy.com';
     public static $col_mapper = [
         "color" => "attribute_1",
         "fabric" => "attribute_2",

@@ -11,7 +11,7 @@ use Auth;
 class Product extends Model
 {
     protected $table = "master_data";
-    public static $base_siteurl = 'http://www.lazysuzy.com';
+    public static $base_siteurl = 'https://www.lazysuzy.com';
     static $count = 0;
 
     public static function get_LS_IDs($dept, $cat = null)
