@@ -27,7 +27,7 @@ function getQueryStringParameters(url) {
 
 $(document).ready(function () {
 
-    const LISTING_API_PATH = 'https://lazysuzy.com:9200/products/_search';
+    const LISTING_API_PATH = 'https://www.lazysuzy.com:9200/products/_search';
     const LISTING_FILTER_API_PATH = location.origin+ '/api/products/living';
     const DEPT_API = '/api/all-departments';
     const FAV_MARK_API = '/api/mark/favourite/';
