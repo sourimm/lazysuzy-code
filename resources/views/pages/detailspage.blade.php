@@ -1,5 +1,4 @@
 @extends('layouts.layout', ['body_class' => 'detailspage-main-div'])
-
 @section('middle_content')
     <div class="detailspage" id="detailPage">
         @include('./partials/subnav')
@@ -15,7 +14,7 @@
         </div>
         <div class="-images-container"><div class="-images"></div></div>
 
-        <div class="row container">
+        <div class="row container box">
             <div class="prod-desc col-12 col-md-9">
                 <div class="-variations-carousel col-12"></div>
                 <div class="row">
