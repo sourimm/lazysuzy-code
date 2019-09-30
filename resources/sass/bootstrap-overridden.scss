@@ -1,6 +1,10 @@
 .row {
     max-width: 100%;
     margin: 0px;
+
+    .container {
+        padding: 0 200px;
+    }
 }
 
 .breadcrumb {
@@ -18,10 +22,10 @@
     }
 }
 
-@media only screen and (max-width: 480px){
+@media only screen and (max-width: 480px) {
     .breadcrumb {
-        .breadcrumb-item{
-            font-size: 12px;        
+        .breadcrumb-item {
+            font-size: 12px;
             &.active {
                 color: $secondary-color;
             }
@@ -29,6 +33,6 @@
     }
 }
 
-.card .card-header{
+.card .card-header {
     color: $primary-color;
 }
