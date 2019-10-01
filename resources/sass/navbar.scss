@@ -1,13 +1,13 @@
 .navbar {
     height: $navbar-height;
-    background-color: rgba(255, 255, 255, 0.3) !important;
+    background-color: $secondary-color !important;
     color: $secondary-color;
     font-size: 18px;
 
     // padding: 10px 75px;
 
     .logo {
-        max-width: 210px;    
+        max-width: 210px;
         padding-left: 24px;
 
         @media only screen and (max-width: 768px) {
@@ -26,30 +26,32 @@
             }
         }
 
-        & > li:not(.nav-item) > a{
-            &:hover, &:active, &:focus{
+        & > li:not(.nav-item) > a {
+            &:hover,
+            &:active,
+            &:focus {
                 text-decoration: none;
                 background-color: $primary-color !important;
             }
         }
-        & > li.-username{
-            a{
+        & > li.-username {
+            a {
                 color: $font-color-black;
-                .fa-sign-out{
+                .fa-sign-out {
                     margin: 7px;
                 }
             }
         }
     }
 
-    .navbar-toggler{
-        .-bars{
+    .navbar-toggler {
+        .-bars {
             color: $primary-color;
             font-size: 30px;
         }
     }
 
-    .-right{
+    .-right {
         display: flex;
         flex-grow: 1;
     }
@@ -61,12 +63,12 @@
         height: $navbar-height-mobile;
         padding-top: 0px;
         padding-bottom: 0px;
-        .logo{
+        .logo {
             padding-left: 0px;
         }
-        .navbar-toggler{
+        .navbar-toggler {
             padding-left: 0px;
-            .-bars{
+            .-bars {
                 font-size: 18px;
             }
         }
@@ -75,8 +77,10 @@
             margin: auto;
         }
 
-        .nav-item.mobile-some-icons{
-            .user-icon, .search-icon-mobile, .wishlist-icon{
+        .nav-item.mobile-some-icons {
+            .user-icon,
+            .search-icon-mobile,
+            .wishlist-icon {
                 padding: 0px;
                 font-size: 18px;
                 color: $primary-color;
