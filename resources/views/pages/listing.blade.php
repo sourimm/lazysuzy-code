@@ -1,8 +1,9 @@
 @extends('layouts.layout', ['body_class' => 'listing-main-div'])
 
 @section('middle_content')
+@include('./partials/subnav')
     <div class="listing">
-        @include('./partials/subnav')
+       
         <div class="listing-container main-container container">
             <div class="d-none d-md-block">
                 {{ Breadcrumbs::render('products') }}
