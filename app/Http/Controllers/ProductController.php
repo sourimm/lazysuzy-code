@@ -15,6 +15,9 @@ class ProductController extends Controller
         $departments = Department::all();
         $products = Product::paginate(20);
         $categories = DepartmentMapping::get();
+        if ($request->dept=='living' &&$request->cat== '') {
+            return view('pages.category');
+        }
         if ($request->ajax()) {
             return $products;
         }
