@@ -288,14 +288,23 @@
     .btn.btn-link {
         width: 100%;
         text-align: left;
+<<<<<<< HEAD
 
         &:hover {
             color: $golden;
+=======
+        &:hover {
+            color: $primary-color;
+>>>>>>> tester
         }
         .-text {
             color: $primary-color;
             &:hover {
+<<<<<<< HEAD
                 color: $golden;
+=======
+                color: $primary-color;
+>>>>>>> tester
             }
             &:after {
                 content: '';
@@ -339,11 +348,16 @@
         border-radius: 10px;
     }
     ::-webkit-scrollbar-thumb {
+<<<<<<< HEAD
         background: #ffcc00;
+=======
+        background: $golden;
+>>>>>>> tester
         border-radius: 10px;
     }
 
     ::-webkit-scrollbar-thumb:hover {
+<<<<<<< HEAD
         background: #ffcc00ba;
     }
 }
@@ -363,5 +377,8 @@
         border: 5px solid transparent;
         border-color: $primary-color transparent transparent transparent;
         font-size: 14px;
+=======
+        background: $yellow;
+>>>>>>> tester
     }
 }
