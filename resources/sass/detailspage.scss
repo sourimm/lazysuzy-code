@@ -279,16 +279,23 @@
 
 .card .card-header {
     background: $secondary-color;
+
+    .btn-link {
+        &:hover {
+            text-decoration: none;
+        }
+    }
     .btn.btn-link {
         width: 100%;
         text-align: left;
+
         &:hover {
-            color: $primary-color;
+            color: $golden;
         }
         .-text {
             color: $primary-color;
             &:hover {
-                color: $primary-color;
+                color: $golden;
             }
             &:after {
                 content: '';
@@ -332,11 +339,29 @@
         border-radius: 10px;
     }
     ::-webkit-scrollbar-thumb {
-        background: $golden;
+        background: #ffcc00;
         border-radius: 10px;
     }
 
     ::-webkit-scrollbar-thumb:hover {
-        background: $yellow;
+        background: #ffcc00ba;
+    }
+}
+.btn-link-text {
+    font-size: 14px;
+    background: none;
+    border: none;
+    margin: 0;
+    padding: 0;
+    cursor: pointer;
+    &:after {
+        content: '>';
+        background: none;
+        margin: 0;
+        padding: 0;
+        cursor: pointer;
+        border: 5px solid transparent;
+        border-color: $primary-color transparent transparent transparent;
+        font-size: 14px;
     }
 }

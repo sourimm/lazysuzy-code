@@ -183,7 +183,17 @@ input:disabled + .checkmark + .text {
         }
     }
 }
-
+.category-img {
+    width: 300px;
+    margin: 20px 0;
+}
+.category-img-container {
+    margin: 0 100px;
+}
+.category-text {
+    text-align: center;
+    font-size: 25px;
+}
 @media only screen and (max-width: 768px) {
     .listing {
         .searchbar {
