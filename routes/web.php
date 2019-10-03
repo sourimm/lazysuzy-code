@@ -13,6 +13,7 @@
 
 Route::get('/', 'HomeController@index')->name('index');
 Route::get('/products/{dept}/{cat?}', 'ProductController@index')->name('products');
+Route::get('/products/{dept}', 'ProductController@index')->name('categories');
 Route::get('/product/{sku}', 'PdpController@index')->name('index');
 Route::get('/login', 'Auth\LoginController@index')->name('signup');
 Route::get('/wishlist', function () {
@@ -29,6 +30,9 @@ Route::get('/termsofservice', function () {
 });
 Route::get('/aboutus', function () {
     return view('pages.aboutus');
+});
+Route::get('/category', function () {
+    return view('pages.category');
 });
 
 Auth::routes();
@@ -51,6 +55,7 @@ Route::get('/api/all-departments', 'DepartmentController@index')->name('get_all_
 Route::get('/api/departments/{dept}', 'DepartmentController@get_department')->name('get_department');
 Route::get('/api/categories', 'CategoryController@get_all_categories')->name('get_category');
 Route::get('/api/products/{dept}/{cat?}/{subCat?}', 'API@filter_products')->name('get-products');
+Route::get('/api/products/{dept}/{cat}', 'API@filter_products')->name('category');
 Route::get('/api/product/{sku}', 'API@get_product_details')->name('get-product-details');
 
 // has a filter attached. request has format attribute_1=<val>&attribute_2=<val> and so on...

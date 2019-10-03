@@ -4,7 +4,7 @@
         @include('./partials/subnav')
 
         <div class="d-block d-md-none controls-div">
-            
+
             <div class="wishlist-icon float-right m-10" id="wishlistBtn">
                 <i class="far fa-heart -icon"></i>
             </div>
@@ -21,12 +21,12 @@
                     <div class="prod-main-img col-12 col-md-5 order-md-last">
                     </div>
                     <div class="col-12 col-md-7">
-                        <h2 class="-name">product name</h2>            
+                        <h2 class="-name">product name</h2>
                         <div class="wishlist-icon float-right m-10" id="wishlistBtnDesktop">
                             <i class="far fa-heart -icon"></i>
                         </div>
                         <div class="rating-container"><div class="rating"></div><span class="total-ratings"></span></div>
-                        
+
                         <p class="-desc d-none d-md-block"></p>
                         <div class="d-none d-md-block">
                             <div class="accordion" id="accordionExample">
