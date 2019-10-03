@@ -182,6 +182,10 @@ class Product extends Model
                 $query = $query->orderBy('popularity', 'desc');
             }
         }
+        // set default sorting to popularity
+        else {
+            $query = $query->orderBy('popularity', 'desc');
+        }
 
         // 6. limit
         $all_filters['limit'] = $limit;
