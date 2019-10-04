@@ -196,6 +196,12 @@ input:disabled + .checkmark + .text {
 .category-text {
     text-align: center;
     font-size: 25px;
+    text-decoration: none;
+    color: $secondary-color;
+    &:hover {
+        text-decoration: none;
+        color: $primary-color;
+    }
 }
 @media only screen and (max-width: 768px) {
     .listing {
