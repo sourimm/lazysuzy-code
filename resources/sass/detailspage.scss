@@ -1,5 +1,6 @@
 .detailspage-main-div {
     // font-family: Helvetica, sans-serif;
+
     .detailspage {
         .wishlist-icon {
             @include media-breakpoint-up(md) {
@@ -183,8 +184,12 @@
         }
 
         .brand-association {
-            padding: 0px 20px;
+            padding: 10px 20px;
             font-family: 'Marcellus SC', san-serif;
+            background-color: $grey !important;
+            margin-top: 60px;
+            margin-bottom: 10px;
+
             .-text {
                 font-size: 26px;
                 font-weight: 600;

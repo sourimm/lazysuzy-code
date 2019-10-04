@@ -27,7 +27,7 @@
                 </a>
             </div>
             <div class="col-3 category-text">
-            <a class="category-text" href="products/bedroom/beds">
+            <a class="category-text" href="/products/living/loveseat">
                 <img class="category-img" src="/images/product-category/Loveseat.jpg" alt="BookSelf" >
                 <span>Loveseats & Daybeds</span>
 </a>
@@ -40,7 +40,7 @@
             </div>
 
              <div class="col-3 category-text">
-             <a class="category-text" href="products/bedroom/seating">
+             <a class="category-text" href="/products/living/ottomans">
                 <img class="category-img" src="/images/product-category/Ottoman.jpg" alt="Ottoman" >
                 <span> Ottoman, Poufs & Stools</span>
 </a>
