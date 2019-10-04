@@ -1,5 +1,6 @@
 .detailspage-main-div {
     // font-family: Helvetica, sans-serif;
+
     .detailspage {
         .wishlist-icon {
             @include media-breakpoint-up(md) {
@@ -183,8 +184,12 @@
         }
 
         .brand-association {
-            padding: 0px 20px;
+            padding: 10px 20px;
             font-family: 'Marcellus SC', san-serif;
+            background-color: $grey !important;
+            margin-top: 60px;
+            margin-bottom: 10px;
+
             .-text {
                 font-size: 26px;
                 font-weight: 600;
@@ -288,23 +293,14 @@
     .btn.btn-link {
         width: 100%;
         text-align: left;
-<<<<<<< HEAD
 
         &:hover {
             color: $golden;
-=======
-        &:hover {
-            color: $primary-color;
->>>>>>> tester
         }
         .-text {
             color: $primary-color;
             &:hover {
-<<<<<<< HEAD
                 color: $golden;
-=======
-                color: $primary-color;
->>>>>>> tester
             }
             &:after {
                 content: '';
@@ -348,16 +344,11 @@
         border-radius: 10px;
     }
     ::-webkit-scrollbar-thumb {
-<<<<<<< HEAD
         background: #ffcc00;
-=======
-        background: $golden;
->>>>>>> tester
         border-radius: 10px;
     }
 
     ::-webkit-scrollbar-thumb:hover {
-<<<<<<< HEAD
         background: #ffcc00ba;
     }
 }
@@ -377,8 +368,6 @@
         border: 5px solid transparent;
         border-color: $primary-color transparent transparent transparent;
         font-size: 14px;
-=======
         background: $yellow;
->>>>>>> tester
     }
 }
