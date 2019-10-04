@@ -3,7 +3,9 @@
 //         top: 8px;
 //     }
 // }
-
+.-features {
+    text-transform: lowercase;
+}
 input:disabled + .checkmark,
 input:disabled + .checkmark + .text {
     color: #ccc;
@@ -185,6 +187,7 @@ input:disabled + .checkmark + .text {
 }
 .category-img {
     width: 300px;
+    padding: 0 40px;
     margin: 20px 0;
 }
 .category-img-container {
