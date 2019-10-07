@@ -15,7 +15,7 @@
          <div class="category-img-container">
              <div class="row">
              @foreach ($listedCategories as $category)
-                <div class="col-3 category-text">
+                <div class="col-sm-3 col-xs-6 category-text">
                     <a class="category-text" href="{{$category['link']}}">
                         <img class="category-img" src="{{$category['image']}}" alt="{{$category['category']}}" >
                         <div><span>{{$category['category']}}</span></div>

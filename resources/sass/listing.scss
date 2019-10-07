@@ -190,7 +190,8 @@ input:disabled + .checkmark + .text {
     margin: 20px 0;
 }
 .category-img-container {
-    margin: 0 100px;
+    max-width: 1080px;
+    margin: 0 auto;
 }
 .category-text {
     text-align: center;
