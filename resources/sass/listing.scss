@@ -187,21 +187,19 @@ input:disabled + .checkmark + .text {
 }
 .category-img {
     width: 220px;
-    padding: 0 40px;
     margin: 20px 0;
 }
 .category-img-container {
-    margin: 0 100px;
+    max-width: 1080px;
+    margin: 0 auto;
 }
 .category-text {
     text-align: center;
-    font-size: 25px;
+    font-size: 20px;
     text-decoration: none;
     color: $secondary-color;
-    &:hover {
-        text-decoration: none;
-        color: $primary-color;
-    }
+    margin-bottom: 40px;
+
 }
 @media only screen and (max-width: 768px) {
     .listing {

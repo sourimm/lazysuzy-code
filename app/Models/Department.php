@@ -56,13 +56,15 @@ class Department extends Model
             array_push($c_cat, [
                 'category'       => $category['category'],
                 'LS_ID'          => $category['LS_ID'],
+                'image'          => $category['image'],
+                'link'          => $category['link'],
                 'sub_categories' => $sub_categories,
             ]);
         }
         return [
             'department' => $dept,
             'LS_ID'      => $dept_LS_ID,
-            'catgories'  => $c_cat,
+            'categories'  => $c_cat,
         ];
     }
 }
