@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Category extends Model
 {
     protected $table = "mapping_core";
-    protected $base_site = "https://lazysuzy.com";
+    protected static $base_site = "https://lazysuzy.com";
     protected $listing_base_url = "/products";
 
     public static function get_categories($dept = null)
@@ -20,7 +20,7 @@ class Category extends Model
             $dept = strtolower(trim($_GET['dept']));
         }
 
-        $rows = Category::select(['product_category', 'product_category_', 
+        $rows = Category::select(['product_category', 'product_category_',
             'category_image','LS_ID'])
             ->where('department_', $dept)
             ->whereRaw('LENGTH(product_category) != 0 AND LENGTH(product_sub_category) = 0')
@@ -32,12 +32,11 @@ class Category extends Model
             array_push($c_cat, [
                 'category' => $row['product_category'],
                 'LS_ID' => $row['LS_ID'],
-                'image' => Category::$base_site . '/' . $row['category_image'],
-                'link' => $listing_base_url . '/' . strtolower($dept) . '/' . strtolower($row['product_category_']),   
+                'image' =>  $row['category_image'],
+                'link' => $listing_base_url . '/' . strtolower($dept) . '/' . strtolower($row['product_category_']),
                 'sub_categories' => $sub_categories
             ]);
         }
-
         return $c_cat;
     }
 }
