@@ -5,6 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Input;
+use App\Models\Dimension;
+
 use Auth;
 
 
@@ -181,6 +183,10 @@ class Product extends Model
             } else if ($sort_type == $POPULARITY) {
                 $query = $query->orderBy('popularity', 'desc');
             }
+        }
+        // set default sorting to popularity
+        else {
+            $query = $query->orderBy('popularity', 'desc');
         }
 
         // 6. limit
