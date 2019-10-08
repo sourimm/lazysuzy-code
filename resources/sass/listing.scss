@@ -186,7 +186,8 @@ input:disabled + .checkmark + .text {
     }
 }
 .category-img {
-    width: 220px;
+    width:100%;
+    max-width: 220px;
     margin: 20px 0;
 }
 .category-img-container {
@@ -199,6 +200,10 @@ input:disabled + .checkmark + .text {
     text-decoration: none;
     color: $secondary-color;
     margin-bottom: 40px;
+
+    &:hover {
+        text-decoration: none;
+    }
 
 }
 @media only screen and (max-width: 768px) {
