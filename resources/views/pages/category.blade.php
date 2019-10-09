@@ -1,6 +1,6 @@
-@extends('layouts.layout', ['body_class' => 'detailspage-main-div'])
+@extends('layouts.layout', ['body_class' => 'categorypage-main-div'])
 @section('middle_content')
-    <div class="detailspage" id="detailPage">
+    <div class="categorypage" id="categorypage">
         @include('./partials/subnav')
 
         <div class="d-block d-md-none controls-div">
@@ -15,26 +15,15 @@
          <div class="category-img-container">
              <div class="row">
              @foreach ($listedCategories as $category)
-                <div class="col-sm-3 col-xs-6 category-text">
+                <div class="col-sm-3 col-6 category-text">
                     <a class="category-text" href="{{$category['link']}}">
                         <img class="category-img" src="{{$category['image']}}" alt="{{$category['category']}}" >
                         <div><span>{{$category['category']}}</span></div>
                     </a>
                 </div>
             @endforeach
-
-
          </div>
          </div>
-
-
-
-
-
         @include('./partials/brandassociation')
     </div>
 @endsection
-
-@push('pageSpecificScripts')
-    <script src="{{ mix('js/detailspage.js')}}"></script>
-@endpush
