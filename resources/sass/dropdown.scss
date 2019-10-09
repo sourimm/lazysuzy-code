@@ -12,6 +12,11 @@
         text-align: left;
         // max-width: 100px !important;
         // width: 100px !important;
+        width: 275px;
+        a:hover {
+            text-decoration: none;
+            color: $primary-color;
+        }
 
         @media only screen and (max-width: 480px) {
         }
