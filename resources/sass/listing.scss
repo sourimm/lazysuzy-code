@@ -34,7 +34,8 @@ input:disabled + .checkmark + .text {
             width: 180px;
             margin-top: 45px;
             text-align: center;
-            overflow: auto;
+            overflow-y: auto;
+            overflow-x: hidden;
             padding: 20px;
 
             @media only screen and (min-width: 768px) {
@@ -193,6 +194,7 @@ input:disabled + .checkmark + .text {
 .category-img-container {
     max-width: 1080px;
     margin: 0 auto;
+    min-height: 400px;
 }
 .category-text {
     text-align: center;
