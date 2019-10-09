@@ -135,3 +135,26 @@ body {
         margin: 0 20px;
     }
 }
+
+.brand-association {
+    padding: 10px 20px;
+    font-family: 'Marcellus SC', san-serif;
+    background-color: $grey !important;
+    margin-top: 60px;
+    margin-bottom: 10px;
+
+    .-text {
+        font-size: 26px;
+        font-weight: 600;
+    }
+    .brand-logos {
+        .brand-logo {
+            max-width: 100px;
+        }
+    }
+    .socials {
+        .-icons {
+            font-size: 22px;
+        }
+    }
+}
