@@ -19,7 +19,11 @@ class ProductController extends Controller
         $departmentName = $singleDepartment['department'];
         $listedCategories = $singleDepartment['categories'];
 
+<<<<<<< HEAD
         if ($request->dept!=''&&$request->cat== '') {
+=======
+        if (($request->dept!=''&& $request->dept!='mirrors')&&$request->cat== '') {
+>>>>>>> shadow
             return view('pages.category', compact('departmentName', 'listedCategories'));
         }
         if ($request->ajax()) {
