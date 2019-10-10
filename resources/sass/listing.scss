@@ -221,6 +221,13 @@ input:disabled + .checkmark + .text {
         .listing-container {
             .listing-top-controls {
                 position: absolute;
+            }
+        }
+    }
+    .listing,.category-page {
+        .listing-container {
+            .listing-top-controls {
+                position: relative;
                 width: 100%;
                 height: $listing-top-ctrl-height;
 

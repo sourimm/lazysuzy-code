@@ -1,12 +1,10 @@
 @extends('layouts.layout', ['body_class' => 'categorypage-main-div'])
 @section('middle_content')
 @include('./partials/subnav')
-{{ Breadcrumbs::render('products') }}
-<div class="categorypage" id="categorypage">
-    <div class="d-block d-md-none controls-div">
-    <div class="d-none d-md-block">
-                {{ Breadcrumbs::render('products') }}
-            </div>
+
+<div class="category-page" id="categorypage">
+    <div class="listing-container category-img-container">
+
                 <div class="listing-top-controls d-block d-md-none">
                     <div class="dropdown show float-left">
                         <a class="dropdown-toggle" href="#" role="button" id="dropdownMobileListing" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -28,6 +26,7 @@
                             <li><a class="dropdown-item" href="#">Remaining</a></li>
                         </ul>
                     </div>
+                    {{ Breadcrumbs::render('products') }}
                     <!-- <span class="filter-toggle float-right" id="filterToggleBtn">
                         <i class="fas fa-filter"></i>
                     </span>
@@ -41,8 +40,6 @@
             <div class="filter-toggle float-right m-10" id="filterToggleBtn">
                 <i class="fas fa-filter -icon"></i>
             </div> -->
-        </div>
-         <div class="category-img-container">
              <div class="row">
              @foreach ($listedCategories as $category)
                 <div class="col-sm-3 col-6 category-text">
