@@ -13,6 +13,7 @@ input:disabled + .checkmark + .text {
 }
 
 .listing {
+    white-space: nowrap;
     .slick-prev,
     .slick-next {
         &:before {
@@ -187,7 +188,7 @@ input:disabled + .checkmark + .text {
     }
 }
 .category-img {
-    width:100%;
+    width: 100%;
     max-width: 220px;
     margin: 20px 0;
 }
@@ -206,7 +207,6 @@ input:disabled + .checkmark + .text {
     &:hover {
         text-decoration: none;
     }
-
 }
 @media only screen and (max-width: 768px) {
     .listing {
@@ -217,7 +217,8 @@ input:disabled + .checkmark + .text {
 }
 
 @media only screen and (max-width: 480px) {
-    .listing {
+    .listing,
+    .category-page {
         .listing-container {
             .listing-top-controls {
                 position: absolute;
@@ -390,4 +391,7 @@ input:disabled + .checkmark + .text {
         margin-left: 0.1rem;
         margin-right: 0.1rem;
     }
+}
+.submenu-dropdown {
+    padding: 10px;
 }
