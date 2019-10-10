@@ -154,9 +154,9 @@ class Product extends Model
 
             if (
                 isset($all_filters['colors']) 
-                && streln($all_filters['colors']) > 0) {
+                && strlen($all_filters['colors'][0]) > 0) {
                 $query = $query
-                    ->whereRaw('color REGEXP "' . $$all_filters['colors']);
+                    ->whereRaw('color REGEXP "' . $all_filters['colors'][0] . '"');
                     // input in form - color1|color2|color3
             }
         }
@@ -332,9 +332,9 @@ class Product extends Model
             "white" => false,
         ];
 
-        foreach($colors as $color) {
-            $colors[$color] = [
-                'name' => ucfirst($color),
+        foreach($colors as $key => $color) {
+            $colors[$key] = [
+                'name' => ucfirst($key),
                 'enabled' => false
             ];
         }
