@@ -1,13 +1,5 @@
 @extends('layouts.layout', ['body_class' => 'categorypage-main-div'])
 @section('middle_content')
-<<<<<<< HEAD
-    <div class="categorypage" id="categorypage">
-        @include('./partials/subnav')
-
-        <div class="d-block d-md-none controls-div">
-
-            <div class="wishlist-icon float-right m-10" id="wishlistBtn">
-=======
 @include('./partials/subnav')
 
 <div class="category-page" id="categorypage">
@@ -43,7 +35,6 @@
                     </span> -->
                 </div>
             <!-- <div class="wishlist-icon float-right m-10" id="wishlistBtn">
->>>>>>> shadow
                 <i class="far fa-heart -icon"></i>
             </div>
             <div class="filter-toggle float-right m-10" id="filterToggleBtn">
@@ -63,9 +54,6 @@
         @include('./partials/brandassociation')
     </div>
 @endsection
-<<<<<<< HEAD
-=======
 @push('pageSpecificScripts')
     <script src="{{ mix('js/listing.js')}}"></script>
-    @endpush
->>>>>>> shadow
+@endpush
