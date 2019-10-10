@@ -151,6 +151,14 @@ class Product extends Model
                 $query = $query
                     ->whereRaw('max_price <= ' . $all_filters['price_to'][0] . '');
             }
+
+            if (
+                isset($all_filters['colors']) 
+                && streln($all_filters['colors']) > 0) {
+                $query = $query
+                    ->whereRaw('color REGEXP "' . $$all_filters['colors']);
+                    // input in form - color1|color2|color3
+            }
         }
 
         // 4. type
@@ -304,8 +312,53 @@ class Product extends Model
         }
     }
 
-    public static function get_product_type_filter($dept, $cat, $subCat, $all_filters)
+    public static function get_color_filter($products) 
     {
+        $colors = [
+            "black" => false,
+            "blue" => false,
+            "brown" => false,
+            "clear" => false,
+            "copper" => false,
+            "gold" => false,
+            "green" => false,
+            "grey" => false,
+            "multicolor" => false,
+            "pink" => false,
+            "purple" => false,
+            "red" => false,
+            "silver" => false,
+            "tan" => false,
+            "white" => false,
+        ];
+
+        foreach($colors as $color) {
+            $colors[$color] = [
+                'name' => ucfirst($color),
+                'enabled' => false
+            ];
+        }
+        foreach($products as $product) {
+            $product_colors = explode(",", $product->color);
+            foreach($product_colors as $p_color) {
+                if (strlen($p_color) > 0 && array_key_exists(strtolower($p_color), $colors)) {
+                    $colors[strtolower($p_color)] = [
+                        'name' => ucfirst($p_color),
+                        'enabled' => true
+                    ];
+                } 
+            }
+        }
+
+        $colors_f = [];
+        foreach($colors as $key => $color) {
+            array_push($colors_f, $color);
+        }
+        
+        return $colors_f;
+    }
+    public static function get_sub_cat_data($dept, $cat) {
+        
         $sub_cat_LS_IDs = DB::table("mapping_core")
             ->select(["product_sub_category", "product_sub_category_", "LS_ID"])
             ->where("department_", $dept);
@@ -313,8 +366,11 @@ class Product extends Model
         if ($cat != null)
             $sub_cat_LS_IDs = $sub_cat_LS_IDs->where("product_category_", $cat);
 
-        $sub_cat_LS_IDs = $sub_cat_LS_IDs->whereRaw("LENGTH(product_sub_category_) != 0")->get();
+        return $sub_cat_LS_IDs->whereRaw("LENGTH(product_sub_category_) != 0")->get();
 
+    }
+    public static function get_filter_products_meta($dept, $cat, $subCat, $all_filters) {
+        
         $LS_IDs = Product::get_dept_cat_LS_ID_arr($dept, $cat);
 
 
@@ -328,16 +384,25 @@ class Product extends Model
         }
 
         $products = DB::table("master_data")
-            ->select("LS_ID")
+            ->select(['LS_ID', 'color'])
             ->whereRaw('LS_ID REGEXP "' . implode("|", $LS_IDs) . '"');
 
         if (isset($all_filters['brand_names']) && strlen($all_filters['brand_names'][0]) > 0) {
             $products = $products->whereIn('site_name', $all_filters['brand_names']);
         }
 
-        $products = $products->get();
+     return $products->get();
+
+    }
+
+    public static function get_product_type_filter($dept, $cat, $subCat, $all_filters)
+    {
+       
+        $products = Product::get_filter_products_meta($dept, $cat, $subCat, $all_filters);
 
         $sub_cat_arr = [];
+
+        $sub_cat_LS_IDs = Product::get_sub_cat_data($dept, $cat);
 
         foreach ($sub_cat_LS_IDs as $cat) {
             $selected = false;
@@ -375,8 +440,12 @@ class Product extends Model
             array_push($arr, $value);
         }
 
-        return $arr;
+        return [
+            'colorFilter' => Product::get_color_filter($products),
+            'productTypeFilter' => $arr
+        ];
     }
+
     public static function getProductObj($products, $all_filters, $dept, $cat, $subCat, $isListingAPICall = null)
     {
         $p_send              = [];
@@ -432,11 +501,14 @@ class Product extends Model
 
         $brand_holder = Product::get_brands_filter($dept, $cat, $all_filters);
         $price_holder = Product::get_price_filter($dept, $cat, $all_filters);
-        $product_type_holder = Product::get_product_type_filter($dept, $cat, $subCat, $all_filters);
+        $product_type_holder = Product::get_product_type_filter($dept, $cat, $subCat, $all_filters)['productTypeFilter'];
+        $color_filter = Product::get_product_type_filter($dept, $cat, $subCat, $all_filters)['colorFilter'];
+
         $filter_data = [
             "brand_names"  => $brand_holder,
             "price"        => $price_holder,
             "product_type" => $product_type_holder,
+            'colors' => $color_filter
         ];
 
 
