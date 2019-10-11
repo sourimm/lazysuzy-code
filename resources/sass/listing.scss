@@ -23,8 +23,8 @@ input:disabled + .checkmark + .text {
 
     .listing-container {
         margin-top: 35px;
-        margin: auto;
         padding: 0px;
+        margin: auto;
 
         @media only screen and (min-width: 1200px) {
             max-width: 75%;
@@ -34,8 +34,10 @@ input:disabled + .checkmark + .text {
             width: 180px;
             margin-top: 45px;
             text-align: center;
-            overflow: auto;
+            overflow-y: auto;
+            overflow-x: hidden;
             padding: 20px;
+            white-space: nowrap;
 
             @media only screen and (min-width: 768px) {
                 position: sticky;
@@ -186,11 +188,14 @@ input:disabled + .checkmark + .text {
     }
 }
 .category-img {
-    width: 220px;
+    width: 100%;
+    max-width: 220px;
     margin: 20px 0;
 }
 .category-img-container {
-    margin: 0 100px;
+    max-width: 1080px;
+    margin: 0 auto;
+    min-height: 60px;
 }
 .category-text {
     text-align: center;
@@ -199,6 +204,9 @@ input:disabled + .checkmark + .text {
     color: $secondary-color;
     margin-bottom: 40px;
 
+    &:hover {
+        text-decoration: none;
+    }
 }
 @media only screen and (max-width: 768px) {
     .listing {
@@ -209,10 +217,19 @@ input:disabled + .checkmark + .text {
 }
 
 @media only screen and (max-width: 480px) {
-    .listing {
+    .listing,
+    .category-page {
         .listing-container {
             .listing-top-controls {
                 position: absolute;
+            }
+        }
+    }
+    .listing,
+    .category-page {
+        .listing-container {
+            .listing-top-controls {
+                position: relative;
                 width: 100%;
                 height: $listing-top-ctrl-height;
 
@@ -382,4 +399,7 @@ input:disabled + .checkmark + .text {
         margin-left: 0.1rem;
         margin-right: 0.1rem;
     }
+}
+.submenu-dropdown {
+    padding: 10px;
 }
