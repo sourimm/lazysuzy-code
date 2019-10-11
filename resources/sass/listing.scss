@@ -13,7 +13,6 @@ input:disabled + .checkmark + .text {
 }
 
 .listing {
-    white-space: nowrap;
     .slick-prev,
     .slick-next {
         &:before {
@@ -24,8 +23,8 @@ input:disabled + .checkmark + .text {
 
     .listing-container {
         margin-top: 35px;
-        margin: auto;
         padding: 0px;
+        margin: auto;
 
         @media only screen and (min-width: 1200px) {
             max-width: 75%;
@@ -38,6 +37,7 @@ input:disabled + .checkmark + .text {
             overflow-y: auto;
             overflow-x: hidden;
             padding: 20px;
+            white-space: nowrap;
 
             @media only screen and (min-width: 768px) {
                 position: sticky;
@@ -195,7 +195,7 @@ input:disabled + .checkmark + .text {
 .category-img-container {
     max-width: 1080px;
     margin: 0 auto;
-    min-height: 400px;
+    min-height: 60px;
 }
 .category-text {
     text-align: center;
@@ -225,7 +225,8 @@ input:disabled + .checkmark + .text {
             }
         }
     }
-    .listing,.category-page {
+    .listing,
+    .category-page {
         .listing-container {
             .listing-top-controls {
                 position: relative;
