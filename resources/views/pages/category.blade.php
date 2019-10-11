@@ -56,4 +56,4 @@
 @endsection
 @push('pageSpecificScripts')
     <script src="{{ mix('js/listing.js')}}"></script>
-    @endpush
+@endpush
