@@ -13,7 +13,6 @@ input:disabled + .checkmark + .text {
 }
 
 .listing {
-    white-space: nowrap;
     .slick-prev,
     .slick-next {
         &:before {
@@ -38,6 +37,7 @@ input:disabled + .checkmark + .text {
             overflow-y: auto;
             overflow-x: hidden;
             padding: 20px;
+            white-space: nowrap;
 
             @media only screen and (min-width: 768px) {
                 position: sticky;
