@@ -15,6 +15,13 @@ class ProductController extends Controller
         $departments = Department::all();
         $products = Product::paginate(20);
         $categories = DepartmentMapping::get();
+        $singleDepartment = Department::get_single_department($request->dept);
+        $departmentName = $singleDepartment['department'];
+        $listedCategories = $singleDepartment['categories'];
+
+        if (($request->dept=='living'|| $request->dept=='bedroom') &&$request->cat== '') {
+            return view('pages.category', compact('departmentName', 'listedCategories'));
+        }
         if ($request->ajax()) {
             return $products;
         }

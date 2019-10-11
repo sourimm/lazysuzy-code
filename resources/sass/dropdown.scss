@@ -1,5 +1,4 @@
 .dropdown {
-
     .dropdown-toggle {
         &:active {
             // pointer-events: none; // Add this, to prevent clicking dropdown's default click function
@@ -9,8 +8,8 @@
     .dropdown-menu {
         border: 1px solid $border-color;
         border-radius: 4px;
-        max-width: 157px;
-        text-align: center;
+        // max-width: 157px;
+        text-align: left;
         // max-width: 100px !important;
         // width: 100px !important;
 
@@ -34,14 +33,13 @@
     box-shadow: none !important;
 }
 
-.dropdown-submenu{
-
+.dropdown-submenu {
     @media only screen and (min-width: 768px) {
-        a{
+        a {
             padding: 0px;
         }
     }
-    .dropdown-menu{
+    .dropdown-menu {
         left: 100%;
     }
 }
@@ -49,7 +47,7 @@
 .dropdown:hover > .dropdown-menu {
     display: block;
     margin-top: -4px; // remove the gap so it doesn't close
- }
+}
 
 //  .dropdown-submenu a:hover{
 //      + .dropdown-menu{

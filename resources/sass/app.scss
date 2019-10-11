@@ -1,19 +1,19 @@
 // Fonts
-@import url("https://fonts.googleapis.com/css?family=Nunito");
+@import url('https://fonts.googleapis.com/css?family=Nunito');
 
-@import url("https://fonts.googleapis.com/css?family=Marcellus+SC");
+@import url('https://fonts.googleapis.com/css?family=Marcellus+SC');
 
 // Variables
-@import "variables";
+@import 'variables';
 // Mixins
-@import "mixins";
+@import 'mixins';
 
 // Bootstrap
-@import "~bootstrap/scss/bootstrap";
+@import '~bootstrap/scss/bootstrap';
 
-@import "bootstrap-overridden";
+@import 'bootstrap-overridden';
 
-@import "~ion-rangeslider/css/ion.rangeSlider.min.css";
+@import '~ion-rangeslider/css/ion.rangeSlider.min.css';
 
 // @import "~@fortawesome/fontawesome-free/scss/fontawesome.scss";
 // @import "~@fortawesome/fontawesome-free/scss/_icons.scss";
@@ -22,106 +22,116 @@
 // @import "vendor/fontawesome/scss/fontawesome.scss";
 // @import '~font-awesome/scss/font-awesome.scss';
 
-@import "~@fortawesome/fontawesome-free/scss/fontawesome";
-@import "~@fortawesome/fontawesome-free/scss/regular";
-@import "~@fortawesome/fontawesome-free/scss/solid";
-@import "~@fortawesome/fontawesome-free/scss/brands";
-@import "~@fortawesome/fontawesome-free/scss/v4-shims";
+@import '~@fortawesome/fontawesome-free/scss/fontawesome';
+@import '~@fortawesome/fontawesome-free/scss/regular';
+@import '~@fortawesome/fontawesome-free/scss/solid';
+@import '~@fortawesome/fontawesome-free/scss/brands';
+@import '~@fortawesome/fontawesome-free/scss/v4-shims';
 
-@import "navbar";
-@import "homepage";
-@import "subnav";
-@import "footer";
-@import "listing";
-@import "products-container";
-@import "detailspage";
-@import "carousel";
-@import "rating";
-@import "custom-selectbox";
-@import "custom-rangeslider";
-@import "dropdown";
-@import "searchbar";
-@import "authmodal";
+@import 'navbar';
+@import 'homepage';
+@import 'subnav';
+@import 'footer';
+@import 'listing';
+@import 'products-container';
+@import 'detailspage';
+@import 'carousel';
+@import 'rating';
+@import 'custom-selectbox';
+@import 'custom-rangeslider';
+@import 'dropdown';
+@import 'searchbar';
+@import 'authmodal';
 
 //Slick carousel
-$slick-font-family: "Font Awesome 5 Free";
-$slick-prev-character: " ‹";
-$slick-next-character: " ›";
+$slick-font-family: 'Font Awesome 5 Free';
+$slick-prev-character: ' ‹';
+$slick-next-character: ' ›';
 $slick-arrow-color: $secondary-color;
 
-@import "~slick-carousel/slick/slick";
-@import "~slick-carousel/slick/slick-theme";
+@import '~slick-carousel/slick/slick';
+@import '~slick-carousel/slick/slick-theme';
 
-html, body {
+html,
+body {
     font-family: 'Marcellus SC', san-serif;
 }
 
-.-btn{
+.-btn {
     @include primary-button;
 }
 
-.email-pswd-main-div{
-    .-btn{
+.email-pswd-main-div {
+    .-btn {
         font-size: 16px;
     }
 }
 
-.register-main-div{
-    .-btn{
+.register-main-div {
+    .-btn {
         font-size: 16px;
     }
-    .col-form-label, .form-control{
+    .col-form-label,
+    .form-control {
         margin: 10px 0px;
     }
 }
 
-.privacy-policy, .terms-container, .aboutus{
+.privacy-policy,
+.terms-container,
+.aboutus {
     margin: 20px auto;
 }
 
-.aboutus-main-div{
+.aboutus-main-div {
     background-color: $body-bg-option;
-    .footer{
+    .footer {
         padding: 0px 15px;
         position: absolute;
     }
-    .main-heading{
+    .main-heading {
         color: $primary-color;
         margin: 30px 0px 20px 0px;
         font-size: 30px;
     }
-    .secondary-heading{
+    .secondary-heading {
         margin: 25px 0px;
     }
-    p{
+    p {
         margin: 15px 0px;
         font-size: 18px;
     }
 }
 
-.socials{
-    .-icon{
+.socials {
+    .-icon {
         color: $secondary-color;
     }
 }
 
-.brand-logos{
-    .-cb2{
+.brand-logos {
+    .-cb2 {
         max-width: 57px;
+        margin: 0 20px;
     }
-    .-crate{
+    .-crate {
         max-width: 141px;
+        margin: 0 20px;
     }
-    .-pier1{
+    .-pier1 {
         max-width: 107px;
+        margin: 0 20px;
     }
-    .-westelm{
+    .-westelm {
         max-width: 127px;
+        margin: 0 20px;
     }
-    .-worldmarket{
+    .-worldmarket {
         max-width: 116px;
+        margin: 0 20px;
     }
-    .more-soon{
+    .more-soon {
         max-width: 189px;
+        margin: 0 20px;
     }
 }
