@@ -1,5 +1,4 @@
 @extends('layouts.layout', ['body_class' => 'detailspage-main-div'])
-
 @section('middle_content')
     <div class="detailspage" id="detailPage">
         @include('./partials/subnav')
@@ -13,9 +12,9 @@
                 <i class="fas fa-filter -icon"></i>
             </div>
         </div>
-        <div class="-images-container"><div class="-images"></div></div>
+        <div class="-images-container" id="scroll-bar-img"><div class="-images" ></div></div>
 
-        <div class="row container">
+        <div class="row container box">
             <div class="prod-desc col-12 col-md-9">
                 <div class="-variations-carousel col-12"></div>
                 <div class="row">
@@ -32,7 +31,8 @@
                         <div class="d-none d-md-block">
                             <div class="accordion" id="accordionExample">
                                 <div class="card d-none">
-                                    <div class="card-header" id="headingOne">
+                                    <!-- <div class="card-header" id="headingOne"> -->
+                                        <div id="headingOne">
                                     <h2 class="mb-0">
                                         <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
                                             <span class="-text">Description</span>
@@ -46,11 +46,13 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="card">
-                                    <div class="card-header" id="headingTwo">
+                                <!-- <div class="card"> -->
+                                    <div>
+                                    <!-- <div class="card-header" id="headingTwo"> -->
+                                    <div id='headingTwo'>
                                     <h2 class="mb-0">
-                                        <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                                            <span class="-text">Features</span>
+                                        <button class="btn btn-link  collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                            <span class="-text">▼ Features </span>
                                         </button>
                                     </h2>
                                     </div>
@@ -60,11 +62,13 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="card">
-                                    <div class="card-header" id="headingThree">
+                                <div>
+                                <!-- <div class="card"> -->
+                                    <!-- <div class="card-header" id="headingThree"> -->
+                                        <div id="headingThree">
                                     <h2 class="mb-0">
                                         <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                                            <span class="-text">Dimensions</span>
+                                            <span class="-text">▼ Dimensions</span>
                                         </button>
                                     </h2>
                                     </div>

@@ -17,5 +17,6 @@ class CategoryController extends Controller
     {
         return response()->json(Category::get_categories());
     }
+   
 
 }
