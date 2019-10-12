@@ -315,26 +315,28 @@ class Product extends Model
     public static function get_color_filter($products) 
     {
         $colors = [
-            "black" => false,
-            "blue" => false,
-            "brown" => false,
-            "clear" => false,
-            "copper" => false,
-            "gold" => false,
-            "green" => false,
-            "grey" => false,
-            "multicolor" => false,
-            "pink" => false,
-            "purple" => false,
-            "red" => false,
-            "silver" => false,
-            "tan" => false,
-            "white" => false,
+            "black" => "#000000",
+            "blue" => "#0000ee",
+            "brown" => "#a52a2a",
+            "clear" => "#dcf0ef",
+            "copper" => "#b87333",
+            "gold" => "#FFD700",
+            "green" => "#008000",
+            "grey" => "#808080",
+            "multicolor" => "#eeeeee",
+            "pink" => "#FFC0CB",
+            "purple" => "#800080",
+            "red" => "#FF0000",
+            "silver" => "#C0C0C0",
+            "tan" => "#d2b48c",
+            "white" => "#ffffff",
         ];
 
-        foreach($colors as $key => $color) {
+        foreach($colors as $key => $color_hex) {
             $colors[$key] = [
                 'name' => ucfirst($key),
+                'value' => strtolower($key),
+                'hex' => $color_hex,
                 'enabled' => false
             ];
         }
@@ -342,10 +344,8 @@ class Product extends Model
             $product_colors = explode(",", $product->color);
             foreach($product_colors as $p_color) {
                 if (strlen($p_color) > 0 && array_key_exists(strtolower($p_color), $colors)) {
-                    $colors[strtolower($p_color)] = [
-                        'name' => ucfirst($p_color),
-                        'enabled' => true
-                    ];
+                    $colors[strtolower($p_color)]['name'] = ucfirst($p_color);
+                    $colors[strtolower($p_color)]['enabled'] = true;
                 } 
             }
         }
