@@ -33,14 +33,15 @@
                     <span class="view-items-toggle float-right" id="viewItemsBtn">
                         <i class="fab fa-buromobelexperte"></i>
                     </span> -->
-        </div>
-    </div>
+      <!-- <div></div> -->
             <!-- <div class="wishlist-icon float-right m-10" id="wishlistBtn">
                 <i class="far fa-heart -icon"></i>
             </div>
             <div class="filter-toggle float-right m-10" id="filterToggleBtn">
                 <i class="fas fa-filter -icon"></i>
             </div> -->
+</div>
+            <div class="category-listing">
         <div class="row">
              @foreach ($listedCategories as $category)
                 <div class="col-sm-3 col-6 category-text">
@@ -50,7 +51,8 @@
                     </a>
                 </div>
             @endforeach
-        </div>
+        </div></div>
+    </div>
         @include('./partials/brandassociation')
     </div>
 @endsection
