@@ -33,7 +33,7 @@
                     <span class="view-items-toggle float-right" id="viewItemsBtn">
                         <i class="fab fa-buromobelexperte"></i>
                     </span> -->
-      
+      <!-- <div></div> -->
             <!-- <div class="wishlist-icon float-right m-10" id="wishlistBtn">
                 <i class="far fa-heart -icon"></i>
             </div>
