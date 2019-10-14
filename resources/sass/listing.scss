@@ -264,6 +264,7 @@ input:disabled + .checkmark + .text {
                     }
 
                     .dropdown-item {
+                        white-space: unset !important;
                         &:hover {
                             .dropdown-menu {
                                 display: block;
