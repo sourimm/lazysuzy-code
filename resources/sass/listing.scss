@@ -195,7 +195,7 @@ input:disabled + .checkmark + .text {
 .category-img-container {
     max-width: 1080px;
     margin: 0 auto;
-    min-height: 400px;
+    min-height: 60px;
 }
 .category-listing {
     margin-top: 20px;
@@ -229,7 +229,6 @@ input:disabled + .checkmark + .text {
             }
         }
     }
-
     .listing,
     .category-page {
         .listing-container {
