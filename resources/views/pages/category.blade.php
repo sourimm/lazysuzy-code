@@ -7,13 +7,13 @@
         <div class="listing-top-controls d-block d-md-none">
             <div class="dropdown show float-left">
                 <a class="dropdown-toggle" href="#" role="button" id="dropdownMobileListing" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <i class="fas fa-angle-down"></i>
+                <i class="fas fa-angle-down"></i>
                 </a>
-                <ul class="dropdown-menu" aria-labelledby="dropdownMobileListing" rel="dropdownMobileListing">
+            <ul class="dropdown-menu" aria-labelledby="dropdownMobileListing" rel="dropdownMobileListing">
                 <li>
                     <a class="dropdown-item" href="#">Accent</a></li>
                 <li class="dropdown-submenu"><a class="dropdown-item dropdown-toggle" href="#">Living<i class="fas fa-angle-right float-right"></i></a>
-                <ul class="dropdown-menu">
+                    <ul class="dropdown-menu">
                     <li><a class="dropdown-item" href="#">All</a></li>
                     <li><a class="dropdown-item" href="#">Sofa</a></li>
                     <li><a class="dropdown-item" href="#">Seating</a></li>
@@ -33,7 +33,6 @@
                     <span class="view-items-toggle float-right" id="viewItemsBtn">
                         <i class="fab fa-buromobelexperte"></i>
                     </span> -->
-      <!-- <div></div> -->
             <!-- <div class="wishlist-icon float-right m-10" id="wishlistBtn">
                 <i class="far fa-heart -icon"></i>
             </div>
@@ -46,7 +45,7 @@
              @foreach ($listedCategories as $category)
                 <div class="col-sm-3 col-6 category-text">
                     <a class="category-text" href="{{$category['link']}}">
-                        <img class="category-img" src="{{$category['image']}}" alt="{{$category['category']}}" >
+                        <img class="category-img" src="{{$category['image']}}?v=1.0.0" alt="{{$category['category']}}" >
                         <div><span>{{$category['category']}}</span></div>
                     </a>
                 </div>
