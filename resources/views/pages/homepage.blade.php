@@ -1,5 +1,6 @@
 @extends('layouts.layout', ['body_class' => 'homepage-main-div'])
 
+@section('title', 'LazySuzy | Search & Discover Furniture for your Home')
 @section('middle_content')
     <div class="homepage">
         <img class="img-fluid d-md-none" src="{{ asset('/images/homepage-sofa-img.jpeg') }}" alt="">
