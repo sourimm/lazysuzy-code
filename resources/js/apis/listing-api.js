@@ -286,6 +286,9 @@ $(document).ready(function() {
             $('#filters').empty();
             Object.keys(filterData).forEach((key, index) => {
                 const data = filterData[key];
+                if(data.length==0) {
+                    return;
+                }
                 var filterDiv = jQuery('<div/>', {
                     class: 'filter',
                     'data-filter': key
