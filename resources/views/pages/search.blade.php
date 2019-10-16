@@ -1,5 +1,5 @@
 @extends('layouts.layout', ['body_class' => 'listing-main-div'])
-
+@section('title','Search Top Home Brands | LazySuzy')
 @section('middle_content')
     <div class="listing">
         @include('./partials/subnav')

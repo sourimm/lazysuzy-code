@@ -1,5 +1,5 @@
 @extends('layouts.layout', ['body_class' => 'privacy-main-div'])
-
+@section('title','LazySuzy | Search & Discover Furniture for your Home')
 @section('middle_content')
 <div class="privacy-policy container">
     <h2>Privacy Policy</h2>
