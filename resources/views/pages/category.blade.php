@@ -40,18 +40,18 @@
                 <i class="fas fa-filter -icon"></i>
             </div> -->
         </div>
-            <div class="category-listing">
-                <div class="row">
-                    @foreach ($listedCategories as $category)
-                        <div class="col-sm-3 col-6 category-text">
-                            <a class="category-text" href="{{$category['link']}}">
-                                <img class="category-img" src="{{$category['image']}}?v=1.0.0" alt="{{$category['category']}}" >
-                                <div><span>{{$category['category']}}</span></div>
-                            </a>
-                        </div>
-                    @endforeach
-                </div>
+        <div class="category-listing">
+            <div class="row">
+                @foreach ($listedCategories as $category)
+                    <div class="col-sm-3 col-6 category-text">
+                        <a class="category-text" href="{{$category['link']}}">
+                            <img class="category-img" src="{{$category['image']}}?v=1.0.0" alt="{{$category['category']}}" >
+                            <div><span>{{$category['category']}}</span></div>
+                        </a>
+                    </div>
+                @endforeach
             </div>
+        </div>
     </div>
     @include('./partials/brandassociation')
 </div>
