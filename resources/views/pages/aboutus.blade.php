@@ -1,5 +1,6 @@
 @extends('layouts.layout', ['body_class' => 'aboutus-main-div'])
 @section('title', 'LazySuzy | Search & Discover Furniture for your Home')
+
 @section('middle_content')
 <div class="aboutus container">
     <h2 class="main-heading">Furnish your home. From your home.</h2>
