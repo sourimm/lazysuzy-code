@@ -23,7 +23,6 @@
                     </div>
                     <div class="col-12 col-md-7">
                         <h2 class="-name">product name</h2> 
-                        echo $departmentName."hello"         
                         <div class="wishlist-icon float-right m-10" id="wishlistBtnDesktop">
                             <i class="far fa-heart -icon"></i>
                         </div>
