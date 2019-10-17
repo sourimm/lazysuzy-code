@@ -57,6 +57,4 @@
     @include('./partials/brandassociation')
 </div>
 @endsection
-@push('pageSpecificScripts')
-    <script src="{{ mix('js/test.js')}}"></script>
-@endpush
+

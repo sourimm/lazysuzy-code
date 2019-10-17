@@ -76,6 +76,45 @@ $(document).ready(function() {
         success: function(departments) {
             var deptToAppend = ''
             if (isMobile()) {
+                $('ul[rel="dropdownMobileListing"]').empty()
+                var deptToAppend = ''
+                for (var i = 0; i < departments.length; i++) {
+                    if (departments[i].categories.length == 0) {
+                        deptToAppend +=
+                            '<li ><a class="dropdown-item" href="' +
+                            departments[i].link +
+                            '">' +
+                            departments[i].department +
+                            '</a></li>'
+                    } else {
+                        deptToAppend +=
+                            '<li class="dropdown-submenu row"><a  class="dropdown-item" href="' +
+                            departments[i].link +
+                            '">' +
+                            departments[i].department +
+                            '</a><a  class="dropdown-toggle" id="navbarDropdown' +
+                            i +
+                            '"><i class="fas fa-angle-right float-right"></i></a>'
+                        var catgToAppend =
+                            '<ul class="dropdown-menu" aria-labelledby="navbarDropdown">'
+                        for (
+                            var j = 0;
+                            j < departments[i].categories.length;
+                            j++
+                        ) {
+                            catgToAppend +=
+                                '<li><a class="dropdown-item" href="' +
+                                departments[i].categories[j].link +
+                                '">' +
+                                departments[i].categories[j].category +
+                                '</a></li>'
+                        }
+                        catgToAppend += '</ul>'
+                        deptToAppend += catgToAppend
+                        deptToAppend += '</li>'
+                    }
+                }
+                $('ul[rel="dropdownMobileListing"]').append(deptToAppend)
                 var singleDeptMobile = ''
                 for (var i = 0; i < departments.length; i++) {
                     if (departments.length != 0) {
