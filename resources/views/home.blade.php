@@ -1,5 +1,5 @@
 @extends('layouts.app')
-
+@section('title', 'LazySuzy | Search & Discover Furniture for your Home')
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
@@ -13,7 +13,6 @@
                             {{ session('status') }}
                         </div>
                     @endif
-
                     You are logged in!
                 </div>
             </div>
