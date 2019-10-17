@@ -90,7 +90,7 @@ input:disabled + .checkmark + .text {
                         }
 
                         /* Hide the browser's default checkbox */
-                        .container input {
+                        .filter-label input {
                             position: absolute;
                             opacity: 0;
                             cursor: pointer;
@@ -119,12 +119,12 @@ input:disabled + .checkmark + .text {
                         }
 
                         /* Show the checkmark when checked */
-                        .container input:checked ~ .checkmark:after {
+                        .filter-label input:checked ~ .checkmark:after {
                             display: block;
                         }
 
                         /* Style the checkmark/indicator */
-                        .container .checkmark:after {
+                        .filter-label .checkmark:after {
                             left: 4px;
                             top: 1px;
                             width: 5px;
@@ -344,7 +344,7 @@ input:disabled + .checkmark + .text {
                         li {
                             display: inline-block;
 
-                            .container {
+                            .filter-label {
                                 .checkmark {
                                     border: 1px solid $white !important;
 
