@@ -57,6 +57,4 @@
     @include('./partials/brandassociation')
 </div>
 @endsection
-@push('pageSpecificScripts')
-    <script src="{{ ('js/lisiting-api.js')}}"></script>
-@endpush
+
