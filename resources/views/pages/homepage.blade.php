@@ -1,5 +1,4 @@
 @extends('layouts.layout', ['body_class' => 'homepage-main-div'])
-
 @section('title', 'LazySuzy | Search & Discover Furniture for your Home')
 @section('middle_content')
     <div class="homepage">
