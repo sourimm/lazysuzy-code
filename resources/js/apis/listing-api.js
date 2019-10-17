@@ -555,53 +555,6 @@ $(document).ready(function() {
             .css('visibility', 'unset')
     })
 
-    $.ajax({
-        type: 'GET',
-        url: DEPT_API,
-        dataType: 'json',
-        success: function(departments) {
-            $('ul[rel="dropdownMobileListing"]').empty()
-            var deptToAppend = ''
-            for (var i = 0; i < departments.length; i++) {
-                if (departments[i].categories.length == 0) {
-                    deptToAppend +=
-                        '<li ><a class="dropdown-item" href="' +
-                        departments[i].link +
-                        '">' +
-                        departments[i].department +
-                        '</a></li>'
-                } else {
-                    deptToAppend +=
-                        '<li class="dropdown-submenu row"><a  class="dropdown-item" href="' +
-                        departments[i].link +
-                        '">' +
-                        departments[i].department +
-                        '</a><a  class="dropdown-toggle" id="navbarDropdown' +
-                        i +
-                        '"><i class="fas fa-angle-right float-right"></i></a>'
-                    var catgToAppend =
-                        '<ul class="dropdown-menu" aria-labelledby="navbarDropdown">'
-                    for (var j = 0; j < departments[i].categories.length; j++) {
-                        catgToAppend +=
-                            '<li><a class="dropdown-item" href="' +
-                            departments[i].categories[j].link +
-                            '">' +
-                            departments[i].categories[j].category +
-                            '</a></li>'
-                    }
-                    catgToAppend += '</ul>'
-                    deptToAppend += catgToAppend
-                    deptToAppend += '</li>'
-                }
-            }
-            $('ul[rel="dropdownMobileListing"]').append(deptToAppend)
-        },
-        error: function(jqXHR, exception) {
-            console.log(jqXHR)
-            console.log(exception)
-        }
-    })
-
     $('body').on('click', '.dropdown-submenu a', function(e) {
         if (isMobile()) {
             console.log('clicked')

@@ -58,5 +58,5 @@
 </div>
 @endsection
 @push('pageSpecificScripts')
-    <script src="{{ mix('js/test.js')}}"></script>
+    <script src="{{ ('js/lisiting-api.js')}}"></script>
 @endpush
