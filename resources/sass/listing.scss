@@ -341,9 +341,12 @@ input:disabled + .checkmark + .text {
                     text-align: center;
 
                     ul {
+                        white-space: normal;
+                        text-align: left;
+                        margin-right: 0;
                         li {
                             display: inline-block;
-
+                            margin-right: 10px;
                             .filter-label {
                                 .checkmark {
                                     border: 1px solid $white !important;
