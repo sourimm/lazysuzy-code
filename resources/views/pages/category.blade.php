@@ -57,4 +57,3 @@
     @include('./partials/brandassociation')
 </div>
 @endsection
-
