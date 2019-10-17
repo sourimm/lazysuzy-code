@@ -1,5 +1,6 @@
 @extends('layouts.layout', ['body_class' => 'categorypage-main-div'])
 @section('middle_content')
+@section('title', $departmentName.' | LazySuzy')
 @include('./partials/subnav')
 
 <div class="category-page" id="categorypage">
