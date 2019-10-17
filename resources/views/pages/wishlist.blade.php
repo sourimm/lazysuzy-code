@@ -1,6 +1,7 @@
 @extends('layouts.layout', ['body_class' => 'listing-main-div'])
-
+@section('title','LazySuzy | Search & Discover Furniture for your Home')
 @section('middle_content')
+
     <div class="wishlist listing">
         @include('./partials/subnav')
         <div class="listing-container main-container container">
