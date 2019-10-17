@@ -4,7 +4,7 @@
 @include('./partials/subnav')
     <div class="listing">
        
-        <div class="listing-container main-container container">
+        <div class="listing-container main-container ">
             <div class="d-none d-md-block">
                 {{ Breadcrumbs::render('products') }}
             </div>
@@ -16,19 +16,19 @@
                         <label for="" class="clear-filter float-right">Clear</label>
                         <ul>
                             <li>
-                                <label class="container">CB2
+                                <label class="filter-label">CB2
                                     <input type="checkbox" checked="checked" value="cb2">
                                     <span class="checkmark"></span>
                                 </label>
                             </li>
                             <li>
-                                <label class="container">Pier
+                                <label class="filter-label">Pier
                                     <input type="checkbox" value="pier1">
                                     <span class="checkmark"></span>
                                 </label>
                             </li>
                             <li>
-                                <label class="container">Pottery Barn
+                                <label class="filter-label">Pottery Barn
                                     <input type="checkbox">
                                     <span class="checkmark"></span>
                                 </label>
@@ -48,25 +48,25 @@
                         <label for="" class="clear-filter float-right">Clear</label>
                         <ul>
                             <li>
-                                <label class="container">Armchair
+                                <label class="filter-label">Armchair
                                     <input type="checkbox" checked="checked">
                                     <span class="checkmark"></span>
                                 </label>
                             </li>
                             <li>
-                                <label class="container">Armless
+                                <label class="filter-label">Armless
                                     <input type="checkbox">
                                     <span class="checkmark"></span>
                                 </label>
                             </li>
                             <li>
-                                <label class="container">Recliner
+                                <label class="filter-label">Recliner
                                     <input type="checkbox">
                                     <span class="checkmark"></span>
                                 </label>
                             </li>
                             <li>
-                                <label class="container">Ottoman
+                                <label class="filter-label">Ottoman
                                     <input type="checkbox">
                                     <span class="checkmark"></span>
                                 </label>
