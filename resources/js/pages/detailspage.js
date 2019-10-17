@@ -30,6 +30,7 @@ $(document).ready(function() {
         url: PDP_API,
         dataType: 'json',
         success: function(data) {
+            document.title = data.name + ' | LazySuzy'
             var $imagesContainer = $product.find('.-images-container')
             var $images = $imagesContainer.find('.-images')
             var imgContainerWidth = 0

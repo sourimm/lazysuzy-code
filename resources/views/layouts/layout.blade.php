@@ -18,7 +18,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PD8TXBM"
 height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- End Google Tag Manager (noscript) -->
- 
+<link href="{{ mix('css/app.css') }}" rel="stylesheet"> 
     <script type="text/javascript">
         var vglnk = {key: '7c7cd49fe471830c75c9967f05d5f292'};
         (function(d, t) {
