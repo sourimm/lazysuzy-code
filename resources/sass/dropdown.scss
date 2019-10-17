@@ -1,4 +1,7 @@
 .dropdown {
+    &.active {
+        background-color: $primary-color;
+    }
     .dropdown-toggle {
         &:active {
             // pointer-events: none; // Add this, to prevent clicking dropdown's default click function
