@@ -223,6 +223,9 @@ input:disabled + .checkmark + .text {
 }
 
 @media only screen and (max-width: 480px) {
+    .category-img {
+        min-height: 162px;
+    }
     .listing,
     .category-page {
         .listing-container {
