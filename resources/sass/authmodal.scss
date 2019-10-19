@@ -1,3 +1,4 @@
+@import 'variables';
 .auth-modal{
     .modal-dialog{
         width: 400px;
@@ -10,7 +11,10 @@
     .-btn{
         width: 100%;
     }
-        
+
+    .btn-primary.btn-facebook {
+        background: $facebook;
+    }
     .or-seperator{
         margin: 20px 0 10px;
         text-align: center;
