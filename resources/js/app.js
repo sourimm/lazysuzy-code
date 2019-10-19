@@ -43,7 +43,15 @@ $(document).ready(function() {
     })
 
     $('.user-login-modal').click(function() {
-        $('#modalLoginForm').modal()
+        $('#modalSignupForm').modal('toggle')
+    })
+    $('#register-modal').click(function() {
+        $('#modalSignupForm').modal('toggle')
+        $('#modalLoginForm').modal('toggle')
+    })
+    $('.user-login-modal1').click(function() {
+        $('#modalSignupForm').modal('toggle')
+        $('#modalLoginForm').modal('toggle')
     })
 
     $('.wishlist-login-modal').click(function() {
