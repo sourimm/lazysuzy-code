@@ -191,7 +191,9 @@ input:disabled + .checkmark + .text {
     width: 100%;
     margin: 20px 0;
     max-width: 220px;
+    min-height: 220px;
 }
+
 .category-img-container {
     max-width: 1080px;
     margin: 0 auto;
@@ -221,6 +223,9 @@ input:disabled + .checkmark + .text {
 }
 
 @media only screen and (max-width: 480px) {
+    .category-img {
+        min-height: 162px;
+    }
     .listing,
     .category-page {
         .listing-container {
@@ -303,6 +308,8 @@ input:disabled + .checkmark + .text {
 
                         .ls-product {
                             margin-bottom: 0px;
+                            min-height: 130px;
+                            background-position: center;
                         }
                     }
                 }
