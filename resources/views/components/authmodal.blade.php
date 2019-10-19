@@ -10,19 +10,19 @@
         <div class="form-title text-center modal-header-text">
           <h1>Hey,Star Stuff !</h1>
         </div>
-        
+
           <!-- <div class="d-flex justify-content-center social-buttons">
             <a href="{{ url('/redirect/google') }}" class="btn btn-danger btn-block"><i class="fa fa-google"></i> Continue with <b>Google</b></a>
           </div> -->
           <div class="d-flex justify-content-center social-buttons">
-            <a href="{{ url('/redirect/google') }}" class="btn btn-primary btn-block"><i class="fa fa-facebook"></i> Continue with <b>Facebook</b></a>
+            <a href="{{ url('/redirect/google') }}" class="btn btn-primary btn-facebook btn-block"><i class="fa fa-facebook"></i> Continue with <b>Facebook</b></a>
           </div>
           <div class="d-flex justify-content-center social-buttons">
             <a href="{{ url('/redirect/google') }}" class="btn btn-default btn-block"><i class="fa fa-google"></i> Continue with <b>Google</b></a>
           </div>
           <div class="or-seperator"></div>
           <div class="text-center form title">Not Feeling Social</div>
-          
+
         </div>
         <div class="d-flex flex-column text-center">
           <form method="POST" action="{{ route('login') }}">
@@ -63,12 +63,12 @@
             @endif
           </form>
 
-         
+
       </div>
-      
+
       <div class="modal-footer d-flex justify-content-center text-center">
         <div class="signup-section">Not a member yet? <a href="#" class="text-info user-login-modal1"> JOIN NOW</a>.</div>
       </div>
-      
+
     </div>
   </div>
