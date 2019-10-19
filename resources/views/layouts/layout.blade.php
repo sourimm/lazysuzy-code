@@ -96,6 +96,7 @@
         <input type="hidden" id="isLoggedIn" name="isLoggedIn" value="1">
     @endif
 
+
     <div class="main">
         @component('components.navbar')
         @endcomponent
@@ -106,10 +107,19 @@
 
         @component('components.footer')
         @endcomponent
+        <div>
+        @component('components.signmodal')
+        @endcomponent
+    </div>
+    <div>
+        @component('components.authmodal')
+        @endcomponent
+    </div>
+        
+        
     </div>
 
-    @component('components.authmodal')
-    @endcomponent
+
 
     <script src="{{ mix('js/manifest.js')}}"></script>
     <script src="{{ mix('js/vendor.js')}}"></script>
