@@ -394,6 +394,7 @@ input:disabled + .checkmark + .text {
         @include media-breakpoint-down(md) {
             .dropdown-item {
                 width: 90%;
+                z-index: 5;
             }
             .dropdown-toggle {
                 margin-top: 4px;
@@ -417,4 +418,64 @@ input:disabled + .checkmark + .text {
 }
 .submenu-dropdown {
     padding: 10px;
+}
+.sidenav {
+    height: 100%;
+    width: 0;
+    position: fixed;
+    z-index: 101;
+    top: 0;
+    left: 0;
+    background-color: $secondary-color;
+    overflow-x: hidden;
+    transition: 0.5s;
+    padding-top: 60px;
+}
+
+.sidenav a {
+    padding-right: 10px;
+    text-decoration: none;
+    font-size: 20px;
+    display: block;
+    transition: 0.2s;
+}
+
+.sidenav a:hover {
+    color: $primary-color;
+}
+
+.sidenav .closebtn {
+    position: absolute;
+    top: 0;
+    right: 25px;
+    font-size: 36px;
+    margin-left: 50px;
+}
+
+@media screen and (max-height: 450px) {
+    .sidenav {
+        padding-top: 15px;
+    }
+    .sidenav a {
+        font-size: 18px;
+        color: $white;
+    }
+}
+.collapsible {
+    color: $white;
+    cursor: pointer;
+    padding: 18px;
+    width: 100%;
+    text-align: left;
+    outline: none;
+}
+
+.active,
+.collapsible:hover {
+    color: $primary-color;
+}
+.sidenav-items {
+    padding: 0 18px;
+    display: none;
+    overflow: hidden;
 }

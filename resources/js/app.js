@@ -19,6 +19,27 @@ $(document).ready(function() {
     $('.sb-body').submit(function(e) {
         callSearch(e, this)
     })
+    $('.navbar-toggler').click(function() {
+        $('#Sidenavbar').css('width', '350px')
+    })
+    $('#Sidenavbarclose').click(function() {
+        $('#Sidenavbar').css('width', '0px')
+    })
+
+    let coll = document.getElementsByClassName('collapsible')
+    for (let i = 0; i < coll.length; i++) {
+        coll[i].addEventListener('click', function() {
+            this.classList.toggle('active')
+            $('.collapse').hide()
+            var content = document.getElementById(this.attr('data-target'))
+            if (content.style.display === 'block') {
+                content.style.display = 'none'
+            } else {
+                content.style.display = 'block'
+            }
+        })
+    }
+
     function callSearch(e, elm) {
         e.preventDefault()
         window.location.href =
@@ -100,11 +121,15 @@ $(document).ready(function() {
                             departments[i].link +
                             '">' +
                             departments[i].department +
-                            '</a><a  class="dropdown-toggle" id="navbarDropdown' +
+                            '</a><a  class="dropdown-toggle collapsible" data-target="#' +
+                            departments[i].department +
+                            '" id="navbarDropdown' +
                             i +
                             '"><i class="fas fa-angle-right float-right"></i></a>'
                         var catgToAppend =
-                            '<ul class="dropdown-menu" aria-labelledby="navbarDropdown">'
+                            '<ul class="dropdown-menu collapse" aria-labelledby="navbarDropdown" id="' +
+                            departments[i].department +
+                            '">'
                         for (
                             var j = 0;
                             j < departments[i].categories.length;
@@ -122,12 +147,12 @@ $(document).ready(function() {
                         deptToAppend += '</li>'
                     }
                 }
-                $('ul[rel="dropdownMobileListing"]').append(deptToAppend)
+                $('#collapsible-dept').html(deptToAppend)
                 var singleDeptMobile = ''
                 for (var i = 0; i < departments.length; i++) {
                     if (departments.length != 0) {
                         singleDeptMobile =
-                            '<div class="col-4 col-sm-auto -dept "><a href="' +
+                            '<div class="col-4 col-sm-auto -dept "><a  href="' +
                             departments[i].link +
                             '">' +
                             departments[i].department +

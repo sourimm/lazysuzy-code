@@ -97,10 +97,12 @@
 }
 .form-control {
     width: 70%;
-    margin: 5px auto;
+    margin: 2px auto;
+    font-family: Marcellus !important;
 }
 .auth-modal .-btn {
     width: 70% !important;
+    font-size: 15px !important;
 }
 .modal-header-text {
     color: $primary-color;
