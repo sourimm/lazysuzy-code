@@ -111,16 +111,6 @@
         <div>
         @component('components.signmodal')
         @endcomponent
-<<<<<<< HEAD
-    </div>
-    <div>
-        @component('components.authmodal')
-        @endcomponent
-    </div>
-        
-        
-=======
->>>>>>> tester
     </div>
     <div>
         @component('components.authmodal')
@@ -131,10 +121,6 @@
     </div>
 
 
-<<<<<<< HEAD
-
-=======
->>>>>>> tester
 
     <script src="{{ mix('js/manifest.js')}}"></script>
     <script src="{{ mix('js/vendor.js')}}"></script>
