@@ -21,7 +21,7 @@
             <a href="{{ url('/redirect/google') }}" class="btn btn-default btn-block"><i class="fa fa-google"></i> Continue with <b>Google</b></a>
           </div>
           <div class="or-seperator"></div>
-          <div class="text-center form title">Not Feeling Social</div>
+          <div class="text-center form title">Not Feeling Social ?</div>
 
         </div>
         <div class="d-flex flex-column text-center">
