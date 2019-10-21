@@ -5,7 +5,7 @@
 
 <div class="category-page" id="categorypage">
     <div class="listing-container category-img-container">
-        <div class="listing-top-controls d-block d-md-none">
+        <div class="listing-top-controls d-block" >
             <div class="dropdown show float-left">
                 <a class="dropdown-toggle" href="#" role="button" id="dropdownMobileListing" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <i class="fas fa-angle-down"></i>
