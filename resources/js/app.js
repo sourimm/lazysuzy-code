@@ -119,7 +119,7 @@ $(document).ready(function() {
                             i +
                             '"><i class="fas fa-angle-right"></i></a>';
                         var catgToAppend =
-                            '<ul class="collapse" aria-labelledby="navbarDropdown" id="' +
+                            '<ul class="collapse category-list" aria-labelledby="navbarDropdown" id="' +
                             departments[i].department +
                             '">';
                         for (
@@ -128,7 +128,7 @@ $(document).ready(function() {
                             j++
                         ) {
                             catgToAppend +=
-                                '<li><a class="dropdown-item" href="' +
+                                '<li><a class="link" href="' +
                                 departments[i].categories[j].link +
                                 '">' +
                                 departments[i].categories[j].category +

@@ -432,10 +432,6 @@ input:disabled + .checkmark + .text {
     padding-top: 60px;
 }
 
-.sidenav a.collapsible:hover {
-    color: $primary-color;
-}
-
 .sidenav .closebtn {
     position: absolute;
     top: 0;
@@ -464,12 +460,19 @@ input:disabled + .checkmark + .text {
 
     .department {
         color:#fff;
-
-        a.link {
-            color:#fff;
-            width: 80%;
-            display: inline-block;
-            padding: 10px 0;
+        .category-list {
+            padding: 0 18px;
+            overflow: hidden;
+            list-style-type: none;
+        }
+    }
+    a.link {
+        color:#fff;
+        width: 80%;
+        display: inline-block;
+        padding: 10px 0;
+        &:hover {
+            color: $primary-color;
         }
     }
     a.collapsible {
