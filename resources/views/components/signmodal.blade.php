@@ -21,7 +21,7 @@
             <a href="{{ url('/redirect/google') }}" class="btn btn-default btn-block"><i class="fa fa-google"></i> Continue with <b>Google</b></a>
           </div>
           <div class="or-seperator"></div>
-          <div class="text-center form title">Not Feeling Social</div>
+          <div class="text-center form title">Not Feeling Social ?</div>
 
         </div>
         <div class="d-flex flex-column text-center">
@@ -31,7 +31,7 @@
                         <div class="form-group row">
 
                             <div class="col-md-12">
-                                <input id="name" type="text" class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}" name="name" value="{{ old('name') }}" placeholder="Name" required autofocus>
+                                <input id="name" type="text" class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}" name="name" value="{{ old('name') }}" placeholder="Name" autofocus>
                                 @if ($errors->has('name'))
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $errors->first('name') }}</strong>
@@ -44,7 +44,6 @@
 
                             <div class="col-md-12">
                                 <input id="email" type="email" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" name="email" value="{{ old('email') }}" placeholder="Email" required>
-
                                 @if ($errors->has('email'))
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $errors->first('email') }}</strong>
@@ -66,17 +65,10 @@
                             </div>
                         </div>
 
-                        <div class="form-group row">
-
-                            <div class="col-md-12">
-                                <input id="password-confirm" type="password" class="form-control" name="password_confirmation" placeholder="Confirm Password" required>
-                            </div>
-                        </div>
-
                         <div class="form-group row mb-0">
                             <div class="col-md-12">
                                 <button type="submit" class="btn -btn">
-                                    {{ __('Register') }}
+                                    {{ __('Join Us') }}
                                 </button>
                             </div>
 
@@ -87,7 +79,7 @@
       </div>
 
       <div class="modal-footer d-flex justify-content-center text-center">
-        <div class="signup-section">Not a member yet? <a href="#" id="register-modal" class="text-info" >Sign In</a>.</div>
+        <div class="signup-section">Already Joined? <a href="#" id="register-modal" class="text-info" >Sign In</a>.</div>
       </div>
 
     </div>
