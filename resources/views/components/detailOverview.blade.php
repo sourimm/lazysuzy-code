@@ -66,7 +66,7 @@
         </ul>
         </nav>
         <hr/>
-        <div data-spy="scroll" data-target="#navbar-example2" data-offset="0">
+        <div class="products-modal-details" data-spy="scroll" data-target="#navbar-example2" data-offset="0">
         <h4 id="fat">@fat</h4>
         <hr/>
         <p class="-desc d-none d-md-block"></p>

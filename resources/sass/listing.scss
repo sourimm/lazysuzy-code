@@ -531,3 +531,7 @@ input:disabled + .checkmark + .text {
         margin: 5px;
     }
 }
+.products-modal-details {
+    overflow: scroll;
+    max-height: 500px;
+}
