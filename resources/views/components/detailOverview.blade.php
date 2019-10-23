@@ -46,8 +46,8 @@
                 <h4 class="-name">product name</h4>
 
 
-                <div class="prod-price-card d-none d-md-block">
                 <div class="rating-container"><div class="rating"></div><span class="total-ratings"></span></div>
+                <div class="prod-price-card d-none d-md-block">
     </div>
     <div class="all-desc">
 <hr class="modal-hr"/>
