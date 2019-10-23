@@ -439,6 +439,7 @@ input:disabled + .checkmark + .text {
     font-size: 36px;
     margin-left: 50px;
     color: $border-color;
+    text-decoration: none;
 }
 
 .sidenav .collapsible {
@@ -498,5 +499,35 @@ input:disabled + .checkmark + .text {
     .sidenav a {
         font-size: 18px;
         color: $white;
+    }
+}
+
+// modal css
+.-images {
+    height: 900px;
+    width: auto;
+    overflow: scroll;
+    overflow-x: hidden;
+}
+.nav {
+    display: flex;
+    flex-wrap: nowrap;
+    margin-bottom: 0;
+    list-style: none;
+}
+.nav-pills .nav-link {
+    border-radius: 0.25rem;
+    color: $category-bg;
+}
+.pdp-buy-btn {
+    color: $products-bg;
+    background-color: $category-bg;
+    margin: 5px;
+    display: flex;
+    width: 40%;
+}
+.-product-details {
+    span {
+        margin: 5px;
     }
 }
