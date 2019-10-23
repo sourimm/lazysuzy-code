@@ -504,7 +504,7 @@ input:disabled + .checkmark + .text {
 
 // modal css
 .-images {
-    height: 900px;
+    height: 500px;
     width: auto;
     overflow: scroll;
     overflow-x: hidden;
@@ -533,5 +533,28 @@ input:disabled + .checkmark + .text {
 }
 .products-modal-details {
     overflow: scroll;
-    max-height: 500px;
+    max-height: 200px;
+}
+.navbar-modal {
+    background-color: transparent !important;
+    color: $products-bg;
+    font-size: 18px;
+}
+.modal-nav-link {
+    display: block;
+    padding: 0rem 1rem;
+    text-decoration: none;
+    color: $category-bg;
+}
+.modal-nav-item {
+    :hover {
+        text-decoration: none;
+        color: $black;
+    }
+}
+.modal-hr {
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+    border: 0;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
 }
