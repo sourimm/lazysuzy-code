@@ -23,6 +23,7 @@ $(document).ready(function() {
         e.preventDefault()
         e.stopPropagation()
         $('#modalProduct').modal()
+        $prodPriceCard.empty()
         $.ajax({
             type: 'GET',
             url: '/api' + this.attributes.href.value,

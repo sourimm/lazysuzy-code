@@ -41,44 +41,44 @@
                     </div>
                 </div>
             </div>
-            <hr/>
+            <hr class="modal-hr" />
 
                 <h4 class="-name">product name</h4>
 
 
-                <div class="prod-price-card d-none d-md-block">
                 <div class="rating-container"><div class="rating"></div><span class="total-ratings"></span></div>
+                <div class="prod-price-card d-none d-md-block">
     </div>
     <div class="all-desc">
-<hr/>
-    <nav class="navbar navbar-light bg-light">
+<hr class="modal-hr"/>
+    <nav class="navbar-modal navbar-light bg-light">
         <ul class="nav nav-pills">
-            <li class="nav-item">
-            <a class="nav-link" href="#fat">Overview</a>
+            <li class="modal-nav-item">
+            <a class="modal-nav-link" href="#fat">Overview</a>
             </li>
-            <li class="nav-item">
-            <a class="nav-link" href="#mdo">Features</a>
+            <li class="modal-nav-item">
+            <a class="modal-nav-link" href="#mdo">Features</a>
             </li>
-            <li class="nav-item">
-            <a class="nav-link" href="#mdo">Dimensions</a>
+            <li class="modal-nav-item">
+            <a class="modal-nav-link" href="#mdo">Dimensions</a>
             </li>
 
         </ul>
         </nav>
-        <hr/>
-        <div data-spy="scroll" data-target="#navbar-example2" data-offset="0">
+        <hr class="modal-hr"/>
+        <div class="products-modal-details" data-spy="scroll" data-target="#navbar-example2" data-offset="0">
         <h4 id="fat">@fat</h4>
-        <hr/>
+        <hr class="modal-hr"/>
         <p class="-desc d-none d-md-block"></p>
         <h4 id="mdo">@mdo</h4>
         <ul class="-features"></ul>
-        <hr/>
+        <hr class="modal-hr"/>
         <h4 id="one">one</h4>
         <p>...</p>
-        <hr/>
+        <hr class="modal-hr"/>
         <h4 id="two">two</h4>
         <p>...</p>
-        <hr/>
+        <hr class="modal-hr"/>
         <h4 id="three">three</h4>
         <p>...</p>
         

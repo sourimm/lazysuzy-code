@@ -501,33 +501,3 @@ input:disabled + .checkmark + .text {
         color: $white;
     }
 }
-
-// modal css
-.-images {
-    height: 900px;
-    width: auto;
-    overflow: scroll;
-    overflow-x: hidden;
-}
-.nav {
-    display: flex;
-    flex-wrap: nowrap;
-    margin-bottom: 0;
-    list-style: none;
-}
-.nav-pills .nav-link {
-    border-radius: 0.25rem;
-    color: $category-bg;
-}
-.pdp-buy-btn {
-    color: $products-bg;
-    background-color: $category-bg;
-    margin: 5px;
-    display: flex;
-    width: 40%;
-}
-.-product-details {
-    span {
-        margin: 5px;
-    }
-}
