@@ -426,7 +426,7 @@ input:disabled + .checkmark + .text {
     z-index: 101;
     top: 0;
     left: 0;
-    background-color: $secondary-color;
+    background-color: $category-bg;
     overflow-x: hidden;
     transition: 0.5s;
     padding-top: 60px;
@@ -438,6 +438,8 @@ input:disabled + .checkmark + .text {
     right: 25px;
     font-size: 36px;
     margin-left: 50px;
+    color: $border-color;
+    text-decoration: none;
 }
 
 .sidenav .collapsible {
@@ -459,18 +461,26 @@ input:disabled + .checkmark + .text {
     list-style-type: none;
 
     .department {
-        color:#fff;
+        color: $white;
+
         .category-list {
-            padding: 0 18px;
+            padding: 0 50px;
             overflow: hidden;
             list-style-type: none;
+            background-color: $products-bg;
+            margin: 0 -20px;
+            a.link {
+                color: $category-bg;
+                margin: 0 -20px;
+            }
         }
     }
     a.link {
-        color:#fff;
+        color: #fff;
         width: 80%;
         display: inline-block;
         padding: 10px 0;
+        text-decoration: none;
         &:hover {
             color: $primary-color;
         }
@@ -479,9 +489,7 @@ input:disabled + .checkmark + .text {
         padding-right: 10px;
         text-decoration: none;
         font-size: 20px;
-        transition: 0.2s;
     }
-
 }
 
 @media screen and (max-height: 450px) {
@@ -493,4 +501,3 @@ input:disabled + .checkmark + .text {
         color: $white;
     }
 }
-
