@@ -134,6 +134,17 @@
                 }
             }
         }
+        .-product-details {
+            .offer-price {
+                color: #b76e79;
+            }
+            .price {
+                font-size:0.8em;
+                text-decoration: line-through;
+                display: inline-block;
+                margin-left: 10px;
+            }
+        }
 
         .prod-price-card {
             border-radius: 20px;
