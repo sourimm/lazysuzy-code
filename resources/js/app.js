@@ -25,6 +25,10 @@ $(document).ready(function() {
     $('#Sidenavbarclose').click(function() {
         $('#Sidenavbar').css('width', '0px')
     })
+    $('.arrow').on('click', function(event) {
+        $('.arrow-img').toggleClass('rotate')
+        $('.arrow-img').toggleClass('rotate-reset')
+    })
 
     $(document).on('click', '.collapsible', function() {
         this.classList.toggle('active')
@@ -110,10 +114,9 @@ $(document).ready(function() {
                     } else {
                         deptToAppend +=
                             '<li class="department"><a  class="link" href="' +
-                            departments[i].link +
                             '">' +
                             departments[i].department +
-                            '</a><a  class="collapsible" data-toggle="collapse" data-target="#' +
+                            '</a><a  class="arrow collapsible" data-toggle="collapse" data-target="#' +
                             departments[i].department +
                             '" id="navbarDropdown' +
                             i +
