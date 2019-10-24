@@ -459,6 +459,7 @@ input:disabled + .checkmark + .text {
     padding: 0 18px;
     overflow: hidden;
     list-style-type: none;
+    white-space: nowrap;
 
     .department {
         color: $white;
@@ -479,7 +480,7 @@ input:disabled + .checkmark + .text {
         color: #fff;
         width: 80%;
         display: inline-block;
-        padding: 10px 0;
+        padding: 5px 0;
         text-decoration: none;
         &:hover {
             color: $primary-color;
