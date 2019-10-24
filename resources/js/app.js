@@ -116,11 +116,11 @@ $(document).ready(function() {
                             '<li class="department"><a  class="link" href="' +
                             '">' +
                             departments[i].department +
-                            '</a><a  class="arrow collapsible" data-toggle="collapse" data-target="#' +
+                            '</a><a  class=" collapsible" data-toggle="collapse" data-target="#' +
                             departments[i].department +
                             '" id="navbarDropdown' +
                             i +
-                            '"><i class="fas fa-angle-right"></i></a>'
+                            '"><i class="fas fa-angle-right arrow"></i></a>'
                         var catgToAppend =
                             '<ul class="collapse category-list" aria-labelledby="navbarDropdown" id="' +
                             departments[i].department +

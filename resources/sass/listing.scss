@@ -503,10 +503,11 @@ input:disabled + .checkmark + .text {
     }
 }
 .-images {
-    height: 670px;
+    height: 650px;
     width: auto;
     overflow: scroll;
     overflow-x: hidden;
+    margin-left: -55px;
 }
 .nav {
     display: flex;
@@ -523,22 +524,22 @@ input:disabled + .checkmark + .text {
     background-color: $category-bg;
     margin: 5px;
     display: flex;
-    width: 40%;
-    :hover {
-        color: $white !important;
-        text-decoration: none;
-    }
+    width: 30%;
 }
-
+.pdp-buy-btn:hover {
+    color: $products-bg;
+    text-decoration: none;
+}
 .-product-details {
     span {
         margin: 5px;
         font-size: 30px;
+        color: $product-price;
     }
 }
 .products-modal-details {
     overflow: scroll;
-    max-height: 400px;
+    max-height: 450px;
 }
 .navbar-modal {
     background-color: transparent !important;
@@ -562,4 +563,23 @@ input:disabled + .checkmark + .text {
     margin-bottom: 0.5rem;
     border: 0;
     border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+.modal-body {
+    position: relative;
+    flex: 1 1 auto;
+    padding: 1rem 0;
+}
+//added code for modal height
+.modal-dialog,
+.modal-content {
+    /* 80% of window height */
+    height: 100%;
+}
+.modal-dialog {
+    margin: 0 auto;
+}
+.modal-body {
+    /* 100% = dialog height, 120px = header + footer */
+    max-height: calc(100% - 120px);
+    overflow-y: scroll;
 }
