@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Input;
+use App\Models\Department;
 use App\Models\Dimension;
 
 use Auth;
@@ -18,6 +19,7 @@ class Product extends Model
 
     public static function get_LS_IDs($dept, $cat = null)
     {
+
         $LS_IDs = [];
         $data   = DB::table('mapping_core')
             ->select('LS_ID');
@@ -572,7 +574,7 @@ class Product extends Model
             $data['thumb'] = preg_split("/,|\\[US\\]/", $product->thumb);
             $data['features'] = preg_split("/\\[US\\]|<br>|\\n/", $product->product_feature);
             $data['on_server_images'] = array_map([__CLASS__, "baseUrl"], preg_split("/,|\\[US\\]/", $product->product_images));
-
+            $data['department_info'] = Department::get_department_info($product->LS_ID);
             return $data;
         }
         else {
