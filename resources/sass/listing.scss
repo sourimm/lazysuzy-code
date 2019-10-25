@@ -468,16 +468,15 @@ input:disabled + .checkmark + .text {
             padding: 0 50px;
             overflow: hidden;
             list-style-type: none;
-            background-color: $products-bg;
+            background-color: $category-bg;
             margin: 0 -20px;
             a.link {
-                color: $category-bg;
-                margin: 0 -20px;
+                color: $white;
             }
         }
     }
     a.link {
-        color: #fff;
+        color: $white;
         width: 80%;
         display: inline-block;
         padding: 5px 0;
@@ -490,6 +489,20 @@ input:disabled + .checkmark + .text {
         padding-right: 10px;
         text-decoration: none;
         font-size: 20px;
+        display: block;
+        &.active {
+            color: $products-bg;
+            .side-nav-icon {
+                color: $products-bg;
+                transform: rotate(90deg);
+            }
+        }
+    }
+    .side-nav-link {
+        margin-left: 180px;
+    }
+    .side-nav-icon {
+        float: right;
     }
 }
 

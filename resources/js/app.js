@@ -1,130 +1,129 @@
-require('bootstrap')
-require('slick-carousel')
-require('./components/multi-carousel')
-require('./components/custom-selectbox')
+require('bootstrap');
+require('slick-carousel');
+require('./components/multi-carousel');
+require('./components/custom-selectbox');
 
 $(document).ready(function() {
     $('#departmentsNav').on('click', '.dropdown', function(e) {
-        console.log('test')
+        console.log('test');
         // e.preventDefault()
         $(this)
             .siblings()
-            .removeClass('active')
-        $(this).addClass('active')
-    })
+            .removeClass('active');
+        $(this).addClass('active');
+    });
     $('#searchbarHeader').submit(function(e) {
-        callSearch(e, this)
-    })
+        callSearch(e, this);
+    });
 
     $('.sb-body').submit(function(e) {
-        callSearch(e, this)
-    })
+        callSearch(e, this);
+    });
     $('.navbar-toggler').click(function() {
-        $('#Sidenavbar').css('width', '300px')
-    })
+        $('#Sidenavbar').css('width', '300px');
+    });
     $('#Sidenavbarclose').click(function() {
-        $('#Sidenavbar').css('width', '0px')
-    })
+        $('#Sidenavbar').css('width', '0px');
+    });
     $('.arrow').on('click', function(event) {
-        $('.arrow-img').toggleClass('rotate')
-        $('.arrow-img').toggleClass('rotate-reset')
-    })
+        $('.arrow-img').toggleClass('rotate');
+        $('.arrow-img').toggleClass('rotate-reset');
+    });
 
     $(document).on('click', '.collapsible', function() {
-        this.classList.toggle('active')
-        $('.collapse').hide()
-        $(this.getAttribute('data-target')).show()
-    })
+        this.classList.toggle('active');
+        $('.collapse').hide();
+        $(this.getAttribute('data-target')).show();
+    });
 
     function callSearch(e, elm) {
-        e.preventDefault()
+        e.preventDefault();
         window.location.href =
             '/search?query=' +
             $(elm)
                 .find('input')
-                .val() //relative to domain
+                .val(); //relative to domain
     }
 
-    var $searchIcon = $('#searchIconMobile')
+    var $searchIcon = $('#searchIconMobile');
 
-    const DEPT_API = '/api/all-departments'
+    const DEPT_API = '/api/all-departments';
 
     $searchIcon.on('click', function(e) {
         if ($(this).attr('id') == 'searchIconMobile') {
             if ($('#searchbarHeader').hasClass('open')) {
-                $('#searchbarHeader').removeClass('open')
+                $('#searchbarHeader').removeClass('open');
             } else {
-                $('#searchbarHeader').addClass('open')
+                $('#searchbarHeader').addClass('open');
             }
         }
-    })
+    });
 
     $('.user-login-modal').click(function() {
-        $('#modalSignupForm').modal('toggle')
-    })
+        $('#modalSignupForm').modal('toggle');
+    });
     $('#register-modal').click(function() {
-        $('#modalSignupForm').modal('toggle')
-        $('#modalLoginForm').modal('toggle')
-    })
+        $('#modalSignupForm').modal('toggle');
+        $('#modalLoginForm').modal('toggle');
+    });
     $('.user-login-modal1').click(function() {
-        $('#modalSignupForm').modal('toggle')
-        $('#modalLoginForm').modal('toggle')
-    })
+        $('#modalSignupForm').modal('toggle');
+        $('#modalLoginForm').modal('toggle');
+    });
 
     $('.wishlist-login-modal').click(function() {
-        $('#modalLoginForm').modal()
-    })
+        $('#modalLoginForm').modal();
+    });
 
     $('body').on('mouseover', '.dropdown-submenu', function(e) {
-        var self = this
+        var self = this;
         $('.dropdown-submenu').each(function() {
             if ($(this).find('.dropdown-menu')[0] != $(self).next('ul')[0]) {
                 $(this)
                     .find('.dropdown-menu')
-                    .hide()
+                    .hide();
             }
-        })
+        });
         $(this)
             .find('ul')
-            .toggle()
+            .toggle();
         if (!isMobile()) {
             $(this)
                 .find('.dropdown-menu')
-                .css('top', $(this).position().top)
+                .css('top', $(this).position().top);
         }
-    })
+    });
 
     $.ajax({
         type: 'GET',
         url: DEPT_API,
         dataType: 'json',
         success: function(departments) {
-            var deptToAppend = ''
+            var deptToAppend = '';
             if (isMobile()) {
-                $('#collapsible-dept').empty()
-                var deptToAppend = ''
+                $('#collapsible-dept').empty();
+                var deptToAppend = '';
                 for (var i = 0; i < departments.length; i++) {
                     if (departments[i].categories.length == 0) {
                         deptToAppend +=
-                            '<li class="department"><a class="link" href="' +
+                            '<li class="department"><a class="link collapsible" href="' +
                             departments[i].link +
                             '">' +
                             departments[i].department +
-                            '</a></li>'
+                            '</a></li>';
                     } else {
                         deptToAppend +=
-                            '<li class="department"><a  class="link" href="' +
-                            '">' +
+                            '<li class="department"><a  class="collapsible" data-toggle="collapse" data-target="#' +
                             departments[i].department +
-                            '</a><a  class=" collapsible" data-toggle="collapse" data-target="#' +
+                            '"><span class="link">' +
                             departments[i].department +
-                            '" id="navbarDropdown' +
+                            '</span><span  class="side-nav-icon" id="navbarDropdown' +
                             i +
-                            '"><i class="fas fa-angle-right arrow"></i></a>'
+                            '"><i class="fas fa-angle-right arrow"></i></span></a>';
                         var catgToAppend =
                             '<ul class="collapse category-list" aria-labelledby="navbarDropdown" id="' +
                             departments[i].department +
-                            '">'
+                            '">';
                         for (
                             var j = 0;
                             j < departments[i].categories.length;
@@ -135,15 +134,15 @@ $(document).ready(function() {
                                 departments[i].categories[j].link +
                                 '">' +
                                 departments[i].categories[j].category +
-                                '</a></li>'
+                                '</a></li>';
                         }
-                        catgToAppend += '</ul>'
-                        deptToAppend += catgToAppend
-                        deptToAppend += '</li>'
+                        catgToAppend += '</ul>';
+                        deptToAppend += catgToAppend;
+                        deptToAppend += '</li>';
                     }
                 }
-                $('#collapsible-dept').html(deptToAppend)
-                var singleDeptMobile = ''
+                $('#collapsible-dept').html(deptToAppend);
+                var singleDeptMobile = '';
                 for (var i = 0; i < departments.length; i++) {
                     if (departments.length != 0) {
                         singleDeptMobile =
@@ -151,9 +150,9 @@ $(document).ready(function() {
                             departments[i].link +
                             '">' +
                             departments[i].department +
-                            '</a></div>'
+                            '</a></div>';
                     }
-                    $('#mobileDepartments').append(singleDeptMobile)
+                    $('#mobileDepartments').append(singleDeptMobile);
                 }
             }
             for (var i = 0; i < departments.length; i++) {
@@ -163,12 +162,12 @@ $(document).ready(function() {
                         departments[i].link +
                         '">' +
                         departments[i].department +
-                        '</a></li>'
+                        '</a></li>';
                 } else {
                     let classActive =
                         departments[i].link === location.pathname
                             ? 'active'
-                            : ''
+                            : '';
                     deptToAppend +=
                         '<li class="dropdown ' +
                         classActive +
@@ -178,9 +177,9 @@ $(document).ready(function() {
                         i +
                         '" role="button"  aria-haspopup="true" aria-expanded="false">' +
                         departments[i].department +
-                        '</a>'
+                        '</a>';
                     var catgToAppend =
-                        '<ul class="dropdown-menu" aria-labelledby="navbarDropdown">'
+                        '<ul class="dropdown-menu" aria-labelledby="navbarDropdown">';
                     for (var j = 0; j < departments[i].categories.length; j++) {
                         // if (departments[i].categories[j].sub_categories.length == 0) {
                         catgToAppend +=
@@ -188,7 +187,7 @@ $(document).ready(function() {
                             departments[i].categories[j].link +
                             '">' +
                             departments[i].categories[j].category +
-                            '</a></li>'
+                            '</a></li>';
                         // }
                         // else {
                         //   catgToAppend += '<li class="dropdown-submenu">';
@@ -203,21 +202,21 @@ $(document).ready(function() {
                         //   catgToAppend += '</li>';
                         // }
                     }
-                    catgToAppend += '</ul>'
-                    deptToAppend += catgToAppend
-                    deptToAppend += '</li>'
+                    catgToAppend += '</ul>';
+                    deptToAppend += catgToAppend;
+                    deptToAppend += '</li>';
                 }
             }
-            $('#departmentsNav').append(deptToAppend)
+            $('#departmentsNav').append(deptToAppend);
         },
         error: function(jqXHR, exception) {
-            console.log(jqXHR)
-            console.log(exception)
+            console.log(jqXHR);
+            console.log(exception);
         }
-    })
-})
+    });
+});
 
 export default function isMobile() {
-    var isMobile = window.matchMedia('only screen and (max-width: 768px)')
-    return isMobile.matches ? true : false
+    var isMobile = window.matchMedia('only screen and (max-width: 768px)');
+    return isMobile.matches ? true : false;
 }
