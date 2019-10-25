@@ -66,12 +66,15 @@ $(document).ready(function() {
                 class: 'clearfix'
             }).appendTo($prodDetails);
             var buyBtn = $('<a/>', {
-                class: 'btn pdp-buy-btn',
+                class: 'col-xs-12 float-right btn pdp-buy-btn',
                 href: data.product_url,
                 text: 'Buy',
                 target: '_blank'
             }).appendTo($prodDetails);
 
+            $('<div />', {
+                class: 'clearfix'
+            }).appendTo($prodDetails)
             $filtersDivMobile = jQuery('<div/>', {
                 id: 'filtersDivMobile',
                 class: 'filters filters-mobile'
