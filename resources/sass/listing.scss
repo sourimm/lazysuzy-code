@@ -516,7 +516,7 @@ input:disabled + .checkmark + .text {
     }
 }
 .-images {
-    height: 650px;
+    height: 90vh;
     width: auto;
     overflow: scroll;
     overflow-x: hidden;
@@ -552,12 +552,18 @@ input:disabled + .checkmark + .text {
 }
 .products-modal-details {
     overflow: scroll;
-    max-height: 400px;
+    height: 50vh;
 }
 .navbar-modal {
     background-color: transparent !important;
     color: $products-bg;
     font-size: 18px;
+}
+.close {
+    margin-right: 50px;
+    z-index: 1;
+    font-size: 50px;
+    color: $white;
 }
 .modal-nav-link {
     display: block;
@@ -582,7 +588,6 @@ input:disabled + .checkmark + .text {
     flex: 1 1 auto;
     padding: 1rem 0;
 }
-//added code for modal height
 .modal-dialog,
 .modal-content {
     /* 80% of window height */
@@ -590,9 +595,4 @@ input:disabled + .checkmark + .text {
 }
 .modal-dialog {
     margin: 0 auto;
-}
-.modal-body {
-    /* 100% = dialog height, 120px = header + footer */
-    max-height: calc(100% - 120px);
-    overflow-y: scroll;
 }

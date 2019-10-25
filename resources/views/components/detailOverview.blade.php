@@ -1,24 +1,18 @@
 <div class="modal fade product-modal" id="modalProduct" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-xl" role="document">
-    <div class="modal-content">
-      <div class="modal-header border-bottom-0">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-
-
-      <div class="detailspage" id="detailPage">
-
-<div class="d-block d-md-none controls-div">
-
-    <div class="wishlist-icon float-right m-10" id="wishlistBtn">
-        <i class="far fa-heart -icon"></i>
-    </div>
-    <div class="filter-toggle float-right m-10" id="filterToggleBtn">
-        <i class="fas fa-filter -icon"></i>
-    </div>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>  
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="detailspage" id="detailPage">
+                    <div class="d-block d-md-none controls-div">
+                        <div class="wishlist-icon float-right m-10" id="wishlistBtn">
+                            <i class="far fa-heart -icon"></i>
+                        </div>
+                        <div class="filter-toggle float-right m-10" id="filterToggleBtn">
+                            <i class="fas fa-filter -icon"></i>
+                        </div>
 </div>
 <div class="row container box">
     <div class="col-12 col-md-6"><div class="-images-container" id="scroll-bar-img"><div class="-images" ></div></div></div>
