@@ -515,7 +515,7 @@ input:disabled + .checkmark + .text {
     }
 }
 .-images {
-    height: 650px;
+    height: 520px;
     width: auto;
     overflow: scroll;
     overflow-x: hidden;
@@ -546,12 +546,11 @@ input:disabled + .checkmark + .text {
     span {
         margin: 5px;
         font-size: 30px;
-        color: $product-price;
     }
 }
 .products-modal-details {
     overflow: scroll;
-    max-height: 400px;
+    max-height: 250px;
 }
 .navbar-modal {
     background-color: transparent !important;
@@ -594,4 +593,9 @@ input:disabled + .checkmark + .text {
     /* 100% = dialog height, 120px = header + footer */
     max-height: calc(100% - 120px);
     overflow-y: scroll;
+}
+.close-btn-modal {
+    margin-right: -40px;
+    font-size: 40px;
+    color: $white !important;
 }
