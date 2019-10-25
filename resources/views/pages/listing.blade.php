@@ -4,7 +4,7 @@
 @include('./partials/subnav')
     <div class="listing">
 
-        <div class="listing-container main-container ">
+        <div class="listing-container main-container container ">
             <div class="d-none d-md-block">
                 {{ Breadcrumbs::render('products') }}
             </div>
