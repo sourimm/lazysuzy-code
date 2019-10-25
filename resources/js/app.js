@@ -106,21 +106,20 @@ $(document).ready(function() {
                 for (var i = 0; i < departments.length; i++) {
                     if (departments[i].categories.length == 0) {
                         deptToAppend +=
-                            '<li class="department"><a class="link" href="' +
+                            '<li class="department"><a class="link collapsible" href="' +
                             departments[i].link +
                             '">' +
                             departments[i].department +
                             '</a></li>'
                     } else {
                         deptToAppend +=
-                            '<li class="department"><a  class="link" href="' +
-                            '">' +
+                            '<li class="department"><a  class="collapsible" data-toggle="collapse" data-target="#' +
                             departments[i].department +
-                            '</a><a  class=" collapsible" data-toggle="collapse" data-target="#' +
+                            '"><span class="link">' +
                             departments[i].department +
-                            '" id="navbarDropdown' +
+                            '</span><span  class="side-nav-icon" id="navbarDropdown' +
                             i +
-                            '"><i class="fas fa-angle-right arrow"></i></a>'
+                            '"><i class="fas fa-angle-right arrow"></i></span></a>'
                         var catgToAppend =
                             '<ul class="collapse category-list" aria-labelledby="navbarDropdown" id="' +
                             departments[i].department +
