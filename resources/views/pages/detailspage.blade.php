@@ -6,9 +6,7 @@
 
         <div class="d-block d-md-none controls-div">
             
-            <div class="wishlist-icon float-right m-10" id="wishlistBtn">
-                <i class="far fa-heart -icon"></i>
-            </div>
+            
             <div class="filter-toggle float-right m-10" id="filterToggleBtn">
                 <i class="fas fa-filter -icon"></i>
             </div>
@@ -18,15 +16,16 @@
         <div class="row container box">
             <div class="prod-desc col-12 col-md-9">
                 <div class="-variations-carousel col-12"></div>
-                <div class="row">
                     <div class="prod-main-img col-12 col-md-5 order-md-last">
                     </div>
                     <div class="col-12 col-md-7">
-                        <h2 class="-name">product name</h2> 
-                        <div class="wishlist-icon float-right m-10" id="wishlistBtnDesktop">
+                    <div class="wishlist-icon float-right m-10" id="wishlistBtnDesktop">
                             <i class="far fa-heart -icon"></i>
                         </div>
-                        <div class="rating-container"><div class="rating"></div><span class="total-ratings"></span></div>
+                        <h2 class="-name">product name</h2> 
+                       
+                        
+                        <div class="rating-container"><span class="total-ratings float-right"></span><div class="rating float-right"></div></div>
                         
                         <p class="-desc d-none d-md-block"></p>
                         <div class="d-none d-md-block">
@@ -86,13 +85,13 @@
                             <!-- Nav tabs -->
                             <ul class="nav nav-tabs">
                                 <li class="nav-item">
-                                    <a class="nav-link active" data-toggle="tab" href="#descp">Description</a>
+                                    <a class="nav-link detail-nav-link active" data-toggle="tab" href="#descp">Description</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" data-toggle="tab" href="#feat">Features</a>
+                                    <a class="nav-link detail-nav-link" data-toggle="tab" href="#feat">Features</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" data-toggle="tab" href="#dimen">Dimensions</a>
+                                    <a class="nav-link detail-nav-link" data-toggle="tab" href="#dimen">Dimensions</a>
                                 </li>
                             </ul>
 
@@ -104,7 +103,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                
             </div>
 
             <div class="prod-price-card col-3 d-none d-md-block">
