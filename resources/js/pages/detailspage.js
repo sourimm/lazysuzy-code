@@ -46,26 +46,26 @@ $(document).ready(function() {
                 }).appendTo($images)
             })
             var $prodDetails = $('<div />', {
-                class: '-product-details'
+                class: '-product-details col-12'
             }).appendTo($prodPriceCard)
-            var site = $('<span/>', {
+            var site = $('<span />', {
                 text: data.site + ' ',
-                class: 'float-left text-uppercase'
+                class: 'float-left text-uppercase col-md-6 col-xs-12'
             }).appendTo($prodDetails)
-            var price = $('<span/>', {
+            var price = $('<span />', {
                 text: ' $' + data.is_price.replace('-', ' - $'),
-                class: 'float-right'
-            }).appendTo($prodDetails)
-            $('<div />', {
-                class: 'clearfix'
+                class: 'float-left col-xs-12 col-md-6'
             }).appendTo($prodDetails)
             var buyBtn = $('<a/>', {
-                class: 'btn pdp-buy-btn',
+                class: 'col-xs-12 float-right btn pdp-buy-btn',
                 href: data.product_url,
                 text: 'Buy',
                 target: '_blank'
             }).appendTo($prodDetails)
 
+            $('<div />', {
+                class: 'clearfix'
+            }).appendTo($prodDetails)
             $filtersDivMobile = jQuery('<div/>', {
                 id: 'filtersDivMobile',
                 class: 'filters filters-mobile'
