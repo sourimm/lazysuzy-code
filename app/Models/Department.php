@@ -67,4 +67,26 @@ class Department extends Model
             'categories'  => $c_cat,
         ];
     }
+
+    public static function get_department_info($LS_ID) {
+
+        $LS_IDs = explode(",", $LS_ID);
+        $rows = Department::select("*")
+            ->whereIn('LS_ID', $LS_IDs)
+            ->get()
+            ->toArray();
+        
+        $dept_info = [];
+        foreach ($rows as $key => $value) {
+            array_push($dept_info, [
+                'department_name' => $value['department'],
+                'department_url' => '/products/' . $value['department_'],
+                'category_name' => $value['product_category'],
+                'category_url' => '/products/' . $value['department_'] . '/' . $value['product_category_'],
+                'sub_category_name' => $value['product_sub_category'],
+                'sub_category_url' => '/products/' . $value['department_'] . '/' . $value['product_category_'] . '/' . $value['product_sub_category_'],
+            ]);
+        }
+        return $dept_info;
+    }
 }
