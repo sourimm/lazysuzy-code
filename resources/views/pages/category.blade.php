@@ -7,7 +7,6 @@
     <div class="listing-container category-img-container">
         <div class="listing-top-controls d-block" >
 
-                    {{ Breadcrumbs::render('products') }}
                     <!-- <span class="filter-toggle float-right" id="filterToggleBtn">
                         <i class="fas fa-filter"></i>
                     </span>

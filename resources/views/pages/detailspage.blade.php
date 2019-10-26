@@ -25,7 +25,7 @@
                         <h2 class="-name">product name</h2> 
                        
                         
-                        <div class="rating-container"><span class="total-ratings float-right"></span><div class="rating float-right"></div></div>
+                        <div class="rating-container"><div class="rating "></div><span class="total-ratings"></span></div>
                         
                         <p class="-desc d-none d-md-block"></p>
                         <div class="d-none d-md-block">
