@@ -20317,6 +20317,17 @@ input:disabled + .checkmark + .text {
   margin: 0px;
 }
 
+.detailspage-main-div .detailspage .-product-details .offer-price {
+  color: #b76e79;
+}
+
+.detailspage-main-div .detailspage .-product-details .price {
+  font-size: 0.8em;
+  text-decoration: line-through;
+  display: inline-block;
+  margin-left: 10px;
+}
+
 .detailspage-main-div .detailspage .prod-price-card {
   border-radius: 20px;
   background-color: #ffffff;
