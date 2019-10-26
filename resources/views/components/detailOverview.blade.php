@@ -22,11 +22,12 @@
             </div>
             <div class="brand-header">
                 <div class="row">
+               
                     <h2 class="col-8  -site">Brand name</h2>
                     <div class="col-2 mt-2" id="wishlistBtnDesktop">
                         <i class="far fa-heart -icon"></i> Save
                     </div>
-                    <div class="col-2 mt-2">
+                    <div class="col-2 mt-2 btn-copy">
                     <i class="fa fa-share -icon"></i> Share
                     </div>
                 </div>
@@ -44,28 +45,28 @@
     <nav class="navbar-modal navbar-light bg-light">
         <ul class="nav nav-pills">
             <li class="modal-nav-item pl-4 pr-4">
-            <a class="modal-nav-link" href="#fat">Overview</a>
+            <a class="modal-nav-link" href="#Overview">Overview</a>
             </li>
             <li class="modal-nav-item pl-4 pr-4">
-            <a class="modal-nav-link" href="#mdo">Features</a>
+            <a class="modal-nav-link" href="#Features">Features</a>
             </li>
             <li class="modal-nav-item pl-4 pr-4">
-            <a class="modal-nav-link" href="#mdo">Dimensions</a>
+            <a class="modal-nav-link" href="#Dimensions">Dimensions</a>
             </li>
 
         </ul>
         </nav>
         <hr class="modal-hr"/>
         <div class="products-modal-details" data-spy="scroll" data-target="#navbar-example2" data-offset="0">
-        <h4>Overview</h4>
+        <h4 id="#Overview">Overview</h4>
         <hr class="modal-hr"/>
         <p class="-desc d-none d-md-block"></p>
         <hr class="modal-hr"/>
-        <h4>Features</h4>
+        <h4 id="#Features">Features</h4>
         <hr class="modal-hr"/>
         <ul class="-features"></ul>
         <hr class="modal-hr"/>
-        <h4>Dimension</h4>
+        <h4 id="#Dimension">Dimension</h4>
         <hr class="modal-hr"/>
         <ul class="-dimension"></ul>
         </div>
@@ -76,5 +77,3 @@
     </div>
   </div>
 </div>
-
-
