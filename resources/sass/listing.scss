@@ -23,7 +23,6 @@ input:disabled + .checkmark + .text {
 
     .listing-container {
         margin-top: 35px;
-        padding: 0px;
         margin: auto;
 
         @media only screen and (min-width: 1200px) {
@@ -191,7 +190,9 @@ input:disabled + .checkmark + .text {
     width: 100%;
     margin: 20px 0;
     max-width: 220px;
+    min-height: 220px;
 }
+
 .category-img-container {
     max-width: 1080px;
     margin: 0 auto;
@@ -221,6 +222,9 @@ input:disabled + .checkmark + .text {
 }
 
 @media only screen and (max-width: 480px) {
+    .category-img {
+        min-height: 162px;
+    }
     .listing,
     .category-page {
         .listing-container {
@@ -303,6 +307,8 @@ input:disabled + .checkmark + .text {
 
                         .ls-product {
                             margin-bottom: 0px;
+                            min-height: 130px;
+                            background-position: center;
                         }
                     }
                 }
@@ -387,6 +393,7 @@ input:disabled + .checkmark + .text {
         @include media-breakpoint-down(md) {
             .dropdown-item {
                 width: 90%;
+                z-index: 5;
             }
             .dropdown-toggle {
                 margin-top: 4px;
@@ -411,3 +418,185 @@ input:disabled + .checkmark + .text {
 .submenu-dropdown {
     padding: 10px;
 }
+.sidenav {
+    height: 100%;
+    width: 0;
+    position: fixed;
+    z-index: 101;
+    top: 0;
+    left: 0;
+    background-color: $secondary-color;
+    overflow-x: hidden;
+    transition: 0.5s;
+    padding-top: 60px;
+}
+
+.sidenav .closebtn {
+    position: absolute;
+    top: 0;
+    right: 25px;
+    font-size: 36px;
+    margin-left: 50px;
+    color: $border-color;
+    text-decoration: none;
+}
+
+.sidenav .collapsible {
+    color: $white;
+    cursor: pointer;
+    padding: 18px;
+    width: 100%;
+    text-align: left;
+    outline: none;
+}
+
+.active,
+.sidenav .collapsible:hover {
+    color: $primary-color;
+}
+.sidenav-items {
+    padding: 0 18px;
+    overflow: hidden;
+    list-style-type: none;
+    white-space: nowrap;
+
+    .department {
+        color: $white;
+
+        .category-list {
+            padding: 0 50px;
+            overflow: hidden;
+            list-style-type: none;
+            background-color: $category-bg;
+            margin: 0 -20px;
+            a.link {
+                color: $white;
+            }
+        }
+    }
+    a.link {
+        color: $white;
+        width: 80%;
+        display: inline-block;
+        padding: 5px 0;
+        text-decoration: none;
+        &:hover {
+            color: $primary-color;
+        }
+    }
+    a.collapsible {
+        padding-right: 10px;
+        text-decoration: none;
+        font-size: 20px;
+        display: block;
+        &.active {
+            color: $products-bg;
+            .side-nav-icon {
+                color: $products-bg;
+                transform: rotate(90deg);
+            }
+        }
+    }
+    .side-nav-link {
+        margin-left: 180px;
+    }
+    .side-nav-icon {
+        float: right;
+    }
+}
+
+@media screen and (max-height: 450px) {
+    .sidenav {
+        padding-top: 15px;
+    }
+    .sidenav a {
+        font-size: 18px;
+        color: $white;
+    }
+}
+.-images {
+    height: 90vh;
+    width: auto;
+    overflow: scroll;
+    overflow-x: hidden;
+    margin-left: -55px;
+}
+.nav {
+    display: flex;
+    flex-wrap: nowrap;
+    margin-bottom: 0;
+    list-style: none;
+}
+.nav-pills .nav-link {
+    border-radius: 0.25rem;
+    color: $category-bg;
+}
+.pdp-buy-btn {
+    color: $products-bg;
+    background-color: $category-bg;
+    margin: 5px;
+    display: flex;
+    width: 30%;
+}
+.pdp-buy-btn:hover {
+    color: $products-bg;
+    text-decoration: none;
+}
+.-product-details {
+    margin: 5px;
+
+    .offer-price {
+        font-size: 30px;
+        color: $product-price;
+    }
+    .price {
+        text-decoration: line-through;
+        font-size: 25px;
+    }
+
+}
+.products-modal-details {
+    overflow: scroll;
+    height: 50vh;
+}
+.navbar-modal {
+    background-color: transparent !important;
+    color: $products-bg;
+    font-size: 18px;
+}
+.close {
+    z-index: 1;
+    font-size: 50px;
+    color: $white;
+}
+.modal-nav-link {
+    display: block;
+    padding: 0rem 1rem;
+    text-decoration: none;
+    color: $category-bg;
+}
+.modal-nav-item {
+    :hover {
+        text-decoration: none;
+        color: $products-bg;
+    }
+}
+.modal-hr {
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+    border: 0;
+    border-top: 1px solid $secondary-color;
+}
+// .modal-body {
+//     position: relative;
+//     flex: 1 1 auto;
+//     padding: 1rem 0;
+// }
+// .modal-dialog,
+// .modal-content {
+//     /* 80% of window height */
+//     height: 100%;
+// }
+// .modal-dialog {
+//     margin: 0 auto;
+// }

@@ -1,6 +1,5 @@
 .detailspage-main-div {
     // font-family: Helvetica, sans-serif;
-    background-color: $white;
 
     .detailspage {
         .wishlist-icon {
@@ -100,21 +99,20 @@
         }
 
         .-images-container {
-            height: 300px;
+            height: 480px;
             overflow-x: auto;
             margin: 0px 0px 15px 0px;
             @include media-breakpoint-up(md) {
                 margin: 15px 0px;
             }
             .-images {
-                overflow-x: scroll;
-                overflow-y: hidden;
-                height: 300px;
+                overflow-y: scroll;
+                height: 480px;
                 white-space: nowrap;
                 padding: 15px 0;
                 .-prod-img {
                     max-height: 100%;
-                    display: inline-block;
+                    display: block;
                 }
             }
         }
@@ -135,23 +133,13 @@
                 }
             }
         }
-        .-product-details {
-            .offer-price {
-                color: #b76e79;
-            }
-            .price {
-                font-size: 0.8em;
-                text-decoration: line-through;
-                display: inline-block;
-                margin-left: 10px;
-                font-size: 25px;
-            }
+        .brand-header {
+            padding-bottom: 5px;
+            border-bottom: 2px solid #ccc;
+            margin-bottom: 10px;
         }
 
         .prod-price-card {
-            border-radius: 20px;
-            background-color: $white;
-            padding: 30px 10px;
             font-size: 24px;
             font-weight: 600;
             .pdp-buy-btn {
@@ -192,6 +180,7 @@
             margin: auto auto 10px auto;
             .rating {
                 margin-left: 0px;
+                vertical-align: middle;
             }
         }
     }
@@ -243,15 +232,12 @@
         font-size: 14px;
         font-weight: 600;
         .pdp-buy-btn {
-            width: 40%;
+            width: 100%;
             color: $primary-color;
             background-color: $secondary-color;
-            font-size: 14px;
+            font-size: 24px;
             border-radius: 10px;
             margin: 10px 0px;
-        }
-        span {
-            color: $black;
         }
     }
 
@@ -262,21 +248,16 @@
     .detailspage {
         .container {
             padding: 0px;
-            color: $black;
         }
     }
 
     .tab-content {
         padding: 15px;
-        background-color: $body-bg;
     }
 }
 
 .tab-pane {
     margin-top: 10px;
-}
-.detail-nav-link {
-    color: $black;
 }
 
 .card .card-header {

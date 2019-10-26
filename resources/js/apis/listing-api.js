@@ -10,7 +10,7 @@ $(document).ready(function() {
     const DEPT_API = '/api/all-departments';
     const FAV_MARK_API = '/api/mark/favourite/';
     const FAV_UNMARK_API = '/api/unmark/favourite/';
-    const PRODUCT_URL = location.origin + '/product/';
+    const PRODUCT_URL =  '/product/';
     var totalResults = 0;
     var UrlSearchParams = new Object();
     var objGlobalFilterData;
@@ -165,7 +165,8 @@ $(document).ready(function() {
         }).appendTo('#productsContainerDiv');
 
         var productLink = jQuery('<a/>', {
-            href: PRODUCT_URL + productDetails.sku
+            href: PRODUCT_URL + productDetails.sku,
+            class: 'product-detail-modal'
         }).appendTo(mainProductDiv);
 
         var product = jQuery('<div/>', {
@@ -587,7 +588,6 @@ $(document).ready(function() {
             callWishlistAPI($(this));
         }
     });
-
     function callWishlistAPI($elm) {
         var strApiToCall = '';
         if (!$elm.hasClass('marked')) {
