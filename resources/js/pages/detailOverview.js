@@ -36,6 +36,7 @@ $(document).ready(function() {
                 if (data.wishlisted) {
                     $('.wishlist-icon').addClass('marked')
                 }
+                $images.empty()
                 data.on_server_images.forEach(img => {
                     var responsiveImg = jQuery('<img/>', {
                         class: '-prod-img img-fluid',
@@ -48,9 +49,17 @@ $(document).ready(function() {
                     class: '-product-details'
                 }).appendTo($prodPriceCard)
 
-                var price = $('<span/>', {
-                    text: ' $' + data.is_price.replace('-', ' - $')
-                }).appendTo($prodDetails)
+                var priceCont = $('<div/>').appendTo($prodDetails)
+                $('<span/>', {
+                    text: ' $' + data.is_price.replace('-', ' - $'),
+                    class: 'offer-price'
+                }).appendTo(priceCont)
+                if (data.is_price !== data.was_price) {
+                    $('<span/>', {
+                        text: ' $' + data.was_price.replace('-', ' -$'),
+                        class: 'price'
+                    }).appendTo(priceCont)
+                }
 
                 var buyBtn = $('<a/>', {
                     class: 'btn pdp-buy-btn',
