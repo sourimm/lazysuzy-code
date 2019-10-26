@@ -140,17 +140,17 @@
                 color: #b76e79;
             }
             .price {
-                font-size:0.8em;
+                font-size: 0.8em;
                 text-decoration: line-through;
                 display: inline-block;
                 margin-left: 10px;
+                font-size: 25px;
             }
         }
 
         .prod-price-card {
             border-radius: 20px;
             background-color: $white;
-            margin-top: -50px;
             padding: 30px 10px;
             font-size: 24px;
             font-weight: 600;
@@ -249,7 +249,6 @@
             font-size: 14px;
             border-radius: 10px;
             margin: 10px 0px;
-            margin-top: -55px;
         }
         span {
             color: $black;
