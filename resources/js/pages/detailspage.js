@@ -68,7 +68,7 @@ $(document).ready(function() {
             var buyBtn = $('<a/>', {
                 class: 'col-xs-12 float-right btn pdp-buy-btn',
                 href: data.product_url,
-                text: 'Buy',
+                text: 'Buy from seller',
                 target: '_blank'
             }).appendTo($prodDetails);
 
