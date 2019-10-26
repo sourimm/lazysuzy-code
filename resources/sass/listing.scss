@@ -543,10 +543,9 @@ input:disabled + .checkmark + .text {
     text-decoration: none;
 }
 .-product-details {
-    span {
-        margin: 5px;
-        font-size: 30px;
-    }
+    margin: 5px;
+    font-size: 30px;
+    color: $product-price;
 }
 .products-modal-details {
     overflow: scroll;
@@ -558,7 +557,6 @@ input:disabled + .checkmark + .text {
     font-size: 18px;
 }
 .close {
-    margin-right: 50px;
     z-index: 1;
     font-size: 50px;
     color: $white;
