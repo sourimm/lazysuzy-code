@@ -1,10 +1,10 @@
 <div class="modal fade product-modal" id="modalProduct" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+    <button type="button" class="close product-close" data-dismiss="modal" aria-label="Close">
         <span aria-hidden="true">&times;</span>
     </button>
-    <div class="modal-dialog modal-xl" role="document">
+    <div class="modal-dialog product-modal-dialog modal-xl" role="document">
         <div class="modal-content">
-            <div class="modal-body">
+            <div class="modal-body product-modal-body">
                 <div class="detailspage" id="detailPage">
                     <div class="d-block d-md-none controls-div">
                         <div class="wishlist-icon float-right m-10" id="wishlistBtn">
@@ -55,7 +55,7 @@
 
         </ul>
         </nav>
-        <hr class="modal-hr"/>
+        <hr class="modal-hr"/>a
         <div class="products-modal-details" data-spy="scroll" data-target="#navbar-example2" data-offset="0">
         <h4>Overview</h4>
         <hr class="modal-hr"/>
