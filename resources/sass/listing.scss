@@ -544,13 +544,16 @@ input:disabled + .checkmark + .text {
 }
 .-product-details {
     margin: 5px;
+
     .offer-price {
         font-size: 30px;
+        color: $product-price;
     }
     .price {
         text-decoration: line-through;
         font-size: 25px;
     }
+
 }
 .products-modal-details {
     overflow: scroll;
@@ -562,7 +565,6 @@ input:disabled + .checkmark + .text {
     font-size: 18px;
 }
 .close {
-    margin-right: 50px;
     z-index: 1;
     font-size: 50px;
     color: $white;
