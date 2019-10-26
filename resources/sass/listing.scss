@@ -425,7 +425,7 @@ input:disabled + .checkmark + .text {
     z-index: 101;
     top: 0;
     left: 0;
-    background-color: $category-bg;
+    background-color: $secondary-color;
     overflow-x: hidden;
     transition: 0.5s;
     padding-top: 60px;
@@ -544,8 +544,16 @@ input:disabled + .checkmark + .text {
 }
 .-product-details {
     margin: 5px;
-    font-size: 30px;
-    color: $product-price;
+
+    .offer-price {
+        font-size: 30px;
+        color: $product-price;
+    }
+    .price {
+        text-decoration: line-through;
+        font-size: 25px;
+    }
+
 }
 .products-modal-details {
     overflow: scroll;
@@ -577,18 +585,18 @@ input:disabled + .checkmark + .text {
     margin-top: 0.5rem;
     margin-bottom: 0.5rem;
     border: 0;
-    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    border-top: 1px solid $secondary-color;
 }
-.modal-body {
-    position: relative;
-    flex: 1 1 auto;
-    padding: 1rem 0;
-}
-.modal-dialog,
-.modal-content {
-    /* 80% of window height */
-    height: 100%;
-}
-.modal-dialog {
-    margin: 0 auto;
-}
+// .modal-body {
+//     position: relative;
+//     flex: 1 1 auto;
+//     padding: 1rem 0;
+// }
+// .modal-dialog,
+// .modal-content {
+//     /* 80% of window height */
+//     height: 100%;
+// }
+// .modal-dialog {
+//     margin: 0 auto;
+// }

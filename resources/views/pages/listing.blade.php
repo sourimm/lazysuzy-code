@@ -6,7 +6,6 @@
 
         <div class="listing-container main-container container ">
             <div class="d-none d-md-block">
-                {{ Breadcrumbs::render('products') }}
             </div>
             <div class="row">
                 <div class="filters col-md-2 d-md-block" id="filters">
@@ -78,7 +77,6 @@
                 </div>
                 <div class="listing-top-controls d-block d-md-none">
 
-                    {{ Breadcrumbs::render('products') }}
                     <span class="filter-toggle float-right" id="filterToggleBtn">
                         <i class="fas fa-filter"></i>
                     </span>
@@ -107,9 +105,8 @@
                             <img src="{{ asset('/images/Spinner-1s-100px.gif') }}" alt="Spinner">
                         </div>
                     </div>
-                </div>
-
-            </div>
+</div>
+</div>
         </div>
         @component('components.detailOverview')
         @endcomponent
