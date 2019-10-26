@@ -3,10 +3,9 @@
 @section('middle_content')
 @include('./partials/subnav')
     <div class="listing">
-       
-        <div class="listing-container main-container ">
+
+        <div class="listing-container main-container container ">
             <div class="d-none d-md-block">
-                {{ Breadcrumbs::render('products') }}
             </div>
             <div class="row">
                 <div class="filters col-md-2 d-md-block" id="filters">
@@ -77,27 +76,7 @@
                     <a class="btn clearall-filter-btn" href="https://lazysuzy.com/filter/clear_filter/all">Clear All</a>
                 </div>
                 <div class="listing-top-controls d-block d-md-none">
-                    <div class="dropdown show float-left">
-                        <a class="dropdown-toggle" href="#" role="button" id="dropdownMobileListing" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="fas fa-angle-down"></i>
-                        </a>
-                        <ul class="dropdown-menu" aria-labelledby="dropdownMobileListing" rel="dropdownMobileListing">
-                            <li><a class="dropdown-item" href="#">Accent</a></li>
-                            <li class="dropdown-submenu"><a class="dropdown-item dropdown-toggle" href="#">Living<i class="fas fa-angle-right float-right"></i></a>
-                                <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item" href="#">All</a></li>
-                                    <li><a class="dropdown-item" href="#">Sofa</a></li>
-                                    <li><a class="dropdown-item" href="#">Seating</a></li>
-                                    <li><a class="dropdown-item" href="#">Table</a></li>
-                                    <li><a class="dropdown-item" href="#">Remaining</a></li>
-                                </ul>
-                            </li>
-                            <li><a class="dropdown-item" href="#">Bed</a></li>
-                            <li><a class="dropdown-item" href="#">Kitchen</a></li>
-                            <li><a class="dropdown-item" href="#">Remaining</a></li>
-                        </ul>
-                    </div>
-                    {{ Breadcrumbs::render('products') }}
+
                     <span class="filter-toggle float-right" id="filterToggleBtn">
                         <i class="fas fa-filter"></i>
                     </span>
@@ -126,12 +105,14 @@
                             <img src="{{ asset('/images/Spinner-1s-100px.gif') }}" alt="Spinner">
                         </div>
                     </div>
-                </div>
-
-            </div>
+</div>
+</div>
         </div>
+        @component('components.detailOverview')
+        @endcomponent
     </div>
 @endsection
 @push('pageSpecificScripts')
     <script src="{{ mix('js/listing.js')}}"></script>
+    <script src="{{ mix('js/detailOverview.js')}}"></script>
 @endpush

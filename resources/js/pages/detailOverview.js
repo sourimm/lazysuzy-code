@@ -16,6 +16,116 @@ $(document).ready(function() {
     var variationDrift = ''
     var variationImgEl = ''
     var arrFilters = []
+    if (isMobile()) {
+        return
+    }
+    $(document).on('click', '.product-detail-modal', function(e) {
+        e.preventDefault()
+        e.stopPropagation()
+        $('#modalProduct').modal()
+        $prodPriceCard.empty()
+        $.ajax({
+            type: 'GET',
+            url: '/api' + this.attributes.href.value,
+            dataType: 'json',
+            success: function(data) {
+                var $imagesContainer = $product.find('.-images-container')
+                var $images = $imagesContainer.find('.-images')
+                var imgContainerWidth = 0
+                $('.wishlist-icon').attr('sku', data.sku)
+                if (data.wishlisted) {
+                    $('.wishlist-icon').addClass('marked')
+                }
+                $images.empty()
+                data.on_server_images.forEach(img => {
+                    var responsiveImg = jQuery('<img/>', {
+                        class: '-prod-img img-fluid',
+                        src: img,
+                        alt: 'product image'
+                    }).appendTo($images)
+                })
+                $('.-site').text(data.site)
+                var $prodDetails = $('<div />', {
+                    class: '-product-details'
+                }).appendTo($prodPriceCard)
+
+                var priceCont = $('<div/>').appendTo($prodDetails)
+                $('<span/>', {
+                    text: ' $' + data.is_price.replace('-', ' - $'),
+                    class: 'offer-price'
+                }).appendTo(priceCont)
+                if (data.is_price !== data.was_price) {
+                    $('<span/>', {
+                        text: ' $' + data.was_price.replace('-', ' -$'),
+                        class: 'price'
+                    }).appendTo(priceCont)
+                }
+
+                var buyBtn = $('<a/>', {
+                    class: 'btn pdp-buy-btn',
+                    href: data.product_url,
+                    text: 'Buy from seller',
+                    target: '_blank'
+                }).appendTo($prodDetails)
+
+                $filtersDivMobile = jQuery('<div/>', {
+                    id: 'filtersDivMobile',
+                    class: 'filters filters-mobile'
+                }).insertBefore($imagesContainer)
+
+                $filtersDiv = jQuery('<div/>', {
+                    id: 'filtersDiv',
+                    class: 'filters'
+                }).appendTo($prodPriceCard)
+
+                if (data.variations != null) {
+                    makeVariationCarousel(data.variations)
+                    if (data.filters == null && $.isEmptyObject(data.filters)) {
+                        $('#filterToggleBtn').hide()
+                    }
+                } else {
+                    fetchVariations()
+                }
+
+                //Product description
+                var $desc = $product.find('.prod-desc')
+                $desc.find('.-name').text(data.name)
+                if (isMobile()) {
+                    var $mobileProdDetails = $('.-product-details').clone()
+                    $mobileProdDetails.insertAfter('.-name')
+                }
+
+                var ratingValue = parseFloat(data.rating).toFixed(1)
+                var ratingClass =
+                    'rating-' + ratingValue.toString().replace('.', '_')
+                $desc.find('.rating').addClass(ratingClass)
+                $desc.find('.total-ratings').text(data.reviews)
+                if (data.reviews <= 0) {
+                    $desc.find('.rating-container').hide()
+                }
+
+                $desc.find('.-desc').html(data.description)
+                $desc.find('.-dimen').html(data.dimension)
+                $('#descp').html(data.description)
+                $('#dimen').html(data.dimension)
+
+                var $featuresList = $desc.find('.-features')
+                data.features.forEach(feature => {
+                    var li = $('<li>', {
+                        html: feature
+                    }).appendTo($featuresList)
+                })
+
+                $($featuresList)
+                    .clone()
+                    .appendTo('#feat')
+            },
+            error: function(jqXHR, exception) {
+                console.log(jqXHR)
+                console.log(exception)
+            }
+        })
+    })
 
     $('#features')
         .find('.nav-link')
@@ -24,116 +134,6 @@ $(document).ready(function() {
                 $('#collapseB').collapse('toggle')
             }
         })
-
-    $.ajax({
-        type: 'GET',
-        url: PDP_API,
-        dataType: 'json',
-        success: function(data) {
-            document.title = data.name + ' | LazySuzy'
-            var $imagesContainer = $product.find('.-images-container')
-            var $images = $imagesContainer.find('.-images')
-            var imgContainerWidth = 0
-            $('.wishlist-icon').attr('sku', data.sku)
-            if (data.wishlisted) {
-                $('.wishlist-icon').addClass('marked')
-            }
-            data.on_server_images.forEach(img => {
-                var responsiveImg = jQuery('<img/>', {
-                    class: '-prod-img img-fluid',
-                    src: img,
-                    alt: 'product image'
-                }).appendTo($images)
-            })
-            var $prodDetails = $('<div />', {
-                class: '-product-details'
-            }).appendTo($prodPriceCard)
-            var site = $('<span/>', {
-                text: data.site + ' ',
-                class: 'text-uppercase'
-            }).appendTo($prodDetails)
-            var priceCont = $('<div/>').appendTo($prodDetails)
-            $('<span/>', {
-                text: ' $' + data.is_price.replace('-', ' - $'),
-                class: 'offer-price'
-            }).appendTo(priceCont)
-            if (data.is_price !== data.was_price) {
-                $('<span/>', {
-                    text: ' $' + data.was_price.replace('-', ' -$'),
-                    class: 'price'
-                }).appendTo(priceCont)
-            }
-
-            $('<div />', {
-                class: 'clearfix'
-            }).appendTo($prodDetails)
-            var buyBtn = $('<a/>', {
-                class: 'col-xs-12 btn pdp-buy-btn',
-                href: data.product_url,
-                text: 'Buy from seller',
-                target: '_blank'
-            }).appendTo($prodDetails)
-
-            $('<div />', {
-                class: 'clearfix'
-            }).appendTo($prodDetails)
-            $filtersDivMobile = jQuery('<div/>', {
-                id: 'filtersDivMobile',
-                class: 'filters filters-mobile'
-            }).insertBefore($imagesContainer)
-
-            $filtersDiv = jQuery('<div/>', {
-                id: 'filtersDiv',
-                class: 'filters'
-            }).appendTo($prodPriceCard)
-
-            if (data.variations != null) {
-                makeVariationCarousel(data.variations)
-                if (data.filters == null && $.isEmptyObject(data.filters)) {
-                    $('#filterToggleBtn').hide()
-                }
-            } else {
-                fetchVariations()
-            }
-
-            //Product description
-            var $desc = $product.find('.prod-desc')
-            $desc.find('.-name').text(data.name)
-            if (isMobile()) {
-                var $mobileProdDetails = $('.-product-details').clone()
-                $mobileProdDetails.insertAfter('.-name')
-            }
-
-            var ratingValue = parseFloat(data.rating).toFixed(1)
-            var ratingClass =
-                'rating-' + ratingValue.toString().replace('.', '_')
-            $desc.find('.rating').addClass(ratingClass)
-            $desc.find('.total-ratings').text(data.reviews)
-            if (data.reviews <= 0) {
-                $desc.find('.rating-container').hide()
-            }
-
-            $desc.find('.-desc').html(data.description)
-            $desc.find('.-dimen').html(data.dimension)
-            $('#descp').html(data.description)
-            $('#dimen').html(data.dimension)
-
-            var $featuresList = $desc.find('.-features')
-            data.features.forEach(feature => {
-                var li = $('<li>', {
-                    html: feature
-                }).appendTo($featuresList)
-            })
-
-            $($featuresList)
-                .clone()
-                .appendTo('#feat')
-        },
-        error: function(jqXHR, exception) {
-            console.log(jqXHR)
-            console.log(exception)
-        }
-    })
 
     function fetchVariations(queryParams = null) {
         updateFiltersAndVariations(queryParams, VARIATION_API, true)

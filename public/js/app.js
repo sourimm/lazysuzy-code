@@ -31,6 +31,17 @@ $(document).ready(function () {
   $('.sb-body').submit(function (e) {
     callSearch(e, this);
   });
+  $('.navbar-toggler').click(function () {
+    $('#Sidenavbar').css('width', '300px');
+  });
+  $('#Sidenavbarclose').click(function () {
+    $('#Sidenavbar').css('width', '0px');
+  });
+  $(document).on('click', '.collapsible', function () {
+    this.classList.toggle('active');
+    $('.collapse').hide();
+    $(this.getAttribute('data-target')).show();
+  });
 
   function callSearch(e, elm) {
     e.preventDefault();
@@ -49,7 +60,15 @@ $(document).ready(function () {
     }
   });
   $('.user-login-modal').click(function () {
-    $('#modalLoginForm').modal();
+    $('#modalSignupForm').modal('toggle');
+  });
+  $('#register-modal').click(function () {
+    $('#modalSignupForm').modal('toggle');
+    $('#modalLoginForm').modal('toggle');
+  });
+  $('.user-login-modal1').click(function () {
+    $('#modalSignupForm').modal('toggle');
+    $('#modalLoginForm').modal('toggle');
   });
   $('.wishlist-login-modal').click(function () {
     $('#modalLoginForm').modal();
@@ -100,7 +119,7 @@ $(document).ready(function () {
 
         for (var i = 0; i < departments.length; i++) {
           if (departments.length != 0) {
-            singleDeptMobile = '<div class="col-4 col-sm-auto -dept "><a href="' + departments[i].link + '">' + departments[i].department + '</a></div>';
+            singleDeptMobile = '<div class="col-4 col-sm-auto -dept "><a  href="' + departments[i].link + '">' + departments[i].department + '</a></div>';
           }
 
           $('#mobileDepartments').append(singleDeptMobile);
