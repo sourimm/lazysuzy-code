@@ -8,7 +8,7 @@ class Category extends Model
 {
     protected $table = "mapping_core";
 
-    public static $base_site_url = "https://lazysuzy.com";
+    public static $base_site_url = "https://www.lazysuzy.com";
 
     protected $listing_base_url = "/products";
 
