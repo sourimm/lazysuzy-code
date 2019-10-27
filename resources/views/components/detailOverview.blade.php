@@ -22,14 +22,14 @@
             </div>
             <div class="brand-header">
                 <div class="row">
-               
+
                     <h2 class="col-8  -site">Brand name</h2>
-                    <div class="col-2 mt-2" id="wishlistBtnDesktop">
+                    <!-- <div class="col-2 mt-2" id="wishlistBtnDesktop">
                         <i class="far fa-heart -icon"></i> Save
                     </div>
                     <div class="col-2 mt-2 btn-copy">
                     <i class="fa fa-share -icon"></i> Share
-                    </div>
+                    </div> -->
                 </div>
             </div>
             <hr class="modal-hr" />
@@ -42,7 +42,7 @@
     </div>
     <div class="all-desc">
 <hr class="modal-hr"/>
-    <nav class="navbar-modal navbar-light bg-light">
+    <!-- <nav class="navbar-modal navbar-light bg-light">
         <ul class="nav nav-pills">
             <li class="modal-nav-item pl-4 pr-4">
             <a class="modal-nav-link" href="#Overview">Overview</a>
@@ -56,7 +56,7 @@
 
         </ul>
         </nav>
-        <hr class="modal-hr"/>
+        <hr class="modal-hr"/> -->
         <div class="products-modal-details" data-spy="scroll" data-target="#navbar-example2" data-offset="0">
         <h4 id="#Overview">Overview</h4>
         <hr class="modal-hr"/>
