@@ -569,7 +569,7 @@ class Product extends Model
 
        
         if (!$isListingAPICall) {
-            $data['description'] = preg_split("/\\[US\\]|<br>|\\n/", $product->product_description);
+            $data['description'] = $product->name == "Westelm" ? Product::format_desc($product->product_description) : preg_split("/\\[US\\]|<br>|\\n/", $product->product_description);
             $data['dimension'] = in_array($product->site_name, ['cb2', 'cab'])  ? Product::cb2_dimensions($product->product_dimension) : $product->product_dimension;
             $data['thumb'] = preg_split("/,|\\[US\\]/", $product->thumb);
             $data['features'] = preg_split("/\\[US\\]|<br>|\\n/", $product->product_feature);
@@ -580,6 +580,42 @@ class Product extends Model
         else {
             return $data;
         }
+    }
+    public static function format_desc($desc) {
+        $desc_arr = preg_split("/\\[US\\]|<br>|\\n/", $desc);
+        $new_desc = [];
+
+        foreach($desc_arr as $line) {
+            if (strlen($line) > 0) {
+                if (strrpos($line, "**") == true) {
+                    $arr = explode("**", $line)[1];
+                    array_push($new_desc, "<span stye: 'font-familty:Marcellus SC; font-weight: bold'>". $arr . "</span>");
+                }
+                else if (strrpos($line, "[")) {
+                    
+                    preg_match("/\[[^\]]*\]/", $line, $matched_texts);
+                    preg_match('/\([^\]]*\)/', $line, $matched_links);
+                  
+                    if (sizeof($matched_links) == sizeof($matched_texts)) {
+                        for($i = 0; $i < sizeof($matched_links); $i++) {
+                            $str = "<a href='" . trim(substr($matched_links[$i], 1, -1)) . "'> " . trim(substr($matched_texts[$i], 1, -1)) . " </a> ";
+                            
+                            $line = str_replace($matched_links[$i], "", $line);
+                            $line = str_replace($matched_texts[$i], $str, $line);
+                            
+                            array_push($new_desc, $line); 
+                        }
+                    }   
+                }
+                else {
+                    array_push($new_desc, $line);
+                }
+
+
+            }
+        }
+
+        return  $new_desc;
     }
 
     public static function cb2_dimensions($json_string)
