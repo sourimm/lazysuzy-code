@@ -10644,11 +10644,6 @@ a.text-dark:focus {
   }
 }
 
-.row {
-  max-width: 100%;
-  margin: 0px;
-}
-
 .row .container {
   padding: 0 200px;
 }
@@ -19440,11 +19435,13 @@ readers do not read off random characters that represent icons */
 
 .form-control {
   width: 70%;
-  margin: 5px auto;
+  margin: 2px auto;
+  font-family: Marcellus !important;
 }
 
 .auth-modal .-btn {
   width: 70% !important;
+  font-size: 15px !important;
 }
 
 .modal-header-text {
@@ -19710,7 +19707,6 @@ input:disabled + .checkmark + .text {
 
 .listing .listing-container {
   margin-top: 35px;
-  padding: 0px;
   margin: auto;
 }
 
@@ -19843,6 +19839,7 @@ input:disabled + .checkmark + .text {
   width: 100%;
   margin: 20px 0;
   max-width: 220px;
+  min-height: 220px;
 }
 
 .category-img-container {
@@ -19874,6 +19871,10 @@ input:disabled + .checkmark + .text {
 }
 
 @media only screen and (max-width: 480px) {
+  .category-img {
+    min-height: 162px;
+  }
+
   .listing .listing-container .listing-top-controls,
   .category-page .listing-container .listing-top-controls {
     position: absolute;
@@ -20057,6 +20058,7 @@ input:disabled + .checkmark + .text {
 @media only screen and (max-width: 480px) and (max-width: 991.98px) {
   .dropdown-submenu .dropdown-item {
     width: 90%;
+    z-index: 5;
   }
 
   .dropdown-submenu .dropdown-toggle {
@@ -20086,6 +20088,196 @@ input:disabled + .checkmark + .text {
   padding: 10px;
 }
 
+.sidenav {
+  height: 100%;
+  width: 0;
+  position: fixed;
+  z-index: 101;
+  top: 0;
+  left: 0;
+  background-color: #0c1c31;
+  overflow-x: hidden;
+  transition: 0.5s;
+  padding-top: 60px;
+}
+
+.sidenav .closebtn {
+  position: absolute;
+  top: 0;
+  right: 25px;
+  font-size: 36px;
+  margin-left: 50px;
+  color: #f2f4f3;
+  text-decoration: none;
+}
+
+.sidenav .collapsible {
+  color: #ffffff;
+  cursor: pointer;
+  padding: 18px;
+  width: 100%;
+  text-align: left;
+  outline: none;
+}
+
+.active,
+.sidenav .collapsible:hover {
+  color: #ffcc00;
+}
+
+.sidenav-items {
+  padding: 0 18px;
+  overflow: hidden;
+  list-style-type: none;
+  white-space: nowrap;
+}
+
+.sidenav-items .department {
+  color: #ffffff;
+}
+
+.sidenav-items .department .category-list {
+  padding: 0 50px;
+  overflow: hidden;
+  list-style-type: none;
+  background-color: #21334b;
+  margin: 0 -20px;
+}
+
+.sidenav-items .department .category-list a.link {
+  color: #ffffff;
+}
+
+.sidenav-items a.link {
+  color: #ffffff;
+  width: 80%;
+  display: inline-block;
+  padding: 5px 0;
+  text-decoration: none;
+}
+
+.sidenav-items a.link:hover {
+  color: #ffcc00;
+}
+
+.sidenav-items a.collapsible {
+  padding-right: 10px;
+  text-decoration: none;
+  font-size: 20px;
+  display: block;
+}
+
+.sidenav-items a.collapsible.active {
+  color: #ffcc00;
+}
+
+.sidenav-items a.collapsible.active .side-nav-icon {
+  color: #ffcc00;
+  transform: rotate(90deg);
+}
+
+.sidenav-items .side-nav-link {
+  margin-left: 180px;
+}
+
+.sidenav-items .side-nav-icon {
+  float: right;
+}
+
+@media screen and (max-height: 450px) {
+  .sidenav {
+    padding-top: 15px;
+  }
+
+  .sidenav a {
+    font-size: 18px;
+    color: #ffffff;
+  }
+}
+
+.-images {
+  height: 90vh;
+  width: auto;
+  overflow: scroll;
+  overflow-x: hidden;
+  margin-left: -55px;
+}
+
+.nav {
+  display: flex;
+  flex-wrap: nowrap;
+  margin-bottom: 0;
+  list-style: none;
+}
+
+.nav-pills .nav-link {
+  border-radius: 0.25rem;
+  color: #21334b;
+}
+
+.pdp-buy-btn {
+  color: #ffcc00;
+  background-color: #21334b;
+  margin: 5px;
+  display: flex;
+  width: 30%;
+}
+
+.pdp-buy-btn:hover {
+  color: #ffcc00;
+  text-decoration: none;
+}
+
+.-product-details {
+  margin: 5px;
+}
+
+.-product-details .offer-price {
+  font-size: 30px;
+  color: #b76e79;
+}
+
+.-product-details .price {
+  text-decoration: line-through;
+  font-size: 25px;
+}
+
+.products-modal-details {
+  overflow: scroll;
+  height: 50vh;
+}
+
+.navbar-modal {
+  background-color: transparent !important;
+  color: #ffcc00;
+  font-size: 18px;
+}
+
+.close {
+  z-index: 1;
+  font-size: 50px;
+  color: #ffffff;
+}
+
+.modal-nav-link {
+  display: block;
+  padding: 0rem 1rem;
+  text-decoration: none;
+  color: #21334b;
+}
+
+.modal-nav-item :hover {
+  text-decoration: none;
+  color: #ffcc00;
+}
+
+.modal-hr {
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+  border: 0;
+  border-top: 1px solid #0c1c31;
+}
+
 .products-container {
   padding: 0px;
 }
@@ -20093,7 +20285,6 @@ input:disabled + .checkmark + .text {
 .products-container .ls-prod-container {
   max-width: 100%;
   margin: 65px auto auto auto;
-  padding: 0px;
 }
 
 .products-container .ls-prod-container .ls-product-div {
@@ -20111,7 +20302,6 @@ input:disabled + .checkmark + .text {
 .products-container .ls-prod-container .ls-product-div .ls-product {
   position: relative;
   margin-bottom: 15px;
-  min-height: 205px;
   background-image: url(/images/final.gif?a2071f6a389fcfad04a650cbe5c2b483);
 }
 
@@ -20204,6 +20394,10 @@ input:disabled + .checkmark + .text {
     font-size: 22px;
     line-height: 30px;
   }
+}
+
+.detailspage-main-div {
+  background-color: #ffffff;
 }
 
 @media (min-width: 768px) {
@@ -20352,12 +20546,12 @@ input:disabled + .checkmark + .text {
   text-decoration: line-through;
   display: inline-block;
   margin-left: 10px;
+  font-size: 25px;
 }
 
 .detailspage-main-div .detailspage .prod-price-card {
   border-radius: 20px;
   background-color: #ffffff;
-  margin-top: -50px;
   padding: 30px 10px;
   font-size: 24px;
   font-weight: 600;
@@ -20436,12 +20630,16 @@ input:disabled + .checkmark + .text {
   }
 
   .-product-details .pdp-buy-btn {
-    width: 100%;
+    width: 40%;
     color: #ffcc00;
     background-color: #0c1c31;
-    font-size: 24px;
+    font-size: 14px;
     border-radius: 10px;
     margin: 10px 0px;
+  }
+
+  .-product-details span {
+    color: #000;
   }
 
   .prod-desc {
@@ -20450,15 +20648,21 @@ input:disabled + .checkmark + .text {
 
   .detailspage .container {
     padding: 0px;
+    color: #000;
   }
 
   .tab-content {
     padding: 15px;
+    background-color: #f8fafc;
   }
 }
 
 .tab-pane {
   margin-top: 10px;
+}
+
+.detail-nav-link {
+  color: #000;
 }
 
 .card .card-header {
@@ -20617,6 +20821,7 @@ input:disabled + .checkmark + .text {
   background-repeat: no-repeat;
   display: inline-block;
   margin: auto 10px;
+  vertical-align: middle;
 }
 
 .rating-container .rating-0_0,
@@ -20702,7 +20907,7 @@ input:disabled + .checkmark + .text {
 .rating-container .total-ratings {
   position: relative;
   font-size: 20px;
-  vertical-align: top;
+  vertical-align: middle;
   font-size: 12px;
 }
 
@@ -20971,6 +21176,10 @@ input:disabled + .checkmark + .text {
 
 .auth-modal .-btn {
   width: 100%;
+}
+
+.auth-modal .btn-primary.btn-facebook {
+  background: #3b5998;
 }
 
 .auth-modal .or-seperator {
