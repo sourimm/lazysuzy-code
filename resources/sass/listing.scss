@@ -515,11 +515,10 @@ input:disabled + .checkmark + .text {
     }
 }
 .-images {
-    height: 90vh;
+    height: 95vh;
     width: auto;
     overflow: scroll;
     overflow-x: hidden;
-    margin-left: -55px;
 }
 .nav {
     display: flex;
@@ -553,21 +552,21 @@ input:disabled + .checkmark + .text {
         text-decoration: line-through;
         font-size: 25px;
     }
-
 }
 .products-modal-details {
     overflow: scroll;
-    height: 50vh;
+    height: 65vh;
 }
 .navbar-modal {
     background-color: transparent !important;
     color: $products-bg;
     font-size: 18px;
 }
-.close {
+.product-close {
     z-index: 1;
     font-size: 50px;
     color: $white;
+    margin-right: 35px;
 }
 .modal-nav-link {
     display: block;
@@ -587,16 +586,16 @@ input:disabled + .checkmark + .text {
     border: 0;
     border-top: 1px solid $secondary-color;
 }
-// .modal-body {
-//     position: relative;
-//     flex: 1 1 auto;
-//     padding: 1rem 0;
-// }
-// .modal-dialog,
-// .modal-content {
-//     /* 80% of window height */
-//     height: 100%;
-// }
-// .modal-dialog {
-//     margin: 0 auto;
-// }
+.product-modal-body {
+    position: relative;
+    flex: 1 1 auto;
+    padding: 0 5px;
+}
+.product-modal-dialog,
+.product-modal-content {
+    /* 80% of window height */
+    height: 100%;
+}
+.product-modal-dialog {
+    margin: 0 auto;
+}
