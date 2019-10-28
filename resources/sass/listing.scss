@@ -564,9 +564,10 @@ input:disabled + .checkmark + .text {
     color: $products-bg;
     font-size: 18px;
 }
-.close {
+.product-close {
+    margin-right: 25px !important;
     z-index: 1;
-    font-size: 50px;
+    font-size: 50px !important;
     color: $white;
 }
 .modal-nav-link {
@@ -587,16 +588,15 @@ input:disabled + .checkmark + .text {
     border: 0;
     border-top: 1px solid $secondary-color;
 }
-// .modal-body {
-//     position: relative;
-//     flex: 1 1 auto;
-//     padding: 1rem 0;
-// }
-// .modal-dialog,
-// .modal-content {
-//     /* 80% of window height */
-//     height: 100%;
-// }
-// .modal-dialog {
-//     margin: 0 auto;
-// }
+.product-modal-body {
+    position: relative;
+    flex: 1 1 auto;
+    padding: 1rem 0;
+}
+.product-modal-dialog,
+.modal-content {
+    height: 100%;
+}
+.product-modal-dialog {
+    margin: 0 auto;
+}
