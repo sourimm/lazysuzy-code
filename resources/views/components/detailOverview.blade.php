@@ -14,7 +14,7 @@
                             <i class="fas fa-filter -icon"></i>
                         </div>
 </div>
-<div class="row container box">
+<div class="row">
     <div class="col-12 col-md-6"><div class="-images-container" id="scroll-bar-img"><div class="-images" ></div></div></div>
     <div class="prod-desc col-12 col-md-6">
         <div>
