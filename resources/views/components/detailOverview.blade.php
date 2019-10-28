@@ -51,7 +51,7 @@
                             </li>
                         </ul>
         </nav>
-        <hr class="modal-hr"/>
+        <hr class="modal-hr"/>a
         <div class="products-modal-details" data-spy="scroll" data-target="#navbar-example2" data-offset="0">
         <h4 id="Overview">Overview</h4>
         <hr class="modal-hr"/>
