@@ -4,13 +4,6 @@
     <div class="detailspage" id="detailPage">
         @include('./partials/subnav')
 
-        <div class="d-block d-md-none controls-div">
-            
-            
-            <div class="filter-toggle float-right m-10" id="filterToggleBtn">
-                <i class="fas fa-filter -icon"></i>
-            </div>
-        </div>
         <div class="-images-container" id="scroll-bar-img"><div class="-images" ></div></div>
 
         <div class="row container box">
@@ -22,9 +15,9 @@
                     <div class="wishlist-icon float-right m-10" id="wishlistBtnDesktop">
                             <i class="far fa-heart -icon"></i>
                         </div>
-                        <h2 class="-name"></h2> 
+                        <h2 class="-name"></h2>
                         <a target="_blank" class="rating-container"><div class="rating "></div><span class="total-ratings"></span></a>
-                        
+
                         <p class="-desc d-none d-md-block"></p>
                         <div class="d-none d-md-block">
                             <div class="accordion" id="accordionExample">
@@ -101,7 +94,7 @@
                             </div>
                         </div>
                     </div>
-                
+
             </div>
 
             <div class="prod-price-card col-3 d-none d-md-block">
