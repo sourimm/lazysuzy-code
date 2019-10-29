@@ -94,14 +94,14 @@ $(document).ready(function() {
                 class: 'filters'
             }).appendTo($prodPriceCard);
 
-            if (data.variations != null) {
-                // makeVariationCarousel(data.variations)
-                if (data.filters == null && $.isEmptyObject(data.filters)) {
-                    $('#filterToggleBtn').hide();
-                }
-            } else {
-                fetchVariations();
-            }
+            // if (data.variations != null) {
+            //     makeVariationCarousel(data.variations)
+            //     if (data.filters == null && $.isEmptyObject(data.filters)) {
+            //         $('#filterToggleBtn').hide();
+            //     }
+            // } else {
+            //     fetchVariations();
+            // }
 
             //Product description
 
