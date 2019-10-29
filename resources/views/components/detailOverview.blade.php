@@ -22,7 +22,6 @@
             </div>
             <div class="brand-header">
                 <div class="row">
-               
                     <h2 class="col-8  -site">Brand name</h2>
                     <!-- <div class="col-2 mt-2" id="wishlistBtnDesktop">
                         <i class="far fa-heart -icon"></i> Save
@@ -51,7 +50,7 @@
                             </li>
                         </ul>
         </nav>
-        <hr class="modal-hr"/>a
+        <hr class="modal-hr"/>
         <div class="products-modal-details" data-spy="scroll" data-target="#navbar-example2" data-offset="0">
         <h4 id="Overview">Overview</h4>
         <hr class="modal-hr"/>

@@ -552,6 +552,7 @@ input:disabled + .checkmark + .text {
         text-decoration: line-through;
         font-size: 25px;
     }
+
 }
 .products-modal-details {
     overflow: scroll;
@@ -599,3 +600,16 @@ input:disabled + .checkmark + .text {
 .product-modal-dialog {
     margin: 0 auto;
 }
+// .modal-body {
+//     position: relative;
+//     flex: 1 1 auto;
+//     padding: 1rem 0;
+// }
+// .modal-dialog,
+// .modal-content {
+//     /* 80% of window height */
+//     height: 100%;
+// }
+// .modal-dialog {
+//     margin: 0 auto;
+// }
