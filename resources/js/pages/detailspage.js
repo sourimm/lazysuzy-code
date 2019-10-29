@@ -316,13 +316,6 @@ $(document).ready(function() {
             })
         onFilterChange()
     })
-    $('a[href^="#"]').click(function() {
-        $('html,body').animate({ scrollTop: $(this.hash).offset().top }, 200)
-
-        return false
-
-        e.preventDefault()
-    })
 
     $('body').on('click touchstart', '#closeMainImgBtn', function() {
         $('.prod-main-img').hide()
