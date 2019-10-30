@@ -83,17 +83,17 @@ $(document).ready(function() {
             //$('#loaderImg').show();
             $('#noProductsText').hide();
 
-            iPageNo += 1;
             // if (iPageNo > 1) {
             if (
-                window.performance &&
-                window.performance.navigation.type ==
-                    window.performance.navigation.TYPE_BACK_FORWARD
+                iPageNo > 0 &&
+                !$('#productsContainerDiv')
+                    .html()
+                    .trim()
             ) {
                 console.log(
                     'Got here using the browser "Back" or "Forward" button.'
                 );
-                for (var i = 0; i <= iPageNo; i++) {
+                for (var i = 0; i < iPageNo; i++) {
                     (async function(i) {
                         var filterQuery =
                             '?filters=' +
@@ -182,6 +182,7 @@ $(document).ready(function() {
             }
             // }
 
+            iPageNo += 1;
             $.ajax({
                 type: 'GET',
                 url: listingApiPath,
