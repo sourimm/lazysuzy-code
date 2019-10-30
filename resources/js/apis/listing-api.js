@@ -56,7 +56,7 @@ $(document).ready(function() {
         return isVisible
     }
 
-    function fetchProducts(bClearPrevProducts) {
+    async function fetchProducts(bClearPrevProducts) {
         if (!bFetchingProducts) {
             bFetchingProducts = true
             var strLimit = iLimit === undefined ? '' : '&limit=' + iLimit
@@ -84,9 +84,89 @@ $(document).ready(function() {
             $('#noProductsText').hide()
 
             iPageNo += 1
-            // if(iPageNo > 1){
+            // if (iPageNo > 1) {
+            if (
+                window.performance &&
+                window.performance.navigation.type ==
+                    window.performance.navigation.TYPE_BACK_FORWARD
+            ) {
+                console.log(
+                    'Got here using the browser "Back" or "Forward" button.'
+                )
+                for (var i = 0; i <= iPageNo; i++) {
+                    await $.ajax({
+                        type: 'GET',
+                        url: listingApiPath,
+                        dataType: 'json',
+                        success: function(data) {
+                            bFetchingProducts = false
+                            console.log(data)
+                            if (bClearPrevProducts) {
+                                $('#productsContainerDiv').empty()
+                                totalResults = 0
+                            }
+                            //$('#loaderImg').hide();
+                            if (data == null) {
+                                return
+                            }
+                            if (
+                                data.products != undefined &&
+                                data.products.length != 0
+                            ) {
+                                bNoMoreProductsToShow = true
 
+                                totalResults = data.total
+                                $('#totalResults').text(totalResults)
+
+                                var anchor = $('<a/>', {
+                                    href: '#page' + i,
+                                    id: '#anchor-page' + i
+                                }).appendTo('#productsContainerDiv')
+                                for (var i = 0; i < data.products.length; i++) {
+                                    createProductDiv(data.products[i])
+                                }
+                                // scrollToAnchor();
+                                multiCarouselFuncs.makeMultiCarousel()
+                            } else {
+                                // if (!bClearPrevProducts) {
+                                bNoMoreProductsToShow = true
+                                iPageNo -= 1
+                                $('#noProductsText').show()
+                                $('#loaderImg').hide()
+                                return
+                                // }
+                            }
+                            if (data.filterData) {
+                                objGlobalFilterData = data.filterData
+                                createUpdateFilterData(data.filterData)
+                            }
+                            if (data.sortType) {
+                                $('#sort').empty()
+                                data.sortType.forEach(element => {
+                                    var sortElm = jQuery('<option />', {
+                                        value: element.value,
+                                        selected: element.enabled,
+                                        text: element.name
+                                    }).appendTo('#sort')
+                                    if (element.enabled) {
+                                        strSortType = element.value
+                                    }
+                                })
+                                makeSelectBox()
+                            }
+
+                            //     $("#anchor-page"+iPageNo)[0].click()
+                        },
+                        error: function(jqXHR, exception) {
+                            bFetchingProducts = false
+                            console.log(jqXHR)
+                            console.log(exception)
+                        }
+                    })
+                }
+            }
             // }
+
             $.ajax({
                 type: 'GET',
                 url: listingApiPath,
