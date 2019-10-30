@@ -22,10 +22,10 @@
             </div>
             <div class="brand-header">
                 <div class="row">
-                        
+
                     <h2 class="col-8  -site">Brand name</h2>
                     <div class="col-2 mt-2 wishlist-icon-modal" id="wishlistBtnDesktop">
-                        <i class="far fa-heart -icon"></i> Save
+                        <i class="far fa-heart -icon"></i> <span>Save</span>
                     </div>
                     <!-- <div class="col-2 mt-2 btn-copy">
                     <i class="fa fa-share -icon"></i> Share
