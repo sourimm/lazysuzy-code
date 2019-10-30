@@ -138,12 +138,15 @@ $(document).ready(function() {
             $('#modalLoginForm').modal()
         } else {
             var iSku = $(this).attr('sku')
+            $('.alert-warning').addClass('show')
+            // $('.wishlist-icon-modal').addClass('marked-icon')
             callWishlistAPI($(this))
+            // alert('is added to wishlist successfully.')
         }
     })
     function callWishlistAPI($elm) {
         var strApiToCall = ''
-        if (!$elm.hasClass('marked')) {
+        if (!$elm.hasClass('marked-icon')) {
             strApiToCall = FAV_MARK_API + $elm.attr('sku')
         } else {
             strApiToCall = FAV_UNMARK_API + $elm.attr('sku')
@@ -153,11 +156,11 @@ $(document).ready(function() {
             url: strApiToCall,
             dataType: 'json',
             success: function(data) {
-                console.log(data)
-                if (!$elm.hasClass('marked')) {
-                    $elm.addClass('marked')
+                console.log(data, 'success')
+                if (!$elm.hasClass('marked-icon')) {
+                    $elm.addClass('marked-icon')
                 } else {
-                    $elm.removeClass('marked')
+                    $elm.removeClass('marked-icon')
                 }
             },
             error: function(jqXHR, exception) {
@@ -417,39 +420,39 @@ $(document).ready(function() {
         $('#filtersDivMobile').toggle()
     })
 
-    $('body').on('click', '.wishlist-icon:not(.nav-link)', function(e) {
-        e.preventDefault()
-        if ($('#isLoggedIn').val() == 0) {
-            $('#modalLoginForm').modal()
-        } else {
-            var iSku = $(this).attr('sku')
-            callWishlistAPI($(this))
-        }
-    })
+    // $('body').on('click', '.wishlist-icon:not(.nav-link)', function(e) {
+    //     e.preventDefault()
+    //     if ($('#isLoggedIn').val() == 0) {
+    //         $('#modalLoginForm').modal()
+    //     } else {
+    //         var iSku = $(this).attr('sku')
+    //         callWishlistAPI($(this))
+    //     }
+    // })
 
-    function callWishlistAPI($elm) {
-        var strApiToCall = ''
-        if (!$elm.hasClass('marked')) {
-            strApiToCall = FAV_MARK_API + $elm.attr('sku')
-        } else {
-            strApiToCall = FAV_UNMARK_API + $elm.attr('sku')
-        }
-        $.ajax({
-            type: 'GET',
-            url: strApiToCall,
-            dataType: 'json',
-            success: function(data) {
-                console.log(data)
-                if (!$elm.hasClass('marked')) {
-                    $elm.addClass('marked')
-                } else {
-                    $elm.removeClass('marked')
-                }
-            },
-            error: function(jqXHR, exception) {
-                console.log(jqXHR)
-                console.log(exception)
-            }
-        })
-    }
+    // function callWishlistAPI($elm) {
+    //     var strApiToCall = ''
+    //     if (!$elm.hasClass('marked')) {
+    //         strApiToCall = FAV_MARK_API + $elm.attr('sku')
+    //     } else {
+    //         strApiToCall = FAV_UNMARK_API + $elm.attr('sku')
+    //     }
+    //     $.ajax({
+    //         type: 'GET',
+    //         url: strApiToCall,
+    //         dataType: 'json',
+    //         success: function(data) {
+    //             console.log(data)
+    //             if (!$elm.hasClass('marked')) {
+    //                 $elm.addClass('marked')
+    //             } else {
+    //                 $elm.removeClass('marked')
+    //             }
+    //         },
+    //         error: function(jqXHR, exception) {
+    //             console.log(jqXHR)
+    //             console.log(exception)
+    //         }
+    //     })
+    // }
 })
