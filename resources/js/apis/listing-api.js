@@ -91,8 +91,8 @@ $(document).ready(function() {
             ) {
                 console.log(
                     'Got here using the browser "Back" or "Forward" button.'
-                )
-                var apiCall = []
+                );
+                var apiCall = [];
                 for (var i = 0; i <= iPageNo; i++) {
                     var filterQuery =
                         '?filters=' +
@@ -101,95 +101,95 @@ $(document).ready(function() {
                         strSortType +
                         '&pageno=' +
                         i +
-                        strLimit
-                    var listingApiPath = LISTING_API_PATH + filterQuery
+                        strLimit;
+                    var listingApiPath = LISTING_API_PATH + filterQuery;
                     apiCall.push(
                         $.ajax({
                             type: 'GET',
                             url: listingApiPath,
                             dataType: 'json'
                         })
-                    )
+                    );
                 }
-                console.log(apiCall)
-                var productsarry = []
+                console.log(apiCall);
+                var productsarry = [];
                 $.when.apply(undefined, apiCall).then(function(...results) {
                     results.map(data => {
-                        productsarry = [...productsarry, ...data[0].products]
-                    })
-                    results[0].products = productsarry
-                    listingApiRendering(results[0])
-                })
+                        productsarry = [...productsarry, ...data[0].products];
+                    });
+                    results[0][0].products = productsarry;
+                    listingApiRendering(results[0][0]);
+                });
             } else {
-                iPageNo += 1
+                iPageNo += 1;
                 $.ajax({
                     type: 'GET',
                     url: listingApiPath,
                     dataType: 'json',
                     success: function(data) {
-                        listingApiRendering(data)
+                        listingApiRendering(data);
                     },
                     error: function(jqXHR, exception) {
-                        bFetchingProducts = false
-                        console.log(jqXHR)
-                        console.log(exception)
+                        bFetchingProducts = false;
+                        console.log(jqXHR);
+                        console.log(exception);
                     }
-                })
+                });
             }
         }
         function listingApiRendering(data) {
-            bFetchingProducts = false
+            bFetchingProducts = false;
 
-            console.log(data)
+            console.log(data);
             if (bClearPrevProducts) {
-                $('#productsContainerDiv').empty()
-                totalResults = 0
+                $('#productsContainerDiv').empty();
+                totalResults = 0;
             }
             //$('#loaderImg').hide();
             if (data == null) {
-                return
+                return;
             }
             if (data.products != undefined && data.products.length != 0) {
-                bNoMoreProductsToShow = true
+                bNoMoreProductsToShow = true;
 
-                totalResults = data.total
-                $('#totalResults').text(totalResults)
+                totalResults = data.total;
+                $('#totalResults').text(totalResults);
 
                 var anchor = $('<a/>', {
                     href: '#page' + iPageNo,
                     id: '#anchor-page' + iPageNo
-                }).appendTo('#productsContainerDiv')
+                }).appendTo('#productsContainerDiv');
                 for (var i = 0; i < data.products.length; i++) {
-                    createProductDiv(data.products[i])
+                    createProductDiv(data.products[i]);
                 }
                 // scrollToAnchor();
-                multiCarouselFuncs.makeMultiCarousel()
+                multiCarouselFuncs.makeMultiCarousel();
             } else {
                 // if (!bClearPrevProducts) {
-                bNoMoreProductsToShow = true
-                iPageNo -= 1
-                $('#noProductsText').show()
-                $('#loaderImg').hide()
-                return
+                bNoMoreProductsToShow = true;
+                iPageNo -= 1;
+                $('#noProductsText').show();
+                $('#loaderImg').hide();
+                return;
                 // }
             }
             if (data.filterData) {
-                objGlobalFilterData = data.filterData
-                createUpdateFilterData(data.filterData)
+                objGlobalFilterData = data.filterData;
+                createUpdateFilterData(data.filterData);
             }
             if (data.sortType) {
-                $('#sort').empty()
+                $('#sort').empty();
                 data.sortType.forEach(element => {
                     var sortElm = jQuery('<option />', {
                         value: element.value,
                         selected: element.enabled,
                         text: element.name
-                    }).appendTo('#sort')
+                    }).appendTo('#sort');
                     if (element.enabled) {
-                        strSortType = element.value
+                        strSortType = element.value;
                     }
-                })
-                makeSelectBox()
+                });
+                makeSelectBox();
             }
 
             //     $("#anchor-page"+iPageNo)[0].click()
