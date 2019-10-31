@@ -111,7 +111,6 @@ $(document).ready(function() {
                         })
                     );
                 }
-                console.log(apiCall);
                 var productsarry = [];
                 $.when.apply(undefined, apiCall).then(function(...results) {
                     results.map(data => {
@@ -120,6 +119,7 @@ $(document).ready(function() {
                     results[0][0].products = productsarry;
                     listingApiRendering(results[0][0]);
                 });
+                iPageNo += 1;
             } else {
                 iPageNo += 1;
                 $.ajax({
