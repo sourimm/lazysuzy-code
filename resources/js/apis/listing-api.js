@@ -83,7 +83,6 @@ $(document).ready(function() {
             //$('#loaderImg').show();
             $('#noProductsText').hide();
 
-            // if (iPageNo > 1) {
             if (
                 iPageNo > 0 &&
                 !$('#productsContainerDiv')
@@ -93,168 +92,109 @@ $(document).ready(function() {
                 console.log(
                     'Got here using the browser "Back" or "Forward" button.'
                 );
-                for (var i = 0; i < iPageNo; i++) {
-                    (async function(i) {
-                        var filterQuery =
-                            '?filters=' +
-                            strFilters +
-                            '&sort_type=' +
-                            strSortType +
-                            '&pageno=' +
-                            i +
-                            strLimit;
-                        var listingApiPath = LISTING_API_PATH + filterQuery;
-                        await $.ajax({
+                var apiCall = [];
+                for (var i = 0; i <= iPageNo; i++) {
+                    var filterQuery =
+                        '?filters=' +
+                        strFilters +
+                        '&sort_type=' +
+                        strSortType +
+                        '&pageno=' +
+                        i +
+                        strLimit;
+                    var listingApiPath = LISTING_API_PATH + filterQuery;
+                    apiCall.push(
+                        $.ajax({
                             type: 'GET',
                             url: listingApiPath,
-                            dataType: 'json',
-                            success: function(data) {
-                                bFetchingProducts = false;
-                                console.log(data);
-                                if (bClearPrevProducts) {
-                                    $('#productsContainerDiv').empty();
-                                    totalResults = 0;
-                                }
-                                //$('#loaderImg').hide();
-                                if (data == null) {
-                                    return;
-                                }
-                                if (
-                                    data.products != undefined &&
-                                    data.products.length != 0
-                                ) {
-                                    bNoMoreProductsToShow = true;
-
-                                    totalResults = data.total;
-                                    $('#totalResults').text(totalResults);
-
-                                    var anchor = $('<a/>', {
-                                        href: '#page' + i,
-                                        id: '#anchor-page' + i
-                                    }).appendTo('#productsContainerDiv');
-                                    for (
-                                        var i = 0;
-                                        i < data.products.length;
-                                        i++
-                                    ) {
-                                        createProductDiv(data.products[i]);
-                                    }
-                                    // scrollToAnchor();
-                                    multiCarouselFuncs.makeMultiCarousel();
-                                } else {
-                                    // if (!bClearPrevProducts) {
-                                    bNoMoreProductsToShow = true;
-                                    iPageNo -= 1;
-                                    $('#noProductsText').show();
-                                    $('#loaderImg').hide();
-                                    return;
-                                    // }
-                                }
-                                if (data.filterData) {
-                                    objGlobalFilterData = data.filterData;
-                                    createUpdateFilterData(data.filterData);
-                                }
-                                if (data.sortType) {
-                                    $('#sort').empty();
-                                    data.sortType.forEach(element => {
-                                        var sortElm = jQuery('<option />', {
-                                            value: element.value,
-                                            selected: element.enabled,
-                                            text: element.name
-                                        }).appendTo('#sort');
-                                        if (element.enabled) {
-                                            strSortType = element.value;
-                                        }
-                                    });
-                                    makeSelectBox();
-                                }
-
-                                //     $("#anchor-page"+iPageNo)[0].click()
-                            },
-                            error: function(jqXHR, exception) {
-                                bFetchingProducts = false;
-                                console.log(jqXHR);
-                                console.log(exception);
-                            }
-                        });
-                    })(i);
+                            dataType: 'json'
+                        })
+                    );
                 }
+                var productsarry = [];
+                $.when.apply(undefined, apiCall).then(function(...results) {
+                    results.map(data => {
+                        productsarry = [...productsarry, ...data[0].products];
+                    });
+                    results[0][0].products = productsarry;
+                    listingApiRendering(results[0][0]);
+                });
+                iPageNo += 1;
+            } else {
+                iPageNo += 1;
+                $.ajax({
+                    type: 'GET',
+                    url: listingApiPath,
+                    dataType: 'json',
+                    success: function(data) {
+                        listingApiRendering(data);
+                    },
+                    error: function(jqXHR, exception) {
+                        bFetchingProducts = false;
+                        console.log(jqXHR);
+                        console.log(exception);
+                    }
+                });
             }
-            // }
+        }
+        function listingApiRendering(data) {
+            bFetchingProducts = false;
 
-            iPageNo += 1;
-            $.ajax({
-                type: 'GET',
-                url: listingApiPath,
-                dataType: 'json',
-                success: function(data) {
-                    bFetchingProducts = false;
-                    console.log(data);
-                    if (bClearPrevProducts) {
-                        $('#productsContainerDiv').empty();
-                        totalResults = 0;
-                    }
-                    //$('#loaderImg').hide();
-                    if (data == null) {
-                        return;
-                    }
-                    if (
-                        data.products != undefined &&
-                        data.products.length != 0
-                    ) {
-                        bNoMoreProductsToShow = true;
+            console.log(data);
+            if (bClearPrevProducts) {
+                $('#productsContainerDiv').empty();
+                totalResults = 0;
+            }
+            //$('#loaderImg').hide();
+            if (data == null) {
+                return;
+            }
+            if (data.products != undefined && data.products.length != 0) {
+                bNoMoreProductsToShow = true;
 
-                        totalResults = data.total;
-                        $('#totalResults').text(totalResults);
+                totalResults = data.total;
+                $('#totalResults').text(totalResults);
 
-                        var anchor = $('<a/>', {
-                            href: '#page' + iPageNo,
-                            id: '#anchor-page' + iPageNo
-                        }).appendTo('#productsContainerDiv');
-                        for (var i = 0; i < data.products.length; i++) {
-                            createProductDiv(data.products[i]);
-                        }
-                        // scrollToAnchor();
-                        multiCarouselFuncs.makeMultiCarousel();
-                    } else {
-                        // if (!bClearPrevProducts) {
-                        bNoMoreProductsToShow = true;
-                        iPageNo -= 1;
-                        $('#noProductsText').show();
-                        $('#loaderImg').hide();
-                        return;
-                        // }
-                    }
-                    if (data.filterData) {
-                        objGlobalFilterData = data.filterData;
-                        createUpdateFilterData(data.filterData);
-                    }
-                    if (data.sortType) {
-                        $('#sort').empty();
-                        data.sortType.forEach(element => {
-                            var sortElm = jQuery('<option />', {
-                                value: element.value,
-                                selected: element.enabled,
-                                text: element.name
-                            }).appendTo('#sort');
-                            if (element.enabled) {
-                                strSortType = element.value;
-                            }
-                        });
-                        makeSelectBox();
-                    }
-
-                    //     $("#anchor-page"+iPageNo)[0].click()
-                },
-                error: function(jqXHR, exception) {
-                    bFetchingProducts = false;
-                    console.log(jqXHR);
-                    console.log(exception);
+                var anchor = $('<a/>', {
+                    href: '#page' + iPageNo,
+                    id: '#anchor-page' + iPageNo
+                }).appendTo('#productsContainerDiv');
+                for (var i = 0; i < data.products.length; i++) {
+                    createProductDiv(data.products[i]);
                 }
-            });
+                // scrollToAnchor();
+                multiCarouselFuncs.makeMultiCarousel();
+            } else {
+                // if (!bClearPrevProducts) {
+                bNoMoreProductsToShow = true;
+                iPageNo -= 1;
+                $('#noProductsText').show();
+                $('#loaderImg').hide();
+                return;
+                // }
+            }
+            if (data.filterData) {
+                objGlobalFilterData = data.filterData;
+                createUpdateFilterData(data.filterData);
+            }
+            if (data.sortType) {
+                $('#sort').empty();
+                data.sortType.forEach(element => {
+                    var sortElm = jQuery('<option />', {
+                        value: element.value,
+                        selected: element.enabled,
+                        text: element.name
+                    }).appendTo('#sort');
+                    if (element.enabled) {
+                        strSortType = element.value;
+                    }
+                });
+                makeSelectBox();
+            }
+
+            //     $("#anchor-page"+iPageNo)[0].click()
         }
     }
-
     function createProductDiv(productDetails) {
         //Make product main div
         var mainProductDiv = jQuery('<div/>', {
