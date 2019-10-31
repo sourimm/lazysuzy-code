@@ -136,8 +136,13 @@
             }
         }
         .-product-details {
+            .-name {
+                text-decoration: none;
+                color: $secondary-color;
+                font-size: 25px;
+            }
             .offer-price {
-                color: #b76e79;
+                color: $product-price;
             }
             .price {
                 font-size: 0.8em;
@@ -190,6 +195,9 @@
 
         .rating-container {
             margin: auto auto 10px auto;
+            text-decoration: none;
+            color: $secondary-color;
+            display: inline-block;
             .rating {
                 margin-left: 0px;
             }

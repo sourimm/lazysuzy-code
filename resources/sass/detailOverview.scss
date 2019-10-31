@@ -14,6 +14,11 @@
                     font-weight: 900;
                 }
             }
+            &.marked-icon {
+                .-icon {
+                    font-weight: 900;
+                }
+            }
         }
         .filters.filters-mobile {
             width: 100% !important;
@@ -243,6 +248,7 @@
 
     .prod-desc {
         padding: 0px;
+        overflow: hidden;
     }
 
     .detailspage {
