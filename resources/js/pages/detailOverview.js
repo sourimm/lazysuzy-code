@@ -2,6 +2,8 @@ import * as multiCarouselFuncs from '../components/multi-carousel'
 import makeSelectBox from '../components/custom-selectbox'
 import Drift from 'drift-zoom'
 import isMobile from '../app.js'
+require('ekko-lightbox')
+var md = require('markdown-it')()
 
 $(document).ready(function() {
     const PDP_API = '/api' + window.location.pathname
@@ -41,13 +43,15 @@ $(document).ready(function() {
                     var lightbox = jQuery('<a/>', {
                         class: 'hello',
                         href: img,
-                        text: 'hello'
+                        // text: 'hello',
+                        'data-toggle': 'lightbox',
+                        'data-gallery': 'gallery'
                     }).appendTo($images)
-                    // var responsiveImg = jQuery('<img/>', {
-                    //     class: '-prod-img img-fluid',
-                    //     src: img,
-                    //     alt: 'product image'
-                    // }).appendTo($lightbox)
+                    var responsiveImg = jQuery('<img/>', {
+                        class: '-prod-img img-fluid',
+                        src: img,
+                        alt: 'product image'
+                    }).appendTo(lightbox)
                 })
                 $('.-site').text(data.site)
                 var $prodDetails = $('<div />', {
@@ -109,7 +113,9 @@ $(document).ready(function() {
                     $desc.find('.rating-container').hide()
                 }
 
-                $desc.find('.-desc').html(data.description)
+                $desc
+                    .find('.-desc')
+                    .html(md.render(data.description.join('\n')))
                 $desc.find('.-dimen').html(data.dimension)
                 $('#descp').html(data.description)
                 var $dimension = $desc.find('.-dimension')
@@ -136,7 +142,7 @@ $(document).ready(function() {
             }
         })
     })
-    $(document).on('click', '[data-toggle="lightbox"]', function(event) {
+    $(document).on('click', 'a[data-toggle="lightbox"]', function(event) {
         event.preventDefault()
         $(this).ekkoLightbox()
     })
