@@ -33,6 +33,7 @@
 @import 'subnav';
 @import 'footer';
 @import 'listing';
+@import 'detailOverview';
 @import 'products-container';
 @import 'detailspage';
 @import 'carousel';
@@ -142,7 +143,6 @@ body {
         font-weight: 600;
     }
 
-
     .socials {
         .-icons {
             font-size: 22px;
@@ -152,12 +152,12 @@ body {
         padding: 0px 30px;
 
         .brand-logo {
-          padding-left: 15px;
-          width: 12%;
+            padding-left: 15px;
+            width: 12%;
 
-          &.more-soon {
-            width: 25%;
-          }
+            &.more-soon {
+                width: 25%;
+            }
         }
-      }
+    }
 }

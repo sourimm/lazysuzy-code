@@ -1,6 +1,78 @@
+.detailspage {
+    .wishlist-icon-modal {
+        &.marked-icon {
+            .-icon {
+                font-weight: 900;
+            }
+        }
+    }
+}
+
+//modal code
+.products-modal-details {
+    overflow: scroll;
+    height: 65vh;
+}
+.navbar-modal {
+    background-color: transparent !important;
+    color: $products-bg;
+    font-size: 18px;
+}
+.product-close {
+    z-index: 1;
+    font-size: 50px !important;
+    color: $white;
+    margin-right: 35px;
+}
+.modal-nav-link {
+    display: block;
+    padding: 0rem 1rem;
+    text-decoration: none;
+    color: $category-bg;
+}
+.modal-nav-item {
+    :hover {
+        text-decoration: none;
+        color: $products-bg;
+    }
+}
+.modal-hr {
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+    border: 0;
+    border-top: 1px solid $secondary-color;
+}
+.product-modal-body {
+    position: relative;
+    flex: 1 1 auto;
+    padding: 0 5px;
+}
+.product-modal-dialog,
+.product-modal-content {
+    /* 80% of window height */
+    height: 100%;
+}
+.product-modal-dialog {
+    margin: 0 auto;
+}
+// .modal-body {
+//     position: relative;
+//     flex: 1 1 auto;
+//     padding: 1rem 0;
+// }
+// .modal-dialog,
+// .modal-content {
+//     /* 80% of window height */
+//     height: 100%;
+// }
+// .modal-dialog {
+//     margin: 0 auto;
+// }
+
+//modal code end
+
 .detailspage-main-div {
     // font-family: Helvetica, sans-serif;
-
     .detailspage {
         .wishlist-icon {
             @include media-breakpoint-up(md) {
@@ -20,6 +92,14 @@
                 }
             }
         }
+        .wishlist-icon-modal {
+            &.marked-icon {
+                .-icon {
+                    font-weight: 900;
+                }
+            }
+        }
+
         .filters.filters-mobile {
             width: 100% !important;
             background: $secondary-color;
@@ -353,5 +433,9 @@
         border-color: $primary-color transparent transparent transparent;
         font-size: 14px;
         background: $yellow;
+    }
+}
+.ekko-lightbox-container {
+    .ekko-lightbox-nav-overlay {
     }
 }
