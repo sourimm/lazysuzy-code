@@ -1,17 +1,18 @@
+// @import 'detailOverview';
 // .listing-main-div {
 //     .searchbar {
 //         top: 8px;
 //     }
 // }
-.detailspage {
-    .wishlist-icon-modal {
-        &.marked-icon {
-            .-icon {
-                font-weight: 900;
-            }
-        }
-    }
-}
+// .detailspage {
+//     .wishlist-icon-modal {
+//         &.marked-icon {
+//             .-icon {
+//                 font-weight: 900;
+//             }
+//         }
+//     }
+// }
 .-features {
     text-transform: lowercase;
 }
@@ -562,62 +563,38 @@ input:disabled + .checkmark + .text {
         font-size: 25px;
     }
 }
-.products-modal-details {
-    overflow: scroll;
-    height: 65vh;
-}
-.navbar-modal {
-    background-color: transparent !important;
-    color: $products-bg;
-    font-size: 18px;
-}
-.product-close {
+//lightbox
+.ekko-lightbox-nav-overlay {
     z-index: 1;
-    font-size: 50px !important;
-    color: $white;
-    margin-right: 35px;
-}
-.modal-nav-link {
-    display: block;
-    padding: 0rem 1rem;
-    text-decoration: none;
-    color: $category-bg;
-}
-.modal-nav-item {
-    :hover {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: -ms-flexbox;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    a {
+        // -ms-flex: 1;
+        // flex: 1;
+        // display: -ms-flexbox;
+        // display: flex;
+        -ms-flex-align: center;
+        align-items: center;
+        // opacity: 0;
+        transition: opacity 0.5s;
+        color: $products-bg;
+        font-size: 30px;
+        z-index: 1;
         text-decoration: none;
+    }
+    a span {
+        padding: 0 30px;
         color: $products-bg;
     }
+    a > * {
+        -ms-flex-positive: 1;
+        flex-grow: 1;
+    }
 }
-.modal-hr {
-    margin-top: 0.5rem;
-    margin-bottom: 0.5rem;
-    border: 0;
-    border-top: 1px solid $secondary-color;
-}
-.product-modal-body {
-    position: relative;
-    flex: 1 1 auto;
-    padding: 0 5px;
-}
-.product-modal-dialog,
-.product-modal-content {
-    /* 80% of window height */
-    height: 100%;
-}
-.product-modal-dialog {
-    margin: 0 auto;
-}
-// .modal-body {
-//     position: relative;
-//     flex: 1 1 auto;
-//     padding: 1rem 0;
-// }
-// .modal-dialog,
-// .modal-content {
-//     /* 80% of window height */
-//     height: 100%;
-// }
-// .modal-dialog {
-//     margin: 0 auto;
-// }
