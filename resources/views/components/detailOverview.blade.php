@@ -1,3 +1,4 @@
+
 <div class="modal fade product-modal" id="modalProduct" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <button type="button" class="product-close close" data-dismiss="modal" aria-label="Close">
         <span aria-hidden="true">&times;</span>
@@ -72,3 +73,5 @@
     </div>
   </div>
 </div>
+
+   
