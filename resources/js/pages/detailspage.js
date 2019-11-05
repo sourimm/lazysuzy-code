@@ -1,16 +1,8 @@
-<<<<<<< HEAD
 import * as multiCarouselFuncs from '../components/multi-carousel'
 import makeSelectBox from '../components/custom-selectbox'
 import Drift from 'drift-zoom'
 import isMobile from '../app.js'
 var md = require('markdown-it')()
-=======
-import * as multiCarouselFuncs from '../components/multi-carousel';
-import makeSelectBox from '../components/custom-selectbox';
-import Drift from 'drift-zoom';
-import isMobile from '../app.js';
-var md = require('markdown-it')();
->>>>>>> tester
 
 $(document).ready(function() {
     const PDP_API = '/api' + window.location.pathname
@@ -130,11 +122,11 @@ $(document).ready(function() {
             if (data.reviews <= 0) {
                 $desc.find('.rating-container').hide()
             }
-            $desc.find('.rating-container').attr('href', data.product_url);
-            $desc.find('.-desc').html(md.render(data.description.join('\n')));
-            $desc.find('.-dimen').html(data.dimension);
-            $('#descp').html(md.render(data.description.join('\n')));
-            $('#dimen').html(data.dimension);
+            $desc.find('.rating-container').attr('href', data.product_url)
+            $desc.find('.-desc').html(md.render(data.description.join('\n')))
+            $desc.find('.-dimen').html(data.dimension)
+            $('#descp').html(md.render(data.description.join('\n')))
+            $('#dimen').html(data.dimension)
 
             var $featuresList = $desc.find('.-features')
             data.features.forEach(feature => {

@@ -240,6 +240,13 @@ input:disabled + .checkmark + .text {
         .listing-container {
             .listing-top-controls {
                 position: absolute;
+                .fas.fa-align-center {
+                    transform: rotate(180deg);
+                }
+                .page-navigator-mobile {
+                    width: 50%;
+                    margin: 10px;
+                }
             }
         }
     }
@@ -254,7 +261,7 @@ input:disabled + .checkmark + .text {
                 .filter-toggle,
                 .view-items-toggle {
                     margin: 5px;
-                    font-size: 23px;
+                    font-size: 15px;
                 }
 
                 .dropdown {
@@ -306,7 +313,7 @@ input:disabled + .checkmark + .text {
             }
 
             .products-container {
-                margin-top: 45px;
+                margin-top: 0px;
 
                 .ls-prod-container {
                     margin: auto;
@@ -317,7 +324,7 @@ input:disabled + .checkmark + .text {
 
                         .ls-product {
                             margin-bottom: 0px;
-                            min-height: 130px;
+                            min-height: 100px;
                             background-position: center;
                         }
                     }

@@ -43,6 +43,22 @@ $(document).ready(function() {
 
     $('#viewItemsBtn').click(function() {
         iItemsToShow = iItemsToShow == 1 ? 3 : iItemsToShow - 1
+        if (iItemsToShow !== 1) {
+            $('#viewItemsBtn')
+                .children('i')
+                .removeClass()
+            $('#viewItemsBtn')
+                .children('i')
+                .addClass('fas fa-toggle-on')
+        } else {
+            $('#viewItemsBtn')
+                .children('i')
+                .removeClass()
+            $('#viewItemsBtn')
+                .children('i')
+                .addClass('fas fa-toggle-off')
+        }
+
         $('#productsContainerDiv')
             .find('.ls-product-div')
             .each(function() {
