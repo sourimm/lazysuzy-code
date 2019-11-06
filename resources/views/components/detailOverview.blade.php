@@ -61,8 +61,11 @@
         <h4 id="Features">Features</h4>
         <hr class="modal-hr"/>
         <ul class="-features"></ul>
+        <p class="-feat feat d-none d-md-block" id="feat"></p>
         <hr class="modal-hr"/>
         <h4 id="Dimensions">Dimension</h4>
+        <hr class="modal-hr"/>
+        <p class="-dimen d-none d-md-block"></p>
         <hr class="modal-hr"/>
         <ul class="-dimension"></ul>
         </div>
