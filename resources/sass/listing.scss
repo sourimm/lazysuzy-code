@@ -243,8 +243,11 @@ input:disabled + .checkmark + .text {
 
                 .page-navigator-mobile {
                     width: 35%;
-                    margin: 5px;
+                    margin: 5px 2px;
                     display: inline-block;
+                    a {
+                        color: $product-price;
+                    }
                 }
                 .search-navigator {
                     color: $product-price;
