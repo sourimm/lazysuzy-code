@@ -664,6 +664,7 @@ $(document).ready(function() {
                 sortValue = value.value
             }
         })
+        var strLimit = iLimit === undefined ? '' : '&limit=' + iLimit
         var filterQuery =
             '?filters=' +
             strFilters +
