@@ -221,6 +221,7 @@ $(document).ready(function() {
             //     $("#anchor-page"+iPageNo)[0].click()
         }
     }
+
     function createProductDiv(productDetails) {
         //Make product main div
         var mainProductDiv = jQuery('<div/>', {
@@ -629,7 +630,6 @@ $(document).ready(function() {
 
     $('body').on('click', '.dropdown-submenu a', function(e) {
         if (isMobile()) {
-            console.log('clicked')
             // early return if the parent has no hover-class
             if (!$(this).hasClass('hover')) return
 
@@ -655,6 +655,39 @@ $(document).ready(function() {
             var iSku = $(this).attr('sku')
             callWishlistAPI($(this))
         }
+    })
+    $('input[name="sort-price-filter"]').on('change', function() {
+        let sortValue = ''
+        console.log('radio button is clicked')
+        $('input[name="sort-price-filter"]').map((value, index) => {
+            if (value.checked) {
+                sortValue = value.value
+            }
+        })
+        var filterQuery =
+            '?filters=' +
+            strFilters +
+            '&sort_type=' +
+            sortValue +
+            '&pageno=' +
+            iPageNo +
+            strLimit
+        var listingApiPath = LISTING_API_PATH + filterQuery
+        apiCall.push(
+            $.ajax({
+                type: 'GET',
+                url: listingApiPath,
+                dataType: 'json',
+                success: function(data) {
+                    listingApiRendering(data)
+                },
+                error: function(jqXHR, exception) {
+                    bFetchingProducts = false
+                    console.log(jqXHR)
+                    console.log(exception)
+                }
+            })
+        )
     })
     function callWishlistAPI($elm) {
         var strApiToCall = ''
