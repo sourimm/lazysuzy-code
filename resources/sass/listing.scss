@@ -246,6 +246,9 @@ input:disabled + .checkmark + .text {
                     margin: 5px;
                     display: inline-block;
                 }
+                .search-navigator {
+                    color: $product-price;
+                }
             }
         }
     }
