@@ -247,6 +247,9 @@ input:disabled + .checkmark + .text {
                     width: 50%;
                     margin: 10px;
                 }
+                .search-navigator {
+                    color: $product-price;
+                }
             }
         }
     }
