@@ -33,12 +33,14 @@ $(document).ready(function() {
             success: function(data) {
                 var $imagesContainer = $product.find('.-images-container')
                 var $images = $imagesContainer.find('.-images')
+
                 var imgContainerWidth = 0
                 $('#wishlistBtnDesktop').attr('sku', data.sku)
                 if (data.wishlisted) {
                     $('#wishlistBtnDesktop').addClass('marked')
                 }
                 $images.empty()
+
                 data.on_server_images.forEach(img => {
                     var lightbox = jQuery('<a/>', {
                         class: 'hello',
@@ -97,7 +99,9 @@ $(document).ready(function() {
                 }
 
                 //Product description
+
                 var $desc = $product.find('.prod-desc')
+
                 $desc.find('.-name').text(data.name)
                 if (isMobile()) {
                     var $mobileProdDetails = $('.-product-details').clone()
@@ -117,24 +121,28 @@ $(document).ready(function() {
                     .find('.-desc')
                     .html(md.render(data.description.join('\n')))
                 $desc.find('.-dimen').html(data.dimension)
-                $('#descp').html(data.description)
+                $('#desc').html(data.description)
+
                 var $dimension = $desc.find('.-dimension')
+                $dimension.empty()
                 data.dimension.forEach(dimension => {
-                    var li = $('<li>', {
+                    var li = $('<li/>', {
                         html: `${dimension.description}: ${dimension.width} x ${dimension.height} x ${dimension.depth}`
                     }).appendTo($dimension)
                 })
 
-                var $featuresList = $desc.find('.-features')
-                data.features.forEach(feature => {
-                    var li = $('<li>', {
-                        html: feature
-                    }).appendTo($featuresList)
-                })
+                var $featuresList = document.createElement('div')
 
+                data.features &&
+                    data.features.map(features => {
+                        // $featuresList.empty()
+                        var li = $('<li>', {
+                            html: features
+                        }).appendTo($featuresList)
+                    })
                 $($featuresList)
                     .clone()
-                    .appendTo('#feat')
+                    .appendTo($('#feat').empty())
             },
             error: function(jqXHR, exception) {
                 console.log(jqXHR)
@@ -142,6 +150,7 @@ $(document).ready(function() {
             }
         })
     })
+
     $(document).on('click', 'a[data-toggle="lightbox"]', function(event) {
         event.preventDefault()
         $(this).ekkoLightbox()

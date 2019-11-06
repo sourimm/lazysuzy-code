@@ -43,6 +43,22 @@ $(document).ready(function() {
 
     $('#viewItemsBtn').click(function() {
         iItemsToShow = iItemsToShow == 1 ? 3 : iItemsToShow - 1
+        if (iItemsToShow !== 1) {
+            $('#viewItemsBtn')
+                .children('i')
+                .removeClass()
+            $('#viewItemsBtn')
+                .children('i')
+                .addClass('fas fa-th-list')
+        } else {
+            $('#viewItemsBtn')
+                .children('i')
+                .removeClass()
+            $('#viewItemsBtn')
+                .children('i')
+                .addClass('fab fa-buromobelexperte')
+        }
+
         $('#productsContainerDiv')
             .find('.ls-product-div')
             .each(function() {

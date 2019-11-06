@@ -55,6 +55,18 @@ $(document).ready(function() {
         }
         // }
     })
+    let searchNavigator = window.location.href.split('=')
+
+    var span = $('<span/>', {
+        text: 'Search results for ' + '"'
+    }).appendTo('#search-navigator')
+    var span = $('<span/>', {
+        text: searchNavigator[1],
+        class: 'search-navigator'
+    }).appendTo('#search-navigator')
+    var span = $('<span/>', {
+        text: '"'
+    }).appendTo('#search-navigator')
 
     function isScrolledIntoView(el) {
         var rect = el.getBoundingClientRect()
