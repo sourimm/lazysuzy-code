@@ -72,18 +72,18 @@
                         </ul>
                         <hr>
                     </div>
-                   
+
                     <a class="btn clearall-filter-btn" href="https://lazysuzy.com/filter/clear_filter/all">Clear All</a>
 
                 </div>
                 <div class="filters col-md-2  d-md-none" id="sort-mobile">
-                    
+
                     <input type="radio" name="sort-price-filter" value="price_low_to_high"> Price : Low to High<br>
                     <input type="radio" name="sort-price-filter" value="price_high_to_low">Price : High to Low<br>
                     <input type="radio" name="sort-price-filter" value="popularity"> Popularity <br>
-                    
+
                 </div>
-               
+
                 <div class="listing-top-controls d-block d-md-none">
                     <div id="page-navigator" class="page-navigator-mobile"></div>
                     <span class="filter-toggle float-right" id="selectbox-sortmobile">
@@ -98,15 +98,15 @@
                     <i class="fas fa-filter"></i>
                         Filter
                     </span>
-                 
-                
+
+
                 </div>
                 <!-- <div class="listing-top-controls d-block d-md-none">
                     <div class="filters col-md-2 d-md-block" id="sort-mobile">
                         <input type="radio" name="sort-price-filter" value="male"> Price : Low to High<br>
                         <input type="radio" name="sort-price-filter" value="female">Price : High to Low<br>
                         <input type="radio" name="sort-price-filter" value="other"> Popularity <br>
-                        <input type="radio" name="sort-price-filter" value="female" checked="checked"> Recommended<br>  
+                        <input type="radio" name="sort-price-filter" value="female" checked="checked"> Recommended<br>
                     </div>
                 </div> -->
 
@@ -118,8 +118,8 @@
                         <i class="fab fa-buromobelexperte"></i>
                     </span>
                 </div> -->
-                
-                
+
+
                 <div class="products-container col-md-10">
                     <div class="float-right d-none d-md-block">
                         <div class="sortby">
