@@ -49,14 +49,14 @@ $(document).ready(function() {
                 .removeClass()
             $('#viewItemsBtn')
                 .children('i')
-                .addClass('fas fa-toggle-on')
+                .addClass('fas fa-th-list')
         } else {
             $('#viewItemsBtn')
                 .children('i')
                 .removeClass()
             $('#viewItemsBtn')
                 .children('i')
-                .addClass('fas fa-toggle-off')
+                .addClass('fab fa-buromobelexperte')
         }
 
         $('#productsContainerDiv')
