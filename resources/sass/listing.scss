@@ -240,12 +240,11 @@ input:disabled + .checkmark + .text {
         .listing-container {
             .listing-top-controls {
                 position: absolute;
-                .fas.fa-align-center {
-                    transform: rotate(180deg);
-                }
+
                 .page-navigator-mobile {
-                    width: 50%;
-                    margin: 10px;
+                    width: 35%;
+                    margin: 5px;
+                    display: inline-block;
                 }
             }
         }
