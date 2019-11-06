@@ -73,7 +73,7 @@
                         <hr>
                     </div>
 
-                    <a class="btn clearall-filter-btn" href="https://lazysuzy.com/filter/clear_filter/all">Clear All</a>
+                    <a class="btn clearall-filter-btn" href="/filter/clear_filter/all">Clear All</a>
 
                 </div>
                 <div class="filters col-md-2  d-md-none" id="sort-mobile">
