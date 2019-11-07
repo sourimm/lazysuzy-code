@@ -163,7 +163,7 @@ $(document).ready(function() {
                 })
             }
         }
-        function listingApiRendering(data) {
+        window.listingApiRendering = function(data) {
             bFetchingProducts = false
 
             console.log(data)
@@ -221,10 +221,10 @@ $(document).ready(function() {
             //     $("#anchor-page"+iPageNo)[0].click()
         }
     }
-
+    var mainProductDiv
     function createProductDiv(productDetails) {
         //Make product main div
-        var mainProductDiv = jQuery('<div/>', {
+        mainProductDiv = jQuery('<div/>', {
             id: productDetails.id,
             sku: productDetails.sku,
             site: productDetails.site,
@@ -657,13 +657,9 @@ $(document).ready(function() {
         }
     })
     $('input[name="sort-price-filter"]').on('change', function() {
-        let sortValue = ''
         console.log('radio button is clicked')
-        $('input[name="sort-price-filter"]').map((value, index) => {
-            if (value.checked) {
-                sortValue = value.value
-            }
-        })
+        console.log($('input[name="sort-price-filter"]'))
+        let sortValue = $('input[name="sort-price-filter"]:checked').val()
         var strLimit = iLimit === undefined ? '' : '&limit=' + iLimit
         var filterQuery =
             '?filters=' +
@@ -674,21 +670,21 @@ $(document).ready(function() {
             iPageNo +
             strLimit
         var listingApiPath = LISTING_API_PATH + filterQuery
-        apiCall.push(
-            $.ajax({
-                type: 'GET',
-                url: listingApiPath,
-                dataType: 'json',
-                success: function(data) {
-                    listingApiRendering(data)
-                },
-                error: function(jqXHR, exception) {
-                    bFetchingProducts = false
-                    console.log(jqXHR)
-                    console.log(exception)
-                }
-            })
-        )
+
+        $.ajax({
+            type: 'GET',
+            url: listingApiPath,
+            dataType: 'json',
+            success: function(data) {
+                listingApiRendering(data)
+                mainProductDiv.empty()
+            },
+            error: function(jqXHR, exception) {
+                bFetchingProducts = false
+                console.log(jqXHR)
+                console.log(exception)
+            }
+        })
     })
     function callWishlistAPI($elm) {
         var strApiToCall = ''
