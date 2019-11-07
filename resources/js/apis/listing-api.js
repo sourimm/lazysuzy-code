@@ -557,8 +557,8 @@ $(document).ready(function() {
         fetchProducts(true)
     })
     $('input[name="sort-price-filter"]').click(function() {
-        debugger
         strSortType = $('input[name="sort-price-filter"]:checked').val()
+        iPageNo = 0
         updateFilters()
         fetchProducts(true)
     })
