@@ -163,7 +163,7 @@ $(document).ready(function() {
                 })
             }
         }
-        function listingApiRendering(data) {
+        window.listingApiRendering = function(data) {
             bFetchingProducts = false
 
             console.log(data)
@@ -221,9 +221,10 @@ $(document).ready(function() {
             //     $("#anchor-page"+iPageNo)[0].click()
         }
     }
+    var mainProductDiv
     function createProductDiv(productDetails) {
         //Make product main div
-        var mainProductDiv = jQuery('<div/>', {
+        mainProductDiv = jQuery('<div/>', {
             id: productDetails.id,
             sku: productDetails.sku,
             site: productDetails.site,
@@ -555,9 +556,20 @@ $(document).ready(function() {
         updateFilters()
         fetchProducts(true)
     })
+    $('input[name="sort-price-filter"]').click(function() {
+        debugger
+        strSortType = $('input[name="sort-price-filter"]:checked').val()
+        updateFilters()
+        fetchProducts(true)
+    })
 
     $('#selectbox-sortmobile').click(function() {
         console.log('jello')
+        console.log($(this).val())
+
+        // strSortType = $('input[name="sort-price-filter"]:checked').val()
+        // updateFilters()
+        // fetchProducts(true)
         $('#sort-mobile').toggleClass('show')
     })
 
@@ -629,7 +641,6 @@ $(document).ready(function() {
 
     $('body').on('click', '.dropdown-submenu a', function(e) {
         if (isMobile()) {
-            console.log('clicked')
             // early return if the parent has no hover-class
             if (!$(this).hasClass('hover')) return
 
@@ -656,6 +667,7 @@ $(document).ready(function() {
             callWishlistAPI($(this))
         }
     })
+
     function callWishlistAPI($elm) {
         var strApiToCall = ''
         if (!$elm.hasClass('marked')) {
