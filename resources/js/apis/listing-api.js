@@ -556,9 +556,20 @@ $(document).ready(function() {
         updateFilters()
         fetchProducts(true)
     })
+    $('input[name="sort-price-filter"]').click(function() {
+        debugger
+        strSortType = $('input[name="sort-price-filter"]:checked').val()
+        updateFilters()
+        fetchProducts(true)
+    })
 
     $('#selectbox-sortmobile').click(function() {
         console.log('jello')
+        console.log($(this).val())
+
+        // strSortType = $('input[name="sort-price-filter"]:checked').val()
+        // updateFilters()
+        // fetchProducts(true)
         $('#sort-mobile').toggleClass('show')
     })
 
@@ -656,36 +667,7 @@ $(document).ready(function() {
             callWishlistAPI($(this))
         }
     })
-    $('input[name="sort-price-filter"]').on('change', function() {
-        console.log('radio button is clicked')
-        console.log($('input[name="sort-price-filter"]'))
-        let sortValue = $('input[name="sort-price-filter"]:checked').val()
-        var strLimit = iLimit === undefined ? '' : '&limit=' + iLimit
-        var filterQuery =
-            '?filters=' +
-            strFilters +
-            '&sort_type=' +
-            sortValue +
-            '&pageno=' +
-            iPageNo +
-            strLimit
-        var listingApiPath = LISTING_API_PATH + filterQuery
 
-        $.ajax({
-            type: 'GET',
-            url: listingApiPath,
-            dataType: 'json',
-            success: function(data) {
-                listingApiRendering(data)
-                mainProductDiv.empty()
-            },
-            error: function(jqXHR, exception) {
-                bFetchingProducts = false
-                console.log(jqXHR)
-                console.log(exception)
-            }
-        })
-    })
     function callWishlistAPI($elm) {
         var strApiToCall = ''
         if (!$elm.hasClass('marked')) {
