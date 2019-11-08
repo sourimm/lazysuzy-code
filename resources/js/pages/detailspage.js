@@ -76,7 +76,7 @@ $(document).ready(function() {
                 class: 'clearfix'
             }).appendTo($prodDetails)
             var buyBtn = $('<a/>', {
-                class: 'col-xs-12 btn pdp-buy-btn d-none',
+                class: 'col-xs-12 btn pdp-buy-btn ',
                 href: data.product_url,
                 text: 'Buy from seller',
                 target: '_blank'
