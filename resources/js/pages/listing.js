@@ -39,6 +39,13 @@ $(document).ready(function() {
 
     $('#filterToggleBtn').click(function() {
         $('#filters').toggleClass('show')
+        $('#sort-mobile').hasClass('show')
+            ? $('#sort-mobile').removeClass('show')
+            : ''
+    })
+    $('#selectbox-sortmobile').click(function() {
+        $('#sort-mobile').toggleClass('show')
+        $('#filters').removeClass('show')
     })
 
     $('#viewItemsBtn').click(function() {

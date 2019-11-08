@@ -3,7 +3,7 @@
 @section('middle_content')
     <div class="detailspage" id="detailPage">
         @include('./partials/subnav')
-
+        <div id="detailspageNavigator"></div>
         <div class="-images-container" id="scroll-bar-img"><div class="-images" ></div></div>
 
         <div class="row container box">
