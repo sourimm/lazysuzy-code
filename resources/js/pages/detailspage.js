@@ -71,6 +71,21 @@ $(document).ready(function() {
                     class: 'price'
                 }).appendTo(priceCont)
             }
+            let detailsNavigator = data.department_info[0].category_url.split(
+                '/'
+            )
+            $('<span/>', {
+                class: 'product-navigator',
+                text: detailsNavigator[2] + ' >'
+            }).appendTo('#detailspageNavigator')
+            $('<span/>', {
+                class: 'product-navigator',
+                text: detailsNavigator[3] + ' >'
+            }).appendTo('#detailspageNavigator')
+            $('<span/>', {
+                class: 'product-navigator',
+                text: data.name
+            }).appendTo('#detailspageNavigator')
 
             $('<div />', {
                 class: 'clearfix'
