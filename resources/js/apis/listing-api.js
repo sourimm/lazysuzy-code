@@ -562,16 +562,6 @@ $(document).ready(function() {
         fetchProducts(true)
     })
 
-    $('#selectbox-sortmobile').click(function() {
-        console.log('jello')
-        console.log($(this).val())
-
-        // strSortType = $('input[name="sort-price-filter"]:checked').val()
-        // updateFilters()
-        // fetchProducts(true)
-        $('#sort-mobile').toggleClass('show')
-    })
-
     function updateFilters() {
         strFilters = ''
         $('.filter').each(function() {
