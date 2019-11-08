@@ -561,10 +561,21 @@ $(document).ready(function() {
         fetchProducts(true);
     });
     $('input[name="sort-price-filter"]').click(function() {
-        strSortType = $('input[name="sort-price-filter"]:checked').val();
-        updateFilters();
-        fetchProducts(true);
-    });
+        strSortType = $('input[name="sort-price-filter"]:checked').val()
+        iPageNo = 0
+        updateFilters()
+        fetchProducts(true)
+    })
+
+    $('#selectbox-sortmobile').click(function() {
+        console.log('jello')
+        console.log($(this).val())
+
+        // strSortType = $('input[name="sort-price-filter"]:checked').val()
+        // updateFilters()
+        // fetchProducts(true)
+        $('#sort-mobile').toggleClass('show')
+    })
 
     function updateFilters() {
         strFilters = '';
