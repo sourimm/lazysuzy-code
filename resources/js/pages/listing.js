@@ -2,8 +2,8 @@ require('ion-rangeslider')
 require('../apis/listing-api')
 
 $(document).ready(function() {
-    let iItemsToShow = 3
-    strItemsNumClass = 'item-3'
+    let iItemsToShow = 2
+    strItemsNumClass = 'item-2'
 
     $('#priceRangeSlider').change(function() {
         $('#priceInfo')
@@ -37,6 +37,12 @@ $(document).ready(function() {
     //     console.log(from, from2); // FROM value
     // });
 
+    //Top button
+    $('.top-button').click(function() {
+        window.scrollTo(0, 0)
+        $('html, body').animate({ scrollTop: 0 }, 800)
+    })
+
     $('#filterToggleBtn').click(function() {
         $('#filters').toggleClass('show')
         $('#sort-mobile').hasClass('show')
@@ -50,21 +56,21 @@ $(document).ready(function() {
 
     $('#viewItemsBtn').click(function() {
         iItemsToShow = iItemsToShow == 1 ? 3 : iItemsToShow - 1
-        if (iItemsToShow !== 1) {
-            $('#viewItemsBtn')
-                .children('i')
-                .removeClass()
-            $('#viewItemsBtn')
-                .children('i')
-                .addClass('fas fa-th-list')
-        } else {
-            $('#viewItemsBtn')
-                .children('i')
-                .removeClass()
-            $('#viewItemsBtn')
-                .children('i')
-                .addClass('fab fa-buromobelexperte')
-        }
+        // if (iItemsToShow !== 1) {
+        //     $('#viewItemsBtn')
+        //         .children('i')
+        //         .removeClass()
+        //     $('#viewItemsBtn')
+        //         .children('i')
+        //         .addClass('fas fa-th-list')
+        // } else {
+        //     $('#viewItemsBtn')
+        //         .children('i')
+        //         .removeClass()
+        //     $('#viewItemsBtn')
+        //         .children('i')
+        //         .addClass('fab fa-buromobelexperte')
+        // }
 
         $('#productsContainerDiv')
             .find('.ls-product-div')
