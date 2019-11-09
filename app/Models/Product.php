@@ -484,8 +484,7 @@ class Product extends Model
             
             // cleaning the array 
             foreach ($w_products as $p) 
-                array_push($wishlist_products, $p->product_id);
-            
+                array_push($wishlist_products, $p->product_id);    
         }
         
         foreach ($products as $product) {
@@ -586,7 +585,7 @@ class Product extends Model
        
         if (!$isListingAPICall) {
             $data['description'] = $product->name == "Westelm" ? Product::format_desc($product->product_description) : preg_split("/\\[US\\]|<br>|\\n/", $product->product_description);
-            $data['dimension'] = in_array($product->site_name, ['cb2', 'cab'])  ? Product::cb2_dimensions($product->product_dimension) : $product->product_dimension;
+            $data['dimension'] = Product::normalize_dimension($product->product_dimension, $product->site_name);
             $data['thumb'] = preg_split("/,|\\[US\\]/", $product->thumb);
             $data['features'] = preg_split("/\\[US\\]|<br>|\\n/", $product->product_feature);
             $data['on_server_images'] = array_map([__CLASS__, "baseUrl"], preg_split("/,|\\[US\\]/", $product->product_images));
@@ -638,7 +637,9 @@ class Product extends Model
     {
         
         if ($json_string === "null") return [];
+        
         $dim = json_decode($json_string);
+
         if (json_last_error()) return [];
         
         $d_arr = [];
@@ -669,6 +670,7 @@ class Product extends Model
             "variation_name",
             "has_parent_sku"
         ];
+    
         $product_variations = [];
         $variations = DB::table("cb2_products_variations")
             ->select($cols)
@@ -679,11 +681,13 @@ class Product extends Model
         foreach ($variations as $variation) {
             if ($variation->product_sku != $variation->variation_sku) {
                 $link = Product::$base_siteurl . "/product/";
+    
                 if ($variation->has_parent_sku) {
                     $link .= $variation->variation_sku;
                 } else {
                     $link .= $variation->product_sku;
                 }
+    
                 array_push($product_variations, [
                     "product_sku" => $variation->product_sku,
                     "variation_sku" => $variation->variation_sku,
@@ -710,6 +714,7 @@ class Product extends Model
             ->where("product_status", "active")
             ->where("master_id", $product->master_id)
             ->get();
+    
         $executionEndTime =  microtime(true) - $executionStartTime;
 
         foreach ($variations as $variation) {
@@ -951,5 +956,30 @@ class Product extends Model
         }
 
         return $variation_filters;
+    }
+
+    public static function normalize_dimension($dim_str, $site) {
+
+        switch ($site) {
+            case 'cb2':
+                return Dimension::format_cb2($dim_str);
+            break;
+            
+            case 'pier1':
+                return Dimension::format_pier1($dim_str);
+            break;
+                
+            case 'westelm':
+                return Dimension::format_westelm($dim_str);
+            break;
+            
+            case 'cab':
+                return Dimension::format_cab($dim_str);
+            break;
+            
+            default:
+                return null; 
+            break;
+        }
     }
 };
