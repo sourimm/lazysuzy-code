@@ -443,7 +443,6 @@ $(document).ready(function() {
     }
 
     $('#filterToggleBtn').on('click', function() {
-        debugger
         $('#filtersDivMobile').toggle()
     })
 
