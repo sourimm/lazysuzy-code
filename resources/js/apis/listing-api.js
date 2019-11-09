@@ -44,22 +44,6 @@ $(document).ready(function() {
         }
     });
 
-    let productNavigator = location.pathname.split('/');
-    let productNavigatorUrl = location.pathname.split('/');
-
-    var anchor = $('<a/>', {
-        href:
-            $(location)
-                .attr('href')
-                .split('/')
-                .splice(0, 3)
-                .join('/') + productNavigatorUrl.splice(0, 3).join('/'),
-        text: productNavigator[2]
-    }).appendTo('#page-navigator');
-
-    var span = $('<span />', { text: ' > ' + productNavigator[3] }).appendTo(
-        '#page-navigator'
-    );
     // var anchor = $('<a/>', {
     //     href:
     //         $(location)
@@ -165,8 +149,6 @@ $(document).ready(function() {
         }
         window.listingApiRendering = function(data) {
             bFetchingProducts = false;
-
-            console.log(data);
             if (bClearPrevProducts) {
                 $('#productsContainerDiv').empty();
                 totalResults = 0;
@@ -221,6 +203,7 @@ $(document).ready(function() {
             //     $("#anchor-page"+iPageNo)[0].click()
         };
     }
+
     var mainProductDiv;
     function createProductDiv(productDetails) {
         //Make product main div
@@ -239,6 +222,18 @@ $(document).ready(function() {
         var product = jQuery('<div/>', {
             class: 'ls-product'
         }).appendTo(productLink);
+        var saleprice = jQuery('<span />', {
+            text: '$ ' + productDetails.is_price,
+            class: 'prod-sale-price'
+        }).appendTo(mainProductDiv);
+        if (Math.ceil(productDetails.percent_discount) > 0) {
+            var discounttag = jQuery('<span />', {
+                text: `${Math.ceil(productDetails.percent_discount)}%`,
+                class: `prod-discount-tag ${
+                    productDetails.percent_discount >= 20 ? '_20' : ''
+                }`
+            }).appendTo(mainProductDiv);
+        }
 
         jQuery('<img />', {
             class: 'prod-img img-fluid',
@@ -561,21 +556,11 @@ $(document).ready(function() {
         fetchProducts(true);
     });
     $('input[name="sort-price-filter"]').click(function() {
-        strSortType = $('input[name="sort-price-filter"]:checked').val()
-        iPageNo = 0
-        updateFilters()
-        fetchProducts(true)
-    })
-
-    $('#selectbox-sortmobile').click(function() {
-        console.log('jello')
-        console.log($(this).val())
-
-        // strSortType = $('input[name="sort-price-filter"]:checked').val()
-        // updateFilters()
-        // fetchProducts(true)
-        $('#sort-mobile').toggleClass('show')
-    })
+        strSortType = $('input[name="sort-price-filter"]:checked').val();
+        iPageNo = 0;
+        updateFilters();
+        fetchProducts(true);
+    });
 
     function updateFilters() {
         strFilters = '';
