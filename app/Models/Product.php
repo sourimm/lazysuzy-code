@@ -74,7 +74,7 @@ class Product extends Model
 
     public static function get_filter_products($dept, $cat = null, $subCat = null)
     {
-        $perPage = 20;
+        $perPage = 24;
         DB::enableQueryLog();
         $LS_IDs = null;
         $PRICE_ASC = "price_low_to_high";
@@ -117,7 +117,7 @@ class Product extends Model
 
         $all_filters['sort_type'] = $sort_type_filter;
         if (!isset($limit)) {
-            $limit = 20;
+            $limit = $perPage;
         }
 
         $start = $page_num * $limit;
@@ -526,8 +526,23 @@ class Product extends Model
 
     public static function get_details($product, $variations, $isListingAPICall = null, $isMarked = false)
     {
-        
+        $p_val = $wp_val = $discount = null;
 
+        $price_bits = explode("-", $product->price);
+        $was_price_bits = explode("-", $product->was_price);
+
+        if (isset($price_bits[1]) && isset($was_price_bits[1])) {
+            $p_val = $price_bits[0];
+            $wp_val = $price_bits[0];
+        }
+        else {
+            $p_val = $product->price;
+            $wp_val =  $product->was_price;
+        }
+
+        $discount = (1 - ($p_val / $wp_val)) * 100;
+        $discount = number_format((float) $discount, 2, '.', '');
+        
         $data =  [
             'id'               => $product->id,
             'sku'              => $product->product_sku,
@@ -537,13 +552,14 @@ class Product extends Model
             'product_url'      => urldecode($product->product_url),
             'product_detail_url' => Product::$base_siteurl . "/product/" . $product->product_sku,
             'is_price'         => $product->price,
+            'was_price'        => $product->was_price,
+            'percent_discount' => $discount,
             'model_code'       => $product->model_code,
         //    'description'      => preg_split("/\\[US\\]|<br>|\\n/", $product->product_description),
         //    'dimension'        => $product->site_name == "cb2" ? Product::cb2_dimensions($product->product_dimension) : $product->product_dimension,
         //    'thumb'            => preg_split("/,|\\[US\\]/", $product->thumb),
             'color'            => $product->color,
         //    'images'           => array_map([__CLASS__, "baseUrl"], preg_split("/,|\\[US\\]/", $product->images)),
-            'was_price'        => $product->was_price,
         //    'features'         => preg_split("/\\[US\\]|<br>|\\n/", $product->product_feature),
             'collection'       => $product->collection,
         //    'set'              => $product->product_set,
