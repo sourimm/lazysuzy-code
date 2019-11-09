@@ -74,7 +74,7 @@ class Product extends Model
 
     public static function get_filter_products($dept, $cat = null, $subCat = null)
     {
-        $perPage = 20;
+        $perPage = 24;
         DB::enableQueryLog();
         $LS_IDs = null;
         $PRICE_ASC = "price_low_to_high";
@@ -117,7 +117,7 @@ class Product extends Model
 
         $all_filters['sort_type'] = $sort_type_filter;
         if (!isset($limit)) {
-            $limit = 20;
+            $limit = $perPage;
         }
 
         $start = $page_num * $limit;
@@ -526,7 +526,22 @@ class Product extends Model
 
     public static function get_details($product, $variations, $isListingAPICall = null, $isMarked = false)
     {
+        $p_val = $wp_val = $discount = null;
 
+        $price_bits = explode("-", $product->price);
+        $was_price_bits = explode("-", $product->was_price);
+
+        if (isset($price_bits[1]) && isset($was_price_bits[1])) {
+            $p_val = $price_bits[0];
+            $wp_val = $price_bits[0];
+        }
+        else {
+            $p_val = $product->price;
+            $wp_val =  $product->was_price;
+        }
+
+        $discount = (1 - ($p_val / $wp_val)) * 100;
+        $discount = number_format((float) $discount, 2, '.', '');
 
         $data =  [
             'id'               => $product->id,
@@ -537,13 +552,14 @@ class Product extends Model
             'product_url'      => urldecode($product->product_url),
             'product_detail_url' => Product::$base_siteurl . "/product/" . $product->product_sku,
             'is_price'         => $product->price,
+            'was_price'        => $product->was_price,
+            'percent_discount' => $discount,
             'model_code'       => $product->model_code,
         //    'description'      => preg_split("/\\[US\\]|<br>|\\n/", $product->product_description),
         //    'dimension'        => $product->site_name == "cb2" ? Product::cb2_dimensions($product->product_dimension) : $product->product_dimension,
         //    'thumb'            => preg_split("/,|\\[US\\]/", $product->thumb),
             'color'            => $product->color,
         //    'images'           => array_map([__CLASS__, "baseUrl"], preg_split("/,|\\[US\\]/", $product->images)),
-            'was_price'        => $product->was_price,
         //    'features'         => preg_split("/\\[US\\]|<br>|\\n/", $product->product_feature),
             'collection'       => $product->collection,
         //    'set'              => $product->product_set,
@@ -569,7 +585,7 @@ class Product extends Model
 
 
         if (!$isListingAPICall) {
-            $data['description'] = preg_split("/\\[US\\]|<br>|\\n/", $product->product_description);
+            $data['description'] = $product->name == "Westelm" ? Product::format_desc($product->product_description) : preg_split("/\\[US\\]|<br>|\\n/", $product->product_description);
             $data['dimension'] = in_array($product->site_name, ['cb2', 'cab'])  ? Product::cb2_dimensions($product->product_dimension) : $product->product_dimension;
             $data['thumb'] = preg_split("/,|\\[US\\]/", $product->thumb);
             $data['features'] = preg_split("/\\[US\\]|<br>|\\n/", $product->product_feature);
@@ -580,6 +596,42 @@ class Product extends Model
         else {
             return $data;
         }
+    }
+    public static function format_desc($desc) {
+        $desc_arr = preg_split("/\\[US\\]|<br>|\\n/", $desc);
+        $new_desc = [];
+
+        foreach($desc_arr as $line) {
+            if (strlen($line) > 0) {
+                if (strrpos($line, "**") == true) {
+                    $arr = explode("**", $line)[1];
+                    array_push($new_desc, "<span stye: 'font-familty:Marcellus SC; font-weight: bold'>". $arr . "</span>");
+                }
+                else if (strrpos($line, "[")) {
+
+                    preg_match("/\[[^\]]*\]/", $line, $matched_texts);
+                    preg_match('/\([^\]]*\)/', $line, $matched_links);
+
+                    if (sizeof($matched_links) == sizeof($matched_texts)) {
+                        for($i = 0; $i < sizeof($matched_links); $i++) {
+                            $str = "<a href='" . trim(substr($matched_links[$i], 1, -1)) . "'> " . trim(substr($matched_texts[$i], 1, -1)) . " </a> ";
+
+                            $line = str_replace($matched_links[$i], "", $line);
+                            $line = str_replace($matched_texts[$i], $str, $line);
+
+                            array_push($new_desc, $line);
+                        }
+                    }
+                }
+                else {
+                    array_push($new_desc, $line);
+                }
+
+
+            }
+        }
+
+        return  $new_desc;
     }
 
     public static function cb2_dimensions($json_string)
