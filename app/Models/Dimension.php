@@ -23,7 +23,9 @@ class Dimension extends Model
     {
         $json_string = $str;
         if ($json_string === "null") return [];
+        
         $dim = json_decode($json_string);
+        
         if (json_last_error()) return [];
 
         $d_arr = [];
