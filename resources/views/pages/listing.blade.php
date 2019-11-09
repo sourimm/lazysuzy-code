@@ -76,7 +76,7 @@
                     <a class="btn clearall-filter-btn" href="/filter/clear_filter/all">Clear All</a>
 
                 </div>
-                <div class="filters col-md-2  d-md-block" id="sort-mobile">
+                <div class="filters col-md-2  d-md-none" id="sort-mobile">
 
                     <input type="radio" name="sort-price-filter" value="price_low_to_high"> Price : Low to High<br>
                     <input type="radio" name="sort-price-filter" value="price_high_to_low">Price : High to Low<br>
@@ -132,7 +132,7 @@
                         <div class="total-items"><span id="totalResults">0</span> Results</div>
                     </div>
                     <div class="ls-prod-container container-fluid text-center">
-                    <div class="top-button">&#8963;</div>
+                    <div class="top-button d-md-none">&#8963;</div>
                         <div class="row" id="productsContainerDiv">
                             
                         </div>
