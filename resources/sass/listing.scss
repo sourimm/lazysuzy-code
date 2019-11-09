@@ -41,7 +41,7 @@ input:disabled + .checkmark + .text {
 
         .filters {
             width: 180px;
-            margin-top: 45px;
+            margin-top: 35px;
             text-align: center;
             overflow-y: auto;
             overflow-x: hidden;
@@ -261,11 +261,13 @@ input:disabled + .checkmark + .text {
             .listing-top-controls {
                 position: relative;
                 width: 100%;
-                height: $listing-top-ctrl-height;
+                height: $listing-top-ctrl-icon-height;
+                text-align: center;
+                margin: 5px;
 
                 .filter-toggle,
                 .view-items-toggle {
-                    margin: 5px;
+                    margin: 10px;
                     font-size: 15px;
                 }
 
@@ -316,7 +318,21 @@ input:disabled + .checkmark + .text {
                     padding: 12px 5px;
                 }
             }
-
+            .ls-prod-container {
+                .top-button {
+                    position: fixed;
+                    bottom: 110px;
+                    right: 30px;
+                    z-index: 99;
+                    font-size: 18px;
+                    border: none;
+                    outline: none;
+                    background-color: $category-bg;
+                    color: $white;
+                    cursor: pointer;
+                    padding: 10px;
+                }
+            }
             .products-container {
                 margin-top: 0px;
 
@@ -324,6 +340,21 @@ input:disabled + .checkmark + .text {
                     margin: auto;
 
                     .ls-product-div {
+                        .prod-sale-price {
+                            margin: -23px 0px 0 0px;
+                            padding: 0 5px;
+                            z-index: 58;
+                            position: absolute;
+                            left: 0;
+                            background: $off-white;
+                            color: $product-price;
+                        }
+                        .prod-discount-tag {
+                            margin: -20px 5px 0 0px;
+                            z-index: 58;
+                            position: absolute;
+                            right: 0;
+                        }
                         margin-bottom: 0px;
                         padding: 1px;
 
@@ -373,7 +404,7 @@ input:disabled + .checkmark + .text {
                         text-align: left;
                         margin-right: 0;
                         li {
-                            display: inline-block;
+                            // display: inline-block;
                             margin-right: 10px;
                             .filter-label {
                                 .checkmark {

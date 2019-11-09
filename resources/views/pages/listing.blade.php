@@ -76,30 +76,28 @@
                     <a class="btn clearall-filter-btn" href="/filter/clear_filter/all">Clear All</a>
 
                 </div>
-                <div class="filters col-md-2  d-md-none" id="sort-mobile">
+                <div class="filters col-md-2  d-md-block" id="sort-mobile">
 
                     <input type="radio" name="sort-price-filter" value="price_low_to_high"> Price : Low to High<br>
                     <input type="radio" name="sort-price-filter" value="price_high_to_low">Price : High to Low<br>
                     <input type="radio" name="sort-price-filter" value="popularity"> Popularity <br>
 
                 </div>
-
                 <div class="listing-top-controls d-block d-md-none">
-                    <div id="page-navigator" class="page-navigator-mobile"></div>
-                    <span class="filter-toggle float-right" id="selectbox-sortmobile">
-                    <i class="fas fa-sort"></i>
-                        Sort
-                    </span>
-                    <span class="filter-toggle float-right" id="viewItemsBtn">
-                    <i class="fab fa-buromobelexperte"></i>
-                        Toggle View
-                    </span>
-                    <span class="filter-toggle float-right" id="filterToggleBtn">
+                <span class="filter-toggle" id="filterToggleBtn">
                     <i class="fas fa-filter"></i>
                         Filter
                     </span>
-
-
+                    <span class="filter-toggle" id="viewItemsBtn">
+                    <i class="fab fa-buromobelexperte"></i>
+                        Toggle View
+                    </span>
+                    <span class="filter-toggle" id="selectbox-sortmobile">
+                    <i class="fas fa-sort"></i>
+                        Sort
+                    </span>
+                    
+                    
                 </div>
                 <!-- <div class="listing-top-controls d-block d-md-none">
                     <div class="filters col-md-2 d-md-block" id="sort-mobile">
@@ -134,7 +132,9 @@
                         <div class="total-items"><span id="totalResults">0</span> Results</div>
                     </div>
                     <div class="ls-prod-container container-fluid text-center">
+                    <div class="top-button">&#8963;</div>
                         <div class="row" id="productsContainerDiv">
+                            
                         </div>
                         <div class="text-center" id="noProductsText">Sorry, no more products to show.</div>
                         <div class="mx-auto" id="loaderImg">
