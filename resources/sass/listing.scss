@@ -350,10 +350,17 @@ input:disabled + .checkmark + .text {
                             color: $product-price;
                         }
                         .prod-discount-tag {
-                            margin: -20px 5px 0 0px;
                             z-index: 58;
                             position: absolute;
                             right: 0;
+                            bottom: 0;
+                            background: #e8c101;
+                            padding: 0 4px;
+                            color: #fff;
+
+                            &._20 {
+                                background: #e84c01;
+                            }
                         }
                         margin-bottom: 0px;
                         padding: 1px;
