@@ -250,7 +250,7 @@ input:disabled + .checkmark + .text {
                 .page-navigator-mobile {
                     width: 35%;
                     margin: 5px 2px;
-                    display: inline-block;
+                    text-align: left;
                     a {
                         color: $product-price;
                     }
@@ -267,7 +267,6 @@ input:disabled + .checkmark + .text {
             .listing-top-controls {
                 position: relative;
                 width: 100%;
-                height: $listing-top-ctrl-icon-height;
                 text-align: center;
                 margin: 5px;
 
@@ -333,10 +332,10 @@ input:disabled + .checkmark + .text {
                     font-size: 18px;
                     border: none;
                     outline: none;
-                    background-color: $category-bg;
+                    background-color: #0C1C31;
                     color: $white;
                     cursor: pointer;
-                    padding: 10px;
+                    padding: 10px 17px;
                 }
             }
             .products-container {
