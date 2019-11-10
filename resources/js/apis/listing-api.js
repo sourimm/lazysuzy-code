@@ -44,15 +44,22 @@ $(document).ready(function() {
         }
     });
 
-    // var anchor = $('<a/>', {
-    //     href:
-    //         $(location)
-    //             .attr('href')
-    //             .split('/')
-    //             .splice(0, 3)
-    //             .join('/') + productNavigator.join('/'),
-    //     text:
-    // }).appendTo('#page-navigator')
+    let productNavigator = location.pathname.split('/');
+    let productNavigatorUrl = location.pathname.split('/');
+
+    var anchor = $('<a/>', {
+        href:
+            $(location)
+                .attr('href')
+                .split('/')
+                .splice(0, 3)
+                .join('/') + productNavigatorUrl.splice(0, 3).join('/'),
+        text: productNavigator[2]
+    }).appendTo('#page-navigator');
+
+    var span = $('<span />', { text: ' > ' + productNavigator[3] }).appendTo(
+        '#page-navigator'
+    );
 
     function isScrolledIntoView(el) {
         var rect = el.getBoundingClientRect();
@@ -223,8 +230,8 @@ $(document).ready(function() {
             class: 'ls-product'
         }).appendTo(productLink);
         var saleprice = jQuery('<span />', {
-            text: '$ ' + productDetails.is_price,
-            class: 'prod-sale-price'
+            text: `$${Math.round(productDetails.is_price)}`,
+            class: 'prod-sale-price d-md-none'
         }).appendTo(mainProductDiv);
         if (Math.ceil(productDetails.percent_discount) > 0) {
             var discounttag = jQuery('<span />', {

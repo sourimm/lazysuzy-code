@@ -56,6 +56,11 @@ input:disabled + .checkmark + .text {
                 position: -ms-sticky;
                 position: -o-sticky;
                 top: 45px;
+                .filter {
+                    .filter-header {
+                        font-size: 18px;
+                    }
+                }
             }
 
             .clearall-filter-btn {
@@ -87,7 +92,7 @@ input:disabled + .checkmark + .text {
                         .filter-label {
                             display: block;
                             position: relative;
-                            padding-left: 25px;
+                            // padding-left: 25px;
                             margin-bottom: 12px;
                             cursor: pointer;
                             font-size: 14px;
@@ -111,7 +116,8 @@ input:disabled + .checkmark + .text {
                         .checkmark {
                             position: absolute;
                             top: 0;
-                            left: 0;
+                            // left: 0;
+                            right: 0;
                             height: 15px;
                             width: 15px;
 
@@ -244,7 +250,7 @@ input:disabled + .checkmark + .text {
                 .page-navigator-mobile {
                     width: 35%;
                     margin: 5px 2px;
-                    display: inline-block;
+                    text-align: left;
                     a {
                         color: $product-price;
                     }
@@ -261,7 +267,6 @@ input:disabled + .checkmark + .text {
             .listing-top-controls {
                 position: relative;
                 width: 100%;
-                height: $listing-top-ctrl-icon-height;
                 text-align: center;
                 margin: 5px;
 
@@ -327,10 +332,10 @@ input:disabled + .checkmark + .text {
                     font-size: 18px;
                     border: none;
                     outline: none;
-                    background-color: $category-bg;
+                    background-color: #0C1C31;
                     color: $white;
                     cursor: pointer;
-                    padding: 10px;
+                    padding: 10px 17px;
                 }
             }
             .products-container {
@@ -404,7 +409,7 @@ input:disabled + .checkmark + .text {
                 }
 
                 .filter {
-                    text-align: center;
+                    text-align: left;
 
                     ul {
                         white-space: normal;
