@@ -3,10 +3,9 @@
 @section('middle_content')
 @include('./partials/subnav')
     <div class="listing">
-       
-        <div class="listing-container main-container container">
+
+        <div class="listing-container main-container container ">
             <div class="d-none d-md-block">
-                {{ Breadcrumbs::render('products') }}
             </div>
             <div class="row">
                 <div class="filters col-md-2 d-md-block" id="filters">
@@ -16,19 +15,19 @@
                         <label for="" class="clear-filter float-right">Clear</label>
                         <ul>
                             <li>
-                                <label class="container">CB2
+                                <label class="filter-label">CB2
                                     <input type="checkbox" checked="checked" value="cb2">
                                     <span class="checkmark"></span>
                                 </label>
                             </li>
                             <li>
-                                <label class="container">Pier
+                                <label class="filter-label">Pier
                                     <input type="checkbox" value="pier1">
                                     <span class="checkmark"></span>
                                 </label>
                             </li>
                             <li>
-                                <label class="container">Pottery Barn
+                                <label class="filter-label">Pottery Barn
                                     <input type="checkbox">
                                     <span class="checkmark"></span>
                                 </label>
@@ -42,31 +41,30 @@
                         <input type="text" class="price-range-slider" id="priceRangeSlider" name="price_range" value="" />
                         <hr>
                     </div>
-
                     <div class="filter">
                         <span class="filter-header">Type</span>
                         <label for="" class="clear-filter float-right">Clear</label>
                         <ul>
                             <li>
-                                <label class="container">Armchair
+                                <label class="filter-label">Armchair
                                     <input type="checkbox" checked="checked">
                                     <span class="checkmark"></span>
                                 </label>
                             </li>
                             <li>
-                                <label class="container">Armless
+                                <label class="filter-label">Armless
                                     <input type="checkbox">
                                     <span class="checkmark"></span>
                                 </label>
                             </li>
                             <li>
-                                <label class="container">Recliner
+                                <label class="filter-label">Recliner
                                     <input type="checkbox">
                                     <span class="checkmark"></span>
                                 </label>
                             </li>
                             <li>
-                                <label class="container">Ottoman
+                                <label class="filter-label">Ottoman
                                     <input type="checkbox">
                                     <span class="checkmark"></span>
                                 </label>
@@ -74,37 +72,55 @@
                         </ul>
                         <hr>
                     </div>
-                    <a class="btn clearall-filter-btn" href="https://lazysuzy.com/filter/clear_filter/all">Clear All</a>
+
+                    <a class="btn clearall-filter-btn" href="/filter/clear_filter/all">Clear All</a>
+
+                </div>
+                <div class="filters col-md-2  d-md-none" id="sort-mobile">
+
+                    <input type="radio" name="sort-price-filter" value="price_low_to_high"> Price : Low to High<br>
+                    <input type="radio" name="sort-price-filter" value="price_high_to_low">Price : High to Low<br>
+                    <input type="radio" name="sort-price-filter" value="popularity"> Popularity <br>
+
                 </div>
                 <div class="listing-top-controls d-block d-md-none">
-                    <div class="dropdown show float-left">
-                        <a class="dropdown-toggle" href="#" role="button" id="dropdownMobileListing" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="fas fa-angle-down"></i>
-                        </a>
-                        <ul class="dropdown-menu" aria-labelledby="dropdownMobileListing" rel="dropdownMobileListing">
-                            <li><a class="dropdown-item" href="#">Accent</a></li>
-                            <li class="dropdown-submenu"><a class="dropdown-item dropdown-toggle" href="#">Living<i class="fas fa-angle-right float-right"></i></a>
-                                <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item" href="#">All</a></li>
-                                    <li><a class="dropdown-item" href="#">Sofa</a></li>
-                                    <li><a class="dropdown-item" href="#">Seating</a></li>
-                                    <li><a class="dropdown-item" href="#">Table</a></li>
-                                    <li><a class="dropdown-item" href="#">Remaining</a></li>
-                                </ul>
-                            </li>
-                            <li><a class="dropdown-item" href="#">Bed</a></li>
-                            <li><a class="dropdown-item" href="#">Kitchen</a></li>
-                            <li><a class="dropdown-item" href="#">Remaining</a></li>
-                        </ul>
+                <div id="page-navigator" class="page-navigator-mobile"></div>
+                <div>
+                <span class="filter-toggle" id="filterToggleBtn">
+                    <i class="fas fa-filter"></i>
+                        Filter
+                    </span>
+                    <span class="filter-toggle" id="viewItemsBtn">
+                    <i class="fab fa-buromobelexperte"></i>
+                        Toggle View
+                    </span>
+                    <span class="filter-toggle" id="selectbox-sortmobile">
+                    <i class="fas fa-sort"></i>
+                        Sort
+                    </span>
+</div>
+
+
+                </div>
+                <!-- <div class="listing-top-controls d-block d-md-none">
+                    <div class="filters col-md-2 d-md-block" id="sort-mobile">
+                        <input type="radio" name="sort-price-filter" value="male"> Price : Low to High<br>
+                        <input type="radio" name="sort-price-filter" value="female">Price : High to Low<br>
+                        <input type="radio" name="sort-price-filter" value="other"> Popularity <br>
+                        <input type="radio" name="sort-price-filter" value="female" checked="checked"> Recommended<br>
                     </div>
-                    {{ Breadcrumbs::render('products') }}
+                </div> -->
+
+                <!-- <div class="listing-top-controls d-block d-md-none">
                     <span class="filter-toggle float-right" id="filterToggleBtn">
                         <i class="fas fa-filter"></i>
                     </span>
                     <span class="view-items-toggle float-right" id="viewItemsBtn">
                         <i class="fab fa-buromobelexperte"></i>
                     </span>
-                </div>
+                </div> -->
+
+
                 <div class="products-container col-md-10">
                     <div class="float-right d-none d-md-block">
                         <div class="sortby">
@@ -119,19 +135,23 @@
                         <div class="total-items"><span id="totalResults">0</span> Results</div>
                     </div>
                     <div class="ls-prod-container container-fluid text-center">
+                    <div class="top-button d-md-none"><i class="fa fa-arrow-up" aria-hidden="true"></i></div>
                         <div class="row" id="productsContainerDiv">
+
                         </div>
                         <div class="text-center" id="noProductsText">Sorry, no more products to show.</div>
                         <div class="mx-auto" id="loaderImg">
                             <img src="{{ asset('/images/Spinner-1s-100px.gif') }}" alt="Spinner">
                         </div>
                     </div>
-                </div>
-
-            </div>
+</div>
+</div>
         </div>
+        @component('components.detailOverview')
+        @endcomponent
     </div>
 @endsection
 @push('pageSpecificScripts')
     <script src="{{ mix('js/listing.js')}}"></script>
+    <script src="{{ mix('js/detailOverview.js')}}"></script>
 @endpush

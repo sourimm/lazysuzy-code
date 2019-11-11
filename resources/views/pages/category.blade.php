@@ -1,40 +1,38 @@
-@extends('layouts.layout', ['body_class' => 'detailspage-main-div'])
+@extends('layouts.layout', ['body_class' => 'categorypage-main-div'])
 @section('middle_content')
-    <div class="detailspage" id="detailPage">
-        @include('./partials/subnav')
+@section('title', $departmentName.' | LazySuzy')
+@include('./partials/subnav')
 
-        <div class="d-block d-md-none controls-div">
+<div class="category-page" id="categorypage">
+    <div class="listing-container category-img-container">
+        <div class="listing-top-controls d-block" >
 
-            <div class="wishlist-icon float-right m-10" id="wishlistBtn">
+                    <!-- <span class="filter-toggle float-right" id="filterToggleBtn">
+                        <i class="fas fa-filter"></i>
+                    </span>
+                    <span class="view-items-toggle float-right" id="viewItemsBtn">
+                        <i class="fab fa-buromobelexperte"></i>
+                    </span> -->
+            <!-- <div class="wishlist-icon float-right m-10" id="wishlistBtn">
                 <i class="far fa-heart -icon"></i>
             </div>
             <div class="filter-toggle float-right m-10" id="filterToggleBtn">
                 <i class="fas fa-filter -icon"></i>
+            </div> -->
+        </div>
+        <div class="category-listing">
+            <div class="row">
+                @foreach ($listedCategories as $category)
+                    <div class="col-sm-3 col-6 category-text">
+                        <a class="category-text" href="{{$category['link']}}">
+                            <img class="category-img" src="{{$category['image']}}?v=1.0.0" alt="{{$category['category']}}" >
+                            <div><span>{{$category['category']}}</span></div>
+                        </a>
+                    </div>
+                @endforeach
             </div>
         </div>
-         <div class="category-img-container">
-             <div class="row">
-             @foreach ($listedCategories as $category)
-                <div class="col-3 category-text">
-                    <a class="category-text" href="{{$category['link']}}">
-                        <img class="category-img" src="{{$category['image']}}" alt="{{$category['category']}}" >
-                        <div><span>{{$category['category']}}</span></div>
-                    </a>
-                </div>
-            @endforeach
-
-
-         </div>
-         </div>
-
-
-
-
-
-        @include('./partials/brandassociation')
     </div>
+    @include('./partials/brandassociation')
+</div>
 @endsection
-
-@push('pageSpecificScripts')
-    <script src="{{ mix('js/detailspage.js')}}"></script>
-@endpush

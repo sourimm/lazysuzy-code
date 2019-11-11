@@ -1,6 +1,16 @@
+// @import 'detailOverview';
 // .listing-main-div {
 //     .searchbar {
 //         top: 8px;
+//     }
+// }
+// .detailspage {
+//     .wishlist-icon-modal {
+//         &.marked-icon {
+//             .-icon {
+//                 font-weight: 900;
+//             }
+//         }
 //     }
 // }
 .-features {
@@ -24,7 +34,6 @@ input:disabled + .checkmark + .text {
     .listing-container {
         margin-top: 35px;
         margin: auto;
-        padding: 0px;
 
         @media only screen and (min-width: 1200px) {
             max-width: 75%;
@@ -32,10 +41,12 @@ input:disabled + .checkmark + .text {
 
         .filters {
             width: 180px;
-            margin-top: 45px;
+            margin-top: 65px;
             text-align: center;
-            overflow: auto;
+            overflow-y: auto;
+            overflow-x: hidden;
             padding: 20px;
+            white-space: nowrap;
 
             @media only screen and (min-width: 768px) {
                 position: sticky;
@@ -45,6 +56,11 @@ input:disabled + .checkmark + .text {
                 position: -ms-sticky;
                 position: -o-sticky;
                 top: 45px;
+                .filter {
+                    .filter-header {
+                        font-size: 18px;
+                    }
+                }
             }
 
             .clearall-filter-btn {
@@ -73,10 +89,10 @@ input:disabled + .checkmark + .text {
                         list-style: none;
 
                         /* Customize the label (the container) */
-                        .container {
+                        .filter-label {
                             display: block;
                             position: relative;
-                            padding-left: 25px;
+                            // padding-left: 25px;
                             margin-bottom: 12px;
                             cursor: pointer;
                             font-size: 14px;
@@ -88,7 +104,7 @@ input:disabled + .checkmark + .text {
                         }
 
                         /* Hide the browser's default checkbox */
-                        .container input {
+                        .filter-label input {
                             position: absolute;
                             opacity: 0;
                             cursor: pointer;
@@ -100,7 +116,8 @@ input:disabled + .checkmark + .text {
                         .checkmark {
                             position: absolute;
                             top: 0;
-                            left: 0;
+                            // left: 0;
+                            right: 0;
                             height: 15px;
                             width: 15px;
 
@@ -117,12 +134,12 @@ input:disabled + .checkmark + .text {
                         }
 
                         /* Show the checkmark when checked */
-                        .container input:checked ~ .checkmark:after {
+                        .filter-label input:checked ~ .checkmark:after {
                             display: block;
                         }
 
                         /* Style the checkmark/indicator */
-                        .container .checkmark:after {
+                        .filter-label .checkmark:after {
                             left: 4px;
                             top: 1px;
                             width: 5px;
@@ -186,12 +203,21 @@ input:disabled + .checkmark + .text {
     }
 }
 .category-img {
-    width: 220px;
+    width: 100%;
     margin: 20px 0;
+    max-width: 220px;
+    min-height: 220px;
 }
+
 .category-img-container {
-    margin: 0 100px;
+    max-width: 1080px;
+    margin: 0 auto;
+    min-height: 60px;
 }
+.category-listing {
+    margin-top: 20px;
+}
+
 .category-text {
     text-align: center;
     font-size: 20px;
@@ -199,6 +225,9 @@ input:disabled + .checkmark + .text {
     color: $secondary-color;
     margin-bottom: 40px;
 
+    &:hover {
+        text-decoration: none;
+    }
 }
 @media only screen and (max-width: 768px) {
     .listing {
@@ -209,17 +238,42 @@ input:disabled + .checkmark + .text {
 }
 
 @media only screen and (max-width: 480px) {
-    .listing {
+    .category-img {
+        min-height: 162px;
+    }
+    .listing,
+    .category-page {
         .listing-container {
             .listing-top-controls {
                 position: absolute;
+
+                .page-navigator-mobile {
+                    width: 35%;
+                    margin: 5px 2px;
+                    text-align: left;
+                    a {
+                        color: $product-price;
+                    }
+                }
+                .search-navigator {
+                    color: $product-price;
+                }
+            }
+        }
+    }
+    .listing,
+    .category-page {
+        .listing-container {
+            .listing-top-controls {
+                position: relative;
                 width: 100%;
-                height: $listing-top-ctrl-height;
+                text-align: center;
+                margin: 5px;
 
                 .filter-toggle,
                 .view-items-toggle {
-                    margin: 5px;
-                    font-size: 23px;
+                    margin: 10px;
+                    font-size: 15px;
                 }
 
                 .dropdown {
@@ -242,6 +296,7 @@ input:disabled + .checkmark + .text {
                     }
 
                     .dropdown-item {
+                        white-space: unset !important;
                         &:hover {
                             .dropdown-menu {
                                 display: block;
@@ -268,19 +323,57 @@ input:disabled + .checkmark + .text {
                     padding: 12px 5px;
                 }
             }
-
+            .ls-prod-container {
+                .top-button {
+                    position: fixed;
+                    bottom: 110px;
+                    right: 30px;
+                    z-index: 99;
+                    font-size: 18px;
+                    border: none;
+                    outline: none;
+                    background-color: #0C1C31;
+                    color: $white;
+                    cursor: pointer;
+                    padding: 10px 17px;
+                }
+            }
             .products-container {
-                margin-top: 45px;
+                margin-top: 0px;
 
                 .ls-prod-container {
                     margin: auto;
 
                     .ls-product-div {
+                        .prod-sale-price {
+                            margin: -23px 0px 0 0px;
+                            padding: 0 5px;
+                            z-index: 58;
+                            position: absolute;
+                            left: 0;
+                            background: $off-white;
+                            color: $product-price;
+                        }
+                        .prod-discount-tag {
+                            z-index: 58;
+                            position: absolute;
+                            right: 0;
+                            bottom: 0;
+                            background: #e8c101;
+                            padding: 0 4px;
+                            color: #fff;
+
+                            &._20 {
+                                background: #e84c01;
+                            }
+                        }
                         margin-bottom: 0px;
                         padding: 1px;
 
                         .ls-product {
                             margin-bottom: 0px;
+                            min-height: 100px;
+                            background-position: center;
                         }
                     }
                 }
@@ -316,13 +409,16 @@ input:disabled + .checkmark + .text {
                 }
 
                 .filter {
-                    text-align: center;
+                    text-align: left;
 
                     ul {
+                        white-space: normal;
+                        text-align: left;
+                        margin-right: 0;
                         li {
-                            display: inline-block;
-
-                            .container {
+                            // display: inline-block;
+                            margin-right: 10px;
+                            .filter-label {
                                 .checkmark {
                                     border: 1px solid $white !important;
 
@@ -362,6 +458,7 @@ input:disabled + .checkmark + .text {
         @include media-breakpoint-down(md) {
             .dropdown-item {
                 width: 90%;
+                z-index: 5;
             }
             .dropdown-toggle {
                 margin-top: 4px;
@@ -381,5 +478,178 @@ input:disabled + .checkmark + .text {
         left: 100%;
         margin-left: 0.1rem;
         margin-right: 0.1rem;
+    }
+}
+.submenu-dropdown {
+    padding: 10px;
+}
+.sidenav {
+    height: 100%;
+    width: 0;
+    position: fixed;
+    z-index: 101;
+    top: 0;
+    left: 0;
+    background-color: $secondary-color;
+    overflow-x: hidden;
+    transition: 0.5s;
+    padding-top: 60px;
+}
+
+.sidenav .closebtn {
+    position: absolute;
+    top: 0;
+    right: 25px;
+    font-size: 36px;
+    margin-left: 50px;
+    color: $border-color;
+    text-decoration: none;
+}
+
+.sidenav .collapsible {
+    color: $white;
+    cursor: pointer;
+    padding: 18px;
+    width: 100%;
+    text-align: left;
+    outline: none;
+}
+
+.active,
+.sidenav .collapsible:hover {
+    color: $primary-color;
+}
+.sidenav-items {
+    padding: 0 18px;
+    overflow: hidden;
+    list-style-type: none;
+    white-space: nowrap;
+
+    .department {
+        color: $white;
+
+        .category-list {
+            padding: 0 50px;
+            overflow: hidden;
+            list-style-type: none;
+            background-color: $category-bg;
+            margin: 0 -20px;
+            a.link {
+                color: $white;
+            }
+        }
+    }
+    a.link {
+        color: $white;
+        width: 80%;
+        display: inline-block;
+        padding: 5px 0;
+        text-decoration: none;
+        &:hover {
+            color: $primary-color;
+        }
+    }
+    a.collapsible {
+        padding-right: 10px;
+        text-decoration: none;
+        font-size: 20px;
+        display: block;
+        &.active {
+            color: $products-bg;
+            .side-nav-icon {
+                color: $products-bg;
+                transform: rotate(90deg);
+            }
+        }
+    }
+    .side-nav-link {
+        margin-left: 180px;
+    }
+    .side-nav-icon {
+        float: right;
+    }
+}
+
+@media screen and (max-height: 450px) {
+    .sidenav {
+        padding-top: 15px;
+    }
+    .sidenav a {
+        font-size: 18px;
+        color: $white;
+    }
+}
+.-images {
+    height: 95vh;
+    width: auto;
+    overflow: scroll;
+    overflow-x: hidden;
+}
+.nav {
+    display: flex;
+    flex-wrap: nowrap;
+    margin-bottom: 0;
+    list-style: none;
+}
+.nav-pills .nav-link {
+    border-radius: 0.25rem;
+    color: $category-bg;
+}
+.pdp-buy-btn {
+    color: $products-bg;
+    background-color: $category-bg;
+    margin: 5px;
+    display: flex;
+    width: 30%;
+}
+.pdp-buy-btn:hover {
+    color: $products-bg;
+    text-decoration: none;
+}
+.-product-details {
+    margin: 5px;
+
+    .offer-price {
+        font-size: 30px;
+        color: $product-price;
+    }
+    .price {
+        text-decoration: line-through;
+        font-size: 25px;
+    }
+}
+//lightbox
+.ekko-lightbox-nav-overlay {
+    z-index: 1;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: -ms-flexbox;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    a {
+        // -ms-flex: 1;
+        // flex: 1;
+        // display: -ms-flexbox;
+        // display: flex;
+        -ms-flex-align: center;
+        align-items: center;
+        // opacity: 0;
+        transition: opacity 0.5s;
+        color: $products-bg;
+        font-size: 30px;
+        z-index: 1;
+        text-decoration: none;
+    }
+    a span {
+        padding: 0 30px;
+        color: $products-bg;
+    }
+    a > * {
+        -ms-flex-positive: 1;
+        flex-grow: 1;
     }
 }
