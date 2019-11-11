@@ -1,5 +1,6 @@
 .detailspage-main-div {
     // font-family: Helvetica, sans-serif;
+    background-color: $white;
 
     .detailspage {
         .wishlist-icon {
@@ -14,6 +15,9 @@
                     font-weight: 900;
                 }
             }
+        }
+        .product-navigator {
+            margin: 5px;
         }
         .filters.filters-mobile {
             width: 100% !important;
@@ -134,11 +138,27 @@
                 }
             }
         }
+        .-product-details {
+            .-name {
+                text-decoration: none;
+                color: $secondary-color;
+                font-size: 25px;
+            }
+            .offer-price {
+                color: $product-price;
+            }
+            .price {
+                font-size: 0.8em;
+                text-decoration: line-through;
+                display: inline-block;
+                margin-left: 10px;
+                font-size: 25px;
+            }
+        }
 
         .prod-price-card {
             border-radius: 20px;
             background-color: $white;
-            margin-top: -50px;
             padding: 30px 10px;
             font-size: 24px;
             font-weight: 600;
@@ -178,31 +198,11 @@
 
         .rating-container {
             margin: auto auto 10px auto;
+            text-decoration: none;
+            color: $secondary-color;
+            display: inline-block;
             .rating {
                 margin-left: 0px;
-            }
-        }
-
-        .brand-association {
-            padding: 10px 20px;
-            font-family: 'Marcellus SC', san-serif;
-            background-color: $grey !important;
-            margin-top: 60px;
-            margin-bottom: 10px;
-
-            .-text {
-                font-size: 26px;
-                font-weight: 600;
-            }
-            .brand-logos {
-                .brand-logo {
-                    max-width: 100px;
-                }
-            }
-            .socials {
-                .-icons {
-                    font-size: 22px;
-                }
             }
         }
     }
@@ -254,12 +254,15 @@
         font-size: 14px;
         font-weight: 600;
         .pdp-buy-btn {
-            width: 100%;
+            width: 40%;
             color: $primary-color;
             background-color: $secondary-color;
-            font-size: 24px;
+            font-size: 14px;
             border-radius: 10px;
             margin: 10px 0px;
+        }
+        span {
+            color: $black;
         }
     }
 
@@ -270,16 +273,21 @@
     .detailspage {
         .container {
             padding: 0px;
+            color: $black;
         }
     }
 
     .tab-content {
         padding: 15px;
+        background-color: $body-bg;
     }
 }
 
 .tab-pane {
     margin-top: 10px;
+}
+.detail-nav-link {
+    color: $black;
 }
 
 .card .card-header {

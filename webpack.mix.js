@@ -11,19 +11,20 @@ const mix = require('laravel-mix');
  |
  */
 mix.autoload({
-      jquery: ['$', 'jQuery', 'window.jQuery'],
-   });
+    jquery: ['$', 'jQuery', 'window.jQuery']
+});
 
 mix.js('resources/js/app.js', 'public/js')
-   .js('resources/js/pages/listing.js', 'public/js')
-   .js('resources/js/pages/search.js', 'public/js')
-   .js('resources/js/pages/detailspage.js', 'public/js')
-   .sass('resources/sass/app.scss', 'public/css')
-   .version()
-   .extract()
-   .browserSync({
-      proxy: 'localhost:8000'
-   })
-   .webpackConfig({
-      devtool: 'inline-source-map',
-   });
+    .js('resources/js/pages/listing.js', 'public/js')
+    .js('resources/js/pages/search.js', 'public/js')
+    .js('resources/js/pages/detailspage.js', 'public/js')
+    .js('resources/js/pages/detailOverview.js', 'public/js')
+    .sass('resources/sass/app.scss', 'public/css')
+    .version()
+    .extract()
+    .browserSync({
+        proxy: 'localhost:8000'
+    })
+    .webpackConfig({
+        devtool: 'inline-source-map'
+    });

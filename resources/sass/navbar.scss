@@ -89,3 +89,23 @@
         }
     }
 }
+.btn-block {
+    display: block;
+    width: 70%;
+    margin: 5px 0;
+    box-shadow: 2px 2px 5px 0px #0000003b;
+}
+.form-control {
+    width: 70%;
+    margin: 2px auto;
+    font-family: Marcellus !important;
+}
+.auth-modal .-btn {
+    width: 70% !important;
+    font-size: 15px !important;
+}
+.modal-header-text {
+    color: $primary-color;
+    font-weight: 500;
+    margin: 20px 0;
+}

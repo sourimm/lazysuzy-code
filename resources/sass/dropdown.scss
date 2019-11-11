@@ -1,4 +1,7 @@
 .dropdown {
+    &.active {
+        background-color: $primary-color;
+    }
     .dropdown-toggle {
         &:active {
             // pointer-events: none; // Add this, to prevent clicking dropdown's default click function
@@ -12,6 +15,11 @@
         text-align: left;
         // max-width: 100px !important;
         // width: 100px !important;
+        width: 275px;
+        a:hover {
+            text-decoration: none;
+            color: $primary-color;
+        }
 
         @media only screen and (max-width: 480px) {
         }
@@ -22,7 +30,16 @@
         }
     }
 }
-
+.dropdown .dropdown-menu {
+    @media only screen and (max-width: 786px) {
+        border: 1px solid $border-color;
+        border-radius: 4px;
+        // max-width: 157px;
+        text-align: left;
+        max-width: 180px;
+        // width: 100px !important;
+    }
+}
 .dropdown-menu {
     padding: 0;
     margin: 0;
