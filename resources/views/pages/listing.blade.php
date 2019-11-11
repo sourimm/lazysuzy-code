@@ -85,7 +85,7 @@
                 </div>
                 <div class="listing-top-controls d-block d-md-none">
                 <div id="page-navigator" class="page-navigator-mobile"></div>
-                <div>
+                <div class="filter-toggle-mobile">
                 <span class="filter-toggle" id="filterToggleBtn">
                     <i class="fas fa-filter"></i>
                         Filter
