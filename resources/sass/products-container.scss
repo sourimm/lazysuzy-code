@@ -4,7 +4,6 @@
     .ls-prod-container {
         max-width: 100%;
         margin: 65px auto auto auto;
-        padding: 0px;
 
         .ls-product-div {
             padding: 0px 10px;
@@ -19,8 +18,11 @@
             .ls-product {
                 position: relative;
                 margin-bottom: 15px;
-
-                .variation-img{
+                // background-image: url('../../public/images/Spinner-2s-200px.gif');
+                // background-image: url('../../public/images/Ellipsis-1.5s-194px\ \(1\).gif');
+                // background-image: url('../../public/images/Ellipsis-1.9s-200px.gif');
+                background-image: url('../../public/images/final.gif');
+                .variation-img {
                     position: absolute;
                     bottom: 0px;
                     z-index: 1;
@@ -31,8 +33,8 @@
                     position: absolute;
                     bottom: 0px;
                     padding: 5px;
-                    width: 100%;    
-                    background-color: rgba(0,0,0, 0.4);
+                    width: 100%;
+                    background-color: rgba(0, 0, 0, 0.4);
                     height: 25px;
                     text-align: left;
                     font-size: 14px;
@@ -57,14 +59,14 @@
                     margin: 15px;
                     top: 0px;
                     right: 0px;
-                    z-index:100;
-                    
+                    z-index: 50;
+
                     .-icon {
                         font-size: 20px;
                     }
 
-                    &.marked{
-                        .-icon{
+                    &.marked {
+                        .-icon {
                             font-weight: 900;
                         }
                     }

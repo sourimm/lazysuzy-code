@@ -33,6 +33,7 @@
 @import 'subnav';
 @import 'footer';
 @import 'listing';
+@import 'detailOverview';
 @import 'products-container';
 @import 'detailspage';
 @import 'carousel';
@@ -112,26 +113,51 @@ body {
 .brand-logos {
     .-cb2 {
         max-width: 57px;
-        margin: 0 20px;
     }
     .-crate {
         max-width: 141px;
-        margin: 0 20px;
     }
     .-pier1 {
         max-width: 107px;
-        margin: 0 20px;
     }
     .-westelm {
         max-width: 127px;
-        margin: 0 20px;
     }
     .-worldmarket {
         max-width: 116px;
-        margin: 0 20px;
     }
     .more-soon {
         max-width: 189px;
-        margin: 0 20px;
+    }
+}
+
+.brand-association {
+    padding: 10px 20px;
+    font-family: 'Marcellus SC', san-serif;
+    background-color: $grey;
+    margin-top: 60px;
+    margin-bottom: 10px;
+
+    .-text {
+        font-size: 26px;
+        font-weight: 600;
+    }
+
+    .socials {
+        .-icons {
+            font-size: 22px;
+        }
+    }
+    .brand-logos {
+        padding: 0px 30px;
+
+        .brand-logo {
+            padding-left: 15px;
+            width: 12%;
+
+            &.more-soon {
+                width: 25%;
+            }
+        }
     }
 }

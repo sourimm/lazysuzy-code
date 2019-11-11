@@ -22,7 +22,7 @@
     .searchbar.sb-body{
       position: relative;
       top: 0px;
-      display: block; 
+      display: block;
       .card-body{
         padding: 4px 15px;
       }
@@ -97,19 +97,6 @@
 
     .-text {
       font-size: 26px;
-    }
-
-    .brand-logos {
-      padding: 0px 30px;
-
-      .brand-logo {
-        padding-left: 15px;
-        width: 12%;
-
-        &.more-soon {
-          width: 25%;
-        }
-      }
     }
 
     .socials {

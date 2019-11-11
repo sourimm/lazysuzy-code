@@ -7,7 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 class Category extends Model
 {
     protected $table = "mapping_core";
-    protected static $base_site = "https://lazysuzy.com";
+
+    public static $base_site_url = "https://www.lazysuzy.com";
+
     protected $listing_base_url = "/products";
 
     public static function get_categories($dept = null)
@@ -32,7 +34,7 @@ class Category extends Model
             array_push($c_cat, [
                 'category' => $row['product_category'],
                 'LS_ID' => $row['LS_ID'],
-                'image' =>  $row['category_image'],
+                'image' => Category::$base_site_url . '/' . $row['category_image'],
                 'link' => $listing_base_url . '/' . strtolower($dept) . '/' . strtolower($row['product_category_']),
                 'sub_categories' => $sub_categories
             ]);

@@ -2,6 +2,7 @@ import * as multiCarouselFuncs from '../components/multi-carousel'
 import makeSelectBox from '../components/custom-selectbox'
 import Drift from 'drift-zoom'
 import isMobile from '../app.js'
+var md = require('markdown-it')()
 
 $(document).ready(function() {
     const PDP_API = '/api' + window.location.pathname
@@ -30,6 +31,7 @@ $(document).ready(function() {
         url: PDP_API,
         dataType: 'json',
         success: function(data) {
+            document.title = data.name + ' | LazySuzy'
             var $imagesContainer = $product.find('.-images-container')
             var $images = $imagesContainer.find('.-images')
             var imgContainerWidth = 0
@@ -44,27 +46,60 @@ $(document).ready(function() {
                     alt: 'product image'
                 }).appendTo($images)
             })
+
             var $prodDetails = $('<div />', {
                 class: '-product-details'
             }).appendTo($prodPriceCard)
-            var site = $('<span/>', {
+            var site = $('<a/>', {
+                text: data.name + ' ',
+                href: data.product_url,
+                target: '_blank',
+                class: 'text-uppercase -name'
+            }).appendTo($prodDetails)
+            var site = $('<div/>', {
                 text: data.site + ' ',
-                class: 'float-left text-uppercase'
+                class: 'text-uppercase'
             }).appendTo($prodDetails)
-            var price = $('<span/>', {
+            var priceCont = $('<div/>').appendTo($prodDetails)
+            $('<span/>', {
                 text: ' $' + data.is_price.replace('-', ' - $'),
-                class: 'float-right'
-            }).appendTo($prodDetails)
+                class: 'offer-price'
+            }).appendTo(priceCont)
+            if (data.is_price !== data.was_price) {
+                $('<span/>', {
+                    text: ' $' + data.was_price.replace('-', ' -$'),
+                    class: 'price'
+                }).appendTo(priceCont)
+            }
+            let detailsNavigator = data.department_info[0].category_url.split(
+                '/'
+            )
+            $('<span/>', {
+                class: 'product-navigator',
+                text: detailsNavigator[2] + ' >'
+            }).appendTo('#detailspageNavigator')
+            $('<span/>', {
+                class: 'product-navigator',
+                text: detailsNavigator[3] + ' >'
+            }).appendTo('#detailspageNavigator')
+            $('<span/>', {
+                class: 'product-navigator',
+                text: data.name
+            }).appendTo('#detailspageNavigator')
+
             $('<div />', {
                 class: 'clearfix'
             }).appendTo($prodDetails)
             var buyBtn = $('<a/>', {
-                class: 'btn pdp-buy-btn',
+                class: 'col-xs-12 btn pdp-buy-btn ',
                 href: data.product_url,
-                text: 'Buy',
+                text: 'Buy from seller',
                 target: '_blank'
             }).appendTo($prodDetails)
 
+            $('<div />', {
+                class: 'clearfix'
+            }).appendTo($prodDetails)
             $filtersDivMobile = jQuery('<div/>', {
                 id: 'filtersDivMobile',
                 class: 'filters filters-mobile'
@@ -75,18 +110,20 @@ $(document).ready(function() {
                 class: 'filters'
             }).appendTo($prodPriceCard)
 
-            if (data.variations != null) {
-                makeVariationCarousel(data.variations)
-                if (data.filters == null && $.isEmptyObject(data.filters)) {
-                    $('#filterToggleBtn').hide()
-                }
-            } else {
-                fetchVariations()
-            }
+            // if (data.variations != null) {
+            //     makeVariationCarousel(data.variations)
+            //     if (data.filters == null && $.isEmptyObject(data.filters)) {
+            //         $('#filterToggleBtn').hide();
+            //     }
+            // } else {
+            //     fetchVariations();
+            // }
 
             //Product description
+
             var $desc = $product.find('.prod-desc')
-            $desc.find('.-name').text(data.name)
+            $desc.find('.-name')
+
             if (isMobile()) {
                 var $mobileProdDetails = $('.-product-details').clone()
                 $mobileProdDetails.insertAfter('.-name')
@@ -100,10 +137,10 @@ $(document).ready(function() {
             if (data.reviews <= 0) {
                 $desc.find('.rating-container').hide()
             }
-
-            $desc.find('.-desc').html(data.description)
+            $desc.find('.rating-container').attr('href', data.product_url)
+            $desc.find('.-desc').html(md.render(data.description.join('\n')))
             $desc.find('.-dimen').html(data.dimension)
-            $('#descp').html(data.description)
+            $('#descp').html(md.render(data.description.join('\n')))
             $('#dimen').html(data.dimension)
 
             var $featuresList = $desc.find('.-features')
