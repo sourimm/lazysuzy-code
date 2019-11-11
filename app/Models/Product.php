@@ -535,7 +535,7 @@ class Product extends Model
 
         if (isset($price_bits[1]) && isset($was_price_bits[1])) {
             $p_val = $price_bits[0];
-            $wp_val = $price_bits[0];
+            $wp_val = $was_price_bits[0];
         }
         else {
             $p_val = $p_price;
