@@ -188,6 +188,9 @@ input:disabled + .checkmark + .text {
                 // }
             }
         }
+        .fix-search-filter {
+            margin-top: 10px !important;
+        }
 
         .sortby {
             .form-control {
@@ -272,6 +275,17 @@ input:disabled + .checkmark + .text {
                 width: 100%;
                 text-align: center;
                 margin: 5px;
+                .filter-toggle-mobile {
+                    margin: 0px 45px;
+                    position: absolute;
+                }
+                .fix-search {
+                    position: fixed;
+                    z-index: 100;
+                    top: 0;
+                    padding: 10px 0;
+                    background: $yellow;
+                }
 
                 .filter-toggle,
                 .view-items-toggle {
@@ -343,7 +357,7 @@ input:disabled + .checkmark + .text {
                 }
             }
             .products-container {
-                margin-top: 0px;
+                margin-top: 25px;
 
                 .ls-prod-container {
                     margin: auto;
@@ -387,7 +401,7 @@ input:disabled + .checkmark + .text {
                 width: 100% !important;
                 background: $secondary-color;
                 color: $white;
-                position: absolute;
+                position: fixed;
                 z-index: 100;
                 display: none;
 
@@ -406,6 +420,9 @@ input:disabled + .checkmark + .text {
                     border-bottom: solid 10px $secondary-color;
                     border-left: solid 10px transparent;
                     border-right: solid 10px transparent;
+                }
+                .fix-search {
+                    margin-top: 0 !important;
                 }
 
                 hr {

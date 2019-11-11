@@ -235,7 +235,7 @@ $(document).ready(function() {
                 text: `$${Math.round(
                     salepriceRange[0]
                 ).toLocaleString()} - $${Math.round(
-                    salepriceRange[3]
+                    salepriceRange[1]
                 ).toLocaleString()}`,
                 class: 'prod-sale-price d-md-none'
             }).appendTo(mainProductDiv)
@@ -247,10 +247,6 @@ $(document).ready(function() {
                 class: 'prod-sale-price d-md-none'
             }).appendTo(mainProductDiv)
         }
-        var saleprice = jQuery('<span />', {
-            text: `$${Math.round(productDetails.is_price).toLocaleString()}`,
-            class: 'prod-sale-price d-md-none'
-        }).appendTo(mainProductDiv)
         if (Math.ceil(productDetails.percent_discount) > 0) {
             var discounttag = jQuery('<span />', {
                 text: `${Math.ceil(productDetails.percent_discount)}%`,
