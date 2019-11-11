@@ -506,7 +506,7 @@ class Product extends Model
         $color_filter = Product::get_product_type_filter($dept, $cat, $subCat, $all_filters)['colorFilter'];
 
         $filter_data = [
-            "brand_names"  => $brand_holder,
+            "brand"  => $brand_holder,
             "price"        => $price_holder,
             "product_type" => $product_type_holder,
             // 'colors' => $color_filter
