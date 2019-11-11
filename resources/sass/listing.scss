@@ -284,7 +284,10 @@ input:disabled + .checkmark + .text {
                     z-index: 100;
                     top: 0;
                     padding: 10px 0;
-                    background: $yellow;
+                    background: $primary-color;
+                    right: 0;
+                    left: 0;
+                    margin: 0;
                 }
 
                 .filter-toggle,
