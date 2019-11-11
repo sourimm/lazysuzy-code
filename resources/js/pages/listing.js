@@ -88,6 +88,18 @@ $(document).ready(function() {
             })
     })
 
+    $(window).scroll(function(event) {
+        if ($(window).scrollTop() > 50) {
+            $('.filter-toggle-mobile').addClass('fix-search')
+            $('.filters').addClass('fix-search-filter')
+            console.log('added class')
+        } else {
+            $('.filter-toggle-mobile').removeClass('fix-search')
+            $('.filters').removeClass('fix-search-filter')
+            console.log('removed class')
+        }
+    })
+
     $('.dropdown-menu a.dropdown-toggle').on('click', function(e) {
         if (
             !$(this)
