@@ -481,7 +481,7 @@ class Product extends Model
                         ->where("user_id", $user->id)
                         ->where("is_active", 1)
                         ->get();
-            
+                                    
             // cleaning the array 
             foreach ($w_products as $p) 
                 array_push($wishlist_products, $p->product_id);    
