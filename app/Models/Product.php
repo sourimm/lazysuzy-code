@@ -136,10 +136,10 @@ class Product extends Model
             // FILTERS
             // 1. brand_names
             if (
-                isset($all_filters['brand_names'])
-                && strlen($all_filters['brand_names'][0]) > 0
+                isset($all_filters['brand'])
+                && strlen($all_filters['brand'][0]) > 0
             ) {
-                $query = $query->whereIn('site_name', $all_filters['brand_names']);
+                $query = $query->whereIn('site_name', $all_filters['brand']);
             }
 
             // 2. price_from
@@ -225,7 +225,7 @@ class Product extends Model
     public static function get_brands_filter($dept, $cat, $all_filters)
     {
         $all_brands = [];
-        $all_b = DB::table("master_brands")->get();
+        $all_b = DB::table("master_brands")->orderBy("name")->get();
         $LS_IDs = Product::get_dept_cat_LS_ID_arr($dept, $cat);
 
 
@@ -254,8 +254,8 @@ class Product extends Model
         foreach ($product_brands as $b) {
             if (isset($all_brands[$b->site_name])) {
                 $all_brands[$b->site_name]["enabled"] = true;
-                if (isset($all_filters['brand_names'])) {
-                    if (in_array($b->site_name, $all_filters['brand_names'])) {
+                if (isset($all_filters['brand'])) {
+                    if (in_array($b->site_name, $all_filters['brand'])) {
                         $all_brands[$b->site_name]["checked"] = true;
                     }
                 }
@@ -389,8 +389,8 @@ class Product extends Model
             ->select(['LS_ID', 'color'])
             ->whereRaw('LS_ID REGEXP "' . implode("|", $LS_IDs) . '"');
 
-        if (isset($all_filters['brand_names']) && strlen($all_filters['brand_names'][0]) > 0) {
-            $products = $products->whereIn('site_name', $all_filters['brand_names']);
+        if (isset($all_filters['brand']) && strlen($all_filters['brand'][0]) > 0) {
+            $products = $products->whereIn('site_name', $all_filters['brand']);
         }
 
      return $products->get();
@@ -480,11 +480,11 @@ class Product extends Model
                         ->select("product_id")
                         ->where("user_id", $user->id)
                         ->where("is_active", 1)
-    
-
-            // cleaning the array
-            foreach ($w_products as $p)
-                array_push($wishlist_products, $p->product_id);
+                        ->get();
+                                    
+            // cleaning the array 
+            foreach ($w_products as $p) 
+                array_push($wishlist_products, $p->product_id);    
         }
 
         foreach ($products as $product) {
@@ -506,7 +506,7 @@ class Product extends Model
         $color_filter = Product::get_product_type_filter($dept, $cat, $subCat, $all_filters)['colorFilter'];
 
         $filter_data = [
-            "brand_names"  => $brand_holder,
+            "brand"  => $brand_holder,
             "price"        => $price_holder,
             "product_type" => $product_type_holder,
             // 'colors' => $color_filter
@@ -535,14 +535,14 @@ class Product extends Model
 
         if (isset($price_bits[1]) && isset($was_price_bits[1])) {
             $p_val = $price_bits[0];
-            $wp_val = $price_bits[0];
+            $wp_val = $was_price_bits[0];
         }
         else {
             $p_val = $p_price;
             $wp_val =  $wp_price;
         }
 
-        if (is_numeric($p_val) && is_numeric($wp_val)) {
+        if (is_numeric($p_val) && is_numeric($wp_val) && $wp_val > 0) {
             $discount = (1 - ($p_val / $wp_val)) * 100;
             $discount = number_format((float) $discount, 2, '.', '');
         }
