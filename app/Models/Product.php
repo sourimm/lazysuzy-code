@@ -542,7 +542,7 @@ class Product extends Model
             $wp_val =  $wp_price;
         }
 
-        if (is_numeric($p_val) && is_numeric($wp_val)) {
+        if (is_numeric($p_val) && is_numeric($wp_val) && $wp_val > 0) {
             $discount = (1 - ($p_val / $wp_val)) * 100;
             $discount = number_format((float) $discount, 2, '.', '');
         }
