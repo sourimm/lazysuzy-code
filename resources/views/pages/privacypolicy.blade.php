@@ -1,6 +1,7 @@
 @extends('layouts.layout', ['body_class' => 'privacy-main-div'])
-
+@section('title','LazySuzy | Search & Discover Furniture for your Home')
 @section('middle_content')
+
 <div class="privacy-policy container">
     <h2>Privacy Policy</h2>
     <p>Your privacy is important to us. It is LazySuzy Corp.'s policy to respect your privacy regarding any information we may collect from you across our website, <a href="https://www.LazySuzy.com">https://www.LazySuzy.com</a>, and other sites we own and operate.</p>

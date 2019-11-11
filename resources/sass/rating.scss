@@ -11,6 +11,7 @@
         background-repeat: no-repeat;
         display: inline-block;
         margin: auto 10px;
+        vertical-align: middle;
     }
 
     //Rating specific classes.
@@ -52,7 +53,7 @@
     .total-ratings {
         position: relative;
         font-size: 20px;
-        vertical-align: top;
+        vertical-align: middle;
         font-size: 12px;
     }
 }

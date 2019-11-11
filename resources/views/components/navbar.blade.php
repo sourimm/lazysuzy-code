@@ -1,13 +1,22 @@
 <!-- <a class="navbar-brand mx-auto" href="#"><img id="logo-navbar-middle" src="{{ asset('/images/dark_logo_transparent.png') }}" alt="LazySuzy" class="logo"></a> -->
 
 <nav class="navbar navbar-expand-lg navbar-light bg-light px-md-75 py-10">
-    <button class="navbar-toggler d-none" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+
+        <button class="navbar-toggler " type="button" onclick="openNav()">
         <i class="fas fa-bars -bars"></i>
     </button>
+    <div id="Sidenavbar" class="sidenav">
+  <a href="javascript:void(0)" id="Sidenavbarclose" class="closebtn" onclick="closeNav()">&times;</a>
+<ul id="collapsible-dept" class="sidenav-items">
+                    
+
+</ul>
+
+</div>
+
     <a class="navbar-brand" href="/">
         <img id="logo-navbar-middle" src="{{ asset('/images/dark_logo_transparent.png') }}" alt="asd" class="logo d-none d-md-block">
-        <!-- <img id="logo-navbar-middle" src="{{ asset('/images/color_logo_transparent.png') }}" alt="asd" class="logo d-block d-md-none"> -->
+        <img id="logo-navbar-middle" src="{{ asset('/images/color_logo_transparent.png') }}" alt="asd" class="logo d-block d-md-none">
 
     </a>
 

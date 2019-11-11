@@ -1,9 +1,10 @@
 {
-    "/js/app.js": "/js/app.js?id=65322ef54f169e83f5af",
-    "/css/app.css": "/css/app.css?id=448d5461243ce4bb1611",
-    "/js/detailspage.js": "/js/detailspage.js?id=947c7381c4a5ed45ab33",
-    "/js/listing.js": "/js/listing.js?id=a2cc6eeddab4f6878d57",
-    "/js/manifest.js": "/js/manifest.js?id=af92f221c524c24ee9b3",
-    "/js/search.js": "/js/search.js?id=6201649d50b26ae63896",
-    "/js/vendor.js": "/js/vendor.js?id=3ec25ca78c6aa21ce512"
+    "/js/app.js": "/js/app.js?id=13998f90baa2e95617f7",
+    "/css/app.css": "/css/app.css?id=389be86fc67f75972642",
+    "/js/detailOverview.js": "/js/detailOverview.js?id=0094cdd0e6d3a18a5f23",
+    "/js/detailspage.js": "/js/detailspage.js?id=693b36f930fdf55f290d",
+    "/js/listing.js": "/js/listing.js?id=9db1bc05d1d661d32918",
+    "/js/manifest.js": "/js/manifest.js?id=dcc1db63d839fee1235d",
+    "/js/search.js": "/js/search.js?id=b4257bc44c7df41fd22b",
+    "/js/vendor.js": "/js/vendor.js?id=9e1f598ae0e260571566"
 }
