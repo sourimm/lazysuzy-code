@@ -225,7 +225,7 @@ class Product extends Model
     public static function get_brands_filter($dept, $cat, $all_filters)
     {
         $all_brands = [];
-        $all_b = DB::table("master_brands")->get();
+        $all_b = DB::table("master_brands")->orderBy("name")->get();
         $LS_IDs = Product::get_dept_cat_LS_ID_arr($dept, $cat);
 
 
