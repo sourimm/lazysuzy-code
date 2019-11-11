@@ -480,7 +480,7 @@ class Product extends Model
                         ->select("product_id")
                         ->where("user_id", $user->id)
                         ->where("is_active", 1)
-                        ->get();
+    
 
             // cleaning the array
             foreach ($w_products as $p)
@@ -527,21 +527,26 @@ class Product extends Model
     {
         $p_val = $wp_val = $discount = null;
 
-        $price_bits = explode("-", $product->price);
-        $was_price_bits = explode("-", $product->was_price);
+        $p_price = str_replace("$", "", $product->price);
+        $wp_price = str_replace("$", "", $product->was_price);
+
+        $price_bits = explode("-", $p_price);
+        $was_price_bits = explode("-", $wp_price);
 
         if (isset($price_bits[1]) && isset($was_price_bits[1])) {
             $p_val = $price_bits[0];
             $wp_val = $price_bits[0];
         }
         else {
-            $p_val = $product->price;
-            $wp_val =  $product->was_price;
+            $p_val = $p_price;
+            $wp_val =  $wp_price;
         }
 
-        $discount = (1 - ($p_val / $wp_val)) * 100;
-        $discount = number_format((float) $discount, 2, '.', '');
-
+        if (is_numeric($p_val) && is_numeric($wp_val)) {
+            $discount = (1 - ($p_val / $wp_val)) * 100;
+            $discount = number_format((float) $discount, 2, '.', '');
+        }
+        
         $data =  [
             'id'               => $product->id,
             'sku'              => $product->product_sku,
@@ -607,7 +612,6 @@ class Product extends Model
                     array_push($new_desc, "<span stye: 'font-familty:Marcellus SC; font-weight: bold'>". $arr . "</span>");
                 }
                 else if (strrpos($line, "[")) {
-
                     preg_match("/\[[^\]]*\]/", $line, $matched_texts);
                     preg_match('/\([^\]]*\)/', $line, $matched_links);
 
@@ -964,7 +968,7 @@ class Product extends Model
             case 'cb2':
                 return Dimension::format_cb2($dim_str);
             break;
-
+            
             case 'pier1':
                 return Dimension::format_pier1($dim_str);
             break;
