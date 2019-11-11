@@ -136,10 +136,10 @@ class Product extends Model
             // FILTERS
             // 1. brand_names
             if (
-                isset($all_filters['brand_names'])
-                && strlen($all_filters['brand_names'][0]) > 0
+                isset($all_filters['brand'])
+                && strlen($all_filters['brand'][0]) > 0
             ) {
-                $query = $query->whereIn('site_name', $all_filters['brand_names']);
+                $query = $query->whereIn('site_name', $all_filters['brand']);
             }
 
             // 2. price_from
@@ -254,8 +254,8 @@ class Product extends Model
         foreach ($product_brands as $b) {
             if (isset($all_brands[$b->site_name])) {
                 $all_brands[$b->site_name]["enabled"] = true;
-                if (isset($all_filters['brand_names'])) {
-                    if (in_array($b->site_name, $all_filters['brand_names'])) {
+                if (isset($all_filters['brand'])) {
+                    if (in_array($b->site_name, $all_filters['brand'])) {
                         $all_brands[$b->site_name]["checked"] = true;
                     }
                 }
@@ -389,8 +389,8 @@ class Product extends Model
             ->select(['LS_ID', 'color'])
             ->whereRaw('LS_ID REGEXP "' . implode("|", $LS_IDs) . '"');
 
-        if (isset($all_filters['brand_names']) && strlen($all_filters['brand_names'][0]) > 0) {
-            $products = $products->whereIn('site_name', $all_filters['brand_names']);
+        if (isset($all_filters['brand']) && strlen($all_filters['brand'][0]) > 0) {
+            $products = $products->whereIn('site_name', $all_filters['brand']);
         }
 
      return $products->get();
