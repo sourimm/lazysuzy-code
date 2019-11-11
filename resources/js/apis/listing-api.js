@@ -229,14 +229,28 @@ $(document).ready(function() {
         var product = jQuery('<div/>', {
             class: 'ls-product'
         }).appendTo(productLink);
-        var saleprice = jQuery('<span />', {
-            text: `$${Math.round(productDetails.is_price)}`,
-            class: 'prod-sale-price d-md-none'
-        }).appendTo(mainProductDiv);
+        if (productDetails.is_price.includes('-')) {
+            let salepriceRange = productDetails.is_price.split('-');
+            var saleprice = jQuery('<span />', {
+                text: `$${Math.round(
+                    salepriceRange[0]
+                ).toLocaleString()} - $${Math.round(
+                    salepriceRange[1]
+                ).toLocaleString()}`,
+                class: 'prod-sale-price d-md-none'
+            }).appendTo(mainProductDiv);
+        } else {
+            var saleprice = jQuery('<span />', {
+                text: `$${Math.round(
+                    productDetails.is_price
+                ).toLocaleString()}`,
+                class: 'prod-sale-price d-md-none'
+            }).appendTo(mainProductDiv);
+        }
         if (Math.ceil(productDetails.percent_discount) > 0) {
             var discounttag = jQuery('<span />', {
                 text: `${Math.ceil(productDetails.percent_discount)}%`,
-                class: `prod-discount-tag ${
+                class: `prod-discount-tag d-md-none ${
                     productDetails.percent_discount >= 20 ? '_20' : ''
                 }`
             }).appendTo(mainProductDiv);
@@ -434,8 +448,6 @@ $(document).ready(function() {
                             var $inp = $('#priceRangeSlider');
                             price_from = $inp.data('from'); // reading input data-from attribute
                             price_to = $inp.data('to'); // reading input data-to attribute
-
-                            // console.log(price_from, price_to);
                             iPageNo = 0;
                             updateFilters();
                             fetchProducts(true);
@@ -567,6 +579,7 @@ $(document).ready(function() {
         iPageNo = 0;
         updateFilters();
         fetchProducts(true);
+        $('#sort-mobile').toggleClass('show');
     });
 
     function updateFilters() {
