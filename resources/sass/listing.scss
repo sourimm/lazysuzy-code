@@ -248,11 +248,14 @@ input:disabled + .checkmark + .text {
                 position: absolute;
 
                 .page-navigator-mobile {
-                    width: 35%;
+                    width: 100%;
                     margin: 5px 2px;
                     text-align: left;
+                    font-size: 18px;
+                    text-transform: capitalize;
                     a {
-                        color: $product-price;
+                        color: $black;
+                        text-decoration: none;
                     }
                 }
                 .search-navigator {
@@ -327,15 +330,16 @@ input:disabled + .checkmark + .text {
                 .top-button {
                     position: fixed;
                     bottom: 110px;
-                    right: 30px;
+                    right: 20px;
+                    border-radius: 35px;
                     z-index: 99;
                     font-size: 18px;
                     border: none;
                     outline: none;
-                    background-color: #0C1C31;
+                    background-color: #0c1c31;
                     color: $white;
                     cursor: pointer;
-                    padding: 10px 17px;
+                    padding: 15px 20px;
                 }
             }
             .products-container {
@@ -357,8 +361,8 @@ input:disabled + .checkmark + .text {
                         .prod-discount-tag {
                             z-index: 58;
                             position: absolute;
-                            right: 0;
-                            bottom: 0;
+                            right: 1px;
+                            bottom: 1px;
                             background: #e8c101;
                             padding: 0 4px;
                             color: #fff;
@@ -406,10 +410,20 @@ input:disabled + .checkmark + .text {
 
                 hr {
                     color: $white;
+                    border-top: 1px solid #ebebeb;
                 }
 
                 .filter {
                     text-align: left;
+                    .filter-header {
+                        color: $products-bg;
+                        font-size: 20px;
+                    }
+
+                    .clear-filter {
+                        color: $yellow-text-color;
+                        font-family: Marcellus;
+                    }
 
                     ul {
                         white-space: normal;
@@ -419,6 +433,7 @@ input:disabled + .checkmark + .text {
                             // display: inline-block;
                             margin-right: 10px;
                             .filter-label {
+                                font-size: 16px;
                                 .checkmark {
                                     border: 1px solid $white !important;
 
@@ -436,7 +451,15 @@ input:disabled + .checkmark + .text {
                             }
                         }
                     }
-
+                    .irs-to {
+                        color: $secondary-color;
+                    }
+                    .irs-from {
+                        color: $secondary-color;
+                    }
+                    .irs--sharp {
+                        margin-top: 15px;
+                    }
                     .irs-line {
                         border: 1px solid $white;
                         background-color: $white !important;

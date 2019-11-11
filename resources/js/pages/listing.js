@@ -71,6 +71,11 @@ $(document).ready(function() {
         //         .children('i')
         //         .addClass('fab fa-buromobelexperte')
         // }
+        if (iItemsToShow == 3) {
+            $('.prod-sale-price').addClass('d-none')
+        } else {
+            $('.prod-sale-price').removeClass('d-none')
+        }
 
         $('#productsContainerDiv')
             .find('.ls-product-div')
