@@ -154,9 +154,15 @@ $(document).ready(function() {
                 dimensionList(dimension)
             })
             function dimensionList(dimension) {
-                var li = $('<li/>', {
-                    html: `${dimension.description}: ${dimension.width} x ${dimension.height} x ${dimension.depth}`
-                }).appendTo($dimension)
+                if (dimension.description == '') {
+                    var li = $('<li/>', {
+                        html: `${dimension.width} x ${dimension.height} x ${dimension.depth}`
+                    }).appendTo($dimension)
+                } else {
+                    var li = $('<li/>', {
+                        html: `${dimension.description}: ${dimension.width} x ${dimension.height} x ${dimension.depth}`
+                    }).appendTo($dimension)
+                }
             }
             $($dimension)
                 .clone()
