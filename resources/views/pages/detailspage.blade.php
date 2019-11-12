@@ -65,7 +65,7 @@
                                     </div>
                                     <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
                                         <div class="card-body">
-                                            <ul class="-dimen"></ul>
+                                            <ul class="-dimension"></ul>
                                         </div>
                                     </div>
                                 </div>
