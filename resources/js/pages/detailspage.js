@@ -137,11 +137,30 @@ $(document).ready(function() {
             if (data.reviews <= 0) {
                 $desc.find('.rating-container').hide()
             }
+
             $desc.find('.rating-container').attr('href', data.product_url)
             $desc.find('.-desc').html(md.render(data.description.join('\n')))
             $desc.find('.-dimen').html(data.dimension)
             $('#descp').html(md.render(data.description.join('\n')))
             $('#dimen').html(data.dimension)
+
+            // $desc.find('.-desc').html(md.render(data.description.join('\n')))
+            // $desc.find('.-dimen').html(data.dimension)
+            // $('#desc').html(data.description)
+            var $dimension = $desc.find('.-dimension')
+            $dimension.empty()
+
+            data.dimension.forEach(dimension => {
+                dimensionList(dimension)
+            })
+            function dimensionList(dimension) {
+                var li = $('<li/>', {
+                    html: `${dimension.description}: ${dimension.width} x ${dimension.height} x ${dimension.depth}`
+                }).appendTo($dimension)
+            }
+            $($dimension)
+                .clone()
+                .appendTo('#dimen')
 
             var $featuresList = $desc.find('.-features')
             data.features.forEach(feature => {
