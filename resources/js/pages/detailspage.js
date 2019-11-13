@@ -147,6 +147,18 @@ $(document).ready(function() {
             // $desc.find('.-desc').html(md.render(data.description.join('\n')))
             // $desc.find('.-dimen').html(data.dimension)
             // $('#desc').html(data.description)
+
+            var $featuresList = $desc.find('.-features');
+            data.features.forEach(feature => {
+                var li = $('<li>', {
+                    html: feature
+                }).appendTo($featuresList);
+            });
+
+            $($featuresList)
+                .clone()
+                .appendTo('#feat');
+
             var $dimension = $desc.find('.-dimension');
             $dimension.empty();
 
@@ -171,34 +183,26 @@ $(document).ready(function() {
                         class: 'description-title',
                         html: `${dimension.description}`
                     }).appendTo(div);
-                    var p = $('<p/>', {
-                        class: 'description-data',
-                        html: `Width: ${dimension.width}"`
-                    }).appendTo(div);
-                    var p = $('<p/>', {
-                        class: 'description-data',
-                        html: `Height: ${dimension.height}"`
-                    }).appendTo(div);
-                    var p = $('<p/>', {
-                        class: 'description-data',
-                        html: `Depth: ${dimension.depth}"`
-                    }).appendTo(div);
+                    dimension.width &&
+                        $('<div/>', {
+                            class: 'description-data',
+                            html: `Width: ${dimension.width}"`
+                        }).appendTo(div);
+                    dimension.height &&
+                        $('<div/>', {
+                            class: 'description-data',
+                            html: `Height: ${dimension.height}"`
+                        }).appendTo(div);
+                    dimension.depth &&
+                        $('<div/>', {
+                            class: 'description-data',
+                            html: `Depth: ${dimension.depth}"`
+                        }).appendTo(div);
                 }
             }
             $($dimension)
                 .clone()
                 .appendTo('#dimen');
-
-            var $featuresList = $desc.find('.-features');
-            data.features.forEach(feature => {
-                var li = $('<li>', {
-                    html: feature
-                }).appendTo($featuresList);
-            });
-
-            $($featuresList)
-                .clone()
-                .appendTo('#feat');
         },
         error: function(jqXHR, exception) {
             console.log(jqXHR);
