@@ -161,7 +161,7 @@ $(document).ready(function() {
                     }).appendTo($dimension)
                 } else {
                     var div = $('<div/>', {
-                        class: 'hell col-6'
+                        class: ' col-6'
                     }).appendTo($dimension)
                     var h5 = $('<h5/>', {
                         class: 'description-title',
