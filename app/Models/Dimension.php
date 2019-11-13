@@ -4,7 +4,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Dimension extends Model
 {
-    public static $CLEAN_SYMBOLS = ['.'];
+    public static $CLEAN_SYMBOLS = [];
     public static $DIMS = [
         'w' => 'width', 
         'h' => 'height', 
@@ -32,7 +32,7 @@ class Dimension extends Model
         $i = 1;
         foreach ($dim as $d) {
             if ($d->hasDimensions) {
-                $d_arr['dimension_' . $i++] =  $d;
+                array_push($d_arr, $d);
             }
         }
 
@@ -85,9 +85,7 @@ class Dimension extends Model
 
             if (isset($d[1])) $dim_values['label'] = $d_label;
             $dim_values['filter'] = 1;
-            array_push($dims, [
-                'dimension_' . $i++ => $dim_values
-            ]);
+            array_push($dims, $dim_values);
         }
 
         return $dims;
