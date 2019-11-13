@@ -166,7 +166,7 @@ $(document).ready(function() {
                 dimensionList(dimension);
             });
             function dimensionList(dimension) {
-                if (dimension.description == '') {
+                if (!dimension.description) {
                     var div = $('<div/>', {
                         class: ' col-12'
                     }).appendTo($dimension);

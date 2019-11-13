@@ -126,31 +126,39 @@ $(document).ready(function() {
                 var $dimension = $desc.find('.-dimension');
                 $dimension.empty();
                 data.dimension.forEach(dimension => {
-                    // var li = $('<li/>', {
-                    //     html: `${dimension.description}: ${dimension.width} x ${dimension.height} x ${dimension.depth}`
-                    // }).appendTo($dimension)
-                    var div = $('<div/>', {
-                        class: ' col-6'
-                    }).appendTo($dimension);
-                    var h5 = $('<h5/>', {
-                        class: 'description-title',
-                        html: `${dimension.description}`
-                    }).appendTo(div);
-                    dimension.width &&
-                        $('<div/>', {
-                            class: 'description-data',
-                            html: `Width: ${dimension.width}"`
+                    if (!dimension.description) {
+                        var div = $('<div/>', {
+                            class: ' col-12'
+                        }).appendTo($dimension);
+                        var p = $('<p/>', {
+                            html: `Width: ${dimension.width}" x Height: ${
+                                dimension.height
+                            }" x Depth: ${dimension.depth}"`
                         }).appendTo(div);
-                    dimension.height &&
-                        $('<div/>', {
-                            class: 'description-data',
-                            html: `Height: ${dimension.height}"`
+                    } else {
+                        var div = $('<div/>', {
+                            class: ' col-6'
+                        }).appendTo($dimension);
+                        var h5 = $('<h5/>', {
+                            class: 'description-title',
+                            html: `${dimension.description}`
                         }).appendTo(div);
-                    dimension.depth &&
-                        $('<div/>', {
-                            class: 'description-data',
-                            html: `Depth: ${dimension.depth}"`
-                        }).appendTo(div);
+                        dimension.width &&
+                            $('<div/>', {
+                                class: 'description-data',
+                                html: `Width: ${dimension.width}"`
+                            }).appendTo(div);
+                        dimension.height &&
+                            $('<div/>', {
+                                class: 'description-data',
+                                html: `Height: ${dimension.height}"`
+                            }).appendTo(div);
+                        dimension.depth &&
+                            $('<div/>', {
+                                class: 'description-data',
+                                html: `Depth: ${dimension.depth}"`
+                            }).appendTo(div);
+                    }
                 });
 
                 var $featuresList = document.createElement('div');
