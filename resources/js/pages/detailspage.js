@@ -155,9 +155,12 @@ $(document).ready(function() {
             })
             function dimensionList(dimension) {
                 if (dimension.description == '') {
-                    var li = $('<li/>', {
-                        html: `${dimension.width} x ${dimension.height} x ${dimension.depth}`
+                    var div = $('<div/>', {
+                        class: ' col-12'
                     }).appendTo($dimension)
+                    var p = $('<p/>', {
+                        html: `Width: ${dimension.width}" x Height: ${dimension.height}" x Depth: ${dimension.depth}"`
+                    }).appendTo(div)
                 } else {
                     var div = $('<div/>', {
                         class: ' col-6'
@@ -168,15 +171,15 @@ $(document).ready(function() {
                     }).appendTo(div)
                     var p = $('<p/>', {
                         class: 'description-data',
-                        html: `Width: ${dimension.width}`
+                        html: `Width: ${dimension.width}"`
                     }).appendTo(div)
                     var p = $('<p/>', {
                         class: 'description-data',
-                        html: `Height: ${dimension.height}`
+                        html: `Height: ${dimension.height}"`
                     }).appendTo(div)
                     var p = $('<p/>', {
                         class: 'description-data',
-                        html: `Depth: ${dimension.depth}`
+                        html: `Depth: ${dimension.depth}"`
                     }).appendTo(div)
                 }
             }
