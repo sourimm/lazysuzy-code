@@ -87,7 +87,8 @@ $(document).ready(function() {
                 $(this).addClass(strItemsNumClass)
             })
     })
-    $('.filters-close-btn').click(function() {
+    //close-btn-filter
+    $(document).on('click', '.filters-close-btn', function(e) {
         $('#filters').hasClass('show')
             ? $('#filters').removeClass('show')
             : $('#sort-mobile').hasClass('show')

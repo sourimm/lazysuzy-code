@@ -368,11 +368,16 @@ $(document).ready(function() {
         if (!bFiltersCreated) {
             bFiltersCreated = true
             $('#filters').empty()
+            var div = jQuery('<div/>', {
+                class: 'filters-close-btn',
+                html: `Close`
+            }).appendTo('#filters')
             Object.keys(filterData).forEach((key, index) => {
                 const data = filterData[key]
                 if (data.length == 0) {
                     return
                 }
+
                 var filterDiv = jQuery('<div/>', {
                     class: 'filter',
                     'data-filter': key
@@ -465,7 +470,6 @@ $(document).ready(function() {
             $('#filters').append(
                 '<a class="btn clearall-filter-btn" href="#" id="clearAllFiltersBtn">Clear All</a>'
             )
-
             $('#filters').append('<hr/>')
         } else {
             Object.keys(filterData).forEach((key, index) => {
