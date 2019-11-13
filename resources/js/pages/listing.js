@@ -87,6 +87,13 @@ $(document).ready(function() {
                 $(this).addClass(strItemsNumClass)
             })
     })
+    $('.filters-close-btn').click(function() {
+        $('#filters').hasClass('show')
+            ? $('#filters').removeClass('show')
+            : $('#sort-mobile').hasClass('show')
+            ? $('#sort-mobile').removeClass('show')
+            : ''
+    })
 
     $(window).scroll(function(event) {
         if ($(window).scrollTop() > 50) {

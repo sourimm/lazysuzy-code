@@ -424,6 +424,11 @@ input:disabled + .checkmark + .text {
                     border-left: solid 10px transparent;
                     border-right: solid 10px transparent;
                 }
+                .filters-close-btn {
+                    background: $products-bg;
+                    width: 30%;
+                    margin: 10px auto;
+                }
                 .fix-search {
                     margin-top: 0 !important;
                 }

@@ -9,8 +9,12 @@
             </div>
             <div class="row">
                 <div class="filters col-md-2 d-md-block" id="filters">
+                <div class="filters-close-btn d-md-none" >Close</div>
                     <div class="filter">
+                        
+                    
                         <hr>
+                        
                         <span class="filter-header">Brands</span>
                         <label for="" class="clear-filter float-right">Clear</label>
                         <ul>
@@ -77,7 +81,7 @@
 
                 </div>
                 <div class="filters col-md-2  d-md-none" id="sort-mobile">
-
+                <div class="filters-close-btn d-md-none" >Close</div>
                     <input type="radio" name="sort-price-filter" value="price_low_to_high"> Price : Low to High<br>
                     <input type="radio" name="sort-price-filter" value="price_high_to_low">Price : High to Low<br>
                     <input type="radio" name="sort-price-filter" value="popularity"> Popularity <br>
