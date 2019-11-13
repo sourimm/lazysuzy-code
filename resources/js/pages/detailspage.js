@@ -156,12 +156,29 @@ $(document).ready(function() {
             function dimensionList(dimension) {
                 if (dimension.description == '') {
                     var li = $('<li/>', {
+                        class: 'hello',
                         html: `${dimension.width} x ${dimension.height} x ${dimension.depth}`
                     }).appendTo($dimension)
                 } else {
-                    var li = $('<li/>', {
-                        html: `${dimension.description}: ${dimension.width} x ${dimension.height} x ${dimension.depth}`
+                    var div = $('<div/>', {
+                        class: 'hell col-6'
                     }).appendTo($dimension)
+                    var h5 = $('<h5/>', {
+                        class: 'description-title',
+                        html: `${dimension.description}`
+                    }).appendTo(div)
+                    var p = $('<p/>', {
+                        class: 'description-data',
+                        html: `Width: ${dimension.width}`
+                    }).appendTo(div)
+                    var p = $('<p/>', {
+                        class: 'description-data',
+                        html: `Height: ${dimension.height}`
+                    }).appendTo(div)
+                    var p = $('<p/>', {
+                        class: 'description-data',
+                        html: `Depth: ${dimension.depth}`
+                    }).appendTo(div)
                 }
             }
             $($dimension)
