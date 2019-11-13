@@ -126,9 +126,28 @@ $(document).ready(function() {
                 var $dimension = $desc.find('.-dimension')
                 $dimension.empty()
                 data.dimension.forEach(dimension => {
-                    var li = $('<li/>', {
-                        html: `${dimension.description}: ${dimension.width} x ${dimension.height} x ${dimension.depth}`
+                    // var li = $('<li/>', {
+                    //     html: `${dimension.description}: ${dimension.width} x ${dimension.height} x ${dimension.depth}`
+                    // }).appendTo($dimension)
+                    var div = $('<div/>', {
+                        class: ' col-6'
                     }).appendTo($dimension)
+                    var h5 = $('<h5/>', {
+                        class: 'description-title',
+                        html: `${dimension.description}`
+                    }).appendTo(div)
+                    var p = $('<p/>', {
+                        class: 'description-data',
+                        html: `Width: ${dimension.width}"`
+                    }).appendTo(div)
+                    var p = $('<p/>', {
+                        class: 'description-data',
+                        html: `Height: ${dimension.height}"`
+                    }).appendTo(div)
+                    var p = $('<p/>', {
+                        class: 'description-data',
+                        html: `Depth: ${dimension.depth}"`
+                    }).appendTo(div)
                 })
 
                 var $featuresList = document.createElement('div')
