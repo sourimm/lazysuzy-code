@@ -481,10 +481,10 @@ class Product extends Model
                         ->where("user_id", $user->id)
                         ->where("is_active", 1)
                         ->get();
-                                    
-            // cleaning the array 
-            foreach ($w_products as $p) 
-                array_push($wishlist_products, $p->product_id);    
+
+            // cleaning the array
+            foreach ($w_products as $p)
+                array_push($wishlist_products, $p->product_id);
         }
 
         foreach ($products as $product) {
@@ -546,7 +546,7 @@ class Product extends Model
             $discount = (1 - ($p_val / $wp_val)) * 100;
             $discount = number_format((float) $discount, 2, '.', '');
         }
-        
+
         $data =  [
             'id'               => $product->id,
             'sku'              => $product->product_sku,
@@ -593,7 +593,7 @@ class Product extends Model
             $data['description'] = in_array($product->name, $desc_BRANDS)  ? Product::format_desc($product->product_description) : preg_split("/\\[US\\]|<br>|\\n/", $product->product_description);
             $data['dimension'] = Product::normalize_dimension($product->product_dimension, $product->site_name);
             $data['thumb'] = preg_split("/,|\\[US\\]/", $product->thumb);
-            $data['features'] = in_array($product->name, $desc_BRANDS) ? Product::format_desc($product->product_feature) : preg_split("/\\[US\\]|<br>|\\n/", $product->product_feature);
+            $data['features'] = in_array($product->name, $desc_BRANDS) ? Product::format_desc($product->product_feature) : preg_split("/\\[US\\]|<br>|\\n|\|/", $product->product_feature);
             $data['on_server_images'] = array_map([__CLASS__, "baseUrl"], preg_split("/,|\\[US\\]/", $product->product_images));
             $data['department_info'] = Department::get_department_info($product->LS_ID);
             return $data;
@@ -969,7 +969,7 @@ class Product extends Model
             case 'cb2':
                 return Dimension::format_cb2($dim_str);
             break;
-            
+
             case 'pier1':
                 return Dimension::format_pier1($dim_str);
             break;

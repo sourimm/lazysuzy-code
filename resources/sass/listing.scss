@@ -188,6 +188,9 @@ input:disabled + .checkmark + .text {
                 // }
             }
         }
+        .fix-search-filter {
+            margin-top: 10px !important;
+        }
 
         .sortby {
             .form-control {
@@ -248,11 +251,14 @@ input:disabled + .checkmark + .text {
                 position: absolute;
 
                 .page-navigator-mobile {
-                    width: 35%;
+                    width: 100%;
                     margin: 5px 2px;
                     text-align: left;
+                    font-size: 18px;
+                    text-transform: capitalize;
                     a {
-                        color: $product-price;
+                        color: $black;
+                        text-decoration: none;
                     }
                 }
                 .search-navigator {
@@ -269,6 +275,20 @@ input:disabled + .checkmark + .text {
                 width: 100%;
                 text-align: center;
                 margin: 5px;
+                .filter-toggle-mobile {
+                    margin: 0px 45px;
+                    position: absolute;
+                }
+                .fix-search {
+                    position: fixed;
+                    z-index: 100;
+                    top: 0;
+                    padding: 10px 0;
+                    background: $primary-color;
+                    right: 0;
+                    left: 0;
+                    margin: 0;
+                }
 
                 .filter-toggle,
                 .view-items-toggle {
@@ -327,19 +347,20 @@ input:disabled + .checkmark + .text {
                 .top-button {
                     position: fixed;
                     bottom: 110px;
-                    right: 30px;
+                    right: 20px;
+                    border-radius: 35px;
                     z-index: 99;
                     font-size: 18px;
                     border: none;
                     outline: none;
-                    background-color: #0C1C31;
+                    background-color: #0c1c31;
                     color: $white;
                     cursor: pointer;
-                    padding: 10px 17px;
+                    padding: 15px 20px;
                 }
             }
             .products-container {
-                margin-top: 0px;
+                margin-top: 25px;
 
                 .ls-prod-container {
                     margin: auto;
@@ -357,8 +378,8 @@ input:disabled + .checkmark + .text {
                         .prod-discount-tag {
                             z-index: 58;
                             position: absolute;
-                            right: 0;
-                            bottom: 0;
+                            right: 1px;
+                            bottom: 1px;
                             background: #e8c101;
                             padding: 0 4px;
                             color: #fff;
@@ -383,7 +404,7 @@ input:disabled + .checkmark + .text {
                 width: 100% !important;
                 background: $secondary-color;
                 color: $white;
-                position: absolute;
+                position: fixed;
                 z-index: 100;
                 display: none;
 
@@ -403,13 +424,26 @@ input:disabled + .checkmark + .text {
                     border-left: solid 10px transparent;
                     border-right: solid 10px transparent;
                 }
+                .fix-search {
+                    margin-top: 0 !important;
+                }
 
                 hr {
                     color: $white;
+                    border-top: 1px solid #ebebeb;
                 }
 
                 .filter {
                     text-align: left;
+                    .filter-header {
+                        color: $products-bg;
+                        font-size: 20px;
+                    }
+
+                    .clear-filter {
+                        color: $yellow-text-color;
+                        font-family: Marcellus;
+                    }
 
                     ul {
                         white-space: normal;
@@ -419,6 +453,7 @@ input:disabled + .checkmark + .text {
                             // display: inline-block;
                             margin-right: 10px;
                             .filter-label {
+                                font-size: 16px;
                                 .checkmark {
                                     border: 1px solid $white !important;
 
@@ -436,7 +471,15 @@ input:disabled + .checkmark + .text {
                             }
                         }
                     }
-
+                    .irs-to {
+                        color: $secondary-color;
+                    }
+                    .irs-from {
+                        color: $secondary-color;
+                    }
+                    .irs--sharp {
+                        margin-top: 15px;
+                    }
                     .irs-line {
                         border: 1px solid $white;
                         background-color: $white !important;
