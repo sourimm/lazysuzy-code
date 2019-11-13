@@ -156,7 +156,6 @@ $(document).ready(function() {
             function dimensionList(dimension) {
                 if (dimension.description == '') {
                     var li = $('<li/>', {
-                        class: 'hello',
                         html: `${dimension.width} x ${dimension.height} x ${dimension.depth}`
                     }).appendTo($dimension)
                 } else {
