@@ -71,6 +71,11 @@ $(document).ready(function() {
         //         .children('i')
         //         .addClass('fab fa-buromobelexperte')
         // }
+        if (iItemsToShow == 3) {
+            $('.prod-sale-price').addClass('d-none')
+        } else {
+            $('.prod-sale-price').removeClass('d-none')
+        }
 
         $('#productsContainerDiv')
             .find('.ls-product-div')
@@ -81,6 +86,18 @@ $(document).ready(function() {
                 strItemsNumClass = 'item-' + iItemsToShow
                 $(this).addClass(strItemsNumClass)
             })
+    })
+
+    $(window).scroll(function(event) {
+        if ($(window).scrollTop() > 50) {
+            $('.filter-toggle-mobile').addClass('fix-search')
+            $('.filters').addClass('fix-search-filter')
+            console.log('added class')
+        } else {
+            $('.filter-toggle-mobile').removeClass('fix-search')
+            $('.filters').removeClass('fix-search-filter')
+            console.log('removed class')
+        }
     })
 
     $('.dropdown-menu a.dropdown-toggle').on('click', function(e) {

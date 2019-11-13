@@ -66,7 +66,7 @@
         <h4 id="Dimensions">Dimension</h4>
         <hr class="modal-hr"/>
         <p class="-dimen d-none d-md-block"></p>
-        <ul class="-dimension"></ul>
+        <div class="-dimension row"></div>
         <hr class="modal-hr"/>
         </div>
 </div>
