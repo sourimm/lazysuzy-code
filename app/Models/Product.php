@@ -587,12 +587,13 @@ class Product extends Model
 
         $data['variations'] = $variations;
 
+        $desc_BRANDS = ["West Elm"];
 
         if (!$isListingAPICall) {
-            $data['description'] = $product->name == "Westelm" ? Product::format_desc($product->product_description) : preg_split("/\\[US\\]|<br>|\\n/", $product->product_description);
+            $data['description'] = in_array($product->name, $desc_BRANDS)  ? Product::format_desc($product->product_description) : preg_split("/\\[US\\]|<br>|\\n/", $product->product_description);
             $data['dimension'] = Product::normalize_dimension($product->product_dimension, $product->site_name);
             $data['thumb'] = preg_split("/,|\\[US\\]/", $product->thumb);
-            $data['features'] = preg_split("/\\[US\\]|<br>|\\n/", $product->product_feature);
+            $data['features'] = in_array($product->name, $desc_BRANDS) ? Product::format_desc($product->product_feature) : preg_split("/\\[US\\]|<br>|\\n/", $product->product_feature);
             $data['on_server_images'] = array_map([__CLASS__, "baseUrl"], preg_split("/,|\\[US\\]/", $product->product_images));
             $data['department_info'] = Department::get_department_info($product->LS_ID);
             return $data;
