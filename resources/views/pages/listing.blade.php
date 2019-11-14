@@ -8,10 +8,10 @@
             <div class="d-none d-md-block">
             </div>
             <div class="row">
-                
-                <div class="filters col-md-2 d-md-block filter-close-btn" id="filters"> 
-                
-                    <div class="filter">     
+
+                <div class="filters col-md-2 d-md-block filter-close-btn" id="filters">
+
+                    <div class="filter">
                         <hr>
                         <span class="filter-header">Brands</span>
                         <label for="" class="clear-filter float-right">Clear</label>
@@ -82,18 +82,18 @@
                 <div class="filters-close-btn d-md-none" >Close</div>
                 <hr>
                 <div class="sort-filter-input"><input type="radio" name="sort-price-filter" value="price_low_to_high"> Price : Low to High</div>
-                <div class="sort-filter-input"><input type="radio" name="sort-price-filter" value="price_high_to_low">Price : High to Low</div>
+                <div class="sort-filter-input"><input type="radio" name="sort-price-filter" value="price_high_to_low"> Price : High to Low</div>
                 <div class="sort-filter-input"><input type="radio" name="sort-price-filter" value="popularity"> Popularity </div>
-                    
-                    
-                    
-                   
-                    
+
+
+
+
+
                 </div>
                 <div class="listing-top-controls d-block d-md-none">
                 <div id="page-navigator" class="page-navigator-mobile"></div>
                 <div class="filter-toggle-mobile">
-                    
+
                 <span class="filter-toggle" id="filterToggleBtn">
                     <i class="fas fa-filter"></i>
                         Filter
