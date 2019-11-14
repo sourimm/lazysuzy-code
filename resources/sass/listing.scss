@@ -128,7 +128,7 @@ input:disabled + .checkmark + .text {
 
                         /* Create the checkmark/indicator (hidden when not checked) */
                         .checkmark:after {
-                            content: '';
+                            content: "";
                             position: absolute;
                             display: none;
                         }
@@ -246,7 +246,7 @@ input:disabled + .checkmark + .text {
     }
     .listing,
     .category-page {
-        font-family: 'Fenix', serif;
+        font-family: "Fenix", serif;
         .listing-container {
             .listing-top-controls {
                 position: absolute;
@@ -279,8 +279,8 @@ input:disabled + .checkmark + .text {
                 .filter-toggle-mobile {
                     margin: 0px 45px;
                     position: absolute;
-                    left:0;
-                    right:0;
+                    left: 0;
+                    right: 0;
                 }
                 .fix-search {
                     position: fixed;
@@ -417,7 +417,7 @@ input:disabled + .checkmark + .text {
                 }
 
                 &:before {
-                    content: '';
+                    content: "";
                     position: absolute;
                     width: 0;
                     height: 0;
@@ -432,12 +432,15 @@ input:disabled + .checkmark + .text {
                     text-align: left;
                     margin: 20px 0;
                 }
-                .filters-close-btn {
-                    background: $products-bg;
-                    color: $black;
-                    width: 30%;
-                    margin: 10px auto;
+                .filter-title {
+                    color: $primary-color;
+                    font-size: 20px;
                 }
+                .clearall-filter-btn {
+                    color: $yellow-text-color;
+                    padding: 0;
+                }
+
                 .fix-search {
                     margin-top: 0 !important;
                 }
