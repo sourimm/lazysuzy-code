@@ -376,7 +376,7 @@ $(document).ready(function() {
                 html: '<i class="fa fa-times" aria-hidden="true"></i>'
             }).appendTo(mobileFilterHeader);
             jQuery("<span/>", {
-                class: "filter-header",
+                class: "filter-title",
                 text: "Filters"
             }).appendTo(mobileFilterHeader);
             jQuery("<span/>", {
@@ -481,9 +481,12 @@ $(document).ready(function() {
             });
 
             // $(filterDiv).append('<hr/>');
-            $("#filters").append(
-                '<a class="btn clearall-filter-btn" href="#" id="clearAllFiltersBtn">Clear All</a>'
-            );
+            if (!isMobile()) {
+                $("#filters").append(
+                    '<a class="btn clearall-filter-btn" href="#" id="clearAllFiltersBtn">Clear All</a>'
+                );
+            }
+
             $("#filters").append("<hr/>");
         } else {
             Object.keys(filterData).forEach((key, index) => {
