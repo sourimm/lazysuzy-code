@@ -424,6 +424,16 @@ input:disabled + .checkmark + .text {
                     border-left: solid 10px transparent;
                     border-right: solid 10px transparent;
                 }
+                .sort-filter-input {
+                    text-align: left;
+                    margin: 20px 100px;
+                }
+                .filters-close-btn {
+                    background: $products-bg;
+                    color: $black;
+                    width: 30%;
+                    margin: 10px auto;
+                }
                 .fix-search {
                     margin-top: 0 !important;
                 }
