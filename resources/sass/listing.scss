@@ -246,6 +246,7 @@ input:disabled + .checkmark + .text {
     }
     .listing,
     .category-page {
+        font-family: 'Fenix', serif;
         .listing-container {
             .listing-top-controls {
                 position: absolute;
@@ -278,13 +279,16 @@ input:disabled + .checkmark + .text {
                 .filter-toggle-mobile {
                     margin: 0px 45px;
                     position: absolute;
+                    left:0;
+                    right:0;
                 }
                 .fix-search {
                     position: fixed;
                     z-index: 100;
                     top: 0;
                     padding: 10px 0;
-                    background: $primary-color;
+                    background: $secondary-color;
+                    color: $primary-color;
                     right: 0;
                     left: 0;
                     margin: 0;
@@ -447,6 +451,7 @@ input:disabled + .checkmark + .text {
                     text-align: left;
                     .filter-header {
                         color: $products-bg;
+                        text-transform: capitalize;
                         font-size: 20px;
                     }
 

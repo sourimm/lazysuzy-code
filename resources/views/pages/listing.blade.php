@@ -79,7 +79,7 @@
 
                 </div>
                 <div class="filters col-md-2  d-md-none" id="sort-mobile">
-                <div class="filters-close-btn d-md-none" >Close</div>
+                <div class="filters-close-btn d-md-none" >x</div>
                 <hr>
                 <div class="sort-filter-input"><input type="radio" name="sort-price-filter" value="price_low_to_high"> Price : Low to High</div>
                 <div class="sort-filter-input"><input type="radio" name="sort-price-filter" value="price_high_to_low"> Price : High to Low</div>
