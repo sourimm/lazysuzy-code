@@ -24,9 +24,11 @@ div.ekko-lightbox div.modal-dialog {
 }
 
 //modal code
+
 .products-modal-details {
     overflow: scroll;
-    height: 65vh;
+    height: 75vh;
+    font-size: 16px;
 }
 .navbar-modal {
     background-color: transparent !important;
@@ -57,6 +59,12 @@ div.ekko-lightbox div.modal-dialog {
     border: 0;
     border-top: 1px solid $secondary-color;
 }
+
+.-dimension {
+    margin-left: 0;
+    margin-right: 0;
+}
+
 .product-modal-body {
     position: relative;
     flex: 1 1 auto;
@@ -225,6 +233,9 @@ div.ekko-lightbox div.modal-dialog {
                     max-height: 100%;
                     display: block;
                 }
+                .lightbox-img-div {
+                    display: inline;
+                }
             }
         }
 
@@ -253,6 +264,7 @@ div.ekko-lightbox div.modal-dialog {
         .prod-price-card {
             font-size: 24px;
             font-weight: 600;
+
             .pdp-buy-btn {
                 width: 100%;
                 @include primary-button;
@@ -363,7 +375,7 @@ div.ekko-lightbox div.modal-dialog {
         font-size: 14px;
         font-weight: 600;
         .pdp-buy-btn {
-            width: 100%;
+            width: 30%;
             color: $primary-color;
             background-color: $secondary-color;
             font-size: 24px;
