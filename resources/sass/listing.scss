@@ -128,7 +128,7 @@ input:disabled + .checkmark + .text {
 
                         /* Create the checkmark/indicator (hidden when not checked) */
                         .checkmark:after {
-                            content: '';
+                            content: "";
                             position: absolute;
                             display: none;
                         }
@@ -246,6 +246,7 @@ input:disabled + .checkmark + .text {
     }
     .listing,
     .category-page {
+        font-family: "Fenix", serif;
         .listing-container {
             .listing-top-controls {
                 position: absolute;
@@ -278,13 +279,16 @@ input:disabled + .checkmark + .text {
                 .filter-toggle-mobile {
                     margin: 0px 45px;
                     position: absolute;
+                    left: 0;
+                    right: 0;
                 }
                 .fix-search {
                     position: fixed;
                     z-index: 100;
                     top: 0;
                     padding: 10px 0;
-                    background: $primary-color;
+                    background: $secondary-color;
+                    color: $primary-color;
                     right: 0;
                     left: 0;
                     margin: 0;
@@ -413,7 +417,7 @@ input:disabled + .checkmark + .text {
                 }
 
                 &:before {
-                    content: '';
+                    content: "";
                     position: absolute;
                     width: 0;
                     height: 0;
@@ -424,6 +428,19 @@ input:disabled + .checkmark + .text {
                     border-left: solid 10px transparent;
                     border-right: solid 10px transparent;
                 }
+                .sort-filter-input {
+                    text-align: left;
+                    margin: 20px 0;
+                }
+                .filter-title {
+                    color: $primary-color;
+                    font-size: 20px;
+                }
+                .clearall-filter-btn {
+                    color: $yellow-text-color;
+                    padding: 0;
+                }
+
                 .fix-search {
                     margin-top: 0 !important;
                 }
@@ -437,6 +454,7 @@ input:disabled + .checkmark + .text {
                     text-align: left;
                     .filter-header {
                         color: $products-bg;
+                        text-transform: capitalize;
                         font-size: 20px;
                     }
 
