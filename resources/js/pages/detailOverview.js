@@ -173,8 +173,9 @@ $(document).ready(function() {
 
     $(document).on('click', 'a[data-toggle="lightbox"]', function(event) {
         event.preventDefault()
-        $(this).ekkoLightbox()
+        $(this).ekkoLightbox({ alwaysShowClose: true })
     })
+
     $('#wishlistBtnDesktop').on('click', function(e) {
         e.preventDefault()
         // callWishlistAPI($(this))
