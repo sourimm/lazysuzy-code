@@ -43,9 +43,8 @@ $(document).ready(function() {
 
                 data.on_server_images.forEach(img => {
                     var lightbox = jQuery('<a/>', {
-                        class: 'hello',
                         href: img,
-                        // text: 'hello',
+                        class: 'lightbox-img-div',
                         'data-toggle': 'lightbox',
                         'data-gallery': 'gallery'
                     }).appendTo($images)
@@ -65,19 +64,27 @@ $(document).ready(function() {
                     text: ' $' + data.is_price.replace('-', ' - $'),
                     class: 'offer-price'
                 }).appendTo(priceCont)
+                var buyBtn = $('<a/>', {
+                    class: 'btn pdp-buy-btn float-right',
+                    href: data.product_url,
+                    text: 'View Details',
+                    target: '_blank'
+                }).appendTo(priceCont)
                 if (data.is_price !== data.was_price) {
                     $('<span/>', {
                         text: ' $' + data.was_price.replace('-', ' -$'),
                         class: 'price'
                     }).appendTo(priceCont)
                 }
-
-                var buyBtn = $('<a/>', {
-                    class: 'btn pdp-buy-btn',
-                    href: data.product_url,
-                    text: 'Buy from seller',
-                    target: '_blank'
-                }).appendTo($prodDetails)
+                // var buybtnDiv = $('<div/>', {
+                //     class: 'buy-btn-div'
+                // }).appendTo($prodDetails)
+                // var buyBtn = $('<a/>', {
+                //     class: 'btn pdp-buy-btn',
+                //     href: data.product_url,
+                //     text: 'View Details',
+                //     target: '_blank'
+                // }).appendTo(buybtnDiv)
 
                 $filtersDivMobile = jQuery('<div/>', {
                     id: 'filtersDivMobile',

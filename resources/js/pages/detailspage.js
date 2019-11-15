@@ -2,7 +2,6 @@ import * as multiCarouselFuncs from '../components/multi-carousel'
 import makeSelectBox from '../components/custom-selectbox'
 import Drift from 'drift-zoom'
 import isMobile from '../app.js'
-require('ekko-lightbox')
 var md = require('markdown-it')()
 
 $(document).ready(function() {
@@ -62,16 +61,25 @@ $(document).ready(function() {
                 text: data.name + ' ',
                 href: data.product_url,
                 target: '_blank',
-                class: 'text-uppercase -name'
+                class: ' -name'
             }).appendTo($prodDetails)
+
             var site = $('<div/>', {
-                text: data.site + ' ',
-                class: 'text-uppercase'
+                text: data.site + ' '
             }).appendTo($prodDetails)
+            site.append(
+                ' <a target="_blank" class="rating-container float-right"><div class="rating "></div><span class="total-ratings"></span></a>'
+            )
             var priceCont = $('<div/>').appendTo($prodDetails)
             $('<span/>', {
                 text: ' $' + data.is_price.replace('-', ' - $'),
                 class: 'offer-price'
+            }).appendTo(priceCont)
+            var buyBtn = $('<a/>', {
+                class: 'btn pdp-buy-btn float-right',
+                href: data.product_url,
+                text: 'View Details',
+                target: '_blank'
             }).appendTo(priceCont)
             if (data.is_price !== data.was_price) {
                 $('<span/>', {
@@ -97,12 +105,6 @@ $(document).ready(function() {
 
             $('<div />', {
                 class: 'clearfix'
-            }).appendTo($prodDetails)
-            var buyBtn = $('<a/>', {
-                class: 'col-xs-12 btn pdp-buy-btn ',
-                href: data.product_url,
-                text: 'Buy from seller',
-                target: '_blank'
             }).appendTo($prodDetails)
 
             $('<div />', {
