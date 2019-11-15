@@ -10,15 +10,15 @@
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-126036769-1"></script>
     <script> window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', 'UA-126036769-1');</script>
      <!-- Google Tag Manager -->
-    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    <!-- <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
     new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-    })(window,document,'script','dataLayer','GTM-PD8TXBM');</script>
+    })(window,document,'script','dataLayer','GTM-PD8TXBM');</script> -->
     <!-- End Google Tag Manager -->
     <!-- Google Tag Manager (noscript) -->
-    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PD8TXBM"
-    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PD8TXBM" -->
+    <!-- height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript> -->
     <!-- End Google Tag Manager (noscript) -->
     <!-- Facebook Pixel Code -->
 <script>
@@ -30,11 +30,11 @@ n.queue=[];t=b.createElement(e);t.async=!0;
 t.src=v;s=b.getElementsByTagName(e)[0];
 s.parentNode.insertBefore(t,s)}(window,document,'script',
 'https://connect.facebook.net/en_US/fbevents.js');
-fbq('init', '706582599846681'); 
+fbq('init', '706582599846681');
 fbq('track', 'PageView');
 </script>
 <noscript>
-<img height="1" width="1" 
+<img height="1" width="1"
 src="https://www.facebook.com/tr?id=706582599846681&ev=PageView(44 B)
 https://www.facebook.com/tr?id=706582599846681&ev=PageView
 
