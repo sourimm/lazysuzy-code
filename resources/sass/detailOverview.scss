@@ -7,6 +7,12 @@
         }
     }
 }
+div.ekko-lightbox div.modal-dialog {
+    max-width: 100% !important;
+}
+.ekko-lightbox-container {
+    height: 100% !important;
+}
 
 //modal code
 .products-modal-details {
@@ -433,9 +439,5 @@
         border-color: $primary-color transparent transparent transparent;
         font-size: 14px;
         background: $yellow;
-    }
-}
-.ekko-lightbox-container {
-    .ekko-lightbox-nav-overlay {
     }
 }
