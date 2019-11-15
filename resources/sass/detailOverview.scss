@@ -9,9 +9,10 @@
 }
 
 //modal code
+
 .products-modal-details {
     overflow: scroll;
-    height: 65vh;
+    height: 75vh;
     font-size: 16px;
 }
 .navbar-modal {
@@ -43,6 +44,12 @@
     border: 0;
     border-top: 1px solid $secondary-color;
 }
+
+.-dimension {
+    margin-left: 0;
+    margin-right: 0;
+}
+
 .product-modal-body {
     position: relative;
     flex: 1 1 auto;
@@ -200,6 +207,9 @@
                     max-height: 100%;
                     display: block;
                 }
+                .lightbox-img-div {
+                    display: inline;
+                }
             }
         }
 
@@ -228,6 +238,7 @@
         .prod-price-card {
             font-size: 24px;
             font-weight: 600;
+
             .pdp-buy-btn {
                 width: 100%;
                 @include primary-button;
@@ -318,7 +329,7 @@
         font-size: 14px;
         font-weight: 600;
         .pdp-buy-btn {
-            width: 100%;
+            width: 30%;
             color: $primary-color;
             background-color: $secondary-color;
             font-size: 24px;
@@ -434,9 +445,5 @@
         border-color: $primary-color transparent transparent transparent;
         font-size: 14px;
         background: $yellow;
-    }
-}
-.ekko-lightbox-container {
-    .ekko-lightbox-nav-overlay {
     }
 }
