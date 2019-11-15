@@ -40,11 +40,18 @@ $(document).ready(function() {
                 $('.wishlist-icon').addClass('marked')
             }
             data.on_server_images.forEach(img => {
+                var lightbox = jQuery('<a/>', {
+                    class: 'hello',
+                    href: img,
+                    // text: 'hello',
+                    'data-toggle': 'lightbox',
+                    'data-gallery': 'gallery'
+                }).appendTo($images)
                 var responsiveImg = jQuery('<img/>', {
                     class: '-prod-img img-fluid',
                     src: img,
                     alt: 'product image'
-                }).appendTo($images)
+                }).appendTo(lightbox)
             })
 
             var $prodDetails = $('<div />', {
@@ -361,7 +368,10 @@ $(document).ready(function() {
         })
         multiCarouselFuncs.makeMultiCarousel(10, 10)
     }
-
+    $(document).on('click', 'a[data-toggle="lightbox"]', function(event) {
+        event.preventDefault()
+        $(this).ekkoLightbox({ alwaysShowClose: true })
+    })
     $(document).on('select-value-changed', function(e, changedElm) {
         $('.select-styled')
             .not(changedElm)
