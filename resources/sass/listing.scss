@@ -128,7 +128,7 @@ input:disabled + .checkmark + .text {
 
                         /* Create the checkmark/indicator (hidden when not checked) */
                         .checkmark:after {
-                            content: "";
+                            content: '';
                             position: absolute;
                             display: none;
                         }
@@ -246,7 +246,7 @@ input:disabled + .checkmark + .text {
     }
     .listing,
     .category-page {
-        font-family: "Fenix", serif;
+        font-family: 'Fenix', serif;
         .listing-container {
             .listing-top-controls {
                 position: absolute;
@@ -417,7 +417,7 @@ input:disabled + .checkmark + .text {
                 }
 
                 &:before {
-                    content: "";
+                    content: '';
                     position: absolute;
                     width: 0;
                     height: 0;
@@ -661,7 +661,7 @@ input:disabled + .checkmark + .text {
     background-color: $category-bg;
     margin: 5px;
     display: flex;
-    width: 30%;
+    width: 20%;
 }
 .pdp-buy-btn:hover {
     color: $products-bg;

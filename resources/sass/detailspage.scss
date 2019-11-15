@@ -142,7 +142,7 @@
             .-name {
                 text-decoration: none;
                 color: $secondary-color;
-                font-size: 25px;
+                font-size: 30px;
             }
             .offer-price {
                 color: $product-price;
@@ -163,7 +163,7 @@
             font-size: 24px;
             font-weight: 600;
             .pdp-buy-btn {
-                width: 100%;
+                width: 30%;
                 @include primary-button;
             }
 
@@ -197,7 +197,7 @@
         }
 
         .rating-container {
-            margin: auto auto 10px auto;
+            margin: auto auto 0px auto;
             text-decoration: none;
             color: $secondary-color;
             display: inline-block;
@@ -254,7 +254,7 @@
         font-size: 14px;
         font-weight: 600;
         .pdp-buy-btn {
-            width: 40%;
+            width: 30%;
             color: $primary-color;
             background-color: $secondary-color;
             font-size: 14px;
@@ -281,7 +281,8 @@
     }
 
     .tab-content {
-        padding: 15px;
+        padding: 18px;
+        font-size: 18px;
         background-color: $body-bg;
     }
 }

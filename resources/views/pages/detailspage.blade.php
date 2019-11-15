@@ -16,7 +16,7 @@
                             <i class="far fa-heart -icon"></i>
                         </div>
                         <h2 class="-name"></h2>
-                        <a target="_blank" class="rating-container"><div class="rating "></div><span class="total-ratings"></span></a>
+                        <!-- <a target="_blank" class="rating-container"><div class="rating "></div><span class="total-ratings"></span></a> -->
 
                         <p class="-desc d-none d-md-block"></p>
                         <div class="d-none d-md-block">
