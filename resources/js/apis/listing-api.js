@@ -96,7 +96,7 @@ $(document).ready(function() {
                     window.location.pathname +
                     filterQuery
             )
-            console.log(listingApiPath)
+
             //$('#loaderImg').show();
             $('#noProductsText').hide()
 
@@ -106,9 +106,6 @@ $(document).ready(function() {
                     .html()
                     .trim()
             ) {
-                console.log(
-                    'Got here using the browser "Back" or "Forward" button.'
-                )
                 var apiCall = []
                 for (var i = 0; i <= iPageNo; i++) {
                     var filterQuery =
@@ -220,7 +217,6 @@ $(document).ready(function() {
             site: productDetails.site,
             class: 'ls-product-div col-md-3 ' + strItemsNumClass
         }).appendTo('#productsContainerDiv')
-
         var productLink = jQuery('<a/>', {
             href: PRODUCT_URL + productDetails.sku,
             class: 'product-detail-modal'
@@ -704,7 +700,6 @@ $(document).ready(function() {
             url: strApiToCall,
             dataType: 'json',
             success: function(data) {
-                console.log(data)
                 if (!$elm.hasClass('marked')) {
                     $elm.addClass('marked')
                 } else {
