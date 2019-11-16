@@ -130,7 +130,10 @@
             </div>
         </div>
     </div>
+    @component('components.detailOverview')
+        @endcomponent
 @endsection
 @push('pageSpecificScripts')
     <script src="{{ mix('js/search.js')}}"></script>
+    <script src="{{ mix('js/detailOverview.js')}}"></script>
 @endpush
