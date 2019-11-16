@@ -1,79 +1,79 @@
-import * as multiCarouselFuncs from "../components/multi-carousel";
-import makeSelectBox from "../components/custom-selectbox";
-import Drift from "drift-zoom";
-import isMobile from "../app.js";
-require("ekko-lightbox");
-var md = require("markdown-it")();
+import * as multiCarouselFuncs from '../components/multi-carousel';
+import makeSelectBox from '../components/custom-selectbox';
+import Drift from 'drift-zoom';
+import isMobile from '../app.js';
+require('ekko-lightbox');
+var md = require('markdown-it')();
 
 $(document).ready(function() {
-    const PDP_API = "/api" + window.location.pathname;
-    const VARIATION_API = "/api/variation" + window.location.pathname;
-    const SWATCH_API = "/api/filters/variation" + window.location.pathname;
-    const FAV_MARK_API = "/api/mark/favourite/";
-    const FAV_UNMARK_API = "/api/unmark/favourite/";
-    const $product = $("#detailPage");
-    const $prodPriceCard = $product.find(".prod-price-card");
-    var $filtersDiv = "";
-    var $filtersDivMobile = "";
-    var variationDrift = "";
-    var variationImgEl = "";
+    const PDP_API = '/api' + window.location.pathname;
+    const VARIATION_API = '/api/variation' + window.location.pathname;
+    const SWATCH_API = '/api/filters/variation' + window.location.pathname;
+    const FAV_MARK_API = '/api/mark/favourite/';
+    const FAV_UNMARK_API = '/api/unmark/favourite/';
+    const $product = $('#detailPage');
+    const $prodPriceCard = $product.find('.prod-price-card');
+    var $filtersDiv = '';
+    var $filtersDivMobile = '';
+    var variationDrift = '';
+    var variationImgEl = '';
     var arrFilters = [];
     if (isMobile()) {
         return;
     }
-    $(document).on("click", ".product-detail-modal", function(e) {
+    $(document).on('click', '.product-detail-modal', function(e) {
         e.preventDefault();
         e.stopPropagation();
-        $("#modalProduct").modal();
+        $('#modalProduct').modal();
         $prodPriceCard.empty();
         $.ajax({
-            type: "GET",
-            url: "/api" + this.attributes.href.value,
-            dataType: "json",
+            type: 'GET',
+            url: '/api' + this.attributes.href.value,
+            dataType: 'json',
             success: function(data) {
-                var $imagesContainer = $product.find(".-images-container");
-                var $images = $imagesContainer.find(".-images");
+                var $imagesContainer = $product.find('.-images-container');
+                var $images = $imagesContainer.find('.-images');
 
                 var imgContainerWidth = 0;
-                $("#wishlistBtnDesktop").attr("sku", data.sku);
+                $('#wishlistBtnDesktop').attr('sku', data.sku);
                 if (data.wishlisted) {
-                    $("#wishlistBtnDesktop").addClass("marked");
+                    $('#wishlistBtnDesktop').addClass('marked');
                 }
                 $images.empty();
 
                 data.on_server_images.forEach(img => {
-                    var lightbox = jQuery("<a/>", {
+                    var lightbox = jQuery('<a/>', {
                         href: img,
-                        class: "lightbox-img-div",
-                        "data-toggle": "lightbox",
-                        "data-gallery": "gallery"
+                        class: 'lightbox-img-div',
+                        'data-toggle': 'lightbox',
+                        'data-gallery': 'gallery'
                     }).appendTo($images);
-                    var responsiveImg = jQuery("<img/>", {
-                        class: "-prod-img img-fluid",
+                    var responsiveImg = jQuery('<img/>', {
+                        class: '-prod-img img-fluid',
                         src: img,
-                        alt: "product image"
+                        alt: 'product image'
                     }).appendTo(lightbox);
                 });
-                $(".-site").text(data.site);
-                var $prodDetails = $("<div />", {
-                    class: "-product-details"
+                $('.-site').text(data.site);
+                var $prodDetails = $('<div />', {
+                    class: '-product-details'
                 }).appendTo($prodPriceCard);
 
-                var priceCont = $("<div/>").appendTo($prodDetails);
-                $("<span/>", {
-                    text: " $" + data.is_price.replace("-", " - $"),
-                    class: "offer-price"
+                var priceCont = $('<div/>').appendTo($prodDetails);
+                $('<span/>', {
+                    text: ' $' + data.is_price.replace('-', ' - $'),
+                    class: 'offer-price'
                 }).appendTo(priceCont);
-                var buyBtn = $("<a/>", {
-                    class: "btn pdp-buy-btn float-right",
+                var buyBtn = $('<a/>', {
+                    class: 'btn pdp-buy-btn float-right',
                     href: data.product_url,
-                    text: "View Details",
-                    target: "_blank"
+                    text: 'View Details',
+                    target: '_blank'
                 }).appendTo(priceCont);
                 if (data.is_price !== data.was_price) {
-                    $("<span/>", {
-                        text: " $" + data.was_price.replace("-", " -$"),
-                        class: "price"
+                    $('<span/>', {
+                        text: ' $' + data.was_price.replace('-', ' -$'),
+                        class: 'price'
                     }).appendTo(priceCont);
                 }
                 // var buybtnDiv = $('<div/>', {
@@ -86,20 +86,20 @@ $(document).ready(function() {
                 //     target: '_blank'
                 // }).appendTo(buybtnDiv)
 
-                $filtersDivMobile = jQuery("<div/>", {
-                    id: "filtersDivMobile",
-                    class: "filters filters-mobile"
+                $filtersDivMobile = jQuery('<div/>', {
+                    id: 'filtersDivMobile',
+                    class: 'filters filters-mobile'
                 }).insertBefore($imagesContainer);
 
-                $filtersDiv = jQuery("<div/>", {
-                    id: "filtersDiv",
-                    class: "filters"
+                $filtersDiv = jQuery('<div/>', {
+                    id: 'filtersDiv',
+                    class: 'filters'
                 }).appendTo($prodPriceCard);
 
                 if (data.variations != null) {
                     makeVariationCarousel(data.variations);
                     if (data.filters == null && $.isEmptyObject(data.filters)) {
-                        $("#filterToggleBtn").hide();
+                        $('#filterToggleBtn').hide();
                     }
                 } else {
                     fetchVariations();
@@ -107,40 +107,40 @@ $(document).ready(function() {
 
                 //Product description
 
-                var $desc = $product.find(".prod-desc");
+                var $desc = $product.find('.prod-desc');
 
-                $desc.find(".-name").text(data.name);
+                $desc.find('.-name').text(data.name);
                 if (isMobile()) {
-                    var $mobileProdDetails = $(".-product-details").clone();
-                    $mobileProdDetails.insertAfter(".-name");
+                    var $mobileProdDetails = $('.-product-details').clone();
+                    $mobileProdDetails.insertAfter('.-name');
                 }
 
                 var ratingValue = parseFloat(data.rating).toFixed(1);
                 var ratingClass =
-                    "rating-" + ratingValue.toString().replace(".", "_");
-                $desc.find(".rating").addClass(ratingClass);
-                $desc.find(".total-ratings").text(data.reviews);
+                    'rating-' + ratingValue.toString().replace('.', '_');
+                $desc.find('.rating').addClass(ratingClass);
+                $desc.find('.total-ratings').text(data.reviews);
                 if (data.reviews <= 0) {
-                    $desc.find(".rating-container").hide();
+                    $desc.find('.rating-container').hide();
                 }
 
                 $desc
-                    .find(".-desc")
-                    .html(md.render(data.description.join("\n")));
-                $desc.find(".-dimen").html(data.dimension);
-                $("#desc").html(data.description);
+                    .find('.-desc')
+                    .html(md.render(data.description.join('\n')));
+                $desc.find('.-dimen').html(data.dimension);
+                $('#desc').html(data.description);
 
-                var $featuresList = document.createElement("div");
+                var $featuresList = document.createElement('div');
 
-                if (data.site == "Westelm") {
-                    var div = $("<div/>", {
-                        html: md.render(data.features.join("\n"))
+                if (data.site.replace(/\s+/g, '').toLowerCase() == 'westelm') {
+                    var div = $('<div/>', {
+                        html: md.render(data.features.join('\n'))
                     }).appendTo($featuresList);
                 } else {
                     data.features &&
                         data.features.map(features => {
                             // $featuresList.empty()
-                            var li = $("<li>", {
+                            var li = $('<li>', {
                                 html: features
                             }).appendTo($featuresList);
                         });
@@ -148,34 +148,34 @@ $(document).ready(function() {
 
                 $($featuresList)
                     .clone()
-                    .appendTo($("#feat").empty());
+                    .appendTo($('#feat').empty());
 
-                var $dimension = $desc.find(".-dimension");
+                var $dimension = $desc.find('.-dimension');
                 $dimension.empty();
 
                 if (data.dimension !== null && data.dimension !== undefined) {
                     data.dimension.forEach(dimension => {
-                        var div = $("<div/>", {
-                            class: " col-6"
+                        var div = $('<div/>', {
+                            class: ' col-6'
                         }).appendTo($dimension);
                         dimension.description &&
-                            $("<h5/>", {
-                                class: "description-title",
+                            $('<h5/>', {
+                                class: 'description-title',
                                 html: `${dimension.description}`
                             }).appendTo(div);
                         dimension.width &&
-                            $("<div/>", {
-                                class: "description-data",
+                            $('<div/>', {
+                                class: 'description-data',
                                 html: `Width: ${dimension.width}"`
                             }).appendTo(div);
                         dimension.height &&
-                            $("<div/>", {
-                                class: "description-data",
+                            $('<div/>', {
+                                class: 'description-data',
                                 html: `Height: ${dimension.height}"`
                             }).appendTo(div);
                         dimension.depth &&
-                            $("<div/>", {
-                                class: "description-data",
+                            $('<div/>', {
+                                class: 'description-data',
                                 html: `Depth: ${dimension.depth}"`
                             }).appendTo(div);
                     });
@@ -188,43 +188,43 @@ $(document).ready(function() {
         });
     });
 
-    $(document).on("click", 'a[data-toggle="lightbox"]', function(event) {
+    $(document).on('click', 'a[data-toggle="lightbox"]', function(event) {
         event.preventDefault();
         $(this).ekkoLightbox({ alwaysShowClose: true });
     });
 
-    $("#wishlistBtnDesktop").on("click", function(e) {
+    $('#wishlistBtnDesktop').on('click', function(e) {
         e.preventDefault();
         // callWishlistAPI($(this))
-        if ($("#isLoggedIn").val() == 0) {
-            $("#modalLoginForm").modal();
+        if ($('#isLoggedIn').val() == 0) {
+            $('#modalLoginForm').modal();
         } else {
-            var iSku = $(this).attr("sku");
-            $(".alert-warning").addClass("show");
+            var iSku = $(this).attr('sku');
+            $('.alert-warning').addClass('show');
             // $('.wishlist-icon-modal').addClass('marked-icon')
             callWishlistAPI($(this));
             // alert('is added to wishlist successfully.')
         }
     });
     function callWishlistAPI($elm) {
-        var strApiToCall = "";
-        if (!$elm.hasClass("marked-icon")) {
-            strApiToCall = FAV_MARK_API + $elm.attr("sku");
+        var strApiToCall = '';
+        if (!$elm.hasClass('marked-icon')) {
+            strApiToCall = FAV_MARK_API + $elm.attr('sku');
         } else {
-            strApiToCall = FAV_UNMARK_API + $elm.attr("sku");
+            strApiToCall = FAV_UNMARK_API + $elm.attr('sku');
         }
         $.ajax({
-            type: "GET",
+            type: 'GET',
             url: strApiToCall,
-            dataType: "json",
+            dataType: 'json',
             success: function(data) {
-                console.log(data, "success");
-                if (!$elm.hasClass("marked-icon")) {
-                    $elm.addClass("marked-icon");
-                    $elm.find("span").text("Saved");
+                console.log(data, 'success');
+                if (!$elm.hasClass('marked-icon')) {
+                    $elm.addClass('marked-icon');
+                    $elm.find('span').text('Saved');
                 } else {
-                    $elm.removeClass("marked-icon");
-                    $elm.find("span").text("Save");
+                    $elm.removeClass('marked-icon');
+                    $elm.find('span').text('Save');
                 }
             },
             error: function(jqXHR, exception) {
@@ -234,11 +234,11 @@ $(document).ready(function() {
         });
     }
 
-    $("#features")
-        .find(".nav-link")
-        .on("click", function() {
-            if (!$("#collapseB").hasClass("show")) {
-                $("#collapseB").collapse("toggle");
+    $('#features')
+        .find('.nav-link')
+        .on('click', function() {
+            if (!$('#collapseB').hasClass('show')) {
+                $('#collapseB').collapse('toggle');
             }
         });
 
@@ -256,19 +256,19 @@ $(document).ready(function() {
             // data.filters.filter.forEach(options => {
             var transformedLabel = data.filters[filter].label
                 .toLowerCase()
-                .replace(" ", "_");
-            var $singleFilter = jQuery("<div/>", {
-                class: "single-filter" + (isMobile ? " text-center" : "")
+                .replace(' ', '_');
+            var $singleFilter = jQuery('<div/>', {
+                class: 'single-filter' + (isMobile ? ' text-center' : '')
             }).appendTo(currFilterDiv);
-            var $filterLabel = jQuery("<label/>", {
-                text: data.filters[filter].label + ":",
-                for: "selectbox-attr-" + transformedLabel,
-                class: "select-label",
+            var $filterLabel = jQuery('<label/>', {
+                text: data.filters[filter].label + ':',
+                for: 'selectbox-attr-' + transformedLabel,
+                class: 'select-label',
                 value: data.filters[filter].label
             }).appendTo($singleFilter);
-            var $filterSelectBox = jQuery("<select/>", {
-                class: "form-control",
-                id: "attr-" + transformedLabel
+            var $filterSelectBox = jQuery('<select/>', {
+                class: 'form-control',
+                id: 'attr-' + transformedLabel
             }).appendTo($singleFilter);
 
             var bFilterEnabled = false;
@@ -276,16 +276,16 @@ $(document).ready(function() {
                 if (!bFilterEnabled) {
                     bFilterEnabled = element.in_request;
                 }
-                var attrElm = jQuery("<option />", {
+                var attrElm = jQuery('<option />', {
                     value: element.value,
                     selected: element.in_request,
                     text: element.name
                 }).appendTo($filterSelectBox);
                 if (idx == data.filters[filter].options.length - 1) {
-                    var attrElm2 = jQuery("<option />", {
-                        value: "unselected-value",
+                    var attrElm2 = jQuery('<option />', {
+                        value: 'unselected-value',
                         selected: !bFilterEnabled,
-                        text: "Please select a value"
+                        text: 'Please select a value'
                     }).appendTo($filterSelectBox);
                     bFilterEnabled = false;
                 }
@@ -300,10 +300,10 @@ $(document).ready(function() {
         bUpdateVariations = true
     ) {
         $.ajax({
-            type: "GET",
+            type: 'GET',
             url: apiPath,
             data: queryParams,
-            dataType: "json",
+            dataType: 'json',
             success: function(data) {
                 console.log(data);
                 $filtersDiv.empty();
@@ -314,28 +314,28 @@ $(document).ready(function() {
                     makeFilters(data, isMobile());
                     makeSelectBox();
                 } else {
-                    $("#filterToggleBtn").hide();
+                    $('#filterToggleBtn').hide();
                 }
 
                 if (data.variations != null && bUpdateVariations) {
                     makeVariationCarousel(data.variations);
 
-                    var $prodMainImgDiv = $product.find(".prod-main-img");
+                    var $prodMainImgDiv = $product.find('.prod-main-img');
                     $prodMainImgDiv.empty();
-                    var carouselMainDiv = jQuery("<i/>", {
-                        id: "closeMainImgBtn",
-                        class: "far fa-times-circle close-main-btn"
+                    var carouselMainDiv = jQuery('<i/>', {
+                        id: 'closeMainImgBtn',
+                        class: 'far fa-times-circle close-main-btn'
                     }).appendTo($prodMainImgDiv);
-                    var carouselMainDiv = jQuery("<img/>", {
-                        id: "variationImg",
-                        class: "zoom-img-variation img-fluid"
+                    var carouselMainDiv = jQuery('<img/>', {
+                        id: 'variationImg',
+                        class: 'zoom-img-variation img-fluid'
                     }).appendTo($prodMainImgDiv);
-                    variationImgEl = document.querySelector("#variationImg");
+                    variationImgEl = document.querySelector('#variationImg');
                     variationDrift = new Drift(variationImgEl, {});
                 }
 
-                $(".zoom-img").each(function() {
-                    var options = { namespace: "carousel" };
+                $('.zoom-img').each(function() {
+                    var options = { namespace: 'carousel' };
                     new Drift(this, options);
                 });
             },
@@ -371,26 +371,26 @@ $(document).ready(function() {
         // }
         var variationLinks = variationData.map(variation => variation.link);
 
-        var $variationsCarousel = $product.find(".-variations-carousel");
+        var $variationsCarousel = $product.find('.-variations-carousel');
         $variationsCarousel.empty();
-        var carouselMainDiv = jQuery("<div/>", {
-            class: "responsive"
+        var carouselMainDiv = jQuery('<div/>', {
+            class: 'responsive'
         }).appendTo($variationsCarousel);
 
         variationSwatchImagesNew.forEach((img, idx) => {
-            var responsiveImgDiv = jQuery("<div/>", {
-                class: "mini-carousel-item"
+            var responsiveImgDiv = jQuery('<div/>', {
+                class: 'mini-carousel-item'
             }).appendTo(carouselMainDiv);
-            var anchor = jQuery("<a/>", {
-                class: "responsive-img-a",
-                "data-image": variationImagesNew[idx]
+            var anchor = jQuery('<a/>', {
+                class: 'responsive-img-a',
+                'data-image': variationImagesNew[idx]
                     ? variationImagesNew[idx]
-                    : ""
+                    : ''
             }).appendTo(responsiveImgDiv);
-            var responsiveImg = jQuery("<img/>", {
-                class: "zoom-img carousel-img img-fluid",
+            var responsiveImg = jQuery('<img/>', {
+                class: 'zoom-img carousel-img img-fluid',
                 src: img,
-                "data-zoom": img
+                'data-zoom': img
             }).appendTo(anchor);
 
             arrFilters.forEach(filter => {
@@ -400,33 +400,33 @@ $(document).ready(function() {
         multiCarouselFuncs.makeMultiCarousel(10, 10);
     }
 
-    $(document).on("select-value-changed", function(e, changedElm) {
-        $(".select-styled")
+    $(document).on('select-value-changed', function(e, changedElm) {
+        $('.select-styled')
             .not(changedElm)
             .each(function() {
                 if (
-                    $(this).attr("active") == "" ||
-                    $(this).attr("active") == "unselected-value"
+                    $(this).attr('active') == '' ||
+                    $(this).attr('active') == 'unselected-value'
                 ) {
-                    $(this).attr("active", "unselected-value");
+                    $(this).attr('active', 'unselected-value');
                 }
             });
         onFilterChange();
     });
 
-    $("body").on("click touchstart", "#closeMainImgBtn", function() {
-        $(".prod-main-img").hide();
+    $('body').on('click touchstart', '#closeMainImgBtn', function() {
+        $('.prod-main-img').hide();
     });
 
-    $("body").on("click touchstart", ".responsive-img-a", function() {
-        $("#variationImg").attr("src", $(this).attr("data-image"));
-        $(".prod-main-img").show();
-        $(".select-styled").each(function() {
-            $(this).attr("active", "unselected-value");
+    $('body').on('click touchstart', '.responsive-img-a', function() {
+        $('#variationImg').attr('src', $(this).attr('data-image'));
+        $('.prod-main-img').show();
+        $('.select-styled').each(function() {
+            $(this).attr('active', 'unselected-value');
         });
 
         if (isMobile()) {
-            $("html, body")
+            $('html, body')
                 .delay(1000)
                 .animate(
                     {
@@ -436,9 +436,9 @@ $(document).ready(function() {
                 );
         }
 
-        var triggerEl = document.querySelector("#variationImg");
-        variationDrift.setZoomImageURL($(this).attr("data-image"));
-        triggerEl.setAttribute("data-zoom", $(this).attr("data-image"));
+        var triggerEl = document.querySelector('#variationImg');
+        variationDrift.setZoomImageURL($(this).attr('data-image'));
+        triggerEl.setAttribute('data-zoom', $(this).attr('data-image'));
 
         //    arrFilters.forEach(filter => {
         //        var filterId = 'selectbox-attr-'+filter;
@@ -449,18 +449,18 @@ $(document).ready(function() {
         //    });
         onSwatchChange(
             $(this)
-                .find(".carousel-img")
-                .attr("data-zoom")
+                .find('.carousel-img')
+                .attr('data-zoom')
         );
     });
 
     function onFilterChange(swatchUrl = null) {
         var oQueryParams = new Object();
-        $(".select-styled").each(function(idx) {
+        $('.select-styled').each(function(idx) {
             // var strLabelText = $filtersDiv.find('label[for="'+$(this).attr('id')+'"]').attr('value');
-            var currFilter = $(this).attr("active");
-            if (currFilter != "unselected-value") {
-                oQueryParams["attribute_" + (idx + 1)] = currFilter;
+            var currFilter = $(this).attr('active');
+            if (currFilter != 'unselected-value') {
+                oQueryParams['attribute_' + (idx + 1)] = currFilter;
             }
         });
         fetchVariations(oQueryParams);
@@ -468,19 +468,19 @@ $(document).ready(function() {
 
     function onSwatchChange(swatchUrl) {
         var oQueryParams = new Object();
-        var arrSwatchUrl = swatchUrl.split("//");
-        var arrNewPathname = arrSwatchUrl[1].split("/");
-        var newPathname = "";
+        var arrSwatchUrl = swatchUrl.split('//');
+        var arrNewPathname = arrSwatchUrl[1].split('/');
+        var newPathname = '';
         for (var i = 1; i < arrNewPathname.length; i++) {
-            newPathname += "/";
+            newPathname += '/';
             newPathname += arrNewPathname[i];
         }
-        oQueryParams["swatch"] = decodeURIComponent(newPathname);
+        oQueryParams['swatch'] = decodeURIComponent(newPathname);
         fetchFilters(oQueryParams);
     }
 
-    $("#filterToggleBtn").on("click", function() {
-        $("#filtersDivMobile").toggle();
+    $('#filterToggleBtn').on('click', function() {
+        $('#filtersDivMobile').toggle();
     });
 
     // $('body').on('click', '.wishlist-icon:not(.nav-link)', function(e) {
