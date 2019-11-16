@@ -699,6 +699,7 @@ $(document).ready(function() {
         } else {
             strApiToCall = FAV_UNMARK_API + $elm.attr('sku')
         }
+
         $.ajax({
             type: 'GET',
             url: strApiToCall,

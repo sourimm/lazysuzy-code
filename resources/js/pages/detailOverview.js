@@ -132,13 +132,20 @@ $(document).ready(function() {
 
                 var $featuresList = document.createElement('div')
 
-                data.features &&
-                    data.features.map(features => {
-                        // $featuresList.empty()
-                        var li = $('<li>', {
-                            html: features
-                        }).appendTo($featuresList)
-                    })
+                if (data.site == 'Westelm') {
+                    var div = $('<div/>', {
+                        html: md.render(data.features.join('\n'))
+                    }).appendTo($featuresList)
+                } else {
+                    data.features &&
+                        data.features.map(features => {
+                            // $featuresList.empty()
+                            var li = $('<li>', {
+                                html: features
+                            }).appendTo($featuresList)
+                        })
+                }
+
                 $($featuresList)
                     .clone()
                     .appendTo($('#feat').empty())
@@ -305,7 +312,6 @@ $(document).ready(function() {
                 if (data.filters != null && !$.isEmptyObject(data.filters)) {
                     arrFilters = Object.keys(data.filters)
                     makeFilters(data, isMobile())
-
                     makeSelectBox()
                 } else {
                     $('#filterToggleBtn').hide()
