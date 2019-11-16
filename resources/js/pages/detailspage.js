@@ -159,11 +159,26 @@ $(document).ready(function() {
             // $('#desc').html(data.description)
 
             var $featuresList = $desc.find(".-features");
-            data.features.forEach(feature => {
-                var li = $("<li>", {
-                    html: feature
+
+            if (data.site == "Westelm") {
+                var div = $("<div/>", {
+                    html: md.render(data.features.join("\n"))
                 }).appendTo($featuresList);
-            });
+            } else {
+                data.features &&
+                    data.features.map(features => {
+                        // $featuresList.empty()
+                        var li = $("<li>", {
+                            html: features
+                        }).appendTo($featuresList);
+                    });
+            }
+
+            // data.features.forEach(feature => {
+            //     var li = $('<li>', {
+            //         html: feature
+            //     }).appendTo($featuresList)
+            // })
 
             $($featuresList)
                 .clone()
