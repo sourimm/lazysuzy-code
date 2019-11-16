@@ -130,34 +130,6 @@ $(document).ready(function() {
                 $desc.find(".-dimen").html(data.dimension);
                 $("#desc").html(data.description);
 
-                var $dimension = $desc.find(".-dimension");
-                $dimension.empty();
-                data.dimension.forEach(dimension => {
-                    var div = $("<div/>", {
-                        class: " col-6"
-                    }).appendTo($dimension);
-                    dimension.description &&
-                        $("<h5/>", {
-                            class: "description-title",
-                            html: `${dimension.description}`
-                        }).appendTo(div);
-                    dimension.width &&
-                        $("<div/>", {
-                            class: "description-data",
-                            html: `Width: ${dimension.width}"`
-                        }).appendTo(div);
-                    dimension.height &&
-                        $("<div/>", {
-                            class: "description-data",
-                            html: `Height: ${dimension.height}"`
-                        }).appendTo(div);
-                    dimension.depth &&
-                        $("<div/>", {
-                            class: "description-data",
-                            html: `Depth: ${dimension.depth}"`
-                        }).appendTo(div);
-                });
-
                 var $featuresList = document.createElement("div");
 
                 data.features &&
@@ -170,6 +142,37 @@ $(document).ready(function() {
                 $($featuresList)
                     .clone()
                     .appendTo($("#feat").empty());
+
+                var $dimension = $desc.find(".-dimension");
+                $dimension.empty();
+
+                if (data.dimension !== null && data.dimension !== undefined) {
+                    data.dimension.forEach(dimension => {
+                        var div = $("<div/>", {
+                            class: " col-6"
+                        }).appendTo($dimension);
+                        dimension.description &&
+                            $("<h5/>", {
+                                class: "description-title",
+                                html: `${dimension.description}`
+                            }).appendTo(div);
+                        dimension.width &&
+                            $("<div/>", {
+                                class: "description-data",
+                                html: `Width: ${dimension.width}"`
+                            }).appendTo(div);
+                        dimension.height &&
+                            $("<div/>", {
+                                class: "description-data",
+                                html: `Height: ${dimension.height}"`
+                            }).appendTo(div);
+                        dimension.depth &&
+                            $("<div/>", {
+                                class: "description-data",
+                                html: `Depth: ${dimension.depth}"`
+                            }).appendTo(div);
+                    });
+                }
             },
             error: function(jqXHR, exception) {
                 console.log(jqXHR);
