@@ -160,7 +160,7 @@ $(document).ready(function() {
 
             var $featuresList = $desc.find('.-features')
 
-            if (data.site == 'Westelm') {
+            if (data.site.replace(/\s+/g, '').toLowerCase() == 'westelm') {
                 var div = $('<div/>', {
                     html: md.render(data.features.join('\n'))
                 }).appendTo($featuresList)
