@@ -172,9 +172,13 @@ $(document).ready(function() {
             var $dimension = $desc.find(".-dimension");
             $dimension.empty();
 
-            data.dimension.forEach(dimension => {
-                dimensionList(dimension);
-            });
+            if (data.dimension !== null && data.dimension !== undefined) {
+                data.dimension.forEach(dimension => {
+                    dimensionList(dimension);
+                });
+            } else {
+                return null;
+            }
             function dimensionList(dimension) {
                 var div = $("<div/>", {
                     class: " col-6"
