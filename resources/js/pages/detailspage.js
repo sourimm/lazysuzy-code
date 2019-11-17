@@ -2,7 +2,7 @@ import * as multiCarouselFuncs from '../components/multi-carousel';
 import makeSelectBox from '../components/custom-selectbox';
 import Drift from 'drift-zoom';
 import isMobile from '../app.js';
-var md = require('markdown-it')();
+var md = require('markdown-it')({ html: true });
 
 $(document).ready(function() {
     const PDP_API = '/api' + window.location.pathname;
