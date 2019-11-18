@@ -10678,7 +10678,7 @@ a.text-dark:focus {
 }
 
 /*!
- * Font Awesome Free 5.11.2 by @fontawesome - https://fontawesome.com
+ * Font Awesome Free 5.10.2 by @fontawesome - https://fontawesome.com
  * License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License)
  */
 
@@ -11569,10 +11569,6 @@ readers do not read off random characters that represent icons */
 
 .fa-business-time:before {
   content: "\F64A";
-}
-
-.fa-buy-n-large:before {
-  content: "\F8A6";
 }
 
 .fa-buysellads:before {
@@ -13387,14 +13383,6 @@ readers do not read off random characters that represent icons */
   content: "\F292";
 }
 
-.fa-hat-cowboy:before {
-  content: "\F8C0";
-}
-
-.fa-hat-cowboy-side:before {
-  content: "\F8C1";
-}
-
 .fa-hat-wizard:before {
   content: "\F6E8";
 }
@@ -14035,10 +14023,6 @@ readers do not read off random characters that represent icons */
   content: "\F136";
 }
 
-.fa-mdb:before {
-  content: "\F8CA";
-}
-
 .fa-medal:before {
   content: "\F5A2";
 }
@@ -14223,10 +14207,6 @@ readers do not read off random characters that represent icons */
   content: "\F6FC";
 }
 
-.fa-mouse:before {
-  content: "\F8CC";
-}
-
 .fa-mouse-pointer:before {
   content: "\F245";
 }
@@ -14333,10 +14313,6 @@ readers do not read off random characters that represent icons */
 
 .fa-optin-monster:before {
   content: "\F23C";
-}
-
-.fa-orcid:before {
-  content: "\F8D2";
 }
 
 .fa-osi:before {
@@ -14793,10 +14769,6 @@ readers do not read off random characters that represent icons */
 
 .fa-receipt:before {
   content: "\F543";
-}
-
-.fa-record-vinyl:before {
-  content: "\F8D9";
 }
 
 .fa-recycle:before {
@@ -15583,10 +15555,6 @@ readers do not read off random characters that represent icons */
   content: "\F5C3";
 }
 
-.fa-swift:before {
-  content: "\F8E1";
-}
-
 .fa-swimmer:before {
   content: "\F5C4";
 }
@@ -15965,10 +15933,6 @@ readers do not read off random characters that represent icons */
 
 .fa-uikit:before {
   content: "\F403";
-}
-
-.fa-umbraco:before {
-  content: "\F8E8";
 }
 
 .fa-umbrella:before {
@@ -16505,7 +16469,7 @@ readers do not read off random characters that represent icons */
 }
 
 /*!
- * Font Awesome Free 5.11.2 by @fontawesome - https://fontawesome.com
+ * Font Awesome Free 5.10.2 by @fontawesome - https://fontawesome.com
  * License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License)
  */
 
@@ -16514,8 +16478,8 @@ readers do not read off random characters that represent icons */
   font-style: normal;
   font-weight: 400;
   font-display: auto;
-  src: url(/fonts/vendor/@fortawesome/fontawesome-free/webfa-regular-400.eot?c1a866ec0e04a5e1915b41fcf261457c);
-  src: url(/fonts/vendor/@fortawesome/fontawesome-free/webfa-regular-400.eot?c1a866ec0e04a5e1915b41fcf261457c) format("embedded-opentype"), url(/fonts/vendor/@fortawesome/fontawesome-free/webfa-regular-400.woff2?f5f2566b93e89391da4db79462b8078b) format("woff2"), url(/fonts/vendor/@fortawesome/fontawesome-free/webfa-regular-400.woff?c4f508e7c4f01a9eeba7f08155cde04e) format("woff"), url(/fonts/vendor/@fortawesome/fontawesome-free/webfa-regular-400.ttf?65b286af947c0d982ca01b40e1fcab38) format("truetype"), url(/fonts/vendor/@fortawesome/fontawesome-free/webfa-regular-400.svg?7b9568e6389b1f8ae0902cd39665fc1e) format("svg");
+  src: url(/fonts/vendor/@fortawesome/fontawesome-free/webfa-regular-400.eot?aa66d0e0e38c75666e98db33abae955e);
+  src: url(/fonts/vendor/@fortawesome/fontawesome-free/webfa-regular-400.eot?aa66d0e0e38c75666e98db33abae955e) format("embedded-opentype"), url(/fonts/vendor/@fortawesome/fontawesome-free/webfa-regular-400.woff2?ac21cac3f22cc9642f5af32e0c750797) format("woff2"), url(/fonts/vendor/@fortawesome/fontawesome-free/webfa-regular-400.woff?5623624dd1b017c66c29d1ac69cdcfa3) format("woff"), url(/fonts/vendor/@fortawesome/fontawesome-free/webfa-regular-400.ttf?285a9d2a28886ad64c4e45cbd733cf7c) format("truetype"), url(/fonts/vendor/@fortawesome/fontawesome-free/webfa-regular-400.svg?95f13e0be408d117bd3d9b366084a3ef) format("svg");
 }
 
 .far {
@@ -16524,7 +16488,7 @@ readers do not read off random characters that represent icons */
 }
 
 /*!
- * Font Awesome Free 5.11.2 by @fontawesome - https://fontawesome.com
+ * Font Awesome Free 5.10.2 by @fontawesome - https://fontawesome.com
  * License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License)
  */
 
@@ -16533,8 +16497,8 @@ readers do not read off random characters that represent icons */
   font-style: normal;
   font-weight: 900;
   font-display: auto;
-  src: url(/fonts/vendor/@fortawesome/fontawesome-free/webfa-solid-900.eot?8e4a6dcc692b3887f9f542cd6894d6d4);
-  src: url(/fonts/vendor/@fortawesome/fontawesome-free/webfa-solid-900.eot?8e4a6dcc692b3887f9f542cd6894d6d4) format("embedded-opentype"), url(/fonts/vendor/@fortawesome/fontawesome-free/webfa-solid-900.woff2?44d537ab79f921fde5a28b2c1636f397) format("woff2"), url(/fonts/vendor/@fortawesome/fontawesome-free/webfa-solid-900.woff?333bae208dc363746961b234ff6c2500) format("woff"), url(/fonts/vendor/@fortawesome/fontawesome-free/webfa-solid-900.ttf?0bff33a5fd7ec390235476b4859747a0) format("truetype"), url(/fonts/vendor/@fortawesome/fontawesome-free/webfa-solid-900.svg?c2801fb415f03c7b170934769d7b5397) format("svg");
+  src: url(/fonts/vendor/@fortawesome/fontawesome-free/webfa-solid-900.eot?42e1fbd2cf655a0b44a2dfae9ca2f8c1);
+  src: url(/fonts/vendor/@fortawesome/fontawesome-free/webfa-solid-900.eot?42e1fbd2cf655a0b44a2dfae9ca2f8c1) format("embedded-opentype"), url(/fonts/vendor/@fortawesome/fontawesome-free/webfa-solid-900.woff2?d6d8d5da9214dc7d46b297672a602d55) format("woff2"), url(/fonts/vendor/@fortawesome/fontawesome-free/webfa-solid-900.woff?3ded831d708bf90b2da86756551b5c1c) format("woff"), url(/fonts/vendor/@fortawesome/fontawesome-free/webfa-solid-900.ttf?896e20e26ad07dc63c9526ed814117e9) format("truetype"), url(/fonts/vendor/@fortawesome/fontawesome-free/webfa-solid-900.svg?6ed5e3bc9018d2a03e2f1fadbf8a0a4a) format("svg");
 }
 
 .fa,
@@ -16544,7 +16508,7 @@ readers do not read off random characters that represent icons */
 }
 
 /*!
- * Font Awesome Free 5.11.2 by @fontawesome - https://fontawesome.com
+ * Font Awesome Free 5.10.2 by @fontawesome - https://fontawesome.com
  * License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License)
  */
 
@@ -16553,8 +16517,8 @@ readers do not read off random characters that represent icons */
   font-style: normal;
   font-weight: normal;
   font-display: auto;
-  src: url(/fonts/vendor/@fortawesome/fontawesome-free/webfa-brands-400.eot?5063b105c7646c8043d58c5289f02cca);
-  src: url(/fonts/vendor/@fortawesome/fontawesome-free/webfa-brands-400.eot?5063b105c7646c8043d58c5289f02cca) format("embedded-opentype"), url(/fonts/vendor/@fortawesome/fontawesome-free/webfa-brands-400.woff2?cccc9d29470e879e40eb70249d9a2705) format("woff2"), url(/fonts/vendor/@fortawesome/fontawesome-free/webfa-brands-400.woff?c5e0f14f88a828261ba01558ce2bf26f) format("woff"), url(/fonts/vendor/@fortawesome/fontawesome-free/webfa-brands-400.ttf?06147b6cd88c7346cecd1edd060cd5de) format("truetype"), url(/fonts/vendor/@fortawesome/fontawesome-free/webfa-brands-400.svg?a9c4bb7348f42626454c988dbde1d0a0) format("svg");
+  src: url(/fonts/vendor/@fortawesome/fontawesome-free/webfa-brands-400.eot?14c590d124662eb50efa4c00f027b79c);
+  src: url(/fonts/vendor/@fortawesome/fontawesome-free/webfa-brands-400.eot?14c590d124662eb50efa4c00f027b79c) format("embedded-opentype"), url(/fonts/vendor/@fortawesome/fontawesome-free/webfa-brands-400.woff2?3e1b2a654a784ceb385157140b4ccd71) format("woff2"), url(/fonts/vendor/@fortawesome/fontawesome-free/webfa-brands-400.woff?df02c782834b113d605d8329368737b4) format("woff"), url(/fonts/vendor/@fortawesome/fontawesome-free/webfa-brands-400.ttf?5e8aa9ea0ebcd2218178f554cdd8e6b0) format("truetype"), url(/fonts/vendor/@fortawesome/fontawesome-free/webfa-brands-400.svg?bfa9c38bd6081dafe7278dedc4aad1d9) format("svg");
 }
 
 .fab {
@@ -16562,7 +16526,7 @@ readers do not read off random characters that represent icons */
 }
 
 /*!
- * Font Awesome Free 5.11.2 by @fontawesome - https://fontawesome.com
+ * Font Awesome Free 5.10.2 by @fontawesome - https://fontawesome.com
  * License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License)
  */
 
@@ -19689,10 +19653,6 @@ readers do not read off random characters that represent icons */
   color: #0c1c31;
 }
 
-.detailspage .wishlist-icon-modal.marked-icon .-icon {
-  font-weight: 900;
-}
-
 .-features {
   text-transform: lowercase;
 }
@@ -19722,7 +19682,7 @@ input:disabled + .checkmark + .text {
 
 .listing .listing-container .filters {
   width: 180px;
-  margin-top: 45px;
+  margin-top: 65px;
   text-align: center;
   overflow-y: auto;
   overflow-x: hidden;
@@ -19739,6 +19699,10 @@ input:disabled + .checkmark + .text {
     position: -ms-sticky;
     position: -o-sticky;
     top: 45px;
+  }
+
+  .listing .listing-container .filters .filter .filter-header {
+    font-size: 18px;
   }
 }
 
@@ -19779,7 +19743,6 @@ input:disabled + .checkmark + .text {
 .listing .listing-container .filters .filter ul li .filter-label {
   display: block;
   position: relative;
-  padding-left: 25px;
   margin-bottom: 12px;
   cursor: pointer;
   font-size: 14px;
@@ -19801,7 +19764,7 @@ input:disabled + .checkmark + .text {
 .listing .listing-container .filters .filter ul li .checkmark {
   position: absolute;
   top: 0;
-  left: 0;
+  right: 0;
   height: 15px;
   width: 15px;
   /* background-color: #eee; */
@@ -19827,6 +19790,10 @@ input:disabled + .checkmark + .text {
   border: solid #0c1c31;
   border-width: 0 3px 3px 0;
   transform: rotate(45deg);
+}
+
+.listing .listing-container .fix-search-filter {
+  margin-top: 10px !important;
 }
 
 .listing .listing-container .sortby .form-control {
@@ -19884,19 +19851,58 @@ input:disabled + .checkmark + .text {
     position: absolute;
   }
 
+  .listing .listing-container .listing-top-controls .page-navigator-mobile,
+  .category-page .listing-container .listing-top-controls .page-navigator-mobile {
+    width: 100%;
+    margin: 5px 2px;
+    text-align: left;
+    font-size: 18px;
+    text-transform: capitalize;
+  }
+
+  .listing .listing-container .listing-top-controls .page-navigator-mobile a,
+  .category-page .listing-container .listing-top-controls .page-navigator-mobile a {
+    color: #000;
+    text-decoration: none;
+  }
+
+  .listing .listing-container .listing-top-controls .search-navigator,
+  .category-page .listing-container .listing-top-controls .search-navigator {
+    color: #b76e79;
+  }
+
   .listing .listing-container .listing-top-controls,
   .category-page .listing-container .listing-top-controls {
     position: relative;
     width: 100%;
-    height: 45px;
+    text-align: center;
+    margin: 5px;
+  }
+
+  .listing .listing-container .listing-top-controls .filter-toggle-mobile,
+  .category-page .listing-container .listing-top-controls .filter-toggle-mobile {
+    margin: 0px 45px;
+    position: absolute;
+  }
+
+  .listing .listing-container .listing-top-controls .fix-search,
+  .category-page .listing-container .listing-top-controls .fix-search {
+    position: fixed;
+    z-index: 100;
+    top: 0;
+    padding: 10px 0;
+    background: #ffcc00;
+    right: 0;
+    left: 0;
+    margin: 0;
   }
 
   .listing .listing-container .listing-top-controls .filter-toggle,
   .listing .listing-container .listing-top-controls .view-items-toggle,
   .category-page .listing-container .listing-top-controls .filter-toggle,
   .category-page .listing-container .listing-top-controls .view-items-toggle {
-    margin: 5px;
-    font-size: 23px;
+    margin: 10px;
+    font-size: 15px;
   }
 
   .listing .listing-container .listing-top-controls .dropdown,
@@ -19953,9 +19959,25 @@ input:disabled + .checkmark + .text {
     padding: 12px 5px;
   }
 
+  .listing .listing-container .ls-prod-container .top-button,
+  .category-page .listing-container .ls-prod-container .top-button {
+    position: fixed;
+    bottom: 110px;
+    right: 20px;
+    border-radius: 35px;
+    z-index: 99;
+    font-size: 18px;
+    border: none;
+    outline: none;
+    background-color: #0c1c31;
+    color: #ffffff;
+    cursor: pointer;
+    padding: 15px 20px;
+  }
+
   .listing .listing-container .products-container,
   .category-page .listing-container .products-container {
-    margin-top: 45px;
+    margin-top: 25px;
   }
 
   .listing .listing-container .products-container .ls-prod-container,
@@ -19969,10 +19991,37 @@ input:disabled + .checkmark + .text {
     padding: 1px;
   }
 
+  .listing .listing-container .products-container .ls-prod-container .ls-product-div .prod-sale-price,
+  .category-page .listing-container .products-container .ls-prod-container .ls-product-div .prod-sale-price {
+    margin: -23px 0px 0 0px;
+    padding: 0 5px;
+    z-index: 58;
+    position: absolute;
+    left: 0;
+    background: #ffffffba;
+    color: #b76e79;
+  }
+
+  .listing .listing-container .products-container .ls-prod-container .ls-product-div .prod-discount-tag,
+  .category-page .listing-container .products-container .ls-prod-container .ls-product-div .prod-discount-tag {
+    z-index: 58;
+    position: absolute;
+    right: 1px;
+    bottom: 1px;
+    background: #e8c101;
+    padding: 0 4px;
+    color: #fff;
+  }
+
+  .listing .listing-container .products-container .ls-prod-container .ls-product-div .prod-discount-tag._20,
+  .category-page .listing-container .products-container .ls-prod-container .ls-product-div .prod-discount-tag._20 {
+    background: #e84c01;
+  }
+
   .listing .listing-container .products-container .ls-prod-container .ls-product-div .ls-product,
   .category-page .listing-container .products-container .ls-prod-container .ls-product-div .ls-product {
     margin-bottom: 0px;
-    min-height: 130px;
+    min-height: 100px;
     background-position: center;
   }
 
@@ -19981,7 +20030,7 @@ input:disabled + .checkmark + .text {
     width: 100% !important;
     background: #0c1c31;
     color: #ffffff;
-    position: absolute;
+    position: fixed;
     z-index: 100;
     display: none;
   }
@@ -20005,14 +20054,32 @@ input:disabled + .checkmark + .text {
     border-right: solid 10px transparent;
   }
 
+  .listing .listing-container .filters .fix-search,
+  .category-page .listing-container .filters .fix-search {
+    margin-top: 0 !important;
+  }
+
   .listing .listing-container .filters hr,
   .category-page .listing-container .filters hr {
     color: #ffffff;
+    border-top: 1px solid #ebebeb;
   }
 
   .listing .listing-container .filters .filter,
   .category-page .listing-container .filters .filter {
-    text-align: center;
+    text-align: left;
+  }
+
+  .listing .listing-container .filters .filter .filter-header,
+  .category-page .listing-container .filters .filter .filter-header {
+    color: #ffcc00;
+    font-size: 20px;
+  }
+
+  .listing .listing-container .filters .filter .clear-filter,
+  .category-page .listing-container .filters .filter .clear-filter {
+    color: #fefce0;
+    font-family: Marcellus;
   }
 
   .listing .listing-container .filters .filter ul,
@@ -20024,8 +20091,12 @@ input:disabled + .checkmark + .text {
 
   .listing .listing-container .filters .filter ul li,
   .category-page .listing-container .filters .filter ul li {
-    display: inline-block;
     margin-right: 10px;
+  }
+
+  .listing .listing-container .filters .filter ul li .filter-label,
+  .category-page .listing-container .filters .filter ul li .filter-label {
+    font-size: 16px;
   }
 
   .listing .listing-container .filters .filter ul li .filter-label .checkmark,
@@ -20042,6 +20113,21 @@ input:disabled + .checkmark + .text {
     border: solid #f2f4f3;
     border-width: 0 3px 3px 0;
     transform: rotate(45deg);
+  }
+
+  .listing .listing-container .filters .filter .irs-to,
+  .category-page .listing-container .filters .filter .irs-to {
+    color: #0c1c31;
+  }
+
+  .listing .listing-container .filters .filter .irs-from,
+  .category-page .listing-container .filters .filter .irs-from {
+    color: #0c1c31;
+  }
+
+  .listing .listing-container .filters .filter .irs--sharp,
+  .category-page .listing-container .filters .filter .irs--sharp {
+    margin-top: 15px;
   }
 
   .listing .listing-container .filters .filter .irs-line,
@@ -20245,6 +20331,40 @@ input:disabled + .checkmark + .text {
   font-size: 25px;
 }
 
+.ekko-lightbox-nav-overlay {
+  z-index: 1;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.ekko-lightbox-nav-overlay a {
+  align-items: center;
+  transition: opacity 0.5s;
+  color: #ffcc00;
+  font-size: 30px;
+  z-index: 1;
+  text-decoration: none;
+}
+
+.ekko-lightbox-nav-overlay a span {
+  padding: 0 30px;
+  color: #ffcc00;
+}
+
+.ekko-lightbox-nav-overlay a > * {
+  flex-grow: 1;
+}
+
+.detailspage .wishlist-icon-modal.marked-icon .-icon {
+  font-weight: 900;
+}
+
 .products-modal-details {
   overflow: scroll;
   height: 65vh;
@@ -20296,6 +20416,358 @@ input:disabled + .checkmark + .text {
 
 .product-modal-dialog {
   margin: 0 auto;
+}
+
+@media (min-width: 768px) {
+  .detailspage-main-div .detailspage .wishlist-icon {
+    position: absolute;
+    right: 0px;
+    top: 0;
+    font-size: 21px;
+  }
+}
+
+.detailspage-main-div .detailspage .wishlist-icon.marked .-icon {
+  font-weight: 900;
+}
+
+.detailspage-main-div .detailspage .wishlist-icon.marked-icon .-icon {
+  font-weight: 900;
+}
+
+.detailspage-main-div .detailspage .wishlist-icon-modal.marked-icon .-icon {
+  font-weight: 900;
+}
+
+.detailspage-main-div .detailspage .filters.filters-mobile {
+  width: 100% !important;
+  background: #0c1c31;
+  color: #ffffff;
+  position: absolute;
+  z-index: 100;
+  display: none;
+}
+
+.detailspage-main-div .detailspage .filters.filters-mobile.show {
+  display: block;
+}
+
+.detailspage-main-div .detailspage .filters.filters-mobile .single-filter {
+  margin: 20px;
+}
+
+.detailspage-main-div .detailspage .filters.filters-mobile .single-filter .select .select-styled {
+  background: white;
+  border-radius: 10px;
+  padding-right: 50px;
+  min-width: 220px;
+}
+
+.detailspage-main-div .detailspage .filters.filters-mobile .single-filter .select .select-styled::after {
+  border: none;
+  background: url(/images/filter-arrow.png?d6dca143ac1004d323e0bcf2e2c628f3);
+  width: 41px;
+  height: 41px;
+  top: 0px;
+  right: -20px;
+  background-size: cover;
+  border-radius: 0 10px 10px 0;
+}
+
+.detailspage-main-div .detailspage .filters.filters-mobile .single-filter .select-label {
+  margin-right: 10px;
+  font-size: 16px;
+  color: #ffcc00;
+}
+
+.detailspage-main-div .detailspage .filters.filters-mobile .single-filter ul li {
+  display: inline-block;
+}
+
+.detailspage-main-div .detailspage .filters.filters-mobile .single-filter ul li .container .checkmark {
+  border: 1px solid #ffffff !important;
+}
+
+.detailspage-main-div .detailspage .filters.filters-mobile .single-filter ul li .container .checkmark:after {
+  left: 4px;
+  top: 1px;
+  width: 5px;
+  height: 10px;
+  border: solid #f2f4f3;
+  border-width: 0 3px 3px 0;
+  transform: rotate(45deg);
+}
+
+.detailspage-main-div .detailspage .filters.filters-mobile .single-filter .irs-line {
+  border: 1px solid #ffffff;
+  background-color: #ffffff !important;
+}
+
+.detailspage-main-div .detailspage .zoom-img-variation {
+  cursor: zoom-in;
+}
+
+.detailspage-main-div .detailspage .carousel-img {
+  cursor: pointer;
+}
+
+.detailspage-main-div .detailspage .controls-div {
+  height: 33px;
+}
+
+.detailspage-main-div .detailspage .controls-div .-icon {
+  font-size: 22px;
+  margin: 5px;
+}
+
+.detailspage-main-div .detailspage .-images-container {
+  height: 480px;
+  overflow-x: auto;
+  margin: 0px 0px 15px 0px;
+}
+
+@media (min-width: 768px) {
+  .detailspage-main-div .detailspage .-images-container {
+    margin: 15px 0px;
+  }
+}
+
+.detailspage-main-div .detailspage .-images-container .-images {
+  overflow-y: scroll;
+  height: 480px;
+  white-space: nowrap;
+  padding: 15px 0;
+}
+
+.detailspage-main-div .detailspage .-images-container .-images .-prod-img {
+  max-height: 100%;
+  display: block;
+}
+
+.detailspage-main-div .detailspage .responsive {
+  height: auto;
+  max-width: 100%;
+}
+
+.detailspage-main-div .detailspage .responsive .slick-slide {
+  margin: 0px;
+  padding: 0px;
+}
+
+.detailspage-main-div .detailspage .responsive .slick-track {
+  margin: 0px;
+}
+
+.detailspage-main-div .detailspage .responsive .mini-carousel-item .carousel-img {
+  margin: 0px;
+}
+
+.detailspage-main-div .detailspage .brand-header {
+  padding-bottom: 5px;
+  border-bottom: 2px solid #ccc;
+  margin-bottom: 10px;
+}
+
+.detailspage-main-div .detailspage .prod-price-card {
+  font-size: 24px;
+  font-weight: 600;
+}
+
+.detailspage-main-div .detailspage .prod-price-card .pdp-buy-btn {
+  width: 100%;
+  color: #ffcc00;
+  background-color: #0c1c31;
+  font-size: 24px;
+  border-radius: 10px;
+  margin: 15px 0px;
+}
+
+.detailspage-main-div .detailspage .prod-price-card .pdp-buy-btn:hover {
+  opacity: 0.9;
+  color: #ffcc00;
+}
+
+.detailspage-main-div .detailspage .prod-price-card .select-label {
+  display: block;
+  font-weight: 400;
+  text-transform: capitalize;
+  font-size: 16px;
+  margin: 10px 0px;
+}
+
+.detailspage-main-div .detailspage .prod-price-card .select {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.detailspage-main-div .detailspage .prod-price-card .select .select-styled {
+  padding: 5px 15px;
+  border: 1px solid #ffcc00;
+  border-radius: 4px;
+}
+
+.detailspage-main-div .detailspage .prod-price-card .select .select-options {
+  max-height: 250px;
+  overflow-y: scroll;
+}
+
+.detailspage-main-div .detailspage .prod-price-card .select .select-options li {
+  text-align: center;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+.detailspage-main-div .detailspage .rating-container {
+  margin: auto auto 10px auto;
+}
+
+.detailspage-main-div .detailspage .rating-container .rating {
+  margin-left: 0px;
+  vertical-align: middle;
+}
+
+.drift-zoom-pane {
+  position: absolute;
+  width: 150px;
+  height: 150px;
+  border-radius: 75px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.3) !important;
+}
+
+.drift-zoom-pane.carousel-zoom-pane {
+  margin-top: 100px;
+}
+
+@media (max-width: 991.98px) {
+  .-product-details {
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: 600;
+  }
+
+  .-product-details .pdp-buy-btn {
+    width: 100%;
+    color: #ffcc00;
+    background-color: #0c1c31;
+    font-size: 24px;
+    border-radius: 10px;
+    margin: 10px 0px;
+  }
+
+  .prod-desc {
+    padding: 0px;
+    overflow: hidden;
+  }
+
+  .detailspage .container {
+    padding: 0px;
+  }
+
+  .tab-content {
+    padding: 15px;
+  }
+}
+
+.tab-pane {
+  margin-top: 10px;
+}
+
+.card .card-header {
+  background: #0c1c31;
+}
+
+.card .card-header .btn-link:hover {
+  text-decoration: none;
+}
+
+.card .card-header .btn.btn-link {
+  width: 100%;
+  text-align: left;
+}
+
+.card .card-header .btn.btn-link:hover {
+  color: #e4cd00;
+}
+
+.card .card-header .btn.btn-link .-text {
+  color: #ffcc00;
+}
+
+.card .card-header .btn.btn-link .-text:hover {
+  color: #e4cd00;
+}
+
+.card .card-header .btn.btn-link .-text:after {
+  content: "";
+  width: 0;
+  height: 0;
+  border: 5px solid transparent;
+  border-color: #ffcc00 transparent transparent transparent;
+  top: 10px;
+  left: 7px;
+  position: relative;
+}
+
+.close-main-btn {
+  position: absolute;
+  right: 0;
+  font-size: 30px;
+  margin: 20px;
+  z-index: 1000;
+  cursor: pointer;
+}
+
+.prod-main-img {
+  display: none;
+}
+
+.box {
+  max-width: 1080px;
+  margin: auto;
+}
+
+.-text {
+  color: #0c1c31;
+}
+
+#scroll-bar-img ::-webkit-scrollbar {
+  width: 20px;
+}
+
+#scroll-bar-img ::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 5px grey;
+  border-radius: 10px;
+}
+
+#scroll-bar-img ::-webkit-scrollbar-thumb {
+  background: #ffcc00;
+  border-radius: 10px;
+}
+
+#scroll-bar-img ::-webkit-scrollbar-thumb:hover {
+  background: #ffcc00ba;
+}
+
+.btn-link-text {
+  font-size: 14px;
+  background: none;
+  border: none;
+  margin: 0;
+  padding: 0;
+  cursor: pointer;
+}
+
+.btn-link-text:after {
+  content: ">";
+  background: none;
+  margin: 0;
+  padding: 0;
+  cursor: pointer;
+  border: 5px solid transparent;
+  border-color: #ffcc00 transparent transparent transparent;
+  font-size: 14px;
+  background: #ffed4a;
 }
 
 .products-container {
@@ -20360,7 +20832,7 @@ input:disabled + .checkmark + .text {
   margin: 15px;
   top: 0px;
   right: 0px;
-  z-index: 100;
+  z-index: 50;
 }
 
 .products-container .ls-prod-container .ls-product-div .ls-product .wishlist-icon .-icon {
@@ -20431,6 +20903,10 @@ input:disabled + .checkmark + .text {
 
 .detailspage-main-div .detailspage .wishlist-icon.marked .-icon {
   font-weight: 900;
+}
+
+.detailspage-main-div .detailspage .product-navigator {
+  margin: 5px;
 }
 
 .detailspage-main-div .detailspage .filters.filters-mobile {
@@ -20669,6 +21145,10 @@ input:disabled + .checkmark + .text {
 
   .-product-details span {
     color: #000;
+  }
+
+  .description-title {
+    font-weight: bold;
   }
 
   .prod-desc {
