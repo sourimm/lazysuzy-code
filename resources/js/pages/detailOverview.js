@@ -198,7 +198,6 @@ $(document).ready(function() {
         itemSelector: 'a',
         navigateByKeyboard: true,
         captionPosition: 'dynamic',
-        caption: 'caption',
         layouts: {
             closeButton:
                 '<button type="button" class="slick-lightbox-close"></button>'
