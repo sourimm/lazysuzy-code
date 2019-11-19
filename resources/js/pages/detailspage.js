@@ -2,7 +2,7 @@ import * as multiCarouselFuncs from '../components/multi-carousel'
 import makeSelectBox from '../components/custom-selectbox'
 import Drift from 'drift-zoom'
 import isMobile from '../app.js'
-require('ekko-lightbox')
+require('slick-lightbox')
 var md = require('markdown-it')()
 
 $(document).ready(function() {
@@ -41,18 +41,18 @@ $(document).ready(function() {
                 $('.wishlist-icon').addClass('marked')
             }
             data.on_server_images.forEach(img => {
-                var lightbox = jQuery('<a/>', {
-                    class: 'hello',
-                    href: img,
-                    // text: 'hello',
-                    'data-toggle': 'lightbox',
-                    'data-gallery': 'gallery'
+                var div = jQuery('<div/>', {
+                    class: 'single'
                 }).appendTo($images)
+                var a = jQuery('<a/>', {
+                    href: img,
+                    'data-caption': ''
+                }).appendTo(div)
                 var responsiveImg = jQuery('<img/>', {
                     class: '-prod-img img-fluid',
                     src: img,
                     alt: 'product image'
-                }).appendTo(lightbox)
+                }).appendTo(a)
             })
 
             var $prodDetails = $('<div />', {
@@ -227,6 +227,22 @@ $(document).ready(function() {
         error: function(jqXHR, exception) {
             console.log(jqXHR)
             console.log(exception)
+        }
+    })
+    $('.-images').slick({
+        infinite: true,
+        slidesToShow: 3,
+        slidesToScroll: 1,
+        mobileFirst: true
+    })
+    $('.-images').slickLightbox({
+        itemSelector: 'a',
+        navigateByKeyboard: true,
+        captionPosition: 'dynamic',
+        caption: 'caption',
+        layouts: {
+            closeButton:
+                '<button type="button" class="slick-lightbox-close"></button>'
         }
     })
 
