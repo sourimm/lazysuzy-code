@@ -623,7 +623,7 @@ class Product extends Model
                 //echo "<br>";
                 $i += 2;
 
-                if (strlen($new_str) > 3) {
+                if (strlen($new_str) >= 3) {
                     $new_str = "**" . $new_str . "**";
                     $new_Arr[] = $new_str;
                     $new_str = "";
