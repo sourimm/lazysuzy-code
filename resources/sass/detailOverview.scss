@@ -12,16 +12,13 @@
         .slick-lightbox-close::before {
             font-size: 50px !important;
         }
+        .slick-prev::before,
+        .slick-next::before {
+            color: $white !important;
+            font-size: 50px !important;
+            z-index: 100;
+        }
     }
-}
-.slick-prev,
-.slick-next {
-    height: 40px !important;
-    width: 40px !important;
-    border-radius: 25px;
-    background: $white !important;
-    color: $products-bg !important;
-    z-index: 100;
 }
 
 //modal code
@@ -309,22 +306,19 @@
         }
     }
     @media screen and (max-width: 480px) {
-        div.ekko-lightbox {
-            .modal-header {
-                display: flex;
-                align-items: flex-start;
-                justify-content: space-between;
-                border-top-left-radius: 0;
-                border-top-right-radius: 0;
-                border-bottom: 0;
-                height: 25px;
-            }
-            .modal-dialog {
-                margin-top: 150px !important;
-            }
-            .close {
-                span {
-                    font-size: 1.5em;
+        .slick-lightbox {
+            .slick-lightbox-inner {
+                .slick-lightbox-close::before {
+                    font-size: 50px !important;
+                }
+                .slick-prev::before,
+                .slick-next::before {
+                    color: $white !important;
+                    font-size: 50px !important;
+                }
+                .slick-prev,
+                .slick-next {
+                    z-index: 100;
                 }
             }
         }
