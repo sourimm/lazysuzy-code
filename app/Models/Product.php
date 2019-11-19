@@ -661,7 +661,9 @@ class Product extends Model
             $i++;
         }
 
-
+        for($i = 0; $i < sizeof($new_Arr); $i++) {
+            $new_Arr[$i] = str_replace([chr(13), "\n", " "], " ", $new_Arr[$i]);
+        }
         return $new_Arr;
     }
 
