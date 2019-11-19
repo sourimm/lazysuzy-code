@@ -45,8 +45,7 @@ $(document).ready(function() {
                     class: 'hello',
                     href: img,
                     // text: 'hello',
-                    'data-toggle': 'lightbox',
-                    'data-gallery': 'gallery'
+                    'data-caption': ''
                 }).appendTo($images)
                 var responsiveImg = jQuery('<img/>', {
                     class: '-prod-img img-fluid',
@@ -395,7 +394,7 @@ $(document).ready(function() {
             var responsiveImg = jQuery('<img/>', {
                 class: 'zoom-img carousel-img img-fluid',
                 src: img,
-                'data-caption': '',
+
                 'data-zoom': img
             }).appendTo(anchor)
 
