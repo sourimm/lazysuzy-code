@@ -395,6 +395,7 @@ $(document).ready(function() {
             var responsiveImg = jQuery('<img/>', {
                 class: 'zoom-img carousel-img img-fluid',
                 src: img,
+                'data-caption': '',
                 'data-zoom': img
             }).appendTo(anchor)
 
