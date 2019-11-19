@@ -2,6 +2,7 @@ import * as multiCarouselFuncs from '../components/multi-carousel'
 import makeSelectBox from '../components/custom-selectbox'
 import Drift from 'drift-zoom'
 import isMobile from '../app.js'
+require('ekko-lightbox')
 var md = require('markdown-it')()
 
 $(document).ready(function() {
