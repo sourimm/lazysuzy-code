@@ -2,7 +2,8 @@ import * as multiCarouselFuncs from '../components/multi-carousel';
 import makeSelectBox from '../components/custom-selectbox';
 import Drift from 'drift-zoom';
 import isMobile from '../app.js';
-var md = require('markdown-it')({ html: true, breaks: true });
+require('slick-lightbox');
+var md = require('markdown-it')();
 
 $(document).ready(function() {
     const PDP_API = '/api' + window.location.pathname;
@@ -226,6 +227,21 @@ $(document).ready(function() {
         error: function(jqXHR, exception) {
             console.log(jqXHR);
             console.log(exception);
+        }
+    });
+    $('.-images').slick({
+        infinite: true,
+        slidesToShow: 3,
+        slidesToScroll: 1,
+        mobileFirst: true
+    });
+    $('.-images').slickLightbox({
+        itemSelector: 'a',
+        navigateByKeyboard: true,
+        captionPosition: 'dynamic',
+        layouts: {
+            closeButton:
+                '<button type="button" class="slick-lightbox-close"></button>'
         }
     });
 
