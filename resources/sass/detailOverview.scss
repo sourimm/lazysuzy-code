@@ -7,20 +7,21 @@
         }
     }
 }
-div.ekko-lightbox {
-    button.close {
-        span {
-            font-size: 2em;
-            z-index: 10;
+.slick-lightbox {
+    .slick-lightbox-inner {
+        .slick-lightbox-close::before {
+            font-size: 50px !important;
         }
     }
 }
-
-div.ekko-lightbox div.modal-dialog {
-    max-width: 100% !important;
-}
-.ekko-lightbox-container {
-    height: 100% !important;
+.slick-prev,
+.slick-next {
+    height: 40px !important;
+    width: 40px !important;
+    border-radius: 25px;
+    background: $white !important;
+    color: $products-bg !important;
+    z-index: 100;
 }
 
 //modal code
