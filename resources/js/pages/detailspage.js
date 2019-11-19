@@ -41,18 +41,18 @@ $(document).ready(function() {
                 $('.wishlist-icon').addClass('marked')
             }
             data.on_server_images.forEach(img => {
-                var div = jQuery('<div/>', {
-                    class: 'single'
-                }).appendTo($images)
-                var a = jQuery('<a/>', {
+                var lightbox = jQuery('<a/>', {
+                    class: 'hello',
                     href: img,
-                    'data-caption': ''
-                }).appendTo(div)
+                    // text: 'hello',
+                    'data-toggle': 'lightbox',
+                    'data-gallery': 'gallery'
+                }).appendTo($images)
                 var responsiveImg = jQuery('<img/>', {
                     class: '-prod-img img-fluid',
                     src: img,
                     alt: 'product image'
-                }).appendTo(a)
+                }).appendTo(lightbox)
             })
 
             var $prodDetails = $('<div />', {

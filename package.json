@@ -31,6 +31,7 @@
         "ekko-lightbox": "^5.3.0",
         "ion-rangeslider": "^2.3.0",
         "markdown-it": "^10.0.0",
-        "slick-carousel": "^1.8.1"
+        "slick-carousel": "^1.8.1",
+        "slick-lightbox": "^0.2.10"
     }
 }
