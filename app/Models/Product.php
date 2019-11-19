@@ -617,14 +617,13 @@ class Product extends Model
                 else $i += 2;
 
                 while (isset($str[$i]) && $str[$i] != "*" && ord($str[$i]) != 13) {
-                    // echo $str[$i];
+                    ///echo $str[$i];
                     $new_str .= $str[$i++];
                 }
-
-
+                //echo "<br>";
                 $i += 2;
 
-                if (strlen($new_str) > 6) {
+                if (strlen($new_str) > 3) {
                     $new_str = "**" . $new_str . "**";
                     $new_Arr[] = $new_str;
                     $new_str = "";
@@ -641,32 +640,39 @@ class Product extends Model
                 }
             } else if (($str[$i] === "*" && $str[$i + 1] !== "*") || ($str[$i] != "*" && $str[$i - 1] === "*")) {
                 while (isset($str[$i]) && $str[$i] != "\n") {
+                    // echo $str[$i];
                     $new_str .= $str[$i++];
                 }
+                //echo "<br>";
+                //echo "I = > $i" . $str[$i] . "<br>";  
                 if (strlen($new_str) > 6) {
                     $new_Arr[] = "*" . $new_str;
                     $new_str = "";
                 }
+            } else {
+
+                while (isset($str[$i]) && !in_array($str[$i], $pre_delimeters)) {
+                    //echo $str[$i];
+                    $new_str .= $str[$i++];
+                }
+                //echo "<br>";
+
+                if (strlen($new_str) > 6) {
+                    $new_Arr[] = $new_str;
+                    $new_str = "";
+                }
             }
 
-            while (isset($str[$i]) && !in_array($str[$i], $pre_delimeters)) {
-                $new_str .= $str[$i++];
-            }
 
-            if (strlen($new_str) > 6) {
-                $new_Arr[] = $new_str;
-                $new_str = "";
-            }
 
             $i++;
         }
 
-        /* for($i = 0; $i < sizeof($new_Arr); $i++) {
-            $new_Arr[$i] = str_replace(["\n", " "], " ", $new_Arr[$i]);
-        } */
+        for ($i = 0; $i < sizeof($new_Arr); $i++) {
+            $new_Arr[$i] = str_replace([chr(13), "\n", " "], " ", $new_Arr[$i]);
+        }
         return $new_Arr;
     }
-
 
 
     public static function format_desc_new($desc)
