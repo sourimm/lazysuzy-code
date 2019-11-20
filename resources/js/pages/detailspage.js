@@ -1,9 +1,12 @@
-import * as multiCarouselFuncs from '../components/multi-carousel';
-import makeSelectBox from '../components/custom-selectbox';
-import Drift from 'drift-zoom';
-import isMobile from '../app.js';
-require('slick-lightbox');
-var md = require('markdown-it')();
+import * as multiCarouselFuncs from '../components/multi-carousel'
+import makeSelectBox from '../components/custom-selectbox'
+import Drift from 'drift-zoom'
+import isMobile from '../app.js'
+require('slick-lightbox')
+var md = require('markdown-it')({
+    html: true,
+    breaks: true
+})
 
 $(document).ready(function() {
     const PDP_API = '/api' + window.location.pathname;
@@ -45,9 +48,8 @@ $(document).ready(function() {
                     class: 'hello',
                     href: img,
                     // text: 'hello',
-                    'data-toggle': 'lightbox',
-                    'data-gallery': 'gallery'
-                }).appendTo($images);
+                    'data-caption': ''
+                }).appendTo($images)
                 var responsiveImg = jQuery('<img/>', {
                     class: '-prod-img img-fluid',
                     src: img,
@@ -394,6 +396,7 @@ $(document).ready(function() {
             var responsiveImg = jQuery('<img/>', {
                 class: 'zoom-img carousel-img img-fluid',
                 src: img,
+
                 'data-zoom': img
             }).appendTo(anchor);
 
