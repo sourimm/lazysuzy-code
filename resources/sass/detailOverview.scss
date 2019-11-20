@@ -7,20 +7,18 @@
         }
     }
 }
-div.ekko-lightbox {
-    button.close {
-        span {
-            font-size: 2em;
-            z-index: 10;
+.slick-lightbox {
+    .slick-lightbox-inner {
+        .slick-lightbox-close::before {
+            font-size: 50px !important;
+        }
+        .slick-prev::before,
+        .slick-next::before {
+            color: $white !important;
+            font-size: 50px !important;
+            z-index: 100;
         }
     }
-}
-
-div.ekko-lightbox div.modal-dialog {
-    max-width: 100% !important;
-}
-.ekko-lightbox-container {
-    height: 100% !important;
 }
 
 //modal code
@@ -308,22 +306,20 @@ div.ekko-lightbox div.modal-dialog {
         }
     }
     @media screen and (max-width: 480px) {
-        div.ekko-lightbox {
-            .modal-header {
-                display: flex;
-                align-items: flex-start;
-                justify-content: space-between;
-                border-top-left-radius: 0;
-                border-top-right-radius: 0;
-                border-bottom: 0;
-                height: 25px;
-            }
-            .modal-dialog {
-                margin-top: 150px !important;
-            }
-            .close {
-                span {
-                    font-size: 1.5em;
+        .slick-lightbox {
+            .slick-lightbox-inner {
+                .slick-lightbox-close::before {
+                    font-size: 50px !important;
+                }
+                .slick-prev::before,
+                .slick-next::before {
+                    color: $white !important;
+                    font-size: 50px !important;
+                }
+                .slick-prev,
+                .slick-next {
+                    z-index: 100;
+                    margin-top: -20px;
                 }
             }
         }

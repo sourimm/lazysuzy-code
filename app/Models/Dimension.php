@@ -4,13 +4,14 @@ use Illuminate\Database\Eloquent\Model;
 
 class Dimension extends Model
 {
-    public static $CLEAN_SYMBOLS = [];
+    public static $CLEAN_SYMBOLS = [ ];
     public static $DIMS = [
         'w' => 'width', 
-        'h' => 'height', 
+        'h' => 'height',
+        'h.' => 'height', 
         'd' => 'depth', 
         'l' => 'length', 
-        'dia' => 'diameter', 
+        'dia' => 'diameter',  
         'diam' => 'diameter'
     ];
 
