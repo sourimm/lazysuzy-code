@@ -49,7 +49,7 @@
                                     </div>
                                     <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
                                         <div class="card-body">
-                                            <ul class="-features"></ul>
+                                            <div class="-features"></div>
                                         </div>
                                     </div>
                                 </div>
