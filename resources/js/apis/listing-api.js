@@ -482,7 +482,7 @@ $(document).ready(function() {
                 );
             }
 
-            $('#filters').append('<hr/>');
+            // $('#filters').append('<hr/>')
         } else {
             Object.keys(filterData).forEach((key, index) => {
                 const data = filterData[key];
