@@ -34,6 +34,7 @@ $(document).ready(function() {
     const FAV_MARK_API = '/api/mark/favourite/'
     const FAV_UNMARK_API = '/api/unmark/favourite/'
     const PRODUCT_URL = location.origin + '/product/'
+    const PRODUCT_URL_LOCATION = '/product/'
     var totalResults = 0
     var UrlSearchParams = new Object()
     var objGlobalFilterData
@@ -117,7 +118,7 @@ $(document).ready(function() {
                 contentType: 'application/json; charset=utf-8',
                 success: function(data) {
                     bFetchingProducts = false
-                    console.log(data)
+
                     if (bClearPrevProducts) {
                         $('#productsContainerDiv').empty()
                         totalResults = 0
@@ -174,8 +175,14 @@ $(document).ready(function() {
         }).appendTo('#productsContainerDiv')
 
         var productLink = jQuery('<a/>', {
-            href: PRODUCT_URL + productDetails._source.product_sku
+            href: PRODUCT_URL_LOCATION + productDetails._source.product_sku,
+            class: 'product-detail-modal'
         }).appendTo(mainProductDiv)
+
+        // var productLink = jQuery('<a/>', {
+        //     href: PRODUCT_URL + productDetails.sku,
+        //     class: 'product-detail-modal'
+        // }).appendTo(mainProductDiv)
 
         var product = jQuery('<div/>', {
             class: 'ls-product'
@@ -561,7 +568,6 @@ $(document).ready(function() {
 
     $('body').on('click', '.dropdown-submenu a', function(e) {
         if (isMobile()) {
-            console.log('clicked')
             // early return if the parent has no hover-class
             if (!$(this).hasClass('hover')) return
 
@@ -596,7 +602,6 @@ $(document).ready(function() {
             url: strApiToCall,
             dataType: 'json',
             success: function(data) {
-                console.log(data)
                 if (!$elm.hasClass('marked')) {
                     $elm.addClass('marked')
                 } else {

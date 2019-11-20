@@ -156,10 +156,11 @@ class Product extends Model
 
             if (
                 isset($all_filters['colors'])
-                && strlen($all_filters['colors'][0]) > 0) {
+                && strlen($all_filters['colors'][0]) > 0
+            ) {
                 $query = $query
                     ->whereRaw('color REGEXP "' . $all_filters['colors'][0] . '"');
-                    // input in form - color1|color2|color3
+                // input in form - color1|color2|color3
             }
         }
 
@@ -334,7 +335,7 @@ class Product extends Model
             "white" => "#ffffff",
         ];
 
-        foreach($colors as $key => $color_hex) {
+        foreach ($colors as $key => $color_hex) {
             $colors[$key] = [
                 'name' => ucfirst($key),
                 'value' => strtolower($key),
@@ -342,9 +343,9 @@ class Product extends Model
                 'enabled' => false
             ];
         }
-        foreach($products as $product) {
+        foreach ($products as $product) {
             $product_colors = explode(",", $product->color);
-            foreach($product_colors as $p_color) {
+            foreach ($product_colors as $p_color) {
                 if (strlen($p_color) > 0 && array_key_exists(strtolower($p_color), $colors)) {
                     $colors[strtolower($p_color)]['name'] = ucfirst($p_color);
                     $colors[strtolower($p_color)]['enabled'] = true;
@@ -353,13 +354,14 @@ class Product extends Model
         }
 
         $colors_f = [];
-        foreach($colors as $key => $color) {
+        foreach ($colors as $key => $color) {
             array_push($colors_f, $color);
         }
 
         return $colors_f;
     }
-    public static function get_sub_cat_data($dept, $cat) {
+    public static function get_sub_cat_data($dept, $cat)
+    {
 
         $sub_cat_LS_IDs = DB::table("mapping_core")
             ->select(["product_sub_category", "product_sub_category_", "LS_ID"])
@@ -369,9 +371,9 @@ class Product extends Model
             $sub_cat_LS_IDs = $sub_cat_LS_IDs->where("product_category_", $cat);
 
         return $sub_cat_LS_IDs->whereRaw("LENGTH(product_sub_category_) != 0")->get();
-
     }
-    public static function get_filter_products_meta($dept, $cat, $subCat, $all_filters) {
+    public static function get_filter_products_meta($dept, $cat, $subCat, $all_filters)
+    {
 
         $LS_IDs = Product::get_dept_cat_LS_ID_arr($dept, $cat);
 
@@ -393,8 +395,7 @@ class Product extends Model
             $products = $products->whereIn('site_name', $all_filters['brand']);
         }
 
-     return $products->get();
-
+        return $products->get();
     }
 
     public static function get_product_type_filter($dept, $cat, $subCat, $all_filters)
@@ -477,10 +478,10 @@ class Product extends Model
         if (Auth::check()) {
             $user = Auth::user();
             $w_products = DB::table("user_wishlists")
-                        ->select("product_id")
-                        ->where("user_id", $user->id)
-                        ->where("is_active", 1)
-                        ->get();
+                ->select("product_id")
+                ->where("user_id", $user->id)
+                ->where("is_active", 1)
+                ->get();
 
             // cleaning the array
             foreach ($w_products as $p)
@@ -536,8 +537,7 @@ class Product extends Model
         if (isset($price_bits[1]) && isset($was_price_bits[1])) {
             $p_val = $price_bits[0];
             $wp_val = $was_price_bits[0];
-        }
-        else {
+        } else {
             $p_val = $p_price;
             $wp_val =  $wp_price;
         }
@@ -550,7 +550,7 @@ class Product extends Model
         $data =  [
             'id'               => $product->id,
             'sku'              => $product->product_sku,
-        //    'sku_hash'         => $product->sku_hash,
+            //    'sku_hash'         => $product->sku_hash,
             'site'             => $product->name,
             'name'             => $product->product_name,
             'product_url'      => urldecode($product->product_url),
@@ -559,23 +559,23 @@ class Product extends Model
             'was_price'        => $product->was_price,
             'percent_discount' => $discount,
             'model_code'       => $product->model_code,
-        //    'description'      => preg_split("/\\[US\\]|<br>|\\n/", $product->product_description),
-        //    'dimension'        => $product->site_name == "cb2" ? Product::cb2_dimensions($product->product_dimension) : $product->product_dimension,
-        //    'thumb'            => preg_split("/,|\\[US\\]/", $product->thumb),
+            //    'description'      => preg_split("/\\[US\\]|<br>|\\n/", $product->product_description),
+            //    'dimension'        => $product->site_name == "cb2" ? Product::cb2_dimensions($product->product_dimension) : $product->product_dimension,
+            //    'thumb'            => preg_split("/,|\\[US\\]/", $product->thumb),
             'color'            => $product->color,
-        //    'images'           => array_map([__CLASS__, "baseUrl"], preg_split("/,|\\[US\\]/", $product->images)),
-        //    'features'         => preg_split("/\\[US\\]|<br>|\\n/", $product->product_feature),
+            //    'images'           => array_map([__CLASS__, "baseUrl"], preg_split("/,|\\[US\\]/", $product->images)),
+            //    'features'         => preg_split("/\\[US\\]|<br>|\\n/", $product->product_feature),
             'collection'       => $product->collection,
-        //    'set'              => $product->product_set,
+            //    'set'              => $product->product_set,
             'condition'        => $product->product_condition,
-        //    'created_date'     => $product->created_date,
-        //    'updated_date'     => $product->updated_date,
-        //    'on_server_images' => array_map([__CLASS__, "baseUrl"], preg_split("/,|\\[US\\]/", $product->product_images)),
+            //    'created_date'     => $product->created_date,
+            //    'updated_date'     => $product->updated_date,
+            //    'on_server_images' => array_map([__CLASS__, "baseUrl"], preg_split("/,|\\[US\\]/", $product->product_images)),
             'main_image'       => Product::$base_siteurl . $product->main_product_images,
             'reviews'          => $product->reviews,
             'rating'           => (float) $product->rating,
             'wishlisted'       => $isMarked
-        //    'LS_ID'            => $product->LS_ID,
+            //    'LS_ID'            => $product->LS_ID,
 
 
         ];
@@ -590,34 +590,98 @@ class Product extends Model
         $desc_BRANDS = ["West Elm"];
 
         if (!$isListingAPICall) {
-            $data['description'] = in_array($product->name, $desc_BRANDS)  ? Product::format_desc($product->product_description) : preg_split("/\\[US\\]|<br>|\\n/", $product->product_description);
+            $data['description'] = in_array($product->name, $desc_BRANDS)  ? Product::format_desc_new($product->product_description) : preg_split("/\\[US\\]|<br>|\\n/", $product->product_description);
             $data['dimension'] = Product::normalize_dimension($product->product_dimension, $product->site_name);
             $data['thumb'] = preg_split("/,|\\[US\\]/", $product->thumb);
-            $data['features'] = in_array($product->name, $desc_BRANDS) ? Product::format_desc($product->product_feature) : preg_split("/\\[US\\]|<br>|\\n|\|/", $product->product_feature);
+            $data['features'] = in_array($product->name, $desc_BRANDS) ? Product::format_desc_new($product->product_feature) : preg_split("/\\[US\\]|<br>|\\n|\|/", $product->product_feature);
             $data['on_server_images'] = array_map([__CLASS__, "baseUrl"], preg_split("/,|\\[US\\]/", $product->product_images));
             $data['department_info'] = Department::get_department_info($product->LS_ID);
             return $data;
-        }
-        else {
+        } else {
             return $data;
         }
     }
-    public static function format_desc($desc) {
-        $desc_arr = preg_split("/\\[US\\]|<br>|\\n/", $desc);
-        $new_desc = [];
 
-        foreach($desc_arr as $line) {
+    public static function restructure_str($str)
+    {
+        $str = str_replace("\\n", "", $str);
+        $pre_delimeters = ["*", "#"];
+        $i = 0;
+        $new_str = "";
+        $new_Arr = [];
+        while ($i < strlen($str)) {
+
+            if (($str[$i] === "*" && $str[$i + 1] === "*") || ($str[$i] === "*" && $str[$i - 1] === "*")) {
+
+                if ($str[$i - 1] == "*") $i += 1;
+                else $i += 2;
+
+                while (isset($str[$i]) && $str[$i] != "*" && ord($str[$i]) != 13) {
+                    // echo $str[$i];
+                    $new_str .= $str[$i++];
+                }
+
+
+                $i += 2;
+
+                if (strlen($new_str) > 6) {
+                    $new_str = "**" . $new_str . "**";
+                    $new_Arr[] = $new_str;
+                    $new_str = "";
+                }
+            } else if (($str[$i] === "#" && $str[$i + 1] === "#") || ($str[$i] === "#" && $str[$i - 1] === "#")) {
+                while ($str[$i] != "\n") {
+                    $new_str .= $str[$i++];
+                }
+
+                $new_str = "**" . str_replace("#", "", $new_str) . "**";
+                if (strlen($new_str) > 6) {
+                    $new_Arr[] = $new_str;
+                    $new_str = "";
+                }
+            } else if (($str[$i] === "*" && $str[$i + 1] !== "*") || ($str[$i] != "*" && $str[$i - 1] === "*")) {
+                while (isset($str[$i]) && $str[$i] != "\n") {
+                    $new_str .= $str[$i++];
+                }
+                if (strlen($new_str) > 6) {
+                    $new_Arr[] = "*" . $new_str;
+                    $new_str = "";
+                }
+            }
+
+            while (isset($str[$i]) && !in_array($str[$i], $pre_delimeters)) {
+                $new_str .= $str[$i++];
+            }
+
+            if (strlen($new_str) > 6) {
+                $new_Arr[] = $new_str;
+                $new_str = "";
+            }
+
+            $i++;
+        }
+
+
+        return $new_Arr;
+    }
+
+
+
+    public static function format_desc_new($desc)
+    {
+        $desc_arr = Product::restructure_str($desc);
+        $new_desc = [];
+        foreach ($desc_arr as $line) {
             if (strlen($line) > 0) {
                 if (strrpos($line, "**") == true) {
                     $arr = explode("**", $line)[1];
-                    array_push($new_desc, "<span stye: 'font-familty:Marcellus SC; font-weight: bold'>". $arr . "</span>");
-                }
-                else if (strrpos($line, "[")) {
+                    array_push($new_desc, "<span style= 'font-family:Marcellus SC; font-weight: bold'>" . $arr . "</span>");
+                } else if (strrpos($line, "[")) {
                     preg_match("/\[[^\]]*\]/", $line, $matched_texts);
                     preg_match('/\([^\]]*\)/', $line, $matched_links);
 
                     if (sizeof($matched_links) == sizeof($matched_texts)) {
-                        for($i = 0; $i < sizeof($matched_links); $i++) {
+                        for ($i = 0; $i < sizeof($matched_links); $i++) {
                             $str = "<a href='" . trim(substr($matched_links[$i], 1, -1)) . "'> " . trim(substr($matched_texts[$i], 1, -1)) . " </a> ";
 
                             $line = str_replace($matched_links[$i], "", $line);
@@ -626,12 +690,9 @@ class Product extends Model
                             array_push($new_desc, $line);
                         }
                     }
-                }
-                else {
+                } else {
                     array_push($new_desc, $line);
                 }
-
-
             }
         }
 
@@ -781,7 +842,7 @@ class Product extends Model
                     ->where("product_id", $product->product_sku);
 
                 if ($isListingAPICall) $var = $var->limit(7);
-                    //->limit(20)
+                //->limit(20)
                 $var = $var->get();
 
                 $variations = [];
@@ -841,7 +902,6 @@ class Product extends Model
                         "image" => Product::$base_siteurl . $prod->image_path,
                         "swatch_image" => strlen($prod->swatch_image) != 0 ? Product::$base_siteurl . $prod->swatch_image_path : null
                     ]);
-
                 }
 
 
@@ -963,28 +1023,29 @@ class Product extends Model
         return $variation_filters;
     }
 
-    public static function normalize_dimension($dim_str, $site) {
+    public static function normalize_dimension($dim_str, $site)
+    {
 
         switch ($site) {
             case 'cb2':
                 return Dimension::format_cb2($dim_str);
-            break;
+                break;
 
             case 'pier1':
                 return Dimension::format_pier1($dim_str);
-            break;
+                break;
 
             case 'westelm':
                 return Dimension::format_westelm($dim_str);
-            break;
+                break;
 
             case 'cab':
                 return Dimension::format_cab($dim_str);
-            break;
+                break;
 
             default:
                 return null;
-            break;
+                break;
         }
     }
 };
