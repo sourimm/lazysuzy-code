@@ -14,7 +14,10 @@
 //     }
 // }
 .-features {
-    text-transform: lowercase;
+    // text-transform: lowercase;
+    ul {
+        padding-left: 15px !important;
+    }
 }
 input:disabled + span.checkmark,
 input:disabled + .checkmark + .text {
