@@ -38,6 +38,8 @@ Route::get('/category', function () {
     return view('pages.category');
 });
 
+
+
 Auth::routes();
 
 Route::get('/logout', 'Auth\LoginController@logout');

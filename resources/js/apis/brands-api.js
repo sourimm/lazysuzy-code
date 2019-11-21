@@ -11,9 +11,9 @@ $(document).ready(function() {
             console.log(exception)
         }
     })
-    debugger
+
     function productDiv(data) {
-        data.products.slice(0, 7).map(product => {
+        data.products.slice(0, 8).map(product => {
             // data.products.map(product => {
             let brands_prod_div = jQuery('<div/>', {
                 class: 'brands-prod-div col-3 '
