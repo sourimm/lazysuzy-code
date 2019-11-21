@@ -1,0 +1,55 @@
+@media only screen and (min-width: 768px) {
+}
+
+@include media-breakpoint-down(md) {
+}
+body {
+    background-color: $white;
+}
+.brands {
+    .main-img {
+        padding: 0 50px;
+    }
+    .brands-hr {
+        border-top: 1px solid #ffed4a;
+    }
+    .brands-main-heading {
+        .brands-details {
+            margin: 25px;
+        }
+        .brands-icon {
+            width: 50px;
+        }
+    }
+    .brands-prod-container {
+        .row {
+            .brands-prod-div {
+                margin: 10px 0;
+                .brands-product {
+                    .brands-product-img {
+                        width: 250px;
+                        // margin: 5px 0;
+                    }
+                }
+                .product-detail {
+                    padding: 0 10px;
+                    text-align: center;
+                }
+            }
+
+            .prod-info {
+                bottom: 0px;
+                padding: 5px;
+                width: 100%;
+                background-color: rgba(0, 0, 0, 0.4);
+                height: 25px;
+                text-align: left;
+                font-size: 14px;
+                line-height: 14px;
+                z-index: 100;
+                color: $white;
+                width: 250px;
+            }
+        }
+    }
+}
