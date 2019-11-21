@@ -604,7 +604,7 @@ class Product extends Model
 
     public static function restructure_str($str)
     {
-        $str = str_replace("\n", " ", $str);
+        $str = str_replace("\\n", "", $str);
         $pre_delimeters = ["*", "#"];
         $i = 0;
         $new_str = "";
