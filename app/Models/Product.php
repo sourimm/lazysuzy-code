@@ -629,7 +629,7 @@ class Product extends Model
                     $new_str = "";
                 }
             } else if (($str[$i] === "#" && $str[$i + 1] === "#") || ($str[$i] === "#" && $str[$i - 1] === "#")) {
-                while ($str[$i] != "\n") {
+                while (isset($str[$i]) && $str[$i] != "\n") {
                     $new_str .= $str[$i++];
                 }
 
