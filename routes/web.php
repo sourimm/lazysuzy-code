@@ -31,9 +31,14 @@ Route::get('/termsofservice', function () {
 Route::get('/aboutus', function () {
     return view('pages.aboutus');
 });
+Route::get('/brands',function(){
+    return view('pages.brands');
+});
 Route::get('/category', function () {
     return view('pages.category');
 });
+
+
 
 Auth::routes();
 

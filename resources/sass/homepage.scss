@@ -1,181 +1,181 @@
 @media only screen and (min-width: 768px) {
-  .homepage-main-div {
-    .searchbar {
-      &:not(.open) {
-        display: none;
-      }
+    .homepage-main-div {
+        .searchbar {
+            &:not(.open) {
+                display: none;
+            }
 
-      &.sb-body {
-        display: block;
-      }
-    }
+            &.sb-body {
+                display: block;
+            }
+        }
 
-    .footer {
-      position: absolute;
-      padding: 0px 15px;
+        .footer {
+            position: absolute;
+            padding: 0px 15px;
+        }
     }
-  }
 }
 
-@include media-breakpoint-down(md){
-  .homepage-main-div {
-    .searchbar.sb-body{
-      position: relative;
-      top: 0px;
-      display: block;
-      .card-body{
-        padding: 4px 15px;
-      }
+@include media-breakpoint-down(md) {
+    .homepage-main-div {
+        .searchbar.sb-body {
+            position: relative;
+            top: 0px;
+            display: block;
+            .card-body {
+                padding: 4px 15px;
+            }
+        }
+        .main-container {
+            min-height: auto !important;
+        }
+        .search-icon-mobile {
+            display: none;
+        }
     }
-    .main-container{
-      min-height: auto !important;
-    }
-    .search-icon-mobile{
-      display: none;
-    }
-  }
 }
 
 .homepage-main-div {
-  .main {
-    background-color: $background-color;
-    background-image: url("/images/homepage-sofa-img.jpeg");
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center;
-    height: 100vh;
-    width: 100vw;
-  }
+    .main {
+        background-color: $background-color;
+        background-image: url('/images/homepage-sofa-img.jpeg');
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center;
+        height: 100vh;
+        width: 100vw;
+    }
 }
 
 .homepage {
-  .category-links {
-    position: absolute;
-    top: 50vh;
-    width: 100%;
-    padding: 0px 75px;
-    text-align: right;
-    @include media-breakpoint-down(md){
-      position: relative;
-      top: 0px;
-      margin-top: 20px;
-    }
-
-    .-heading {
-      font-size: 24px;
-      color: $brown-text-color;
-    }
-
-    .-depts {
-      margin: 40px 0px 0px 0px;
-
-      .-dept {
-        padding-left: 30px;
-        font-size: 40px;
-        padding-right: 0px;
-        flex: 1 1 auto;
-
-        a {
-          color: $yellow-text-color;
+    .category-links {
+        position: absolute;
+        top: 50vh;
+        width: 100%;
+        padding: 0px 75px;
+        text-align: right;
+        @include media-breakpoint-down(md) {
+            position: relative;
+            top: 0px;
+            margin-top: 20px;
         }
-      }
+
+        .-heading {
+            font-size: 24px;
+            color: $brown-text-color;
+        }
+
+        .-depts {
+            margin: 40px 0px 0px 0px;
+
+            .-dept {
+                padding-left: 30px;
+                font-size: 40px;
+                padding-right: 0px;
+                flex: 1 1 auto;
+
+                a {
+                    color: $yellow-text-color;
+                }
+            }
+        }
     }
-  }
 
-  .brand-association {
-    background-color: rgba(255, 255, 255, 0.7);
-    position: absolute;
-    bottom: 30px;
-    width: 100%;
-    padding: 10px 30px;
+    .brand-association {
+        background-color: rgba(255, 255, 255, 0.7);
+        position: absolute;
+        bottom: 30px;
+        width: 100%;
+        padding: 10px 30px;
 
-    @include media-breakpoint-down(md){
-      position: relative;
-      top: 0px;
-      margin-top: 20px;
+        @include media-breakpoint-down(md) {
+            position: relative;
+            top: 0px;
+            margin-top: 20px;
+        }
+
+        .-text {
+            font-size: 26px;
+        }
+
+        .socials {
+            .-text {
+                font-size: 18px;
+                line-height: 2;
+            }
+
+            .-icon {
+                font-size: 20px;
+                padding: 0px 8px;
+            }
+        }
     }
 
-    .-text {
-      font-size: 26px;
+    .search-icon-mobile {
+        display: none;
     }
-
-    .socials {
-      .-text {
-        font-size: 18px;
-        line-height: 2;
-      }
-
-      .-icon {
-        font-size: 20px;
-        padding: 0px 8px;
-      }
-    }
-  }
-
-  .search-icon-mobile {
-    display: none;
-  }
 }
 
 @media only screen and (max-width: 768px) {
-  .homepage-main-div {
-    .main {
-      background-image: none;
-    }
-  }
-  .category-links {
-    text-align: left !important;
-    padding: 0px !important;
-
-    .-heading {
-      font-size: 14px !important;
-      margin-left: 34px;
-    }
-
-    .-depts {
-      margin-top: 0px !important;
-      max-width: 100%;
-      margin: auto;
-
-      .-dept {
-        padding: 0px 15px !important;
-        height: 30px;
-        background: #fffff9;
-        border-radius: 4px;
-        text-align: center;
-        border: 1px solid $border-color;
-
-        a {
-          display: block;
-          font-size: 18px;
-          color: $secondary-color !important;
+    .homepage-main-div {
+        .main {
+            background-image: none;
         }
-      }
     }
-  }
+    .category-links {
+        text-align: left !important;
+        padding: 0px !important;
 
-  .brand-association {
-    padding: 0px 34px !important;
-    top: 73vh;
-
-    .-text {
-      font-size: 14px !important;
-      color: $brown-text-color;
-      margin-bottom: 20px;
-    }
-
-    .socials {
-      display: none;
-    }
-
-    .brand-logos {
-      .brand-logo {
-        width: 20% !important;
-
-        &.more-soon {
-          width: 30% !important;
+        .-heading {
+            font-size: 14px !important;
+            margin-left: 34px;
         }
-      }
+
+        .-depts {
+            margin-top: 0px !important;
+            max-width: 100%;
+            margin: auto;
+
+            .-dept {
+                padding: 0px 15px !important;
+                height: 30px;
+                background: #fffff9;
+                border-radius: 4px;
+                text-align: center;
+                border: 1px solid $border-color;
+
+                a {
+                    display: block;
+                    font-size: 18px;
+                    color: $secondary-color !important;
+                }
+            }
+        }
     }
-  }
+
+    .brand-association {
+        padding: 0px 34px !important;
+        top: 73vh;
+
+        .-text {
+            font-size: 14px !important;
+            color: $brown-text-color;
+            margin-bottom: 20px;
+        }
+
+        .socials {
+            display: none;
+        }
+
+        .brand-logos {
+            .brand-logo {
+                width: 20% !important;
+
+                &.more-soon {
+                    width: 30% !important;
+                }
+            }
+        }
+    }
 }
