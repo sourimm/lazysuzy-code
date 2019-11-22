@@ -16,7 +16,7 @@ $(document).ready(function() {
         data.products.slice(0, 8).map(product => {
             // data.products.map(product => {
             let brands_prod_div = jQuery('<div/>', {
-                class: 'brands-prod-div col-3 '
+                class: 'brands-prod-div col-3 col-sm-12'
             }).appendTo('#product-div-main')
             let brands_prod = jQuery('<div/>', {
                 class: 'brands-product'

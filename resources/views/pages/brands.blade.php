@@ -13,7 +13,7 @@
                         <h1>Floyd</h1>
                     </div>
                     <div class="row">
-                    <div class=" col-8">
+                    <div class="col-8 col-sm-12">
                     <div class="brands-details">
                     <h3>Floyd began because we were tried of disposal furniture. 
                         So we set out to design products of lasting quality fo how people live today. 
@@ -22,7 +22,7 @@
                         we cal it furniture for keeping. </h3>
                     </div>
                     </div>
-                    <div class="col-4">
+                    <div class="col-4 col-sm-12">
                         <div class="row">
                             <div class="col-12 ">  
                                <div class="row">
