@@ -72,7 +72,6 @@
             </div>
         </div>
     </div>
-
     <div class="brands-prod-container">
         <div class="container">
             <div id="product-div-main" class="row"></div>
@@ -94,11 +93,9 @@
         </div> -->
     </div>
     @include('./partials/brandassociation')
-
-@endsection
-    <script src="{{ ('./js/apis/brands-api.js')}}"></script>
-    @push('pageSpecificScripts')
-    <script src="{{ mix('js/brands.js')}}"></script>
- <script src="{{ mix('js/detailOverview.js')}}"></script>
- @endpush
-
+    @endsection
+        <script src="{{ ('./js/apis/brands-api.js')}}"></script>
+        @push('pageSpecificScripts')
+        <script src="{{ mix('js/brands.js')}}"></script>
+    <script src="{{ mix('js/detailOverview.js')}}"></script>
+    @endpush
