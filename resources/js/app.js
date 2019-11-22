@@ -143,6 +143,31 @@ $(document).ready(function() {
                     }
                 }
                 $('#collapsible-dept').html(deptToAppend)
+                debugger
+                // console.log(departments[2].department.categories.category[1])
+                for (var i = 0; i < departments.length; i++) {
+                    var topCategories = jQuery('<div/>', {
+                        class: 'col-4 col-sm-6 -topCategories',
+                        html: `${departments[i].department}`
+                    }).appendTo('#topCategories')
+                    let div = jQuery('<div/>', {
+                        class: 'category-img'
+                    }).appendTo(topCategories)
+                    //     let img = jQuery('<img/>', {
+                    //         src: `${departments[i].department.categories[0].image}`
+                    //     }).appendTo(topCategories)
+                }
+
+                // for (var i = 0; i < departments.length; i++) {
+                //     if (departments.length != 0) {
+                //         singleDeptMobile =
+                //             '<div class="col-4 col-sm-auto -dept ">' +
+                //             departments[i].department +
+                //             '</div>'
+                //     }
+                //     $('#topCategories').append(topCategories)
+                // }
+
                 var singleDeptMobile = ''
                 for (var i = 0; i < departments.length; i++) {
                     if (departments.length != 0) {
@@ -156,6 +181,7 @@ $(document).ready(function() {
                     $('#mobileDepartments').append(singleDeptMobile)
                 }
             }
+
             for (var i = 0; i < departments.length; i++) {
                 if (departments[i].categories.length == 0) {
                     deptToAppend +=

@@ -14,6 +14,29 @@
                 </div>
             </div>
         </div>
+        <div class="main-container">
+            <div class="category-links d-sm-none">
+                <span class="-heading float-md-right">Top Categories:</span>
+                <div class="-depts row" id="topCategories">
+             
+                </div>
+            </div>
+        </div>
+        <div class="main-container">
+            <div class="category-links d-sm-none">
+                <span class="-heading float-md-right">Top Trending</span>
+                <div class="-depts row" id="topC">
+                </div>
+            </div>
+        </div>
+        <div class="main-container">
+            <div class="category-links d-sm-none">
+                <span class="-heading float-md-right">Featured Brands</span>
+                <div class="-depts row" id="mobileDepartments">
+                  
+                </div>
+            </div>
+        </div>
         <div class="d-md-none">@include('./partials/brandassociation') </div>
     </div>
     <form method="POST" action="{{ route('login') }}" class="d-none">
