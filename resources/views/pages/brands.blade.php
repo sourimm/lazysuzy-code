@@ -24,44 +24,44 @@
                     </div>
                     <div class="col-4 col-sm-12">
                         <div class="row">
-                            <div class="col-12 ">  
+                            <div class="col-12 col-sm-6">  
                                <div class="row">
-                                   <div class="col-3 ">
+                                   <div class="col-3 col-sm-12">
                                    <img class="brands-icon" src="{{ asset('/images/icon/heart-flag-of-united-states-of-america.png') }}" alt="">
                                    </div>
-                                   <div class="col-9 ">
+                                   <div class="col-9 col-sm-12">
                                        <h3>Manufactured in USA</h3>
                                    </div>
                                </div>
                             </div>
-                            <div class="col-12 ">  
+                            <div class="col-12 col-sm-6 ">  
                                <div class="row">
-                                   <div class="col-3 ">
+                                   <div class="col-3 col-sm-12">
                                    <img class="brands-icon" src="{{ asset('/images/icon/shipping.png') }}" alt="">
                                    </div>
-                                   <div class="col-9 ">
+                                   <div class="col-9 col-sm-12">
                                        <h3>Free Shipping</h3>
                                    </div>
                                </div>
                             </div>
                           
-                            <div class="col-12 ">  
+                            <div class="col-12 col-sm-6">  
                                <div class="row">
-                                   <div class="col-3 ">
+                                   <div class="col-3 col-sm-12">
                                    <img class="brands-icon" src="{{ asset('/images/icon/exchange.png') }}" alt="">
                                    </div>
-                                   <div class="col-9 ">
+                                   <div class="col-9 col-sm-12">
                                        <h3>Free 30 Days Returns</h3>
                                    </div>
                                </div>
                             </div>
                           
-                            <div class="col-12 ">  
+                            <div class="col-12 col-sm-6">  
                                <div class="row">
-                                   <div class="col-3 ">
+                                   <div class="col-3 col-sm-12">
                                    <img class="brands-icon" src="{{ asset('/images/icon/guarantee.png') }}" alt="">
                                    </div>
-                                   <div class="col-9 ">
+                                   <div class="col-9 col-sm-12">
                                        <h3>10 years Warranty</h3>
                                    </div>
                                </div>
