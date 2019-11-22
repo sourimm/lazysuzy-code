@@ -5,15 +5,22 @@
     .main-img {
         padding: 0 50px;
     }
-    .brands-hr {
-        border-top: 1px solid #ffed4a;
-    }
+
     .brands-main-heading {
+        margin: 25px 0;
         .brands-details {
             margin: 25px;
+            text-align: justify;
+            h3 {
+                line-height: 2;
+            }
         }
         .brands-icon {
             width: 50px;
+            margin: 10px;
+        }
+        .brand-icon-text {
+            margin-top: 15px;
         }
     }
     .brands-prod-container {
@@ -22,7 +29,7 @@
                 margin: 10px 0;
                 .brands-product {
                     .brands-product-img {
-                        width: 250px;
+                        width: 265px;
                         // margin: 5px 0;
                     }
                 }
@@ -43,7 +50,7 @@
                 line-height: 14px;
                 z-index: 100;
                 color: $white;
-                width: 250px;
+                width: 265px;
             }
         }
     }

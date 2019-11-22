@@ -15,11 +15,11 @@
                     <div class="row">
                     <div class="col-8 col-sm-12">
                     <div class="brands-details">
-                    <h3>Floyd began because we were tried of disposal furniture. 
+                    <h3>Floyd began because we were tired of disposable furniture. 
                         So we set out to design products of lasting quality fo how people live today. 
                         Furniture should be made for the home, not the landfill.
-                        Made with material that last. It’s different way of making furniture.
-                        we cal it furniture for keeping. </h3>
+                        Made with material that last. It’s a different way of making furniture.
+                        we call it furniture for keeping. </h3>
                     </div>
                     </div>
                     <div class="col-4 col-sm-12">
@@ -29,7 +29,7 @@
                                    <div class="col-3 col-sm-12">
                                    <img class="brands-icon" src="{{ asset('/images/icon/heart-flag-of-united-states-of-america.png') }}" alt="">
                                    </div>
-                                   <div class="col-9 col-sm-12">
+                                   <div class="col-9 col-sm-12 brand-icon-text">
                                        <h3>Manufactured in USA</h3>
                                    </div>
                                </div>
@@ -39,7 +39,7 @@
                                    <div class="col-3 col-sm-12">
                                    <img class="brands-icon" src="{{ asset('/images/icon/shipping.png') }}" alt="">
                                    </div>
-                                   <div class="col-9 col-sm-12">
+                                   <div class="col-9 col-sm-12 brand-icon-text">
                                        <h3>Free Shipping</h3>
                                    </div>
                                </div>
@@ -50,7 +50,7 @@
                                    <div class="col-3 col-sm-12">
                                    <img class="brands-icon" src="{{ asset('/images/icon/exchange.png') }}" alt="">
                                    </div>
-                                   <div class="col-9 col-sm-12">
+                                   <div class="col-9 col-sm-12 brand-icon-text">
                                        <h3>Free 30 Days Returns</h3>
                                    </div>
                                </div>
@@ -61,7 +61,7 @@
                                    <div class="col-3 col-sm-12">
                                    <img class="brands-icon" src="{{ asset('/images/icon/guarantee.png') }}" alt="">
                                    </div>
-                                   <div class="col-9 col-sm-12">
+                                   <div class="col-9 col-sm-12 brand-icon-text">
                                        <h3>10 years Warranty</h3>
                                    </div>
                                </div>
@@ -72,7 +72,7 @@
             </div>
         </div>
     </div>  
-    <hr class="brands-hr">
+    
     <div class="brands-prod-container">
         <div class="container">
             <div id="product-div-main" class="row"></div>
