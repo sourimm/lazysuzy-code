@@ -24,13 +24,16 @@ class Product extends Model
         $data   = DB::table('mapping_core')
             ->select('LS_ID');
 
-        if (null == $cat) {
-            $data = $data
-                ->where('department_', $dept);
-        } else {
-            $data = $data
-                ->where('department_', $dept)
-                ->where('product_category_', $cat);
+        // "all" is for getting all the products irrespective of any department or category
+        if ($dept != "all") {
+            if (null == $cat) {
+                $data = $data
+                    ->where('department_', $dept);
+            } else {
+                $data = $data
+                    ->where('department_', $dept)
+                    ->where('product_category_', $cat);
+            }
         }
 
         $data = $data->get();
