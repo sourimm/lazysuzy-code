@@ -29,11 +29,7 @@
                                    <div class="col-3 col-sm-12">
                                    <img class="brands-icon" src="{{ asset('/images/icon/heart-flag-of-united-states-of-america.png') }}" alt="">
                                    </div>
-<<<<<<< HEAD
-                                   <div class="col-9 col-sm-12">
-=======
                                    <div class="col-9 col-sm-12 brand-icon-text">
->>>>>>> shadow
                                        <h3>Manufactured in USA</h3>
                                    </div>
                                </div>
@@ -43,11 +39,7 @@
                                    <div class="col-3 col-sm-12">
                                    <img class="brands-icon" src="{{ asset('/images/icon/shipping.png') }}" alt="">
                                    </div>
-<<<<<<< HEAD
-                                   <div class="col-9 col-sm-12">
-=======
                                    <div class="col-9 col-sm-12 brand-icon-text">
->>>>>>> shadow
                                        <h3>Free Shipping</h3>
                                    </div>
                                </div>
@@ -58,11 +50,7 @@
                                    <div class="col-3 col-sm-12">
                                    <img class="brands-icon" src="{{ asset('/images/icon/exchange.png') }}" alt="">
                                    </div>
-<<<<<<< HEAD
-                                   <div class="col-9 col-sm-12">
-=======
                                    <div class="col-9 col-sm-12 brand-icon-text">
->>>>>>> shadow
                                        <h3>Free 30 Days Returns</h3>
                                    </div>
                                </div>
@@ -73,11 +61,7 @@
                                    <div class="col-3 col-sm-12">
                                    <img class="brands-icon" src="{{ asset('/images/icon/guarantee.png') }}" alt="">
                                    </div>
-<<<<<<< HEAD
-                                   <div class="col-9 col-sm-12">
-=======
                                    <div class="col-9 col-sm-12 brand-icon-text">
->>>>>>> shadow
                                        <h3>10 years Warranty</h3>
                                    </div>
                                </div>
@@ -88,11 +72,6 @@
             </div>
         </div>
     </div>
-<<<<<<< HEAD
-    <hr class="brands-hr">
-=======
-
->>>>>>> shadow
     <div class="brands-prod-container">
         <div class="container">
             <div id="product-div-main" class="row"></div>
@@ -114,25 +93,9 @@
         </div> -->
     </div>
     @include('./partials/brandassociation')
-<<<<<<< HEAD
-            <!-- </div>
-        </div>
-
-    </div> -->
-    <!-- @include('./partials/brandassociation')  -->
-@endsection
-    <!-- <script src="{{ ('./js/apis/brands-api.js')}}"></script> -->
-    <!-- @push('pageSpecificScripts')
-    <script src="{{ mix('js/brands.js')}}"></script>
- <script src="{{ mix('js/detailOverview.js')}}"></script> -->
-@endpush -->
-=======
-
-@endsection
-    <script src="{{ ('./js/apis/brands-api.js')}}"></script>
-    @push('pageSpecificScripts')
-    <script src="{{ mix('js/brands.js')}}"></script>
- <script src="{{ mix('js/detailOverview.js')}}"></script>
- @endpush
->>>>>>> shadow
-
+    @endsection
+        <script src="{{ ('./js/apis/brands-api.js')}}"></script>
+        @push('pageSpecificScripts')
+        <script src="{{ mix('js/brands.js')}}"></script>
+    <script src="{{ mix('js/detailOverview.js')}}"></script>
+    @endpush
