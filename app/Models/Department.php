@@ -21,17 +21,24 @@ class Department extends Model
             ->whereRaw('LENGTH(product_category) = 0 AND LENGTH(product_sub_category) = 0')
             ->get()
             ->toArray();
+        
+        $departments['all_departments'] = [];
+
         foreach ($rows as $row) {
             $dept       = $row['department'];
             $dept_LS_ID = $row['LS_ID'];
             $categories = Category::get_categories($dept);
-            array_push($departments, [
+            array_push($departments['all_departments'], [
                 'department' => $dept,
                 'LS_ID'      => $dept_LS_ID,
                 'link'       => '/products/'. strtolower($row['department_']),
                 'categories' => $categories,
             ]);
         }
+
+        // trending categories will return N top results. Pass N as argument.
+        $departments['trending_categories'] = Category::trending_categories(3);
+        $departments['trending_products'] = Product::trending_products(5);
         return $departments;
     }
 
