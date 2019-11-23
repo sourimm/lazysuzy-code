@@ -17,18 +17,18 @@
         <div class="main-container">
             <div class="category-links d-sm-none">
                 <span class="-heading float-md-right">Top Categories:</span>
-                <div class="-depts row" id="topCategories">
+                <div class="-depts" id="topCategories">
                     <!-- <div id="carouselExampleControls" class="carousel slide" data-ride="carousel" > -->
                     <div id="madinah-carousel" class="carousel slide" data-ride="carousel">
                         <div class="carousel-inner" role="listbox" id="carousel-inner">
                         </div>
-                        <!-- <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
-                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+                            <span class=" fa fa-angle-left" aria-hidden="true"></span>
                             <span class="sr-only">Previous</span>
                         </a>
                         <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
-                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                            <span class="sr-only">Next</span> -->
+                            <span class="fa fa-angle-right" aria-hidden="true"></span>
+                            <span class="sr-only">Next</span>
                         </a>
                     </div>
                 </div>
@@ -37,18 +37,18 @@
         <div class="main-container">
             <div class="category-links d-sm-none">
                 <span class="-heading float-md-right">Top Trending</span>
-                    <div class="-trending row" >
+                    <div class="-trending " >
                         <div id="carouselExampleControls" class="carousel slide" data-ride="carousel" >
                             <div class="carousel-inner" id="carousel-inner-trending">
                             </div>
-                            <!-- <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
-                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+                                <span class="fa fa-angle-left" aria-hidden="true"></span>
                                 <span class="sr-only">Previous</span>
                             </a>
                             <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
-                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="fa fa-angle-right" aria-hidden="true"></span>
                                 <span class="sr-only">Next</span>
-                            </a> -->
+                            </a>
                         </div>
                     </div>
                 </div>

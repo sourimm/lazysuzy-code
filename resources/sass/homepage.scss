@@ -68,6 +68,11 @@
 
         .-depts {
             margin: 40px 0px 0px 0px;
+            .carousel-control-next,
+            .carousel-control-prev {
+                font-size: 20px;
+                color: $black;
+            }
             .carousel-inner {
                 .carousel-item {
                     .top-trending-text {
@@ -146,7 +151,7 @@
             .-dept {
                 padding: 0px 15px !important;
                 height: 30px;
-                background: #fffff9;
+                background: $white;
                 border-radius: 4px;
                 text-align: center;
                 border: 1px solid $border-color;
@@ -159,6 +164,12 @@
             }
         }
         .-trending {
+            .carousel-control-next,
+            .carousel-control-prev {
+                font-size: 20px;
+                color: $black;
+                margin-bottom: 200px;
+            }
             .carousel-inner {
                 .carousel-item {
                     padding: 0;
