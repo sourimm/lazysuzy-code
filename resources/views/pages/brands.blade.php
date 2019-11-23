@@ -4,8 +4,8 @@
 @include('./partials/subnav')
     <div class="brands">
         <div class="main-img">
-            <img class="img-fluid" src="{{ asset('/images/Floyd.jpg') }}" alt="Floyd">
-        </div>   
+            <img class="img-fluid" src="{{ asset('/images/Floyd.jpg') }}" alt="">
+        </div>
         <div class="brands-main-heading">
             <div class="container">
             <div class="row">
@@ -15,8 +15,8 @@
                     <div class="row">
                     <div class="col-8 col-sm-12">
                     <div class="brands-details">
-                    <h3>Floyd began because we were tired of disposable furniture. 
-                        So we set out to design products of lasting quality fo how people live today. 
+                    <h3>Floyd began because we were tired of disposable furniture.
+                        So we set out to design products of lasting quality fo how people live today.
                         Furniture should be made for the home, not the landfill.
                         Made with material that last. It’s a different way of making furniture.
                         we call it furniture for keeping. </h3>
@@ -24,7 +24,7 @@
                     </div>
                     <div class="col-4 col-sm-12">
                         <div class="row">
-                            <div class="col-12 col-sm-6">  
+                            <div class="col-12 col-sm-6">
                                <div class="row">
                                    <div class="col-3 col-sm-12">
                                    <img class="brands-icon" src="{{ asset('/images/icon/heart-flag-of-united-states-of-america.png') }}" alt="Heart-flag-of-united-states-of-america">
@@ -34,7 +34,7 @@
                                    </div>
                                </div>
                             </div>
-                            <div class="col-12 col-sm-6 ">  
+                            <div class="col-12 col-sm-6 ">
                                <div class="row">
                                    <div class="col-3 col-sm-12">
                                    <img class="brands-icon" src="{{ asset('/images/icon/shipping.png') }}" alt="Free Shipping">
@@ -44,8 +44,8 @@
                                    </div>
                                </div>
                             </div>
-                          
-                            <div class="col-12 col-sm-6">  
+
+                            <div class="col-12 col-sm-6">
                                <div class="row">
                                    <div class="col-3 col-sm-12">
                                    <img class="brands-icon" src="{{ asset('/images/icon/exchange.png') }}" alt="Exchange">
@@ -55,8 +55,8 @@
                                    </div>
                                </div>
                             </div>
-                          
-                            <div class="col-12 col-sm-6">  
+
+                            <div class="col-12 col-sm-6">
                                <div class="row">
                                    <div class="col-3 col-sm-12">
                                    <img class="brands-icon" src="{{ asset('/images/icon/guarantee.png') }}" alt="Guarantee">
@@ -65,14 +65,13 @@
                                        <h3>10 years Warranty</h3>
                                    </div>
                                </div>
-                            </div>                       
+                            </div>
                         </div>
                     </div>
-                </div>            
+                </div>
             </div>
         </div>
-    </div>  
-    
+    </div>
     <div class="brands-prod-container">
         <div class="container">
             <div id="product-div-main" class="row"></div>
@@ -89,16 +88,14 @@
                     <p>Mirrored Silver Chest & Dresser Bedroom Set</p>
                 </div>
             </div>
-            
+
            </div>
         </div> -->
-    </div>          
+    </div>
     @include('./partials/brandassociation')
-        
-@endsection
-    <script src="{{ ('./js/apis/brands-api.js')}}"></script> 
-    @push('pageSpecificScripts')
-    <script src="{{ mix('js/brands.js')}}"></script>
- <script src="{{ mix('js/detailOverview.js')}}"></script>
- @endpush  
-
+    @endsection
+        <script src="{{ ('./js/apis/brands-api.js')}}"></script>
+        @push('pageSpecificScripts')
+        <script src="{{ mix('js/brands.js')}}"></script>
+    <script src="{{ mix('js/detailOverview.js')}}"></script>
+    @endpush

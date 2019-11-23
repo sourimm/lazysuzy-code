@@ -41,4 +41,31 @@ class Category extends Model
         }
         return $c_cat;
     }
+
+    public static function trending_categories($limit) {
+        
+        $trending_categories = [];
+        $cols = [
+            'department_', 'product_category', 'product_category_',
+            'category_image'
+        ];
+        
+        $rows = Category::select($cols)
+            ->orderBy('rank', 'ASC')
+            ->whereRaw('rank > 0')
+            ->limit($limit)
+            ->get()
+            ->toArray();
+        
+            foreach($rows as $row) {
+            array_push($trending_categories, [
+                'category' => $row['product_category'],
+                'link' => '/products/' . $row['department_'] . "/" . $row['product_category_'],
+                'image' => $row['category_image']
+            ]);
+        }
+        
+        return $trending_categories;
+        
+    }
 }

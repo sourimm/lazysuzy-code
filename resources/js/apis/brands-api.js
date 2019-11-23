@@ -1,7 +1,7 @@
 $(document).ready(function() {
     $.ajax({
         type: 'GET',
-        url: '/api/products/living/sofa?filters=&sort_type=&pageno=0',
+        url: '/api/products/all?filters=brand:floyd&sort_type=&pageno=0',
         dataType: 'json',
         success: function(data) {
             productDiv(data)
