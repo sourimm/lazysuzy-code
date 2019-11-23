@@ -2,7 +2,10 @@ require('bootstrap')
 require('slick-carousel')
 require('./components/multi-carousel')
 require('./components/custom-selectbox')
-
+var md = require('markdown-it')({
+    html: true,
+    breaks: true
+})
 $(document).ready(function() {
     $('#departmentsNav').on('click', '.dropdown', function(e) {
         console.log('test')
@@ -97,44 +100,146 @@ $(document).ready(function() {
 
     $.ajax({
         type: 'GET',
+        url: '/api/all-departments',
+        datype: 'json ',
+        success: function(data) {
+            const { all_departments } = data
+            all_departments.map(item => {
+                // var topCategories = jQuery('<div/>', {
+                //     class: 'col-4 col-sm-12 -topCategories item'
+                // }).appendTo('#topCategories')
+                // var div = jQuery('<div/>', {
+                //     class: 'top-trending-img'
+                // }).appendTo(topCategories)
+                // var $item = jQuery('<div/>', {
+                //     class: 'carousel-item col-sm-12'
+                // }).appendTo($carouselInner)
+                // var img = jQuery('<img/>', {
+                //     src: `${item.categories[0].image}`,
+                //     height: '150px'
+                // }).appendTo($item)
+                // var span = jQuery('<span/>', {
+                //     html: `${item.department}`,
+                //     class: 'top-trending-text text-center'
+                // }).appendTo($item)
+            })
+        },
+        error: function(jqXHR, exception) {
+            console.log(jqXHR)
+            console.log(exception)
+        }
+    })
+
+    $.ajax({
+        type: 'GET',
         url: DEPT_API,
         dataType: 'json',
-        success: function(departments) {
+        success: function(data) {
+            const {
+                all_departments,
+                trending_categories,
+                trending_products
+            } = data
+            var $carouselInner = $('#carousel-inner')
+            var $carouselInnertrend = $('#carousel-inner-trending')
+
             var deptToAppend = ''
             if (isMobile()) {
+                trending_categories.map((item, index) => {
+                    var $item = jQuery('<div/>', {
+                        class:
+                            index == 0
+                                ? 'carousel-item col-sm-12  active'
+                                : 'carousel-item col-sm-12'
+                    }).appendTo($carouselInner)
+                    var img = jQuery('<img/>', {
+                        src: `${item.image}`,
+                        height: '150px'
+                    }).appendTo($item)
+                    var div = jQuery('<div/>', {
+                        class: 'col-sm-12'
+                    }).appendTo($item)
+                    var span = jQuery('<span/>', {
+                        html: `${item.category}`,
+                        class: 'top-trending-text text-center'
+                    }).appendTo(div)
+                })
+
+                trending_products.map((item, index) => {
+                    var $item = jQuery('<div/>', {
+                        class:
+                            index == 0
+                                ? 'carousel-item col-sm-12  active'
+                                : 'carousel-item col-sm-12'
+                    }).appendTo($carouselInnertrend)
+                    var img = jQuery('<img/>', {
+                        src: `${item.main_image}`,
+                        height: '150px'
+                    }).appendTo($item)
+                    var div = jQuery('div/>', {
+                        html: `${item.name}`,
+                        class: 'top-trending-text text-center'
+                    }).appendTo($item)
+                    var div = jQuery('<div/>', {
+                        html: `${item.site}`,
+                        class: 'top-trending-site text-center'
+                    }).appendTo($item)
+                    if (item.is_price.includes('-')) {
+                        let salepriceRange = item.is_price.split('-')
+                        var saleprice = jQuery('<div />', {
+                            text: `$${Math.round(
+                                salepriceRange[0]
+                            ).toLocaleString()} - $${Math.round(
+                                salepriceRange[1]
+                            ).toLocaleString()}`,
+                            class: 'prod-sale-price d-md-none'
+                        }).appendTo(item)
+                    } else {
+                        var saleprice = jQuery('<div />', {
+                            text: `$${Math.round(
+                                item.is_price
+                            ).toLocaleString()}`,
+                            class: 'prod-sale-price d-md-none'
+                        }).appendTo($item)
+                    }
+                    var div = jQuery('<div/>', {
+                        html: md.render(item.description.join('\n')),
+                        class: 'top-trending-text text-center'
+                    }).appendTo($item)
+                })
                 $('#collapsible-dept').empty()
                 var deptToAppend = ''
-                for (var i = 0; i < departments.length; i++) {
-                    if (departments[i].categories.length == 0) {
+                for (var i = 0; i < all_departments.length; i++) {
+                    if (all_departments[i].categories.length == 0) {
                         deptToAppend +=
                             '<li class="department"><a class="link collapsible" href="' +
-                            departments[i].link +
+                            all_departments[i].link +
                             '">' +
-                            departments[i].department +
+                            all_departments[i].department +
                             '</a></li>'
                     } else {
                         deptToAppend +=
                             '<li class="department"><a  class="collapsible" data-toggle="collapse" data-target="#' +
-                            departments[i].department +
+                            all_departments[i].department +
                             '"><span class="link">' +
-                            departments[i].department +
+                            all_departments[i].department +
                             '</span><span  class="side-nav-icon" id="navbarDropdown' +
                             i +
                             '"><i class="fas fa-angle-right arrow"></i></span></a>'
                         var catgToAppend =
                             '<ul class="collapse category-list" aria-labelledby="navbarDropdown" id="' +
-                            departments[i].department +
+                            all_departments[i].department +
                             '">'
                         for (
                             var j = 0;
-                            j < departments[i].categories.length;
+                            j < all_departments[i].categories.length;
                             j++
                         ) {
                             catgToAppend +=
                                 '<li><a class="link" href="' +
-                                departments[i].categories[j].link +
+                                all_departments[i].categories[j].link +
                                 '">' +
-                                departments[i].categories[j].category +
+                                all_departments[i].categories[j].category +
                                 '</a></li>'
                         }
                         catgToAppend += '</ul>'
@@ -144,58 +249,63 @@ $(document).ready(function() {
                 }
                 $('#collapsible-dept').html(deptToAppend)
                 var singleDeptMobile = ''
-                for (var i = 0; i < departments.length; i++) {
-                    if (departments.length != 0) {
+                for (var i = 0; i < all_departments.length; i++) {
+                    if (all_departments.length != 0) {
                         singleDeptMobile =
                             '<div class="col-4 col-sm-auto -dept "><a  href="' +
-                            departments[i].link +
+                            all_departments[i].link +
                             '">' +
-                            departments[i].department +
+                            all_departments[i].department +
                             '</a></div>'
                     }
                     $('#mobileDepartments').append(singleDeptMobile)
                 }
             }
-            for (var i = 0; i < departments.length; i++) {
-                if (departments[i].categories.length == 0) {
+
+            for (var i = 0; i < all_departments.length; i++) {
+                if (all_departments[i].categories.length == 0) {
                     deptToAppend +=
                         '<li><a href="' +
-                        departments[i].link +
+                        all_departments[i].link +
                         '">' +
-                        departments[i].department +
+                        all_departments[i].department +
                         '</a></li>'
                 } else {
                     let classActive =
-                        departments[i].link === location.pathname
+                        all_departments[i].link === location.pathname
                             ? 'active'
                             : ''
                     deptToAppend +=
                         '<li class="dropdown ' +
                         classActive +
                         '"><a  href="' +
-                        departments[i].link +
+                        all_departments[i].link +
                         '" id="navbarDropdown' +
                         i +
                         '" role="button"  aria-haspopup="true" aria-expanded="false">' +
-                        departments[i].department +
+                        all_departments[i].department +
                         '</a>'
                     var catgToAppend =
                         '<ul class="dropdown-menu" aria-labelledby="navbarDropdown">'
-                    for (var j = 0; j < departments[i].categories.length; j++) {
-                        // if (departments[i].categories[j].sub_categories.length == 0) {
+                    for (
+                        var j = 0;
+                        j < all_departments[i].categories.length;
+                        j++
+                    ) {
+                        // if (all_departments[i].categories[j].sub_categories.length == 0) {
                         catgToAppend +=
                             '<li><a href="' +
-                            departments[i].categories[j].link +
+                            all_departments[i].categories[j].link +
                             '">' +
-                            departments[i].categories[j].category +
+                            all_departments[i].categories[j].category +
                             '</a></li>'
                         // }
                         // else {
                         //   catgToAppend += '<li class="dropdown-submenu">';
-                        //   catgToAppend += '<a href="'+departments[i].categories[j].link+'">' + departments[i].categories[j].category + '<span class="mx-2"><i class="fas fa-angle-right"></i></span>';
+                        //   catgToAppend += '<a href="'+all_departments[i].categories[j].link+'">' + all_departments[i].categories[j].category + '<span class="mx-2"><i class="fas fa-angle-right"></i></span>';
                         //   var subcatToAppend = '<ul class="dropdown-menu">';
-                        //   for (k = 0; k < departments[i].categories[j].sub_categories.length; k++) {
-                        //     subcatToAppend += '<li><a href="' + departments[i].categories[j].sub_categories[k].link + '">' + departments[i].categories[j].sub_categories[k].sub_category + '</a></li>'
+                        //   for (k = 0; k < all_departments[i].categories[j].sub_categories.length; k++) {
+                        //     subcatToAppend += '<li><a href="' + all_departments[i].categories[j].sub_categories[k].link + '">' + all_departments[i].categories[j].sub_categories[k].sub_category + '</a></li>'
                         //   }
 
                         //   subcatToAppend += '</ul>';
