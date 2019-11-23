@@ -24,7 +24,7 @@ class Dimension extends Model
     {
         $json_string = $str;
         if ($json_string === "null") return [];
-        
+        $json_string = preg_replace('/[[:cntrl:]]/', '', $json_string);
         $dim = json_decode($json_string);
         
         if (json_last_error()) return [
