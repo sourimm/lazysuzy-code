@@ -68,7 +68,13 @@
 
         .-depts {
             margin: 40px 0px 0px 0px;
-
+            .carousel-inner {
+                .carousel-item {
+                    .top-trending-text {
+                        color: $black;
+                    }
+                }
+            }
             .-dept {
                 padding-left: 30px;
                 font-size: 40px;
@@ -149,6 +155,34 @@
                     display: block;
                     font-size: 18px;
                     color: $secondary-color !important;
+                }
+            }
+        }
+        .-trending {
+            .carousel-inner {
+                .carousel-item {
+                    padding: 0;
+                    text-align: center;
+                    margin-top: 15px;
+                    img {
+                        height: 150px;
+                        margin: 10px;
+                    }
+                    .top-trending-site {
+                        text-align: left !important;
+                        color: $grey;
+                        margin-left: 70px;
+                    }
+                    .prod-sale-price {
+                        text-align: left !important;
+                        color: $product-price;
+                        margin-left: 70px;
+                    }
+                    .top-trending-text {
+                        text-align: justify !important;
+                        color: $black;
+                        margin: 0 70px;
+                    }
                 }
             }
         }

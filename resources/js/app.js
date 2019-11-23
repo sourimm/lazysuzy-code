@@ -1,201 +1,280 @@
-require('bootstrap')
-require('slick-carousel')
-require('./components/multi-carousel')
-require('./components/custom-selectbox')
-
+require("bootstrap");
+require("slick-carousel");
+require("./components/multi-carousel");
+require("./components/custom-selectbox");
+var md = require("markdown-it")({
+    html: true,
+    breaks: true
+});
 $(document).ready(function() {
-    $('#departmentsNav').on('click', '.dropdown', function(e) {
-        console.log('test')
+    $("#departmentsNav").on("click", ".dropdown", function(e) {
+        console.log("test");
         // e.preventDefault()
         $(this)
             .siblings()
-            .removeClass('active')
-        $(this).addClass('active')
-    })
-    $('#searchbarHeader').submit(function(e) {
-        callSearch(e, this)
-    })
+            .removeClass("active");
+        $(this).addClass("active");
+    });
+    $("#searchbarHeader").submit(function(e) {
+        callSearch(e, this);
+    });
 
-    $('.sb-body').submit(function(e) {
-        callSearch(e, this)
-    })
-    $('.navbar-toggler').click(function() {
-        $('#Sidenavbar').css('width', '300px')
-    })
-    $('#Sidenavbarclose').click(function() {
-        $('#Sidenavbar').css('width', '0px')
-    })
-    $('.arrow').on('click', function(event) {
-        $('.arrow-img').toggleClass('rotate')
-        $('.arrow-img').toggleClass('rotate-reset')
-    })
+    $(".sb-body").submit(function(e) {
+        callSearch(e, this);
+    });
+    $(".navbar-toggler").click(function() {
+        $("#Sidenavbar").css("width", "300px");
+    });
+    $("#Sidenavbarclose").click(function() {
+        $("#Sidenavbar").css("width", "0px");
+    });
+    $(".arrow").on("click", function(event) {
+        $(".arrow-img").toggleClass("rotate");
+        $(".arrow-img").toggleClass("rotate-reset");
+    });
 
-    $(document).on('click', '.collapsible', function() {
-        $('.collapsible').removeClass('active')
-        this.classList.toggle('active')
-        $('.collapse').hide()
-        $(this.getAttribute('data-target')).show()
-    })
+    $(document).on("click", ".collapsible", function() {
+        $(".collapsible").removeClass("active");
+        this.classList.toggle("active");
+        $(".collapse").hide();
+        $(this.getAttribute("data-target")).show();
+    });
 
     function callSearch(e, elm) {
-        e.preventDefault()
+        e.preventDefault();
         window.location.href =
-            '/search?query=' +
+            "/search?query=" +
             $(elm)
-                .find('input')
-                .val() //relative to domain
+                .find("input")
+                .val(); //relative to domain
     }
 
-    var $searchIcon = $('#searchIconMobile')
+    var $searchIcon = $("#searchIconMobile");
 
-    const DEPT_API = '/api/all-departments'
+    const DEPT_API = "/api/all-departments";
 
-    $searchIcon.on('click', function(e) {
-        if ($(this).attr('id') == 'searchIconMobile') {
-            if ($('#searchbarHeader').hasClass('open')) {
-                $('#searchbarHeader').removeClass('open')
+    $searchIcon.on("click", function(e) {
+        if ($(this).attr("id") == "searchIconMobile") {
+            if ($("#searchbarHeader").hasClass("open")) {
+                $("#searchbarHeader").removeClass("open");
             } else {
-                $('#searchbarHeader').addClass('open')
+                $("#searchbarHeader").addClass("open");
             }
         }
-    })
+    });
 
-    $('.user-login-modal').click(function() {
-        $('#modalSignupForm').modal('toggle')
-    })
-    $('#register-modal').click(function() {
-        $('#modalSignupForm').modal('toggle')
-        $('#modalLoginForm').modal('toggle')
-    })
-    $('.user-login-modal1').click(function() {
-        $('#modalSignupForm').modal('toggle')
-        $('#modalLoginForm').modal('toggle')
-    })
+    $(".user-login-modal").click(function() {
+        $("#modalSignupForm").modal("toggle");
+    });
+    $("#register-modal").click(function() {
+        $("#modalSignupForm").modal("toggle");
+        $("#modalLoginForm").modal("toggle");
+    });
+    $(".user-login-modal1").click(function() {
+        $("#modalSignupForm").modal("toggle");
+        $("#modalLoginForm").modal("toggle");
+    });
 
-    $('.wishlist-login-modal').click(function() {
-        $('#modalLoginForm').modal()
-    })
+    $(".wishlist-login-modal").click(function() {
+        $("#modalLoginForm").modal();
+    });
 
-    $('body').on('mouseover', '.dropdown-submenu', function(e) {
-        var self = this
-        $('.dropdown-submenu').each(function() {
-            if ($(this).find('.dropdown-menu')[0] != $(self).next('ul')[0]) {
+    $("body").on("mouseover", ".dropdown-submenu", function(e) {
+        var self = this;
+        $(".dropdown-submenu").each(function() {
+            if ($(this).find(".dropdown-menu")[0] != $(self).next("ul")[0]) {
                 $(this)
-                    .find('.dropdown-menu')
-                    .hide()
+                    .find(".dropdown-menu")
+                    .hide();
             }
-        })
+        });
         $(this)
-            .find('ul')
-            .toggle()
+            .find("ul")
+            .toggle();
         if (!isMobile()) {
             $(this)
-                .find('.dropdown-menu')
-                .css('top', $(this).position().top)
+                .find(".dropdown-menu")
+                .css("top", $(this).position().top);
         }
-    })
+    });
 
     $.ajax({
-        type: 'GET',
+        type: "GET",
         url: DEPT_API,
-        dataType: 'json',
-        success: function(departments) {
-            var deptToAppend = ''
+        dataType: "json",
+        success: function(data) {
+            const {
+                all_departments,
+                trending_categories,
+                trending_products
+            } = data;
+            var $carouselInner = $("#carousel-inner");
+            var $carouselInnertrend = $("#carousel-inner-trending");
+
+            var deptToAppend = "";
             if (isMobile()) {
-                $('#collapsible-dept').empty()
-                var deptToAppend = ''
-                for (var i = 0; i < departments.length; i++) {
-                    if (departments[i].categories.length == 0) {
+                trending_categories.map((item, index) => {
+                    var $item = jQuery("<div/>", {
+                        class:
+                            index == 0
+                                ? "carousel-item col-sm-12  active"
+                                : "carousel-item col-sm-12"
+                    }).appendTo($carouselInner);
+                    var img = jQuery("<img/>", {
+                        src: `${item.image}`,
+                        height: "150px"
+                    }).appendTo($item);
+                    var div = jQuery("<div/>", {
+                        class: "col-sm-12"
+                    }).appendTo($item);
+                    var span = jQuery("<span/>", {
+                        html: `${item.category}`,
+                        class: "top-trending-text text-center"
+                    }).appendTo(div);
+                });
+
+                trending_products.map((item, index) => {
+                    var $item = jQuery("<div/>", {
+                        class:
+                            index == 0
+                                ? "carousel-item col-sm-12  active"
+                                : "carousel-item col-sm-12"
+                    }).appendTo($carouselInnertrend);
+                    var img = jQuery("<img/>", {
+                        src: `${item.main_image}`,
+                        height: "150px"
+                    }).appendTo($item);
+                    var div = jQuery("<div/>", {
+                        html: `${item.site}`,
+                        class: "top-trending-site text-center"
+                    }).appendTo($item);
+                    var div = jQuery("<div/>", {
+                        html: `${item.name}`,
+                        class: "top-trending-text text-center"
+                    }).appendTo($item);
+
+                    if (item.is_price.includes("-")) {
+                        let salepriceRange = item.is_price.split("-");
+                        var saleprice = jQuery("<div />", {
+                            text: `$${Math.round(
+                                salepriceRange[0]
+                            ).toLocaleString()} - $${Math.round(
+                                salepriceRange[1]
+                            ).toLocaleString()}`,
+                            class: "prod-sale-price d-md-none"
+                        }).appendTo(item);
+                    } else {
+                        var saleprice = jQuery("<div />", {
+                            text: `$${Math.round(
+                                item.is_price
+                            ).toLocaleString()}`,
+                            class: "prod-sale-price d-md-none"
+                        }).appendTo($item);
+                    }
+                    var div = jQuery("<div/>", {
+                        html: md.render(item.description.join("\n")),
+                        class: "top-trending-text text-center"
+                    }).appendTo($item);
+                });
+                $("#collapsible-dept").empty();
+                var deptToAppend = "";
+                for (var i = 0; i < all_departments.length; i++) {
+                    if (all_departments[i].categories.length == 0) {
                         deptToAppend +=
                             '<li class="department"><a class="link collapsible" href="' +
-                            departments[i].link +
+                            all_departments[i].link +
                             '">' +
-                            departments[i].department +
-                            '</a></li>'
+                            all_departments[i].department +
+                            "</a></li>";
                     } else {
                         deptToAppend +=
                             '<li class="department"><a  class="collapsible" data-toggle="collapse" data-target="#' +
-                            departments[i].department +
+                            all_departments[i].department +
                             '"><span class="link">' +
-                            departments[i].department +
+                            all_departments[i].department +
                             '</span><span  class="side-nav-icon" id="navbarDropdown' +
                             i +
-                            '"><i class="fas fa-angle-right arrow"></i></span></a>'
+                            '"><i class="fas fa-angle-right arrow"></i></span></a>';
                         var catgToAppend =
                             '<ul class="collapse category-list" aria-labelledby="navbarDropdown" id="' +
-                            departments[i].department +
-                            '">'
+                            all_departments[i].department +
+                            '">';
                         for (
                             var j = 0;
-                            j < departments[i].categories.length;
+                            j < all_departments[i].categories.length;
                             j++
                         ) {
                             catgToAppend +=
                                 '<li><a class="link" href="' +
-                                departments[i].categories[j].link +
+                                all_departments[i].categories[j].link +
                                 '">' +
-                                departments[i].categories[j].category +
-                                '</a></li>'
+                                all_departments[i].categories[j].category +
+                                "</a></li>";
                         }
-                        catgToAppend += '</ul>'
-                        deptToAppend += catgToAppend
-                        deptToAppend += '</li>'
+                        catgToAppend += "</ul>";
+                        deptToAppend += catgToAppend;
+                        deptToAppend += "</li>";
                     }
                 }
-                $('#collapsible-dept').html(deptToAppend)
-                var singleDeptMobile = ''
-                for (var i = 0; i < departments.length; i++) {
-                    if (departments.length != 0) {
+                $("#collapsible-dept").html(deptToAppend);
+                var singleDeptMobile = "";
+                for (var i = 0; i < all_departments.length; i++) {
+                    if (all_departments.length != 0) {
                         singleDeptMobile =
                             '<div class="col-4 col-sm-auto -dept "><a  href="' +
-                            departments[i].link +
+                            all_departments[i].link +
                             '">' +
-                            departments[i].department +
-                            '</a></div>'
+                            all_departments[i].department +
+                            "</a></div>";
                     }
-                    $('#mobileDepartments').append(singleDeptMobile)
+                    $("#mobileDepartments").append(singleDeptMobile);
                 }
             }
-            for (var i = 0; i < departments.length; i++) {
-                if (departments[i].categories.length == 0) {
+
+            for (var i = 0; i < all_departments.length; i++) {
+                if (all_departments[i].categories.length == 0) {
                     deptToAppend +=
                         '<li><a href="' +
-                        departments[i].link +
+                        all_departments[i].link +
                         '">' +
-                        departments[i].department +
-                        '</a></li>'
+                        all_departments[i].department +
+                        "</a></li>";
                 } else {
                     let classActive =
-                        departments[i].link === location.pathname
-                            ? 'active'
-                            : ''
+                        all_departments[i].link === location.pathname
+                            ? "active"
+                            : "";
                     deptToAppend +=
                         '<li class="dropdown ' +
                         classActive +
                         '"><a  href="' +
-                        departments[i].link +
+                        all_departments[i].link +
                         '" id="navbarDropdown' +
                         i +
                         '" role="button"  aria-haspopup="true" aria-expanded="false">' +
-                        departments[i].department +
-                        '</a>'
+                        all_departments[i].department +
+                        "</a>";
                     var catgToAppend =
-                        '<ul class="dropdown-menu" aria-labelledby="navbarDropdown">'
-                    for (var j = 0; j < departments[i].categories.length; j++) {
-                        // if (departments[i].categories[j].sub_categories.length == 0) {
+                        '<ul class="dropdown-menu" aria-labelledby="navbarDropdown">';
+                    for (
+                        var j = 0;
+                        j < all_departments[i].categories.length;
+                        j++
+                    ) {
+                        // if (all_departments[i].categories[j].sub_categories.length == 0) {
                         catgToAppend +=
                             '<li><a href="' +
-                            departments[i].categories[j].link +
+                            all_departments[i].categories[j].link +
                             '">' +
-                            departments[i].categories[j].category +
-                            '</a></li>'
+                            all_departments[i].categories[j].category +
+                            "</a></li>";
                         // }
                         // else {
                         //   catgToAppend += '<li class="dropdown-submenu">';
-                        //   catgToAppend += '<a href="'+departments[i].categories[j].link+'">' + departments[i].categories[j].category + '<span class="mx-2"><i class="fas fa-angle-right"></i></span>';
+                        //   catgToAppend += '<a href="'+all_departments[i].categories[j].link+'">' + all_departments[i].categories[j].category + '<span class="mx-2"><i class="fas fa-angle-right"></i></span>';
                         //   var subcatToAppend = '<ul class="dropdown-menu">';
-                        //   for (k = 0; k < departments[i].categories[j].sub_categories.length; k++) {
-                        //     subcatToAppend += '<li><a href="' + departments[i].categories[j].sub_categories[k].link + '">' + departments[i].categories[j].sub_categories[k].sub_category + '</a></li>'
+                        //   for (k = 0; k < all_departments[i].categories[j].sub_categories.length; k++) {
+                        //     subcatToAppend += '<li><a href="' + all_departments[i].categories[j].sub_categories[k].link + '">' + all_departments[i].categories[j].sub_categories[k].sub_category + '</a></li>'
                         //   }
 
                         //   subcatToAppend += '</ul>';
@@ -203,21 +282,21 @@ $(document).ready(function() {
                         //   catgToAppend += '</li>';
                         // }
                     }
-                    catgToAppend += '</ul>'
-                    deptToAppend += catgToAppend
-                    deptToAppend += '</li>'
+                    catgToAppend += "</ul>";
+                    deptToAppend += catgToAppend;
+                    deptToAppend += "</li>";
                 }
             }
-            $('#departmentsNav').append(deptToAppend)
+            $("#departmentsNav").append(deptToAppend);
         },
         error: function(jqXHR, exception) {
-            console.log(jqXHR)
-            console.log(exception)
+            console.log(jqXHR);
+            console.log(exception);
         }
-    })
-})
+    });
+});
 
 export default function isMobile() {
-    var isMobile = window.matchMedia('only screen and (max-width: 768px)')
-    return isMobile.matches ? true : false
+    var isMobile = window.matchMedia("only screen and (max-width: 768px)");
+    return isMobile.matches ? true : false;
 }
