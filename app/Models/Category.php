@@ -51,7 +51,8 @@ class Category extends Model
         ];
         
         $rows = Category::select($cols)
-            ->orderBy('rank', 'DESC')
+            ->orderBy('rank', 'ASC')
+            ->whereRaw('rank > 0')
             ->limit($limit)
             ->get()
             ->toArray();
