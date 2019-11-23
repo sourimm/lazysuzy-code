@@ -145,17 +145,35 @@ $(document).ready(function() {
                 $('#collapsible-dept').html(deptToAppend)
                 debugger
                 // console.log(departments[2].department.categories.category[1])
+                var $carouselInner = $('#carousel-inner')
+
                 for (var i = 0; i < departments.length; i++) {
                     var topCategories = jQuery('<div/>', {
-                        class: 'col-4 col-sm-6 -topCategories',
-                        html: `${departments[i].department}`
+                        class: 'col-4 col-sm-6 -topCategories item'
                     }).appendTo('#topCategories')
                     let div = jQuery('<div/>', {
-                        class: 'category-img'
+                        class: 'top-trending-img'
                     }).appendTo(topCategories)
-                    //     let img = jQuery('<img/>', {
-                    //         src: `${departments[i].department.categories[0].image}`
-                    //     }).appendTo(topCategories)
+                    if (
+                        departments[i].categories[0] &&
+                        departments[i].categories[0].image !== undefined
+                    ) {
+                        var $item = jQuery('<div/>', {
+                            class: 'carousel-item'
+                        }).appendTo($carouselInner)
+                        if (i == 0) {
+                            $('.carousel-item').addClass('active')
+                        }
+
+                        let img = jQuery('<img/>', {
+                            src: `${departments[i].categories[0].image}`,
+                            height: '150px'
+                        }).appendTo($item)
+                    }
+                    let span = jQuery('<span/>', {
+                        html: `${departments[i].department}`,
+                        class: 'top-trending-text text-center'
+                    }).appendTo(topCategories)
                 }
 
                 // for (var i = 0; i < departments.length; i++) {

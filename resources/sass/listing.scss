@@ -247,6 +247,19 @@ input:disabled + .checkmark + .text {
     .category-img {
         min-height: 162px;
     }
+    .-depts {
+        text-align: center;
+        .-topCategories {
+            .top-trending-img {
+                img {
+                    width: 150px;
+                    background-color: $background-color;
+                    border-radius: 100px;
+                }
+            }
+        }
+    }
+
     .listing,
     .category-page {
         font-family: 'Fenix', serif;
