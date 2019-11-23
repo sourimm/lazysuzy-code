@@ -38,6 +38,7 @@ class Department extends Model
 
         // trending categories will return N top results. Pass N as argument.
         $departments['trending_categories'] = Category::trending_categories(3);
+        $departments['trending_products'] = Product::trending_products(5);
         return $departments;
     }
 
