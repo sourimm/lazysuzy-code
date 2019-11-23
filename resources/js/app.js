@@ -94,6 +94,42 @@ $(document).ready(function() {
                 .css('top', $(this).position().top)
         }
     })
+    var $carouselInner = $('#carousel-inner')
+    $.ajax({
+        type: 'GET',
+        url: '/api/all-departments',
+        datype: 'json ',
+        success: function(data) {
+            console.log(data)
+            data.map(item => {
+                // var topCategories = jQuery('<div/>', {
+                //     class: 'col-4 col-sm-12 -topCategories item'
+                // }).appendTo('#topCategories')
+
+                // var div = jQuery('<div/>', {
+                //     class: 'top-trending-img'
+                // }).appendTo(topCategories)
+
+                var $item = jQuery('<div/>', {
+                    class: 'carousel-item col-sm-12'
+                }).appendTo($carouselInner)
+
+                var img = jQuery('<img/>', {
+                    src: `${item.categories[0].image}`,
+                    height: '150px'
+                }).appendTo($item)
+
+                var span = jQuery('<span/>', {
+                    html: `${item.department}`,
+                    class: 'top-trending-text text-center'
+                }).appendTo($item)
+            })
+        },
+        error: function(jqXHR, exception) {
+            console.log(jqXHR)
+            console.log(exception)
+        }
+    })
 
     $.ajax({
         type: 'GET',
@@ -143,49 +179,6 @@ $(document).ready(function() {
                     }
                 }
                 $('#collapsible-dept').html(deptToAppend)
-                debugger
-                // console.log(departments[2].department.categories.category[1])
-                var $carouselInner = $('#carousel-inner')
-
-                for (var i = 0; i < departments.length; i++) {
-                    var topCategories = jQuery('<div/>', {
-                        class: 'col-4 col-sm-6 -topCategories item'
-                    }).appendTo('#topCategories')
-                    let div = jQuery('<div/>', {
-                        class: 'top-trending-img'
-                    }).appendTo(topCategories)
-                    if (
-                        departments[i].categories[0] &&
-                        departments[i].categories[0].image !== undefined
-                    ) {
-                        var $item = jQuery('<div/>', {
-                            class: 'carousel-item'
-                        }).appendTo($carouselInner)
-                        if (i == 0) {
-                            $('.carousel-item').addClass('active')
-                        }
-
-                        let img = jQuery('<img/>', {
-                            src: `${departments[i].categories[0].image}`,
-                            height: '150px'
-                        }).appendTo($item)
-                    }
-                    let span = jQuery('<span/>', {
-                        html: `${departments[i].department}`,
-                        class: 'top-trending-text text-center'
-                    }).appendTo(topCategories)
-                }
-
-                // for (var i = 0; i < departments.length; i++) {
-                //     if (departments.length != 0) {
-                //         singleDeptMobile =
-                //             '<div class="col-4 col-sm-auto -dept ">' +
-                //             departments[i].department +
-                //             '</div>'
-                //     }
-                //     $('#topCategories').append(topCategories)
-                // }
-
                 var singleDeptMobile = ''
                 for (var i = 0; i < departments.length; i++) {
                     if (departments.length != 0) {

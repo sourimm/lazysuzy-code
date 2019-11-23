@@ -100,9 +100,9 @@
     </div> -->
     <!-- @include('./partials/brandassociation')  -->
 @endsection
-    <!-- <script src="{{ ('./js/apis/brands-api.js')}}"></script> -->
-    <!-- @push('pageSpecificScripts')
+    <script src="{{ ('./js/apis/brands-api.js')}}"></script> -->
+    @push('pageSpecificScripts')
     <script src="{{ mix('js/brands.js')}}"></script>
- <script src="{{ mix('js/detailOverview.js')}}"></script> -->
+ <script src="{{ mix('js/detailOverview.js')}}"></script>
 @endpush
 
