@@ -4,7 +4,7 @@
 @include('./partials/subnav')
     <div class="brands">
         <div class="main-img">
-            <img class="img-fluid" src="{{ asset('/images/Floyd.jpg') }}" alt="">
+            <img class="img-fluid" src="{{ asset('/images/Floyd.jpg') }}" alt="Floyd">
         </div>   
         <div class="brands-main-heading">
             <div class="container">
@@ -27,7 +27,7 @@
                             <div class="col-12 col-sm-6">  
                                <div class="row">
                                    <div class="col-3 col-sm-12">
-                                   <img class="brands-icon" src="{{ asset('/images/icon/heart-flag-of-united-states-of-america.png') }}" alt="">
+                                   <img class="brands-icon" src="{{ asset('/images/icon/heart-flag-of-united-states-of-america.png') }}" alt="Heart-flag-of-united-states-of-america">
                                    </div>
                                    <div class="col-9 col-sm-12 brand-icon-text">
                                        <h3>Manufactured in USA</h3>
@@ -37,7 +37,7 @@
                             <div class="col-12 col-sm-6 ">  
                                <div class="row">
                                    <div class="col-3 col-sm-12">
-                                   <img class="brands-icon" src="{{ asset('/images/icon/shipping.png') }}" alt="">
+                                   <img class="brands-icon" src="{{ asset('/images/icon/shipping.png') }}" alt="Free Shipping">
                                    </div>
                                    <div class="col-9 col-sm-12 brand-icon-text">
                                        <h3>Free Shipping</h3>
@@ -48,7 +48,7 @@
                             <div class="col-12 col-sm-6">  
                                <div class="row">
                                    <div class="col-3 col-sm-12">
-                                   <img class="brands-icon" src="{{ asset('/images/icon/exchange.png') }}" alt="">
+                                   <img class="brands-icon" src="{{ asset('/images/icon/exchange.png') }}" alt="Exchange">
                                    </div>
                                    <div class="col-9 col-sm-12 brand-icon-text">
                                        <h3>Free 30 Days Returns</h3>
@@ -59,7 +59,7 @@
                             <div class="col-12 col-sm-6">  
                                <div class="row">
                                    <div class="col-3 col-sm-12">
-                                   <img class="brands-icon" src="{{ asset('/images/icon/guarantee.png') }}" alt="">
+                                   <img class="brands-icon" src="{{ asset('/images/icon/guarantee.png') }}" alt="Guarantee">
                                    </div>
                                    <div class="col-9 col-sm-12 brand-icon-text">
                                        <h3>10 years Warranty</h3>
