@@ -230,6 +230,7 @@ input:disabled + .checkmark + .text {
     text-decoration: none;
     color: $secondary-color;
     margin-bottom: 40px;
+    padding: 0;
 
     &:hover {
         text-decoration: none;

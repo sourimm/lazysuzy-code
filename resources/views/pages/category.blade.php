@@ -23,7 +23,7 @@
         <div class="category-listing">
             <div class="row">
                 @foreach ($listedCategories as $category)
-                    <div class="col-sm-6 col-6 category-text">
+                    <div class="col-sm-6 col-4 category-text">
                         <a class="category-text" href="{{$category['link']}}">
                             <img class="category-img" src="{{$category['image']}}?v=1.0.0" alt="{{$category['category']}}" >
                             <div><span>{{$category['category']}}</span></div>
