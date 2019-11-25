@@ -35,7 +35,7 @@
             </div>
         </div>
         <div class="main-container">
-            <div class="category-links d-sm-none">
+            <div class="d-sm-none category-links">
                 <span class="-heading float-md-right">Top Trending</span>
                     <div class="-trending " >
                         <div id="carouselTrending" class="carousel slide" data-ride="carousel" >

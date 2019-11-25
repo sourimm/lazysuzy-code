@@ -18,12 +18,11 @@ $(document).ready(function() {
     $("#searchbarHeader").submit(function(e) {
         callSearch(e, this);
     });
-
-    $(".sb-body").submit(function(e) {
-        callSearch(e, this);
-    });
     $(".navbar-toggler").click(function() {
         $("#Sidenavbar").css("width", "300px");
+    });
+    $(".sb-body").submit(function(e) {
+        callSearch(e, this);
     });
     $("#Sidenavbarclose").click(function() {
         $("#Sidenavbar").css("width", "0px");
