@@ -97,7 +97,8 @@ $(document).ready(function() {
                 .css("top", $(this).position().top);
         }
     });
-
+    $("#madinah-carousel").carousel({ interval: false });
+    $("#carouselTrending").carousel({ interval: false });
     $.ajax({
         type: "GET",
         url: DEPT_API,
@@ -221,7 +222,7 @@ $(document).ready(function() {
                 for (var i = 0; i < all_departments.length; i++) {
                     if (all_departments.length != 0) {
                         singleDeptMobile =
-                            '<div class="col-4 col-sm-auto -dept "><a  href="' +
+                            '<div class="col-sm-4  -dept "><a  href="' +
                             all_departments[i].link +
                             '">' +
                             all_departments[i].department +
