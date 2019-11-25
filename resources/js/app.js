@@ -97,7 +97,8 @@ $(document).ready(function() {
                 .css('top', $(this).position().top)
         }
     })
-
+    $('#madinah-carousel').carousel({ interval: false })
+    $('#carouselTrending').carousel({ interval: false })
     $.ajax({
         type: 'GET',
         url: DEPT_API,
