@@ -222,6 +222,10 @@ input:disabled + .checkmark + .text {
 }
 .category-listing {
     margin-top: 20px;
+    .row {
+        margin-left: 0;
+        margin-right: 0;
+    }
 }
 
 .category-text {
@@ -230,6 +234,7 @@ input:disabled + .checkmark + .text {
     text-decoration: none;
     color: $secondary-color;
     margin-bottom: 40px;
+    padding: 0;
 
     &:hover {
         text-decoration: none;
