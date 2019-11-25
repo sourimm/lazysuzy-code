@@ -55,7 +55,7 @@
         </div>
         <div class="main-container">
             <div class="category-links d-sm-none">
-                <span class="-heading float-md-right">Featured Brands</span>
+                <span class="-heading d-none float-md-right">Featured Brands</span>
                 <div class="-depts row" id="featuredBrands">
                   
                 </div>
