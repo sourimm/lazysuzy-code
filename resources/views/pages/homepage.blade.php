@@ -22,11 +22,11 @@
                     <div id="madinah-carousel" class="carousel slide" data-ride="carousel">
                         <div class="carousel-inner" role="listbox" id="carousel-inner">
                         </div>
-                        <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+                        <a class="carousel-control-prev" href="#madinah-carousel" role="button" data-slide="prev">
                             <span class=" fa fa-angle-left" aria-hidden="true"></span>
                             <span class="sr-only">Previous</span>
                         </a>
-                        <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+                        <a class="carousel-control-next" href="#madinah-carousel" role="button" data-slide="next">
                             <span class="fa fa-angle-right" aria-hidden="true"></span>
                             <span class="sr-only">Next</span>
                         </a>
@@ -38,14 +38,14 @@
             <div class="category-links d-sm-none">
                 <span class="-heading float-md-right">Top Trending</span>
                     <div class="-trending " >
-                        <div id="carouselExampleControls" class="carousel slide" data-ride="carousel" >
+                        <div id="carouselTrending" class="carousel slide" data-ride="carousel" >
                             <div class="carousel-inner" id="carousel-inner-trending">
                             </div>
-                            <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+                            <a class="carousel-control-prev" href="#carouselTrending" role="button" data-slide="prev">
                                 <span class="fa fa-angle-left" aria-hidden="true"></span>
                                 <span class="sr-only">Previous</span>
                             </a>
-                            <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+                            <a class="carousel-control-next" href="#carouselTrending" role="button" data-slide="next">
                                 <span class="fa fa-angle-right" aria-hidden="true"></span>
                                 <span class="sr-only">Next</span>
                             </a>
@@ -55,7 +55,7 @@
         </div>
         <div class="main-container">
             <div class="category-links d-sm-none">
-                <span class="-heading float-md-right">Featured Brands</span>
+                <span class="-heading d-none float-md-right">Featured Brands</span>
                 <div class="-depts row" id="featuredBrands">
                   
                 </div>
