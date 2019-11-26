@@ -9,17 +9,19 @@
         <div class="d-none">{{ Breadcrumbs::render('/') }}</div>
         <div class="main-container">
             <div class="category-links d-sm-none">
-                <span class="-heading float-md-right">Browse by Department</span>
+                <div class="-heading float-md-right">Browse by Department</div>
                 <div class="-depts row" id="mobileDepartments">
                 </div>
             </div>
         </div>
         <div class="main-container">
             <div class="category-links d-sm-none">
-                <span class="-heading float-md-right">Top Categories:</span>
+                <div class="-heading float-md-right">Top Categories</div>
                 <div class="-depts" id="topCategories">
                     <!-- <div id="carouselExampleControls" class="carousel slide" data-ride="carousel" > -->
                     <div id="madinah-carousel" class="carousel slide" data-ride="carousel">
+                        <ol id="madinahcarouselindicator" class="carousel-indicators">
+                        </ol>
                         <div class="carousel-inner" role="listbox" id="carousel-inner">
                         </div>
                         <a class="carousel-control-prev" href="#madinah-carousel" role="button" data-slide="prev">
@@ -36,9 +38,11 @@
         </div>
         <div class="main-container">
             <div class="d-sm-none category-links">
-                <span class="-heading float-md-right">Top Trending</span>
+                <div class="-heading float-md-right">Top Trending</div>
                     <div class="-trending " >
                         <div id="carouselTrending" class="carousel slide" data-ride="carousel" >
+                            <ol id="toptrendingindicator" class="carousel-indicators">
+                            </ol>
                             <div class="carousel-inner" id="carousel-inner-trending">
                             </div>
                             <a class="carousel-control-prev" href="#carouselTrending" role="button" data-slide="prev">
@@ -55,14 +59,15 @@
         </div>
         <div class="main-container">
             <div class="category-links d-sm-none">
-                <span class="-heading d-none float-md-right">Featured Brands</span>
+                <div class="-heading d-none float-md-right">Featured Brands</div>
                 <div class="-depts row" id="featuredBrands">
 
                 </div>
             </div>
         </div>
-        <div class="d-md-none">@include('./partials/brandassociation') </div>
-    </div>
+        <div class="d-md-none">
+            @include('./partials/brandassociation') </div>
+        </div>
     <form method="POST" action="{{ route('login') }}" class="d-none">
             @csrf
          <input id="email" type="email" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" name="email" value="{{ old('email') }}" required autofocus>

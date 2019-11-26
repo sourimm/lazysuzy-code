@@ -110,7 +110,6 @@ $(document).ready(function() {
             } = data;
             var $carouselInner = $("#carousel-inner");
             var $carouselInnertrend = $("#carousel-inner-trending");
-
             var deptToAppend = "";
             if (isMobile()) {
                 trending_categories.map((item, index) => {
@@ -131,6 +130,11 @@ $(document).ready(function() {
                         html: `${item.category}`,
                         class: "top-trending-text text-center"
                     }).appendTo(div);
+                    var li = jQuery("<li/>", {
+                        "data-target": "#madinah-carousel",
+                        "data-slide-to": index,
+                        class: index == 0 ? "active" : ""
+                    }).appendTo("#madinahcarouselindicator");
                 });
 
                 trending_products.map((item, index) => {
@@ -148,28 +152,55 @@ $(document).ready(function() {
                         html: `${item.site}`,
                         class: "top-trending-site text-center"
                     }).appendTo($item);
-                    var div = jQuery("<div/>", {
+                    var div = jQuery("<h3/>", {
                         html: `${item.name}`,
                         class: "top-trending-text text-center"
                     }).appendTo($item);
+                    var pricediv = jQuery("<div/>", {
+                        class: "prod-price-div"
+                    }).appendTo($item);
+                    var li = jQuery("<li/>", {
+                        "data-target": "#carouselTrending",
+                        "data-slide-to": index,
+                        class: index == 0 ? "active" : ""
+                    }).appendTo("#toptrendingindicator");
 
                     if (item.is_price.includes("-")) {
                         let salepriceRange = item.is_price.split("-");
-                        var saleprice = jQuery("<div />", {
+
+                        var saleprice = jQuery("<span />", {
                             text: `$${Math.round(
                                 salepriceRange[0]
                             ).toLocaleString()} - $${Math.round(
                                 salepriceRange[1]
                             ).toLocaleString()}`,
                             class: "prod-sale-price d-md-none"
-                        }).appendTo(item);
+                        }).appendTo(pricediv);
                     } else {
-                        var saleprice = jQuery("<div />", {
+                        var saleprice = jQuery("<span />", {
                             text: `$${Math.round(
                                 item.is_price
                             ).toLocaleString()}`,
                             class: "prod-sale-price d-md-none"
-                        }).appendTo($item);
+                        }).appendTo(pricediv);
+                    }
+                    if (item.was_price.includes("-")) {
+                        let salepriceRange = item.was_price.split("-");
+                        var saleprice = jQuery("<span />", {
+                            text: `$${Math.round(
+                                salepriceRange[0]
+                            ).toLocaleString()} - $${Math.round(
+                                salepriceRange[1]
+                            ).toLocaleString()}`,
+                            class: "prod-was-price d-md-none"
+                        }).appendTo(pricediv);
+                    } else {
+                        var saleprice = jQuery("<span />", {
+                            text: `$${Math.round(
+                                item.was_price
+                            ).toLocaleString()}`,
+                            class: "prod-was-price d-md-none"
+                        }).appendTo(pricediv);
                     }
                     var div = jQuery("<div/>", {
                         html: md.render(item.description.join("\n")),
