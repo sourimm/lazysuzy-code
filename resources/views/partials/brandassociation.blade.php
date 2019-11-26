@@ -2,11 +2,7 @@
     <div class="row">
         <div class="brand-logos col-md-10 px-0 ">
             <!-- <div class="-text">Shop your favourite brands:</div> -->
-<<<<<<< HEAD
-            <div class="-brands-text">
-=======
             <div class="-brands-text d-md-none">
->>>>>>> shadow
                 <span>We are your source for the latest styles and deals across top brands.
                      We don't sell We just simplify your search for finding your accent.
                 </span>
@@ -19,7 +15,7 @@
                         <img class="brand-logo -crate" src="{{ asset('/images/brand-images/crate-barrel.png') }}" alt="Crate and barrel brand">
                     </div>
                     <div class="col-md-2 col-sm-4">
-                        <img class="brand-logo -pier1" src="{{ asset('/images/brand-images/pier1.png') }}" alt="Pier1 brand">    
+                        <img class="brand-logo -pier1" src="{{ asset('/images/brand-images/pier1.png') }}" alt="Pier1 brand">
                     </div>
                     <div class="col-md-2 col-sm-4">
                         <img class="brand-logo -westelm" src="{{ asset('/images/brand-images/westelm.png') }}" alt="WestElm brand">
