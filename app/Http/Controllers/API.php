@@ -56,7 +56,7 @@ class API extends Controller
         return Wishlist::get_whishlist();
     }
 
-    public function get_all_brands() {
-        return Brands::get_all();
+    public function get_all_brands($key = null) {
+        return Brands::get_all($key);
     }
 }

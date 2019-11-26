@@ -8,8 +8,14 @@ class Brands extends Model
     protected $table = "master_brands";
     public static $base_site_url = "https://www.lazysuzy.com";
     
-    public static function get_all() {
-        $rows = Brands::select("*")->get()->toArray();;
+    public static function get_all($key) {
+        $rows = Brands::select("*");
+
+        if ($key !== null) $rows = $rows->where("value", $key);
+
+        $rows = $rows->get()
+            ->toArray();;
+        
         $brands = [];
         
         foreach($rows as $row) {
