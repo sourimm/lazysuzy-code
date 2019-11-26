@@ -3,10 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
-use App\Models\Whislist;
 use App\Models\Variations;
 use Illuminate\Http\Request;
 use App\Models\Wishlist;
+use App\Models\Brands;
+
 
 class API extends Controller
 {
@@ -53,5 +54,9 @@ class API extends Controller
     public function get_wishlist()
     {
         return Wishlist::get_whishlist();
+    }
+
+    public function get_all_brands() {
+        return Brands::get_all();
     }
 }
