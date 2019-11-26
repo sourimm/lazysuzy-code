@@ -24,14 +24,14 @@
                         </ol>
                         <div class="carousel-inner" role="listbox" id="carousel-inner">
                         </div>
-                        <a class="carousel-control-prev" href="#madinah-carousel" role="button" data-slide="prev">
+                        <!-- <a class="carousel-control-prev" href="#madinah-carousel" role="button" data-slide="prev">
                             <span class=" fa fa-angle-left" aria-hidden="true"></span>
                             <span class="sr-only">Previous</span>
                         </a>
                         <a class="carousel-control-next" href="#madinah-carousel" role="button" data-slide="next">
                             <span class="fa fa-angle-right" aria-hidden="true"></span>
                             <span class="sr-only">Next</span>
-                        </a>
+                        </a> -->
                     </div>
                 </div>
             </div>
@@ -45,14 +45,14 @@
                             </ol>
                             <div class="carousel-inner" id="carousel-inner-trending">
                             </div>
-                            <a class="carousel-control-prev" href="#carouselTrending" role="button" data-slide="prev">
+                            <!-- <a class="carousel-control-prev" href="#carouselTrending" role="button" data-slide="prev">
                                 <span class="fa fa-angle-left" aria-hidden="true"></span>
                                 <span class="sr-only">Previous</span>
                             </a>
                             <a class="carousel-control-next" href="#carouselTrending" role="button" data-slide="next">
                                 <span class="fa fa-angle-right" aria-hidden="true"></span>
                                 <span class="sr-only">Next</span>
-                            </a>
+                            </a> -->
                         </div>
                     </div>
                 </div>
@@ -68,6 +68,13 @@
         <div class="d-md-none">
             @include('./partials/brandassociation') </div>
         </div>
+<<<<<<< HEAD
+=======
+        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/slick-lightbox/0.2.12/slick-lightbox.css">
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/slick-lightbox/0.2.12/slick-lightbox.js">
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/slick-lightbox/0.2.12/slick-lightbox.min.js">
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/slick-lightbox/0.2.12/slick-lightbox.min.js.map">
+>>>>>>> shadow
     <form method="POST" action="{{ route('login') }}" class="d-none">
             @csrf
          <input id="email" type="email" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" name="email" value="{{ old('email') }}" required autofocus>

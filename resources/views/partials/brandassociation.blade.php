@@ -2,7 +2,11 @@
     <div class="row">
         <div class="brand-logos col-md-10 px-0 ">
             <!-- <div class="-text">Shop your favourite brands:</div> -->
+<<<<<<< HEAD
             <div class="-brands-text">
+=======
+            <div class="-brands-text d-md-none">
+>>>>>>> shadow
                 <span>We are your source for the latest styles and deals across top brands.
                      We don't sell We just simplify your search for finding your accent.
                 </span>

@@ -1,5 +1,9 @@
 <div class="footer">
+<<<<<<< HEAD
     <div class="row">
+=======
+    <div class="d-md-none row">
+>>>>>>> shadow
         <div class="col-sm-3">
         <span class="copyright">&copy; 2019 LazySuzy</span>
         </div>
