@@ -39,7 +39,7 @@
 .homepage-main-div {
     .main {
         background-color: $background-color;
-        background-image: url('/images/homepage-sofa-img.jpeg');
+        background-image: url("/images/homepage-sofa-img.jpeg");
         background-size: cover;
         background-repeat: no-repeat;
         background-position: center;
@@ -59,16 +59,15 @@
         @include media-breakpoint-down(md) {
             position: relative;
             top: 0px;
+            background: #fffff9;
             // margin-top: 10px;
         }
 
         .-heading {
             color: $brown-text-color;
             font-size: 20px !important;
-            border: 1px solid $border-color;
             text-align: center;
             margin-top: 20px;
-            background-color: $white;
         }
 
         .-depts {
@@ -91,7 +90,6 @@
                 }
             }
             .carousel-inner {
-                background-color: $white;
                 .carousel-item {
                     img {
                         border: 1px solid $border-color;
@@ -173,7 +171,6 @@
             .-dept {
                 padding: 0px 15px !important;
                 height: 30px;
-                background: $white;
                 border-radius: 4px;
                 text-align: center;
                 border: 1px solid $border-color;
@@ -205,7 +202,6 @@
                 }
             }
             .carousel-inner {
-                background-color: $white;
                 .carousel-item {
                     text-align: left;
                     padding: 0;
@@ -257,9 +253,9 @@
         }
     }
 
-    .brand-association {
+    .homepage .brand-association {
         padding: 0px 34px !important;
-        top: 73vh;
+        background: #fffff9;
 
         .-text {
             font-size: 14px !important;

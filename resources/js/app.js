@@ -138,22 +138,17 @@ $(document).ready(function() {
                                 ? "carousel-item col-sm-12  active"
                                 : "carousel-item col-sm-12"
                     }).appendTo($carouselInner);
-                    var slickboxMainDiv = jQuery("<div/>", {
-                        class: "topcateLightBox"
-                    }).appendTo($item);
 
-                    var slickLightbox = jQuery("<a/>", {
-                        class: "light-box",
-                        href: item.image,
-                        "data-caption": ""
-                    }).appendTo(slickboxMainDiv);
+                    var anchor = jQuery("<a/>", {
+                        href: item.link
+                    }).appendTo($item);
                     var img = jQuery("<img/>", {
                         src: `${item.image}`,
                         height: "150px"
-                    }).appendTo(slickLightbox);
+                    }).appendTo(anchor);
                     var div = jQuery("<div/>", {
                         class: "col-sm-12"
-                    }).appendTo($item);
+                    }).appendTo(anchor);
                     var span = jQuery("<span/>", {
                         html: `${item.category}`,
                         class: "top-trending-text text-center"
@@ -187,14 +182,14 @@ $(document).ready(function() {
                         class: "top-trending-site text-center"
                     }).appendTo($item);
                     var nameLink = jQuery("<a/>", {
-                        href: item.product_url
+                        href: item.product_detail_url
                     }).appendTo($item);
                     var div = jQuery("<h3/>", {
                         html: `${item.name}`,
                         class: "top-trending-text text-center"
                     }).appendTo(nameLink);
                     var priceLink = jQuery("<a/>", {
-                        href: item.product_url
+                        href: item.product_detail_url
                     }).appendTo($item);
                     var pricediv = jQuery("<div/>", {
                         class: "prod-price-div"
