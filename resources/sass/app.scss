@@ -1,21 +1,21 @@
 // Fonts
-@import url('https://fonts.googleapis.com/css?family=Nunito');
+@import url("https://fonts.googleapis.com/css?family=Nunito");
 
-@import url('https://fonts.googleapis.com/css?family=Marcellus+SC');
+@import url("https://fonts.googleapis.com/css?family=Marcellus+SC");
 
-@import url('https://fonts.googleapis.com/css?family=Fenix');
+@import url("https://fonts.googleapis.com/css?family=Fenix");
 
 // Variables
-@import 'variables';
+@import "variables";
 // Mixins
-@import 'mixins';
+@import "mixins";
 
 // Bootstrap
-@import '~bootstrap/scss/bootstrap';
+@import "~bootstrap/scss/bootstrap";
 
 // @import 'bootstrap-overridden';
 
-@import '~ion-rangeslider/css/ion.rangeSlider.min.css';
+@import "~ion-rangeslider/css/ion.rangeSlider.min.css";
 
 // @import "~@fortawesome/fontawesome-free/scss/fontawesome.scss";
 // @import "~@fortawesome/fontawesome-free/scss/_icons.scss";
@@ -24,41 +24,41 @@
 // @import "vendor/fontawesome/scss/fontawesome.scss";
 // @import '~font-awesome/scss/font-awesome.scss';
 
-@import '~@fortawesome/fontawesome-free/scss/fontawesome';
-@import '~@fortawesome/fontawesome-free/scss/regular';
-@import '~@fortawesome/fontawesome-free/scss/solid';
-@import '~@fortawesome/fontawesome-free/scss/brands';
-@import '~@fortawesome/fontawesome-free/scss/v4-shims';
+@import "~@fortawesome/fontawesome-free/scss/fontawesome";
+@import "~@fortawesome/fontawesome-free/scss/regular";
+@import "~@fortawesome/fontawesome-free/scss/solid";
+@import "~@fortawesome/fontawesome-free/scss/brands";
+@import "~@fortawesome/fontawesome-free/scss/v4-shims";
 
-@import 'navbar';
-@import 'homepage';
-@import 'subnav';
-@import 'footer';
-@import 'listing';
-@import 'detailOverview';
-@import 'brands';
-@import 'products-container';
-@import 'detailspage';
-@import 'carousel';
-@import 'rating';
-@import 'custom-selectbox';
-@import 'custom-rangeslider';
-@import 'dropdown';
-@import 'searchbar';
-@import 'authmodal';
+@import "navbar";
+@import "homepage";
+@import "subnav";
+@import "footer";
+@import "listing";
+@import "detailOverview";
+@import "brands";
+@import "products-container";
+@import "detailspage";
+@import "carousel";
+@import "rating";
+@import "custom-selectbox";
+@import "custom-rangeslider";
+@import "dropdown";
+@import "searchbar";
+@import "authmodal";
 
 //Slick carousel
-$slick-font-family: 'Font Awesome 5 Free';
-$slick-prev-character: ' ‹';
-$slick-next-character: ' ›';
+$slick-font-family: "Font Awesome 5 Free";
+$slick-prev-character: " ‹";
+$slick-next-character: " ›";
 $slick-arrow-color: $secondary-color;
 
-@import '~slick-carousel/slick/slick';
-@import '~slick-carousel/slick/slick-theme';
+@import "~slick-carousel/slick/slick";
+@import "~slick-carousel/slick/slick-theme";
 
 html,
 body {
-    font-family: 'Fenix', serif;
+    font-family: "Fenix", serif;
 }
 
 .-btn {
@@ -129,6 +129,9 @@ body {
     .-worldmarket {
         max-width: 116px;
     }
+    .-floyd {
+        max-width: 90px;
+    }
     .more-soon {
         max-width: 189px;
     }
@@ -136,7 +139,6 @@ body {
 
 .brand-association {
     padding: 10px 20px;
-    font-family: 'Marcellus SC', san-serif;
     background-color: $grey;
     margin-top: 60px;
     margin-bottom: 10px;
@@ -182,7 +184,7 @@ body {
     margin-left: 0;
 }
 .no-gutters > .col,
-.no-gutters > [class*='col-'] {
+.no-gutters > [class*="col-"] {
     padding-right: 0;
     padding-left: 0;
 }

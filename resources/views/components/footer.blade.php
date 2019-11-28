@@ -2,7 +2,7 @@
     <div class="d-md-none row">
         <div class="col-6">
         <div class="copyright">&copy; 2019 LazySuzy</div>
-        <span class="copyright float-right">
+        <span class="copyright">
                 <a href="/privacypolicy">Privacy Policy</a>
                 <span>|</span>
                 <a href="/termsofservice">Terms of service</a>

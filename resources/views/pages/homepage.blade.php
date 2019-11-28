@@ -16,7 +16,7 @@
         </div>
         <div class="main-container">
             <div class="category-links d-sm-none">
-                <div class="-heading float-md-right">Top Categories</div>
+                <div class="-heading float-md-right">Browse Top Categories</div>
                 <div class="-depts" id="topCategories">
                     <!-- <div id="carouselExampleControls" class="carousel slide" data-ride="carousel" > -->
                     <div id="madinah-carousel" class="carousel slide" data-ride="carousel">
@@ -38,7 +38,7 @@
         </div>
         <div class="main-container">
             <div class="d-sm-none category-links">
-                <div class="-heading float-md-right">Top Trending</div>
+                <div class="-heading float-md-right">Top Trending Designs</div>
                     <div class="-trending " >
                         <div id="carouselTrending" class="carousel slide" data-ride="carousel" >
                             <ol id="toptrendingindicator" class="carousel-indicators">
@@ -57,14 +57,7 @@
                     </div>
                 </div>
         </div>
-        <div class="main-container">
-            <div class="category-links d-sm-none">
-                <div class="-heading d-none float-md-right">Featured Brands</div>
-                <div class="-depts row" id="featuredBrands">
 
-                </div>
-            </div>
-        </div>
         <div class="d-md-none">
             @include('./partials/brandassociation') </div>
         </div>

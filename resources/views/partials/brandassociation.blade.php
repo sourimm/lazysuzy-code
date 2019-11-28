@@ -14,6 +14,9 @@
                     <div class="col-md-2 col-sm-4">
                         <img class="brand-logo -crate" src="{{ asset('/images/brand-images/crate-barrel.png') }}" alt="Crate and barrel brand">
                     </div>
+                    <div col-md-2 col-sm-4>
+                        <img class="brand-logo -floyd" src="{{ asset('/images/brand-images/Floyd.png') }}" alt="and more coming soon">
+                    </div>
                     <div class="col-md-2 col-sm-4">
                         <img class="brand-logo -pier1" src="{{ asset('/images/brand-images/pier1.png') }}" alt="Pier1 brand">
                     </div>
@@ -23,9 +26,7 @@
                     <div class="col-md-2 col-sm-4">
                         <img class="brand-logo -worldmarket" src="{{ asset('/images/brand-images/worldmarket.png') }}" alt="World Market brand">
                     </div>
-                    <!-- <div col-md-2 col-sm-4>
-                        <img class="brand-logo more-soon" src="{{ asset('/images/brand-images/more.png') }}" alt="and more coming soon">
-                    </div> -->
+
                 </div>
         </div>
         <div class="socials col-md-2 px-0">
