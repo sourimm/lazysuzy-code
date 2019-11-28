@@ -224,17 +224,18 @@
                             color: $black;
                             text-decoration: none;
                             .less {
-                                display: none;
-                            }
-                            .more {
                                 display: inline-block;
                             }
+                            .more {
+                                display: none;
+                            }
+                            
                             &.collapsed {
                                 .less {
-                                    display: inline-block;
+                                    display: none;
                                 }
                                 .more {
-                                    display: none;
+                                    display: inline-block;
                                 }
                             }
                         }
