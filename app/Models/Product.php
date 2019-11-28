@@ -17,6 +17,24 @@ class Product extends Model
     public static $base_siteurl = 'https://www.lazysuzy.com';
     static $count = 0;
 
+    public static function trending_products($limit) {
+
+        $trending_products = [];
+        $rows = DB::table("trending_products")
+                    ->select("*")
+                    ->join("master_data", "master_data.product_sku", "=", "trending_products.product_sku")
+                    ->join("master_brands", "master_data.site_name", "=", "master_brands.value")
+                    ->limit($limit)
+                    ->get();
+
+        foreach($rows as $product) {
+            $variations = null; // Product::get_variations($product, null, false);
+            array_push($trending_products, Product::get_details($product, $variations, true, false, true));
+        }
+
+        return $trending_products;
+    }
+
     public static function get_LS_IDs($dept, $cat = null)
     {
 
@@ -24,13 +42,16 @@ class Product extends Model
         $data   = DB::table('mapping_core')
             ->select('LS_ID');
 
-        if (null == $cat) {
-            $data = $data
-                ->where('department_', $dept);
-        } else {
-            $data = $data
-                ->where('department_', $dept)
-                ->where('product_category_', $cat);
+        // "all" is for getting all the products irrespective of any department or category
+        if ($dept != "all") {
+            if (null == $cat) {
+                $data = $data
+                    ->where('department_', $dept);
+            } else {
+                $data = $data
+                    ->where('department_', $dept)
+                    ->where('product_category_', $cat);
+            }
         }
 
         $data = $data->get();
@@ -524,7 +545,7 @@ class Product extends Model
         ];
     }
 
-    public static function get_details($product, $variations, $isListingAPICall = null, $isMarked = false)
+    public static function get_details($product, $variations, $isListingAPICall = null, $isMarked = false, $isTrending = false)
     {
         $p_val = $wp_val = $discount = null;
 
@@ -598,6 +619,10 @@ class Product extends Model
             $data['department_info'] = Department::get_department_info($product->LS_ID);
             return $data;
         } else {
+
+            if ($isTrending) {
+                $data['description'] = in_array($product->name, $desc_BRANDS)  ? Product::format_desc_new($product->product_description) : preg_split("/\\[US\\]|<br>|\\n/", $product->product_description);
+            }
             return $data;
         }
     }

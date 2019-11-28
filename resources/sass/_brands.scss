@@ -1,0 +1,104 @@
+@include media-breakpoint-down(md) {
+}
+
+.brands {
+    .main-img {
+        padding: 0 50px;
+        margin: 50px 0;
+    }
+
+    .brands-main-heading {
+        margin: 25px 0;
+        .brands-details {
+            margin: 25px;
+            text-align: justify;
+            h3 {
+                line-height: 2;
+            }
+        }
+        .brands-icon {
+            width: 50px;
+            margin: 10px;
+        }
+        .brand-icon-text {
+            margin-top: 15px;
+        }
+    }
+    .brands-prod-container {
+        .row {
+            .brands-prod-div {
+                margin: 10px 0;
+                .brands-product {
+                    .brands-product-img {
+                        width: 265px;
+                        // margin: 5px 0;
+                    }
+                }
+                .product-detail {
+                    padding: 0 10px;
+                    text-align: center;
+                }
+            }
+
+            .prod-info {
+                bottom: 0px;
+                padding: 5px;
+                width: 100%;
+                background-color: rgba(0, 0, 0, 0.4);
+                height: 25px;
+                text-align: left;
+                font-size: 14px;
+                line-height: 14px;
+                z-index: 100;
+                color: $white;
+                width: 265px;
+            }
+        }
+    }
+}
+@media screen and (max-width: 480px) {
+    .brands {
+        h3 {
+            font-size: 1rem;
+        }
+        .main-img {
+            padding: 5px 10px;
+        }
+        .brands-main-heading {
+            text-align: center;
+            margin: 25px;
+        }
+
+        .brands-prod-container {
+            .row {
+                .brands-prod-div {
+                    margin: 10px 0;
+
+                    .brands-product {
+                        .brands-product-img {
+                            width: 345px;
+                            // margin: 5px 0;
+                        }
+                    }
+                    .product-detail {
+                        padding: 0 10px;
+                        text-align: center;
+                    }
+                }
+
+                .prod-info {
+                    bottom: 0px;
+                    padding: 5px;
+                    width: 100%;
+                    background-color: rgba(0, 0, 0, 0.4);
+                    height: 25px;
+                    text-align: left;
+                    font-size: 14px;
+                    line-height: 14px;
+                    z-index: 100;
+                    color: $white;
+                }
+            }
+        }
+    }
+}

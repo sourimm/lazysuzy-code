@@ -1,14 +1,21 @@
 .footer {
-    padding: 15px;
+    padding: 15px 15px 0 15px;
     position: relative;
     bottom: 0px;
     width: 100%;
+    background-color: $secondary-color;
+    color: $white;
     .copyright {
-        font-size: 14px;
+        font-size: 10px;
+        a {
+            font-size: 10px;
+            color: $white !important;
+        }
     }
     .policy-terms {
         a {
-            color: $secondary-color;
+            font-size: 10px;
+            color: $white !important;
         }
     }
 }

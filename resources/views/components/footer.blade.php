@@ -1,8 +1,20 @@
 <div class="footer">
-    <span class="copyright float-left">&copy; 2019 LazySuzy</span>
-    <span class="policy-terms float-right">
-        <a href="/privacypolicy">Privacy Policy</a>
-        <span>|</span>
-        <a href="/termsofservice">Terms of service</a>
-    </span>
+    <div class="d-md-none row">
+        <div class="col-6">
+        <div class="copyright">&copy; 2019 LazySuzy</div>
+        <span class="copyright">
+                <a href="/privacypolicy">Privacy Policy</a>
+                <span>|</span>
+                <a href="/termsofservice">Terms of service</a>
+            </span>
+        </div>
+        <div class="col-6 text-right">
+        <div class="copyright">The Lazy Story</div>
+            <div class="copyright">Connect With Us</div>
+        </div>
+    </div>
+
+
+
+
 </div>
