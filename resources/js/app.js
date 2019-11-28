@@ -182,14 +182,16 @@ $(document).ready(function() {
                         class: "top-trending-site text-center"
                     }).appendTo($item);
                     var nameLink = jQuery("<a/>", {
-                        href: item.product_detail_url
+                        target: "_blank",
+                        href: item.product_url
                     }).appendTo($item);
                     var div = jQuery("<h3/>", {
                         html: `${item.name}`,
                         class: "top-trending-text text-center"
                     }).appendTo(nameLink);
                     var priceLink = jQuery("<a/>", {
-                        href: item.product_detail_url
+                        target: "_blank",
+                        href: item.product_url
                     }).appendTo($item);
                     var pricediv = jQuery("<div/>", {
                         class: "prod-price-div"
@@ -219,24 +221,27 @@ $(document).ready(function() {
                             class: "prod-sale-price d-md-none"
                         }).appendTo(pricediv);
                     }
-                    if (item.was_price.includes("-")) {
-                        let salepriceRange = item.was_price.split("-");
-                        var saleprice = jQuery("<span />", {
-                            text: `$${Math.round(
-                                salepriceRange[0]
-                            ).toLocaleString()} - $${Math.round(
-                                salepriceRange[1]
-                            ).toLocaleString()}`,
-                            class: "prod-was-price d-md-none"
-                        }).appendTo(pricediv);
-                    } else {
-                        var saleprice = jQuery("<span />", {
-                            text: `$${Math.round(
-                                item.was_price
-                            ).toLocaleString()}`,
-                            class: "prod-was-price d-md-none"
-                        }).appendTo(pricediv);
+                    if (item.was_price !== item.is_price) {
+                        if (item.was_price.includes("-")) {
+                            let salepriceRange = item.was_price.split("-");
+                            var saleprice = jQuery("<span />", {
+                                text: `$${Math.round(
+                                    salepriceRange[0]
+                                ).toLocaleString()} - $${Math.round(
+                                    salepriceRange[1]
+                                ).toLocaleString()}`,
+                                class: "prod-was-price d-md-none"
+                            }).appendTo(pricediv);
+                        } else {
+                            var saleprice = jQuery("<span />", {
+                                text: `$${Math.round(
+                                    item.was_price
+                                ).toLocaleString()}`,
+                                class: "prod-was-price d-md-none"
+                            }).appendTo(pricediv);
+                        }
                     }
+
                     var collapseBtnDiv = jQuery("<div/>", {
                         class: "collapse-btn"
                     }).appendTo($item);
@@ -277,12 +282,11 @@ $(document).ready(function() {
                 // })
 
                 $(".load-more-button").on("click", function() {
-                    var loadmore = $(".load-more-button");
-                    loadmore.hasClass(".collapsed")
-                        ? loadmore.html(
+                    $(this).hasClass("collapsed")
+                        ? $(this).html(
                               '<i class="fa fa-angle-down" aria-hidden="true"></i> More'
                           )
-                        : loadmore.html(
+                        : $(this).html(
                               '<i class="fas fa-chevron-up"></i> Less'
                           );
                 });

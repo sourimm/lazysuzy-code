@@ -3,8 +3,7 @@
         <div class="brand-logos col-md-10 px-0 ">
             <!-- <div class="-text">Shop your favourite brands:</div> -->
             <div class="-brands-text d-md-none">
-                <span>We are your source for the latest styles and deals across top brands.
-                     We don't sell We just simplify your search for finding your accent.
+                <span>Your source for latest styles and deals across top brands.
                 </span>
             </div>
                 <div class="row">
