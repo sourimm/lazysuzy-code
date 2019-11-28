@@ -246,15 +246,23 @@ $(document).ready(function() {
                         class: "collapse-btn"
                     }).appendTo($item);
                     var collapseBtn = jQuery("<a/>", {
-                        class: "load-more-button",
+                        class: "load-more-button collapsed",
                         "data-toggle": "collapse",
                         href: "#collapseExample" + index + "",
                         role: "button",
                         "aria-expanded": "false",
-                        "aria-controls": "collapseExample",
+                        "aria-controls": "collapseExample"
+                    }).appendTo(collapseBtnDiv);
+                    var loadMore = jQuery("<span/>", {
+                        class: "more",
                         html:
                             '<i class="fa fa-angle-down" aria-hidden="true"></i> More '
-                    }).appendTo(collapseBtnDiv);
+                    }).appendTo(collapseBtn);
+                    var loadLess = jQuery("<span/>", {
+                        class: "less",
+                        html:
+                            '<i class="fa fa-angle-up" aria-hidden="true"></i> Less '
+                    }).appendTo(collapseBtn);
                     var collapseMainDiv = jQuery("<div/>", {
                         class: "collapse",
                         id: "collapseExample" + index + ""
@@ -280,16 +288,6 @@ $(document).ready(function() {
                 //             '<button type="button" class="slick-lightbox-close"></button>'
                 //     }
                 // })
-
-                $(".load-more-button").on("click", function() {
-                    $(this).hasClass("collapsed")
-                        ? $(this).html(
-                              '<i class="fa fa-angle-down" aria-hidden="true"></i> More'
-                          )
-                        : $(this).html(
-                              '<i class="fas fa-chevron-up"></i> Less'
-                          );
-                });
 
                 $("#collapsible-dept").empty();
                 var deptToAppend = "";

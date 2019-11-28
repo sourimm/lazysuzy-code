@@ -220,9 +220,23 @@
                         text-align: left;
                         max-width: 90%;
                         margin: 5px auto;
-                        a {
+                        a.load-more-button {
                             color: $black;
                             text-decoration: none;
+                            .less {
+                                display: none;
+                            }
+                            .more {
+                                display: inline-block;
+                            }
+                            &.collapsed {
+                                .less {
+                                    display: inline-block;
+                                }
+                                .more {
+                                    display: none;
+                                }
+                            }
                         }
                     }
                     .top-trending-site {
