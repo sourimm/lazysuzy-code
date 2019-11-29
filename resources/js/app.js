@@ -114,8 +114,8 @@ $(document).ready(function() {
                 .css("top", $(this).position().top);
         }
     });
-    $("#madinah-carousel").carousel({ interval: false });
-    $("#carouselTrending").carousel({ interval: false });
+    $("#madinah-carousel").carousel({ interval: false, autoplay: false });
+    $("#carouselTrending").carousel({ interval: false, autoplay: false });
 
     $.ajax({
         type: "GET",
