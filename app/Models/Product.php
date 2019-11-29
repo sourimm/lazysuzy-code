@@ -25,6 +25,7 @@ class Product extends Model
                     ->join("master_data", "master_data.product_sku", "=", "trending_products.product_sku")
                     ->join("master_brands", "master_data.site_name", "=", "master_brands.value")
                     ->limit($limit)
+                    ->orderBy("trending_products.rank", "ASC")
                     ->get();
 
         foreach($rows as $product) {
@@ -508,7 +509,7 @@ class Product extends Model
             foreach ($w_products as $p)
                 array_push($wishlist_products, $p->product_id);
         }
-
+        
         foreach ($products as $product) {
 
             $isMarked = false;
