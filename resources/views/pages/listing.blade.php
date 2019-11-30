@@ -167,4 +167,35 @@
 @push('pageSpecificScripts')
     <script src="{{ mix('js/listing.js')}}"></script>
     <script src="{{ mix('js/detailOverview.js')}}"></script>
+    <script id="listing-template" type="text/x-handlebars-template">
+        @{{# each products}}
+        @{{#with this}}
+            <div id="@{{id}}" sku="@{{sku}}" site="@{{site}}" class="ls-product-div col-md-3 item-2">
+                <a href="/product/@{{sku}}" class="product-detail-modal">
+                    <div class="ls-product"><img class="prod-img img-fluid" src="@{{main_image}}" alt="@{{name}}">
+                        <div class="prod-info d-none d-md-block">
+                            <span class="-cat-name">@{{site}}</span>
+                            <span class="-prices float-right">
+                                <span class="-cprice">$@{{is_price}}</span>
+                                @{{#ifNeq is_price was_price}}
+                                <span class="-oldprice">$@{{was_price}}</span>
+                                @{{/ifNeq}}
+                            </span>
+                        </div>
+                        <div class="wishlist-icon " sku="@{{sku}}"><i class="far fa-heart -icon"></i></div><img class="variation-img img-fluid" src="@{{main_image}}" alt="variation-img"></div>
+                </a><span class="prod-sale-price d-md-none">$1,486</span><span class="prod-discount-tag d-md-none ">16%</span>
+                <div class="d-none d-md-block">
+                    <div class="-name">@{{name}}</div>
+                    <div class="responsive d-none slick-initialized slick-slider" style="">
+                        <div class="slick-list draggable">
+                            <div class="slick-track" style="opacity: 1; width: 0px; transform: translate3d(0px, 0px, 0px);"></div>
+                        </div>
+                    </div>
+                    <div class="rating-container">
+                        <div class="rating  rating-4_4"></div><span class="total-ratings">@{{reviews}}</span></div>
+                </div>
+            </div>
+        @{{/with}}
+        @{{/each}}
+    </script>
 @endpush
