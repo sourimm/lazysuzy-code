@@ -10,7 +10,7 @@
         </div>
         <div class="col-6 text-right">
         <div class="copyright">The Lazy Story</div>
-            <div class="copyright">Connect With Us</div>
+            <div class="copyright">Connect With Us <a target="_blank" href="//www.facebook.com/shoplazysuzy" class="-icon"><i class="fab fa-facebook-f -cicon"></i></a></div>
         </div>
     </div>
 

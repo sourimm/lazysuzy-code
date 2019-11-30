@@ -39,7 +39,7 @@
 .homepage-main-div {
     .main {
         background-color: $background-color;
-        background-image: url("/images/homepage-sofa-img.jpeg");
+        background-image: url('/images/homepage-sofa-img.jpeg');
         background-size: cover;
         background-repeat: no-repeat;
         background-position: center;
@@ -229,7 +229,7 @@
                             .more {
                                 display: none;
                             }
-                            
+
                             &.collapsed {
                                 .less {
                                     display: none;
@@ -277,7 +277,7 @@
     }
 
     .homepage .brand-association {
-        padding: 0px 34px !important;
+        padding: 10px 34px !important;
         background: #fffff9;
 
         .-text {
