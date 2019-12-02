@@ -27,14 +27,6 @@
                 </div>
 
             </div>
-            <div class="socials col-md-2 px-0 d-none d-md-block">
-                <div class="-text">Connect with us</div>
-                <div class="-icons">
-                    <a target="_blank" href="//www.facebook.com/shoplazysuzy" class="-icon"><i class="fab fa-facebook-f -cicon"></i></a>
-                    <i class="fab d-none fa-instagram -icon"></i>
-                    <i class="fab d-none fa-pinterest -icon"></i>
-                </div>
-            </div>
         </div>
     </div>
 </div>
