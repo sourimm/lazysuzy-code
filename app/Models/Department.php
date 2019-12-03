@@ -27,7 +27,7 @@ class Department extends Model
         foreach ($rows as $row) {
             $dept       = $row['department'];
             $dept_LS_ID = $row['LS_ID'];
-            $categories = Category::get_categories($dept);
+            $categories = Category::get_categories($row['department_']);
             array_push($departments['all_departments'], [
                 'department' => $dept,
                 'LS_ID'      => $dept_LS_ID,
