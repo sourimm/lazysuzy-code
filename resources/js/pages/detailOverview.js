@@ -1,39 +1,59 @@
-import * as multiCarouselFuncs from '../components/multi-carousel'
-import makeSelectBox from '../components/custom-selectbox'
-import Drift from 'drift-zoom'
-import isMobile from '../app.js'
-require('slick-lightbox')
+import * as multiCarouselFuncs from '../components/multi-carousel';
+import makeSelectBox from '../components/custom-selectbox';
+import Drift from 'drift-zoom';
+import isMobile from '../app.js';
+require('slick-lightbox');
 var md = require('markdown-it')({
     html: true,
     breaks: true
-})
+});
 
 $(document).ready(function() {
     const PDP_API = '/api' + window.location.pathname;
-    const VARIATION_API = '/api/variation' + window.location.pathname;
-    const SWATCH_API = '/api/filters/variation' + window.location.pathname;
     const FAV_MARK_API = '/api/mark/favourite/';
     const FAV_UNMARK_API = '/api/unmark/favourite/';
+
     const $product = $('#detailPage');
     const $prodPriceCard = $product.find('.prod-price-card');
+    let LISTING_URL = '';
     var $filtersDiv = '';
     var $filtersDivMobile = '';
     var variationDrift = '';
     var variationImgEl = '';
     var arrFilters = [];
+    var search = window.location.search.substring(1);
+    var queryObject = search
+        ? JSON.parse(
+              '{"' +
+                  decodeURI(search)
+                      .replace(/"/g, '\\"')
+                      .replace(/&/g, '","')
+                      .replace(/=/g, '":"') +
+                  '"}'
+          )
+        : {};
     if (isMobile()) {
         return;
     }
-    $(document).on('click', '.product-detail-modal', function(e) {
-        e.preventDefault();
-        e.stopPropagation();
+    const openProductModal = detail_url => {
         $('#modalProduct').modal();
+        $('#modalProduct').on('hidden.bs.modal', function() {
+            window.history.pushState(
+                '',
+                '',
+                LISTING_URL + window.location.search
+            );
+        });
         $prodPriceCard.empty();
         $.ajax({
             type: 'GET',
-            url: '/api' + this.attributes.href.value,
+            url: detail_url,
             dataType: 'json',
             success: function(data) {
+                LISTING_URL =
+                    data.department_info &&
+                    (data.department_info[0].category_url ||
+                        data.department_info[0].department_url);
                 var $imagesContainer = $product.find('.-images-container');
                 var $images = $imagesContainer.find('.-images');
 
@@ -157,7 +177,7 @@ $(document).ready(function() {
                 var $dimension = $desc.find('.-dimension');
                 $dimension.empty();
 
-                if (data.dimension !== null && data.dimension !== undefined) {
+                if (data.dimension && Array.isArray(data.dimension)) {
                     data.dimension.forEach(dimension => {
                         var div = $('<div/>', {
                             class: ' col-6'
@@ -190,7 +210,29 @@ $(document).ready(function() {
                 console.log(exception);
             }
         });
+    };
+
+    if (queryObject.model_sku) {
+        openProductModal(`/api/product/${queryObject.model_sku}`);
+        window.GLOBAL_LISTING_API_PATH = `/api${window.location.pathname}`;
+        window.history.pushState(
+            {},
+            '',
+            `/product/${queryObject.model_sku}${window.location.search}`
+        );
+    }
+    $(document).on('click', '.product-detail-modal', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        const product_sku = this.attributes.href.value;
+        openProductModal(`/api${product_sku}`);
+        window.history.pushState(
+            '',
+            '',
+            `${product_sku}${window.location.search}`
+        );
     });
+
     $('.-images').slick({
         infinite: true,
         slidesToShow: 3,
