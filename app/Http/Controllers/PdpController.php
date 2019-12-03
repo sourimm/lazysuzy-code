@@ -25,7 +25,13 @@ class PdpController extends Controller
                 if (sizeof($depts) > 0) {
                     $redirect_url = $depts[0]['category_url'] . "?model_sku=" . $sku;
                     return redirect($redirect_url);
+                } else {
+                    // PRODUCT has no departments/category. Not possible tho.
                 }
+            }
+            else {
+                // redirect to NO PRODUCT FOUND PAGE.
+                return abort(404);
             }
         }
         
