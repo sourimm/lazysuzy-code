@@ -10,6 +10,8 @@ var md = require('markdown-it')({
 
 $(document).ready(function() {
     const PDP_API = '/api' + window.location.pathname;
+    const VARIATION_API = '/api/variation' + window.location.pathname;
+    const SWATCH_API = '/api/filters/variation' + window.location.pathname;
     const FAV_MARK_API = '/api/mark/favourite/';
     const FAV_UNMARK_API = '/api/unmark/favourite/';
 
