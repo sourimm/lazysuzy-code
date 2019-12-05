@@ -6,7 +6,10 @@ const Handlebars = require('handlebars');
 // import * as priceSliderContainer from '../pages/listing';
 
 $(document).ready(function() {
-    const LISTING_API_PATH = '/api' + location.pathname;
+    const LISTING_API_PATH =
+        window.GLOBAL_LISTING_API_PATH || '/api' + location.pathname;
+    const LISTING_FILTER_API_PATH = '/api/filter/products';
+    const DEPT_API = '/api/all-departments';
     const FAV_MARK_API = '/api/mark/favourite/';
     const FAV_UNMARK_API = '/api/unmark/favourite/';
     const PRODUCT_URL = '/product/';
@@ -27,6 +30,27 @@ $(document).ready(function() {
             return options.fn(this);
         }
         return options.inverse(this);
+    });
+    Handlebars.registerHelper('formatPrice', function(price) {
+        if (price.includes('-')) {
+            let salepriceRange = price.split('-');
+            return `$${Math.round(
+                salepriceRange[0]
+            ).toLocaleString()} - $${Math.round(
+                salepriceRange[1]
+            ).toLocaleString()}`;
+        }
+        return `$${Math.round(price).toLocaleString()}`;
+    });
+    Handlebars.registerHelper('printDiscount', function(discount) {
+        if (Math.ceil(discount) > 0) {
+            return new Handlebars.SafeString(
+                `<span class="prod-discount-tag d-md-none ${
+                    discount >= 20 ? '_20' : ''
+                }">${Math.ceil(discount)}%</span>`
+            );
+        }
+        return null;
     });
     var queryObject = search
         ? JSON.parse(
@@ -150,11 +174,24 @@ $(document).ready(function() {
                     href: '#page' + iPageNo,
                     id: '#anchor-page' + iPageNo
                 }).appendTo('#productsContainerDiv');
-                $('#productsContainerDiv').append(listingTemplate(data));
-                // for (var i = 0; i < data.products.length; i++) {
-                //     createProductDiv(data.products[i]);
-                // }
-                // scrollToAnchor();
+
+                for (var product of data.products) {
+                    console.log(product);
+                    if (
+                        product.reviews != null &&
+                        parseInt(product.reviews) != 0
+                    ) {
+                        product.reviewExist = true;
+                        product.ratingClass = `rating-${parseFloat(
+                            product.rating
+                        )
+                            .toFixed(1)
+                            .toString()
+                            .replace('.', '_')}`;
+                    }
+                    $('#productsContainerDiv').append(listingTemplate(product));
+                }
+
                 multiCarouselFuncs.makeMultiCarousel();
             } else {
                 // if (!bClearPrevProducts) {
@@ -186,157 +223,6 @@ $(document).ready(function() {
 
             //     $("#anchor-page"+iPageNo)[0].click()
         };
-    }
-
-    var mainProductDiv;
-    function createProductDiv(productDetails) {
-        //Make product main div
-        mainProductDiv = jQuery('<div/>', {
-            id: productDetails.id,
-            sku: productDetails.sku,
-            site: productDetails.site,
-            class: 'ls-product-div col-md-3 ' + strItemsNumClass
-        }).appendTo;
-        var productLink = jQuery('<a/>', {
-            href: PRODUCT_URL + productDetails.sku,
-            class: 'product-detail-modal'
-        }).appendTo(mainProductDiv);
-
-        var product = jQuery('<div/>', {
-            class: 'ls-product'
-        }).appendTo(productLink);
-        if (productDetails.is_price.includes('-')) {
-            let salepriceRange = productDetails.is_price.split('-');
-            var saleprice = jQuery('<span />', {
-                text: `$${Math.round(
-                    salepriceRange[0]
-                ).toLocaleString()} - $${Math.round(
-                    salepriceRange[1]
-                ).toLocaleString()}`,
-                class: 'prod-sale-price d-md-none'
-            }).appendTo(mainProductDiv);
-        } else {
-            var saleprice = jQuery('<span />', {
-                text: `$${Math.round(
-                    productDetails.is_price
-                ).toLocaleString()}`,
-                class: 'prod-sale-price d-md-none'
-            }).appendTo(mainProductDiv);
-        }
-        if (Math.ceil(productDetails.percent_discount) > 0) {
-            var discounttag = jQuery('<span />', {
-                text: `${Math.ceil(productDetails.percent_discount)}%`,
-                class: `prod-discount-tag d-md-none ${
-                    productDetails.percent_discount >= 20 ? '_20' : ''
-                }`
-            }).appendTo(mainProductDiv);
-        }
-
-        jQuery('<img />', {
-            class: 'prod-img img-fluid',
-            src: productDetails.main_image,
-            alt: productDetails.name
-        }).appendTo(product);
-
-        //Product information
-        var prodInfo = jQuery('<div/>', {
-            class: 'prod-info d-none d-md-block'
-        }).appendTo(product);
-        var catDetails = jQuery('<span/>', {
-            class: '-cat-name'
-        }).appendTo(prodInfo);
-        $(catDetails).text(productDetails.site);
-        var prices = jQuery('<span/>', {
-            class: '-prices float-right'
-        }).appendTo(prodInfo);
-        var currPrice = jQuery('<span/>', {
-            class: '-cprice'
-        }).appendTo(prices);
-        $(currPrice).text('$' + productDetails.is_price);
-        if (productDetails.is_price < productDetails.was_price) {
-            var oldPrice = jQuery('<span/>', {
-                class: '-oldprice'
-            }).appendTo(prices);
-            $(oldPrice).text('$' + productDetails.was_price);
-        }
-        var strMarked = productDetails.wishlisted ? 'marked' : '';
-        $(product).append(
-            '<div class="wishlist-icon ' +
-                strMarked +
-                '" sku=' +
-                productDetails.sku +
-                '><i class="far fa-heart -icon"></i></div>'
-        );
-
-        var productInfoNext = jQuery('<div/>', {
-            class: 'd-none d-md-block'
-        }).appendTo(mainProductDiv);
-        $(productInfoNext).append(
-            '<div class="-name">' + productDetails.name + '</div>'
-        );
-
-        var carouselMainDiv = jQuery('<div/>', {
-            class: 'responsive'
-        }).appendTo(productInfoNext);
-
-        var variationImages = productDetails.variations.map(
-            variation => variation.image
-        );
-        var variationSwatchImages = productDetails.variations.map(
-            (variation, idx) => {
-                if (productDetails.site !== 'Westelm') {
-                    return variation.swatch_image || variationImages[idx];
-                } else {
-                    return variation.swatch_image;
-                }
-            }
-        );
-        var variationLinks = productDetails.variations.map(
-            variation => variation.link
-        );
-
-        if (productDetails.main_image != null) {
-            jQuery('<img />', {
-                class: 'variation-img img-fluid',
-                src: productDetails.main_image,
-                alt: 'variation-img'
-            }).appendTo(product);
-        }
-
-        if (variationSwatchImages.length > 0) {
-            variationSwatchImages.forEach((img, idx) => {
-                var responsiveImgDiv = jQuery('<div/>', {
-                    class: 'mini-carousel-item'
-                }).appendTo(carouselMainDiv);
-                var anchor = jQuery('<a/>', {
-                    class: 'responsive-img-a',
-                    href: variationLinks[idx]
-                }).appendTo(responsiveImgDiv);
-                var responsiveImg = jQuery('<img/>', {
-                    class: 'carousel-img img-fluid',
-                    src: img,
-                    'data-prodimg': variationImages[idx]
-                }).appendTo(anchor);
-            });
-        } else {
-            carouselMainDiv.addClass('d-none');
-        }
-
-        if (
-            productDetails.reviews != null &&
-            parseInt(productDetails.reviews) != 0
-        ) {
-            var reviewValue = parseInt(productDetails.reviews);
-            var ratingValue = parseFloat(productDetails.rating).toFixed(1);
-            var ratingClass = ratingValue.toString().replace('.', '_');
-            $(productInfoNext).append(
-                '<div class="rating-container"><div class="rating  rating-' +
-                    ratingClass +
-                    '"></div><span class="total-ratings">' +
-                    reviewValue +
-                    '</span></div>'
-            );
-        }
     }
 
     function createUpdateFilterData(filterData) {

@@ -166,9 +166,7 @@
 @endsection
 @push('pageSpecificScripts')
     <script src="{{ mix('js/listing.js')}}"></script>
-    <script src="{{ mix('js/detailOverview.js')}}"></script>
     <script id="listing-template" type="text/x-handlebars-template">
-        @{{# each products}}
         @{{#with this}}
             <div id="@{{id}}" sku="@{{sku}}" site="@{{site}}" class="ls-product-div col-md-3 item-2">
                 <a href="/product/@{{sku}}" class="product-detail-modal">
@@ -176,26 +174,39 @@
                         <div class="prod-info d-none d-md-block">
                             <span class="-cat-name">@{{site}}</span>
                             <span class="-prices float-right">
-                                <span class="-cprice">$@{{is_price}}</span>
+                                <span class="-cprice">@{{formatPrice is_price}}</span>
                                 @{{#ifNeq is_price was_price}}
-                                <span class="-oldprice">$@{{was_price}}</span>
+                                <span class="-oldprice">@{{formatPrice was_price}}</span>
                                 @{{/ifNeq}}
                             </span>
                         </div>
+                        @{{#if wishlisted}}
+                            <div class="wishlist-icon marked" sku="@{{sku}}"><i class="far fa-heart -icon"></i></div><img class="variation-img img-fluid" src="@{{main_image}}" alt="variation-img"></div>
+                        @{{#else}}
                         <div class="wishlist-icon " sku="@{{sku}}"><i class="far fa-heart -icon"></i></div><img class="variation-img img-fluid" src="@{{main_image}}" alt="variation-img"></div>
-                </a><span class="prod-sale-price d-md-none">$1,486</span><span class="prod-discount-tag d-md-none ">16%</span>
+                        @{{/if}}
+
+                </a><span class="prod-sale-price d-md-none">@{{formatPrice is_price}}</span>
+                @{{printDiscount percent_discount}}
                 <div class="d-none d-md-block">
                     <div class="-name">@{{name}}</div>
-                    <div class="responsive d-none slick-initialized slick-slider" style="">
+                    <div class="responsive slick-initialized slick-slider" style="">
                         <div class="slick-list draggable">
-                            <div class="slick-track" style="opacity: 1; width: 0px; transform: translate3d(0px, 0px, 0px);"></div>
+                            <div class="slick-track" style="opacity: 1; width: 100px; transform: translate3d(0px, 0px, 0px);">
+                            @{{#each variations}}
+                            @{{#with this}}
+                                <div class="mini-carousel-item" style="width: 30px; display: inline-block;"><a class="responsive-img-a" href="@{{link}}" tabindex="0"><img class="carousel-img img-fluid" src="@{{image}}" data-prodImg="@{{image}}" /></a></div>
+                            @{{/with}}
+                            @{{/each}}
+                        </div>
                         </div>
                     </div>
+                    @{{#if reviewExist}}
                     <div class="rating-container">
-                        <div class="rating  rating-4_4"></div><span class="total-ratings">@{{reviews}}</span></div>
+                        <div class="rating  @{{ratingClass}}"></div><span class="total-ratings">@{{reviews}}</span></div>
                 </div>
+                @{{/if}}
             </div>
         @{{/with}}
-        @{{/each}}
     </script>
 @endpush

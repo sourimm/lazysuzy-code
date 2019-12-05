@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Http\Controllers\ProductController;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Input;
@@ -969,6 +970,18 @@ class Product extends Model
                 return [];
                 break;
         }
+    }
+
+    // LS_ID can be comma separated.
+    public static function get_product_LS_ID($sku) {
+        
+        $prod = Product::where("product_sku", $sku)
+                ->get();
+        if (sizeof($prod) != 0) {
+            return $prod[0]->LS_ID;
+        }
+
+        return null;
     }
 
 

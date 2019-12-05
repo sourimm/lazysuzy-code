@@ -1,12 +1,12 @@
 .footer {
-    padding: 15px 15px 0 15px;
+    padding: 10px 15px;
     position: relative;
-    bottom: 0px;
+    bottom: 10px;
     width: 100%;
     background-color: $secondary-color;
     color: $white;
-    .copyright {
-        font-size: 10px;
+    .footer-text {
+        font-size: 14px;
         a {
             font-size: 10px;
             color: $white !important;
@@ -16,6 +16,16 @@
         a {
             font-size: 10px;
             color: $white !important;
+        }
+    }
+}
+@include media-breakpoint-up(sm) {
+    .footer {
+        display: inline-block;
+        margin-right: 10px;
+        .footer-text {
+            display: inline-block;
+            margin-right: 10px;
         }
     }
 }

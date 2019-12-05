@@ -12,7 +12,7 @@
 
         .footer {
             position: absolute;
-            padding: 0px 15px;
+            bottom: 5px;
         }
     }
 }
@@ -39,7 +39,7 @@
 .homepage-main-div {
     .main {
         background-color: $background-color;
-        background-image: url("/images/homepage-sofa-img.jpeg");
+        background-image: url('/images/homepage-sofa-img.jpg');
         background-size: cover;
         background-repeat: no-repeat;
         background-position: center;
@@ -59,6 +59,7 @@
         @include media-breakpoint-down(md) {
             position: relative;
             top: 0px;
+            background: #fffff9;
             // margin-top: 10px;
         }
 
@@ -124,7 +125,7 @@
     .brand-association {
         background-color: rgba(255, 255, 255, 0.7);
         position: absolute;
-        bottom: 30px;
+        bottom: 40px;
         width: 100%;
         padding: 10px 30px;
 
@@ -229,7 +230,7 @@
                             .more {
                                 display: none;
                             }
-                            
+
                             &.collapsed {
                                 .less {
                                     display: none;
@@ -277,7 +278,7 @@
     }
 
     .homepage .brand-association {
-        padding: 0px 34px !important;
+        padding: 10px 34px !important;
         background: #fffff9;
 
         .-text {
