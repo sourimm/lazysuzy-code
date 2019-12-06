@@ -222,6 +222,10 @@ input:disabled + .checkmark + .text {
 }
 .category-listing {
     margin-top: 20px;
+    .row {
+        margin-left: 0;
+        margin-right: 0;
+    }
 }
 
 .category-text {
@@ -230,6 +234,7 @@ input:disabled + .checkmark + .text {
     text-decoration: none;
     color: $secondary-color;
     margin-bottom: 40px;
+    padding: 0;
 
     &:hover {
         text-decoration: none;
@@ -247,6 +252,19 @@ input:disabled + .checkmark + .text {
     .category-img {
         min-height: 162px;
     }
+    .-depts {
+        text-align: center;
+        .-topCategories {
+            .top-trending-img {
+                img {
+                    width: 150px;
+                    background-color: $background-color;
+                    border-radius: 100px;
+                }
+            }
+        }
+    }
+
     .listing,
     .category-page {
         font-family: 'Fenix', serif;
@@ -368,6 +386,7 @@ input:disabled + .checkmark + .text {
             }
             .products-container {
                 margin-top: 25px;
+                padding: 0;
 
                 .ls-prod-container {
                     margin: auto;

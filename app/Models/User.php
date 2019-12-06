@@ -8,7 +8,7 @@ use Illuminate\Notifications\Notifiable;
 
 
 
-class User extends Authenticatable  
+class User extends Authenticatable
 {
     use Notifiable;
 
@@ -18,9 +18,9 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Product::class , 'user_wishlists','user_id' , 'product_id');
     }
-    public function identities() 
+    public function identities()
     {
    		return $this->hasMany('App\Models\SocialIdentity');
 	}
-	
+
 }

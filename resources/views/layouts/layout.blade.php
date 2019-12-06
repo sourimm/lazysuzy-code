@@ -20,27 +20,73 @@
     <!-- <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PD8TXBM" -->
     <!-- height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript> -->
     <!-- End Google Tag Manager (noscript) -->
-    <!-- Facebook Pixel Code -->
-<script>
-!function(f,b,e,v,n,t,s)
-{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-n.queue=[];t=b.createElement(e);t.async=!0;
-t.src=v;s=b.getElementsByTagName(e)[0];
-s.parentNode.insertBefore(t,s)}(window,document,'script',
-'https://connect.facebook.net/en_US/fbevents.js');
-fbq('init', '706582599846681');
-fbq('track', 'PageView');
-</script>
-<noscript>
-<img height="1" width="1"
-src="https://www.facebook.com/tr?id=706582599846681&ev=PageView(44 B)
-https://www.facebook.com/tr?id=706582599846681&ev=PageView
 
-&noscript=1"/>
-</noscript>
-<!-- End Facebook Pixel Code -->
+
+    @stack('pageSpecificStyles')
+</head>
+
+<body
+    @unless(empty($body_class))
+        class="{{$body_class}}"
+    @endunless
+>
+
+    @if (Auth::guest())
+        <input type="hidden" id="isLoggedIn" name="isLoggedIn" value="0">
+    @else
+        <input type="hidden" id="isLoggedIn" name="isLoggedIn" value="1">
+    @endif
+
+
+    <div class="main">
+        @component('components.navbar')
+        @endcomponent
+
+        <div class="main_content">
+            @yield("middle_content")
+        </div>
+
+        @component('components.footer')
+        @endcomponent
+        <div>
+        @component('components.signmodal')
+        @endcomponent
+    </div>
+    <div>
+        @component('components.authmodal')
+        @endcomponent
+    </div>
+
+
+    </div>
+
+
+
+    <script src="{{ mix('js/manifest.js')}}"></script>
+    <script src="{{ mix('js/vendor.js')}}"></script>
+    <script src="{{ mix('js/app.js')}}"></script>
+    @stack('pageSpecificScripts')
+    <!-- Facebook Pixel Code -->
+    <script>
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window,document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '706582599846681');
+    fbq('track', 'PageView');
+    </script>
+    <noscript>
+    <img height="1" width="1"
+    src="https://www.facebook.com/tr?id=706582599846681&ev=PageView(44 B)
+    https://www.facebook.com/tr?id=706582599846681&ev=PageView
+
+    &noscript=1"/>
+    </noscript>
+    <!-- End Facebook Pixel Code -->
     <script type="text/javascript">
         var vglnk = {key: '7c7cd49fe471830c75c9967f05d5f292'};
         (function(d, t) {
@@ -97,56 +143,6 @@ https://www.facebook.com/tr?id=706582599846681&ev=PageView
         g.clearUserCookie=function(){};
         })(window,document,window['_fs_namespace'],'script','user');
     </script>
-
-
-
-
-
-
-    @stack('pageSpecificStyles')
-</head>
-
-<body
-    @unless(empty($body_class))
-        class="{{$body_class}}"
-    @endunless
->
-
-    @if (Auth::guest())
-        <input type="hidden" id="isLoggedIn" name="isLoggedIn" value="0">
-    @else
-        <input type="hidden" id="isLoggedIn" name="isLoggedIn" value="1">
-    @endif
-
-
-    <div class="main">
-        @component('components.navbar')
-        @endcomponent
-
-        <div class="main_content">
-            @yield("middle_content")
-        </div>
-
-        @component('components.footer')
-        @endcomponent
-        <div>
-        @component('components.signmodal')
-        @endcomponent
-    </div>
-    <div>
-        @component('components.authmodal')
-        @endcomponent
-    </div>
-
-
-    </div>
-
-
-
-    <script src="{{ mix('js/manifest.js')}}"></script>
-    <script src="{{ mix('js/vendor.js')}}"></script>
-    <script src="{{ mix('js/app.js')}}"></script>
-    @stack('pageSpecificScripts')
 </body>
 
 </html>

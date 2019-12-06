@@ -1,12 +1,12 @@
-import * as multiCarouselFuncs from '../components/multi-carousel'
-import makeSelectBox from '../components/custom-selectbox'
-import Drift from 'drift-zoom'
-import isMobile from '../app.js'
-require('slick-lightbox')
+import * as multiCarouselFuncs from '../components/multi-carousel';
+import makeSelectBox from '../components/custom-selectbox';
+import Drift from 'drift-zoom';
+import isMobile from '../app.js';
+require('slick-lightbox');
 var md = require('markdown-it')({
     html: true,
     breaks: true
-})
+});
 
 $(document).ready(function() {
     const PDP_API = '/api' + window.location.pathname;
@@ -45,11 +45,10 @@ $(document).ready(function() {
             }
             data.on_server_images.forEach(img => {
                 var lightbox = jQuery('<a/>', {
-                    class: 'hello',
                     href: img,
                     // text: 'hello',
                     'data-caption': ''
-                }).appendTo($images)
+                }).appendTo($images);
                 var responsiveImg = jQuery('<img/>', {
                     class: '-prod-img img-fluid',
                     src: img,
@@ -231,12 +230,12 @@ $(document).ready(function() {
             console.log(exception);
         }
     });
-    $('.-images').slick({
-        infinite: true,
-        slidesToShow: 3,
-        slidesToScroll: 1,
-        mobileFirst: true
-    });
+    // $('.-images').slick({
+    //     infinite: true,
+    //     slidesToShow: 3,
+    //     slidesToScroll: 1,
+    //     mobileFirst: true
+    // })
     $('.-images').slickLightbox({
         itemSelector: 'a',
         navigateByKeyboard: true,

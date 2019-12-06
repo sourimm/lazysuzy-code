@@ -19,7 +19,7 @@ class Product extends Model
     static $count = 0;
 
     public static function trending_products($limit) {
-        
+
         $trending_products = [];
         $rows = DB::table("trending_products")
                     ->select("*")
@@ -671,7 +671,7 @@ class Product extends Model
                     $new_str .= $str[$i++];
                 }
                 //echo "<br>";
-                //echo "I = > $i" . $str[$i] . "<br>";  
+                //echo "I = > $i" . $str[$i] . "<br>";
                 if (strlen($new_str) > 6) {
                     $new_Arr[] = "*" . $new_str;
                     $new_str = "";
