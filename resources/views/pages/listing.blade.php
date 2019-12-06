@@ -182,7 +182,7 @@
                         </div>
                         @{{#if wishlisted}}
                             <div class="wishlist-icon marked" sku="@{{sku}}"><i class="far fa-heart -icon"></i></div><img class="variation-img img-fluid" src="@{{main_image}}" alt="variation-img"></div>
-                        @{{#else}}
+                        @{{else}}
                         <div class="wishlist-icon " sku="@{{sku}}"><i class="far fa-heart -icon"></i></div><img class="variation-img img-fluid" src="@{{main_image}}" alt="variation-img"></div>
                         @{{/if}}
 
