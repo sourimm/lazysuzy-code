@@ -153,7 +153,7 @@
                 </a><span class="prod-sale-price d-md-none">@{{formatPrice is_price}}</span>
                 @{{printDiscount percent_discount}}
                 <div class="d-none d-md-block">
-                    <div class="-name">@{{name}}</div>
+                    <h5 class="-name">@{{name}}</h5>
                     <div class="responsive slick-initialized slick-slider" style="">
                         <div class="slick-list draggable">
                             <div class="slick-track" style="opacity: 1; width: 100px; transform: translate3d(0px, 0px, 0px);">

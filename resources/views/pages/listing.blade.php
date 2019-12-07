@@ -59,41 +59,37 @@
             <div id="@{{id}}" sku="@{{sku}}" site="@{{site}}" class="ls-product-div col-md-3 item-2">
                 <a href="/product/@{{sku}}" class="product-detail-modal">
                     <div class="ls-product"><img class="prod-img img-fluid" src="@{{main_image}}" alt="@{{name}}">
-                        <div class="prod-info d-none d-md-block">
-                            <span class="-cat-name">@{{site}}</span>
-                            <span class="-prices float-right">
-                                <span class="-cprice">@{{formatPrice is_price}}</span>
-                                @{{#ifNeq is_price was_price}}
-                                <span class="-oldprice">@{{formatPrice was_price}}</span>
-                                @{{/ifNeq}}
-                            </span>
-                        </div>
+
                         @{{#if wishlisted}}
                             <div class="wishlist-icon marked" sku="@{{sku}}"><i class="far fa-heart -icon"></i></div><img class="variation-img img-fluid" src="@{{main_image}}" alt="variation-img"></div>
                         @{{else}}
                         <div class="wishlist-icon " sku="@{{sku}}"><i class="far fa-heart -icon"></i></div><img class="variation-img img-fluid" src="@{{main_image}}" alt="variation-img"></div>
                         @{{/if}}
 
-                </a><span class="prod-sale-price d-md-none">@{{formatPrice is_price}}</span>
-                @{{printDiscount percent_discount}}
-                <div class="d-none d-md-block">
-                    <div class="-name">@{{name}}</div>
-                    <div class="responsive slick-initialized slick-slider" style="">
-                        <div class="slick-list draggable">
-                            <div class="slick-track" style="opacity: 1; width: 100px; transform: translate3d(0px, 0px, 0px);">
-                            @{{#each variations}}
-                            @{{#with this}}
-                                <div class="mini-carousel-item" style="width: 30px; display: inline-block;"><a class="responsive-img-a" href="@{{link}}" tabindex="0"><img class="carousel-img img-fluid" src="@{{image}}" data-prodImg="@{{image}}" /></a></div>
-                            @{{/with}}
-                            @{{/each}}
-                        </div>
-                        </div>
-                    </div>
+                </a>
+                <div class="prod-info">
+                    @{{site}}
                     @{{#if reviewExist}}
-                    <div class="rating-container">
-                        <div class="rating  @{{ratingClass}}"></div><span class="total-ratings">@{{reviews}}</span></div>
+                    <div class="rating-container float-right">
+                        <span class="total-ratings">@{{reviews}}</span><div class="rating  @{{ratingClass}}"></div>
+                    </div>
+                    @{{/if}}
                 </div>
-                @{{/if}}
+                <h5 class="-name">@{{name}}</h5>
+                <div class="-prices">
+                    <span class="-cprice">@{{formatPrice is_price}}</span>
+                    @{{#ifNeq is_price was_price}}
+                    <span class="-oldprice">@{{formatPrice was_price}}</span>
+                    @{{/ifNeq}}
+                </div>
+
+                <div class="responsive" style="">
+                    @{{#each variations}}
+                    @{{#with this}}
+                        <div class="mini-carousel-item" style="width: 30px; display: inline-block;"><a class="responsive-img-a" href="@{{link}}" tabindex="0"><img class="carousel-img img-fluid" src="@{{image}}" data-prodImg="@{{image}}" /></a></div>
+                    @{{/with}}
+                    @{{/each}}
+                </div>
             </div>
         @{{/with}}
     </script>
@@ -106,7 +102,7 @@
                 @{{else}}
                     @{{#each list}}
                     @{{#with this}}
-                        <li class="dropdown-item" href="#"><label class="filter-label"><input type="checkbox" value="@{{value}}" belongsto="@{{name}}"><span class="checkmark"></span><span class="text">@{{name}}</span></label></li>
+            <li class="dropdown-item" href="#"><label class="filter-label"><input type="checkbox" @{{#if checked}}checked@{{/if}} @{{#ifEq enabled false}}disabled@{{/ifEq}} value="@{{value}}" belongsto="@{{name}}"><span class="checkmark"></span><span class="text">@{{name}}</span></label></li>
                     @{{/with}}
                     @{{/each}}
                 @{{/if}}

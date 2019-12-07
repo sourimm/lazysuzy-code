@@ -275,7 +275,7 @@ $(document).ready(function() {
 
             // $(filterDiv).append('<hr/>');
             if (!isMobile()) {
-                $('#filters').append(
+                $('#desktop-filters').append(
                     '<a class="btn clearall-filter-btn" href="#" id="clearAllFiltersBtn">Clear All</a>'
                 );
             }
