@@ -39,26 +39,56 @@ input:disabled + .checkmark + .text {
         margin: auto;
 
         @media only screen and (min-width: 1200px) {
-            max-width: 75%;
+            max-width: 1200px;
         }
 
         .filters {
-            width: 180px;
             margin-top: 35px;
             text-align: center;
-            overflow-y: auto;
-            overflow-x: hidden;
-            padding: 20px;
             white-space: nowrap;
+
+            .filter-tabs {
+                text-align: left;
+                margin: 0;
+                li {
+                    display: inline-block;
+                    text-transform: capitalize;
+                    a {
+                        color: #333;
+                    }
+                    .dropdown-menu {
+                        display: none;
+                        margin: 0 10px;
+                        z-index: 1;
+                        max-width: 250px;
+
+                        .dropdown-item {
+                            float: left;
+                        }
+                    }
+                    &:hover {
+                        a {
+                            color: $golden;
+                        }
+                        .dropdown-menu {
+                            display: block;
+                        }
+                    }
+                }
+            }
 
             @media only screen and (min-width: 768px) {
                 position: sticky;
-                max-height: calc(100vh - #{$navbar-height});
                 position: -webkit-sticky;
                 position: -moz-sticky;
                 position: -ms-sticky;
                 position: -o-sticky;
-                top: 45px;
+                top: 0;
+                z-index: 200;
+                padding: 10px 0;
+                background: #f8fafc;
+                box-shadow: 0 0 1px 1px #eee;
+                margin: 10px;
                 .filter {
                     .filter-header {
                         font-size: 18px;
@@ -96,7 +126,7 @@ input:disabled + .checkmark + .text {
                             display: block;
                             position: relative;
                             // padding-left: 25px;
-                            margin-bottom: 12px;
+                            margin: 10px;
                             cursor: pointer;
                             font-size: 14px;
                             -webkit-user-select: none;
@@ -205,6 +235,7 @@ input:disabled + .checkmark + .text {
             text-align: right;
             right: 10px;
             position: relative;
+            top: 8px;
         }
     }
 }
