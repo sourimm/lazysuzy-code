@@ -96,66 +96,64 @@ $(document).ready(function() {
     }
 
     function fetchProducts(bClearPrevProducts) {
-        if (!bFetchingProducts) {
-            bFetchingProducts = true;
-            var strLimit = iLimit === undefined ? '' : '&limit=' + iLimit;
-            var filterQuery = `?filters=${strFilters}&sort_type=${strSortType}&pageno=${iPageNo}${strLimit}`;
-            var listingApiPath = LISTING_API_PATH + filterQuery;
+        bFetchingProducts = true;
+        var strLimit = iLimit === undefined ? '' : '&limit=' + iLimit;
+        var filterQuery = `?filters=${strFilters}&sort_type=${strSortType}&pageno=${iPageNo}${strLimit}`;
+        var listingApiPath = LISTING_API_PATH + filterQuery;
 
-            history.pushState(
-                {},
-                '',
-                window.location.protocol +
-                    '//' +
-                    window.location.host +
-                    window.location.pathname +
-                    filterQuery
-            );
-            $('#noProductsText').hide();
+        history.pushState(
+            {},
+            '',
+            window.location.protocol +
+                '//' +
+                window.location.host +
+                window.location.pathname +
+                filterQuery
+        );
+        $('#noProductsText').hide();
 
-            if (
-                iPageNo > 0 &&
-                !$('#productsContainerDiv')
-                    .html()
-                    .trim()
-            ) {
-                var apiCall = [];
-                for (var i = 0; i <= iPageNo; i++) {
-                    var filterQuery = `?filters=${strFilters}&sort_type=${strSortType}&pageno=${i}${strLimit}`;
-                    var listingApiPath = LISTING_API_PATH + filterQuery;
-                    apiCall.push(
-                        $.ajax({
-                            type: 'GET',
-                            url: listingApiPath,
-                            dataType: 'json'
-                        })
-                    );
-                }
-                var productsarry = [];
-                $.when.apply(undefined, apiCall).then(function(...results) {
-                    results.map(data => {
-                        productsarry = [...productsarry, ...data[0].products];
-                    });
-                    results[0][0].products = productsarry;
-                    listingApiRendering(results[0][0]);
-                });
-                iPageNo += 1;
-            } else {
-                iPageNo += 1;
-                $.ajax({
-                    type: 'GET',
-                    url: listingApiPath,
-                    dataType: 'json',
-                    success: function(data) {
-                        listingApiRendering(data);
-                    },
-                    error: function(jqXHR, exception) {
-                        bFetchingProducts = false;
-                        console.log(jqXHR);
-                        console.log(exception);
-                    }
-                });
+        if (
+            iPageNo > 0 &&
+            !$('#productsContainerDiv')
+                .html()
+                .trim()
+        ) {
+            var apiCall = [];
+            for (var i = 0; i <= iPageNo; i++) {
+                var filterQuery = `?filters=${strFilters}&sort_type=${strSortType}&pageno=${i}${strLimit}`;
+                var listingApiPath = LISTING_API_PATH + filterQuery;
+                apiCall.push(
+                    $.ajax({
+                        type: 'GET',
+                        url: listingApiPath,
+                        dataType: 'json'
+                    })
+                );
             }
+            var productsarry = [];
+            $.when.apply(undefined, apiCall).then(function(...results) {
+                results.map(data => {
+                    productsarry = [...productsarry, ...data[0].products];
+                });
+                results[0][0].products = productsarry;
+                listingApiRendering(results[0][0]);
+            });
+            iPageNo += 1;
+        } else {
+            iPageNo += 1;
+            $.ajax({
+                type: 'GET',
+                url: listingApiPath,
+                dataType: 'json',
+                success: function(data) {
+                    listingApiRendering(data);
+                },
+                error: function(jqXHR, exception) {
+                    bFetchingProducts = false;
+                    console.log(jqXHR);
+                    console.log(exception);
+                }
+            });
         }
         window.listingApiRendering = function(data) {
             bFetchingProducts = false;

@@ -102,7 +102,9 @@
                 @{{else}}
                     @{{#each list}}
                     @{{#with this}}
-            <li class="dropdown-item" href="#"><label class="filter-label"><input type="checkbox" @{{#if checked}}checked@{{/if}} @{{#ifEq enabled false}}disabled@{{/ifEq}} value="@{{value}}" belongsto="@{{name}}"><span class="checkmark"></span><span class="text">@{{name}}</span></label></li>
+                    @{{#if enabled}}
+                        <li class="dropdown-item" href="#"><label class="filter-label"><input type="checkbox" @{{#if checked}}checked@{{/if}} value="@{{value}}" belongsto="@{{name}}"><span class="checkmark"></span><span class="text">@{{name}}</span></label></li>
+                    @{{/if}}
                     @{{/with}}
                     @{{/each}}
                 @{{/if}}
