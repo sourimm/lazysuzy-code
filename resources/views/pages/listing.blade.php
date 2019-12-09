@@ -4,9 +4,10 @@
 @include('./partials/subnav')
 <div class="listing">
     <div class="listing-container main-container container ">
+        <h4 class="page-heading">{{Request::segment(3)}}</h4>
         <div class="filters d-md-block filter-close-btn">
             <div class="row">
-                <ul class="filter-tabs col-sm-8" id="desktop-filters">
+                <ul class="filter-tabs col-sm-9" id="desktop-filters">
                     <li class="nav-item">
                         <a class="nav-link active" href="#">Brand</a>
                     </li>
@@ -16,13 +17,13 @@
                     </li>
 
                     <li>
-                        <a class="btn clearall-filter-btn" href="/filter/clear_filter/all">Clear All</a>
+                        <a class="clearall-filter-btn" href="/filter/clear_filter/all">Clear All</a>
                     </li>
 
                 </ul>
-                <div class="col-sm-4 d-none d-md-block">
-                    <div class="sortby float-left">
-                        <label for="sort">Sort By</label>
+                <div class="col-sm-3 d-none d-md-block">
+                    <div class="total-items float-left"><span id="totalResults">0</span> Results</div>
+                    <div class="sortby float-right">
                         <select class="form-control" id="sort">
                             <option>Price : Low to High</option>
                             <option>Price : High to Low</option>
@@ -30,14 +31,14 @@
                             <option selected>Recommended</option>
                         </select>
                     </div>
-                    <div class="total-items float-right"><span id="totalResults">0</span> Results</div>
+
                 </div>
             </div>
         </div>
 
         <div class="products-container">
 
-            <div class="ls-prod-container container-fluid text-center">
+            <div class="ls-prod-container">
                 <div class="top-button d-md-none"><i class="fa fa-arrow-up" aria-hidden="true"></i></div>
                 <div class="row" id="productsContainerDiv">
                 </div>
@@ -68,14 +69,14 @@
 
                 </a>
                 <div class="prod-info">
-                    @{{site}}
+                    <span class="-site">@{{site}}</span>
                     @{{#if reviewExist}}
                     <div class="rating-container float-right">
                         <span class="total-ratings">@{{reviews}}</span><div class="rating  @{{ratingClass}}"></div>
                     </div>
                     @{{/if}}
                 </div>
-                <h5 class="-name">@{{name}}</h5>
+                <div class="-name">@{{name}}</div>
                 <div class="-prices">
                     <span class="-cprice">@{{formatPrice is_price}}</span>
                     @{{#ifNeq is_price was_price}}

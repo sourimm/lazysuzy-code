@@ -106,20 +106,21 @@ class Product extends Model
 
         $sort_type_filter = [
             [
-                "name" => "PRICE: LOW TO HIGH",
+                "name" => "Popularity",
+                "value" => $POPULARITY,
+                "enabled" => false
+            ],
+            [
+                "name" => "Price: Low to High",
                 "value" => $PRICE_ASC,
                 "enabled" => false
             ],
             [
-                "name" => "PRICE: HIGH TO LOW",
+                "name" => "Price: High to Low",
                 "value" => $PRICE_DESC,
                 "enabled" => false
-            ],
-            [
-                "name" => "POPULARITY",
-                "value" => $POPULARITY,
-                "enabled" => false
             ]
+
         ];
         $s = $sort_type_filter;
 
@@ -510,7 +511,7 @@ class Product extends Model
             foreach ($w_products as $p)
                 array_push($wishlist_products, $p->product_id);
         }
-        
+
         foreach ($products as $product) {
 
             $isMarked = false;
@@ -974,7 +975,7 @@ class Product extends Model
 
     // LS_ID can be comma separated.
     public static function get_product_LS_ID($sku) {
-        
+
         $prod = Product::where("product_sku", $sku)
                 ->get();
         if (sizeof($prod) != 0) {

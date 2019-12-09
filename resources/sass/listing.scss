@@ -39,7 +39,12 @@ input:disabled + .checkmark + .text {
         margin: auto;
 
         @media only screen and (min-width: 1200px) {
-            max-width: 1200px;
+            max-width: 1500px;
+        }
+
+        .page-heading {
+            color: $brown-text-color;
+            text-transform: capitalize;
         }
 
         .filters {
@@ -52,9 +57,10 @@ input:disabled + .checkmark + .text {
                 margin: 0;
                 li {
                     display: inline-block;
-                    text-transform: capitalize;
+
                     a {
                         color: #333;
+                        text-transform: uppercase;
                     }
                     .dropdown-menu {
                         display: none;
@@ -68,7 +74,7 @@ input:disabled + .checkmark + .text {
                     }
                     &:hover {
                         a {
-                            color: $golden;
+                            color: $primary-color;
                         }
                         .dropdown-menu {
                             display: block;
@@ -88,17 +94,21 @@ input:disabled + .checkmark + .text {
                 padding: 10px 0;
                 background: #f8fafc;
                 box-shadow: 0 0 1px 1px #eee;
-                margin: 10px;
+                margin: 10px 0;
                 .filter {
                     .filter-header {
                         font-size: 18px;
                     }
                 }
+                .clearall-filter-btn {
+                    color: $primary-color;
+                    background: none;
+                }
             }
 
             .clearall-filter-btn {
-                color: $primary-color;
-                background-color: $secondary-color;
+                color: $text-subtle;
+                background-color: none;
             }
 
             .filter {
@@ -236,6 +246,7 @@ input:disabled + .checkmark + .text {
             right: 10px;
             position: relative;
             top: 8px;
+            color: $text-subtle;
         }
     }
 }
@@ -542,17 +553,18 @@ input:disabled + .checkmark + .text {
                             }
                         }
                     }
-                    .irs-to {
-                        color: $secondary-color;
-                    }
-                    .irs-from {
-                        color: $secondary-color;
-                    }
                     .irs--sharp {
                         margin-top: 15px;
+                        .irs-to {
+                            color: $secondary-color;
+                        }
+                        .irs-from {
+                            color: $secondary-color;
+                        }
                     }
                     .irs-line {
                         border: 1px solid $white;
+                        top: 30px !important;
                         background-color: $white !important;
                     }
                 }

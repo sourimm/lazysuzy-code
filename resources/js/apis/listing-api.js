@@ -274,7 +274,7 @@ $(document).ready(function() {
             // $(filterDiv).append('<hr/>');
             if (!isMobile()) {
                 $('#desktop-filters').append(
-                    '<a class="btn clearall-filter-btn" href="#" id="clearAllFiltersBtn">Clear All</a>'
+                    '<a class="clearall-filter-btn" href="#" id="clearAllFiltersBtn">Clear All</a>'
                 );
             }
 
@@ -470,7 +470,7 @@ $(document).ready(function() {
         e.preventDefault();
         e.stopPropagation();
         if ($('#isLoggedIn').val() == 0) {
-            $('#modalLoginForm').modal();
+            $('#modalSignupForm').modal();
         } else {
             var iSku = $(this).attr('sku');
             callWishlistAPI($(this));

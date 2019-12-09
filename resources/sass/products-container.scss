@@ -14,8 +14,16 @@
             a {
                 color: $secondary-color;
             }
+            .-site {
+                color: $text-subtle;
+            }
+            .-name {
+                white-space: nowrap;
+                text-overflow: ellipsis;
+                width: 100%;
+                overflow: hidden;
+            }
             .-prices {
-                font-size: 18px;
                 .-cprice {
                     color: #b76e79;
                     margin-right: 10px;
