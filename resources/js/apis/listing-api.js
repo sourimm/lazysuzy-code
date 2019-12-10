@@ -281,12 +281,14 @@ $(document).ready(function() {
             });
         }
 
-        // $(filterDiv).append('<hr/>');
         if (!isMobile()) {
             $('#desktop-filters').append(
                 '<a class="clearall-filter-btn" href="#" id="clearAllFiltersBtn">Clear All</a>'
             );
         }
+        strFilters
+            ? $('.clearall-filter-btn').show()
+            : $('.clearall-filter-btn').hide();
 
         // $('#filters').append('<hr/>')
         // } else {
