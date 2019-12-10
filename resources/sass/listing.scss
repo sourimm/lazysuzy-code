@@ -44,7 +44,8 @@ input:disabled + .checkmark + .text {
 
         .page-heading {
             color: $brown-text-color;
-            text-transform: capitalize;
+            text-transform: uppercase;
+            margin-bottom: 40px;
         }
 
         .filters {
@@ -59,8 +60,12 @@ input:disabled + .checkmark + .text {
                     display: inline-block;
 
                     a {
-                        color: #333;
+                        color: $secondary-color;
                         text-transform: uppercase;
+
+                        &.applied {
+                            color: $primary-color;
+                        }
                     }
                     .dropdown-menu {
                         display: none;
@@ -103,6 +108,7 @@ input:disabled + .checkmark + .text {
                 .clearall-filter-btn {
                     color: $primary-color;
                     background: none;
+                    margin-left: 20px;
                 }
             }
 

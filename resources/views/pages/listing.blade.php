@@ -42,7 +42,8 @@
                 <div class="top-button d-md-none"><i class="fa fa-arrow-up" aria-hidden="true"></i></div>
                 <div class="row" id="productsContainerDiv">
                 </div>
-                <div class="text-center" id="noProductsText">Sorry, no more products to show.</div>
+                <div class="text-center" style="display:none;" id="noProductsText">Sorry, no more products to show.
+                </div>
                 <div class="mx-auto" id="loaderImg">
                     <img src="{{ asset('/images/Spinner-1s-100px.gif') }}" alt="Spinner">
                 </div>
@@ -96,20 +97,20 @@
     </script>
 <script id="desktop-filter-template" type="text/x-handlebars-template">
     <li class="nav-item dropdown filter" data-filter=@{{name}} id="@{{name}}Filter">
-            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">@{{name}}</a>
-            <ul class="dropdown-menu">
-                @{{#if isPrice}}
-                    <li class="dropdown-item"  href="#"><input class="price-range-slider" id="priceRangeSlider" name="price_range" value="" tabindex="-1" readonly=""></li>
-                @{{else}}
-                    @{{#each list}}
-                    @{{#with this}}
-                    @{{#if enabled}}
-                        <li class="dropdown-item" href="#"><label class="filter-label"><input type="checkbox" @{{#if checked}}checked@{{/if}} value="@{{value}}" belongsto="@{{name}}"><span class="checkmark"></span><span class="text">@{{name}}</span></label></li>
-                    @{{/if}}
-                    @{{/with}}
-                    @{{/each}}
+        <a class="nav-link dropdown-toggle @{{#if isApplied}}applied @{{/if}}" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">@{{name}}</a>
+        <ul class="dropdown-menu">
+            @{{#if isPrice}}
+                <li class="dropdown-item"  href="#"><input class="price-range-slider" id="priceRangeSlider" name="price_range" value="" tabindex="-1" readonly=""></li>
+            @{{else}}
+                @{{#each list}}
+                @{{#with this}}
+                @{{#if enabled}}
+                    <li class="dropdown-item" href="#"><label class="filter-label"><input type="checkbox" @{{#if checked}}checked@{{/if}} value="@{{value}}" belongsto="@{{name}}"><span class="checkmark"></span><span class="text">@{{name}}</span></label></li>
                 @{{/if}}
-            </ul>
-        </li>
-    </script>
+                @{{/with}}
+                @{{/each}}
+            @{{/if}}
+        </ul>
+    </li>
+</script>
 @endpush
