@@ -244,7 +244,9 @@ $(document).ready(function() {
         $('#desktop-filters').empty();
         for (var filter in filterData) {
             const filterItems = filterData[filter];
-            (filter === 'price' || filterItems.length) &&
+            (filter === 'price' ||
+                (filterItems.length &&
+                    filterItems.filter(item => item.enabled).length)) &&
                 $('#desktop-filters').append(
                     desktopFilterTemplate({
                         name: filter,
