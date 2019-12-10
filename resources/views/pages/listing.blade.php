@@ -88,7 +88,13 @@
                 <div class="responsive" style="">
                     @{{#each variations}}
                     @{{#with this}}
-                        <div class="mini-carousel-item" style="width: 30px; display: inline-block;"><a class="responsive-img-a" href="@{{link}}" tabindex="0"><img class="carousel-img img-fluid" src="@{{image}}" data-prodImg="@{{image}}" /></a></div>
+                        <div class="mini-carousel-item" style="width: 30px; display: inline-block;"><a class="responsive-img-a" href="@{{link}}" tabindex="0">
+                            @{{#ifNeq swatch_image ''}}
+                            <img class="carousel-img img-fluid" src="@{{swatch_image}}" data-prodImg="@{{image}}" />
+                            @{{else}}
+                            <img class="carousel-img img-fluid" src="@{{image}}" data-prodImg="@{{image}}" />
+                            @{{/ifNeq}}
+                        </a></div>
                     @{{/with}}
                     @{{/each}}
                 </div>

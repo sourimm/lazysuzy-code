@@ -196,6 +196,11 @@ $(document).ready(function() {
                             .toString()
                             .replace('.', '_')}`;
                     }
+                    product.variations = product.variations.map(variation => {
+                        variation.swatch_image =
+                            variation.swatch_image || variation.swatch;
+                        return variation;
+                    });
                     $('#productsContainerDiv').append(listingTemplate(product));
                 }
 
