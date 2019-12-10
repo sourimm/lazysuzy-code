@@ -109,6 +109,9 @@ input:disabled + .checkmark + .text {
                     color: $primary-color;
                     background: none;
                     margin-left: 20px;
+                    &:hover {
+                        text-decoration: none;
+                    }
                 }
             }
 
@@ -242,8 +245,15 @@ input:disabled + .checkmark + .text {
         }
 
         .sortby {
+            text-align: right;
             .form-control {
                 display: none;
+            }
+            .select-options li {
+                padding: 12px 30px;
+            }
+            .select-styled {
+                padding: 8px 30px 5px 15px;
             }
         }
 

@@ -234,11 +234,12 @@ $(document).ready(function() {
 
     function createUpdateFilterData(filterData) {
         bNoMoreProductsToShow = false;
-        if (!bFiltersCreated) {
-            bFiltersCreated = true;
-            $('#desktop-filters').empty();
-            for (var filter in filterData) {
-                const filterItems = filterData[filter];
+        // if (!bFiltersCreated) {
+        bFiltersCreated = true;
+        $('#desktop-filters').empty();
+        for (var filter in filterData) {
+            const filterItems = filterData[filter];
+            (filter === 'price' || filterItems.length) &&
                 $('#desktop-filters').append(
                     desktopFilterTemplate({
                         name: filter,
@@ -247,73 +248,73 @@ $(document).ready(function() {
                         isApplied: isFilterApplied(filter, filterItems)
                     })
                 );
-                $priceRangeSlider = $('#priceRangeSlider');
-                const data = filterData[filter];
-                $priceRangeSlider.ionRangeSlider({
-                    skin: 'sharp',
-                    type: 'double',
-                    min: data.min ? data.min : 0,
-                    max: data.max ? data.max : 10000,
-                    from: data.from ? data.from : data.min,
-                    to: data.to ? data.to : data.max,
-                    prefix: '$',
-                    prettify_separator: ',',
-                    onStart: function(data) {
-                        // fired then range slider is ready
-                    },
-                    onChange: function(data) {
-                        // fired on every range slider update
-                    },
-                    onFinish: function(data) {
-                        // fired on pointer release
+            $priceRangeSlider = $('#priceRangeSlider');
+            const data = filterData[filter];
+            $priceRangeSlider.ionRangeSlider({
+                skin: 'sharp',
+                type: 'double',
+                min: data.min ? data.min : 0,
+                max: data.max ? data.max : 10000,
+                from: data.from ? data.from : data.min,
+                to: data.to ? data.to : data.max,
+                prefix: '$',
+                prettify_separator: ',',
+                onStart: function(data) {
+                    // fired then range slider is ready
+                },
+                onChange: function(data) {
+                    // fired on every range slider update
+                },
+                onFinish: function(data) {
+                    // fired on pointer release
 
-                        var $inp = $('#priceRangeSlider');
-                        price_from = $inp.data('from'); // reading input data-from attribute
-                        price_to = $inp.data('to'); // reading input data-to attribute
-                        iPageNo = 0;
-                        updateFilters();
-                        fetchProducts(true);
-                    },
-                    onUpdate: function(data) {
-                        // fired on changing slider with Update method
-                    }
-                });
-            }
-
-            // $(filterDiv).append('<hr/>');
-            if (!isMobile()) {
-                $('#desktop-filters').append(
-                    '<a class="clearall-filter-btn" href="#" id="clearAllFiltersBtn">Clear All</a>'
-                );
-            }
-
-            // $('#filters').append('<hr/>')
-        } else {
-            Object.keys(filterData).forEach((key, index) => {
-                const filterItems = filterData[key];
-                isFilterApplied(key, filterItems)
-                    ? $(`#${key}Filter`)
-                          .find('a')
-                          .addClass('applied')
-                    : $(`#${key}Filter`)
-                          .find('a')
-                          .removeClass('applied');
-
-                if (key === 'price') {
-                    var instance = $('#priceRangeSlider').data(
-                        'ionRangeSlider'
-                    );
-                    instance.update({
-                        from: filterItems.from
-                            ? filterItems.from
-                            : filterItems.min,
-                        to: filterItems.to ? filterItems.to : filterItems.max,
-                        min: filterItems.min,
-                        max: filterItems.max
-                    });
+                    var $inp = $('#priceRangeSlider');
+                    price_from = $inp.data('from'); // reading input data-from attribute
+                    price_to = $inp.data('to'); // reading input data-to attribute
+                    iPageNo = 0;
+                    updateFilters();
+                    fetchProducts(true);
+                },
+                onUpdate: function(data) {
+                    // fired on changing slider with Update method
                 }
             });
         }
+
+        // $(filterDiv).append('<hr/>');
+        if (!isMobile()) {
+            $('#desktop-filters').append(
+                '<a class="clearall-filter-btn" href="#" id="clearAllFiltersBtn">Clear All</a>'
+            );
+        }
+
+        // $('#filters').append('<hr/>')
+        // } else {
+        //     Object.keys(filterData).forEach((key, index) => {
+        //         const filterItems = filterData[key];
+        //         isFilterApplied(key, filterItems)
+        //             ? $(`#${key}Filter`)
+        //                   .find('a')
+        //                   .addClass('applied')
+        //             : $(`#${key}Filter`)
+        //                   .find('a')
+        //                   .removeClass('applied');
+
+        //         if (key === 'price') {
+        //             var instance = $('#priceRangeSlider').data(
+        //                 'ionRangeSlider'
+        //             );
+        //             instance.update({
+        //                 from: filterItems.from
+        //                     ? filterItems.from
+        //                     : filterItems.min,
+        //                 to: filterItems.to ? filterItems.to : filterItems.max,
+        //                 min: filterItems.min,
+        //                 max: filterItems.max
+        //             });
+        //         }
+        //     });
+        // }
     }
 
     fetchProducts(false);
