@@ -39,12 +39,12 @@
         <div class="products-container">
 
             <div class="ls-prod-container">
-                <div class="top-button d-md-none"><i class="fa fa-arrow-up" aria-hidden="true"></i></div>
+                <div class="top-button"><i class="fa fa-arrow-up" aria-hidden="true"></i></div>
                 <div class="row" id="productsContainerDiv">
                 </div>
                 <div class="text-center" style="display:none;" id="noProductsText">Sorry, no more products to show.
                 </div>
-                <div class="mx-auto" id="loaderImg">
+                <div class="mx-auto text-center" id="loaderImg">
                     <img src="{{ asset('/images/Spinner-1s-100px.gif') }}" alt="Spinner">
                 </div>
             </div>
@@ -59,7 +59,7 @@
 <script id="listing-template" type="text/x-handlebars-template">
     @{{#with this}}
             <div id="@{{id}}" sku="@{{sku}}" site="@{{site}}" class="ls-product-div col-md-3 item-2">
-                <a href="/product/@{{sku}}" class="product-detail-modal">
+                <a href="/product/@{{sku}}" class="product-detail-modal js-detail-modal">
                     <div class="ls-product"><img class="prod-img img-fluid" src="@{{main_image}}" alt="@{{name}}">
 
                         @{{#if wishlisted}}
@@ -85,18 +85,25 @@
                     @{{/ifNeq}}
                 </div>
 
-                <div class="responsive" style="">
-                    @{{#each variations}}
+                <div class="responsive slick-slider" style="">
+                    @{{#each_upto variations 6}}
                     @{{#with this}}
-                        <div class="mini-carousel-item" style="width: 30px; display: inline-block;"><a class="responsive-img-a" href="@{{link}}" tabindex="0">
+                        <div class="mini-carousel-item" style="width: 35px; display: inline-block;">
+                            <a class="responsive-img-a" href="@{{link}}" tabindex="0">
                             @{{#ifNeq swatch_image ''}}
                             <img class="carousel-img img-fluid" src="@{{swatch_image}}" data-prodImg="@{{image}}" />
                             @{{else}}
                             <img class="carousel-img img-fluid" src="@{{image}}" data-prodImg="@{{image}}" />
                             @{{/ifNeq}}
-                        </a></div>
+                            </a>
+                        </div>
                     @{{/with}}
-                    @{{/each}}
+                    @{{/each_upto}}
+                    @{{#if showMoreVariations}}
+                        <a href="/product/@{{sku}}" class="more-link js-detail-modal">
+                            + more
+                        </a>
+                    @{{/if}}
                 </div>
             </div>
         @{{/with}}

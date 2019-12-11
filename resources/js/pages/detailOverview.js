@@ -223,7 +223,7 @@ $(document).ready(function() {
             `/product/${queryObject.model_sku}${window.location.search}`
         );
     }
-    $(document).on('click', '.product-detail-modal', function(e) {
+    $(document).on('click', '.js-detail-modal', function(e) {
         e.preventDefault();
         e.stopPropagation();
         const product_sku = this.attributes.href.value;

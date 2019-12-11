@@ -264,6 +264,20 @@ input:disabled + .checkmark + .text {
             top: 8px;
             color: $text-subtle;
         }
+        .top-button {
+            position: fixed;
+            bottom: 110px;
+            right: 20px;
+            border-radius: 35px;
+            z-index: 99;
+            font-size: 18px;
+            border: none;
+            outline: none;
+            background-color: #0c1c31;
+            color: $white;
+            cursor: pointer;
+            padding: 15px 20px;
+        }
     }
 }
 .category-img {
@@ -424,22 +438,6 @@ input:disabled + .checkmark + .text {
                     position: relative;
                     float: left;
                     padding: 12px 5px;
-                }
-            }
-            .ls-prod-container {
-                .top-button {
-                    position: fixed;
-                    bottom: 110px;
-                    right: 20px;
-                    border-radius: 35px;
-                    z-index: 99;
-                    font-size: 18px;
-                    border: none;
-                    outline: none;
-                    background-color: #0c1c31;
-                    color: $white;
-                    cursor: pointer;
-                    padding: 15px 20px;
                 }
             }
             .products-container {

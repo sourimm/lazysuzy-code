@@ -1,37 +1,38 @@
-
-.responsive{
-    height: 30px;    
-    max-width: 190px;
-    margin: auto;
-    .mini-carousel-item{
+.responsive {
+    height: 30px;
+    max-width: 275px;
+    .mini-carousel-item {
         margin: auto;
         text-align: center;
-        .carousel-img{
-            margin: auto;  
-            &:not(.zoom-img){  
+        &:hover {
+            box-shadow: 0 0 1px 1px $blue;
+        }
+        .carousel-img {
+            margin: auto;
+            &:not(.zoom-img) {
                 width: 35px;
                 height: 35px;
                 object-fit: cover;
             }
         }
-        .responsive-img-a{
+        .responsive-img-a {
             outline: none;
         }
     }
-    .slick-prev{
+    .slick-prev {
         left: -15px;
-        &:before{
+        &:before {
             color: $black;
         }
     }
-    .slick-next{
+    .slick-next {
         right: -15px;
-        &:after{
-            color: $black;    
+        &:after {
+            color: $black;
         }
     }
 
-    .slick-slide{
+    .slick-slide {
         padding: 0px 5px;
     }
 }
