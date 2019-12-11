@@ -35,7 +35,7 @@ $(document).ready(function() {
         return options.inverse(this);
     });
     Handlebars.registerHelper('formatPrice', function(price) {
-        if (price.includes('-')) {
+        if (price && price.includes('-')) {
             let salepriceRange = price.split('-');
             return `$${Math.round(
                 salepriceRange[0]
