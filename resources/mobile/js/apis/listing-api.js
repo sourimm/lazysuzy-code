@@ -1,6 +1,6 @@
 import * as multiCarouselFuncs from '../components/multi-carousel';
 import makeSelectBox from '../components/custom-selectbox';
-import isMobile from '../app.js';
+import isMobile from '../../../js/app';
 const Handlebars = require('handlebars');
 // import strItemsNumClass from '../pages/listing';
 // import * as priceSliderContainer from '../pages/listing';

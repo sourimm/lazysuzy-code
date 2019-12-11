@@ -1,6 +1,5 @@
-
 .searchbar {
-    &.sb-body{
+    &.sb-body {
         top: 40vh;
         display: none;
     }
@@ -20,13 +19,13 @@
             color: $primary-color;
         }
 
-        .form-control[type="search"] {
+        .form-control[type='search'] {
             border: none;
             outline: none !important;
             box-shadow: none !important;
         }
 
-        .btn[type="submit"] {
+        .btn[type='submit'] {
             padding: 0px 15px;
             background-color: transparent;
             border: 4px solid $border-color;
@@ -38,7 +37,7 @@
     }
 }
 
-@media only screen and (max-width: 768px){
+@media only screen and (max-width: 768px) {
     .searchbar {
         top: $navbar-height-mobile;
         height: 34px !important;
@@ -48,20 +47,31 @@
         width: 100% !important;
         z-index: 10;
 
-        &:not(.open){
+        &:not(.open) {
             display: none;
         }
+        .card-body {
+            .search-icon {
+                font-size: 18px !important;
+            }
 
-        .search-icon {
-            font-size: 18px !important;
-        }
-
-        .form-control[type="search"] {
-            padding-top: 0px;
-            padding-bottom: 0px;
-            max-height: 24px;
-            line-height: 1;
-            font-size: 14px;
+            .form-control[type='search'] {
+                padding-top: 0px;
+                padding-bottom: 0px;
+                max-height: 24px;
+                line-height: 1;
+                font-size: 14px;
+                width: 100%;
+            }
+            .btn[type='submit'] {
+                width: auto;
+                border: none;
+                background-color: #0c1c31;
+                border-top-left-radius: 0;
+                border-bottom-left-radius: 0;
+                position: relative;
+                right: -15px;
+            }
         }
     }
 }
