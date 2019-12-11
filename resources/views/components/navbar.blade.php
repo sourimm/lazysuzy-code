@@ -28,7 +28,7 @@
 
     <form id="searchbarHeader" role="form" class="searchbar card card-sm">
         <div class="card-body row no-gutters align-items-center">
-            <div class="col-auto d-none">
+            <div class="col-auto d-none d-md-block">
                 <i class="fas fa-search search-icon"></i>
             </div>
             <!--end of col-->
@@ -37,7 +37,10 @@
                     placeholder="Find your accent">
             </div>
             <!--end of col-->
-            <div class="col-auto ">
+            <div class="col-auto d-none d-md-block">
+                <button class="btn btn-lg btn-success" type="submit">Search</button>
+            </div>
+            <div class="col-auto d-md-none">
                 <button class="btn btn-lg btn-success" type="submit"><i class="fas fa-search search-icon"></i></button>
             </div>
             <!--end of col-->
