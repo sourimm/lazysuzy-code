@@ -16,8 +16,8 @@
                         </div>
 </div>
 <div class="row">
-    <div class="col-12 col-md-6"><div class="-images-container" id="scroll-bar-img"><div class="-images" id="scroll-bar-img"></div></div></div>
-    <div class="prod-desc col-12 col-md-6">
+    <div class=" col-md-6 col-sm-12"><div class="-images-container" id="scroll-bar-img"><div class="-images" id="scroll-bar-img"></div></div></div>
+    <div class="prod-desc col-sm-12 col-md-6">
         <div>
             <div class="prod-main-img  order-md-last">
             </div>

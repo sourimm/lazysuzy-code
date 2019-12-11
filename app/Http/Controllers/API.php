@@ -37,7 +37,7 @@ class API extends Controller
     }
 
     public function get_swatch_filter($sku)
-    { 
+    {
         return Variations::get_swatch_filter($sku);
     }
 

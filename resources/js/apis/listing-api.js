@@ -5,7 +5,8 @@ import isMobile from '../app.js';
 // import * as priceSliderContainer from '../pages/listing';
 
 $(document).ready(function() {
-    const LISTING_API_PATH = '/api' + location.pathname;
+    const LISTING_API_PATH =
+        window.GLOBAL_LISTING_API_PATH || '/api' + location.pathname;
     const LISTING_FILTER_API_PATH = '/api/filter/products';
     const DEPT_API = '/api/all-departments';
     const FAV_MARK_API = '/api/mark/favourite/';
