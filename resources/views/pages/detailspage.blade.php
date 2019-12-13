@@ -1,114 +1,92 @@
-@extends('layouts.layout', ['body_class' => 'detailspage-main-div'])
+@extends('layouts.layout', [])
 
 @section('middle_content')
-    <div class="detailspage" id="detailPage">
-        @include('./partials/subnav')
-        <div id="detailspageNavigator"></div>
-        <div class="-images-container" id="scroll-bar-img"><div class="-images" ></div></div>
 
-        <div class="row container box">
-            <div class="prod-desc col-12 col-md-9">
-                <div class="-variations-carousel col-12"></div>
-                    <div class="prod-main-img col-12 col-md-5 order-md-last">
-                    </div>
-                    <div class="col-12 col-md-7">
-                    <div class="wishlist-icon float-right m-10" id="wishlistBtnDesktop">
+<div class="modal fade product-modal" id="modalProduct" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <button type="button" class="product-close close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+    <div class="product-modal-dialog modal-dialog modal-xl" role="document">
+        <div class="product-modal-content modal-content">
+            <div class="product-moadal-body modal-body">
+                <div class="detailspage" id="detailPage">
+                    <div class="d-block d-md-none controls-div">
+                        <div class="wishlist-icon float-right m-10" id="wishlistBtn">
                             <i class="far fa-heart -icon"></i>
                         </div>
-                        <h2 class="-name"></h2>
-                        <!-- <a target="_blank" class="rating-container"><div class="rating "></div><span class="total-ratings"></span></a> -->
-
-                        <p class="-desc d-none d-md-block"></p>
-                        <div class="d-none d-md-block">
-                            <div class="accordion" id="accordionExample">
-                                <div class="card d-none">
-                                    <!-- <div class="card-header" id="headingOne"> -->
-                                        <div id="headingOne">
-                                    <h2 class="mb-0">
-                                        <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                                            <span class="-text">Description</span>
-                                        </button>
-                                    </h2>
-                                    </div>
-
-                                    <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
-                                        <div class="card-body">
-                                            <p class="-desc"></p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- <div class="card"> -->
-                                    <div>
-                                    <!-- <div class="card-header" id="headingTwo"> -->
-                                    <div id='headingTwo'>
-                                    <h2 class="mb-0">
-                                        <button class="btn btn-link  collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                                            <span class="-text">▼ Features </span>
-                                        </button>
-                                    </h2>
-                                    </div>
-                                    <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
-                                        <div class="card-body">
-                                            <div class="-features"></div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div>
-                                <!-- <div class="card"> -->
-                                    <!-- <div class="card-header" id="headingThree"> -->
-                                        <div id="headingThree">
-                                    <h2 class="mb-0">
-                                        <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                                            <span class="-text">▼ Dimensions</span>
-                                        </button>
-                                    </h2>
-                                    </div>
-                                    <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
-                                        <div class="card-body">
-                                            <div class="-dimension row"></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                        <div class="filter-toggle float-right m-10" id="filterToggleBtn">
+                            <i class="fas fa-filter -icon"></i>
                         </div>
+</div>
+<div class="row">
+    <div class=" col-md-6 col-sm-12"><div class="-images-container" id="scroll-bar-img"><div class="-images" id="scroll-bar-img"></div></div></div>
+    <div class="prod-desc col-sm-12 col-md-6">
+        <div>
+            <div class="prod-main-img  order-md-last">
+            </div>
+            <div class="brand-header">
+                <div class="row">
 
-                        <div class="d-sm-block d-md-none">
-                            <!-- Nav tabs -->
-                            <ul class="nav nav-tabs">
-                                <li class="nav-item">
-                                    <a class="nav-link detail-nav-link active" data-toggle="tab" href="#descp">Description</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link detail-nav-link" data-toggle="tab" href="#feat">Features</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link detail-nav-link" data-toggle="tab" href="#dimen">Dimensions</a>
-                                </li>
-                            </ul>
-
-                            <!-- Tab panes -->
-                            <div class="tab-content">
-                            <div class="tab-pane container active" id="descp"></div>
-                            <div class="tab-pane container fade" id="feat"></div>
-                            <div class="tab-pane container fade" id="dimen"></div>
-                            </div>
-                        </div>
+                    <h2 class="col-10  -site">Brand name</h2>
+                    <div class="col-2 mt-2 wishlist-icon-modal" id="wishlistBtnDesktop">
+                        <i class="far fa-heart -icon"></i> <span>Save</span>
                     </div>
-
+                    <!-- <div class="col-2 mt-2 btn-copy">
+                    <i class="fa fa-share -icon"></i> Share
+                    </div> -->
+                </div>
             </div>
-
-            <div class="prod-price-card col-3 d-none d-md-block">
-            </div>
+                    <!-- <hr class="modal-hr" /> -->
+                    <h4 class="-name">product name</h4>
+                    <div class="rating-container"><div class="rating"></div><span class="total-ratings"></span></div>
+                    <div class="prod-price-card d-none d-md-block"></div>
+                    <div class="all-desc">
+                    <hr class="modal-hr"/>
+                        <!--<nav class="navbar-modal navbar-light bg-light">
+                        <ul class="nav nav-pills">
+                            <li class="modal-nav-item pl-4 pr-4">
+                                <a class="modal-nav-link" href="#Overview">Overview</a>
+                            </li>
+                            <li class="modal-nav-item pl-4 pr-4">
+                                <a class="modal-nav-link" href="#Features">Features</a>
+                            </li>
+                            <li class="modal-nav-item pl-4 pr-4">
+                                <a class="modal-nav-link" href="#Dimensions">Dimensions</a>
+                            </li>
+                        </ul>
+        </nav>
+        <hr class="modal-hr"/> -->
+        <div class="products-modal-details" data-spy="scroll" data-target="#navbar-example2" data-offset="0">
+        <h4 id="Overview">Overview</h4>
+        <hr class="modal-hr"/>
+        <p class="-desc d-none d-md-block"></p>
+        <hr class="modal-hr"/>
+        <h4 id="Features">Features</h4>
+        <hr class="modal-hr"/>
+        <ul class="-features"></ul>
+        <p class="-feat feat d-none d-md-block" id="feat"></p>
+        <hr class="modal-hr"/>
+        <h4 id="Dimensions">Dimension</h4>
+        <hr class="modal-hr"/>
+        <p class="-dimen d-none d-md-block"></p>
+        <div class="-dimension row"></div>
+        <hr class="modal-hr"/>
         </div>
-        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/slick-lightbox/0.2.12/slick-lightbox.css">
+</div>
+</div>
+</div>
+      </div>
+    </div>
+  </div>
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/slick-lightbox/0.2.12/slick-lightbox.css">
   <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/slick-lightbox/0.2.12/slick-lightbox.js">
   <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/slick-lightbox/0.2.12/slick-lightbox.min.js">
   <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/slick-lightbox/0.2.12/slick-lightbox.min.js.map">
+</div>
 
-        @include('./partials/brandassociation')
-    </div>
+
 @endsection
 
 @push('pageSpecificScripts')
-    <script src="{{ mix('js/detailspage.js')}}"></script>
+    <script src="{{ mix('js/detailOverview.js')}}"></script>
 @endpush

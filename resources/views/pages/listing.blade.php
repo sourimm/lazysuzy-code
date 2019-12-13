@@ -89,13 +89,16 @@
                     @{{#each_upto variations 6}}
                     @{{#with this}}
                         <div class="mini-carousel-item" style="width: 35px; display: inline-block;">
-                            <a class="responsive-img-a" href="@{{link}}" tabindex="0">
                             @{{#ifNeq swatch_image ''}}
-                            <img class="carousel-img img-fluid" src="@{{swatch_image}}" data-prodImg="@{{image}}" />
-                            @{{else}}
-                            <img class="carousel-img img-fluid" src="@{{image}}" data-prodImg="@{{image}}" />
-                            @{{/ifNeq}}
+                            <a class="responsive-img-a" href="javaScript:void(0)" tabindex="0">
+                                <img class="carousel-img img-fluid" src="@{{swatch_image}}" data-prodImg="@{{image}}" />
                             </a>
+                            @{{else}}
+                            <a class="responsive-img-a" href="@{{link}}" tabindex="0">
+                                <img class="carousel-img img-fluid" src="@{{image}}" data-prodImg="@{{image}}" />
+                            </a>
+                            @{{/ifNeq}}
+
                         </div>
                     @{{/with}}
                     @{{/each_upto}}
