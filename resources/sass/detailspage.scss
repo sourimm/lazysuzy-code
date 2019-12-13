@@ -105,7 +105,7 @@
         .-images-container {
             height: 300px;
             overflow-x: auto;
-            margin: 0px 0px 15px 0px;
+            margin: 5px 0 15px;
             @include media-breakpoint-up(md) {
                 margin: 15px 0px;
             }

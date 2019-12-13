@@ -41,11 +41,13 @@
     .searchbar {
         top: $navbar-height-mobile;
         height: 34px !important;
-        border: 1px solid #000 !important;
-        left: 0px !important;
-        border-radius: 0px;
-        width: 100% !important;
+        border: 1px solid #ccc !important;
+        left: 0 !important;
+        right: 0;
+        width: auto;
+        border-radius: 5px;
         z-index: 10;
+        margin: 5px;
 
         &:not(.open) {
             display: none;
@@ -71,6 +73,7 @@
                 border-bottom-left-radius: 0;
                 position: relative;
                 right: -15px;
+                height: 30px;
             }
         }
     }
