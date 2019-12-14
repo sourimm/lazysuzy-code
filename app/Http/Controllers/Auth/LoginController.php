@@ -31,7 +31,7 @@ class LoginController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/';
+    protected $redirectTo;
 
     /**
      * Create a new controller instance.
@@ -40,7 +40,8 @@ class LoginController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('guest')->except('logout');
+        $this->redirectTo = url()->previous();
+        $this->middleware('guest', ['except' => 'logout']);
     }
 
     public function index(Request $request)
@@ -81,7 +82,7 @@ class LoginController extends Controller
         $existingUser = $this->findOrCreateUser($user, $driver);
         Auth::login($existingUser, true);
 
-        return redirect($this->redirectPath());
+        return redirect()->intended($this->redirectPath());
     }
     
     // explode() - will work on multiple delimeters 
