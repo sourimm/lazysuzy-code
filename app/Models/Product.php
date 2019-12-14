@@ -611,10 +611,12 @@ class Product extends Model
         $data['variations'] = $variations;
 
         $desc_BRANDS = ["West Elm"];
+        $dims_from_features = ["World Market"]; // these extract dimensions data from features data.
+        $dims_text = in_array($product->name, $dims_from_features) ? $product->product_feature : $product->product_dimension;
 
         if (!$isListingAPICall) {
             $data['description'] = in_array($product->name, $desc_BRANDS)  ? Product::format_desc_new($product->product_description) : preg_split("/\\[US\\]|<br>|\\n/", $product->product_description);
-            $data['dimension'] = Product::normalize_dimension($product->product_dimension, $product->site_name);
+            $data['dimension'] = Product::normalize_dimension($dims_text, $product->site_name);
             $data['thumb'] = preg_split("/,|\\[US\\]/", $product->thumb);
             $data['features'] = in_array($product->name, $desc_BRANDS) ? Product::format_desc_new($product->product_feature) : preg_split("/\\[US\\]|<br>|\\n|\|/", $product->product_feature);
             $data['on_server_images'] = array_map([__CLASS__, "baseUrl"], preg_split("/,|\\[US\\]/", $product->product_images));
