@@ -17,11 +17,7 @@ class LoginController extends Controller
     |--------------------------------------------------------------------------
     | Login Controller
     |--------------------------------------------------------------------------
-    |
-    | This controller handles authenticating users for the application and
-    | redirecting them to your home screen. The controller uses a trait
-    | to conveniently provide its functionality to your applications.
-    |
+    
     */
 
     use AuthenticatesUsers;
@@ -82,7 +78,7 @@ class LoginController extends Controller
         $existingUser = $this->findOrCreateUser($user, $driver);
         Auth::login($existingUser, true);
 
-        return redirect()->intended($this->redirectPath());
+        return redirect($this->redirectPath());
     }
     
     // explode() - will work on multiple delimeters 
@@ -131,6 +127,6 @@ class LoginController extends Controller
     public function logout(Request $request)
     {
         Auth::logout();
-        return redirect('/');
+        return redirect($this->redirectPath());
     }
 }
