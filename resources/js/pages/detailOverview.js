@@ -363,7 +363,6 @@ $(document).ready(function() {
             data: queryParams,
             dataType: 'json',
             success: function(data) {
-                console.log(data);
                 $filtersDiv.empty();
                 $filtersDivMobile.empty();
 
@@ -420,7 +419,6 @@ $(document).ready(function() {
             }
             return self.indexOf(item) === index;
         });
-        console.log(arrDupes);
         var variationImagesNew = variationImages.filter(function(item, index) {
             return arrDupes.indexOf(index) >= 0;
         });

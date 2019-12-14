@@ -58,59 +58,59 @@
 <script src="{{ mix('js/listing.js')}}"></script>
 <script id="listing-template" type="text/x-handlebars-template">
     @{{#with this}}
-            <div id="@{{id}}" sku="@{{sku}}" site="@{{site}}" class="ls-product-div col-md-3 item-2">
-                <a href="/product/@{{sku}}" class="product-detail-modal js-detail-modal">
-                    <div class="ls-product"><img class="prod-img img-fluid" src="@{{main_image}}" alt="@{{name}}">
+        <div id="@{{id}}" sku="@{{sku}}" site="@{{site}}" class="ls-product-div col-md-3 item-2">
+            <a href="/product/@{{sku}}" class="product-detail-modal js-detail-modal">
+                <div class="ls-product"><img class="prod-img img-fluid" src="@{{main_image}}" alt="@{{name}}">
 
-                        @{{#if wishlisted}}
-                            <div class="wishlist-icon marked" sku="@{{sku}}"><i class="far fa-heart -icon"></i></div><img class="variation-img img-fluid" src="@{{main_image}}" alt="variation-img"></div>
-                        @{{else}}
-                        <div class="wishlist-icon " sku="@{{sku}}"><i class="far fa-heart -icon"></i></div><img class="variation-img img-fluid" src="@{{main_image}}" alt="variation-img"></div>
-                        @{{/if}}
-
-                </a>
-                <div class="prod-info">
-                    <span class="-site">@{{site}}</span>
-                    @{{#if reviewExist}}
-                    <div class="rating-container float-right">
-                        <span class="total-ratings">@{{reviews}}</span><div class="rating  @{{ratingClass}}"></div>
-                    </div>
+                    @{{#if wishlisted}}
+                        <div class="wishlist-icon marked" sku="@{{sku}}"><i class="far fa-heart -icon"></i></div><img class="variation-img img-fluid" src="@{{main_image}}" alt="variation-img"></div>
+                    @{{else}}
+                    <div class="wishlist-icon " sku="@{{sku}}"><i class="far fa-heart -icon"></i></div><img class="variation-img img-fluid" src="@{{main_image}}" alt="variation-img"></div>
                     @{{/if}}
-                </div>
-                <div class="-name">@{{name}}</div>
-                <div class="-prices">
-                    <span class="-cprice">@{{formatPrice is_price}}</span>
-                    @{{#ifNeq is_price was_price}}
-                    <span class="-oldprice">@{{formatPrice was_price}}</span>
-                    @{{/ifNeq}}
-                </div>
 
-                <div class="responsive slick-slider" style="">
-                    @{{#each_upto variations 6}}
-                    @{{#with this}}
-                        <div class="mini-carousel-item" style="width: 35px; display: inline-block;">
-                            @{{#ifNeq swatch_image ''}}
-                            <a class="responsive-img-a" href="javaScript:void(0)" tabindex="0">
-                                <img class="carousel-img img-fluid" src="@{{swatch_image}}" data-prodImg="@{{image}}" />
-                            </a>
-                            @{{else}}
-                            <a class="responsive-img-a" href="@{{link}}" tabindex="0">
-                                <img class="carousel-img img-fluid" src="@{{image}}" data-prodImg="@{{image}}" />
-                            </a>
-                            @{{/ifNeq}}
-
-                        </div>
-                    @{{/with}}
-                    @{{/each_upto}}
-                    @{{#if showMoreVariations}}
-                        <a href="/product/@{{sku}}" class="more-link js-detail-modal">
-                            + more
-                        </a>
-                    @{{/if}}
+            </a>
+            <div class="prod-info">
+                <span class="-site">@{{site}}</span>
+                @{{#if reviewExist}}
+                <div class="rating-container float-right">
+                    <span class="total-ratings">@{{reviews}}</span><div class="rating  @{{ratingClass}}"></div>
                 </div>
+                @{{/if}}
             </div>
-        @{{/with}}
-    </script>
+            <div class="-name">@{{name}}</div>
+            <div class="-prices">
+                <span class="-cprice">@{{formatPrice is_price}}</span>
+                @{{#ifNeq is_price was_price}}
+                <span class="-oldprice">@{{formatPrice was_price}}</span>
+                @{{/ifNeq}}
+            </div>
+
+            <div class="responsive slick-slider" style="">
+                @{{#each_upto variations 6}}
+                @{{#with this}}
+                    <div class="mini-carousel-item" style="width: 35px; display: inline-block;">
+                        @{{#ifNeq swatch_image ''}}
+                        <a class="responsive-img-a" href="javaScript:void(0)" tabindex="0">
+                            <img class="carousel-img img-fluid" src="@{{swatch_image}}" data-prodImg="@{{image}}" />
+                        </a>
+                        @{{else}}
+                        <a class="responsive-img-a" href="@{{link}}" tabindex="0">
+                            <img class="carousel-img img-fluid" src="@{{image}}" data-prodImg="@{{image}}" />
+                        </a>
+                        @{{/ifNeq}}
+
+                    </div>
+                @{{/with}}
+                @{{/each_upto}}
+                @{{#if showMoreVariations}}
+                    <a href="/product/@{{sku}}" class="more-link js-detail-modal">
+                        + more
+                    </a>
+                @{{/if}}
+            </div>
+        </div>
+    @{{/with}}
+</script>
 <script id="desktop-filter-template" type="text/x-handlebars-template">
     <li class="nav-item dropdown filter" data-filter=@{{name}} id="@{{name}}Filter">
         <a class="nav-link dropdown-toggle @{{#if isApplied}}applied @{{/if}}" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">@{{name}}</a>
