@@ -121,7 +121,6 @@ class Product extends Model
                 "enabled" => false
             ]
         ];
-        $s = $sort_type_filter;
 
         $page_num    = Input::get("pageno");
         $limit       = Input::get("limit");
@@ -498,7 +497,8 @@ class Product extends Model
 
         // check if the prodcuts is in a wishlist
         $wishlist_products = [];
-        if (Auth::check()) {
+        $is_authenticated = Auth::check();
+        if ($is_authenticated) {
             $user = Auth::user();
             $w_products = DB::table("user_wishlists")
                 ->select("product_id")
@@ -514,7 +514,7 @@ class Product extends Model
         foreach ($products as $product) {
 
             $isMarked = false;
-            if (Auth::check()) {
+            if ($is_authenticated) {
                 if (in_array($product->product_sku, $wishlist_products)) {
                     $isMarked = true;
                 }
@@ -535,6 +535,26 @@ class Product extends Model
             "type" => $product_type_holder,
             // 'colors' => $color_filter
         ];
+
+        if ($dept == "all") {
+            // get product categories filters 
+            $departments = Department::get_all_departments(false);
+            $categories = [];
+            foreach($departments['all_departments'] as $dept) {
+
+                if (isset($dept['categories']) && sizeof($dept['categories']) > 0) {
+                    foreach($dept['categories'] as $cat) {
+                        array_push($categories, [
+                            'label' => $cat['filter_label'],
+                            'link' => $cat['link'],
+                            'image' => $cat['image']
+                        ]);
+                    }
+                }
+            }
+
+            $filter_data['categories'] = $categories;
+        }
 
 
         return [

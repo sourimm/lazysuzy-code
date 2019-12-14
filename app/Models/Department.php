@@ -13,7 +13,7 @@ class Department extends Model
         return $this->belongsToMany(Category::class, 'department_categories');
     }
 
-    public static function get_all_departments()
+    public static function get_all_departments($department_api = true)
     {
         $departments = [];
         $base_site   = request()->getHttpHost();
@@ -35,10 +35,12 @@ class Department extends Model
                 'categories' => $categories,
             ]);
         }
-
-        // trending categories will return N top results. Pass N as argument.
-        $departments['trending_categories'] = Category::trending_categories(5);
-        $departments['trending_products'] = Product::trending_products(10);
+        
+        if ($department_api) {
+            // trending categories will return N top results. Pass N as argument.
+            $departments['trending_categories'] = Category::trending_categories(5);
+            $departments['trending_products'] = Product::trending_products(10);
+        }
         return $departments;
     }
 
