@@ -189,9 +189,9 @@ class Product extends Model
         }
 
         // 4. type
-        if (isset($all_filters['product_type']) && strlen($all_filters['product_type'][0]) > 0) {
+        if (isset($all_filters['type']) && strlen($all_filters['type'][0]) > 0) {
             // will only return products that match the LS_IDs for the `types` mentioned.
-            $LS_IDs = Product::get_sub_cat_LS_IDs($dept, $cat, $all_filters['product_type']);
+            $LS_IDs = Product::get_sub_cat_LS_IDs($dept, $cat, $all_filters['type']);
         } else {
             // 5. departments and categories
             if (null != $cat) {
@@ -265,8 +265,8 @@ class Product extends Model
         }
 
         if (sizeof($all_filters) != 0) {
-            if (isset($all_filters['product_type']) && strlen($all_filters['product_type'][0]) > 0) {
-                $LS_IDs = Product::get_sub_cat_LS_IDs($dept, $cat, $all_filters['product_type']);
+            if (isset($all_filters['type']) && strlen($all_filters['type'][0]) > 0) {
+                $LS_IDs = Product::get_sub_cat_LS_IDs($dept, $cat, $all_filters['type']);
             }
         }
 
@@ -402,7 +402,7 @@ class Product extends Model
         $LS_IDs = Product::get_dept_cat_LS_ID_arr($dept, $cat);
 
 
-        if (isset($all_filters['product_type']) && strlen($all_filters['product_type'][0]) > 0) {
+        if (isset($all_filters['type']) && strlen($all_filters['type'][0]) > 0) {
             // comment this line if you want to show count for all those
             // sub_categories that are paased in the request.
             //$LS_IDs = Product::get_sub_cat_LS_IDs($dept, $cat, $all_filters['type']);
@@ -451,9 +451,9 @@ class Product extends Model
                         $sub_cat_arr[$cat->product_sub_category_]["enabled"] = true;
                         $sub_cat_arr[$cat->product_sub_category_]["count"]++;
 
-                        if (isset($all_filters['product_type'])) {
+                        if (isset($all_filters['type'])) {
                             $sub_category = strtolower($cat->product_sub_category_);
-                            if (in_array($sub_category, $all_filters['product_type'])) {
+                            if (in_array($sub_category, $all_filters['type'])) {
                                 $sub_cat_arr[$cat->product_sub_category_]["checked"] = true;
                             }
                         }
@@ -533,7 +533,7 @@ class Product extends Model
         $filter_data = [
             "brand"  => $brand_holder,
             "price"        => $price_holder,
-            "product_type" => $product_type_holder,
+            "type" => $product_type_holder,
             // 'colors' => $color_filter
         ];
 
@@ -1089,6 +1089,10 @@ class Product extends Model
 
             case 'cab':
                 return Dimension::format_cab($dim_str);
+                break;
+
+            case 'nw':
+                return Dimension::format_new_world($dim_str);
                 break;
 
             default:

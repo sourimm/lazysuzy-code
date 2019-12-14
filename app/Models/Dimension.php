@@ -1,5 +1,7 @@
 <?php
 namespace App\Models;
+
+use Dotenv\Lines;
 use Illuminate\Database\Eloquent\Model;
 
 class Dimension extends Model
@@ -87,8 +89,12 @@ class Dimension extends Model
             }
 
             if (isset($d[1])) $dim_values['label'] = $d_label;
-            $dim_values['filter'] = 1;
-            array_push($dims, $dim_values);
+            if (sizeof($dim_values) > 0) {
+                array_push($dims, $dim_values);
+                $dim_values['filter'] = 1;
+            }
+                
+            
         }
 
         return $dims;
@@ -96,6 +102,22 @@ class Dimension extends Model
 
     public static function format_westelm($str) {
         return Dimension::format_pier1(Dimension::clean_str($str));
+    }
+
+    public static function format_new_world($str) {
+        $feature_arr = explode("|", $str);
+        $dims = [];
+        $lines = [];
+        foreach($feature_arr as $line) {
+            if (strpos($line, ":") !== false 
+                && strpos($line, "\"") !== false) {
+                    $dims_ext = Dimension::format_pier1($line);    
+                    $dims = array_merge($dims, $dims_ext);
+                
+                }
+        }
+
+        return $dims;
     }
 
 }
