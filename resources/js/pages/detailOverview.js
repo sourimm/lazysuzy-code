@@ -12,6 +12,8 @@ $(document).ready(function() {
     const PDP_API = '/api' + window.location.pathname;
     const FAV_MARK_API = '/api/mark/favourite/';
     const FAV_UNMARK_API = '/api/unmark/favourite/';
+    const VARIATION_API = '/api/variation' + window.location.pathname;
+    const SWATCH_API = '/api/filters/variation' + window.location.pathname;
 
     const $product = $('#detailPage');
     const $prodPriceCard = $product.find('.prod-price-card');
