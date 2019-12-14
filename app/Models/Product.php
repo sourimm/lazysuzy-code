@@ -1090,6 +1090,10 @@ class Product extends Model
                 return Dimension::format_cab($dim_str);
                 break;
 
+            case 'nw':
+                return Dimension::format_new_world($dim_str);
+                break;
+
             default:
                 return null;
                 break;
