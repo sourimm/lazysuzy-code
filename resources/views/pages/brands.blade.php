@@ -114,6 +114,23 @@
         </div>
     </div>
     </script>
+    <script id="listing-template-mobile" type="text/x-handlebars-template">
+        @{{#with this}}
+        <div id="@{{id}}" sku="@{{sku}}" site="@{{site}}" class="ls-product-div col-md-3 item-2">
+            <a href="/product/@{{sku}}" class="product-detail-modal">
+                <div class="ls-product"><img class="prod-img img-fluid" src="@{{main_image}}" alt="@{{name}}">
+                    @{{#if wishlisted}}
+                    <div class="wishlist-icon marked" sku="@{{sku}}"><i class="far fa-heart -icon"></i></div><img class="variation-img img-fluid" src="@{{main_image}}" alt="variation-img"></div>
+                    @{{else}}
+                    <div class="wishlist-icon " sku="@{{sku}}"><i class="far fa-heart -icon"></i></div><img class="variation-img img-fluid" src="@{{main_image}}" alt="variation-img"></div>
+                    @{{/if}}
+
+            </a>
+            <span class="prod-sale-price">@{{formatPrice is_price}}</span>
+            <span class="prod-discount-tag @{{discountClass}}">@{{percent_discount}}%</span>
+        </div>
+        @{{/with}}
+    </script>
     <script id="listing-template" type="text/x-handlebars-template">
         @{{#with this}}
             <div id="@{{id}}" sku="@{{sku}}" site="@{{site}}" class="ls-product-div col-md-3 item-2">

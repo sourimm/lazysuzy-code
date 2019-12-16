@@ -77,6 +77,16 @@
         }
 
         .brands-prod-container {
+            .ls-prod-container {
+                .ls-product-div {
+                    margin-bottom: 0px;
+                    padding: 1px;
+                    .ls-product {
+                        margin: 0;
+                    }
+                }
+            }
+
             .row {
                 .brands-prod-div {
                     margin: 10px 0;
