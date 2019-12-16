@@ -533,7 +533,7 @@ class Product extends Model
             "brand"  => $brand_holder,
             "price"        => $price_holder,
             "type" => $product_type_holder,
-            // 'colors' => $color_filter
+            "colors" => $color_filter
         ];
 
         if ($dept == "all") {
@@ -546,8 +546,9 @@ class Product extends Model
                     foreach($dept['categories'] as $cat) {
                         array_push($categories, [
                             'label' => $cat['filter_label'],
-                            'link' => $cat['link'],
-                            'image' => $cat['image']
+                            'api_endpoint' => '/api' . $cat['link'],
+                            'image' => $cat['image'],
+                            
                         ]);
                     }
                 }
