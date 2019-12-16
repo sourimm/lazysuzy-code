@@ -122,7 +122,6 @@ class Product extends Model
             ]
 
         ];
-        $s = $sort_type_filter;
 
         $page_num    = Input::get("pageno");
         $limit       = Input::get("limit");
@@ -189,9 +188,9 @@ class Product extends Model
         }
 
         // 4. type
-        if (isset($all_filters['product_type']) && strlen($all_filters['product_type'][0]) > 0) {
+        if (isset($all_filters['type']) && strlen($all_filters['type'][0]) > 0) {
             // will only return products that match the LS_IDs for the `types` mentioned.
-            $LS_IDs = Product::get_sub_cat_LS_IDs($dept, $cat, $all_filters['product_type']);
+            $LS_IDs = Product::get_sub_cat_LS_IDs($dept, $cat, $all_filters['type']);
         } else {
             // 5. departments and categories
             if (null != $cat) {
@@ -265,8 +264,8 @@ class Product extends Model
         }
 
         if (sizeof($all_filters) != 0) {
-            if (isset($all_filters['product_type']) && strlen($all_filters['product_type'][0]) > 0) {
-                $LS_IDs = Product::get_sub_cat_LS_IDs($dept, $cat, $all_filters['product_type']);
+            if (isset($all_filters['type']) && strlen($all_filters['type'][0]) > 0) {
+                $LS_IDs = Product::get_sub_cat_LS_IDs($dept, $cat, $all_filters['type']);
             }
         }
 
@@ -402,7 +401,7 @@ class Product extends Model
         $LS_IDs = Product::get_dept_cat_LS_ID_arr($dept, $cat);
 
 
-        if (isset($all_filters['product_type']) && strlen($all_filters['product_type'][0]) > 0) {
+        if (isset($all_filters['type']) && strlen($all_filters['type'][0]) > 0) {
             // comment this line if you want to show count for all those
             // sub_categories that are paased in the request.
             //$LS_IDs = Product::get_sub_cat_LS_IDs($dept, $cat, $all_filters['type']);
@@ -451,9 +450,9 @@ class Product extends Model
                         $sub_cat_arr[$cat->product_sub_category_]["enabled"] = true;
                         $sub_cat_arr[$cat->product_sub_category_]["count"]++;
 
-                        if (isset($all_filters['product_type'])) {
+                        if (isset($all_filters['type'])) {
                             $sub_category = strtolower($cat->product_sub_category_);
-                            if (in_array($sub_category, $all_filters['product_type'])) {
+                            if (in_array($sub_category, $all_filters['type'])) {
                                 $sub_cat_arr[$cat->product_sub_category_]["checked"] = true;
                             }
                         }
@@ -499,7 +498,8 @@ class Product extends Model
 
         // check if the prodcuts is in a wishlist
         $wishlist_products = [];
-        if (Auth::check()) {
+        $is_authenticated = Auth::check();
+        if ($is_authenticated) {
             $user = Auth::user();
             $w_products = DB::table("user_wishlists")
                 ->select("product_id")
@@ -515,7 +515,7 @@ class Product extends Model
         foreach ($products as $product) {
 
             $isMarked = false;
-            if (Auth::check()) {
+            if ($is_authenticated) {
                 if (in_array($product->product_sku, $wishlist_products)) {
                     $isMarked = true;
                 }
@@ -533,9 +533,29 @@ class Product extends Model
         $filter_data = [
             "brand"  => $brand_holder,
             "price"        => $price_holder,
-            "product_type" => $product_type_holder,
+            "type" => $product_type_holder,
             // 'colors' => $color_filter
         ];
+
+        if ($dept == "all") {
+            // get product categories filters 
+            $departments = Department::get_all_departments(false);
+            $categories = [];
+            foreach($departments['all_departments'] as $dept) {
+
+                if (isset($dept['categories']) && sizeof($dept['categories']) > 0) {
+                    foreach($dept['categories'] as $cat) {
+                        array_push($categories, [
+                            'label' => $cat['filter_label'],
+                            'link' => $cat['link'],
+                            'image' => $cat['image']
+                        ]);
+                    }
+                }
+            }
+
+            $filter_data['categories'] = $categories;
+        }
 
 
         return [
@@ -612,10 +632,12 @@ class Product extends Model
         $data['variations'] = $variations;
 
         $desc_BRANDS = ["West Elm"];
+        $dims_from_features = ["World Market"]; // these extract dimensions data from features data.
+        $dims_text = in_array($product->name, $dims_from_features) ? $product->product_feature : $product->product_dimension;
 
         if (!$isListingAPICall) {
             $data['description'] = in_array($product->name, $desc_BRANDS)  ? Product::format_desc_new($product->product_description) : preg_split("/\\[US\\]|<br>|\\n/", $product->product_description);
-            $data['dimension'] = Product::normalize_dimension($product->product_dimension, $product->site_name);
+            $data['dimension'] = Product::normalize_dimension($dims_text, $product->site_name);
             $data['thumb'] = preg_split("/,|\\[US\\]/", $product->thumb);
             $data['features'] = in_array($product->name, $desc_BRANDS) ? Product::format_desc_new($product->product_feature) : preg_split("/\\[US\\]|<br>|\\n|\|/", $product->product_feature);
             $data['on_server_images'] = array_map([__CLASS__, "baseUrl"], preg_split("/,|\\[US\\]/", $product->product_images));
@@ -1089,6 +1111,10 @@ class Product extends Model
 
             case 'cab':
                 return Dimension::format_cab($dim_str);
+                break;
+
+            case 'nw':
+                return Dimension::format_new_world($dim_str);
                 break;
 
             default:

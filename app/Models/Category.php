@@ -23,7 +23,7 @@ class Category extends Model
         }
 
         $rows = Category::select(['product_category', 'product_category_',
-            'category_image','LS_ID'])
+            'category_image','LS_ID', 'filter_label'])
             ->where('department_', $dept)
             ->whereRaw('LENGTH(product_category) != 0 AND LENGTH(product_sub_category) = 0')
             ->get()
@@ -33,8 +33,9 @@ class Category extends Model
             $sub_categories = SubCategory::getSubCategories($dept, $row['product_category_']);
             array_push($c_cat, [
                 'category' => $row['product_category'],
+                'filter_label' => ucfirst($row['filter_label']),
                 'LS_ID' => $row['LS_ID'],
-                'image' => Category::$base_site_url . '/' . $row['category_image'],
+                'image' => Category::$base_site_url . '' . $row['category_image'],
                 'link' => $listing_base_url . '/' . strtolower($dept) . '/' . strtolower($row['product_category_']),
                 'sub_categories' => $sub_categories
             ]);
