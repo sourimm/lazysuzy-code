@@ -88,7 +88,7 @@ class Dimension extends Model
                 }
             }
 
-            if (isset($d[1])) $dim_values['label'] = $d_label;
+            if (isset($d[1])) $dim_values['description'] = $d_label;
             if (sizeof($dim_values) > 0) {
                 array_push($dims, $dim_values);
                 $dim_values['filter'] = 1;
