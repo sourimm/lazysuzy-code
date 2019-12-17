@@ -484,6 +484,8 @@ class Product extends Model
             ->selectRaw("COUNT(product_id) AS product_count, product_id")
             ->groupBy("product_id")
             ->get();
+        $products_to_ignore = DB::table("products_ignore")->select("sku")->get()->toArray();
+        $products_to_ignore = array_column($products_to_ignore, "sku");
 
         $westelm_variations_data = [];
 
@@ -512,17 +514,21 @@ class Product extends Model
                 array_push($wishlist_products, $p->product_id);
         }
 
+
         foreach ($products as $product) {
 
-            $isMarked = false;
-            if ($is_authenticated) {
-                if (in_array($product->product_sku, $wishlist_products)) {
-                    $isMarked = true;
+            if (!in_array($product->product_sku, $products_to_ignore)) {
+                $isMarked = false;
+                if ($is_authenticated) {
+                    if (in_array($product->product_sku, $wishlist_products)) {
+                        $isMarked = true;
+                    }
                 }
+
+                $variations = Product::get_variations($product, $westelm_variations_data, $isListingAPICall);
+                array_push($p_send, Product::get_details($product, $variations, $isListingAPICall, $isMarked));
             }
 
-            $variations = Product::get_variations($product, $westelm_variations_data, $isListingAPICall);
-            array_push($p_send, Product::get_details($product, $variations, $isListingAPICall, $isMarked));
         }
 
         $brand_holder = Product::get_brands_filter($dept, $cat, $all_filters);
@@ -534,11 +540,11 @@ class Product extends Model
             "brand"  => $brand_holder,
             "price"        => $price_holder,
             "type" => $product_type_holder,
-            // 'colors' => $color_filter
+            "colors" => $color_filter
         ];
 
         if ($dept == "all") {
-            // get product categories filters 
+            // get product categories filters
             $departments = Department::get_all_departments(false);
             $categories = [];
             foreach($departments['all_departments'] as $dept) {
@@ -547,8 +553,9 @@ class Product extends Model
                     foreach($dept['categories'] as $cat) {
                         array_push($categories, [
                             'label' => $cat['filter_label'],
-                            'link' => $cat['link'],
-                            'image' => $cat['image']
+                            'api_endpoint' => '/api' . $cat['link'],
+                            'image' => $cat['image'],
+
                         ]);
                     }
                 }
