@@ -9,7 +9,7 @@ use App\Models\SocialIdentity;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
-
+use Illuminate\Validation\ValidationException;
 
 class LoginController extends Controller
 {
@@ -122,6 +122,12 @@ class LoginController extends Controller
 
            return $user;
        }
+    }
+    protected function sendFailedLoginResponse(Request $request)
+    {
+        throw ValidationException::withMessages([
+            $this->username() => [trans('auth.failed')],
+        ])->redirectTo($this->redirectPath() . "?error=login", "sdf");
     }
 
     public function logout(Request $request)
