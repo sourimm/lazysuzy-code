@@ -18,8 +18,8 @@
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! A:\xampp\htdocs\lazysuzy-code\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! A:\xampp\htdocs\lazysuzy-code\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! /Users/himanshujain/Documents/Himanshu/projects/lazysuzy/lazysuzy-code/resources/js/app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! /Users/himanshujain/Documents/Himanshu/projects/lazysuzy/lazysuzy-code/resources/sass/app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

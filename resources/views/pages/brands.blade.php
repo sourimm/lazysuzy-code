@@ -3,63 +3,54 @@
 @section('middle_content')
 @include('./partials/subnav')
     <div class="brands">
-
         <div class="brands-main-heading">
             <div class="container">
+                <div class="mx-auto text-center" id="loaderImg">
+                    <img src="{{ asset('/images/Spinner-1s-100px.gif') }}" alt="Spinner">
+                </div>
                 <div class="js-brand-header">
-                        <div class="main-img">
-                                <img class="img-fluid" src="{{ asset('/images/Floyd.jpg') }}" alt="">
-                            </div>
-                    <div class="row">
-                        <div class="col-12 text-center">
-                            <h1>Floyd</h1>
-                        </div>
-                        <div class="col-8 col-sm-12">
-                            <div class="brands-details">
-                            <p>Floyd began because we were tired of disposable furniture.
-                                So we set out to design products of lasting quality fo how people live today.
-                                Furniture should be made for the home, not the landfill.
-                                Made with material that last. It’s a different way of making furniture.
-                                we call it furniture for keeping. </p>
-                            </div>
-                        </div>
-                        <div class="col-4 col-sm-12">
-                            <div class="row">
-                                <div class="col-3">
-                                <img class="brands-icon" src="{{ asset('/images/icon/heart-flag-of-united-states-of-america.png') }}" alt="Heart-flag-of-united-states-of-america">
-                                </div>
-                                <div class="col-9 brand-icon-text">
-                                    <h3>Manufactured in USA</h3>
-                                </div>
-                                <div class="col-3">
-                                <img class="brands-icon" src="{{ asset('/images/icon/shipping.png') }}" alt="Free Shipping">
-                                </div>
-                                <div class="col-9 brand-icon-text">
-                                    <h3>Free Shipping</h3>
-                                </div>
 
-                                <div class="col-3">
-                                <img class="brands-icon" src="{{ asset('/images/icon/exchange.png') }}" alt="Exchange">
-                                </div>
-                                <div class="col-9 brand-icon-text">
-                                    <h3>Free 30 Days Returns</h3>
-                                </div>
+                </div>
+            </div>
+        </div>
+        <div class="filters d-md-block filter-close-btn">
+            <div class="row">
+                <ul class="filter-tabs col-sm-9" id="desktop-filters">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#">Brand</a>
+                    </li>
 
-                                <div class="col-3">
-                                <img class="brands-icon" src="{{ asset('/images/icon/guarantee.png') }}" alt="Guarantee">
-                                </div>
-                                <div class="col-9 brand-icon-text">
-                                    <h3>10 years Warranty</h3>
-                                </div>
-                            </div>
-                        </div>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Price</a>
+                    </li>
+
+                    <li>
+                        <a class="clearall-filter-btn" href="/filter/clear_filter/all">Clear All</a>
+                    </li>
+
+                </ul>
+                <div class="col-sm-3 d-none d-md-block">
+                    <div class="total-items float-left"><span id="totalResults">0</span> Results</div>
+                    <div class="sortby float-right">
+                        <select class="form-control" id="sort">
+                            <option>Price : Low to High</option>
+                            <option>Price : High to Low</option>
+                            <option>Popularity</option>
+                            <option selected>Recommended</option>
+                        </select>
                     </div>
+
                 </div>
             </div>
         </div>
     <div class="brands-prod-container products-container">
         <div class="container ls-prod-container">
             <div id="product-div-main" class="row"></div>
+        </div>
+        <div class="text-center" style="display:none;" id="noProductsText">Sorry, no more products to show.
+        </div>
+        <div class="mx-auto text-center loaderImg" style="display:none;" >
+            <img src="{{ asset('/images/Spinner-1s-100px.gif') }}" alt="Spinner">
         </div>
     </div>
     @component('components.detailOverview')
@@ -185,6 +176,24 @@
                 </div>
             </div>
         @{{/with}}
+    </script>
+    <script id="desktop-filter-template" type="text/x-handlebars-template">
+        <li class="nav-item dropdown filter" data-filter=@{{name}} id="@{{name}}Filter">
+            <a class="nav-link dropdown-toggle @{{#if isApplied}}applied @{{/if}}" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">@{{name}}</a>
+            <ul class="dropdown-menu">
+                @{{#if isPrice}}
+                    <li class="dropdown-item"  href="#"><input class="price-range-slider" id="priceRangeSlider" name="price_range" value="" tabindex="-1" readonly=""></li>
+                @{{else}}
+                    @{{#each list}}
+                    @{{#with this}}
+                    @{{#if enabled}}
+                        <li class="dropdown-item" href="#"><label class="filter-label"><input type="checkbox" @{{#if checked}}checked@{{/if}} value="@{{value}}" belongsto="@{{name}}"><span class="checkmark"></span><span class="text">@{{name}}</span></label></li>
+                    @{{/if}}
+                    @{{/with}}
+                    @{{/each}}
+                @{{/if}}
+            </ul>
+        </li>
     </script>
     <script src="{{ mix('js/brands.js')}}"></script>
     <script src="{{ mix('js/detailOverview.js')}}"></script>
