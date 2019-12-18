@@ -337,7 +337,7 @@ class Product extends Model
         }
     }
 
-    public static function get_color_filter($products)
+    public static function get_color_filter($products, $request_colors)
     {
         $colors = [
             "black" => "#000000",
@@ -356,6 +356,7 @@ class Product extends Model
             "tan" => "#d2b48c",
             "white" => "#ffffff",
         ];
+        $req_colors = explode("|", $request_colors);
 
         foreach ($colors as $key => $color_hex) {
             $colors[$key] = [
@@ -371,6 +372,7 @@ class Product extends Model
                 if (strlen($p_color) > 0 && array_key_exists(strtolower($p_color), $colors)) {
                     $colors[strtolower($p_color)]['name'] = ucfirst($p_color);
                     $colors[strtolower($p_color)]['enabled'] = true;
+                    $colors[strtolower($p_color)]['checked'] = in_array(strtolower($p_color), $req_colors) ? true : false;
                 }
             }
         }
