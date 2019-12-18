@@ -178,11 +178,11 @@ class Product extends Model
             }
 
             if (
-                isset($all_filters['colors'])
-                && strlen($all_filters['colors'][0]) > 0
+                isset($all_filters['color'])
+                && strlen($all_filters['color'][0]) > 0
             ) {
                 $query = $query
-                    ->whereRaw('color REGEXP "' . $all_filters['colors'][0] . '"');
+                    ->whereRaw('color REGEXP "' . $all_filters['color'][0] . '"');
                 // input in form - color1|color2|color3
             }
         }
@@ -271,9 +271,14 @@ class Product extends Model
 
         $product_brands = DB::table("master_data")
             ->selectRaw("count(product_name) AS products, site_name")
-            ->whereRaw('LS_ID REGEXP "' . implode("|", $LS_IDs) . '"')
-            ->groupBy('site_name')
-            ->get();
+            ->whereRaw('LS_ID REGEXP "' . implode("|", $LS_IDs) . '"');
+        
+        if (isset($all_filters['color']) && strlen($all_filters['color'][0]) > 0) {
+           
+            $colors = implode("|", $all_filters['color']);
+            $product_brands = $product_brands->whereRaw('color REGEXP "' . $colors . '"');
+        }
+        $product_brands = $product_brands->groupBy('site_name')->get();
 
         foreach ($product_brands as $b) {
             if (isset($all_brands[$b->site_name])) {
@@ -420,6 +425,11 @@ class Product extends Model
             $products = $products->whereIn('site_name', $all_filters['brand']);
         }
 
+       /*  if (isset($all_filters['color']) && strlen($all_filters['color'][0]) > 0) {
+            $colors =implode("|", $all_filters['color']);
+            $products = $products->whereRaw('color REGEXP "' . $colors . '"');
+        } */
+
         return $products->get();
     }
 
@@ -467,9 +477,9 @@ class Product extends Model
         foreach ($sub_cat_arr as $key => $value) {
             array_push($arr, $value);
         }
-
+        $color_filter = isset($all_filters['color']) ? $all_filters['color'][0] : null;
         return [
-            'colorFilter' => Product::get_color_filter($products),
+            'colorFilter' => Product::get_color_filter($products, $color_filter, $products),
             'productTypeFilter' => $arr
         ];
     }
@@ -542,7 +552,7 @@ class Product extends Model
             "brand"  => $brand_holder,
             "price"        => $price_holder,
             "type" => $product_type_holder,
-            "colors" => $color_filter
+            "color" => $color_filter
         ];
 
         if ($dept == "all") {

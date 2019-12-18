@@ -1,11 +1,12 @@
 {
     "/js/app.js": "/js/app.js?id=e65ceb55f86b2f2c05fd",
-    "/css/app.css": "/css/app.css?id=c5fe6ca49fe7f6eeabad",
-    "/js/brands.js": "/js/brands.js?id=d6845812bbd8b5c42eb7",
+    "/css/app.css": "/css/app.css?id=86eb2acf3a0ad1bda934",
+    "/js/brands.js": "/js/brands.js?id=d30f45bd8d089af461fd",
     "/js/detailOverview.js": "/js/detailOverview.js?id=916a312f74b5f5275abd",
     "/js/detailspage.js": "/js/detailspage.js?id=fbf1dc0b0dd7f1ffa25c",
-    "/js/listing.js": "/js/listing.js?id=1749bbf63ca54b69654b",
+    "/js/listing.js": "/js/listing.js?id=b3cbde0af5ed1e3e280e",
+    "/js/listing.mobile.js": "/js/listing.mobile.js?id=96d11547a09cd3fcce88",
     "/js/manifest.js": "/js/manifest.js?id=af92f221c524c24ee9b3",
     "/js/search.js": "/js/search.js?id=73f2188e898dfcef4244",
-    "/js/vendor.js": "/js/vendor.js?id=359cfc045cac36e248f5"
+    "/js/vendor.js": "/js/vendor.js?id=60042948aae52b423cae"
 }
