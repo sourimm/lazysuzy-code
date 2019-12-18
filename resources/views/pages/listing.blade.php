@@ -2,168 +2,131 @@
 
 @section('middle_content')
 @include('./partials/subnav')
-    <div class="listing">
-
-        <div class="listing-container main-container container ">
-            <div class="d-none d-md-block">
-            </div>
+<div class="listing">
+    <div class="listing-container main-container container ">
+        <h4 class="page-heading">{{Request::segment(3)}}</h4>
+        <div class="filters d-md-block filter-close-btn">
             <div class="row">
+                <ul class="filter-tabs col-sm-9" id="desktop-filters">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#">Brand</a>
+                    </li>
 
-                <div class="filters col-md-2 d-md-block filter-close-btn" id="filters">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Price</a>
+                    </li>
 
-                <div class="filter">
-                        <hr>
-                        <span class="filter-header">Brands</span>
-                        <label for="" class="clear-filter float-right">Clear</label>
-                        <ul>
-                            <li>
-                                <label class="filter-label">CB2
-                                    <input type="checkbox" checked="checked" value="cb2">
-                                    <span class="checkmark"></span>
-                                </label>
-                            </li>
-                            <li>
-                                <label class="filter-label">Pier
-                                    <input type="checkbox" value="pier1">
-                                    <span class="checkmark"></span>
-                                </label>
-                            </li>
-                            <li>
-                                <label class="filter-label">Pottery Barn
-                                    <input type="checkbox">
-                                    <span class="checkmark"></span>
-                                </label>
-                            </li>
-                        </ul>
-                        <hr>
+                    <li>
+                        <a class="clearall-filter-btn" href="/filter/clear_filter/all">Clear All</a>
+                    </li>
+
+                </ul>
+                <div class="col-sm-3 d-none d-md-block">
+                    <div class="total-items float-left"><span id="totalResults">0</span> Results</div>
+                    <div class="sortby float-right">
+                        <select class="form-control" id="sort">
+                            <option>Price : Low to High</option>
+                            <option>Price : High to Low</option>
+                            <option>Popularity</option>
+                            <option selected>Recommended</option>
+                        </select>
                     </div>
-                    <div class="filter">
-                        <span class="filter-header">Price</span>
-                        <label for="" class="clear-filter float-right">Clear</label>
-                        <input type="text" class="price-range-slider" id="priceRangeSlider" name="price_range" value="" />
-                        <hr>
-                    </div>
-                    <div class="filter">
-                        <span class="filter-header">Type</span>
-                        <label for="" class="clear-filter float-right">Clear</label>
-                        <ul>
-                            <li>
-                                <label class="filter-label">Armchair
-                                    <input type="checkbox" checked="checked">
-                                    <span class="checkmark"></span>
-                                </label>
-                            </li>
-                            <li>
-                                <label class="filter-label">Armless
-                                    <input type="checkbox">
-                                    <span class="checkmark"></span>
-                                </label>
-                            </li>
-                            <li>
-                                <label class="filter-label">Recliner
-                                    <input type="checkbox">
-                                    <span class="checkmark"></span>
-                                </label>
-                            </li>
-                            <li>
-                                <label class="filter-label">Ottoman
-                                    <input type="checkbox">
-                                    <span class="checkmark"></span>
-                                </label>
-                            </li>
-                        </ul>
-                        <hr>
-                    </div>
-                    <a class="btn clearall-filter-btn" href="/filter/clear_filter/all">Clear All</a>
-
-
-
-
 
                 </div>
-                <div class="filters col-md-2  d-md-none" id="sort-mobile">
-                    <div class="mobile-filter-header">
-                        <div class="filters-close-btn d-md-none float-left" ><i class="fa fa-times" aria-hidden="true"></i></div>
-                        <span class="filter-title">Sort</span>
-                    </div>
-                <hr>
-                <div class="sort-filter-input"><input type="radio" name="sort-price-filter" value="price_low_to_high"> Price : Low to High</div>
-                <div class="sort-filter-input"><input type="radio" name="sort-price-filter" value="price_high_to_low"> Price : High to Low</div>
-                <div class="sort-filter-input"><input type="radio" name="sort-price-filter" value="popularity"> Popularity </div>
-
-
-
-
-
-                </div>
-                <div class="listing-top-controls d-block d-md-none">
-                <!-- <div id="page-navigator" class="page-navigator-mobile"></div> -->
-                <div class="filter-toggle-mobile">
-                <span class="filter-toggle" id="filterToggleBtn">
-                    <i class="fas fa-filter"></i>
-                        Filter
-                    </span>
-                    <span class="filter-toggle" id="viewItemsBtn">
-                    <i class="fab fa-buromobelexperte"></i>
-                        Toggle View
-                    </span>
-                    <span class="filter-toggle" id="selectbox-sortmobile">
-                    <i class="fas fa-sort"></i>
-                        Sort
-                    </span>
-</div>
-
-
-                </div>
-                <!-- <div class="listing-top-controls d-block d-md-none">
-                    <div class="filters col-md-2 d-md-block" id="sort-mobile">
-                        <input type="radio" name="sort-price-filter" value="male"> Price : Low to High<br>
-                        <input type="radio" name="sort-price-filter" value="female">Price : High to Low<br>
-                        <input type="radio" name="sort-price-filter" value="other"> Popularity <br>
-                        <input type="radio" name="sort-price-filter" value="female" checked="checked"> Recommended<br>
-                    </div>
-                </div> -->
-
-                <!-- <div class="listing-top-controls d-block d-md-none">
-                    <span class="filter-toggle float-right" id="filterToggleBtn">
-                        <i class="fas fa-filter"></i>
-                    </span>
-                    <span class="view-items-toggle float-right" id="viewItemsBtn">
-                        <i class="fab fa-buromobelexperte"></i>
-                    </span>
-                </div> -->
-
-
-                <div class="products-container col-md-10">
-                    <div class="float-right d-none d-md-block">
-                        <div class="sortby">
-                            <label for="sort">Sort By</label>
-                            <select class="form-control" id="sort">
-                                <option>Price : Low to High</option>
-                                <option>Price : High to Low</option>
-                                <option>Popularity</option>
-                                <option selected>Recommended</option>
-                            </select>
-                        </div>
-                        <div class="total-items"><span id="totalResults">0</span> Results</div>
-                    </div>
-                    <div class="ls-prod-container container-fluid text-center">
-                    <div class="top-button d-md-none"><i class="fa fa-arrow-up" aria-hidden="true"></i></div>
-                        <div class="row" id="productsContainerDiv">
-
-                        </div>
-                        <div class="text-center" id="noProductsText">Sorry, no more products to show.</div>
-                        <div class="mx-auto" id="loaderImg">
-                            <img src="{{ asset('/images/Spinner-1s-100px.gif') }}" alt="Spinner">
-                        </div>
-                    </div>
-</div>
-</div>
+            </div>
         </div>
-        @component('components.detailOverview')
-        @endcomponent
+
+        <div class="products-container">
+
+            <div class="ls-prod-container">
+                <div class="top-button"><i class="fa fa-arrow-up" aria-hidden="true"></i></div>
+                <div class="row" id="productsContainerDiv">
+                </div>
+                <div class="text-center" style="display:none;" id="noProductsText">Sorry, no more products to show.
+                </div>
+                <div class="mx-auto text-center" id="loaderImg">
+                    <img src="{{ asset('/images/Spinner-1s-100px.gif') }}" alt="Spinner">
+                </div>
+            </div>
+        </div>
     </div>
+    @component('components.detailOverview')
+    @endcomponent
+</div>
 @endsection
 @push('pageSpecificScripts')
-    <script src="{{ mix('js/listing.js')}}"></script>
+<script src="{{ mix('js/listing.js')}}"></script>
+<script id="listing-template" type="text/x-handlebars-template">
+    @{{#with this}}
+        <div id="@{{id}}" sku="@{{sku}}" site="@{{site}}" class="ls-product-div col-md-3 item-2">
+            <a href="/product/@{{sku}}" class="product-detail-modal js-detail-modal">
+                <div class="ls-product"><img class="prod-img img-fluid" src="@{{main_image}}" alt="@{{name}}">
+
+                    @{{#if wishlisted}}
+                        <div class="wishlist-icon marked" sku="@{{sku}}"><i class="far fa-heart -icon"></i></div><img class="variation-img img-fluid" src="@{{main_image}}" alt="variation-img"></div>
+                    @{{else}}
+                    <div class="wishlist-icon " sku="@{{sku}}"><i class="far fa-heart -icon"></i></div><img class="variation-img img-fluid" src="@{{main_image}}" alt="variation-img"></div>
+                    @{{/if}}
+
+            </a>
+            <div class="prod-info">
+                <span class="-site">@{{site}}</span>
+                @{{#if reviewExist}}
+                <div class="rating-container float-right">
+                    <span class="total-ratings">@{{reviews}}</span><div class="rating  @{{ratingClass}}"></div>
+                </div>
+                @{{/if}}
+            </div>
+            <div class="-name">@{{name}}</div>
+            <div class="-prices">
+                <span class="-cprice">@{{formatPrice is_price}}</span>
+                @{{#ifNeq is_price was_price}}
+                <span class="-oldprice">@{{formatPrice was_price}}</span>
+                @{{/ifNeq}}
+            </div>
+
+            <div class="responsive slick-slider" style="">
+                @{{#each_upto variations 6}}
+                @{{#with this}}
+                    <div class="mini-carousel-item" style="width: 35px; display: inline-block;">
+                        @{{#ifNeq swatch_image ''}}
+                        <a class="responsive-img-a" href="javaScript:void(0)" tabindex="0">
+                            <img class="carousel-img img-fluid" src="@{{swatch_image}}" data-prodImg="@{{image}}" />
+                        </a>
+                        @{{else}}
+                        <a class="responsive-img-a" href="@{{link}}" tabindex="0">
+                            <img class="carousel-img img-fluid" src="@{{image}}" data-prodImg="@{{image}}" />
+                        </a>
+                        @{{/ifNeq}}
+
+                    </div>
+                @{{/with}}
+                @{{/each_upto}}
+                @{{#if showMoreVariations}}
+                    <a href="/product/@{{sku}}" class="more-link js-detail-modal">
+                        + more
+                    </a>
+                @{{/if}}
+            </div>
+        </div>
+    @{{/with}}
+</script>
+<script id="desktop-filter-template" type="text/x-handlebars-template">
+    <li class="nav-item dropdown filter" data-filter=@{{name}} id="@{{name}}Filter">
+        <a class="nav-link dropdown-toggle @{{#if isApplied}}applied @{{/if}}" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">@{{name}}</a>
+        <ul class="dropdown-menu">
+            @{{#if isPrice}}
+                <li class="dropdown-item"  href="#"><input class="price-range-slider" id="priceRangeSlider" name="price_range" value="" tabindex="-1" readonly=""></li>
+            @{{else}}
+                @{{#each list}}
+                @{{#with this}}
+                @{{#if enabled}}
+                    <li class="dropdown-item" href="#"><label class="filter-label"><input type="checkbox" @{{#if checked}}checked@{{/if}} value="@{{value}}" belongsto="@{{name}}"><span class="checkmark"></span><span class="text">@{{name}}</span></label></li>
+                @{{/if}}
+                @{{/with}}
+                @{{/each}}
+            @{{/if}}
+        </ul>
+    </li>
+</script>
 @endpush

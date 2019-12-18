@@ -134,6 +134,9 @@ body {
     .more-soon {
         max-width: 189px;
     }
+    .brand-row {
+        display: flex;
+    }
 }
 
 .brand-association {
@@ -150,6 +153,10 @@ body {
         text-align: center;
         font-size: 14px;
         margin-bottom: 10px;
+        @include media-breakpoint-up(md) {
+            text-align: left;
+            font-size: 18px;
+        }
     }
 
     .socials {

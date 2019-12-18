@@ -7,6 +7,8 @@ use App\Models\DepartmentMapping;
 use App\Models\Product;
 use App\Services\ProductService;
 use Illuminate\Http\Request;
+use App\Models\Utility;
+
 
 class ProductController extends Controller
 {
@@ -25,7 +27,14 @@ class ProductController extends Controller
         if ($request->ajax()) {
             return $products;
         }
-        return view('pages.listing', compact('departments', 'products', 'categories'));
+        $agent = $_SERVER['HTTP_USER_AGENT'];
+
+        if (Utility::is_mobile($agent)) {
+            return view('pages.mobile.listing', compact('departments', 'products', 'categories'));
+        } else {
+            return view('pages.listing', compact('departments', 'products', 'categories'));
+        }
+
     }
 
     public function productDetails(Request $request, $id)

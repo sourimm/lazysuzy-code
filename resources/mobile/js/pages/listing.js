@@ -1,7 +1,6 @@
 require('ion-rangeslider');
 window.GLOBAL_LISTING_API_PATH = '';
 
-require('./detailOverview');
 require('../apis/listing-api');
 
 $(document).ready(function() {

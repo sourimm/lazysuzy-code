@@ -1,4 +1,4 @@
-const mix = require('laravel-mix')
+const mix = require('laravel-mix');
 
 /*
  |--------------------------------------------------------------------------
@@ -12,7 +12,7 @@ const mix = require('laravel-mix')
  */
 mix.autoload({
     jquery: ['$', 'jQuery', 'window.jQuery']
-})
+});
 
 mix.js('resources/js/app.js', 'public/js')
     .js('resources/js/pages/listing.js', 'public/js')
@@ -20,6 +20,7 @@ mix.js('resources/js/app.js', 'public/js')
     .js('resources/js/pages/detailspage.js', 'public/js')
     .js('resources/js/pages/detailOverview.js', 'public/js')
     .js('resources/js/pages/brands.js', 'public/js')
+    .js('resources/mobile/js/pages/listing.js', 'public/js/listing.mobile.js')
     .sass('resources/sass/app.scss', 'public/css')
     .version()
     .extract()
@@ -28,4 +29,4 @@ mix.js('resources/js/app.js', 'public/js')
     })
     .webpackConfig({
         devtool: 'inline-source-map'
-    })
+    });

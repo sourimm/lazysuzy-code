@@ -10,10 +10,10 @@ var md = require('markdown-it')({
 
 $(document).ready(function() {
     const PDP_API = '/api' + window.location.pathname;
-    const VARIATION_API = '/api/variation' + window.location.pathname;
-    const SWATCH_API = '/api/filters/variation' + window.location.pathname;
     const FAV_MARK_API = '/api/mark/favourite/';
     const FAV_UNMARK_API = '/api/unmark/favourite/';
+    const VARIATION_API = '/api/variation' + window.location.pathname;
+    const SWATCH_API = '/api/filters/variation' + window.location.pathname;
 
     const $product = $('#detailPage');
     const $prodPriceCard = $product.find('.prod-price-card');
@@ -223,7 +223,7 @@ $(document).ready(function() {
             `/product/${queryObject.model_sku}${window.location.search}`
         );
     }
-    $(document).on('click', '.product-detail-modal', function(e) {
+    $(document).on('click', '.js-detail-modal', function(e) {
         e.preventDefault();
         e.stopPropagation();
         const product_sku = this.attributes.href.value;
@@ -363,7 +363,6 @@ $(document).ready(function() {
             data: queryParams,
             dataType: 'json',
             success: function(data) {
-                console.log(data);
                 $filtersDiv.empty();
                 $filtersDivMobile.empty();
 
@@ -420,7 +419,6 @@ $(document).ready(function() {
             }
             return self.indexOf(item) === index;
         });
-        console.log(arrDupes);
         var variationImagesNew = variationImages.filter(function(item, index) {
             return arrDupes.indexOf(index) >= 0;
         });
@@ -472,45 +470,38 @@ $(document).ready(function() {
         onFilterChange();
     });
 
-    $('body').on('click touchstart', '#closeMainImgBtn', function() {
-        $('.prod-main-img').hide();
-    });
+    // $('body').on('click touchstart', '#closeMainImgBtn', function() {
+    //     $('.prod-main-img').hide();
+    // });
 
-    $('body').on('click touchstart', '.responsive-img-a', function() {
-        $('#variationImg').attr('src', $(this).attr('data-image'));
-        $('.prod-main-img').show();
-        $('.select-styled').each(function() {
-            $(this).attr('active', 'unselected-value');
-        });
+    // $('body').on('click touchstart', '.responsive-img-a', function() {
+    //     $('#variationImg').attr('src', $(this).attr('data-image'));
+    //     $('.prod-main-img').show();
+    //     $('.select-styled').each(function() {
+    //         $(this).attr('active', 'unselected-value');
+    //     });
 
-        if (isMobile()) {
-            $('html, body')
-                .delay(1000)
-                .animate(
-                    {
-                        scrollTop: $(this).offset().top - 15
-                    },
-                    1000
-                );
-        }
+    //     if (isMobile()) {
+    //         $('html, body')
+    //             .delay(1000)
+    //             .animate(
+    //                 {
+    //                     scrollTop: $(this).offset().top - 15
+    //                 },
+    //                 1000
+    //             );
+    //     }
 
-        var triggerEl = document.querySelector('#variationImg');
-        variationDrift.setZoomImageURL($(this).attr('data-image'));
-        triggerEl.setAttribute('data-zoom', $(this).attr('data-image'));
+    //     var triggerEl = document.querySelector('#variationImg');
+    //     variationDrift.setZoomImageURL($(this).attr('data-image'));
+    //     triggerEl.setAttribute('data-zoom', $(this).attr('data-image'));
 
-        //    arrFilters.forEach(filter => {
-        //        var filterId = 'selectbox-attr-'+filter;
-        //        var filterValue = $(this).attr(filter);
-        //        var strSelectedValue = $('#'+filterId).next().find('li[rel="'+filterValue+'"]').text();
-        //        $('#'+filterId).text(strSelectedValue)
-        //        $('#'+filterId).attr('active', filterValue);
-        //    });
-        onSwatchChange(
-            $(this)
-                .find('.carousel-img')
-                .attr('data-zoom')
-        );
-    });
+    //     onSwatchChange(
+    //         $(this)
+    //             .find('.carousel-img')
+    //             .attr('data-zoom')
+    //     );
+    // });
 
     function onFilterChange(swatchUrl = null) {
         var oQueryParams = new Object();

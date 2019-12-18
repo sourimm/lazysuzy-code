@@ -72,11 +72,7 @@ $(document).ready(function() {
 
     $searchIcon.on('click', function(e) {
         if ($(this).attr('id') == 'searchIconMobile') {
-            if ($('#searchbarHeader').hasClass('open')) {
-                $('#searchbarHeader').removeClass('open');
-            } else {
-                $('#searchbarHeader').addClass('open');
-            }
+            $('#searchbarHeader').toggleClass('open');
         }
     });
 

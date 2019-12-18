@@ -106,20 +106,21 @@ class Product extends Model
 
         $sort_type_filter = [
             [
-                "name" => "PRICE: LOW TO HIGH",
+                "name" => "Popularity",
+                "value" => $POPULARITY,
+                "enabled" => false
+            ],
+            [
+                "name" => "Price: Low to High",
                 "value" => $PRICE_ASC,
                 "enabled" => false
             ],
             [
-                "name" => "PRICE: HIGH TO LOW",
+                "name" => "Price: High to Low",
                 "value" => $PRICE_DESC,
                 "enabled" => false
-            ],
-            [
-                "name" => "POPULARITY",
-                "value" => $POPULARITY,
-                "enabled" => false
             ]
+
         ];
 
         $page_num    = Input::get("pageno");
@@ -515,7 +516,7 @@ class Product extends Model
                 array_push($wishlist_products, $p->product_id);
         }
 
-        
+
         foreach ($products as $product) {
 
             if (!in_array($product->product_sku, $products_to_ignore)) {
@@ -529,7 +530,7 @@ class Product extends Model
                 $variations = Product::get_variations($product, $westelm_variations_data, $isListingAPICall);
                 array_push($p_send, Product::get_details($product, $variations, $isListingAPICall, $isMarked));
             }
-           
+
         }
 
         $brand_holder = Product::get_brands_filter($dept, $cat, $all_filters);
@@ -545,7 +546,7 @@ class Product extends Model
         ];
 
         if ($dept == "all") {
-            // get product categories filters 
+            // get product categories filters
             $departments = Department::get_all_departments(false);
             $categories = [];
             foreach($departments['all_departments'] as $dept) {
@@ -556,7 +557,7 @@ class Product extends Model
                             'label' => $cat['filter_label'],
                             'api_endpoint' => '/api' . $cat['link'],
                             'image' => $cat['image'],
-                            
+
                         ]);
                     }
                 }
@@ -1005,7 +1006,7 @@ class Product extends Model
 
     // LS_ID can be comma separated.
     public static function get_product_LS_ID($sku) {
-        
+
         $prod = Product::where("product_sku", $sku)
                 ->get();
         if (sizeof($prod) != 0) {

@@ -1,6 +1,7 @@
 import * as multiCarouselFuncs from '../components/multi-carousel';
 import makeSelectBox from '../components/custom-selectbox';
 import isMobile from '../app.js';
+import Handlebars from '../components/handlebar';
 // import strItemsNumClass from '../pages/listing';
 // import * as priceSliderContainer from '../pages/listing';
 
@@ -13,10 +14,15 @@ $(document).ready(function() {
     const FAV_UNMARK_API = '/api/unmark/favourite/';
     const PRODUCT_URL = '/product/';
     var totalResults = 0;
-    var UrlSearchParams = new Object();
-    var objGlobalFilterData;
     var bFiltersCreated = false;
+    var objGlobalFilterData;
     var search = window.location.search.substring(1);
+    var source = document.getElementById('listing-template').innerHTML;
+    var filterSource = document.getElementById('desktop-filter-template')
+        .innerHTML;
+    var listingTemplate = Handlebars.compile(source);
+    var desktopFilterTemplate = Handlebars.compile(filterSource);
+
     var queryObject = search
         ? JSON.parse(
               '{"' +
@@ -45,23 +51,6 @@ $(document).ready(function() {
         }
     });
 
-    // let productNavigator = location.pathname.split("/");
-    // let productNavigatorUrl = location.pathname.split("/");
-
-    // var anchor = $("<a/>", {
-    //     href:
-    //         $(location)
-    //             .attr("href")
-    //             .split("/")
-    //             .splice(0, 3)
-    //             .join("/") + productNavigatorUrl.splice(0, 3).join("/"),
-    //     text: productNavigator[2]
-    // }).appendTo("#page-navigator");
-
-    // var span = $("<span />", { text: " > " + productNavigator[3] }).appendTo(
-    //     "#page-navigator"
-    // );
-
     function isScrolledIntoView(el) {
         var rect = el.getBoundingClientRect();
         var elemTop = rect.top;
@@ -74,82 +63,72 @@ $(document).ready(function() {
         return isVisible;
     }
 
+    function isFilterApplied(filter, filterItems) {
+        return filter === 'price'
+            ? Math.round(filterItems.from) !== Math.round(filterItems.min) ||
+                  Math.round(filterItems.to) !== Math.round(filterItems.max)
+            : filterItems.filter(filterItem => filterItem.checked).length > 0;
+    }
+
     function fetchProducts(bClearPrevProducts) {
-        if (!bFetchingProducts) {
-            bFetchingProducts = true;
-            var strLimit = iLimit === undefined ? '' : '&limit=' + iLimit;
-            var filterQuery =
-                '?filters=' +
-                strFilters +
-                '&sort_type=' +
-                strSortType +
-                '&pageno=' +
-                iPageNo +
-                strLimit;
-            var listingApiPath = LISTING_API_PATH + filterQuery;
+        bFetchingProducts = true;
+        var strLimit = iLimit === undefined ? '' : '&limit=' + iLimit;
+        var filterQuery = `?filters=${strFilters}&sort_type=${strSortType}&pageno=${iPageNo}${strLimit}`;
+        var listingApiPath = LISTING_API_PATH + filterQuery;
 
-            history.pushState(
-                {},
-                '',
-                window.location.protocol +
-                    '//' +
-                    window.location.host +
-                    window.location.pathname +
-                    filterQuery
-            );
-            //$('#loaderImg').show();
-            $('#noProductsText').hide();
+        history.pushState(
+            {},
+            '',
+            window.location.protocol +
+                '//' +
+                window.location.host +
+                window.location.pathname +
+                filterQuery
+        );
+        $('#noProductsText').hide();
 
-            if (
-                iPageNo > 0 &&
-                !$('#productsContainerDiv')
-                    .html()
-                    .trim()
-            ) {
-                var apiCall = [];
-                for (var i = 0; i <= iPageNo; i++) {
-                    var filterQuery =
-                        '?filters=' +
-                        strFilters +
-                        '&sort_type=' +
-                        strSortType +
-                        '&pageno=' +
-                        i +
-                        strLimit;
-                    var listingApiPath = LISTING_API_PATH + filterQuery;
-                    apiCall.push(
-                        $.ajax({
-                            type: 'GET',
-                            url: listingApiPath,
-                            dataType: 'json'
-                        })
-                    );
-                }
-                var productsarry = [];
-                $.when.apply(undefined, apiCall).then(function(...results) {
-                    results.map(data => {
-                        productsarry = [...productsarry, ...data[0].products];
-                    });
-                    results[0][0].products = productsarry;
-                    listingApiRendering(results[0][0]);
-                });
-                iPageNo += 1;
-            } else {
-                iPageNo += 1;
-                $.ajax({
-                    type: 'GET',
-                    url: listingApiPath,
-                    dataType: 'json',
-                    success: function(data) {
-                        listingApiRendering(data);
-                    },
-                    error: function(jqXHR, exception) {
-                        bFetchingProducts = false;
-                        console.log(jqXHR);
-                        console.log(exception);
-                    }
-                });
+        if (
+            iPageNo > 0 &&
+            !$('#productsContainerDiv')
+                .html()
+                .trim()
+        ) {
+            var apiCall = [];
+            for (var i = 0; i <= iPageNo; i++) {
+                var filterQuery = `?filters=${strFilters}&sort_type=${strSortType}&pageno=${i}${strLimit}`;
+                var listingApiPath = LISTING_API_PATH + filterQuery;
+                apiCall.push(
+                    $.ajax({
+                        type: 'GET',
+                        url: listingApiPath,
+                        dataType: 'json'
+                    })
+                );
             }
+            var productsarry = [];
+            $.when.apply(undefined, apiCall).then(function(...results) {
+                results.map(data => {
+                    productsarry = [...productsarry, ...data[0].products];
+                });
+                results[0][0].products = productsarry;
+                listingApiRendering(results[0][0]);
+            });
+            iPageNo += 1;
+        } else {
+            iPageNo += 1;
+            $.ajax({
+                type: 'GET',
+                url: listingApiPath,
+                dataType: 'json',
+                success: function(data) {
+                    listingApiRendering(data);
+                },
+                error: function(jqXHR, exception) {
+                    bFetchingProducts = false;
+                    console.log(jqXHR);
+                    console.log(exception);
+                }
+            });
         }
         window.listingApiRendering = function(data) {
             bFetchingProducts = false;
@@ -161,7 +140,7 @@ $(document).ready(function() {
             if (data == null) {
                 return;
             }
-            if (data.products != undefined && data.products.length != 0) {
+            if (data.products && data.products.length) {
                 bNoMoreProductsToShow = true;
 
                 totalResults = data.total;
@@ -171,10 +150,29 @@ $(document).ready(function() {
                     href: '#page' + iPageNo,
                     id: '#anchor-page' + iPageNo
                 }).appendTo('#productsContainerDiv');
-                for (var i = 0; i < data.products.length; i++) {
-                    createProductDiv(data.products[i]);
+
+                for (var product of data.products) {
+                    if (
+                        product.reviews != null &&
+                        parseInt(product.reviews) != 0
+                    ) {
+                        product.reviewExist = true;
+                        product.ratingClass = `rating-${parseFloat(
+                            product.rating
+                        )
+                            .toFixed(1)
+                            .toString()
+                            .replace('.', '_')}`;
+                    }
+                    product.variations = product.variations.map(variation => {
+                        variation.swatch_image =
+                            variation.swatch_image || variation.swatch || '';
+                        return variation;
+                    });
+                    product.showMoreVariations = product.variations.length > 6;
+                    $('#productsContainerDiv').append(listingTemplate(product));
                 }
-                // scrollToAnchor();
+
                 multiCarouselFuncs.makeMultiCarousel();
             } else {
                 // if (!bClearPrevProducts) {
@@ -208,311 +206,93 @@ $(document).ready(function() {
         };
     }
 
-    var mainProductDiv;
-    function createProductDiv(productDetails) {
-        //Make product main div
-        mainProductDiv = jQuery('<div/>', {
-            id: productDetails.id,
-            sku: productDetails.sku,
-            site: productDetails.site,
-            class: 'ls-product-div col-md-3 ' + strItemsNumClass
-        }).appendTo('#productsContainerDiv');
-        var productLink = jQuery('<a/>', {
-            href: PRODUCT_URL + productDetails.sku,
-            class: 'product-detail-modal'
-        }).appendTo(mainProductDiv);
-
-        var product = jQuery('<div/>', {
-            class: 'ls-product'
-        }).appendTo(productLink);
-        if (productDetails.is_price.includes('-')) {
-            let salepriceRange = productDetails.is_price.split('-');
-            var saleprice = jQuery('<span />', {
-                text: `$${Math.round(
-                    salepriceRange[0]
-                ).toLocaleString()} - $${Math.round(
-                    salepriceRange[1]
-                ).toLocaleString()}`,
-                class: 'prod-sale-price d-md-none'
-            }).appendTo(mainProductDiv);
-        } else {
-            var saleprice = jQuery('<span />', {
-                text: `$${Math.round(
-                    productDetails.is_price
-                ).toLocaleString()}`,
-                class: 'prod-sale-price d-md-none'
-            }).appendTo(mainProductDiv);
-        }
-        if (Math.ceil(productDetails.percent_discount) > 0) {
-            var discounttag = jQuery('<span />', {
-                text: `${Math.ceil(productDetails.percent_discount)}%`,
-                class: `prod-discount-tag d-md-none ${
-                    productDetails.percent_discount >= 20 ? '_20' : ''
-                }`
-            }).appendTo(mainProductDiv);
-        }
-
-        jQuery('<img />', {
-            class: 'prod-img img-fluid',
-            src: productDetails.main_image,
-            alt: productDetails.name
-        }).appendTo(product);
-
-        //Product information
-        var prodInfo = jQuery('<div/>', {
-            class: 'prod-info d-none d-md-block'
-        }).appendTo(product);
-        var catDetails = jQuery('<span/>', {
-            class: '-cat-name'
-        }).appendTo(prodInfo);
-        $(catDetails).text(productDetails.site);
-        var prices = jQuery('<span/>', {
-            class: '-prices float-right'
-        }).appendTo(prodInfo);
-        var currPrice = jQuery('<span/>', {
-            class: '-cprice'
-        }).appendTo(prices);
-        $(currPrice).text('$' + productDetails.is_price);
-        if (productDetails.is_price < productDetails.was_price) {
-            var oldPrice = jQuery('<span/>', {
-                class: '-oldprice'
-            }).appendTo(prices);
-            $(oldPrice).text('$' + productDetails.was_price);
-        }
-        var strMarked = productDetails.wishlisted ? 'marked' : '';
-        $(product).append(
-            '<div class="wishlist-icon ' +
-                strMarked +
-                '" sku=' +
-                productDetails.sku +
-                '><i class="far fa-heart -icon"></i></div>'
-        );
-
-        var productInfoNext = jQuery('<div/>', {
-            class: 'd-none d-md-block'
-        }).appendTo(mainProductDiv);
-        $(productInfoNext).append(
-            '<div class="-name">' + productDetails.name + '</div>'
-        );
-
-        var carouselMainDiv = jQuery('<div/>', {
-            class: 'responsive'
-        }).appendTo(productInfoNext);
-
-        var variationImages = productDetails.variations.map(
-            variation => variation.image
-        );
-        var variationSwatchImages = productDetails.variations.map(
-            (variation, idx) => {
-                if (productDetails.site !== 'Westelm') {
-                    return variation.swatch_image || variationImages[idx];
-                } else {
-                    return variation.swatch_image;
-                }
-            }
-        );
-        var variationLinks = productDetails.variations.map(
-            variation => variation.link
-        );
-
-        if (productDetails.main_image != null) {
-            jQuery('<img />', {
-                class: 'variation-img img-fluid',
-                src: productDetails.main_image,
-                alt: 'variation-img'
-            }).appendTo(product);
-        }
-
-        if (variationSwatchImages.length > 0) {
-            variationSwatchImages.forEach((img, idx) => {
-                var responsiveImgDiv = jQuery('<div/>', {
-                    class: 'mini-carousel-item'
-                }).appendTo(carouselMainDiv);
-                var anchor = jQuery('<a/>', {
-                    class: 'responsive-img-a',
-                    href: variationLinks[idx]
-                }).appendTo(responsiveImgDiv);
-                var responsiveImg = jQuery('<img/>', {
-                    class: 'carousel-img img-fluid',
-                    src: img,
-                    'data-prodimg': variationImages[idx]
-                }).appendTo(anchor);
-            });
-        } else {
-            carouselMainDiv.addClass('d-none');
-        }
-
-        if (
-            productDetails.reviews != null &&
-            parseInt(productDetails.reviews) != 0
-        ) {
-            var reviewValue = parseInt(productDetails.reviews);
-            var ratingValue = parseFloat(productDetails.rating).toFixed(1);
-            var ratingClass = ratingValue.toString().replace('.', '_');
-            $(productInfoNext).append(
-                '<div class="rating-container"><div class="rating  rating-' +
-                    ratingClass +
-                    '"></div><span class="total-ratings">' +
-                    reviewValue +
-                    '</span></div>'
-            );
-        }
-    }
-
     function createUpdateFilterData(filterData) {
         bNoMoreProductsToShow = false;
-        if (!bFiltersCreated) {
-            bFiltersCreated = true;
-            $('#filters').empty();
-            var mobileFilterHeader = jQuery('<div/>', {
-                class: 'mobile-filter-header d-md-none'
-            }).appendTo('#filters');
-            jQuery('<span/>', {
-                class: 'float-left filters-close-btn',
-                html: '<i class="fa fa-times" aria-hidden="true"></i>'
-            }).appendTo(mobileFilterHeader);
-            jQuery('<span/>', {
-                class: 'filter-title',
-                text: 'Filters'
-            }).appendTo(mobileFilterHeader);
-            jQuery('<span/>', {
-                class: 'float-right',
-                html:
-                    '<a class="btn clearall-filter-btn" href="#" id="clearAllFiltersBtn">Clear All</a>'
-            }).appendTo(mobileFilterHeader);
-            Object.keys(filterData).forEach((key, index) => {
-                const data = filterData[key];
-                if (data.length == 0) {
-                    return;
-                }
-
-                var filterDiv = jQuery('<div/>', {
-                    class: 'filter',
-                    'data-filter': key
-                }).appendTo('#filters');
-                $(filterDiv).append('<hr/>');
-
-                $(filterDiv).append(
-                    '<span class="filter-header">' +
-                        key.replace('_', ' ') +
-                        '</span>'
+        // if (!bFiltersCreated) {
+        bFiltersCreated = true;
+        $('#desktop-filters').empty();
+        for (var filter in filterData) {
+            const filterItems = filterData[filter];
+            (filter === 'price' ||
+                (filterItems.length &&
+                    filterItems.filter(item => item.enabled).length)) &&
+                $('#desktop-filters').append(
+                    desktopFilterTemplate({
+                        name: filter,
+                        list: filterItems,
+                        isPrice: filter === 'price',
+                        isApplied: isFilterApplied(filter, filterItems)
+                    })
                 );
-                $(filterDiv).append(
-                    '<label for="' +
-                        key +
-                        '" class="clear-filter float-right">Clear</label>'
-                );
+            $priceRangeSlider = $('#priceRangeSlider');
+            const data = filterData[filter];
+            $priceRangeSlider.ionRangeSlider({
+                skin: 'sharp',
+                type: 'double',
+                min: data.min ? data.min : 0,
+                max: data.max ? data.max : 10000,
+                from: data.from ? data.from : data.min,
+                to: data.to ? data.to : data.max,
+                prefix: '$',
+                prettify_separator: ',',
+                onStart: function(data) {
+                    // fired then range slider is ready
+                },
+                onChange: function(data) {
+                    // fired on every range slider update
+                },
+                onFinish: function(data) {
+                    // fired on pointer release
 
-                if (key != 'price') {
-                    var filterUl = jQuery('<ul/>', {}).appendTo(filterDiv);
-                    data.forEach(element => {
-                        var filterLi = jQuery('<li/>', {}).appendTo(filterUl);
-                        var filterLabel = jQuery('<label/>', {
-                            class: 'filter-label'
-                        }).appendTo(filterLi);
-                        var filterCheckbox = jQuery('<input />', {
-                            type: 'checkbox',
-                            checked: element.checked,
-                            value: element.value,
-                            disabled: !element.enabled,
-                            belongsTo: key
-                        }).appendTo(filterLabel);
-                        $(filterLabel).append(
-                            '<span class="checkmark"></span>'
-                        );
-                        $(filterLabel).append(
-                            '<span class="text">' + element.name + '</span>'
-                        );
-                    });
-                } else {
-                    $(filterDiv).attr('id', 'priceFilter');
-                    var priceInput = jQuery('<input/>', {
-                        class: 'price-range-slider',
-                        id: 'priceRangeSlider',
-                        name: 'price_range',
-                        value: ''
-                    }).appendTo(filterDiv);
-
-                    // $("#priceRangeSlider").change(function () {
-                    //     $("#priceInfo").find('.low').text($(this).attr('min'));
-                    //     $("#priceInfo").find('.high').text($(this).val());
-                    // });
-
-                    $priceRangeSlider = $('#priceRangeSlider');
-
-                    $priceRangeSlider.ionRangeSlider({
-                        skin: 'sharp',
-                        type: 'double',
-                        min: data.min ? data.min : 0,
-                        max: data.max ? data.max : 10000,
-                        from: data.from ? data.from : data.min,
-                        to: data.to ? data.to : data.max,
-                        prefix: '$',
-                        prettify_separator: ',',
-                        onStart: function(data) {
-                            // fired then range slider is ready
-                        },
-                        onChange: function(data) {
-                            // fired on every range slider update
-                        },
-                        onFinish: function(data) {
-                            // fired on pointer release
-
-                            var $inp = $('#priceRangeSlider');
-                            price_from = $inp.data('from'); // reading input data-from attribute
-                            price_to = $inp.data('to'); // reading input data-to attribute
-                            iPageNo = 0;
-                            updateFilters();
-                            fetchProducts(true);
-                        },
-                        onUpdate: function(data) {
-                            // fired on changing slider with Update method
-                        }
-                    });
-                }
-
-                if (index == Object.keys(filterData).length - 1) {
-                    $(filterDiv).append('<hr/>');
-                }
-            });
-
-            // $(filterDiv).append('<hr/>');
-            if (!isMobile()) {
-                $('#filters').append(
-                    '<a class="btn clearall-filter-btn" href="#" id="clearAllFiltersBtn">Clear All</a>'
-                );
-            }
-
-            // $('#filters').append('<hr/>')
-        } else {
-            Object.keys(filterData).forEach((key, index) => {
-                const data = filterData[key];
-                if (key != 'price') {
-                    data.forEach(element => {
-                        $(
-                            'input[type="checkbox"][value=' +
-                                element.value +
-                                ']'
-                        ).attr('checked', element.checked);
-                        $(
-                            'input[type="checkbox"][value=' +
-                                element.value +
-                                ']'
-                        ).attr('disabled', !element.enabled);
-                    });
-                } else {
-                    var instance = $('#priceRangeSlider').data(
-                        'ionRangeSlider'
-                    );
-                    instance.update({
-                        from: data.from ? data.from : data.min,
-                        to: data.to ? data.to : data.max,
-                        min: data.min,
-                        max: data.max
-                    });
+                    var $inp = $('#priceRangeSlider');
+                    price_from = $inp.data('from'); // reading input data-from attribute
+                    price_to = $inp.data('to'); // reading input data-to attribute
+                    iPageNo = 0;
+                    updateFilters();
+                    fetchProducts(true);
+                },
+                onUpdate: function(data) {
+                    // fired on changing slider with Update method
                 }
             });
         }
+
+        if (!isMobile()) {
+            $('#desktop-filters').append(
+                '<a class="clearall-filter-btn" href="#" id="clearAllFiltersBtn">Clear All</a>'
+            );
+        }
+        strFilters
+            ? $('.clearall-filter-btn').show()
+            : $('.clearall-filter-btn').hide();
+
+        // $('#filters').append('<hr/>')
+        // } else {
+        //     Object.keys(filterData).forEach((key, index) => {
+        //         const filterItems = filterData[key];
+        //         isFilterApplied(key, filterItems)
+        //             ? $(`#${key}Filter`)
+        //                   .find('a')
+        //                   .addClass('applied')
+        //             : $(`#${key}Filter`)
+        //                   .find('a')
+        //                   .removeClass('applied');
+
+        //         if (key === 'price') {
+        //             var instance = $('#priceRangeSlider').data(
+        //                 'ionRangeSlider'
+        //             );
+        //             instance.update({
+        //                 from: filterItems.from
+        //                     ? filterItems.from
+        //                     : filterItems.min,
+        //                 to: filterItems.to ? filterItems.to : filterItems.max,
+        //                 min: filterItems.min,
+        //                 max: filterItems.max
+        //             });
+        //         }
+        //     });
+        // }
     }
 
     fetchProducts(false);
@@ -543,16 +323,6 @@ $(document).ready(function() {
         updateFilters();
         fetchProducts(true);
     });
-    // var instance = $('#priceRangeSlider').data("ionRangeSlider");
-    // $('body').on("mouseup", instance, function () {
-    //     var $inp = $(this);
-    //     price_from = $inp.data("from"); // reading input data-from attribute
-    //     price_to = $inp.data("to"); // reading input data-to attribute
-
-    //     console.log(price_from, price_to);
-    //     updateFilters();
-    //     fetchProducts(true);
-    // });
 
     $('body').on('click', '#clearAllFiltersBtn', function() {
         iPageNo = 0;
@@ -632,7 +402,7 @@ $(document).ready(function() {
         //  window.location.search = strFilters;
     }
 
-    $('body').on('mouseover', '.slick-slide', function() {
+    $('body').on('mouseover', '.mini-carousel-item', function() {
         $(this)
             .closest('.ls-product-div')
             .find('.variation-img')
@@ -640,7 +410,7 @@ $(document).ready(function() {
                 'src',
                 $(this)
                     .find('.carousel-img')
-                    .attr('data-prodimg')
+                    .attr('data-prodImg')
             );
         $(this)
             .closest('.ls-product-div')
@@ -685,7 +455,7 @@ $(document).ready(function() {
         e.preventDefault();
         e.stopPropagation();
         if ($('#isLoggedIn').val() == 0) {
-            $('#modalLoginForm').modal();
+            $('#modalSignupForm').modal();
         } else {
             var iSku = $(this).attr('sku');
             callWishlistAPI($(this));

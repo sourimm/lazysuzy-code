@@ -3,21 +3,40 @@
 
     .ls-prod-container {
         max-width: 100%;
-        margin: 65px auto auto auto;
+        margin: 40px auto auto auto;
 
         .ls-product-div {
             padding: 0px 10px;
-            text-align: center;
-            margin-bottom: 35px;
+            text-align: left;
+            margin-bottom: 40px;
             @include make-col(1, 4);
 
             a {
                 color: $secondary-color;
             }
+            .-site {
+                color: $text-subtle;
+            }
+            .-name {
+                white-space: nowrap;
+                text-overflow: ellipsis;
+                width: 100%;
+                overflow: hidden;
+            }
+            .-prices {
+                .-cprice {
+                    color: #b76e79;
+                    margin-right: 10px;
+                }
+
+                .-oldprice {
+                    text-decoration: line-through;
+                }
+            }
 
             .ls-product {
                 position: relative;
-                margin-bottom: 15px;
+                margin-bottom: 5px;
                 // background-image: url('../../public/images/Spinner-2s-200px.gif');
                 // background-image: url('../../public/images/Ellipsis-1.5s-194px\ \(1\).gif');
                 // background-image: url('../../public/images/Ellipsis-1.9s-200px.gif');
@@ -41,17 +60,6 @@
                     line-height: 14px;
                     z-index: 100;
                     color: $white;
-
-                    .-prices {
-                        .-cprice {
-                            color: $primary-color;
-                            margin: 10px;
-                        }
-
-                        .-oldprice {
-                            text-decoration: line-through;
-                        }
-                    }
                 }
 
                 .wishlist-icon {
@@ -74,7 +82,7 @@
 
                 .-name {
                     font-weight: bold;
-                    font-size: 14px;
+                    font-size: 18px;
                     text-align: center;
                 }
             }

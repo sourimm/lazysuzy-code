@@ -1,26 +1,32 @@
-.irs-handle{
+.irs-handle {
     background-color: $primary-color !important;
-    >i:first-child{
+    > i:first-child {
         border-top-color: $primary-color !important;
     }
 }
 
-.irs-bar{
+.irs-bar {
     background-color: $primary-color !important;
     height: 4px !important;
 }
-
-.irs-from, .irs-to, .irs-single, .irs-min, .irs-max {
-    background-color: $primary-color !important;
-    &:before{
-        border-top-color: $primary-color !important;
+.irs--sharp {
+    .irs-from,
+    .irs-to,
+    .irs-single,
+    .irs-min,
+    .irs-max {
+        background-color: $primary-color !important;
+        color: $secondary-color;
+        &:before {
+            border-top-color: $primary-color !important;
+        }
     }
 }
 
-.irs-line{
+.irs-line {
     height: 4px !important;
     background-color: transparent !important;
     border: 1px solid $secondary-color;
-    top: 28px !important;
+    top: 30px !important;
     width: 100%;
 }
