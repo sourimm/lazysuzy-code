@@ -6,9 +6,12 @@ import { FAV_MARK_API, FAV_UNMARK_API } from '../constants';
 export default class ListingFactory {
     constructor(
         base_url,
+        filterConfig,
+        elements = {},
         destopListingTemplate,
+        mobileListingTemplate,
         desktopFilterTemplate,
-        elements = {}
+        mobileFilterTemplate
     ) {
         const search = window.location.search.substring(1);
         const filterVars = search
@@ -26,8 +29,11 @@ export default class ListingFactory {
         this.iPageNo = parseInt(filterVars.iPageNo) || 0;
         this.iLimit = filterVars.iLimit;
         this.sortType = filterVars.sort_type || '';
+        this.filterToIgnore = filterConfig.filterToIgnore;
         this.destopListingTemplate = destopListingTemplate || undefined;
+        this.mobileListingTemplate = mobileListingTemplate || undefined;
         this.desktopFilterTemplate = desktopFilterTemplate || undefined;
+        this.mobileFilterTemplate = mobileFilterTemplate || undefined;
         this.bFetchingProducts = false;
         this.bNoMoreProductsToShow = false;
         this.price_from = 0;
@@ -96,6 +102,9 @@ export default class ListingFactory {
         this.bNoMoreProductsToShow = false;
         this.$filterContainer.empty();
         for (var filter in filterData) {
+            if (_self.filterToIgnore && filter === _self.filterToIgnore) {
+                continue;
+            }
             const filterItems = filterData[filter];
             const isPrice = filter === 'price';
             (isPrice ||
@@ -266,27 +275,48 @@ export default class ListingFactory {
                 }).appendTo('#productsContainerDiv');
 
                 for (var product of data.products) {
-                    if (
-                        product.reviews != null &&
-                        parseInt(product.reviews) != 0
-                    ) {
-                        product.reviewExist = true;
-                        product.ratingClass = `rating-${parseFloat(
-                            product.rating
-                        )
-                            .toFixed(1)
-                            .toString()
-                            .replace('.', '_')}`;
+                    if (isMobile()) {
+                        product.percent_discount = Math.round(
+                            product.percent_discount
+                        );
+                        product.discountClass =
+                            product.percent_discount == 0
+                                ? 'd-none'
+                                : product.percent_discount > 20
+                                ? '_20'
+                                : '';
+                        Math.round(product.percent_discount);
+                        _self.$productContainer.append(
+                            _self.mobileListingTemplate(product)
+                        );
+                    } else {
+                        if (
+                            product.reviews != null &&
+                            parseInt(product.reviews) != 0
+                        ) {
+                            product.reviewExist = true;
+                            product.ratingClass = `rating-${parseFloat(
+                                product.rating
+                            )
+                                .toFixed(1)
+                                .toString()
+                                .replace('.', '_')}`;
+                        }
+                        product.variations = product.variations.map(
+                            variation => {
+                                variation.swatch_image =
+                                    variation.swatch_image ||
+                                    variation.swatch ||
+                                    '';
+                                return variation;
+                            }
+                        );
+                        product.showMoreVariations =
+                            product.variations.length > 6;
+                        _self.$productContainer.append(
+                            _self.destopListingTemplate(product)
+                        );
                     }
-                    product.variations = product.variations.map(variation => {
-                        variation.swatch_image =
-                            variation.swatch_image || variation.swatch || '';
-                        return variation;
-                    });
-                    product.showMoreVariations = product.variations.length > 6;
-                    _self.$productContainer.append(
-                        _self.destopListingTemplate(product)
-                    );
                 }
             } else {
                 _self.bNoMoreProductsToShow = true;

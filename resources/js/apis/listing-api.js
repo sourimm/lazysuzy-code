@@ -19,6 +19,8 @@ $(document).ready(function() {
 
     const listingFactory = new ListingFactory(
         LISTING_API_PATH,
+        {},
+        {},
         desktopListingTemplate,
         desktopFilterTemplate
     );

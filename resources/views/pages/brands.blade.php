@@ -48,7 +48,7 @@
         </div>
     <div class="brands-prod-container products-container">
         <div class="container ls-prod-container">
-            <div id="product-div-main" class="row"></div>
+            <div id="productsContainerDiv" class="row"></div>
         </div>
         <div class="text-center" style="display:none;" id="noProductsText">Sorry, no more products to show.
         </div>
