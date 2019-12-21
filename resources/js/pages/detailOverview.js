@@ -102,16 +102,6 @@ $(document).ready(function() {
                         class: 'price'
                     }).appendTo(priceCont);
                 }
-                // var buybtnDiv = $('<div/>', {
-                //     class: 'buy-btn-div'
-                // }).appendTo($prodDetails)
-                // var buyBtn = $('<a/>', {
-                //     class: 'btn pdp-buy-btn',
-                //     href: data.product_url,
-                //     text: 'View Details',
-                //     target: '_blank'
-                // }).appendTo(buybtnDiv)
-
 
                 if (data.variations != null) {
                     makeVariationCarousel(data.variations);
