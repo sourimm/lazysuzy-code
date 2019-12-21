@@ -271,8 +271,8 @@ class Product extends Model
                 foreach ($department['categories'] as $cat) {
                     $categories[$cat['LS_ID']] = [
                         'name' => $cat['filter_label'],
-                        'value' => $cat['product_category_'],
-                        'LS_ID' => $cat['LS_ID'],
+                        'value' => $cat['LS_ID'],
+                        //'' => $cat['LS_ID'],
                         'checked' => false,
                         'enabled' => false
                     ];
@@ -652,10 +652,10 @@ class Product extends Model
         /* var_dump($product); die(); */
 
         $is_new = false;
-        if (strlen($product->updated_date) > 0) {
+        if (strlen($product->created_date) > 0) {
             $diff = strtotime(date("Y-m-d H:i:s")) - strtotime($product->updated_date);
             $days = $diff / 60 / 60 / 24;
-            if ($days < 14) $is_new = true;
+            if ($days < 4*7) $is_new = true;
         }
 
         $data =  [
