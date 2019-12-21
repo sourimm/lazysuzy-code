@@ -246,6 +246,50 @@ class Product extends Model
         return $LS_IDs;
     }
 
+    // this is only for /all API
+    public static function get_all_dept_category_filter($brand_name, $in_filter_categories) {
+       
+        $LS_IDs = DB::table("master_data")
+            ->select("LS_ID")
+            ->where("site_name", $brand_name)
+            ->distinct("LS_ID")
+            ->get();
+
+        // get product categories filters
+        $departments = Department::get_all_departments(false);
+        $categories = [];
+        foreach ($departments['all_departments'] as $department) {
+
+            if (isset($department['categories']) && sizeof($department['categories']) > 0) {
+                foreach ($department['categories'] as $cat) {
+                    $categories[$cat['LS_ID']] = [
+                        'name' => $cat['filter_label'],
+                        'value' => $cat['product_category_'],
+                        'checked' => false,
+                        'enabled' => false
+                    ];
+                }
+            }
+        }
+
+        $filter_categories = [];
+        foreach($LS_IDs as $LS_ID) {
+            $IDs = explode(",", $LS_ID->LS_ID);
+            foreach ($IDs as $ID) {
+                if (isset($categories[$ID])) {
+                    if (in_array($categories[$ID]['value'], $in_filter_categories)) {
+                        $categories[$ID]['checked'] = true; 
+                    }
+                    $categories[$ID]['enabled'] = true;
+                    array_push($filter_categories, $categories[$ID]);
+                    unset($categories[$ID]);
+                }
+            }
+        }
+
+        foreach($categories as $cat) array_push($filter_categories, $cat);
+        return $filter_categories;
+    }
     public static function get_brands_filter($dept, $cat, $all_filters)
     {
         $all_brands = [];
@@ -526,6 +570,7 @@ class Product extends Model
                 array_push($wishlist_products, $p->product_id);
         }
 
+        
 
         foreach ($products as $product) {
 
@@ -536,6 +581,8 @@ class Product extends Model
                         $isMarked = true;
                     }
                 }
+
+               
 
                 $variations = Product::get_variations($product, $westelm_variations_data, $isListingAPICall);
                 array_push($p_send, Product::get_details($product, $variations, $isListingAPICall, $isMarked));
@@ -548,34 +595,19 @@ class Product extends Model
         $product_type_holder = Product::get_product_type_filter($dept, $cat, $subCat, $all_filters)['productTypeFilter'];
         $color_filter = Product::get_product_type_filter($dept, $cat, $subCat, $all_filters)['colorFilter'];
 
+        if ($dept == "all") {
+            if (!isset($all_filters['category']))
+                $all_filters['category'] = [];
+            $category_holder = Product::get_all_dept_category_filter($all_filters['brand'][0], $all_filters['category']);
+        }
+
         $filter_data = [
             "brand"  => $brand_holder,
             "price"        => $price_holder,
             "type" => $product_type_holder,
-            "color" => $color_filter
+            "color" => $color_filter,
+            "category" => $dept == "all" ? $category_holder : null
         ];
-
-        if ($dept == "all") {
-            // get product categories filters
-            $departments = Department::get_all_departments(false);
-            $categories = [];
-            foreach($departments['all_departments'] as $dept) {
-
-                if (isset($dept['categories']) && sizeof($dept['categories']) > 0) {
-                    foreach($dept['categories'] as $cat) {
-                        array_push($categories, [
-                            'label' => $cat['filter_label'],
-                            'api_endpoint' => '/api' . $cat['link'],
-                            'image' => $cat['image'],
-
-                        ]);
-                    }
-                }
-            }
-
-            $filter_data['categories'] = $categories;
-        }
-
 
         return [
             "total"      => $all_filters['count_all'],
