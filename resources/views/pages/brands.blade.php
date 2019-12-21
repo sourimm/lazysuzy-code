@@ -14,6 +14,9 @@
             </div>
         </div>
         <div class="filters d-md-block filter-close-btn">
+            <div class="d-none filter" data-filter="brand" id="brandFilter">
+                <label class="filter-label"><input type="checkbox" checked value="{{ Request::route('brand_name') }}" ></label>
+            </div>
             <div class="row">
                 <ul class="filter-tabs col-sm-9" id="desktop-filters">
                     <li class="nav-item">

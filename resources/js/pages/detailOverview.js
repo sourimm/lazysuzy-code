@@ -112,15 +112,6 @@ $(document).ready(function() {
                 //     target: '_blank'
                 // }).appendTo(buybtnDiv)
 
-                $filtersDivMobile = jQuery('<div/>', {
-                    id: 'filtersDivMobile',
-                    class: 'filters filters-mobile'
-                }).insertBefore($imagesContainer);
-
-                $filtersDiv = jQuery('<div/>', {
-                    id: 'filtersDiv',
-                    class: 'filters'
-                }).appendTo($prodPriceCard);
 
                 if (data.variations != null) {
                     makeVariationCarousel(data.variations);
