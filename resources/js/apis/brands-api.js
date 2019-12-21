@@ -1,9 +1,7 @@
 import Handlebars from '../components/handlebar';
 import ListingFactory from '../components/listingFactory';
-import isMobile from '../app.js';
 
 $(document).ready(function() {
-    const BRAND_SLUG = window.location.pathname.split('/').pop();
     var source = document.getElementById('listing-template').innerHTML;
     var sourceMobile = document.getElementById('listing-template-mobile')
         .innerHTML;
@@ -33,7 +31,7 @@ $(document).ready(function() {
             const brandData = data[0];
             brandData.isFeaturesVisible = brandData.value === 'floyd';
             $('.js-brand-header').html(brandHeaderTemplate(brandData));
-            $('#loaderImg').remove();
+            $('.loaderImg').remove();
         },
         error: function(jqXHR, exception) {
             console.log(jqXHR);
@@ -45,9 +43,9 @@ $(document).ready(function() {
 
     $(window).scroll(function() {
         if (!listingFactory.bNoMoreProductsToShow) {
-            if ($('.loaderImg') && isScrolledIntoView($('.loaderImg')[0])) {
+            if ($('#loaderImg') && isScrolledIntoView($('#loaderImg')[0])) {
                 listingFactory.fetchProducts(false);
-            } else if ($('.loaderImg') === null) {
+            } else if ($('#loaderImg') === null) {
                 listingFactory.fetchProducts(false);
             }
         }

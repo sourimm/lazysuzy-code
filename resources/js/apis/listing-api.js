@@ -1,6 +1,3 @@
-import * as multiCarouselFuncs from '../components/multi-carousel';
-import makeSelectBox from '../components/custom-selectbox';
-import isMobile from '../app.js';
 import Handlebars from '../components/handlebar';
 import ListingFactory from '../components/listingFactory';
 // import strItemsNumClass from '../pages/listing';
@@ -10,7 +7,6 @@ $(document).ready(function() {
     const LISTING_API_PATH =
         window.GLOBAL_LISTING_API_PATH || '/api' + location.pathname;
 
-    var search = window.location.search.substring(1);
     var source = document.getElementById('listing-template').innerHTML;
     var filterSource = document.getElementById('desktop-filter-template')
         .innerHTML;

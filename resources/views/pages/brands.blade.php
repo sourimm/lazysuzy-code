@@ -5,7 +5,7 @@
     <div class="brands">
         <div class="brands-main-heading">
             <div class="container">
-                <div class="mx-auto text-center" id="loaderImg">
+                <div class="mx-auto text-center loaderImg">
                     <img src="{{ asset('/images/Spinner-1s-100px.gif') }}" alt="Spinner">
                 </div>
                 <div class="js-brand-header">
@@ -52,7 +52,7 @@
         </div>
         <div class="text-center" style="display:none;" id="noProductsText">Sorry, no more products to show.
         </div>
-        <div class="mx-auto text-center loaderImg" style="display:none;" >
+        <div class="mx-auto text-center"  id="loaderImg">
             <img src="{{ asset('/images/Spinner-1s-100px.gif') }}" alt="Spinner">
         </div>
     </div>

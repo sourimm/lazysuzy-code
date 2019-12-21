@@ -108,7 +108,8 @@ export default class ListingFactory {
             const filterItems = filterData[filter];
             const isPrice = filter === 'price';
             (isPrice ||
-                (filterItems.length &&
+                (filterItems &&
+                    filterItems.length &&
                     filterItems.filter(item => item.enabled).length)) &&
                 this.$filterContainer.append(
                     this.desktopFilterTemplate({
