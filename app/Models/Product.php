@@ -185,6 +185,13 @@ class Product extends Model
                     ->whereRaw('color REGEXP "' . $all_filters['color'][0] . '"');
                 // input in form - color1|color2|color3
             }
+
+            // for /all API catgeory-wise filter
+            if (isset($all_filters['category'])
+                && strlen($all_filters['category'][0])) {
+                 $query = $query
+                    ->whereRaw('LS_ID REGEXP "' . implode("|", $all_filters['category']) . '"');
+            }
         }
 
         // 4. type
@@ -265,6 +272,7 @@ class Product extends Model
                     $categories[$cat['LS_ID']] = [
                         'name' => $cat['filter_label'],
                         'value' => $cat['product_category_'],
+                        'LS_ID' => $cat['LS_ID'],
                         'checked' => false,
                         'enabled' => false
                     ];
