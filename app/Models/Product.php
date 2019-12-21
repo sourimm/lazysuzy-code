@@ -649,10 +649,19 @@ class Product extends Model
             $discount = (1 - ($p_val / $wp_val)) * 100;
             $discount = number_format((float) $discount, 2, '.', '');
         }
+        /* var_dump($product); die(); */
+
+        $is_new = false;
+        if (strlen($product->updated_date) > 0) {
+            $diff = strtotime(date("Y-m-d H:i:s")) - strtotime($product->updated_date);
+            $days = $diff / 60 / 60 / 24;
+            if ($days < 14) $is_new = true;
+        }
 
         $data =  [
             'id'               => $product->id,
             'sku'              => $product->product_sku,
+            'is_new'           => $is_new,
             //    'sku_hash'         => $product->sku_hash,
             'site'             => $product->name,
             'name'             => $product->product_name,
