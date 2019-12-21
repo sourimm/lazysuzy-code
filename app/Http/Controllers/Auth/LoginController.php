@@ -124,10 +124,18 @@ class LoginController extends Controller
        }
     }
     protected function sendFailedLoginResponse(Request $request)
-    {
+    {   
+        $redirect_url = $this->redirectPath();
+        if (strpos($redirect_url, "error") === false && strpos($redirect_url, "?") === false) {
+            $redirect_url .=  "?error=login";
+        }
+        if (strpos($redirect_url, "?") !== false && strpos($redirect_url, "?error=login") === false) {
+            $redirect_url .= "&error=login";
+        }
+
         throw ValidationException::withMessages([
             $this->username() => [trans('auth.failed')],
-        ])->redirectTo($this->redirectPath() . "?error=login", "sdf");
+        ])->redirectTo($redirect_url);
     }
 
     public function logout(Request $request)

@@ -33,6 +33,7 @@ class Category extends Model
             $sub_categories = SubCategory::getSubCategories($dept, $row['product_category_']);
             array_push($c_cat, [
                 'category' => $row['product_category'],
+                'product_category_' => $row['product_category_'],
                 'filter_label' => ucfirst($row['filter_label']),
                 'LS_ID' => $row['LS_ID'],
                 'image' => Category::$base_site_url . '' . $row['category_image'],
