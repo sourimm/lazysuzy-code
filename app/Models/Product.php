@@ -414,7 +414,7 @@ class Product extends Model
             "tan" => "#d2b48c",
             "white" => "#ffffff",
         ];
-        $req_colors = explode("|", $request_colors);
+        $req_colors = explode(",", $request_colors);
 
         foreach ($colors as $key => $color_hex) {
             $colors[$key] = [
