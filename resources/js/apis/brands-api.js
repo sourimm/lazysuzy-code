@@ -1,4 +1,5 @@
 import Handlebars from '../components/handlebar';
+import isMobile from '../app.js';
 import ListingFactory from '../components/listingFactory';
 
 $(document).ready(function() {
@@ -11,17 +12,27 @@ $(document).ready(function() {
     const filterSource = document.getElementById('desktop-filter-template')
         .innerHTML;
     const desktopFilterTemplate = Handlebars.compile(filterSource);
+    const mobileFilterTemplate = Handlebars.compile(
+        $('#mobile-filter-template').html()
+    );
 
     const BRAND_API = `/api${window.location.pathname}`;
 
-    const listingFactory = new ListingFactory(
-        `/api/products/all`,
-        { filterToIgnore: 'brand' },
-        {},
-        desktopListingTemplate,
-        mobileListingTemplate,
-        desktopFilterTemplate
-    );
+    const listingFactory = isMobile()
+        ? new ListingFactory(
+              `/api/products/all`,
+              { filterToIgnore: 'brand' },
+              { $filterContainer: $('#mobile-filters') },
+              mobileListingTemplate,
+              mobileFilterTemplate
+          )
+        : new ListingFactory(
+              `/api/products/all`,
+              { filterToIgnore: 'brand' },
+              {},
+              desktopListingTemplate,
+              desktopFilterTemplate
+          );
 
     $.ajax({
         type: 'GET',
@@ -74,7 +85,7 @@ $(document).ready(function() {
                 $(this)
                     .find('input[type="checkbox"]')
                     .each(function() {
-                        if (this.checked) {
+                        if (this.checked && this.dataset.type !== 'hidden') {
                             this.checked = false;
                         }
                     });

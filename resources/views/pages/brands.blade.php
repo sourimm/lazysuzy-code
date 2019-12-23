@@ -13,12 +13,34 @@
                 </div>
             </div>
         </div>
-        <div class="filters d-md-block filter-close-btn">
+        <div class="listing-top-controls d-block d-md-none">
+            <!-- <div id="page-navigator" class="page-navigator-mobile"></div> -->
+            <div class="filter-toggle-mobile">
+                <span class="filter-toggle" id="filterToggleBtn">
+                    <i class="fas fa-filter"></i>
+                    Filter
+                </span>
+                <span class="filter-toggle" id="viewItemsBtn">
+                    <i class="fab fa-buromobelexperte"></i>
+                    Toggle View
+                </span>
+                <span class="filter-toggle" id="selectbox-sortmobile">
+                    <i class="fas fa-sort"></i>
+                    Sort
+                </span>
+            </div>
+
+
+        </div>
+        <div class="js-filters filters d-md-block filter-close-btn">
             <div class="d-none filter" data-filter="brand" id="brandFilter">
-                <label class="filter-label"><input type="checkbox" checked value="{{ Request::route('brand_name') }}" ></label>
+                <label class="filter-label"><input data-type="hidden" type="checkbox" checked value="{{ Request::route('brand_name') }}" ></label>
+            </div>
+            <div class="mobile-filter-header d-md-none"><span class="float-left filters-close-btn"><i class="fa fa-times" aria-hidden="true"></i></span><span class="filter-title">Filters</span><span class="float-right"><a class="btn clearall-filter-btn" href="#" id="clearAllFiltersBtn">Clear All</a></span></div>
+            <div id="mobile-filters">
             </div>
             <div class="row">
-                <ul class="filter-tabs col-sm-9" id="desktop-filters">
+                <ul class="filter-tabs col-sm-9 d-none d-md-block" id="desktop-filters">
                     <li class="nav-item">
                         <a class="nav-link active" href="#">Brand</a>
                     </li>
@@ -45,6 +67,20 @@
 
                 </div>
             </div>
+        </div>
+        <div class="filters   d-md-none" id="sort-mobile">
+            <div class="mobile-filter-header">
+                <div class="filters-close-btn d-md-none float-left"><i class="fa fa-times" aria-hidden="true"></i>
+                </div>
+                <span class="filter-title">Sort</span>
+            </div>
+            <hr>
+            <div class="sort-filter-input"><input type="radio" name="sort-price-filter" value="price_low_to_high">
+                Price : Low to High</div>
+            <div class="sort-filter-input"><input type="radio" name="sort-price-filter" value="price_high_to_low">
+                Price : High to Low</div>
+            <div class="sort-filter-input"><input type="radio" name="sort-price-filter" value="popularity">
+                Popularity </div>
         </div>
     <div class="brands-prod-container products-container">
         <div class="container ls-prod-container">
@@ -198,6 +234,27 @@
             </ul>
         </li>
     </script>
+    <script id="mobile-filter-template" type="text/x-handlebars-template">
+        <div class="filter" data-filter="@{{name}}">
+            <hr/>
+            <span class="filter-header">@{{name}}</span>
+            <label for="brand" class="clear-filter float-right">Clear</label>
+            <ul class="item-list">
+                @{{#if isPrice}}
+                    <li class="dropdown-item"  href="#"><input class="price-range-slider" id="priceRangeSlider" name="price_range" value="" tabindex="-1" readonly=""></li>
+                @{{else}}
+                    @{{#each list}}
+                    @{{#with this}}
+                    @{{#if enabled}}
+                        <li class="dropdown-item" href="#"><label class="filter-label"><input type="checkbox" @{{#if checked}}checked@{{/if}} value="@{{value}}" belongsto="@{{name}}"><span class="checkmark"></span><span class="text">@{{name}}</span></label></li>
+                    @{{/if}}
+                    @{{/with}}
+                    @{{/each}}
+                @{{/if}}
+            </ul>
+        </li>
+    </script>
+
     <script src="{{ mix('js/brands.js')}}"></script>
     <script src="{{ mix('js/detailOverview.js')}}"></script>
 

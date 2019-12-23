@@ -60,7 +60,13 @@
 
             </a>
             <div class="prod-info">
-                <span class="-site">@{{site}}</span>
+                <span class="-site">
+                    @{{#if is_new}}
+                        <span class="new-tag">New</span>
+                    @{{/if}}
+
+                    @{{site}}
+                </span>
                 @{{#if reviewExist}}
                 <div class="rating-container float-right">
                     <span class="total-ratings">@{{reviews}}</span><div class="rating  @{{ratingClass}}"></div>

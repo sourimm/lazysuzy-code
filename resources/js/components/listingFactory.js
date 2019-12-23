@@ -8,10 +8,8 @@ export default class ListingFactory {
         base_url,
         filterConfig,
         elements = {},
-        destopListingTemplate,
-        mobileListingTemplate,
-        desktopFilterTemplate,
-        mobileFilterTemplate
+        listingTemplate,
+        filterTemplate
     ) {
         const search = window.location.search.substring(1);
         const filterVars = search
@@ -30,10 +28,8 @@ export default class ListingFactory {
         this.iLimit = filterVars.iLimit;
         this.sortType = filterVars.sort_type || '';
         this.filterToIgnore = filterConfig.filterToIgnore;
-        this.destopListingTemplate = destopListingTemplate || undefined;
-        this.mobileListingTemplate = mobileListingTemplate || undefined;
-        this.desktopFilterTemplate = desktopFilterTemplate || undefined;
-        this.mobileFilterTemplate = mobileFilterTemplate || undefined;
+        this.listingTemplate = listingTemplate || undefined;
+        this.filterTemplate = filterTemplate || undefined;
         this.bFetchingProducts = false;
         this.bNoMoreProductsToShow = false;
         this.price_from = 0;
@@ -112,7 +108,7 @@ export default class ListingFactory {
                     filterItems.length &&
                     filterItems.filter(item => item.enabled).length)) &&
                 this.$filterContainer.append(
-                    this.desktopFilterTemplate({
+                    this.filterTemplate({
                         name: filter,
                         list: filterItems,
                         isPrice,
@@ -276,48 +272,37 @@ export default class ListingFactory {
                 }).appendTo('#productsContainerDiv');
 
                 for (var product of data.products) {
-                    if (isMobile()) {
-                        product.percent_discount = Math.round(
-                            product.percent_discount
-                        );
-                        product.discountClass =
-                            product.percent_discount == 0
-                                ? 'd-none'
-                                : product.percent_discount > 20
-                                ? '_20'
-                                : '';
-                        Math.round(product.percent_discount);
-                        _self.$productContainer.append(
-                            _self.mobileListingTemplate(product)
-                        );
-                    } else {
-                        if (
-                            product.reviews != null &&
-                            parseInt(product.reviews) != 0
-                        ) {
-                            product.reviewExist = true;
-                            product.ratingClass = `rating-${parseFloat(
-                                product.rating
-                            )
-                                .toFixed(1)
-                                .toString()
-                                .replace('.', '_')}`;
-                        }
-                        product.variations = product.variations.map(
-                            variation => {
-                                variation.swatch_image =
-                                    variation.swatch_image ||
-                                    variation.swatch ||
-                                    '';
-                                return variation;
-                            }
-                        );
-                        product.showMoreVariations =
-                            product.variations.length > 6;
-                        _self.$productContainer.append(
-                            _self.destopListingTemplate(product)
-                        );
+                    product.percent_discount = Math.round(
+                        product.percent_discount
+                    );
+                    product.discountClass =
+                        product.percent_discount == 0
+                            ? 'd-none'
+                            : product.percent_discount > 20
+                            ? '_20'
+                            : '';
+                    Math.round(product.percent_discount);
+                    if (
+                        product.reviews != null &&
+                        parseInt(product.reviews) != 0
+                    ) {
+                        product.reviewExist = true;
+                        product.ratingClass = `rating-${parseFloat(
+                            product.rating
+                        )
+                            .toFixed(1)
+                            .toString()
+                            .replace('.', '_')}`;
                     }
+                    product.variations = product.variations.map(variation => {
+                        variation.swatch_image =
+                            variation.swatch_image || variation.swatch || '';
+                        return variation;
+                    });
+                    product.showMoreVariations = product.variations.length > 6;
+                    _self.$productContainer.append(
+                        _self.listingTemplate(product)
+                    );
                 }
             } else {
                 _self.bNoMoreProductsToShow = true;
