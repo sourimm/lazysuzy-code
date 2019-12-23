@@ -21078,6 +21078,7 @@ input:disabled + .checkmark + .text {
 .brands .brands-main-heading .brands-details {
   margin: 25px;
   text-align: justify;
+  font-size: 18px;
 }
 
 .brands .brands-main-heading .brands-details h3 {
@@ -21093,31 +21094,44 @@ input:disabled + .checkmark + .text {
   margin-top: 15px;
 }
 
-.brands .brands-prod-container .row .brands-prod-div {
-  margin: 10px 0;
+.brands .brands-prod-container {
+  margin-top: 35px;
+  padding: 0;
 }
 
-.brands .brands-prod-container .row .brands-prod-div .brands-product .brands-product-img {
-  width: 265px;
+.brands .brands-prod-container .ls-product-div {
+  margin-bottom: 0px;
+  padding: 1px;
 }
 
-.brands .brands-prod-container .row .brands-prod-div .product-detail {
-  padding: 0 10px;
-  text-align: center;
+.brands .brands-prod-container .ls-product-div .prod-sale-price {
+  margin: -23px 0px 0 0px;
+  padding: 0 5px;
+  z-index: 58;
+  position: absolute;
+  left: 0;
+  background: #ffffffba;
+  color: #b76e79;
 }
 
-.brands .brands-prod-container .row .prod-info {
-  bottom: 0px;
-  padding: 5px;
-  width: 100%;
-  background-color: rgba(0, 0, 0, 0.4);
-  height: 25px;
-  text-align: left;
-  font-size: 14px;
-  line-height: 14px;
-  z-index: 100;
-  color: #ffffff;
-  width: 265px;
+.brands .brands-prod-container .ls-product-div .prod-discount-tag {
+  z-index: 58;
+  position: absolute;
+  right: 1px;
+  bottom: 1px;
+  background: #e8c101;
+  padding: 0 4px;
+  color: #fff;
+}
+
+.brands .brands-prod-container .ls-product-div .prod-discount-tag._20 {
+  background: #e84c01;
+}
+
+.brands .brands-prod-container .ls-product-div .ls-product {
+  margin-bottom: 0px;
+  min-height: 100px;
+  background-position: center;
 }
 
 @media screen and (max-width: 480px) {
@@ -21132,6 +21146,15 @@ input:disabled + .checkmark + .text {
   .brands .brands-main-heading {
     text-align: center;
     margin: 25px;
+  }
+
+  .brands .brands-prod-container .ls-prod-container .ls-product-div {
+    margin-bottom: 0px;
+    padding: 1px;
+  }
+
+  .brands .brands-prod-container .ls-prod-container .ls-product-div .ls-product {
+    margin: 0;
   }
 
   .brands .brands-prod-container .row .brands-prod-div {

@@ -9,7 +9,7 @@ use App\Models\SocialIdentity;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
-
+use Illuminate\Validation\ValidationException;
 
 class LoginController extends Controller
 {
@@ -17,11 +17,7 @@ class LoginController extends Controller
     |--------------------------------------------------------------------------
     | Login Controller
     |--------------------------------------------------------------------------
-    |
-    | This controller handles authenticating users for the application and
-    | redirecting them to your home screen. The controller uses a trait
-    | to conveniently provide its functionality to your applications.
-    |
+    
     */
 
     use AuthenticatesUsers;
@@ -31,7 +27,7 @@ class LoginController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/';
+    protected $redirectTo;
 
     /**
      * Create a new controller instance.
@@ -40,7 +36,8 @@ class LoginController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('guest')->except('logout');
+        $this->redirectTo = url()->previous();
+        $this->middleware('guest', ['except' => 'logout']);
     }
 
     public function index(Request $request)
@@ -126,10 +123,24 @@ class LoginController extends Controller
            return $user;
        }
     }
+    protected function sendFailedLoginResponse(Request $request)
+    {   
+        $redirect_url = $this->redirectPath();
+        if (strpos($redirect_url, "error") === false && strpos($redirect_url, "?") === false) {
+            $redirect_url .=  "?error=login";
+        }
+        if (strpos($redirect_url, "?") !== false && strpos($redirect_url, "?error=login") === false) {
+            $redirect_url .= "&error=login";
+        }
+
+        throw ValidationException::withMessages([
+            $this->username() => [trans('auth.failed')],
+        ])->redirectTo($redirect_url);
+    }
 
     public function logout(Request $request)
     {
         Auth::logout();
-        return redirect('/');
+        return redirect($this->redirectPath());
     }
 }

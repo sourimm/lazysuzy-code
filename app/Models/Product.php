@@ -122,7 +122,6 @@ class Product extends Model
             ]
 
         ];
-        $s = $sort_type_filter;
 
         $page_num    = Input::get("pageno");
         $limit       = Input::get("limit");
@@ -179,12 +178,19 @@ class Product extends Model
             }
 
             if (
-                isset($all_filters['colors'])
-                && strlen($all_filters['colors'][0]) > 0
+                isset($all_filters['color'])
+                && strlen($all_filters['color'][0]) > 0
             ) {
                 $query = $query
-                    ->whereRaw('color REGEXP "' . $all_filters['colors'][0] . '"');
+                    ->whereRaw('color REGEXP "' . $all_filters['color'][0] . '"');
                 // input in form - color1|color2|color3
+            }
+
+            // for /all API catgeory-wise filter
+            if (isset($all_filters['category'])
+                && strlen($all_filters['category'][0])) {
+                 $query = $query
+                    ->whereRaw('LS_ID REGEXP "' . implode("|", $all_filters['category']) . '"');
             }
         }
 
@@ -247,6 +253,51 @@ class Product extends Model
         return $LS_IDs;
     }
 
+    // this is only for /all API
+    public static function get_all_dept_category_filter($brand_name, $in_filter_categories) {
+       
+        $LS_IDs = DB::table("master_data")
+            ->select("LS_ID")
+            ->where("site_name", $brand_name)
+            ->distinct("LS_ID")
+            ->get();
+
+        // get product categories filters
+        $departments = Department::get_all_departments(false);
+        $categories = [];
+        foreach ($departments['all_departments'] as $department) {
+
+            if (isset($department['categories']) && sizeof($department['categories']) > 0) {
+                foreach ($department['categories'] as $cat) {
+                    $categories[$cat['LS_ID']] = [
+                        'name' => $cat['filter_label'],
+                        'value' => $cat['LS_ID'],
+                        //'' => $cat['LS_ID'],
+                        'checked' => false,
+                        'enabled' => false
+                    ];
+                }
+            }
+        }
+
+        $filter_categories = [];
+        foreach($LS_IDs as $LS_ID) {
+            $IDs = explode(",", $LS_ID->LS_ID);
+            foreach ($IDs as $ID) {
+                if (isset($categories[$ID])) {
+                    if (in_array($categories[$ID]['value'], $in_filter_categories)) {
+                        $categories[$ID]['checked'] = true; 
+                    }
+                    $categories[$ID]['enabled'] = true;
+                    array_push($filter_categories, $categories[$ID]);
+                    unset($categories[$ID]);
+                }
+            }
+        }
+
+        foreach($categories as $cat) array_push($filter_categories, $cat);
+        return $filter_categories;
+    }
     public static function get_brands_filter($dept, $cat, $all_filters)
     {
         $all_brands = [];
@@ -272,9 +323,14 @@ class Product extends Model
 
         $product_brands = DB::table("master_data")
             ->selectRaw("count(product_name) AS products, site_name")
-            ->whereRaw('LS_ID REGEXP "' . implode("|", $LS_IDs) . '"')
-            ->groupBy('site_name')
-            ->get();
+            ->whereRaw('LS_ID REGEXP "' . implode("|", $LS_IDs) . '"');
+        
+        if (isset($all_filters['color']) && strlen($all_filters['color'][0]) > 0) {
+           
+            $colors = implode("|", $all_filters['color']);
+            $product_brands = $product_brands->whereRaw('color REGEXP "' . $colors . '"');
+        }
+        $product_brands = $product_brands->groupBy('site_name')->get();
 
         foreach ($product_brands as $b) {
             if (isset($all_brands[$b->site_name])) {
@@ -339,7 +395,7 @@ class Product extends Model
         }
     }
 
-    public static function get_color_filter($products)
+    public static function get_color_filter($products, $request_colors)
     {
         $colors = [
             "black" => "#000000",
@@ -358,6 +414,7 @@ class Product extends Model
             "tan" => "#d2b48c",
             "white" => "#ffffff",
         ];
+        $req_colors = explode("|", $request_colors);
 
         foreach ($colors as $key => $color_hex) {
             $colors[$key] = [
@@ -373,6 +430,7 @@ class Product extends Model
                 if (strlen($p_color) > 0 && array_key_exists(strtolower($p_color), $colors)) {
                     $colors[strtolower($p_color)]['name'] = ucfirst($p_color);
                     $colors[strtolower($p_color)]['enabled'] = true;
+                    $colors[strtolower($p_color)]['checked'] = in_array(strtolower($p_color), $req_colors) ? true : false;
                 }
             }
         }
@@ -418,6 +476,11 @@ class Product extends Model
         if (isset($all_filters['brand']) && strlen($all_filters['brand'][0]) > 0) {
             $products = $products->whereIn('site_name', $all_filters['brand']);
         }
+
+       /*  if (isset($all_filters['color']) && strlen($all_filters['color'][0]) > 0) {
+            $colors =implode("|", $all_filters['color']);
+            $products = $products->whereRaw('color REGEXP "' . $colors . '"');
+        } */
 
         return $products->get();
     }
@@ -466,9 +529,9 @@ class Product extends Model
         foreach ($sub_cat_arr as $key => $value) {
             array_push($arr, $value);
         }
-
+        $color_filter = isset($all_filters['color']) ? $all_filters['color'][0] : null;
         return [
-            'colorFilter' => Product::get_color_filter($products),
+            'colorFilter' => Product::get_color_filter($products, $color_filter, $products),
             'productTypeFilter' => $arr
         ];
     }
@@ -485,6 +548,8 @@ class Product extends Model
             ->selectRaw("COUNT(product_id) AS product_count, product_id")
             ->groupBy("product_id")
             ->get();
+        $products_to_ignore = DB::table("products_ignore")->select("sku")->get()->toArray();
+        $products_to_ignore = array_column($products_to_ignore, "sku");
 
         $westelm_variations_data = [];
 
@@ -499,7 +564,8 @@ class Product extends Model
 
         // check if the prodcuts is in a wishlist
         $wishlist_products = [];
-        if (Auth::check()) {
+        $is_authenticated = Auth::check();
+        if ($is_authenticated) {
             $user = Auth::user();
             $w_products = DB::table("user_wishlists")
                 ->select("product_id")
@@ -512,17 +578,24 @@ class Product extends Model
                 array_push($wishlist_products, $p->product_id);
         }
 
+        
+
         foreach ($products as $product) {
 
-            $isMarked = false;
-            if (Auth::check()) {
-                if (in_array($product->product_sku, $wishlist_products)) {
-                    $isMarked = true;
+            if (!in_array($product->product_sku, $products_to_ignore)) {
+                $isMarked = false;
+                if ($is_authenticated) {
+                    if (in_array($product->product_sku, $wishlist_products)) {
+                        $isMarked = true;
+                    }
                 }
+
+               
+
+                $variations = Product::get_variations($product, $westelm_variations_data, $isListingAPICall);
+                array_push($p_send, Product::get_details($product, $variations, $isListingAPICall, $isMarked));
             }
 
-            $variations = Product::get_variations($product, $westelm_variations_data, $isListingAPICall);
-            array_push($p_send, Product::get_details($product, $variations, $isListingAPICall, $isMarked));
         }
 
         $brand_holder = Product::get_brands_filter($dept, $cat, $all_filters);
@@ -530,13 +603,19 @@ class Product extends Model
         $product_type_holder = Product::get_product_type_filter($dept, $cat, $subCat, $all_filters)['productTypeFilter'];
         $color_filter = Product::get_product_type_filter($dept, $cat, $subCat, $all_filters)['colorFilter'];
 
+        if ($dept == "all") {
+            if (!isset($all_filters['category']))
+                $all_filters['category'] = [];
+            $category_holder = Product::get_all_dept_category_filter($all_filters['brand'][0], $all_filters['category']);
+        }
+
         $filter_data = [
             "brand"  => $brand_holder,
             "price"        => $price_holder,
             "type" => $product_type_holder,
-            // 'colors' => $color_filter
+            "color" => $color_filter,
+            "category" => $dept == "all" ? $category_holder : null
         ];
-
 
         return [
             "total"      => $all_filters['count_all'],
@@ -570,10 +649,19 @@ class Product extends Model
             $discount = (1 - ($p_val / $wp_val)) * 100;
             $discount = number_format((float) $discount, 2, '.', '');
         }
+        /* var_dump($product); die(); */
+
+        $is_new = false;
+        if (strlen($product->created_date) > 0) {
+            $diff = strtotime(date("Y-m-d H:i:s")) - strtotime($product->updated_date);
+            $days = $diff / 60 / 60 / 24;
+            if ($days < 4*7) $is_new = true;
+        }
 
         $data =  [
             'id'               => $product->id,
             'sku'              => $product->product_sku,
+            'is_new'           => $is_new,
             //    'sku_hash'         => $product->sku_hash,
             'site'             => $product->name,
             'name'             => $product->product_name,
