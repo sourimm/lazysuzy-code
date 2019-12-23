@@ -599,7 +599,9 @@ class Product extends Model
 
         }
 
+        $brand_holder = Product::get_brands_filter($dept, $cat, $all_filters);
         $price_holder = Product::get_price_filter($dept, $cat, $all_filters);
+        $product_type_holder = Product::get_product_type_filter($dept, $cat, $subCat, $all_filters)['productTypeFilter'];
         $color_filter = Product::get_product_type_filter($dept, $cat, $subCat, $all_filters)['colorFilter'];
 
         if ($dept == "all") {
