@@ -414,14 +414,15 @@ class Product extends Model
             "tan" => "#d2b48c",
             "white" => "#ffffff",
         ];
-        $req_colors = explode(",", $request_colors);
 
+        $req_colors = $request_colors;
         foreach ($colors as $key => $color_hex) {
             $colors[$key] = [
                 'name' => ucfirst($key),
                 'value' => strtolower($key),
                 'hex' => $color_hex,
-                'enabled' => false
+                'enabled' => false,
+                'checked' => in_array($key, $req_colors) 
             ];
         }
         foreach ($products as $product) {
@@ -430,7 +431,7 @@ class Product extends Model
                 if (strlen($p_color) > 0 && array_key_exists(strtolower($p_color), $colors)) {
                     $colors[strtolower($p_color)]['name'] = ucfirst($p_color);
                     $colors[strtolower($p_color)]['enabled'] = true;
-                    $colors[strtolower($p_color)]['checked'] = in_array(strtolower($p_color), $req_colors) ? true : false;
+                   
                 }
             }
         }
@@ -529,7 +530,7 @@ class Product extends Model
         foreach ($sub_cat_arr as $key => $value) {
             array_push($arr, $value);
         }
-        $color_filter = isset($all_filters['color']) ? $all_filters['color'][0] : null;
+        $color_filter = isset($all_filters['color']) && strlen($all_filters['color'][0]) > 0? $all_filters['color'] : null;
         return [
             'colorFilter' => Product::get_color_filter($products, $color_filter, $products),
             'productTypeFilter' => $arr
@@ -598,9 +599,7 @@ class Product extends Model
 
         }
 
-        $brand_holder = Product::get_brands_filter($dept, $cat, $all_filters);
         $price_holder = Product::get_price_filter($dept, $cat, $all_filters);
-        $product_type_holder = Product::get_product_type_filter($dept, $cat, $subCat, $all_filters)['productTypeFilter'];
         $color_filter = Product::get_product_type_filter($dept, $cat, $subCat, $all_filters)['colorFilter'];
 
         if ($dept == "all") {
