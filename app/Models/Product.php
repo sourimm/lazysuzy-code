@@ -422,7 +422,7 @@ class Product extends Model
                 'value' => strtolower($key),
                 'hex' => $color_hex,
                 'enabled' => false,
-                'checked' => in_array($key, $req_colors) 
+                'checked' => isset($req_colors) && in_array($key, $req_colors) 
             ];
         }
         foreach ($products as $product) {
