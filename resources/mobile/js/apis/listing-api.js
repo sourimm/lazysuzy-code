@@ -256,6 +256,11 @@ $(document).ready(function() {
                 class: 'prod-sale-price d-md-none'
             }).appendTo(mainProductDiv);
         }
+        productDetails.isNew &&
+            jQuery('<span />', {
+                html: `<strong>NEW</strong>`,
+                class: 'new-tag'
+            }).prependTo(saleprice);
         if (Math.ceil(productDetails.percent_discount) > 0) {
             var discounttag = jQuery('<span />', {
                 text: `${Math.ceil(productDetails.percent_discount)}%`,
@@ -395,7 +400,7 @@ $(document).ready(function() {
             }).appendTo(mobileFilterHeader);
             Object.keys(filterData).forEach((key, index) => {
                 const data = filterData[key];
-                if (data.length == 0) {
+                if (!data || data.length == 0) {
                     return;
                 }
 
@@ -417,25 +422,31 @@ $(document).ready(function() {
                 );
 
                 if (key != 'price') {
-                    var filterUl = jQuery('<ul/>', {}).appendTo(filterDiv);
+                    var filterUl = jQuery('<ul/>', {
+                        class: 'item-list'
+                    }).appendTo(filterDiv);
                     data.forEach(element => {
-                        var filterLi = jQuery('<li/>', {}).appendTo(filterUl);
-                        var filterLabel = jQuery('<label/>', {
-                            class: 'filter-label'
-                        }).appendTo(filterLi);
-                        var filterCheckbox = jQuery('<input />', {
-                            type: 'checkbox',
-                            checked: element.checked,
-                            value: element.value,
-                            disabled: !element.enabled,
-                            belongsTo: key
-                        }).appendTo(filterLabel);
-                        $(filterLabel).append(
-                            '<span class="checkmark"></span>'
-                        );
-                        $(filterLabel).append(
-                            '<span class="text">' + element.name + '</span>'
-                        );
+                        if (element.enabled) {
+                            var filterLi = jQuery('<li/>', {
+                                class: 'filter-item'
+                            }).appendTo(filterUl);
+                            var filterLabel = jQuery('<label/>', {
+                                class: 'filter-label'
+                            }).appendTo(filterLi);
+                            var filterCheckbox = jQuery('<input />', {
+                                type: 'checkbox',
+                                checked: element.checked,
+                                value: element.value,
+                                disabled: !element.enabled,
+                                belongsTo: key
+                            }).appendTo(filterLabel);
+                            $(filterLabel).append(
+                                '<span class="checkmark"></span>'
+                            );
+                            $(filterLabel).append(
+                                '<span class="text">' + element.name + '</span>'
+                            );
+                        }
                     });
                 } else {
                     $(filterDiv).attr('id', 'priceFilter');

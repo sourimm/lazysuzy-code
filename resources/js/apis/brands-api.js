@@ -94,6 +94,22 @@ $(document).ready(function() {
         listingFactory.resetListing();
     });
 
+    $('body').on('click', '.clear-filter', function() {
+        var $filter = $(this).closest('.filter');
+        if ($filter.attr('id') === 'priceFilter') {
+            var $inp = $(this);
+            price_from = $inp.data('from');
+            price_to = $inp.data('to');
+        } else {
+            $filter.find('input[type="checkbox"]').each(function() {
+                if (this.checked) {
+                    this.checked = false;
+                }
+            });
+        }
+        listingFactory.resetListing();
+    });
+
     /***************Implementation of filter changes **************/
     $('body').on('change', '.filter input[type="checkbox"]', function() {
         listingFactory.resetListing();

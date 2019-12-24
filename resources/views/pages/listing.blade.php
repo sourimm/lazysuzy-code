@@ -62,7 +62,7 @@
             <div class="prod-info">
                 <span class="-site">
                     @{{#if is_new}}
-                        <span class="new-tag">New</span>
+                        <span class="new-tag"><strong>NEW</strong></span>
                     @{{/if}}
 
                     @{{site}}

@@ -1,87 +1,87 @@
-@extends('layouts.layout')
+@extends('layouts.layout', ['body_class' => 'brand-main-div'])
 
 @section('middle_content')
 @include('./partials/subnav')
-    <div class="brands">
-        <div class="brands-main-heading">
-            <div class="container">
-                <div class="mx-auto text-center loaderImg">
-                    <img src="{{ asset('/images/Spinner-1s-100px.gif') }}" alt="Spinner">
-                </div>
-                <div class="js-brand-header">
+<div class="brands">
+    <div class="brands-main-heading">
+        <div class="container">
+            <div class="mx-auto text-center loaderImg">
+                <img src="{{ asset('/images/Spinner-1s-100px.gif') }}" alt="Spinner">
+            </div>
+            <div class="js-brand-header">
 
-                </div>
             </div>
         </div>
-        <div class="listing-top-controls d-block d-md-none">
-            <!-- <div id="page-navigator" class="page-navigator-mobile"></div> -->
-            <div class="filter-toggle-mobile">
-                <span class="filter-toggle" id="filterToggleBtn">
-                    <i class="fas fa-filter"></i>
-                    Filter
-                </span>
-                <span class="filter-toggle" id="viewItemsBtn">
-                    <i class="fab fa-buromobelexperte"></i>
-                    Toggle View
-                </span>
-                <span class="filter-toggle" id="selectbox-sortmobile">
-                    <i class="fas fa-sort"></i>
-                    Sort
-                </span>
-            </div>
-
-
+    </div>
+    <div class="listing-top-controls d-block d-md-none">
+        <!-- <div id="page-navigator" class="page-navigator-mobile"></div> -->
+        <div class="filter-toggle-mobile">
+            <span class="filter-toggle" id="filterToggleBtn">
+                <i class="fas fa-filter"></i>
+                Filter
+            </span>
+            <span class="filter-toggle" id="viewItemsBtn">
+                <i class="fab fa-buromobelexperte"></i>
+                Toggle View
+            </span>
+            <span class="filter-toggle" id="selectbox-sortmobile">
+                <i class="fas fa-sort"></i>
+                Sort
+            </span>
         </div>
-        <div class="js-filters filters d-md-block filter-close-btn">
-            <div class="d-none filter" data-filter="brand" id="brandFilter">
-                <label class="filter-label"><input data-type="hidden" type="checkbox" checked value="{{ Request::route('brand_name') }}" ></label>
-            </div>
-            <div class="mobile-filter-header d-md-none"><span class="float-left filters-close-btn"><i class="fa fa-times" aria-hidden="true"></i></span><span class="filter-title">Filters</span><span class="float-right"><a class="btn clearall-filter-btn" href="#" id="clearAllFiltersBtn">Clear All</a></span></div>
-            <div id="mobile-filters">
-            </div>
-            <div class="row">
-                <ul class="filter-tabs col-sm-9 d-none d-md-block" id="desktop-filters">
-                    <li class="nav-item">
-                        <a class="nav-link active" href="#">Brand</a>
-                    </li>
 
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Price</a>
-                    </li>
 
-                    <li>
-                        <a class="clearall-filter-btn" href="/filter/clear_filter/all">Clear All</a>
-                    </li>
+    </div>
+    <div class="js-filters filters d-md-block filter-close-btn">
+        <div class="d-none filter" data-filter="brand" id="brandFilter">
+            <label class="filter-label"><input data-type="hidden" type="checkbox" checked value="{{ Request::route('brand_name') }}" ></label>
+        </div>
+        <div class="mobile-filter-header d-md-none"><span class="float-left filters-close-btn"><i class="fa fa-times" aria-hidden="true"></i></span><span class="filter-title">Filters</span><span class="float-right"><a class="btn clearall-filter-btn" href="#" id="clearAllFiltersBtn">Clear All</a></span></div>
+        <div id="mobile-filters">
+        </div>
+        <div class="row">
+            <ul class="filter-tabs col-sm-9 d-none d-md-block" id="desktop-filters">
+                <li class="nav-item">
+                    <a class="nav-link active" href="#">Brand</a>
+                </li>
 
-                </ul>
-                <div class="col-sm-3 d-none d-md-block">
-                    <div class="total-items float-left"><span id="totalResults">0</span> Results</div>
-                    <div class="sortby float-right">
-                        <select class="form-control" id="sort">
-                            <option>Price : Low to High</option>
-                            <option>Price : High to Low</option>
-                            <option>Popularity</option>
-                            <option selected>Recommended</option>
-                        </select>
-                    </div>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Price</a>
+                </li>
 
+                <li>
+                    <a class="clearall-filter-btn" href="/filter/clear_filter/all">Clear All</a>
+                </li>
+
+            </ul>
+            <div class="col-sm-3 d-none d-md-block">
+                <div class="total-items float-left"><span id="totalResults">0</span> Results</div>
+                <div class="sortby float-right">
+                    <select class="form-control" id="sort">
+                        <option>Price : Low to High</option>
+                        <option>Price : High to Low</option>
+                        <option>Popularity</option>
+                        <option selected>Recommended</option>
+                    </select>
                 </div>
+
             </div>
         </div>
-        <div class="filters   d-md-none" id="sort-mobile">
-            <div class="mobile-filter-header">
-                <div class="filters-close-btn d-md-none float-left"><i class="fa fa-times" aria-hidden="true"></i>
-                </div>
-                <span class="filter-title">Sort</span>
+    </div>
+    <div class="filters  d-md-none" id="sort-mobile">
+        <div class="mobile-filter-header">
+            <div class="filters-close-btn d-md-none float-left"><i class="fa fa-times" aria-hidden="true"></i>
             </div>
-            <hr>
-            <div class="sort-filter-input"><input type="radio" name="sort-price-filter" value="price_low_to_high">
-                Price : Low to High</div>
-            <div class="sort-filter-input"><input type="radio" name="sort-price-filter" value="price_high_to_low">
-                Price : High to Low</div>
-            <div class="sort-filter-input"><input type="radio" name="sort-price-filter" value="popularity">
-                Popularity </div>
+            <span class="filter-title">Sort</span>
         </div>
+        <hr>
+        <div class="sort-filter-input"><input type="radio" name="sort-price-filter" value="price_low_to_high">
+            Price : Low to High</div>
+        <div class="sort-filter-input"><input type="radio" name="sort-price-filter" value="price_high_to_low">
+            Price : High to Low</div>
+        <div class="sort-filter-input"><input type="radio" name="sort-price-filter" value="popularity">
+            Popularity </div>
+    </div>
     <div class="brands-prod-container products-container">
         <div class="container ls-prod-container">
             <div id="productsContainerDiv" class="row"></div>
@@ -94,8 +94,8 @@
     </div>
     @component('components.detailOverview')
     @endcomponent
-    @include('./partials/brandassociation')
-    @endsection
+</div>
+@endsection
 @push('pageSpecificScripts')
     <script type = "text/template" id="brandHeader">
     <div class="row">
@@ -156,7 +156,12 @@
                     @{{/if}}
 
             </a>
-            <span class="prod-sale-price">@{{formatPrice is_price}}</span>
+            <span class="prod-sale-price">
+                @{{#if is_new}}
+                    <span class="new-tag"><strong>NEW</strong></span>
+                @{{/if}}
+                @{{formatPrice is_price}}
+            </span>
             <span class="prod-discount-tag @{{discountClass}}">@{{percent_discount}}%</span>
         </div>
         @{{/with}}
@@ -182,7 +187,12 @@
                     </div>
                     @{{/if}}
                 </div>
-                <div class="-name">@{{name}}</div>
+                <div class="-name">
+                    @{{#if is_new}}
+                        <span class="new-tag"><strong>NEW</strong></span>
+                    @{{/if}}
+                    @{{name}}
+                </div>
                 <div class="-prices">
                     <span class="-cprice">@{{formatPrice is_price}}</span>
                     @{{#ifNeq is_price was_price}}
@@ -238,15 +248,15 @@
         <div class="filter" data-filter="@{{name}}">
             <hr/>
             <span class="filter-header">@{{name}}</span>
-            <label for="brand" class="clear-filter float-right">Clear</label>
+            <label for="@{{name}}" class="clear-filter float-right">Clear</label>
             <ul class="item-list">
                 @{{#if isPrice}}
-                    <li class="dropdown-item"  href="#"><input class="price-range-slider" id="priceRangeSlider" name="price_range" value="" tabindex="-1" readonly=""></li>
+                    <li class="filter-item"  href="#"><input class="price-range-slider" id="priceRangeSlider" name="price_range" value="" tabindex="-1" readonly=""></li>
                 @{{else}}
                     @{{#each list}}
                     @{{#with this}}
                     @{{#if enabled}}
-                        <li class="dropdown-item" href="#"><label class="filter-label"><input type="checkbox" @{{#if checked}}checked@{{/if}} value="@{{value}}" belongsto="@{{name}}"><span class="checkmark"></span><span class="text">@{{name}}</span></label></li>
+                        <li class="filter-item" href="#"><label class="filter-label"><input type="checkbox" @{{#if checked}}checked@{{/if}} value="@{{value}}" belongsto="@{{name}}"><span class="checkmark"></span><span class="text">@{{name}}</span></label></li>
                     @{{/if}}
                     @{{/with}}
                     @{{/each}}
