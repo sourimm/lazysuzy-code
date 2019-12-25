@@ -853,7 +853,7 @@ class Product extends Model
         return Product::$base_siteurl . $link;
     }
 
-    public static function get_cb2_variations($sku)
+    public static function get_c_variations($sku, $variation_table)
     {
         $cols = [
             "product_sku",
@@ -865,7 +865,7 @@ class Product extends Model
         ];
 
         $product_variations = [];
-        $variations = DB::table("cb2_products_variations")
+        $variations = DB::table($variation_table)
             ->select($cols)
             ->distinct('variation_sku')
             ->where('product_sku', $sku)
@@ -1050,7 +1050,10 @@ class Product extends Model
 
         switch ($product->site_name) {
             case 'cb2':
-                return Product::get_CB2_variations($product->product_sku);
+                return Product::get_c_variations($product->product_sku, 'cb2_product_varitaions');
+                break;
+            case 'cnb':
+                return Product::get_c_variations($product->product_sku, 'crateandbarrel_products_variations');
                 break;
             case 'pier1':
                 return Product::get_pier1_variations($product);
