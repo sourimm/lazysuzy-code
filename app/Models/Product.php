@@ -1052,7 +1052,7 @@ class Product extends Model
             case 'cb2':
                 return Product::get_c_variations($product->product_sku, 'cb2_products_variations');
                 break;
-            case 'cnb':
+            case 'cab':
                 return Product::get_c_variations($product->product_sku, 'crateandbarrel_products_variations');
                 break;
             case 'pier1':
