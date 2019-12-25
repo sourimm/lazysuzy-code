@@ -1050,7 +1050,7 @@ class Product extends Model
 
         switch ($product->site_name) {
             case 'cb2':
-                return Product::get_c_variations($product->product_sku, 'cb2_product_varitaions');
+                return Product::get_c_variations($product->product_sku, 'cb2_products_variations');
                 break;
             case 'cnb':
                 return Product::get_c_variations($product->product_sku, 'crateandbarrel_products_variations');
