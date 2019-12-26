@@ -698,10 +698,14 @@ class Product extends Model
             array_pop($variations);
         } */
 
-        for($i = 0; $i < sizeof($variations); $i++) {
-            if ($variations[$i]['image'] === Product::$base_siteurl) {
-                $variations[$i]['image'] = $data['main_image'];
+        if (isset($variations)) {
+            
+            for($i = 0; $i < sizeof($variations); $i++) {
+                if ($variations[$i]['image'] === Product::$base_siteurl) {
+                    $variations[$i]['image'] = $data['main_image'];
+                }
             }
+        
         }
 
         $data['variations'] = $variations;
