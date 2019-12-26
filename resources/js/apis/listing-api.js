@@ -213,49 +213,50 @@ $(document).ready(function() {
         $('#desktop-filters').empty();
         for (var filter in filterData) {
             const filterItems = filterData[filter];
-            (filter === 'price' ||
-                (filterItems &&
-                    filterItems.length &&
-                    filterItems.filter(item => item.enabled).length)) &&
-                $('#desktop-filters').append(
-                    desktopFilterTemplate({
-                        name: filter,
-                        list: filterItems,
-                        isPrice: filter === 'price',
-                        isApplied: isFilterApplied(filter, filterItems)
-                    })
-                );
-            $priceRangeSlider = $('#priceRangeSlider');
-            const data = filterData[filter];
-            $priceRangeSlider.ionRangeSlider({
-                skin: 'sharp',
-                type: 'double',
-                min: data.min ? data.min : 0,
-                max: data.max ? data.max : 10000,
-                from: data.from ? data.from : data.min,
-                to: data.to ? data.to : data.max,
-                prefix: '$',
-                prettify_separator: ',',
-                onStart: function(data) {
-                    // fired then range slider is ready
-                },
-                onChange: function(data) {
-                    // fired on every range slider update
-                },
-                onFinish: function(data) {
-                    // fired on pointer release
+            if (filterItems) {
+                (filter === 'price' ||
+                    (filterItems.length &&
+                        filterItems.filter(item => item.enabled).length)) &&
+                    $('#desktop-filters').append(
+                        desktopFilterTemplate({
+                            name: filter,
+                            list: filterItems,
+                            isPrice: filter === 'price',
+                            isApplied: isFilterApplied(filter, filterItems)
+                        })
+                    );
+                $priceRangeSlider = $('#priceRangeSlider');
+                const data = filterData[filter];
+                $priceRangeSlider.ionRangeSlider({
+                    skin: 'sharp',
+                    type: 'double',
+                    min: data.min ? data.min : 0,
+                    max: data.max ? data.max : 10000,
+                    from: data.from ? data.from : data.min,
+                    to: data.to ? data.to : data.max,
+                    prefix: '$',
+                    prettify_separator: ',',
+                    onStart: function(data) {
+                        // fired then range slider is ready
+                    },
+                    onChange: function(data) {
+                        // fired on every range slider update
+                    },
+                    onFinish: function(data) {
+                        // fired on pointer release
 
-                    var $inp = $('#priceRangeSlider');
-                    price_from = $inp.data('from'); // reading input data-from attribute
-                    price_to = $inp.data('to'); // reading input data-to attribute
-                    iPageNo = 0;
-                    updateFilters();
-                    fetchProducts(true);
-                },
-                onUpdate: function(data) {
-                    // fired on changing slider with Update method
-                }
-            });
+                        var $inp = $('#priceRangeSlider');
+                        price_from = $inp.data('from'); // reading input data-from attribute
+                        price_to = $inp.data('to'); // reading input data-to attribute
+                        iPageNo = 0;
+                        updateFilters();
+                        fetchProducts(true);
+                    },
+                    onUpdate: function(data) {
+                        // fired on changing slider with Update method
+                    }
+                });
+            }
         }
 
         if (!isMobile()) {
