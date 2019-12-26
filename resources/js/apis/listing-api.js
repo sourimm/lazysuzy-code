@@ -214,7 +214,8 @@ $(document).ready(function() {
         for (var filter in filterData) {
             const filterItems = filterData[filter];
             (filter === 'price' ||
-                (filterItems.length &&
+                (filterItems &&
+                    filterItems.length &&
                     filterItems.filter(item => item.enabled).length)) &&
                 $('#desktop-filters').append(
                     desktopFilterTemplate({
@@ -422,7 +423,7 @@ $(document).ready(function() {
             .show();
     });
 
-    $('body').on('mouseleave', '.slick-slide', function() {
+    $('body').on('mouseleave', '.mini-carousel-item', function() {
         $(this)
             .closest('.ls-product-div')
             .find('.variation-img')
