@@ -55,6 +55,7 @@ Route::get('login/{driver}/callback', 'Auth\LoginController@handleProviderCallba
 /*
  *   API ROUTES
  */
+Route::get('/api/get-user', 'API@get_user')->name('get-user');
 Route::get('/api/brand/{key?}', 'API@get_all_brands')->name('get_all_brands');
 Route::get('/api/all-departments', 'DepartmentController@index')->name('get_all_departments');
 Route::get('/api/departments/{dept}', 'DepartmentController@get_department')->name('get_department');

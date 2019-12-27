@@ -7,6 +7,8 @@ use App\Models\Variations;
 use Illuminate\Http\Request;
 use App\Models\Wishlist;
 use App\Models\Brands;
+use Auth;
+
 
 
 class API extends Controller
@@ -16,6 +18,15 @@ class API extends Controller
         return false;
     }
 
+    public function get_user() {
+        return [
+            "auth" => [
+                "is_user" => Auth::check(),
+                "id" => Auth::check() ? Auth::user()->id : null
+
+            ]
+        ];
+    }
     public function getProducts($dept, $cat = null)
     {
         return Product::get_department_products($dept, $cat);
