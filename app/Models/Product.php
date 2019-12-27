@@ -130,6 +130,7 @@ class Product extends Model
         $filters     = Input::get("filters");
         $all_filters = [];
         $query       = DB::table('master_data');
+        $is_details_minimal = Input::get("showless");
 
         if (isset($sort_type)) {
             for ($i = 0; $i < sizeof($sort_type_filter); $i++) {
@@ -240,7 +241,7 @@ class Product extends Model
 
         //echo "<pre>" . print_r($all_filters, ""true);
         $query = $query->join("master_brands", "master_data.site_name", "=", "master_brands.value");
-        return Product::getProductObj($query->get(), $all_filters, $dept, $cat, $subCat, true);
+        return Product::getProductObj($query->get(), $all_filters, $dept, $cat, $subCat, true, $is_details_minimal);
     }
 
     public static function get_dept_cat_LS_ID_arr($dept, $cat)
@@ -540,7 +541,7 @@ class Product extends Model
         ];
     }
 
-    public static function getProductObj($products, $all_filters, $dept, $cat, $subCat, $isListingAPICall = null)
+    public static function getProductObj($products, $all_filters, $dept, $cat, $subCat, $isListingAPICall = null, $is_details_minimal = false)
     {
         $p_send              = [];
         $filter_data         = [];
@@ -597,7 +598,7 @@ class Product extends Model
 
 
                 $variations = Product::get_variations($product, $westelm_variations_data, $isListingAPICall);
-                array_push($p_send, Product::get_details($product, $variations, $isListingAPICall, $isMarked));
+                array_push($p_send, Product::get_details($product, $variations, $isListingAPICall, $isMarked, false, $is_details_minimal));
             }
         }
 
@@ -630,7 +631,7 @@ class Product extends Model
         ];
     }
 
-    public static function get_details($product, $variations, $isListingAPICall = null, $isMarked = false, $isTrending = false)
+    public static function get_details($product, $variations, $isListingAPICall = null, $isMarked = false, $isTrending = false, $is_details_minimal = false)
     {
         $p_val = $wp_val = $discount = null;
 
@@ -700,16 +701,17 @@ class Product extends Model
             array_pop($variations);
         } */
 
-        if (isset($variations)) {
+        if (isset($variations) && !$is_details_minimal) {
 
             for ($i = 0; $i < sizeof($variations); $i++) {
                 if ($variations[$i]['image'] === Product::$base_siteurl) {
                     $variations[$i]['image'] = $data['main_image'];
                 }
             }
+            
+            $data['variations'] = $variations;
         }
 
-        $data['variations'] = $variations;
 
         $desc_BRANDS = ["West Elm"];
         $dims_from_features = ["World Market"]; // these extract dimensions data from features data.
