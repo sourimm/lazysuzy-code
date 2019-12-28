@@ -130,7 +130,7 @@ class Product extends Model
         $filters     = Input::get("filters");
         $all_filters = [];
         $query       = DB::table('master_data');
-        $is_details_minimal = Input::get("board-view");
+        $is_details_minimal = Input::get("board-view") === "true" ? true : false ; 
 
         if (isset($sort_type)) {
             for ($i = 0; $i < sizeof($sort_type_filter); $i++) {
@@ -234,7 +234,7 @@ class Product extends Model
             $query = $query->orderBy('popularity', 'desc');
         }
 
-        if ($is_details_minimal === "true") {
+        if ($is_details_minimal) {
             $query = $query->whereRaw('LENGTH(image_xbg) > 0');
         }
 
