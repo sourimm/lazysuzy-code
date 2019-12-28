@@ -130,7 +130,7 @@ class Product extends Model
         $filters     = Input::get("filters");
         $all_filters = [];
         $query       = DB::table('master_data');
-        $is_details_minimal = Input::get("showless");
+        $is_details_minimal = Input::get("board-view");
 
         if (isset($sort_type)) {
             for ($i = 0; $i < sizeof($sort_type_filter); $i++) {
@@ -232,6 +232,10 @@ class Product extends Model
         // set default sorting to popularity
         else {
             $query = $query->orderBy('popularity', 'desc');
+        }
+
+        if ($is_details_minimal === "true") {
+            $query = $query->whereRaw('LENGTH(image_xbg) > 0');
         }
 
         // 6. limit
@@ -662,6 +666,7 @@ class Product extends Model
             if ($days < 4 * 7) $is_new = true;
         }
 
+        $main_image = $is_details_minimal ?  $product->image_xbg : $product->main_product_images;
         $data =  [
             'id'               => $product->id,
             'sku'              => $product->product_sku,
@@ -687,7 +692,7 @@ class Product extends Model
             //    'created_date'     => $product->created_date,
             //    'updated_date'     => $product->updated_date,
             //    'on_server_images' => array_map([__CLASS__, "baseUrl"], preg_split("/,|\\[US\\]/", $product->product_images)),
-            'main_image'       => Product::$base_siteurl . $product->main_product_images,
+            'main_image'       => Product::$base_siteurl . $main_image,
             'reviews'          => $product->reviews,
             'rating'           => (float) $product->rating,
             'wishlisted'       => $isMarked
@@ -801,7 +806,7 @@ class Product extends Model
         for ($i = 0; $i < sizeof($new_Arr); $i++) {
             $new_Arr[$i] = str_replace([chr(13), "\n", " "], " ", $new_Arr[$i]);
         }
-        
+
         return $new_Arr;
     }
 
