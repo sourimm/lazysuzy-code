@@ -304,7 +304,9 @@ class Product extends Model
             }
         }
 
-        foreach ($categories as $cat) array_push($filter_categories, $cat);
+        foreach ($categories as $cat) 
+            array_push($filter_categories, $cat);
+
         return $filter_categories;
     }
     public static function get_brands_filter($dept, $cat, $all_filters)
