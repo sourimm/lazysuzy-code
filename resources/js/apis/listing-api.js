@@ -22,7 +22,10 @@ $(document).ready(function() {
     );
 
     $(window).scroll(function() {
-        if (!listingFactory.bNoMoreProductsToShow) {
+        if (
+            !listingFactory.bFetchingProducts &&
+            !listingFactory.bNoMoreProductsToShow
+        ) {
             if ($('#loaderImg') && isScrolledIntoView($('#loaderImg')[0])) {
                 listingFactory.fetchProducts(false);
             } else if ($('#loaderImg') === null) {

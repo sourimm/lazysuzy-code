@@ -244,7 +244,7 @@ export default class ListingFactory {
                     listingApiRendering(data);
                 },
                 error: function(jqXHR, exception) {
-                    this.bFetchingProducts = false;
+                    _self.bFetchingProducts = false;
                     console.log(jqXHR);
                     console.log(exception);
                 }
