@@ -18,18 +18,19 @@ class Product extends Model
     public static $base_siteurl = 'https://www.lazysuzy.com';
     static $count = 0;
 
-    public static function trending_products($limit) {
+    public static function trending_products($limit)
+    {
 
         $trending_products = [];
         $rows = DB::table("trending_products")
-                    ->select("*")
-                    ->join("master_data", "master_data.product_sku", "=", "trending_products.product_sku")
-                    ->join("master_brands", "master_data.site_name", "=", "master_brands.value")
-                    ->limit($limit)
-                    ->orderBy("trending_products.rank", "ASC")
-                    ->get();
+            ->select("*")
+            ->join("master_data", "master_data.product_sku", "=", "trending_products.product_sku")
+            ->join("master_brands", "master_data.site_name", "=", "master_brands.value")
+            ->limit($limit)
+            ->orderBy("trending_products.rank", "ASC")
+            ->get();
 
-        foreach($rows as $product) {
+        foreach ($rows as $product) {
             $variations = null; // Product::get_variations($product, null, false);
             array_push($trending_products, Product::get_details($product, $variations, true, false, true));
         }
@@ -129,6 +130,7 @@ class Product extends Model
         $filters     = Input::get("filters");
         $all_filters = [];
         $query       = DB::table('master_data');
+        $is_details_minimal = Input::get("board-view") === "true" ? true : false ; 
 
         if (isset($sort_type)) {
             for ($i = 0; $i < sizeof($sort_type_filter); $i++) {
@@ -187,9 +189,11 @@ class Product extends Model
             }
 
             // for /all API catgeory-wise filter
-            if (isset($all_filters['category'])
-                && strlen($all_filters['category'][0])) {
-                 $query = $query
+            if (
+                isset($all_filters['category'])
+                && strlen($all_filters['category'][0])
+            ) {
+                $query = $query
                     ->whereRaw('LS_ID REGEXP "' . implode("|", $all_filters['category']) . '"');
             }
         }
@@ -230,6 +234,10 @@ class Product extends Model
             $query = $query->orderBy('popularity', 'desc');
         }
 
+        if ($is_details_minimal) {
+            $query = $query->whereRaw('LENGTH(image_xbg) > 0');
+        }
+
         // 6. limit
         $all_filters['limit'] = $limit;
         $all_filters['count_all'] = $query->count();
@@ -237,7 +245,7 @@ class Product extends Model
 
         //echo "<pre>" . print_r($all_filters, ""true);
         $query = $query->join("master_brands", "master_data.site_name", "=", "master_brands.value");
-        return Product::getProductObj($query->get(), $all_filters, $dept, $cat, $subCat, true);
+        return Product::getProductObj($query->get(), $all_filters, $dept, $cat, $subCat, true, $is_details_minimal);
     }
 
     public static function get_dept_cat_LS_ID_arr($dept, $cat)
@@ -254,8 +262,9 @@ class Product extends Model
     }
 
     // this is only for /all API
-    public static function get_all_dept_category_filter($brand_name, $in_filter_categories) {
-       
+    public static function get_all_dept_category_filter($brand_name, $in_filter_categories)
+    {
+
         $LS_IDs = DB::table("master_data")
             ->select("LS_ID")
             ->where("site_name", $brand_name)
@@ -281,12 +290,12 @@ class Product extends Model
         }
 
         $filter_categories = [];
-        foreach($LS_IDs as $LS_ID) {
+        foreach ($LS_IDs as $LS_ID) {
             $IDs = explode(",", $LS_ID->LS_ID);
             foreach ($IDs as $ID) {
                 if (isset($categories[$ID])) {
                     if (in_array($categories[$ID]['value'], $in_filter_categories)) {
-                        $categories[$ID]['checked'] = true; 
+                        $categories[$ID]['checked'] = true;
                     }
                     $categories[$ID]['enabled'] = true;
                     array_push($filter_categories, $categories[$ID]);
@@ -295,7 +304,9 @@ class Product extends Model
             }
         }
 
-        foreach($categories as $cat) array_push($filter_categories, $cat);
+        foreach ($categories as $cat) 
+            array_push($filter_categories, $cat);
+
         return $filter_categories;
     }
     public static function get_brands_filter($dept, $cat, $all_filters)
@@ -324,9 +335,9 @@ class Product extends Model
         $product_brands = DB::table("master_data")
             ->selectRaw("count(product_name) AS products, site_name")
             ->whereRaw('LS_ID REGEXP "' . implode("|", $LS_IDs) . '"');
-        
+
         if (isset($all_filters['color']) && strlen($all_filters['color'][0]) > 0) {
-           
+
             $colors = implode("|", $all_filters['color']);
             $product_brands = $product_brands->whereRaw('color REGEXP "' . $colors . '"');
         }
@@ -422,7 +433,7 @@ class Product extends Model
                 'value' => strtolower($key),
                 'hex' => $color_hex,
                 'enabled' => false,
-                'checked' => isset($req_colors) && in_array($key, $req_colors) 
+                'checked' => isset($req_colors) && in_array($key, $req_colors)
             ];
         }
         foreach ($products as $product) {
@@ -431,7 +442,6 @@ class Product extends Model
                 if (strlen($p_color) > 0 && array_key_exists(strtolower($p_color), $colors)) {
                     $colors[strtolower($p_color)]['name'] = ucfirst($p_color);
                     $colors[strtolower($p_color)]['enabled'] = true;
-                   
                 }
             }
         }
@@ -478,7 +488,7 @@ class Product extends Model
             $products = $products->whereIn('site_name', $all_filters['brand']);
         }
 
-       /*  if (isset($all_filters['color']) && strlen($all_filters['color'][0]) > 0) {
+        /*  if (isset($all_filters['color']) && strlen($all_filters['color'][0]) > 0) {
             $colors =implode("|", $all_filters['color']);
             $products = $products->whereRaw('color REGEXP "' . $colors . '"');
         } */
@@ -530,14 +540,14 @@ class Product extends Model
         foreach ($sub_cat_arr as $key => $value) {
             array_push($arr, $value);
         }
-        $color_filter = isset($all_filters['color']) && strlen($all_filters['color'][0]) > 0? $all_filters['color'] : null;
+        $color_filter = isset($all_filters['color']) && strlen($all_filters['color'][0]) > 0 ? $all_filters['color'] : null;
         return [
             'colorFilter' => Product::get_color_filter($products, $color_filter, $products),
             'productTypeFilter' => $arr
         ];
     }
 
-    public static function getProductObj($products, $all_filters, $dept, $cat, $subCat, $isListingAPICall = null)
+    public static function getProductObj($products, $all_filters, $dept, $cat, $subCat, $isListingAPICall = null, $is_details_minimal = false)
     {
         $p_send              = [];
         $filter_data         = [];
@@ -579,7 +589,7 @@ class Product extends Model
                 array_push($wishlist_products, $p->product_id);
         }
 
-        
+
 
         foreach ($products as $product) {
 
@@ -591,12 +601,11 @@ class Product extends Model
                     }
                 }
 
-               
+
 
                 $variations = Product::get_variations($product, $westelm_variations_data, $isListingAPICall);
-                array_push($p_send, Product::get_details($product, $variations, $isListingAPICall, $isMarked));
+                array_push($p_send, Product::get_details($product, $variations, $isListingAPICall, $isMarked, false, $is_details_minimal));
             }
-
         }
 
         $brand_holder = Product::get_brands_filter($dept, $cat, $all_filters);
@@ -628,7 +637,7 @@ class Product extends Model
         ];
     }
 
-    public static function get_details($product, $variations, $isListingAPICall = null, $isMarked = false, $isTrending = false)
+    public static function get_details($product, $variations, $isListingAPICall = null, $isMarked = false, $isTrending = false, $is_details_minimal = false)
     {
         $p_val = $wp_val = $discount = null;
 
@@ -656,9 +665,10 @@ class Product extends Model
         if (strlen($product->created_date) > 0) {
             $diff = strtotime(date("Y-m-d H:i:s")) - strtotime($product->updated_date);
             $days = $diff / 60 / 60 / 24;
-            if ($days < 4*7) $is_new = true;
+            if ($days < 4 * 7) $is_new = true;
         }
 
+        $main_image = $is_details_minimal ?  $product->image_xbg : $product->main_product_images;
         $data =  [
             'id'               => $product->id,
             'sku'              => $product->product_sku,
@@ -684,7 +694,7 @@ class Product extends Model
             //    'created_date'     => $product->created_date,
             //    'updated_date'     => $product->updated_date,
             //    'on_server_images' => array_map([__CLASS__, "baseUrl"], preg_split("/,|\\[US\\]/", $product->product_images)),
-            'main_image'       => Product::$base_siteurl . $product->main_product_images,
+            'main_image'       => Product::$base_siteurl . $main_image,
             'reviews'          => $product->reviews,
             'rating'           => (float) $product->rating,
             'wishlisted'       => $isMarked
@@ -698,7 +708,17 @@ class Product extends Model
             array_pop($variations);
         } */
 
-        $data['variations'] = $variations;
+        if (isset($variations) && !$is_details_minimal) {
+
+            for ($i = 0; $i < sizeof($variations); $i++) {
+                if ($variations[$i]['image'] === Product::$base_siteurl) {
+                    $variations[$i]['image'] = $data['main_image'];
+                }
+            }
+            
+            $data['variations'] = $variations;
+        }
+
 
         $desc_BRANDS = ["West Elm"];
         $dims_from_features = ["World Market"]; // these extract dimensions data from features data.
@@ -782,14 +802,13 @@ class Product extends Model
                 }
             }
 
-
-
             $i++;
         }
 
         for ($i = 0; $i < sizeof($new_Arr); $i++) {
             $new_Arr[$i] = str_replace([chr(13), "\n", " "], " ", $new_Arr[$i]);
         }
+
         return $new_Arr;
     }
 
@@ -853,7 +872,7 @@ class Product extends Model
         return Product::$base_siteurl . $link;
     }
 
-    public static function get_cb2_variations($sku)
+    public static function get_c_variations($sku, $variation_table)
     {
         $cols = [
             "product_sku",
@@ -865,7 +884,7 @@ class Product extends Model
         ];
 
         $product_variations = [];
-        $variations = DB::table("cb2_products_variations")
+        $variations = DB::table($variation_table)
             ->select($cols)
             ->distinct('variation_sku')
             ->where('product_sku', $sku)
@@ -1050,7 +1069,10 @@ class Product extends Model
 
         switch ($product->site_name) {
             case 'cb2':
-                return Product::get_CB2_variations($product->product_sku);
+                return Product::get_c_variations($product->product_sku, 'cb2_products_variations');
+                break;
+            case 'cab':
+                return Product::get_c_variations($product->product_sku, 'crateandbarrel_products_variations');
                 break;
             case 'pier1':
                 return Product::get_pier1_variations($product);
@@ -1065,10 +1087,11 @@ class Product extends Model
     }
 
     // LS_ID can be comma separated.
-    public static function get_product_LS_ID($sku) {
+    public static function get_product_LS_ID($sku)
+    {
 
         $prod = Product::where("product_sku", $sku)
-                ->get();
+            ->get();
         if (sizeof($prod) != 0) {
             return $prod[0]->LS_ID;
         }
