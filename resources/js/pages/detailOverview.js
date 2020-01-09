@@ -80,7 +80,7 @@ $(document).ready(function() {
                         alt: 'product image'
                     }).appendTo(a);
                 });
-                $('.-site').text(data.site);
+                $('.js-site').text(data.site);
                 var $prodDetails = $('<div />', {
                     class: '-product-details'
                 }).appendTo($prodPriceCard);
