@@ -406,7 +406,7 @@ class Product extends Model
         }
     }
 
-    public static function get_color_filter($products, $request_colors)
+    public static function get_color_filter($dept, $cat, $subCat, $all_filters, $request_colors)
     {
         $colors = [
             "black" => "#000000",
@@ -427,6 +427,38 @@ class Product extends Model
         ];
 
         $req_colors = $request_colors;
+
+        $LS_IDs = Product::get_dept_cat_LS_ID_arr($dept, $cat);
+
+
+        if (isset($all_filters['type']) && strlen($all_filters['type'][0]) > 0) {
+            // comment this line if you want to show count for all those
+            // sub_categories that are paased in the request.
+            //$LS_IDs = Product::get_sub_cat_LS_IDs($dept, $cat, $all_filters['type']);
+
+            // if uncommenting the above line, comment this one
+            $LS_IDs = Product::get_sub_cat_LS_IDs($dept, $cat, $all_filters['type']);
+
+//            $LS_IDs = Product::get_dept_cat_LS_ID_arr($dept, $cat->product_sub_category_);
+            
+        }
+
+        $products = DB::table("master_data")
+            ->select(['LS_ID', 'color'])
+            ->whereRaw('LS_ID REGEXP "' . implode("|", $LS_IDs) . '"');
+
+        if (isset($all_filters['brand']) && strlen($all_filters['brand'][0]) > 0) {
+            $products = $products->whereIn('site_name', $all_filters['brand']);
+        }
+
+
+        /* if (isset($all_filters['color']) && strlen($all_filters['color'][0]) > 0) {
+            $colors_from_request = implode("|", $all_filters['color']);
+            $products = $products->whereRaw('color REGEXP "' . $colors_from_request . '"');
+        }  */
+
+        $products =  $products->get();
+
         foreach ($colors as $key => $color_hex) {
             $colors[$key] = [
                 'name' => ucfirst($key),
@@ -445,6 +477,7 @@ class Product extends Model
                 }
             }
         }
+
 
         $colors_f = [];
         foreach ($colors as $key => $color) {
@@ -465,6 +498,8 @@ class Product extends Model
 
         return $sub_cat_LS_IDs->whereRaw("LENGTH(product_sub_category_) != 0")->get();
     }
+
+    // for product type filter ONLY!
     public static function get_filter_products_meta($dept, $cat, $subCat, $all_filters)
     {
 
@@ -489,8 +524,7 @@ class Product extends Model
         }
 
 
-        if (isset($all_filters['color']) && strlen($all_filters['color'][0]) > 0 
-            && isset($all_filters['type']) && strlen($all_filters['type'][0]) > 0) {
+        if (isset($all_filters['color']) && strlen($all_filters['color'][0]) > 0 ) {
             $colors =implode("|", $all_filters['color']);
             $products = $products->whereRaw('color REGEXP "' . $colors . '"');
         }
@@ -498,14 +532,14 @@ class Product extends Model
         return $products->get();
     }
 
-    public static function get_product_type_filter($dept, $cat, $subCat, $all_filters)
+    public static function get_product_type_filter($dept, $category, $subCat, $all_filters)
     {
 
-        $products = Product::get_filter_products_meta($dept, $cat, $subCat, $all_filters);
+        $products = Product::get_filter_products_meta($dept, $category, $subCat, $all_filters);
 
         $sub_cat_arr = [];
 
-        $sub_cat_LS_IDs = Product::get_sub_cat_data($dept, $cat);
+        $sub_cat_LS_IDs = Product::get_sub_cat_data($dept, $category);
 
         foreach ($sub_cat_LS_IDs as $cat) {
             $selected = false;
@@ -544,7 +578,7 @@ class Product extends Model
         }
         $color_filter = isset($all_filters['color']) && strlen($all_filters['color'][0]) > 0 ? $all_filters['color'] : null;
         return [
-            'colorFilter' => Product::get_color_filter($products, $color_filter),
+            'colorFilter' => Product::get_color_filter($dept, $category, $subCat, $all_filters, $color_filter),
             'productTypeFilter' => $arr
         ];
     }
