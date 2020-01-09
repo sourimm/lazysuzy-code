@@ -489,10 +489,11 @@ class Product extends Model
         }
 
 
-        /*if (isset($all_filters['color']) && strlen($all_filters['color'][0]) > 0) {
+        if (isset($all_filters['color']) && strlen($all_filters['color'][0]) > 0 
+            && isset($all_filters['type']) && strlen($all_filters['type'][0]) > 0) {
             $colors =implode("|", $all_filters['color']);
             $products = $products->whereRaw('color REGEXP "' . $colors . '"');
-        }*/
+        }
 
         return $products->get();
     }
