@@ -184,7 +184,7 @@ class Product extends Model
                 && strlen($all_filters['color'][0]) > 0
             ) {
                 $query = $query
-                    ->whereRaw('color REGEXP "' . $all_filters['color'][0] . '"');
+                    ->whereRaw('color REGEXP "' . implode("|", $all_filters['color']) . '"');
                 // input in form - color1|color2|color3
             }
 
