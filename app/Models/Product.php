@@ -489,10 +489,10 @@ class Product extends Model
         }
 
 
-          if (isset($all_filters['color']) && strlen($all_filters['color'][0]) > 0) {
+        /*if (isset($all_filters['color']) && strlen($all_filters['color'][0]) > 0) {
             $colors =implode("|", $all_filters['color']);
             $products = $products->whereRaw('color REGEXP "' . $colors . '"');
-        }
+        }*/
 
         return $products->get();
     }
@@ -543,7 +543,7 @@ class Product extends Model
         }
         $color_filter = isset($all_filters['color']) && strlen($all_filters['color'][0]) > 0 ? $all_filters['color'] : null;
         return [
-            'colorFilter' => Product::get_color_filter($products, $color_filter, $products),
+            'colorFilter' => Product::get_color_filter($products, $color_filter),
             'productTypeFilter' => $arr
         ];
     }
