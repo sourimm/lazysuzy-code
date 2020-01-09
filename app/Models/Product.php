@@ -488,10 +488,11 @@ class Product extends Model
             $products = $products->whereIn('site_name', $all_filters['brand']);
         }
 
-        /*  if (isset($all_filters['color']) && strlen($all_filters['color'][0]) > 0) {
+
+          if (isset($all_filters['color']) && strlen($all_filters['color'][0]) > 0) {
             $colors =implode("|", $all_filters['color']);
             $products = $products->whereRaw('color REGEXP "' . $colors . '"');
-        } */
+        }
 
         return $products->get();
     }
