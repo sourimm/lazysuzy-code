@@ -715,7 +715,7 @@ class Product extends Model
             'product_url'      => urldecode($product->product_url),
             'product_detail_url' => Product::$base_siteurl . "/product/" . $product->product_sku,
             'is_price'         => $product->price,
-            'was_price'        => $product->was_price,
+            'was_price'        => str_replace("$", "", $product->was_price),
             'percent_discount' => $discount,
             'model_code'       => $product->model_code,
             //    'description'      => preg_split("/\\[US\\]|<br>|\\n/", $product->product_description),
