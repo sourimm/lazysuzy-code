@@ -3,33 +3,12 @@
     <span aria-hidden="true">&times;</span>
     </button>
     <div class="product-modal-dialog modal-dialog modal-xl" role="document">
-        <div class="product-modal-content modal-content">
-            <div class="product-moadal-body modal-body">
-                <div class="detailspage" id="detailPage">
-                    <div class="d-block d-md-none controls-div">
-                        <div class="wishlist-icon float-right m-10" id="wishlistBtn">
-                            <i class="far fa-heart -icon"></i>
-                        </div>
-                        <div class="filter-toggle float-right m-10" id="filterToggleBtn">
-                            <i class="fas fa-filter -icon"></i>
-                        </div>
-</div>
-<div class="row">
-    <div class=" col-md-6 col-sm-12"><div class="-images-container" id="scroll-bar-img"><div class="-images" id="scroll-bar-img"></div></div></div>
-    <div class="prod-desc col-sm-12 col-md-6">
-        <div>
-            <div class="prod-main-img  order-md-last">
-            </div>
-            <div class="brand-header">
-                <div class="row">
-
-                    <h2 class="col-10  -site js-site">Brand name</h2>
-                    <div class="col-2 mt-2 wishlist-icon-modal" id="wishlistBtnDesktop">
-                        <i class="far fa-heart -icon"></i> <span>Save</span>
-                    </div>
-                    <!-- <div class="col-2 mt-2 btn-copy">
-                    <i class="fa fa-share -icon"></i> Share
-                    </div> -->
+    <div class="product-modal-content modal-content">
+       <div class="product-moadal-body modal-body">
+          <div class="detailspage" id="detailPage">
+             <div class="d-block d-md-none controls-div">
+                <div class="wishlist-icon float-right m-10" id="wishlistBtn">
+                   <i class="far fa-heart -icon"></i>
                 </div>
                 <div class="filter-toggle float-right m-10" id="filterToggleBtn">
                    <i class="fas fa-filter -icon"></i>
@@ -47,7 +26,7 @@
                       </div>
                       <div class="brand-header">
                          <div class="row">
-                            <h2 class="col-10  -site">Brand name</h2>
+                            <h2 class="col-10 js-site -site">Brand name</h2>
                             <div class="col-2 mt-2 wishlist-icon-modal" id="wishlistBtnDesktop">
                                <i class="far fa-heart -icon"></i> <span>Save</span>
                             </div>

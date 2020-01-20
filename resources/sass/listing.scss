@@ -26,6 +26,7 @@ input:disabled + .checkmark + .text {
 }
 
 .listing {
+    min-height: calc(100vh - (195px));
     .slick-prev,
     .slick-next {
         &:before {
@@ -289,7 +290,7 @@ input:disabled + .checkmark + .text {
                         .ls-product {
                             margin-bottom: 0px;
                             min-height: 100px;
-                            background-position: center;
+                            background-position: bottom;
                         }
                     }
                 }

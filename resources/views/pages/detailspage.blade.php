@@ -1,4 +1,4 @@
-@extends('layouts.layout', ['body_class' => 'detailspage-main-div'])
+@extends('layouts.layout', [])
 
 @section('middle_content')
 <div class="detailspage" id="detailPage">
