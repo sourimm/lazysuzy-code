@@ -26,7 +26,7 @@
                       </div>
                       <div class="brand-header">
                          <div class="row">
-                            <h2 class="col-10  -site">Brand name</h2>
+                            <h2 class="col-10 js-site -site">Brand name</h2>
                             <div class="col-2 mt-2 wishlist-icon-modal" id="wishlistBtnDesktop">
                                <i class="far fa-heart -icon"></i> <span>Save</span>
                             </div>
