@@ -90,7 +90,7 @@
                             <img class="carousel-img img-fluid" src="@{{swatch_image}}" data-prodImg="@{{image}}" />
                         </a>
                         @{{else}}
-                        <a class="responsive-img-a" href="@{{link}}" tabindex="0">
+                        <a class="responsive-img-a js-detail-modal" href="/product/@{{variation_sku}}" tabindex="0">
                             <img class="carousel-img img-fluid" src="@{{image}}" data-prodImg="@{{image}}" />
                         </a>
                         @{{/ifNeq}}

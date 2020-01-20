@@ -26,6 +26,7 @@ input:disabled + .checkmark + .text {
 }
 
 .listing {
+    min-height: calc(100vh - (195px));
     .slick-prev,
     .slick-next {
         &:before {
