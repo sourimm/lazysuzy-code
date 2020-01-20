@@ -102,25 +102,6 @@ $(document).ready(function() {
                         class: 'price'
                     }).appendTo(priceCont);
                 }
-                // var buybtnDiv = $('<div/>', {
-                //     class: 'buy-btn-div'
-                // }).appendTo($prodDetails)
-                // var buyBtn = $('<a/>', {
-                //     class: 'btn pdp-buy-btn',
-                //     href: data.product_url,
-                //     text: 'View Details',
-                //     target: '_blank'
-                // }).appendTo(buybtnDiv)
-
-                $filtersDivMobile = jQuery('<div/>', {
-                    id: 'filtersDivMobile',
-                    class: 'filters filters-mobile'
-                }).insertBefore($imagesContainer);
-
-                $filtersDiv = jQuery('<div/>', {
-                    id: 'filtersDiv',
-                    class: 'filters'
-                }).appendTo($prodPriceCard);
 
                 if (data.variations != null) {
                     makeVariationCarousel(data.variations);

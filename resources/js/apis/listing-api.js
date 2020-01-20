@@ -1,52 +1,32 @@
-import * as multiCarouselFuncs from '../components/multi-carousel';
-import makeSelectBox from '../components/custom-selectbox';
-import isMobile from '../app.js';
 import Handlebars from '../components/handlebar';
+import ListingFactory from '../components/listingFactory';
 // import strItemsNumClass from '../pages/listing';
 // import * as priceSliderContainer from '../pages/listing';
 
 $(document).ready(function() {
     const LISTING_API_PATH =
         window.GLOBAL_LISTING_API_PATH || '/api' + location.pathname;
-    const LISTING_FILTER_API_PATH = '/api/filter/products';
-    const DEPT_API = '/api/all-departments';
-    const FAV_MARK_API = '/api/mark/favourite/';
-    const FAV_UNMARK_API = '/api/unmark/favourite/';
-    const PRODUCT_URL = '/product/';
-    var totalResults = 0;
-    var bFiltersCreated = false;
-    var objGlobalFilterData;
-    var search = window.location.search.substring(1);
+
     var source = document.getElementById('listing-template').innerHTML;
     var filterSource = document.getElementById('desktop-filter-template')
         .innerHTML;
-    var listingTemplate = Handlebars.compile(source);
+    var desktopListingTemplate = Handlebars.compile(source);
     var desktopFilterTemplate = Handlebars.compile(filterSource);
 
-    var queryObject = search
-        ? JSON.parse(
-              '{"' +
-                  decodeURI(search)
-                      .replace(/"/g, '\\"')
-                      .replace(/&/g, '","')
-                      .replace(/=/g, '":"') +
-                  '"}'
-          )
-        : {};
-    var strFilters = queryObject.filters || '';
-    var strSortType = queryObject.sort_type || '';
-    var iPageNo = parseInt(queryObject.pageno) || 0,
-        iLimit;
-    var price_from, price_to;
-    var bNoMoreProductsToShow = false;
-    var bFetchingProducts = false;
+    const listingFactory = new ListingFactory(
+        LISTING_API_PATH,
+        {},
+        {},
+        desktopListingTemplate,
+        desktopFilterTemplate
+    );
 
     $(window).scroll(function() {
-        if (!bNoMoreProductsToShow) {
+        if (!listingFactory.bNoMoreProductsToShow) {
             if ($('#loaderImg') && isScrolledIntoView($('#loaderImg')[0])) {
-                fetchProducts(false);
+                listingFactory.fetchProducts(false);
             } else if ($('#loaderImg') === null) {
-                fetchProducts(false);
+                listingFactory.fetchProducts(false);
             }
         }
     });
@@ -63,6 +43,9 @@ $(document).ready(function() {
         return isVisible;
     }
 
+<<<<<<< HEAD
+    listingFactory.fetchProducts(false);
+=======
     function isFilterApplied(filter, filterItems) {
         return filter === 'price'
             ? Math.round(filterItems.from) !== Math.round(filterItems.min) ||
@@ -325,16 +308,15 @@ $(document).ready(function() {
         updateFilters();
         fetchProducts(true);
     });
+>>>>>>> master
 
     $('body').on('click', '#clearAllFiltersBtn', function() {
-        iPageNo = 0;
-
-        strFilters = '';
         $('.filter').each(function() {
             if ($(this).attr('id') === 'priceFilter') {
-                var $inp = $(this);
-                price_from = $inp.data('from');
-                price_to = $inp.data('to');
+                listingFactory.updateFromToPrice(
+                    $(this).data('from'),
+                    $(this).data('to')
+                );
             } else {
                 $(this)
                     .find('input[type="checkbox"]')
@@ -345,64 +327,25 @@ $(document).ready(function() {
                     });
             }
         });
-        fetchProducts(true);
+        listingFactory.resetListing();
     });
 
     /***************Implementation of filter changes **************/
     $('body').on('change', '.filter input[type="checkbox"]', function() {
-        iPageNo = 0;
-        updateFilters();
-        fetchProducts(true);
+        listingFactory.resetListing();
     });
 
     $(document).on('select-value-changed', function() {
-        strSortType = $('#selectbox-sort').attr('active');
-        iPageNo = 0;
-        updateFilters();
-        fetchProducts(true);
+        listingFactory.setSortType($('#selectbox-sort').attr('active'));
+        listingFactory.resetListing();
     });
     $('input[name="sort-price-filter"]').click(function() {
-        strSortType = $('input[name="sort-price-filter"]:checked').val();
-        iPageNo = 0;
-        updateFilters();
-        fetchProducts(true);
+        listingFactory.setSortType(
+            $('input[name="sort-price-filter"]:checked').val()
+        );
+        listingFactory.resetListing();
         $('#sort-mobile').toggleClass('show');
     });
-
-    function updateFilters() {
-        strFilters = '';
-        $('.filter').each(function() {
-            if ($(this).attr('id') === 'priceFilter') {
-                if (price_from) {
-                    strFilters += 'price_from:' + price_from + ';';
-                }
-                if (price_to) {
-                    strFilters += 'price_to:' + price_to + ';';
-                }
-            } else {
-                var currFilter = $(this).attr('data-filter');
-                strFilters += currFilter + ':';
-                var bFirstChecked = false;
-                $(this)
-                    .find('input[type="checkbox"]')
-                    .each(function(idx) {
-                        if (this.checked) {
-                            var delim;
-                            if (!bFirstChecked) {
-                                delim = '';
-                                bFirstChecked = true;
-                            } else {
-                                delim = ',';
-                            }
-                            strFilters += delim + $(this).attr('value');
-                        }
-                    });
-                strFilters += ';';
-            }
-        });
-
-        //  window.location.search = strFilters;
-    }
 
     $('body').on('mouseover', '.mini-carousel-item', function() {
         $(this)
@@ -435,58 +378,13 @@ $(document).ready(function() {
             .css('visibility', 'unset');
     });
 
-    $('body').on('click', '.dropdown-submenu a', function(e) {
-        if (isMobile()) {
-            // early return if the parent has no hover-class
-            if (!$(this).hasClass('hover')) return;
-
-            // prevent click when delay is too small
-            var delay = Date.now() - $(this).data('hovered');
-            if (delay < 100) e.preventDefault();
-        }
-    });
-
-    $('body').on('mouseover', '.dropdown-submenu a', function(e) {
-        if (isMobile()) {
-            var time = Date.now();
-            $(this).data('hovered', time);
-        }
-    });
-
     $('body').on('click', '.wishlist-icon:not(.nav-link)', function(e) {
         e.preventDefault();
         e.stopPropagation();
         if ($('#isLoggedIn').val() == 0) {
             $('#modalSignupForm').modal();
         } else {
-            var iSku = $(this).attr('sku');
-            callWishlistAPI($(this));
+            listingFactory.callWishlistAPI($(this));
         }
     });
-
-    function callWishlistAPI($elm) {
-        var strApiToCall = '';
-        if (!$elm.hasClass('marked')) {
-            strApiToCall = FAV_MARK_API + $elm.attr('sku');
-        } else {
-            strApiToCall = FAV_UNMARK_API + $elm.attr('sku');
-        }
-
-        $.ajax({
-            type: 'GET',
-            url: strApiToCall,
-            dataType: 'json',
-            success: function(data) {
-                if (!$elm.hasClass('marked')) {
-                    $elm.addClass('marked');
-                } else {
-                    $elm.removeClass('marked');
-                }
-            },
-            error: function(jqXHR, exception) {
-                console.log(jqXHR);
-                console.log(exception);
-            }
-        });
-    }
 });

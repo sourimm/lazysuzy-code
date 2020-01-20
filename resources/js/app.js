@@ -25,6 +25,25 @@ function slickLightboxcode() {
     });
 }
 $(document).ready(function() {
+    const search = window.location.search.substring(1);
+    const queryObject = search
+        ? JSON.parse(
+              '{"' +
+                  decodeURI(search)
+                      .replace(/"/g, '\\"')
+                      .replace(/&/g, '","')
+                      .replace(/=/g, '":"') +
+                  '"}'
+          )
+        : {};
+
+    if (queryObject.error) {
+        if (queryObject.error === 'login') {
+            $('#modalLoginForm').modal('toggle');
+        } else {
+            $('#modalSignupForm').modal('toggle');
+        }
+    }
     $('#departmentsNav').on('click', '.dropdown', function(e) {
         console.log('test');
         // e.preventDefault()

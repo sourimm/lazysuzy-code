@@ -8,17 +8,7 @@
         <div class="filters d-md-block filter-close-btn">
             <div class="row">
                 <ul class="filter-tabs col-sm-9" id="desktop-filters">
-                    <li class="nav-item">
-                        <a class="nav-link active" href="#">Brand</a>
-                    </li>
 
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Price</a>
-                    </li>
-
-                    <li>
-                        <a class="clearall-filter-btn" href="/filter/clear_filter/all">Clear All</a>
-                    </li>
 
                 </ul>
                 <div class="col-sm-3 d-none d-md-block">
@@ -70,7 +60,13 @@
 
             </a>
             <div class="prod-info">
-                <span class="-site">@{{site}}</span>
+                <span class="-site">
+                    @{{#if is_new}}
+                        <span class="new-tag"><strong>NEW</strong></span>
+                    @{{/if}}
+
+                    @{{site}}
+                </span>
                 @{{#if reviewExist}}
                 <div class="rating-container float-right">
                     <span class="total-ratings">@{{reviews}}</span><div class="rating  @{{ratingClass}}"></div>

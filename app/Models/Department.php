@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Department extends Model
 {
     protected $table = "mapping_core";
+    public static $base_siteurl = "https://www.lazysuzy.com";
     public function categories()
     {
         return $this->belongsToMany(Category::class, 'department_categories');
@@ -77,7 +78,8 @@ class Department extends Model
         ];
     }
 
-    public static function get_department_info($LS_ID) {
+    public static function get_department_info($LS_ID) 
+    {
 
         $LS_IDs = explode(",", $LS_ID);
         $rows = Department::select("*")
@@ -97,5 +99,25 @@ class Department extends Model
             ]);
         }
         return $dept_info;
+    }
+
+    public static function get_board_categories() 
+    {
+        $cols = ["LS_ID", "department_", "product_category_", "filter_label"];
+        $rows = Department::select($cols)
+            ->where("board_view", 1)
+            ->get()
+            ->toArray();
+        
+        $categories = [];
+        foreach($rows as $row) {
+            array_push($categories, [
+                'category' => $row['filter_label'],
+                'LS_ID' => $row['LS_ID'],
+                'link' => '/products/' . $row['department_'] . '/' . $row['product_category_']
+            ]);
+        }
+
+        return $categories;
     }
 }

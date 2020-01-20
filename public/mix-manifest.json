@@ -1,4 +1,6 @@
+
 {
+
     "/js/app.js": "/js/app.js?id=828fdd569ea867f63076",
     "/css/app.css": "/css/app.css?id=86eb2acf3a0ad1bda934",
     "/js/brands.js": "/js/brands.js?id=ce053ee9e2bbf19938de",
@@ -9,4 +11,5 @@
     "/js/manifest.js": "/js/manifest.js?id=af92f221c524c24ee9b3",
     "/js/search.js": "/js/search.js?id=eb7d1fa43c0ed023ad7a",
     "/js/vendor.js": "/js/vendor.js?id=52332f7a8a0abceb6815"
+
 }

@@ -130,6 +130,7 @@ class Product extends Model
         $filters     = Input::get("filters");
         $all_filters = [];
         $query       = DB::table('master_data');
+        $is_details_minimal = Input::get("board-view") === "true" ? true : false ; 
 
         if (isset($sort_type)) {
             for ($i = 0; $i < sizeof($sort_type_filter); $i++) {
@@ -183,7 +184,7 @@ class Product extends Model
                 && strlen($all_filters['color'][0]) > 0
             ) {
                 $query = $query
-                    ->whereRaw('color REGEXP "' . $all_filters['color'][0] . '"');
+                    ->whereRaw('color REGEXP "' . implode("|", $all_filters['color']) . '"');
                 // input in form - color1|color2|color3
             }
 
@@ -233,6 +234,10 @@ class Product extends Model
             $query = $query->orderBy('popularity', 'desc');
         }
 
+        if ($is_details_minimal) {
+            $query = $query->whereRaw('LENGTH(image_xbg) > 0');
+        }
+
         // 6. limit
         $all_filters['limit'] = $limit;
         $all_filters['count_all'] = $query->count();
@@ -240,7 +245,7 @@ class Product extends Model
 
         //echo "<pre>" . print_r($all_filters, ""true);
         $query = $query->join("master_brands", "master_data.site_name", "=", "master_brands.value");
-        return Product::getProductObj($query->get(), $all_filters, $dept, $cat, $subCat, true);
+        return Product::getProductObj($query->get(), $all_filters, $dept, $cat, $subCat, true, $is_details_minimal);
     }
 
     public static function get_dept_cat_LS_ID_arr($dept, $cat)
@@ -299,7 +304,9 @@ class Product extends Model
             }
         }
 
-        foreach ($categories as $cat) array_push($filter_categories, $cat);
+        foreach ($categories as $cat) 
+            array_push($filter_categories, $cat);
+
         return $filter_categories;
     }
     public static function get_brands_filter($dept, $cat, $all_filters)
@@ -399,7 +406,7 @@ class Product extends Model
         }
     }
 
-    public static function get_color_filter($products, $request_colors)
+    public static function get_color_filter($dept, $cat, $subCat, $all_filters, $request_colors)
     {
         $colors = [
             "black" => "#000000",
@@ -420,6 +427,38 @@ class Product extends Model
         ];
 
         $req_colors = $request_colors;
+
+        $LS_IDs = Product::get_dept_cat_LS_ID_arr($dept, $cat);
+
+
+        if (isset($all_filters['type']) && strlen($all_filters['type'][0]) > 0) {
+            // comment this line if you want to show count for all those
+            // sub_categories that are paased in the request.
+            //$LS_IDs = Product::get_sub_cat_LS_IDs($dept, $cat, $all_filters['type']);
+
+            // if uncommenting the above line, comment this one
+            $LS_IDs = Product::get_sub_cat_LS_IDs($dept, $cat, $all_filters['type']);
+
+//            $LS_IDs = Product::get_dept_cat_LS_ID_arr($dept, $cat->product_sub_category_);
+            
+        }
+
+        $products = DB::table("master_data")
+            ->select(['LS_ID', 'color'])
+            ->whereRaw('LS_ID REGEXP "' . implode("|", $LS_IDs) . '"');
+
+        if (isset($all_filters['brand']) && strlen($all_filters['brand'][0]) > 0) {
+            $products = $products->whereIn('site_name', $all_filters['brand']);
+        }
+
+
+        /* if (isset($all_filters['color']) && strlen($all_filters['color'][0]) > 0) {
+            $colors_from_request = implode("|", $all_filters['color']);
+            $products = $products->whereRaw('color REGEXP "' . $colors_from_request . '"');
+        }  */
+
+        $products =  $products->get();
+
         foreach ($colors as $key => $color_hex) {
             $colors[$key] = [
                 'name' => ucfirst($key),
@@ -438,6 +477,7 @@ class Product extends Model
                 }
             }
         }
+
 
         $colors_f = [];
         foreach ($colors as $key => $color) {
@@ -458,6 +498,8 @@ class Product extends Model
 
         return $sub_cat_LS_IDs->whereRaw("LENGTH(product_sub_category_) != 0")->get();
     }
+
+    // for product type filter ONLY!
     public static function get_filter_products_meta($dept, $cat, $subCat, $all_filters)
     {
 
@@ -481,22 +523,23 @@ class Product extends Model
             $products = $products->whereIn('site_name', $all_filters['brand']);
         }
 
-        /*  if (isset($all_filters['color']) && strlen($all_filters['color'][0]) > 0) {
+
+        if (isset($all_filters['color']) && strlen($all_filters['color'][0]) > 0 ) {
             $colors =implode("|", $all_filters['color']);
             $products = $products->whereRaw('color REGEXP "' . $colors . '"');
-        } */
+        }
 
         return $products->get();
     }
 
-    public static function get_product_type_filter($dept, $cat, $subCat, $all_filters)
+    public static function get_product_type_filter($dept, $category, $subCat, $all_filters)
     {
 
-        $products = Product::get_filter_products_meta($dept, $cat, $subCat, $all_filters);
+        $products = Product::get_filter_products_meta($dept, $category, $subCat, $all_filters);
 
         $sub_cat_arr = [];
 
-        $sub_cat_LS_IDs = Product::get_sub_cat_data($dept, $cat);
+        $sub_cat_LS_IDs = Product::get_sub_cat_data($dept, $category);
 
         foreach ($sub_cat_LS_IDs as $cat) {
             $selected = false;
@@ -535,12 +578,12 @@ class Product extends Model
         }
         $color_filter = isset($all_filters['color']) && strlen($all_filters['color'][0]) > 0 ? $all_filters['color'] : null;
         return [
-            'colorFilter' => Product::get_color_filter($products, $color_filter, $products),
+            'colorFilter' => Product::get_color_filter($dept, $category, $subCat, $all_filters, $color_filter),
             'productTypeFilter' => $arr
         ];
     }
 
-    public static function getProductObj($products, $all_filters, $dept, $cat, $subCat, $isListingAPICall = null)
+    public static function getProductObj($products, $all_filters, $dept, $cat, $subCat, $isListingAPICall = null, $is_details_minimal = false)
     {
         $p_send              = [];
         $filter_data         = [];
@@ -597,7 +640,7 @@ class Product extends Model
 
 
                 $variations = Product::get_variations($product, $westelm_variations_data, $isListingAPICall);
-                array_push($p_send, Product::get_details($product, $variations, $isListingAPICall, $isMarked));
+                array_push($p_send, Product::get_details($product, $variations, $isListingAPICall, $isMarked, false, $is_details_minimal));
             }
         }
 
@@ -630,7 +673,7 @@ class Product extends Model
         ];
     }
 
-    public static function get_details($product, $variations, $isListingAPICall = null, $isMarked = false, $isTrending = false)
+    public static function get_details($product, $variations, $isListingAPICall = null, $isMarked = false, $isTrending = false, $is_details_minimal = false)
     {
         $p_val = $wp_val = $discount = null;
 
@@ -659,8 +702,15 @@ class Product extends Model
             $diff = strtotime(date("Y-m-d H:i:s")) - strtotime($product->updated_date);
             $days = $diff / 60 / 60 / 24;
             if ($days < 4 * 7) $is_new = true;
+
+            $jan182020 = strtotime('2019/01/18');
+            $product_date = strtotime($product->created_date);
+
+            if ($jan182020 > $product_date) $is_new = false;
+            else $is_new = true;
         }
 
+        $main_image = $is_details_minimal ?  $product->image_xbg : $product->main_product_images;
         $data =  [
             'id'               => $product->id,
             'sku'              => $product->product_sku,
@@ -671,7 +721,7 @@ class Product extends Model
             'product_url'      => urldecode($product->product_url),
             'product_detail_url' => Product::$base_siteurl . "/product/" . $product->product_sku,
             'is_price'         => $product->price,
-            'was_price'        => $product->was_price,
+            'was_price'        => str_replace("$", "", $product->was_price),
             'percent_discount' => $discount,
             'model_code'       => $product->model_code,
             //    'description'      => preg_split("/\\[US\\]|<br>|\\n/", $product->product_description),
@@ -686,7 +736,7 @@ class Product extends Model
             //    'created_date'     => $product->created_date,
             //    'updated_date'     => $product->updated_date,
             //    'on_server_images' => array_map([__CLASS__, "baseUrl"], preg_split("/,|\\[US\\]/", $product->product_images)),
-            'main_image'       => Product::$base_siteurl . $product->main_product_images,
+            'main_image'       => Product::$base_siteurl . $main_image,
             'reviews'          => $product->reviews,
             'rating'           => (float) $product->rating,
             'wishlisted'       => $isMarked
@@ -700,16 +750,17 @@ class Product extends Model
             array_pop($variations);
         } */
 
-        if (isset($variations)) {
+        if (isset($variations) && !$is_details_minimal) {
 
             for ($i = 0; $i < sizeof($variations); $i++) {
                 if ($variations[$i]['image'] === Product::$base_siteurl) {
                     $variations[$i]['image'] = $data['main_image'];
                 }
             }
+            
+            $data['variations'] = $variations;
         }
 
-        $data['variations'] = $variations;
 
         $desc_BRANDS = ["West Elm"];
         $dims_from_features = ["World Market"]; // these extract dimensions data from features data.
@@ -793,14 +844,13 @@ class Product extends Model
                 }
             }
 
-
-
             $i++;
         }
 
         for ($i = 0; $i < sizeof($new_Arr); $i++) {
             $new_Arr[$i] = str_replace([chr(13), "\n", " "], " ", $new_Arr[$i]);
         }
+
         return $new_Arr;
     }
 

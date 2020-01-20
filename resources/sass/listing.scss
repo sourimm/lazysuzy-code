@@ -48,198 +48,6 @@ input:disabled + .checkmark + .text {
             margin-bottom: 40px;
         }
 
-        .filters {
-            margin-top: 35px;
-            text-align: center;
-            white-space: nowrap;
-
-            .filter-tabs {
-                text-align: left;
-                margin: 0;
-                li {
-                    display: inline-block;
-
-                    a {
-                        color: $secondary-color;
-                        text-transform: uppercase;
-
-                        &.applied {
-                            color: $primary-color;
-                        }
-                    }
-                    .dropdown-menu {
-                        display: none;
-                        margin: 0 10px;
-                        z-index: 1;
-                        max-width: 250px;
-
-                        .dropdown-item {
-                            float: left;
-                        }
-                    }
-                    &:hover {
-                        a {
-                            color: $primary-color;
-                        }
-                        .dropdown-menu {
-                            display: block;
-                        }
-                    }
-                }
-            }
-
-            @media only screen and (min-width: 768px) {
-                position: sticky;
-                position: -webkit-sticky;
-                position: -moz-sticky;
-                position: -ms-sticky;
-                position: -o-sticky;
-                top: 0;
-                z-index: 200;
-                padding: 10px 0;
-                background: #f8fafc;
-                box-shadow: 0 0 1px 1px #eee;
-                margin: 10px 0;
-                .filter {
-                    .filter-header {
-                        font-size: 18px;
-                    }
-                }
-                .clearall-filter-btn {
-                    color: $primary-color;
-                    background: none;
-                    margin-left: 20px;
-                    &:hover {
-                        text-decoration: none;
-                    }
-                }
-            }
-
-            .clearall-filter-btn {
-                color: $text-subtle;
-                background-color: none;
-            }
-
-            .filter {
-                text-align: left;
-
-                .filter-header {
-                    font-size: 18px;
-                }
-
-                .clear-filter {
-                    font-size: 14px;
-                    color: $primary-color;
-                    cursor: pointer;
-                }
-
-                ul {
-                    padding: 0px;
-                    margin: 10px;
-
-                    li {
-                        list-style: none;
-
-                        /* Customize the label (the container) */
-                        .filter-label {
-                            display: block;
-                            position: relative;
-                            // padding-left: 25px;
-                            margin: 10px;
-                            cursor: pointer;
-                            font-size: 14px;
-                            -webkit-user-select: none;
-                            -moz-user-select: none;
-                            -ms-user-select: none;
-                            user-select: none;
-                            line-height: 1;
-                        }
-
-                        /* Hide the browser's default checkbox */
-                        .filter-label input {
-                            position: absolute;
-                            opacity: 0;
-                            cursor: pointer;
-                            height: 0;
-                            width: 0;
-                        }
-
-                        /* Create a custom checkbox */
-                        .checkmark {
-                            position: absolute;
-                            top: 0;
-                            // left: 0;
-                            right: 0;
-                            height: 15px;
-                            width: 15px;
-
-                            /* background-color: #eee; */
-                            border-radius: 2px;
-                            border: 1px solid $secondary-color;
-                        }
-
-                        /* Create the checkmark/indicator (hidden when not checked) */
-                        .checkmark:after {
-                            content: '';
-                            position: absolute;
-                            display: none;
-                        }
-
-                        /* Show the checkmark when checked */
-                        .filter-label input:checked ~ .checkmark:after {
-                            display: block;
-                        }
-
-                        /* Style the checkmark/indicator */
-                        .filter-label .checkmark:after {
-                            left: 4px;
-                            top: 1px;
-                            width: 5px;
-                            height: 10px;
-                            border: solid $secondary-color;
-                            border-width: 0 3px 3px 0;
-                            -webkit-transform: rotate(45deg);
-                            transform: rotate(45deg);
-                        }
-                    }
-                }
-
-                // .slider-container {
-                //     .-info {
-                //         margin-left: 10px;
-                //     }
-
-                //     .slider {
-                //         -webkit-appearance: none;
-                //         width: 100%;
-                //         height: 5px;
-                //         border: 1px solid $secondary-color;
-                //         background: $white;
-                //         outline: none;
-                //         -webkit-transition: .2s;
-                //         transition: opacity .2s;
-                //     }
-
-                //     .slider::-webkit-slider-thumb {
-                //         -webkit-appearance: none;
-                //         appearance: none;
-                //         width: 25px;
-                //         height: 25px;
-                //         background: $background-color;
-                //         border: 1px solid $secondary-color;
-                //         cursor: pointer;
-                //     }
-
-                //     .slider::-moz-range-thumb {
-                //         width: 25px;
-                //         height: 25px;
-                //         background: $background-color;
-                //         border: 1px solid $secondary-color;
-                //         cursor: pointer;
-                //     }
-                // }
-            }
-        }
         .fix-search-filter {
             margin-top: 10px !important;
         }
@@ -449,13 +257,18 @@ input:disabled + .checkmark + .text {
 
                     .ls-product-div {
                         .prod-sale-price {
-                            margin: -23px 0px 0 0px;
                             padding: 0 5px;
                             z-index: 58;
                             position: absolute;
                             left: 0;
+                            bottom: 0;
                             background: $off-white;
                             color: $product-price;
+                            .new-tag {
+                                display: inline-block;
+                                margin-right: 5px;
+                                color: $secondary-color;
+                            }
                         }
                         .prod-discount-tag {
                             z-index: 58;
@@ -479,119 +292,6 @@ input:disabled + .checkmark + .text {
                             background-position: center;
                         }
                     }
-                }
-            }
-
-            .filters {
-                width: 100% !important;
-                background: $secondary-color;
-                color: $white;
-                position: fixed;
-                z-index: 100;
-                display: none;
-
-                &.show {
-                    display: block;
-                }
-
-                &:before {
-                    content: '';
-                    position: absolute;
-                    width: 0;
-                    height: 0;
-                    top: -18px;
-                    right: 5px;
-                    border-top: solid 10px transparent;
-                    border-bottom: solid 10px $secondary-color;
-                    border-left: solid 10px transparent;
-                    border-right: solid 10px transparent;
-                }
-                .sort-filter-input {
-                    text-align: left;
-                    margin: 20px 0;
-                }
-                .filter-title {
-                    color: $primary-color;
-                    font-size: 20px;
-                }
-                .clearall-filter-btn {
-                    color: $yellow-text-color;
-                    padding: 0;
-                }
-
-                .fix-search {
-                    margin-top: 0 !important;
-                }
-
-                hr {
-                    color: $white;
-                    border-top: 1px solid #ebebeb;
-                }
-
-                .filter {
-                    text-align: left;
-                    .filter-header {
-                        color: $products-bg;
-                        text-transform: capitalize;
-                        font-size: 20px;
-                    }
-
-                    .clear-filter {
-                        color: $yellow-text-color;
-                        font-family: Marcellus;
-                    }
-
-                    ul {
-                        white-space: normal;
-                        text-align: left;
-                        margin-right: 0;
-                        li {
-                            // display: inline-block;
-                            margin-right: 10px;
-                            .filter-label {
-                                font-size: 16px;
-                                .checkmark {
-                                    border: 1px solid $white;
-
-                                    &:after {
-                                        left: 4px;
-                                        top: 1px;
-                                        width: 5px;
-                                        height: 10px;
-                                        border: solid $border-color;
-                                        border-width: 0 3px 3px 0;
-                                        -webkit-transform: rotate(45deg);
-                                        transform: rotate(45deg);
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    .irs--sharp {
-                        margin-top: 15px;
-                        .irs-to {
-                            color: $secondary-color;
-                        }
-                        .irs-from {
-                            color: $secondary-color;
-                        }
-                    }
-                    .irs-line {
-                        border: 1px solid $white;
-                        top: 30px !important;
-                        background-color: $white !important;
-                    }
-                }
-            }
-            .mobile-filter-header {
-                .filters-close-btn {
-                    .fa-times {
-                        height: inherit;
-                        width: inherit;
-                    }
-                    height: 50px;
-                    width: 40px;
-                    font-size: 20px;
                 }
             }
         }
@@ -643,7 +343,7 @@ input:disabled + .checkmark + .text {
     left: 0;
     background-color: $secondary-color;
     overflow-x: hidden;
-    transition: 0.5s;
+    transition: all 0.3s 0s ease-out;
     padding-top: 60px;
 }
 
