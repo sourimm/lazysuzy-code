@@ -706,8 +706,8 @@ class Product extends Model
             $jan182020 = strtotime('2019/01/18');
             $product_date = strtotime($product->created_date);
 
-            if ($jan182020 > $product_date) $is_new = false;
-            else $is_new = true;
+            if ($jan182020 >= $product_date) $is_new = true;
+            else $is_new = false;
         }
 
         $main_image = $is_details_minimal ?  $product->image_xbg : $product->main_product_images;
