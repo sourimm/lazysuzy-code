@@ -702,6 +702,12 @@ class Product extends Model
             $diff = strtotime(date("Y-m-d H:i:s")) - strtotime($product->updated_date);
             $days = $diff / 60 / 60 / 24;
             if ($days < 4 * 7) $is_new = true;
+
+            $jan182020 = strtotime('2019/01/18');
+            $product_date = strtotime($product->created_date);
+
+            if ($jan182020 > $product_date) $is_new = false;
+            else $is_new = true;
         }
 
         $main_image = $is_details_minimal ?  $product->image_xbg : $product->main_product_images;
