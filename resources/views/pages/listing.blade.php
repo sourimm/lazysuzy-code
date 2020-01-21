@@ -86,7 +86,7 @@
                 @{{#with this}}
                     <div class="mini-carousel-item" style="width: 35px; display: inline-block;">
                         @{{#ifNeq swatch_image ''}}
-                        <a class="responsive-img-a" href="javaScript:void(0)" tabindex="0">
+                        <a class="responsive-img-a js-detail-modal" href="/product/@{{variation_sku}}" tabindex="0">
                             <img class="carousel-img img-fluid" src="@{{swatch_image}}" data-prodImg="@{{image}}" />
                         </a>
                         @{{else}}

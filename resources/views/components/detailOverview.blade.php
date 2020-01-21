@@ -41,24 +41,27 @@
                          <div class="rating"></div>
                          <span class="total-ratings"></span>
                       </div>
+                      
                       <div class="prod-price-card d-none d-md-block"></div>
                       <div class="all-desc">
-                         <hr class="modal-hr"/>
                          <div class="products-modal-details" data-spy="scroll" data-target="#navbar-example2" data-offset="0">
+                            <div class="variation-container">
+                              <hr class="modal-hr"/>
+                              <h4> More Options </h4>
+                              <div class="variation-options">
+                              <div class="swatch-images"></div>
+                              </div>
+                              <hr class="modal-hr"/>
+                            </div>
+
                             <h4 id="Overview">Overview</h4>
-                            <hr class="modal-hr"/>
                             <p class="-desc d-none d-md-block"></p>
-                            <hr class="modal-hr"/>
                             <h4 id="Features">Features</h4>
-                            <hr class="modal-hr"/>
                             <ul class="-features"></ul>
                             <p class="-feat feat d-none d-md-block" id="feat"></p>
-                            <hr class="modal-hr"/>
                             <h4 id="Dimensions">Dimension</h4>
-                            <hr class="modal-hr"/>
                             <p class="-dimen d-none d-md-block"></p>
                             <div class="-dimension row"></div>
-                            <hr class="modal-hr"/>
                          </div>
                       </div>
                    </div>

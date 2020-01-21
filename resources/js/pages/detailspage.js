@@ -38,6 +38,8 @@ $(document).ready(function() {
             document.title = data.name + ' | LazySuzy';
             var $imagesContainer = $product.find('.-images-container');
             var $images = $imagesContainer.find('.-images');
+            var $variationsContainer = $product.find('.variation-options');
+            var $swatchImages = $variationsContainer.find('.swatch-images');
             var imgContainerWidth = 0;
             $('.wishlist-icon').attr('sku', data.sku);
             if (data.wishlisted) {
@@ -55,7 +57,27 @@ $(document).ready(function() {
                     alt: 'product image'
                 }).appendTo(lightbox);
             });
-
+            
+            $swatchImages.empty();
+            if (data.variations.length > 0) {
+                $('.variation-container.d-none').removeClass('d-none');
+                data.variations.forEach(img => {
+                    var div = jQuery('<div/>', {
+                        class: 'single'
+                    }).appendTo($swatchImages);
+                    var a = jQuery('<a/>', {
+                        href: img.link,
+                        'data-caption': ''
+                    }).appendTo(div);
+                    var responsiveImg = jQuery('<img/>', {
+                        class: 'prod-img',
+                        src: img.image,
+                        alt: 'product image'
+                    }).appendTo(a);
+                });
+            } else {
+                $('.variation-container').addClass('d-none');
+            }
             var $prodDetails = $('<div />', {
                 class: '-product-details'
             }).appendTo($prodPriceCard);

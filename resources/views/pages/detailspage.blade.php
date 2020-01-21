@@ -19,7 +19,14 @@
                 </div>
                 <h2 class="-name"></h2>
                 <!-- <a target="_blank" class="rating-container"><div class="rating "></div><span class="total-ratings"></span></a> -->
-
+                <!-- <div class="variation-container">
+                    <hr class="modal-hr"/>
+                    <h4> Select Options </h4>
+                    <div class="variation-options">
+                    <div class="swatch-images"></div>
+                    </div>
+                    <hr class="modal-hr"/>
+                </div> -->
                 <p class="-desc d-none d-md-block"></p>
                 <div class="d-none d-md-block">
                     <div class="accordion" id="accordionExample">
