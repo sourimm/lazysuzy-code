@@ -3,6 +3,7 @@
     background-color: $white;
 
     .detailspage {
+        min-height: calc(100vh - (155px));
         .wishlist-icon {
             @include media-breakpoint-up(md) {
                 position: absolute;
