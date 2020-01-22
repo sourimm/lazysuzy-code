@@ -56,10 +56,16 @@
                 }
             }
         }
+    }
+    .prod-desc {
         .d-none {
             display: none;
         }
     }
+<<<<<<< HEAD
+
+=======
+>>>>>>> tester
 }
 .slick-lightbox {
     .slick-lightbox-inner {
@@ -77,6 +83,9 @@
 
 //modal code
 
+.-images::-webkit-scrollbar {
+    width: 2px;
+}
 .products-modal-details {
     overflow: scroll;
     overflow-x: hidden;

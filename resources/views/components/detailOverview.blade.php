@@ -4,7 +4,7 @@
     </button>
     <div class="product-modal-dialog modal-dialog modal-xl" role="document">
     <div class="product-modal-content modal-content">
-       <div class="product-moadal-body modal-body">
+       <div class="product-modal-body modal-body">
           <div class="detailspage" id="detailPage">
              <div class="d-block d-md-none controls-div">
                 <div class="wishlist-icon float-right m-10" id="wishlistBtn">
@@ -41,7 +41,6 @@
                          <div class="rating"></div>
                          <span class="total-ratings"></span>
                       </div>
-
                       <div class="prod-price-card d-none d-md-block"></div>
                       <div class="all-desc">
                          <div class="products-modal-details" data-spy="scroll" data-target="#navbar-example2" data-offset="0">

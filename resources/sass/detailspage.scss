@@ -126,6 +126,9 @@
 
         .variation-container {
             .variation-options {
+                max-width: 375px;
+                overflow-x: scroll;
+                overflow: hidden;
                 .swatch-images {
                     display: flex;
                     overflow-x: auto;
@@ -234,8 +237,90 @@
     }
 }
 
+.horizontal-scroll {
+    /* Make this scrollable when needed */
+    overflow-x: hidden;
+    /* We don't want vertical scrolling */
+    overflow-y: hidden;
+    /* For WebKit implementations, provide inertia scrolling */
+    -webkit-overflow-scrolling: touch;
+    /* We don't want internal inline elements to wrap */
+    white-space: nowrap;
+    /* If JS present, let's hide the default scrollbar */
+    /* positioning context for advancers */
+    position: relative;
+    font-size: 0;
+}
+
+.js .horizontal-scroll {
+    /* Make an auto-hiding scroller for the 3 people using a IE */
+    -ms-overflow-style: -ms-autohiding-scrollbar;
+    /* Remove the default scrollbar for WebKit implementations */
+}
+
+.js .horizontal-scroll::-webkit-scrollbar {
+    display: none;
+}
+
+.horizontal-scroll-contents {
+    float: left;
+    transition: -webkit-transform 0.2s ease-in-out;
+    transition: transform 0.2s ease-in-out;
+    transition: transform 0.2s ease-in-out, -webkit-transform 0.2s ease-in-out;
+    position: relative;
+}
+
+.horizontal-scroll-contents-no-transition {
+    transition: none;
+}
+
+.canvas-scroll {
+    /* Reset the button */
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background: transparent;
+    padding: 0;
+    border: 0;
+    /* Now style it as needed */
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    /* Set the buttons invisible by default */
+    opacity: 1;
+    transition: opacity 0.3s;
+}
+
+.canvas-scroll:focus {
+    outline: 0;
+}
+
+.canvas-scroll:hover {
+    cursor: pointer;
+}
+
+.canvas-scroll-left {
+    left: 0;
+    margin-left: -0.5rem;
+}
+[data-overflowing='both'] ~ .canvas-scroll-left,
+[data-overflowing='left'] ~ .canvas-scroll-left {
+    opacity: 1;
+}
+
+.canvas-scroll-right {
+    right: 0;
+    margin-right: -0.5rem;
+}
+[data-overflowing='both'] ~ .canvas-scroll-right,
+[data-overflowing='right'] ~ .canvas-scroll-right {
+    opacity: 1;
+}
 @include media-breakpoint-down(md) {
     
+    .nav {
+        padding-left: 10px;
+    }
     .-product-details {
         border-radius: 20px;
         font-size: 14px;
@@ -256,8 +341,13 @@
         font-weight: bold;
     }
 
+    .swatch-images {
+        width: 375px;
+    }
+
     .prod-desc {
         padding: 0px;
+        overflow: auto;
     }
 
     .detailspage {

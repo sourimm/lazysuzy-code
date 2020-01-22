@@ -48,6 +48,7 @@ $(document).ready(function() {
             );
         });
         $prodPriceCard.empty();
+        $('.prod-desc').addClass('d-none');
         $.ajax({
             type: 'GET',
             url: detail_url,
@@ -73,25 +74,32 @@ $(document).ready(function() {
                     }).appendTo($images);
                     var a = jQuery('<a/>', {
                         href: img,
-                        'data-caption': ''
+                        'data-caption': '',
                     }).appendTo(div);
                     var responsiveImg = jQuery('<img/>', {
                         class: '-prod-img img-fluid',
                         src: img,
                         alt: 'product image'
                     }).appendTo(a);
+                    
                 });
                 $swatchImages.empty();
-                if (data.variations.length > 0) {
-                    $('.variation-container.d-none').removeClass('d-none');
+                $('.prod-desc.d-none').removeClass('d-none');
+
+                if (data.variations == '' || data.variations == undefined) {
+                    $('.variation-container').html('');                    
+                } else {
                     data.variations.forEach(img => {
                         var div = jQuery('<div/>', {
                             class: 'single'
                         }).appendTo($swatchImages);
+                        
                         var a = jQuery('<a/>', {
-                            href: img.variation_sku,
+                            class: 'js-detail-modal',
+                            'data-href':img.link,
                             'data-caption': ''
                         }).appendTo(div);
+                        
                         var span = jQuery('<span/>', {
                             'data-title': img.name
                         }).appendTo(a);
@@ -99,18 +107,19 @@ $(document).ready(function() {
                             var responsiveImg = jQuery('<img/>', {
                                 class: 'prod-img',
                                 src: img.image,
-                                alt: 'product image'
+                                alt: 'product image',
+                                'data-parent':img.has_parent_sku
                             }).appendTo(span);
                         } else {
                             var responsiveImg = jQuery('<img/>', {
                                 class: 'prod-img',
                                 src: img.swatch_image,
-                                alt: 'product image'
+                                alt: 'product image',
+                                'data-parent':img.has_parent_sku,
+                                'data-image':img.image,
                             }).appendTo(span);
                         }
                     });
-                } else {
-                    $('.variation-container').addClass('d-none');
                 }
 
                 $('.js-site').text(data.site);
@@ -228,6 +237,8 @@ $(document).ready(function() {
         });
     };
 
+    
+
     if (queryObject.model_sku) {
         openProductModal(`/api/product/${queryObject.model_sku}`);
         window.GLOBAL_LISTING_API_PATH = `/api${window.location.pathname}`;
@@ -248,7 +259,20 @@ $(document).ready(function() {
             `${product_sku}${window.location.search}`
         );
     });
-
+    $(document).on('click','.prod-img', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        const has_parent = this.attributes['data-parent'].value;
+        const imgSrc = this.attributes['data-image'].value;
+        if (has_parent == 0) {
+            $('.-images').find('img:first').remove();
+            var prependImg = jQuery('<img/>', {
+                class: '-prod-img img-fluid',
+                src:imgSrc,
+                alt: 'product image'
+            }).prependTo('.-images');
+        }
+    });
     $('.-images').slick({
         infinite: true,
         slidesToShow: 3,

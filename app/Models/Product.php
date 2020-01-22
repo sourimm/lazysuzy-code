@@ -978,6 +978,7 @@ class Product extends Model
                     "product_sku" => $product->product_sku,
                     "variation_sku" => $variation->product_sku,
                     "name" => $variation->color,
+                    "has_parent_sku" => 0,
                     "image" => Product::$base_siteurl . $variation->main_product_images,
                     "link" =>  "/product/" . $variation->product_sku,
                     "swatch" => ""
@@ -1086,8 +1087,9 @@ class Product extends Model
                         "variation_sku" => $prod->sku,
                         "name" => $prod->name,
                         "features" => $features,
+                        "has_parent_sku" => 1,
                         "image" => Product::$base_siteurl . $prod->image_path,
-                        "link" =>  "/product/" . $prod->sku,
+                        "link" =>  "/product/" . $product->product_sku,
                         "swatch_image" => strlen($prod->swatch_image) != 0 ? Product::$base_siteurl . $prod->swatch_image_path : null
                     ]);
                 }
