@@ -434,8 +434,7 @@ input:disabled + .checkmark + .text {
 .-images {
     height: 95vh;
     width: auto;
-    overflow: scroll;
-    overflow-x: hidden;
+    overflow: auto;
 }
 .nav {
     display: flex;

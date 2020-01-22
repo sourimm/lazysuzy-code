@@ -67,7 +67,6 @@ $(document).ready(function() {
                     $('#wishlistBtnDesktop').addClass('marked');
                 }
                 $images.empty();
-
                 data.on_server_images.forEach(img => {
                     var div = jQuery('<div/>', {
                         class: 'single'
@@ -82,7 +81,7 @@ $(document).ready(function() {
                         alt: 'product image'
                     }).appendTo(a);
                 });
-                    $swatchImages.empty();
+                $swatchImages.empty();
                 if (data.variations.length > 0) {
                     $('.variation-container.d-none').removeClass('d-none');
                     data.variations.forEach(img => {
@@ -93,17 +92,26 @@ $(document).ready(function() {
                             href: img.variation_sku,
                             'data-caption': ''
                         }).appendTo(div);
-                        var responsiveImg = jQuery('<img/>', {
-                            class: 'prod-img',
-                            src: img.image,
-                            alt: 'product image'
+                        var span = jQuery('<span/>', {
+                            'data-title': img.name
                         }).appendTo(a);
+                        if (img.swatch === '') {
+                            var responsiveImg = jQuery('<img/>', {
+                                class: 'prod-img',
+                                src: img.image,
+                                alt: 'product image'
+                            }).appendTo(span);
+                        } else {
+                            var responsiveImg = jQuery('<img/>', {
+                                class: 'prod-img',
+                                src: img.swatch_image,
+                                alt: 'product image'
+                            }).appendTo(span);
+                        }
                     });
                 } else {
                     $('.variation-container').addClass('d-none');
                 }
-
-                
 
                 $('.js-site').text(data.site);
                 var $prodDetails = $('<div />', {
@@ -232,7 +240,7 @@ $(document).ready(function() {
     $(document).on('click', '.js-detail-modal', function(e) {
         e.preventDefault();
         e.stopPropagation();
-        const product_sku = this.attributes.href.value;
+        const product_sku = this.attributes['data-href'].value;
         openProductModal(`/api${product_sku}`);
         window.history.pushState(
             '',

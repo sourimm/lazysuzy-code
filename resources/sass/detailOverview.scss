@@ -12,11 +12,47 @@
             .swatch-images {
                 display: flex;
                 flex-wrap: wrap;
-                max-height:100px;
+                max-height: 100px;
                 overflow-x: auto;
+                padding: 5px 0 10px 0;
+                .single {
+                    margin: 5px;
+                }
                 .prod-img {
                     width: 50px;
                     height: 50px;
+                }
+                [data-title] {
+                    position: relative;
+                    cursor: pointer;
+                    font-size: 18px;
+                    vertical-align: middle;
+                }
+                [data-title]:hover::before {
+                    content: attr(data-title);
+                    position: absolute;
+                    bottom: -30px;
+                    display: inline-block;
+                    padding: 3px 6px;
+                    border-radius: 2px;
+                    background: #000;
+                    color: #fff;
+                    font-size: 12px;
+                    font-family: sans-serif;
+                    white-space: nowrap;
+                    min-width: 50px;
+                    text-align: center;
+                    z-index: 1;
+                }
+                [data-title]:hover::after {
+                    content: '';
+                    position: absolute;
+                    bottom: -7px;
+                    left: 15px;
+                    display: inline-block;
+                    color: #fff;
+                    border: 8px solid transparent;
+                    border-bottom: 8px solid #000;
                 }
             }
         }
@@ -24,7 +60,6 @@
             display: none;
         }
     }
-    
 }
 .slick-lightbox {
     .slick-lightbox-inner {
@@ -44,7 +79,8 @@
 
 .products-modal-details {
     overflow: scroll;
-    height: 75vh;
+    overflow-x: hidden;
+    height: 70vh;
     font-size: 16px;
 }
 .navbar-modal {
@@ -80,6 +116,8 @@
 .-dimension {
     margin-left: 0;
     margin-right: 0;
+    display: flex;
+    flex-wrap: wrap;
 }
 
 .product-modal-body {

@@ -130,7 +130,7 @@ class Product extends Model
         $filters     = Input::get("filters");
         $all_filters = [];
         $query       = DB::table('master_data');
-        $is_details_minimal = Input::get("board-view") === "true" ? true : false ; 
+        $is_details_minimal = Input::get("board-view") === "true" ? true : false ;
 
         if (isset($sort_type)) {
             for ($i = 0; $i < sizeof($sort_type_filter); $i++) {
@@ -304,7 +304,7 @@ class Product extends Model
             }
         }
 
-        foreach ($categories as $cat) 
+        foreach ($categories as $cat)
             array_push($filter_categories, $cat);
 
         return $filter_categories;
@@ -440,7 +440,6 @@ class Product extends Model
             $LS_IDs = Product::get_sub_cat_LS_IDs($dept, $cat, $all_filters['type']);
 
 //            $LS_IDs = Product::get_dept_cat_LS_ID_arr($dept, $cat->product_sub_category_);
-            
         }
 
         $products = DB::table("master_data")
@@ -757,7 +756,7 @@ class Product extends Model
                     $variations[$i]['image'] = $data['main_image'];
                 }
             }
-            
+
             $data['variations'] = $variations;
         }
 
@@ -934,7 +933,7 @@ class Product extends Model
 
         foreach ($variations as $variation) {
             if ($variation->product_sku != $variation->variation_sku) {
-                $link = Product::$base_siteurl . "/product/";
+                $link =  "/product/";
 
                 if ($variation->has_parent_sku) {
                     $link .= $variation->variation_sku;
@@ -980,7 +979,7 @@ class Product extends Model
                     "variation_sku" => $variation->product_sku,
                     "name" => $variation->color,
                     "image" => Product::$base_siteurl . $variation->main_product_images,
-                    "link" => Product::$base_siteurl . "/product/" . $variation->product_sku,
+                    "link" =>  "/product/" . $variation->product_sku,
                     "swatch" => ""
                 ]);
             }
@@ -1088,6 +1087,7 @@ class Product extends Model
                         "name" => $prod->name,
                         "features" => $features,
                         "image" => Product::$base_siteurl . $prod->image_path,
+                        "link" =>  "/product/" . $prod->sku,
                         "swatch_image" => strlen($prod->swatch_image) != 0 ? Product::$base_siteurl . $prod->swatch_image_path : null
                     ]);
                 }

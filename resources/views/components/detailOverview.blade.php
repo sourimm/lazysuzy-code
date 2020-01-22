@@ -41,7 +41,7 @@
                          <div class="rating"></div>
                          <span class="total-ratings"></span>
                       </div>
-                      
+
                       <div class="prod-price-card d-none d-md-block"></div>
                       <div class="all-desc">
                          <div class="products-modal-details" data-spy="scroll" data-target="#navbar-example2" data-offset="0">
@@ -61,7 +61,7 @@
                             <p class="-feat feat d-none d-md-block" id="feat"></p>
                             <h4 id="Dimensions">Dimension</h4>
                             <p class="-dimen d-none d-md-block"></p>
-                            <div class="-dimension row"></div>
+                            <div class="-dimension"></div>
                          </div>
                       </div>
                    </div>

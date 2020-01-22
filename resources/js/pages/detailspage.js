@@ -29,7 +29,6 @@ $(document).ready(function() {
                 $('#collapseB').collapse('toggle');
             }
         });
-
     $.ajax({
         type: 'GET',
         url: PDP_API,
@@ -57,7 +56,7 @@ $(document).ready(function() {
                     alt: 'product image'
                 }).appendTo(lightbox);
             });
-            
+
             $swatchImages.empty();
             if (data.variations.length > 0) {
                 $('.variation-container.d-none').removeClass('d-none');
@@ -69,11 +68,22 @@ $(document).ready(function() {
                         href: img.link,
                         'data-caption': ''
                     }).appendTo(div);
-                    var responsiveImg = jQuery('<img/>', {
-                        class: 'prod-img',
-                        src: img.image,
-                        alt: 'product image'
+                    var span = jQuery('<span/>', {
+                        'data-title': img.name
                     }).appendTo(a);
+                    if (img.swatch === '') {
+                        var responsiveImg = jQuery('<img/>', {
+                            class: 'prod-img',
+                            src: img.image,
+                            alt: 'product image'
+                        }).appendTo(span);
+                    } else {
+                        var responsiveImg = jQuery('<img/>', {
+                            class: 'prod-img',
+                            src: img.swatch_image,
+                            alt: 'product image'
+                        }).appendTo(span);
+                    }
                 });
             } else {
                 $('.variation-container').addClass('d-none');
