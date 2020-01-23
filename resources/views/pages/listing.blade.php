@@ -84,18 +84,14 @@
             <div class="responsive slick-slider" style="">
                 @{{#each_upto variations 6}}
                 @{{#with this}}
+                @{{#ifNeq swatch_image ''}}
                     <div class="mini-carousel-item" style="width: 35px; display: inline-block;">
-                        @{{#ifNeq swatch_image ''}}
                         <a class="responsive-img-a js-detail-modal" href="https://lazysuzy.com/@{{link}}" data-href="@{{link}}" tabindex="0">
                             <img class="carousel-img img-fluid" src="@{{swatch_image}}" data-prodImg="@{{image}}" />
                         </a>
-                        @{{else}}
-                        <a class="responsive-img-a js-detail-modal" href="https://lazysuzy.com/@{{link}}" data-href="@{{link}}" tabindex="0">
-                            <img class="carousel-img img-fluid" src="@{{image}}" data-prodImg="@{{image}}" />
-                        </a>
-                        @{{/ifNeq}}
-
                     </div>
+                @{{/ifNeq}}
+
                 @{{/with}}
                 @{{/each_upto}}
                 @{{#if showMoreVariations}}

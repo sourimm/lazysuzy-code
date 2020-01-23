@@ -42,10 +42,10 @@
                          <span class="total-ratings"></span>
                       </div>
                       <div class="prod-price-card d-none d-md-block"></div>
+                      <hr class="modal-hr"/>
                       <div class="all-desc">
                          <div class="products-modal-details" data-spy="scroll" data-target="#navbar-example2" data-offset="0">
                             <div class="variation-container">
-                              <hr class="modal-hr"/>
                               <h4> More Options </h4>
                               <div class="variation-options">
                               <div class="swatch-images"></div>
@@ -55,9 +55,11 @@
 
                             <h4 id="Overview">Overview</h4>
                             <p class="-desc d-none d-md-block"></p>
+                            <hr class="modal-hr"/>
                             <h4 id="Features">Features</h4>
                             <ul class="-features"></ul>
                             <p class="-feat feat d-none d-md-block" id="feat"></p>
+                            <hr class="modal-hr"/>
                             <h4 id="Dimensions">Dimension</h4>
                             <p class="-dimen d-none d-md-block"></p>
                             <div class="-dimension"></div>

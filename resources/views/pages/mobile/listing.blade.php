@@ -142,10 +142,14 @@
                             </span>
                         </div>
                         @{{#if wishlisted}}
-                            <div class="wishlist-icon marked" sku="@{{sku}}"><i class="far fa-heart -icon"></i></div><img class="variation-img img-fluid" src="@{{main_image}}" alt="variation-img"></div>
+                            <div class="wishlist-icon marked" sku="@{{sku}}"><i class="far fa-heart -icon"></i></div>
                         @{{else}}
-                        <div class="wishlist-icon " sku="@{{sku}}"><i class="far fa-heart -icon"></i></div><img class="variation-img img-fluid" src="@{{main_image}}" alt="variation-img"></div>
+                            <div class="wishlist-icon " sku="@{{sku}}"><i class="far fa-heart -icon"></i></div>
                         @{{/if}}
+                        @{{#if variations}}
+                            <div class="multiple-variants-icon" sku="@{{sku}}"><i class="far fa-clone -icon"></i></div>
+                        @{{/if}}                       
+                        <div><img class="variation-img img-fluid" src="@{{main_image}}" alt="variation-img"></div>
 
                 </a><span class="prod-sale-price d-md-none">@{{formatPrice is_price}}</span>
                 @{{printDiscount percent_discount}}

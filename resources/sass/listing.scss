@@ -27,6 +27,9 @@ input:disabled + .checkmark + .text {
 
 .listing {
     min-height: calc(100vh - (195px));
+    @include media-breakpoint-up(md) {
+        min-height: calc(100vh - (145px));    
+    }
     .slick-prev,
     .slick-next {
         &:before {

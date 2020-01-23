@@ -21,11 +21,10 @@
                 <!-- <a target="_blank" class="rating-container"><div class="rating "></div><span class="total-ratings"></span></a> -->
                 <div class="variation-container " >
                     <hr class="modal-hr"/>
-                    <h4> More Options </h4>
-                    <div class="variation-options horizontal-scroll" id="container">
-                        <div class="swatch-images horizontal-scroll-contents"></div>
-                        
-                    
+                    <div class="variation-options">
+                        <div class="swatch-images"></div>
+
+
                     </div>
                     <!-- <button
                         id="left-slide"
