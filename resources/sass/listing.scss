@@ -26,6 +26,10 @@ input:disabled + .checkmark + .text {
 }
 
 .listing {
+    min-height: calc(100vh - (195px));
+    @include media-breakpoint-up(md) {
+        min-height: calc(100vh - (145px));    
+    }
     .slick-prev,
     .slick-next {
         &:before {
@@ -289,7 +293,7 @@ input:disabled + .checkmark + .text {
                         .ls-product {
                             margin-bottom: 0px;
                             min-height: 100px;
-                            background-position: center;
+                            background-position: bottom;
                         }
                     }
                 }
@@ -433,8 +437,7 @@ input:disabled + .checkmark + .text {
 .-images {
     height: 95vh;
     width: auto;
-    overflow: scroll;
-    overflow-x: hidden;
+    overflow: auto;
 }
 .nav {
     display: flex;
@@ -458,7 +461,7 @@ input:disabled + .checkmark + .text {
     text-decoration: none;
 }
 .-product-details {
-    margin: 5px;
+    margin: 10px 5px;
 
     .offer-price {
         font-size: 30px;

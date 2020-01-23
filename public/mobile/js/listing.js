@@ -10,8 +10,11 @@
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* WEBPACK VAR INJECTION */(function($, jQuery) {/* harmony import */ var _components_multi_carousel__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../components/multi-carousel */ "./resources/mobile/js/components/multi-carousel.js");
+
 /* harmony import */ var _components_custom_selectbox__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../components/custom-selectbox */ "./resources/mobile/js/components/custom-selectbox.js");
 /* harmony import */ var _app_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../app.js */ "./resources/mobile/js/app.js");
+/* WEBPACK VAR INJECTION */(function($, jQuery) {/* harmony import */ var 
+
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread(); }
 
 function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance"); }

@@ -1,5 +1,6 @@
 import * as multiCarouselFuncs from '../components/multi-carousel';
 import makeSelectBox from '../components/custom-selectbox';
+import makeHorizontalScroll from '../components/horizontal-scrollbar';
 import Drift from 'drift-zoom';
 import isMobile from '../app.js';
 require('slick-lightbox');
@@ -29,7 +30,6 @@ $(document).ready(function() {
                 $('#collapseB').collapse('toggle');
             }
         });
-
     $.ajax({
         type: 'GET',
         url: PDP_API,
@@ -38,6 +38,8 @@ $(document).ready(function() {
             document.title = data.name + ' | LazySuzy';
             var $imagesContainer = $product.find('.-images-container');
             var $images = $imagesContainer.find('.-images');
+            var $variationsContainer = $product.find('.variation-options');
+            var $swatchImages = $variationsContainer.find('.swatch-images');
             var imgContainerWidth = 0;
             $('.wishlist-icon').attr('sku', data.sku);
             if (data.wishlisted) {
@@ -55,7 +57,41 @@ $(document).ready(function() {
                     alt: 'product image'
                 }).appendTo(lightbox);
             });
-
+            $swatchImages.empty();
+            if (data.variations.length > 0) {
+                $('.variation-container.d-none').removeClass('d-none');
+                data.variations.forEach(img => {
+                    var div = jQuery('<div/>', {
+                        class: 'single'
+                    }).appendTo($swatchImages);
+                    var a = jQuery('<a/>', {
+                        href: img.link,
+                        'data-caption': ''
+                    }).appendTo(div);
+                    var span = jQuery('<span/>', {
+                        'data-title': img.name
+                    }).appendTo(a);
+                    if (img.swatch === '') {
+                        var responsiveImg = jQuery('<img/>', {
+                            class: 'variant-img',
+                            src: img.image,
+                            alt: 'product image',
+                            'data-parent': img.has_parent_sku,
+                            'data-image': img.image
+                        }).appendTo(span);
+                    } else {
+                        var responsiveImg = jQuery('<img/>', {
+                            class: 'variant-img',
+                            src: img.swatch_image,
+                            alt: 'product image',
+                            'data-parent': img.has_parent_sku,
+                            'data-image': img.image
+                        }).appendTo(span);
+                    }
+                });
+            } else {
+                $('.variation-container').addClass('d-none');
+            }
             var $prodDetails = $('<div />', {
                 class: '-product-details'
             }).appendTo($prodPriceCard);
@@ -76,6 +112,10 @@ $(document).ready(function() {
             $('<span/>', {
                 text: ' $' + data.is_price.replace('-', ' - $'),
                 class: 'offer-price'
+            }).appendTo(priceCont);
+            $('<span/>', {
+                text: ' $' + data.was_price.replace('-', ' - $'),
+                class: 'original-price'
             }).appendTo(priceCont);
             var buyBtn = $('<a/>', {
                 class: 'btn pdp-buy-btn float-right',
@@ -243,6 +283,25 @@ $(document).ready(function() {
         layouts: {
             closeButton:
                 '<button type="button" class="slick-lightbox-close"></button>'
+        }
+    });
+
+    $(document).on('click', '.variant-img', function(e) {
+        $('.variant-img.active').removeClass('active');
+        const has_parent = this.attributes['data-parent'].value;
+        const imgSrc = this.attributes['data-image'].value;
+        if (has_parent == 0) {
+            e.preventDefault();
+            e.stopPropagation();
+            $('.-images')
+                .find('img:first')
+                .remove();
+            var prependImg = jQuery('<img/>', {
+                class: '-variant-img img-fluid',
+                src: imgSrc,
+                alt: 'product image'
+            }).prependTo('.-images');
+            $(this).addClass('active');
         }
     });
 
@@ -425,6 +484,14 @@ $(document).ready(function() {
 
     $('body').on('click touchstart', '#closeMainImgBtn', function() {
         $('.prod-main-img').hide();
+    });
+
+    $('#left-slide').on('click', function() {
+        makeHorizontalScroll('left', 'left-slide');
+    });
+
+    $('#right-slide').on('click', function() {
+        makeHorizontalScroll('right', 'right-slide');
     });
 
     $('body').on('click touchstart', '.responsive-img-a', function() {

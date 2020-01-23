@@ -16,6 +16,7 @@ $(document).ready(function() {
     const SWATCH_API = '/api/filters/variation' + window.location.pathname;
 
     const $product = $('#detailPage');
+    const $modal = $('#modalProduct');
     const $prodPriceCard = $product.find('.prod-price-card');
     let LISTING_URL = '';
     var $filtersDiv = '';
@@ -47,6 +48,7 @@ $(document).ready(function() {
             );
         });
         $prodPriceCard.empty();
+        $('.prod-desc').addClass('d-none');
         $.ajax({
             type: 'GET',
             url: detail_url,
@@ -58,14 +60,14 @@ $(document).ready(function() {
                         data.department_info[0].department_url);
                 var $imagesContainer = $product.find('.-images-container');
                 var $images = $imagesContainer.find('.-images');
-
+                var $variationsContainer = $product.find('.variation-options');
+                var $swatchImages = $variationsContainer.find('.swatch-images');
                 var imgContainerWidth = 0;
                 $('#wishlistBtnDesktop').attr('sku', data.sku);
                 if (data.wishlisted) {
                     $('#wishlistBtnDesktop').addClass('marked');
                 }
                 $images.empty();
-
                 data.on_server_images.forEach(img => {
                     var div = jQuery('<div/>', {
                         class: 'single'
@@ -80,7 +82,48 @@ $(document).ready(function() {
                         alt: 'product image'
                     }).appendTo(a);
                 });
-                $('.-site').text(data.site);
+                $swatchImages.empty();
+                $('.prod-desc.d-none').removeClass('d-none');
+
+                if (data.variations == '' || data.variations == undefined) {
+                    $('.variation-container').addClass('d-none');
+                } else {
+                    $('.variation-container.d-none').removeClass('d-none');
+                    data.variations.forEach(img => {
+                        var div = jQuery('<div/>', {
+                            class: 'single'
+                        }).appendTo($swatchImages);
+
+                        var a = jQuery('<a/>', {
+                            'data-caption': ''
+                        }).appendTo(div);
+
+                        var span = jQuery('<span/>', {
+                            'data-title': img.name
+                        }).appendTo(a);
+                        if (img.swatch === '') {
+                            var responsiveImg = jQuery('<img/>', {
+                                class: 'variant-img',
+                                src: img.image,
+                                alt: 'product image',
+                                'data-href': img.link,
+                                'data-parent': img.has_parent_sku,
+                                'data-image': img.image
+                            }).appendTo(span);
+                        } else {
+                            var responsiveImg = jQuery('<img/>', {
+                                class: 'variant-img',
+                                src: img.swatch_image,
+                                alt: 'product image',
+                                'data-href': img.link,
+                                'data-parent': img.has_parent_sku,
+                                'data-image': img.image
+                            }).appendTo(span);
+                        }
+                    });
+                }
+
+                $('.js-site').text(data.site);
                 var $prodDetails = $('<div />', {
                     class: '-product-details'
                 }).appendTo($prodPriceCard);
@@ -89,6 +132,10 @@ $(document).ready(function() {
                 $('<span/>', {
                     text: ' $' + data.is_price.replace('-', ' - $'),
                     class: 'offer-price'
+                }).appendTo(priceCont);
+                $('<span/>', {
+                    text: ' $' + data.was_price.replace('-', ' - $'),
+                    class: 'original-price'
                 }).appendTo(priceCont);
                 var buyBtn = $('<a/>', {
                     class: 'btn pdp-buy-btn float-right',
@@ -207,15 +254,35 @@ $(document).ready(function() {
     $(document).on('click', '.js-detail-modal', function(e) {
         e.preventDefault();
         e.stopPropagation();
-        const product_sku = this.attributes.href.value;
-        openProductModal(`/api${product_sku}`);
-        window.history.pushState(
-            '',
-            '',
-            `${product_sku}${window.location.search}`
-        );
+        const product_sku = this.attributes['data-href'].value;
+        openProductDetailModal(product_sku);
+    });
+    $(document).on('click', '.variant-img', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        $('.variant-img.active').removeClass('active');
+        const has_parent = this.attributes['data-parent'].value;
+        const imgSrc = this.attributes['data-image'].value;
+        if (has_parent == 0) {
+            $('.-images')
+                .find('img:first')
+                .remove();
+            var prependImg = jQuery('<img/>', {
+                class: '-variant-img img-fluid',
+                src: imgSrc,
+                alt: 'product image'
+            }).prependTo('.-images');
+            $(this).addClass('active');
+        } else {
+            const product_sku = this.attributes['data-href'].value;
+            openProductDetailModal(product_sku);
+        }
     });
 
+    function openProductDetailModal(href) {
+        openProductModal(`/api${href}`);
+        window.history.pushState('', '', `${href}${window.location.search}`);
+    }
     $('.-images').slick({
         infinite: true,
         slidesToShow: 3,

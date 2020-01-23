@@ -142,10 +142,14 @@
                             </span>
                         </div>
                         @{{#if wishlisted}}
-                            <div class="wishlist-icon marked" sku="@{{sku}}"><i class="far fa-heart -icon"></i></div><img class="variation-img img-fluid" src="@{{main_image}}" alt="variation-img"></div>
+                            <div class="wishlist-icon marked" sku="@{{sku}}"><i class="far fa-heart -icon"></i></div>
                         @{{else}}
-                        <div class="wishlist-icon " sku="@{{sku}}"><i class="far fa-heart -icon"></i></div><img class="variation-img img-fluid" src="@{{main_image}}" alt="variation-img"></div>
+                            <div class="wishlist-icon " sku="@{{sku}}"><i class="far fa-heart -icon"></i></div>
                         @{{/if}}
+                        @{{#if variations}}
+                            <div class="multiple-variants-icon" sku="@{{sku}}"><i class="far fa-clone -icon"></i></div>
+                        @{{/if}}                       
+                        <div><img class="variation-img img-fluid" src="@{{main_image}}" alt="variation-img"></div>
 
                 </a><span class="prod-sale-price d-md-none">@{{formatPrice is_price}}</span>
                 @{{printDiscount percent_discount}}
@@ -156,7 +160,7 @@
                             <div class="slick-track" style="opacity: 1; width: 100px; transform: translate3d(0px, 0px, 0px);">
                             @{{#each variations}}
                             @{{#with this}}
-                                <div class="mini-carousel-item" style="width: 30px; display: inline-block;"><a class="responsive-img-a" href="@{{link}}" tabindex="0"><img class="carousel-img img-fluid" src="@{{image}}" data-prodImg="@{{image}}" /></a></div>
+                                <div class="mini-carousel-item" style="width: 30px; display: inline-block;"><a class="responsive-img-a" href="/product/@{{variation_sku}}" tabindex="0"><img class="carousel-img img-fluid" src="@{{image}}" data-prodImg="@{{image}}" /></a></div>
                             @{{/with}}
                             @{{/each}}
                         </div>
