@@ -947,7 +947,7 @@ class Product extends Model
                     "product_sku" => $variation->product_sku,
                     "variation_sku" => $variation->variation_sku,
                     "name" => $variation->variation_name,
-                    "has_parent_sku" => $variation->has_parent_sku,
+                    "has_parent_sku" => $variation->has_parent_sku == 1 ? true : false,
                     "swatch_image" => Product::$base_siteurl . $variation->swatch_image,
                     "image" => Product::$base_siteurl . $variation->variation_image,
                     "link" => $link
@@ -980,7 +980,7 @@ class Product extends Model
                     "product_sku" => $product->product_sku,
                     "variation_sku" => $variation->product_sku,
                     "name" => $variation->color,
-                    "has_parent_sku" => 0,
+                    "has_parent_sku" => true,
                     "image" => Product::$base_siteurl . $variation->main_product_images,
                     "link" =>  "/product/" . $variation->product_sku,
                     "swatch" => Product::$base_siteurl . $variation->main_product_images
@@ -1084,15 +1084,24 @@ class Product extends Model
                         }
                     }
 
+                    $name = "";
+                    if (isset($features['color'])) {
+                        $name = $features['color'];
+
+                        if (isset($features['fabric'])) {
+                            $name .= ", " . $features['fabric'];
+                        }
+                    }
                     array_push($variations, [
                         "product_sku" => $product->product_sku,
                         "variation_sku" => $prod->sku,
-                        "name" => $prod->name,
+                        "name" => $name,
                         "features" => $features,
-                        "has_parent_sku" => 1,
+                        "has_parent_sku" => false,
                         "image" => Product::$base_siteurl . $prod->image_path,
                         "link" =>  "/product/" . $product->product_sku,
-                        "swatch_image" => strlen($prod->swatch_image) != 0 ? Product::$base_siteurl . $prod->swatch_image_path : null
+                        "swatch_image" => strlen($prod->swatch_image) != 0 ? Product::$base_siteurl . $prod->swatch_image_path : null,
+                        
                     ]);
                 }
 
