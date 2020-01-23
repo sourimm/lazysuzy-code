@@ -753,8 +753,10 @@ class Product extends Model
         if (isset($variations) && !$is_details_minimal) {
 
             for ($i = 0; $i < sizeof($variations); $i++) {
-                if ($variations[$i]['image'] === Product::$base_siteurl) {
-                    $variations[$i]['image'] = $data['main_image'];
+                if (isset($variations[$i]['image'])) {
+                    if ($variations[$i]['image'] === Product::$base_siteurl) {
+                        $variations[$i]['image'] = $data['main_image'];
+                    }
                 }
             }
             
@@ -1093,11 +1095,11 @@ class Product extends Model
                 }
 
 
-                if (!$isListingAPICall) {
+                /* if (!$isListingAPICall) {
                     array_push($variations, [
                         "filters" => Product::get_all_variation_filters($product->product_sku)
                     ]);
-                }
+                } */
 
                 return $variations;
             }
@@ -1163,11 +1165,9 @@ class Product extends Model
         $westelm_cache_data = [];
 
         $variations = null;
-        if ($prod[0]->site_name === 'westelm') {
-            $variations = null;
-        } else {
-            $variations = Product::get_variations($prod[0]);
-        }
+       
+        $variations = Product::get_variations($prod[0], $westelm_variations_data, false);
+        
         return Product::get_details($prod[0], $variations);
     }
 
