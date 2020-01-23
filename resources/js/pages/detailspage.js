@@ -287,12 +287,12 @@ $(document).ready(function() {
     });
 
     $(document).on('click', '.variant-img', function(e) {
-        e.preventDefault();
-        e.stopPropagation();
         $('.variant-img.active').removeClass('active');
         const has_parent = this.attributes['data-parent'].value;
         const imgSrc = this.attributes['data-image'].value;
         if (has_parent == 0) {
+            e.preventDefault();
+            e.stopPropagation();
             $('.-images')
                 .find('img:first')
                 .remove();
