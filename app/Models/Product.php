@@ -983,7 +983,7 @@ class Product extends Model
                     "name" => $variation->color,
                     "image" => Product::$base_siteurl . $variation->main_product_images,
                     "link" => Product::$base_siteurl . "/product/" . $variation->product_sku,
-                    "swatch" => ""
+                    "swatch_image" => Product::$base_siteurl . $variation->main_product_images
                 ]);
             }
         }
