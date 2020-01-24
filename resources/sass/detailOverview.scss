@@ -106,9 +106,9 @@
 //modal code
 
 .products-modal-details {
-    overflow: scroll;
+    overflow: auto;
     overflow-x: hidden;
-    height: 70vh;
+    height: 72vh;
     font-size: 16px;
 }
 .navbar-modal {
@@ -151,7 +151,7 @@
 .product-modal-body {
     position: relative;
     flex: 1 1 auto;
-    padding: 13px;
+    padding: 15px;
 }
 .product-modal-dialog {
     margin: 0 auto;

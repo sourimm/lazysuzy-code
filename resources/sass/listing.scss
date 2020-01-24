@@ -464,12 +464,13 @@ input:disabled + .checkmark + .text {
     margin: 10px 5px;
 
     .offer-price {
-        font-size: 30px;
+        font-size: 25px;
         color: $product-price;
     }
     .price {
         text-decoration: line-through;
         font-size: 25px;
+        margin-left: 10px;
     }
 }
 //lightbox

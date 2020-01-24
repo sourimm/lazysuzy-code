@@ -288,12 +288,13 @@ $(document).ready(function() {
                 .find('img:first')
                 .remove();
             var prependImg = jQuery('<img/>', {
-                class: '-variant-img img-fluid',
+                class: '-prod-img img-fluid',
                 src: imgSrc,
                 alt: 'product image'
             }).prependTo('.-images');
             $(this).addClass('active');
         }
+        $('.-images').animate({scrollLeft: $('.-prod-img').position().left}, 0);
     });
 
     function fetchVariations(queryParams = null) {

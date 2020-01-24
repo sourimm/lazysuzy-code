@@ -248,12 +248,13 @@ $(document).ready(function() {
                 .find('img:first')
                 .remove();
             var prependImg = jQuery('<img/>', {
-                class: '-variant-img img-fluid',
+                class: '-prod-img img-fluid',
                 src: imgSrc,
                 alt: 'product image'
             }).prependTo('.-images');
             $(this).addClass('active');
         }
+        $('.-images').scrollTop($('.-prod-img').position().top);
     });
 
     function openProductDetailModal(href) {
