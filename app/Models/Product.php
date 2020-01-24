@@ -752,8 +752,10 @@ class Product extends Model
         if (isset($variations) && !$is_details_minimal) {
 
             for ($i = 0; $i < sizeof($variations); $i++) {
-                if ($variations[$i]['image'] === Product::$base_siteurl) {
-                    $variations[$i]['image'] = $data['main_image'];
+                if (isset($variations[$i]['image'])) {
+                    if ($variations[$i]['image'] === Product::$base_siteurl) {
+                        $variations[$i]['image'] = $data['main_image'];
+                    }
                 }
             }
 
@@ -945,7 +947,7 @@ class Product extends Model
                     "product_sku" => $variation->product_sku,
                     "variation_sku" => $variation->variation_sku,
                     "name" => $variation->variation_name,
-                    "has_parent_sku" => $variation->has_parent_sku,
+                    "has_parent_sku" => $variation->has_parent_sku == 1 ? true : false,
                     "swatch_image" => Product::$base_siteurl . $variation->swatch_image,
                     "image" => Product::$base_siteurl . $variation->variation_image,
                     "link" => $link
@@ -978,10 +980,10 @@ class Product extends Model
                     "product_sku" => $product->product_sku,
                     "variation_sku" => $variation->product_sku,
                     "name" => $variation->color,
-                    "has_parent_sku" => 0,
+                    "has_parent_sku" => true,
                     "image" => Product::$base_siteurl . $variation->main_product_images,
                     "link" =>  "/product/" . $variation->product_sku,
-                    "swatch" => ""
+                    "swatch" => Product::$base_siteurl . $variation->main_product_images
                 ]);
             }
         }
@@ -1082,24 +1084,33 @@ class Product extends Model
                         }
                     }
 
+                    $name = "";
+                    if (isset($features['color'])) {
+                        $name = $features['color'];
+
+                        if (isset($features['fabric'])) {
+                            $name .= ", " . $features['fabric'];
+                        }
+                    }
                     array_push($variations, [
                         "product_sku" => $product->product_sku,
                         "variation_sku" => $prod->sku,
-                        "name" => $prod->name,
+                        "name" => $name,
                         "features" => $features,
-                        "has_parent_sku" => 1,
+                        "has_parent_sku" => false,
                         "image" => Product::$base_siteurl . $prod->image_path,
                         "link" =>  "/product/" . $product->product_sku,
-                        "swatch_image" => strlen($prod->swatch_image) != 0 ? Product::$base_siteurl . $prod->swatch_image_path : null
+                        "swatch_image" => strlen($prod->swatch_image) != 0 ? Product::$base_siteurl . $prod->swatch_image_path : null,
+                        
                     ]);
                 }
 
 
-                if (!$isListingAPICall) {
+                /* if (!$isListingAPICall) {
                     array_push($variations, [
                         "filters" => Product::get_all_variation_filters($product->product_sku)
                     ]);
-                }
+                } */
 
                 return $variations;
             }
@@ -1165,11 +1176,9 @@ class Product extends Model
         $westelm_cache_data = [];
 
         $variations = null;
-        if ($prod[0]->site_name === 'westelm') {
-            $variations = null;
-        } else {
-            $variations = Product::get_variations($prod[0]);
-        }
+       
+        $variations = Product::get_variations($prod[0], $westelm_variations_data, false);
+        
         return Product::get_details($prod[0], $variations);
     }
 

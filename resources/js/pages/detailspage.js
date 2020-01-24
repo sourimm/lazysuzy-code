@@ -288,9 +288,9 @@ $(document).ready(function() {
 
     $(document).on('click', '.variant-img', function(e) {
         $('.variant-img.active').removeClass('active');
-        const has_parent = this.attributes['data-parent'].value;
+        const has_parent = $(this).data('parent');
         const imgSrc = this.attributes['data-image'].value;
-        if (has_parent == 0) {
+        if (!has_parent) {
             e.preventDefault();
             e.stopPropagation();
             $('.-images')

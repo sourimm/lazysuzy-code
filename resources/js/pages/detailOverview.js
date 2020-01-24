@@ -261,9 +261,12 @@ $(document).ready(function() {
         e.preventDefault();
         e.stopPropagation();
         $('.variant-img.active').removeClass('active');
-        const has_parent = this.attributes['data-parent'].value;
+        const has_parent = $(this).data('parent');
         const imgSrc = this.attributes['data-image'].value;
-        if (has_parent == 0) {
+        if (has_parent) {
+            const product_sku = this.attributes['data-href'].value;
+            openProductDetailModal(product_sku);
+        } else {
             $('.-images')
                 .find('img:first')
                 .remove();
@@ -273,9 +276,6 @@ $(document).ready(function() {
                 alt: 'product image'
             }).prependTo('.-images');
             $(this).addClass('active');
-        } else {
-            const product_sku = this.attributes['data-href'].value;
-            openProductDetailModal(product_sku);
         }
     });
 
