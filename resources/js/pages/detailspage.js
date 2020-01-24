@@ -58,7 +58,7 @@ $(document).ready(function() {
                 }).appendTo(lightbox);
             });
             $swatchImages.empty();
-            if (data.variations.length > 0) {
+            if (data.variations && data.variations.length > 0) {
                 $('.variation-container.d-none').removeClass('d-none');
                 data.variations.forEach(img => {
                     var div = jQuery('<div/>', {
@@ -71,15 +71,7 @@ $(document).ready(function() {
                     var span = jQuery('<span/>', {
                         'data-title': img.name
                     }).appendTo(a);
-                    if (img.swatch === '') {
-                        var responsiveImg = jQuery('<img/>', {
-                            class: 'variant-img',
-                            src: img.image,
-                            alt: 'product image',
-                            'data-parent': img.has_parent_sku,
-                            'data-image': img.image
-                        }).appendTo(span);
-                    } else {
+                    if (img.swatch_image) {
                         var responsiveImg = jQuery('<img/>', {
                             class: 'variant-img',
                             src: img.swatch_image,

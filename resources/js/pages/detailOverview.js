@@ -85,9 +85,7 @@ $(document).ready(function() {
                 $swatchImages.empty();
                 $('.prod-desc.d-none').removeClass('d-none');
 
-                if (data.variations == '' || data.variations == undefined) {
-                    $('.variation-container').addClass('d-none');
-                } else {
+                if (data.variations && data.variations.length) {
                     $('.variation-container.d-none').removeClass('d-none');
                     data.variations.forEach(img => {
                         var div = jQuery('<div/>', {
@@ -101,16 +99,7 @@ $(document).ready(function() {
                         var span = jQuery('<span/>', {
                             'data-title': img.name
                         }).appendTo(a);
-                        if (img.swatch === '') {
-                            var responsiveImg = jQuery('<img/>', {
-                                class: 'variant-img',
-                                src: img.image,
-                                alt: 'product image',
-                                'data-href': img.link,
-                                'data-parent': img.has_parent_sku,
-                                'data-image': img.image
-                            }).appendTo(span);
-                        } else {
+                        if (img.swatch_image) {
                             var responsiveImg = jQuery('<img/>', {
                                 class: 'variant-img',
                                 src: img.swatch_image,
@@ -121,6 +110,8 @@ $(document).ready(function() {
                             }).appendTo(span);
                         }
                     });
+                } else {
+                    $('.variation-container').addClass('d-none');
                 }
 
                 $('.js-site').text(data.site);
@@ -148,15 +139,6 @@ $(document).ready(function() {
                         text: ' $' + data.was_price.replace('-', ' -$'),
                         class: 'price'
                     }).appendTo(priceCont);
-                }
-
-                if (data.variations != null) {
-                    makeVariationCarousel(data.variations);
-                    if (data.filters == null && $.isEmptyObject(data.filters)) {
-                        $('#filterToggleBtn').hide();
-                    }
-                } else {
-                    fetchVariations();
                 }
 
                 //Product description

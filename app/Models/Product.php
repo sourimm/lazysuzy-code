@@ -983,7 +983,7 @@ class Product extends Model
                     "has_parent_sku" => true,
                     "image" => Product::$base_siteurl . $variation->main_product_images,
                     "link" =>  "/product/" . $variation->product_sku,
-                    "swatch" => Product::$base_siteurl . $variation->main_product_images
+                    "swatch_image" => Product::$base_siteurl . $variation->main_product_images
                 ]);
             }
         }
@@ -1101,7 +1101,7 @@ class Product extends Model
                         "image" => Product::$base_siteurl . $prod->image_path,
                         "link" =>  "/product/" . $product->product_sku,
                         "swatch_image" => strlen($prod->swatch_image) != 0 ? Product::$base_siteurl . $prod->swatch_image_path : null,
-                        
+
                     ]);
                 }
 
@@ -1176,9 +1176,9 @@ class Product extends Model
         $westelm_cache_data = [];
 
         $variations = null;
-       
+
         $variations = Product::get_variations($prod[0], $westelm_variations_data, false);
-        
+
         return Product::get_details($prod[0], $variations);
     }
 
