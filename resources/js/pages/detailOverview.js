@@ -84,7 +84,6 @@ $(document).ready(function() {
                 });
                 $swatchImages.empty();
                 $('.prod-desc.d-none').removeClass('d-none');
-
                 if (data.variations && data.variations.length) {
                     $('.variation-container.d-none').removeClass('d-none');
                     data.variations.forEach(img => {
@@ -123,10 +122,6 @@ $(document).ready(function() {
                 $('<span/>', {
                     text: ' $' + data.is_price.replace('-', ' - $'),
                     class: 'offer-price'
-                }).appendTo(priceCont);
-                $('<span/>', {
-                    text: ' $' + data.was_price.replace('-', ' - $'),
-                    class: 'original-price'
                 }).appendTo(priceCont);
                 var buyBtn = $('<a/>', {
                     class: 'btn pdp-buy-btn float-right',

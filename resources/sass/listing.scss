@@ -453,7 +453,7 @@ input:disabled + .checkmark + .text {
     color: $products-bg;
     background-color: $category-bg;
     margin: 5px;
-    display: flex;
+    display: inline-block;
     width: 20%;
 }
 .pdp-buy-btn:hover {

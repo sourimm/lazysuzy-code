@@ -3,7 +3,6 @@ export default function horizontalScroll(side,id) {
     const DISTANCE = 100;
     const STEP = 10;
     var button = document.getElementById(id);
-    // var back1 = document.getElementById('slideBack');   
     var container1 = document.getElementById('container');
     if (side == 'left') {
         button.onclick = function() {
@@ -21,7 +20,7 @@ export default function horizontalScroll(side,id) {
         var slideTimer = setInterval(function(){
             if(direction == 'left'){
                 element.scrollLeft -= STEP;
-            } else {
+            } else { 
                 element.scrollLeft += STEP;
             }
             scrollAmount += STEP;

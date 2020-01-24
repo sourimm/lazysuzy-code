@@ -105,7 +105,7 @@
         }
 
         .-images-container {
-            height: 300px;
+            height: 280px;
             overflow-x: auto;
             margin: 5px 0 15px;
             @include media-breakpoint-up(md) {
@@ -114,7 +114,7 @@
             .-images {
                 overflow-x: scroll;
                 overflow-y: hidden;
-                height: 300px;
+                height: 280px;
                 white-space: nowrap;
                 padding: 15px 0;
                 .-prod-img {
@@ -125,14 +125,15 @@
         }
 
         .variation-container {
+            position: relative;
             .variation-options {
                 max-width: 375px;
                 overflow-x: scroll;
                 overflow: hidden;
                 .swatch-images {
                     display: flex;
-                    overflow-x: auto;
                     flex-wrap: nowrap;
+                    padding: 5px 0 10px 0;
                     .variant-img {
                         width: 40px;
                         height: 40px;
@@ -165,14 +166,14 @@
             .-name {
                 text-decoration: none;
                 color: $secondary-color;
-                font-size: 26px;
+                font-size: 22px;
             }
             .offer-price {
                 color: $product-price;
-                font-size: 24px;
+                font-size: 20px;
             }
             .original-price {
-                font-size: 24px;
+                font-size: 20px;
             }
             .price {
                 font-size: 0.8em;
@@ -310,7 +311,7 @@
 
 .canvas-scroll-left {
     left: 0;
-    margin-left: -0.5rem;
+    margin-left: -1rem;
 }
 [data-overflowing='both'] ~ .canvas-scroll-left,
 [data-overflowing='left'] ~ .canvas-scroll-left {
@@ -319,7 +320,7 @@
 
 .canvas-scroll-right {
     right: 0;
-    margin-right: -0.5rem;
+    margin-right: -1rem;
 }
 [data-overflowing='both'] ~ .canvas-scroll-right,
 [data-overflowing='right'] ~ .canvas-scroll-right {

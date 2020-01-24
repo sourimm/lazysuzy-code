@@ -48,7 +48,7 @@
                             <div class="variation-container">
                               <h4> More Options </h4>
                               <div class="variation-options">
-                              <div class="swatch-images"></div>
+                              <div class="swatch-images overflow"></div>
                               </div>
                               <hr class="modal-hr"/>
                             </div>

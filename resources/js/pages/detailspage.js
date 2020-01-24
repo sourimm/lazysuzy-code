@@ -30,6 +30,7 @@ $(document).ready(function() {
                 $('#collapseB').collapse('toggle');
             }
         });
+    $('.prod-desc').addClass('d-none');
     $.ajax({
         type: 'GET',
         url: PDP_API,
@@ -58,6 +59,7 @@ $(document).ready(function() {
                 }).appendTo(lightbox);
             });
             $swatchImages.empty();
+            $('.prod-desc.d-none').removeClass('d-none');
             if (data.variations && data.variations.length > 0) {
                 $('.variation-container.d-none').removeClass('d-none');
                 data.variations.forEach(img => {
@@ -68,9 +70,6 @@ $(document).ready(function() {
                         href: img.link,
                         'data-caption': ''
                     }).appendTo(div);
-                    var span = jQuery('<span/>', {
-                        'data-title': img.name
-                    }).appendTo(a);
                     if (img.swatch_image) {
                         var responsiveImg = jQuery('<img/>', {
                             class: 'variant-img',
@@ -78,7 +77,7 @@ $(document).ready(function() {
                             alt: 'product image',
                             'data-parent': img.has_parent_sku,
                             'data-image': img.image
-                        }).appendTo(span);
+                        }).appendTo(a);
                     }
                 });
             } else {

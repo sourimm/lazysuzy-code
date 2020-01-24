@@ -9,12 +9,15 @@
     .variation-container {
         .variation-options {
             margin: 10px 0;
+            .overflow {
+                overflow: hidden;
+                overflow-y: auto;
+            }
             .swatch-images {
                 display: flex;
                 flex-wrap: wrap;
                 max-height: 180px;
-                overflow-x: auto;
-                padding: 5px 0 10px 0;
+                padding: 5px 0 20px 0;
                 .single {
                     margin: 5px;
                 }
@@ -102,9 +105,6 @@
 
 //modal code
 
-.-images::-webkit-scrollbar {
-    width: 2px;
-}
 .products-modal-details {
     overflow: scroll;
     overflow-x: hidden;
@@ -151,10 +151,13 @@
 .product-modal-body {
     position: relative;
     flex: 1 1 auto;
-    padding: 0;
+    padding: 13px;
 }
 .product-modal-dialog {
     margin: 0 auto;
+}
+.product-modal-content {
+    height: 100%;
 }
 .modal-header {
     display: flex;

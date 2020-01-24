@@ -21,12 +21,10 @@
                 <!-- <a target="_blank" class="rating-container"><div class="rating "></div><span class="total-ratings"></span></a> -->
                 <div class="variation-container " >
                     <hr class="modal-hr"/>
-                    <div class="variation-options">
-                        <div class="swatch-images"></div>
-
-
+                    <div class="variation-options horizontal-scroll" id="container">
+                        <div class="swatch-images horizontal-scroll-contents"></div>
                     </div>
-                    <!-- <button
+                    <button
                         id="left-slide"
                         class="canvas-scroll js-left-scroll canvas-scroll-left"
                         type="button"
@@ -39,7 +37,7 @@
                         type="button"
                         >
                         <i class="fas fa-arrow-right"></i>
-                    </button>    -->
+                    </button>   
                     <hr class="modal-hr"/>
                 </div>
                 <p class="-desc d-none d-md-block"></p>
