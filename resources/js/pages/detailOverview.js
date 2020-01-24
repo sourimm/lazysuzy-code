@@ -96,13 +96,14 @@ $(document).ready(function() {
                         }).appendTo(div);
 
                         var span = jQuery('<span/>', {
-                            'title': img.name
+                            title: img.name
                         }).appendTo(a);
                         if (img.swatch_image) {
                             var responsiveImg = jQuery('<img/>', {
                                 class: 'variant-img',
                                 src: img.swatch_image,
                                 alt: 'product image',
+                                'data-href': img.link,
                                 'data-href': img.link,
                                 'data-parent': img.has_parent_sku,
                                 'data-image': img.image
@@ -253,8 +254,13 @@ $(document).ready(function() {
                 alt: 'product image'
             }).prependTo('.-images');
             $(this).addClass('active');
+            prependImg.load(() => {
+                $('.-images').animate(
+                    { scrollTop: $('.-prod-img').position().top },
+                    0
+                );
+            });
         }
-        $('.-images').scrollTop($('.-prod-img').position().top);
     });
 
     function openProductDetailModal(href) {
