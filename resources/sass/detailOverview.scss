@@ -52,16 +52,6 @@
                     text-align: center;
                     z-index: 1;
                 }
-                [data-title]:hover::after {
-                    content: '';
-                    position: absolute;
-                    bottom: -18px;
-                    left: 15px;
-                    display: inline-block;
-                    color: #fff;
-                    border: 8px solid transparent;
-                    border-bottom: 8px solid #000;
-                }
             }
         }
     }

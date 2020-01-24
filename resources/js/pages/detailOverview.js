@@ -96,7 +96,7 @@ $(document).ready(function() {
                         }).appendTo(div);
 
                         var span = jQuery('<span/>', {
-                            'data-title': img.name
+                            'title': img.name
                         }).appendTo(a);
                         if (img.swatch_image) {
                             var responsiveImg = jQuery('<img/>', {
