@@ -1,4 +1,4 @@
-`@extends('layouts.layout', ['body_class' => 'detailspage-main-div'])`
+@extends('layouts.layout', ['body_class' => 'detailspage-main-div'])
 
 @section('middle_content')
 <div class="detailspage" id="detailPage">
@@ -19,7 +19,27 @@
                 </div>
                 <h2 class="-name"></h2>
                 <!-- <a target="_blank" class="rating-container"><div class="rating "></div><span class="total-ratings"></span></a> -->
-
+                <div class="variation-container " >
+                    <hr class="modal-hr"/>
+                    <div class="variation-options horizontal-scroll" id="container">
+                        <div class="swatch-images horizontal-scroll-contents"></div>
+                    </div>
+                    <button
+                        id="left-slide"
+                        class="canvas-scroll js-left-scroll canvas-scroll-left"
+                        type="button"
+                        >
+                        <i class="fas fa-arrow-left"></i>
+                        </button>
+                        <button
+                        id="right-slide"
+                        class="canvas-scroll selected-right-scroll canvas-scroll-right"
+                        type="button"
+                        >
+                        <i class="fas fa-arrow-right"></i>
+                    </button>   
+                    <hr class="modal-hr"/>
+                </div>
                 <p class="-desc d-none d-md-block"></p>
                 <div class="d-none d-md-block">
                     <div class="accordion" id="accordionExample">

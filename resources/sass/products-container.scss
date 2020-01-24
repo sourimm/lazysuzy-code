@@ -81,7 +81,14 @@
                         }
                     }
                 }
-
+                .multiple-variants-icon {
+                    position: absolute;
+                    right: 40px;
+                    top: 10px;
+                    z-index: 50;
+                    font-size: 21px;
+                }
+                
                 .-name {
                     font-weight: bold;
                     font-size: 18px;
@@ -100,7 +107,6 @@
                             font-size: 14px;
                         }
                     }
-
                     .prod-info {
                         font-size: 12px;
                     }

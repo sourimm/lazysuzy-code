@@ -27,6 +27,9 @@ input:disabled + .checkmark + .text {
 
 .listing {
     min-height: calc(100vh - (195px));
+    @include media-breakpoint-up(md) {
+        min-height: calc(100vh - (145px));    
+    }
     .slick-prev,
     .slick-next {
         &:before {
@@ -434,8 +437,7 @@ input:disabled + .checkmark + .text {
 .-images {
     height: 95vh;
     width: auto;
-    overflow: scroll;
-    overflow-x: hidden;
+    overflow: auto;
 }
 .nav {
     display: flex;
@@ -451,7 +453,7 @@ input:disabled + .checkmark + .text {
     color: $products-bg;
     background-color: $category-bg;
     margin: 5px;
-    display: flex;
+    display: inline-block;
     width: 20%;
 }
 .pdp-buy-btn:hover {
@@ -459,15 +461,16 @@ input:disabled + .checkmark + .text {
     text-decoration: none;
 }
 .-product-details {
-    margin: 5px;
+    margin: 10px 5px;
 
     .offer-price {
-        font-size: 30px;
+        font-size: 25px;
         color: $product-price;
     }
     .price {
         text-decoration: line-through;
         font-size: 25px;
+        margin-left: 10px;
     }
 }
 //lightbox

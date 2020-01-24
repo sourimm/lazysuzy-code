@@ -42,11 +42,10 @@ $(document).ready(function() {
     var strFilters = ''
     var strSortType = ''
     var iPageNo = 0,
-        iLimit = 10
+        iLimit = 12
     var price_from, price_to
     var bNoMoreProductsToShow = false
     var bFetchingProducts = false
-
     $(window).scroll(function() {
         // if (!bNoMoreProductsToShow) {
         if ($('#loaderImg') && isScrolledIntoView($('#loaderImg')[0])) {
@@ -176,7 +175,8 @@ $(document).ready(function() {
 
         var productLink = jQuery('<a/>', {
             href: PRODUCT_URL_LOCATION + productDetails._source.product_sku,
-            class: 'product-detail-modal'
+            class: 'product-detail-modal js-detail-modal',
+            'data-href': '/product/'+ productDetails._source.product_sku
         }).appendTo(mainProductDiv)
 
         // var productLink = jQuery('<a/>', {
@@ -199,14 +199,17 @@ $(document).ready(function() {
         //Product information
         var prodInfo = jQuery('<div/>', {
             class: 'prod-info d-none d-md-block'
-        }).appendTo(product)
+        }).appendTo(mainProductDiv)
         var catDetails = jQuery('<span/>', {
-            class: '-cat-name'
+            class: '-site'
         }).appendTo(prodInfo)
+        $(mainProductDiv).append(
+            '<div class="-name">' + productDetails._source.name + '</div>'
+        )
         $(catDetails).text(productDetails._source.site_name)
         var prices = jQuery('<span/>', {
-            class: '-prices float-right'
-        }).appendTo(prodInfo)
+            class: '-prices'
+        }).appendTo(mainProductDiv)
         var currPrice = jQuery('<span/>', {
             class: '-cprice'
         }).appendTo(prices)
@@ -227,16 +230,11 @@ $(document).ready(function() {
                 '><i class="far fa-heart -icon"></i></div>'
         )
 
-        var productInfoNext = jQuery('<div/>', {
-            class: 'd-none d-md-block'
-        }).appendTo(mainProductDiv)
-        $(productInfoNext).append(
-            '<div class="-name">' + productDetails._source.name + '</div>'
-        )
+        
 
         var carouselMainDiv = jQuery('<div/>', {
             class: 'responsive'
-        }).appendTo(productInfoNext)
+        }).appendTo(mainProductDiv)
 
         if (productDetails._source.variations) {
             var variationImages = productDetails._source.variations.map(
@@ -287,8 +285,8 @@ $(document).ready(function() {
                 1
             )
             var ratingClass = ratingValue.toString().replace('.', '_')
-            $(productInfoNext).append(
-                '<div class="rating-container"><div class="rating  rating-' +
+            $(prodInfo).append(
+                '<div class="rating-container float-right"><div class="rating  rating-' +
                     ratingClass +
                     '"></div><span class="total-ratings">' +
                     reviewValue +

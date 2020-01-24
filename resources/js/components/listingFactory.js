@@ -297,9 +297,12 @@ export default class ListingFactory {
                     product.variations = product.variations.map(variation => {
                         variation.swatch_image =
                             variation.swatch_image || variation.swatch || '';
+                        if (variation.swatch_image !== '') {
+                            product.showMoreVariations = product.variations.length > 6;
+                        }
                         return variation;
                     });
-                    product.showMoreVariations = product.variations.length > 6;
+                    
                     _self.$productContainer.append(
                         _self.listingTemplate(product)
                     );

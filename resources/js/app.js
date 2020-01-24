@@ -3,6 +3,7 @@ require('slick-lightbox');
 require('slick-carousel');
 require('./components/multi-carousel');
 require('./components/custom-selectbox');
+require('./components/horizontal-scrollbar');
 var md = require('markdown-it')({
     html: true,
     breaks: true
