@@ -254,7 +254,7 @@ $(document).ready(function() {
                 alt: 'product image'
             }).prependTo('.-images');
             $(this).addClass('active');
-            prependImg.load(() => {
+            prependImg.on('load', () => {
                 $('.-images').animate(
                     { scrollTop: $('.-prod-img').position().top },
                     0
