@@ -1028,8 +1028,7 @@ class Product extends Model
 
                 if ($isListingAPICall) $var = $var->groupBy("swatch_image_path");
 
-                $var = $var->groupBy("swatch_image")
-                    ->where("product_id", $product->product_sku);
+                $var = $var->where("product_id", $product->product_sku);
 
                 if ($isListingAPICall) $var = $var->limit(7);
                 //->limit(20)
