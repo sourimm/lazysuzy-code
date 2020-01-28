@@ -9,22 +9,22 @@
     </div>
 
     <div class="row container box">
-        <div class="prod-desc col-12 col-md-9">
+        <div class="prod-desc">
             <div class="-variations-carousel col-12"></div>
             <div class="prod-main-img col-12 col-md-5 order-md-last">
             </div>
             <div class="col-12 col-md-7">
-                <div class="wishlist-icon float-right m-10" id="wishlistBtnDesktop">
+                <div class="wishlist-icon float-right" id="wishlistBtnDesktop">
                     <i class="far fa-heart -icon"></i>
                 </div>
                 <h2 class="-name"></h2>
+                <hr class="modal-hr"/>
                 <!-- <a target="_blank" class="rating-container"><div class="rating "></div><span class="total-ratings"></span></a> -->
                 <div class="variation-container " >
-                    <hr class="modal-hr"/>
                     <div class="variation-options horizontal-scroll" id="container">
                         <div class="swatch-images horizontal-scroll-contents"></div>
                     </div>
-                    <button
+                    <!-- <button
                         id="left-slide"
                         class="canvas-scroll js-left-scroll canvas-scroll-left"
                         type="button"
@@ -37,8 +37,7 @@
                         type="button"
                         >
                         <i class="fas fa-arrow-right"></i>
-                    </button>   
-                    <hr class="modal-hr"/>
+                    </button>    -->
                 </div>
                 <p class="-desc d-none d-md-block"></p>
                 <div class="d-none d-md-block">

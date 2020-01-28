@@ -261,6 +261,7 @@ $(document).ready(function() {
                 );
             });
         }
+        $('.-images').scrollTop($('.-prod-img').position().top);
     });
 
     function openProductDetailModal(href) {
