@@ -1101,7 +1101,6 @@ class Product extends Model
                         "image" => Product::$base_siteurl . $prod->image_path,
                         "link" =>  "/product/" . $product->product_sku,
                         "swatch_image" => strlen($prod->swatch_image) != 0 ? Product::$base_siteurl . $prod->swatch_image_path : null,
-
                     ]);
                 }
 

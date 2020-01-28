@@ -78,6 +78,8 @@ $(document).ready(function() {
                             'data-parent': img.has_parent_sku,
                             'data-image': img.image
                         }).appendTo(a);
+                    } else {
+                        $('.variation-container').addClass('d-none');
                     }
                 });
             } else {
@@ -103,10 +105,6 @@ $(document).ready(function() {
             $('<span/>', {
                 text: ' $' + data.is_price.replace('-', ' - $'),
                 class: 'offer-price'
-            }).appendTo(priceCont);
-            $('<span/>', {
-                text: ' $' + data.was_price.replace('-', ' - $'),
-                class: 'original-price'
             }).appendTo(priceCont);
             var buyBtn = $('<a/>', {
                 class: 'btn pdp-buy-btn float-right',
