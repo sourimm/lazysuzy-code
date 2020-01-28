@@ -9,7 +9,7 @@
     </div>
 
     <div class="row container box">
-        <div class="prod-desc col-12 col-md-9">
+        <div class="prod-desc">
             <div class="-variations-carousel col-12"></div>
             <div class="prod-main-img col-12 col-md-5 order-md-last">
             </div>
@@ -38,7 +38,6 @@
                         >
                         <i class="fas fa-arrow-right"></i>
                     </button>    -->
-                    <hr class="modal-hr"/>
                 </div>
                 <p class="-desc d-none d-md-block"></p>
                 <div class="d-none d-md-block">
