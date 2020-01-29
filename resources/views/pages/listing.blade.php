@@ -60,20 +60,22 @@
 
             </a>
             <div class="prod-info">
-                <span class="-site">
-                    @{{#if is_new}}
-                        <span class="new-tag"><strong>NEW</strong></span>
-                    @{{/if}}
+                <a href="https://lazysuzy.com/brand/@{{site}}">
+                    <span class="-site">
+                        @{{#if is_new}}
+                            <span class="new-tag"><strong>NEW</strong></span>
+                        @{{/if}}
 
-                    @{{site}}
-                </span>
+                        @{{site}}
+                    </span>
+                </a>
                 @{{#if reviewExist}}
                 <div class="rating-container float-right">
                     <span class="total-ratings">@{{reviews}}</span><div class="rating  @{{ratingClass}}"></div>
                 </div>
                 @{{/if}}
             </div>
-            <div class="-name">@{{name}}</div>
+            <div class="-name">@{{name}}</a></div>
             <div class="-prices">
                 <span class="-cprice">@{{formatPrice is_price}}</span>
                 @{{#ifNeq is_price was_price}}

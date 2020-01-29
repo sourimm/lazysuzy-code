@@ -97,7 +97,7 @@ $(document).ready(function() {
     });
 
     $(window).scroll(function(event) {
-        if ($(window).scrollTop() > 50) {
+        if ($(window).scrollTop() > 50 && !$('#filters').hasClass('show')) {
             $('.filter-toggle-mobile').addClass('fix-search');
             $('.filters').addClass('fix-search-filter');
         } else {

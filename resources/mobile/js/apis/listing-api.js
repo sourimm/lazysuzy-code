@@ -399,41 +399,45 @@ $(document).ready(function() {
                     '<a class="btn clearall-filter-btn" href="#" id="clearAllFiltersBtn">Clear All</a>'
             }).appendTo(mobileFilterHeader);
             var row = jQuery('<div/>', {
-                class: 'row  ',
+                class: 'row  filters-height'
             }).appendTo('#filters');
             var col3 = jQuery('<div/>', {
-                class: 'col-3 tab-column',
+                class: 'col-3 tab-column'
             }).appendTo(row);
             var col9 = jQuery('<div/>', {
-                class: 'col-9 bg-white',
+                class: 'col-9 bg-white'
             }).appendTo(row);
             var filterTabs = jQuery('<div/>', {
-                class: 'filter-tabs w-100',
+                class: 'filter-tabs'
             }).appendTo(col3);
             var filterList = jQuery('<ul/>', {
-                class: 'nav flex-column',
+                class: 'nav flex-column'
             }).appendTo(filterTabs);
+            var result = jQuery('<div/>', {
+                class: 'total-results'
+            }).appendTo(col9);
+
             Object.keys(filterData).forEach((key, index) => {
                 const data = filterData[key];
                 if (!data || data.length == 0) {
                     return;
                 }
                 var filterItem = jQuery('<li/>', {
-                    class: 'nav-item',
+                    class: 'nav-item'
                 }).appendTo(filterList);
                 var filterLink = jQuery('<a/>', {
                     class: 'nav-link flex-column',
-                    href: '#'+key,
-                    text: key 
+                    href: '#' + key,
+                    text: key
                 }).appendTo(filterItem);
-                
+
                 var filterDiv = jQuery('<div/>', {
                     class: 'filter',
                     'data-filter': key,
                     id: key
                 }).appendTo(col9);
                 var clear = jQuery('<div/>', {
-                    class: 'clear-btn',
+                    class: 'clear-btn'
                 }).appendTo(filterDiv);
                 $(clear).append(
                     '<label for="' +
@@ -457,7 +461,8 @@ $(document).ready(function() {
                                 checked: element.checked,
                                 value: element.value,
                                 disabled: !element.enabled,
-                                belongsTo: key
+                                belongsTo: key,
+                                class: 'list-checkbox'
                             }).appendTo(filterLabel);
                             $(filterLabel).append(
                                 '<span class="checkmark"></span>'
@@ -513,7 +518,7 @@ $(document).ready(function() {
                         }
                     });
                 }
-                
+
                 if (index == Object.keys(filterData).length - 1) {
                     $(filterDiv).append('<hr/>');
                 }
@@ -526,38 +531,41 @@ $(document).ready(function() {
                 );
             }
             $("[href$='brand']").addClass('selected');
-            $("#brand").addClass('selected');
+            $('#brand').addClass('selected');
 
             // $('#filters').append('<hr/>')
         } else {
             Object.keys(filterData).forEach((key, index) => {
                 const data = filterData[key];
-                if (key != 'price') {
-                    data.forEach(element => {
-                        $(
-                            'input[type="checkbox"][value=' +
-                                element.value +
-                                ']'
-                        ).attr('checked', element.checked);
-                        $(
-                            'input[type="checkbox"][value=' +
-                                element.value +
-                                ']'
-                        ).attr('disabled', !element.enabled);
-                    });
-                } else {
-                    var instance = $('#priceRangeSlider').data(
-                        'ionRangeSlider'
-                    );
-                    instance.update({
-                        from: data.from ? data.from : data.min,
-                        to: data.to ? data.to : data.max,
-                        min: data.min,
-                        max: data.max
-                    });
+                if (data != null) {
+                    if (key != 'price') {
+                        data.forEach(element => {
+                            $(
+                                'input[type="checkbox"][value=' +
+                                    element.value +
+                                    ']'
+                            ).attr('checked', element.checked);
+                            $(
+                                'input[type="checkbox"][value=' +
+                                    element.value +
+                                    ']'
+                            ).attr('disabled', !element.enabled);
+                        });
+                    } else {
+                        var instance = $('#priceRangeSlider').data(
+                            'ionRangeSlider'
+                        );
+                        instance.update({
+                            from: data.from ? data.from : data.min,
+                            to: data.to ? data.to : data.max,
+                            min: data.min,
+                            max: data.max
+                        });
+                    }
                 }
             });
         }
+        $('.total-results').html(`Total results: ${totalResults}`);
     }
 
     fetchProducts(false);
@@ -573,7 +581,7 @@ $(document).ready(function() {
         iPageNo = 0;
 
         var $filter = $(this).closest('.filter');
-        if ($filter.attr('id') === 'priceFilter') {
+        if ($filter.attr('id') === 'price') {
             var $inp = $(this);
             price_from = $inp.data('from');
             price_to = $inp.data('to');
@@ -594,7 +602,7 @@ $(document).ready(function() {
 
         strFilters = '';
         $('.filter').each(function() {
-            if ($(this).attr('id') === 'priceFilter') {
+            if ($(this).attr('id') === 'price') {
                 var $inp = $(this);
                 price_from = $inp.data('from');
                 price_to = $inp.data('to');
@@ -726,17 +734,24 @@ $(document).ready(function() {
             callWishlistAPI($(this));
         }
     });
+    $('.filter').on('click', '.filter-label .list-checkbox', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        if ($(this).is(':checked')) {
+            $('.clear-filter').removeClass('d-none');
+        }
+    });
     $('body').on('click', '.filter-tabs .nav-link', function(e) {
         e.preventDefault();
         e.stopPropagation();
 
         $('.filter.selected').removeClass('selected');
         $('.filter-tabs .nav-link.selected').removeClass('selected');
-    
+
         $(this).addClass('selected');
         const target = $(this).attr('href');
         $(target).addClass('selected');
-      });
+    });
     function callWishlistAPI($elm) {
         var strApiToCall = '';
         if (!$elm.hasClass('marked')) {

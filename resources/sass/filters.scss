@@ -6,6 +6,7 @@
     .filter-tabs {
         text-align: left;
         margin: 0;
+        width: 101%;
         li {
             display: inline-block;
 
@@ -175,7 +176,9 @@
         z-index: 100;
         display: none;
         top: 0;
-
+        margin-top: 0px;
+        overflow-x: hidden;
+        overflow-y: auto;
         &.show {
             display: block;
         }
