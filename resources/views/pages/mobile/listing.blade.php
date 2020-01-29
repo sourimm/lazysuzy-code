@@ -10,69 +10,7 @@
 
             <div class="filters d-md-block filter-close-btn" id="filters">
 
-                <div class="filter">
-                    <hr>
-                    <span class="filter-header">Brands</span>
-                    <label for="" class="clear-filter float-right">Clear</label>
-                    <ul>
-                        <li>
-                            <label class="filter-label">CB2
-                                <input type="checkbox" checked="checked" value="cb2">
-                                <span class="checkmark"></span>
-                            </label>
-                        </li>
-                        <li>
-                            <label class="filter-label">Pier
-                                <input type="checkbox" value="pier1">
-                                <span class="checkmark"></span>
-                            </label>
-                        </li>
-                        <li>
-                            <label class="filter-label">Pottery Barn
-                                <input type="checkbox">
-                                <span class="checkmark"></span>
-                            </label>
-                        </li>
-                    </ul>
-                    <hr>
-                </div>
-                <div class="filter">
-                    <span class="filter-header">Price</span>
-                    <label for="" class="clear-filter float-right">Clear</label>
-                    <input type="text" class="price-range-slider" id="priceRangeSlider" name="price_range" value="" />
-                    <hr>
-                </div>
-                <div class="filter">
-                    <span class="filter-header">Type</span>
-                    <label for="" class="clear-filter float-right">Clear</label>
-                    <ul>
-                        <li>
-                            <label class="filter-label">Armchair
-                                <input type="checkbox" checked="checked">
-                                <span class="checkmark"></span>
-                            </label>
-                        </li>
-                        <li>
-                            <label class="filter-label">Armless
-                                <input type="checkbox">
-                                <span class="checkmark"></span>
-                            </label>
-                        </li>
-                        <li>
-                            <label class="filter-label">Recliner
-                                <input type="checkbox">
-                                <span class="checkmark"></span>
-                            </label>
-                        </li>
-                        <li>
-                            <label class="filter-label">Ottoman
-                                <input type="checkbox">
-                                <span class="checkmark"></span>
-                            </label>
-                        </li>
-                    </ul>
-                    <hr>
-                </div>
+                
                 <a class="btn clearall-filter-btn" href="/filter/clear_filter/all">Clear All</a>
             </div>
             <div class="filters   d-md-none" id="sort-mobile">
@@ -128,6 +66,56 @@
 @push('pageSpecificScripts')
 <script src="{{ mix('js/listing.mobile.js')}}"></script>
 <script id="listing-template" type="text/x-handlebars-template">
+    @{{#with this}}
+            <div id="@{{id}}" sku="@{{sku}}" site="@{{site}}" class="ls-product-div col-md-3 item-2">
+                <a href="/product/@{{sku}}" class="product-detail-modal">
+                    <div class="ls-product"><img class="prod-img img-fluid" src="@{{main_image}}" alt="@{{name}}">
+                        <div class="prod-info d-none d-md-block">
+                            <span class="-cat-name">@{{site}}</span>
+                            <span class="-prices float-right">
+                                <span class="-cprice">@{{formatPrice is_price}}</span>
+                                @{{#ifNeq is_price was_price}}
+                                <span class="-oldprice">@{{formatPrice was_price}}</span>
+                                @{{/ifNeq}}
+                            </span>
+                        </div>
+                        @{{#if wishlisted}}
+                            <div class="wishlist-icon marked" sku="@{{sku}}"><i class="far fa-heart -icon"></i></div>
+                        @{{else}}
+                            <div class="wishlist-icon " sku="@{{sku}}"><i class="far fa-heart -icon"></i></div>
+                        @{{/if}}
+                        @{{#if variations}}
+                            <div class="multiple-variants-icon" sku="@{{sku}}"><i class="far fa-clone -icon"></i></div>
+                        @{{/if}}                       
+                        <div><img class="variation-img img-fluid" src="@{{main_image}}" alt="variation-img"></div>
+
+                </a><span class="prod-sale-price d-md-none">@{{formatPrice is_price}}</span>
+                @{{printDiscount percent_discount}}
+                <div class="d-none d-md-block">
+                    <h5 class="-name">@{{name}}</h5>
+                    <div class="responsive slick-initialized slick-slider" style="">
+                        <div class="slick-list draggable">
+                            <div class="slick-track" style="opacity: 1; width: 100px; transform: translate3d(0px, 0px, 0px);">
+                            @{{#each variations}}
+                            @{{#with this}}
+                                <div class="mini-carousel-item" style="width: 30px; display: inline-block;"><a class="responsive-img-a" href="/product/@{{variation_sku}}" tabindex="0"><img class="carousel-img img-fluid" src="@{{image}}" data-prodImg="@{{image}}" /></a></div>
+                            @{{/with}}
+                            @{{/each}}
+                        </div>
+                        </div>
+                    </div>
+                    @{{#if reviewExist}}
+                    <div class="rating-container">
+                        <div class="rating  @{{ratingClass}}"></div><span class="total-ratings">@{{reviews}}</span></div>
+                </div>
+                @{{/if}}
+            </div>
+        @{{/with}}
+    </script>
+@endpush
+@push('pageSpecificScripts')
+
+<script id="filter-template" type="text/x-handlebars-template">
     @{{#with this}}
             <div id="@{{id}}" sku="@{{sku}}" site="@{{site}}" class="ls-product-div col-md-3 item-2">
                 <a href="/product/@{{sku}}" class="product-detail-modal">

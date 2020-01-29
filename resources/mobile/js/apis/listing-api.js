@@ -383,44 +383,63 @@ $(document).ready(function() {
             bFiltersCreated = true;
             $('#filters').empty();
             var mobileFilterHeader = jQuery('<div/>', {
-                class: 'mobile-filter-header d-md-none'
+                class: 'mobile-filter-header d-md-none '
             }).appendTo('#filters');
             jQuery('<span/>', {
                 class: 'float-left filters-close-btn',
-                html: '<i class="fa fa-times" aria-hidden="true"></i>'
+                html: '<i class="fa fa-arrow-left" aria-hidden="true"></i>'
             }).appendTo(mobileFilterHeader);
             jQuery('<span/>', {
                 class: 'filter-title',
                 text: 'Filters'
             }).appendTo(mobileFilterHeader);
             jQuery('<span/>', {
-                class: 'float-right',
+                class: 'clear-all',
                 html:
                     '<a class="btn clearall-filter-btn" href="#" id="clearAllFiltersBtn">Clear All</a>'
             }).appendTo(mobileFilterHeader);
+            var row = jQuery('<div/>', {
+                class: 'row  ',
+            }).appendTo('#filters');
+            var col3 = jQuery('<div/>', {
+                class: 'col-3 tab-column',
+            }).appendTo(row);
+            var col9 = jQuery('<div/>', {
+                class: 'col-9 bg-white',
+            }).appendTo(row);
+            var filterTabs = jQuery('<div/>', {
+                class: 'filter-tabs w-100',
+            }).appendTo(col3);
+            var filterList = jQuery('<ul/>', {
+                class: 'nav flex-column',
+            }).appendTo(filterTabs);
             Object.keys(filterData).forEach((key, index) => {
                 const data = filterData[key];
                 if (!data || data.length == 0) {
                     return;
                 }
-
+                var filterItem = jQuery('<li/>', {
+                    class: 'nav-item',
+                }).appendTo(filterList);
+                var filterLink = jQuery('<a/>', {
+                    class: 'nav-link flex-column',
+                    href: '#'+key,
+                    text: key 
+                }).appendTo(filterItem);
+                
                 var filterDiv = jQuery('<div/>', {
                     class: 'filter',
-                    'data-filter': key
-                }).appendTo('#filters');
-                $(filterDiv).append('<hr/>');
-
-                $(filterDiv).append(
-                    '<span class="filter-header">' +
-                        key.replace('_', ' ') +
-                        '</span>'
-                );
-                $(filterDiv).append(
+                    'data-filter': key,
+                    id: key
+                }).appendTo(col9);
+                var clear = jQuery('<div/>', {
+                    class: 'clear-btn',
+                }).appendTo(filterDiv);
+                $(clear).append(
                     '<label for="' +
                         key +
-                        '" class="clear-filter float-right">Clear</label>'
+                        '" class="clear-filter">Clear</label>'
                 );
-
                 if (key != 'price') {
                     var filterUl = jQuery('<ul/>', {
                         class: 'item-list'
@@ -449,7 +468,7 @@ $(document).ready(function() {
                         }
                     });
                 } else {
-                    $(filterDiv).attr('id', 'priceFilter');
+                    $(filterDiv).attr('id', 'price');
                     var priceInput = jQuery('<input/>', {
                         class: 'price-range-slider',
                         id: 'priceRangeSlider',
@@ -494,7 +513,7 @@ $(document).ready(function() {
                         }
                     });
                 }
-
+                
                 if (index == Object.keys(filterData).length - 1) {
                     $(filterDiv).append('<hr/>');
                 }
@@ -506,6 +525,8 @@ $(document).ready(function() {
                     '<a class="btn clearall-filter-btn" href="#" id="clearAllFiltersBtn">Clear All</a>'
                 );
             }
+            $("[href$='brand']").addClass('selected');
+            $("#brand").addClass('selected');
 
             // $('#filters').append('<hr/>')
         } else {
@@ -705,7 +726,17 @@ $(document).ready(function() {
             callWishlistAPI($(this));
         }
     });
+    $('body').on('click', '.filter-tabs .nav-link', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
 
+        $('.filter.selected').removeClass('selected');
+        $('.filter-tabs .nav-link.selected').removeClass('selected');
+    
+        $(this).addClass('selected');
+        const target = $(this).attr('href');
+        $(target).addClass('selected');
+      });
     function callWishlistAPI($elm) {
         var strApiToCall = '';
         if (!$elm.hasClass('marked')) {

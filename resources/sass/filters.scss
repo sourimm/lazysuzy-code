@@ -171,27 +171,27 @@
         background: $secondary-color;
         color: $white;
         position: fixed;
+        height: 100vh;
         z-index: 100;
         display: none;
         top: 0;
-        padding: 0 15px;
 
         &.show {
             display: block;
         }
 
-        &:before {
-            content: '';
-            position: absolute;
-            width: 0;
-            height: 0;
-            top: -18px;
-            right: 5px;
-            border-top: solid 10px transparent;
-            border-bottom: solid 10px $secondary-color;
-            border-left: solid 10px transparent;
-            border-right: solid 10px transparent;
-        }
+        // &:before {
+        //     content: '';
+        //     position: absolute;
+        //     width: 0;
+        //     height: 0;
+        //     top: -18px;
+        //     right: 5px;
+        //     border-top: solid 10px transparent;
+        //     border-bottom: solid 10px $secondary-color;
+        //     border-left: solid 10px transparent;
+        //     border-right: solid 10px transparent;
+        // }
         .sort-filter-input {
             text-align: left;
             margin: 20px 0;
@@ -231,7 +231,6 @@
                 white-space: normal;
                 text-align: left;
                 margin-right: 0;
-                max-height: 235px;
                 overflow: auto;
 
                 .filter-item {
@@ -242,14 +241,14 @@
                     .filter-label {
                         font-size: 16px;
                         .checkmark {
-                            border: 1px solid $white;
+                            border: 1px solid $secondary-color;
 
                             &:after {
                                 left: 4px;
                                 top: 1px;
                                 width: 5px;
                                 height: 10px;
-                                border: solid $border-color;
+                                border: solid $secondary-color;
                                 border-width: 0 3px 3px 0;
                                 -webkit-transform: rotate(45deg);
                                 transform: rotate(45deg);
@@ -260,6 +259,7 @@
             }
             .irs--sharp {
                 margin-top: 15px;
+                width: 95%;
                 .irs-to {
                     color: $secondary-color;
                 }
@@ -268,9 +268,9 @@
                 }
             }
             .irs-line {
-                border: 1px solid $white;
+                border: 1px solid $secondary-color;
                 top: 30px !important;
-                background-color: $white !important;
+                background-color: $secondary-color !important;
             }
         }
     }
@@ -280,9 +280,12 @@
                 height: inherit;
                 width: inherit;
             }
-            height: 50px;
             width: 40px;
             font-size: 20px;
+        }
+        .clear-all {
+            float: right;
+            padding-top: 3px;
         }
     }
 }
