@@ -177,47 +177,9 @@ input:disabled + .checkmark + .text {
     .category-page {
         .listing-container {
             .mobile-filter-header {
-                padding: 0 15px;
+                padding: 5px 15px;
             }
-            .tab-column {
-                padding: 0 0 10px 0;
-            }
-            .filters-height {
-                height: calc(100% - 30px);
-            }
-            .total-results {
-                color: $secondary-color;
-                padding: 5px 30px 0 0;
-                text-align: right;
-            }
-            .filter-tabs {
-                .nav {
-                    padding-left: 15px;
-                    .nav-item {
-                        .nav-link {
-                            padding: 0.5rem 0.5rem 1rem 0.5rem;
-                            color: $primary-color;
-                        }
-                    }
-                }
-            }
-            .filter {
-                display: none;
-                .clear-btn {
-                    text-align: right;
-                    padding-right: 10px;
-                    label {
-                        color: $secondary-color;
-                    }
-                }
-                .filter-item {
-                    color: $secondary-color;
-                }
-            }
-            .filter.selected {
-                display: block;
-                padding-right: 20px;
-            }
+
             .nav-link.selected {
                 background-color: $white;
                 color: $secondary-color !important;

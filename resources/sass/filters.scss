@@ -200,7 +200,7 @@
             margin: 20px 0;
         }
         .filter-title {
-            color: $primary-color;
+            color: $white;
             font-size: 20px;
         }
         .clearall-filter-btn {
@@ -215,6 +215,55 @@
         hr {
             color: $white;
             border-top: 1px solid #ebebeb;
+        }
+        .tab-column {
+            padding: 0 0 10px 0;
+            background-color: $grey;
+        }
+        .filters-height {
+            height: calc(100% - 30px);
+        }
+        .total-results {
+            color: $primary-color;
+            text-align: center;
+            position: fixed;
+            bottom: 10px;
+            background: $category-bg;
+            padding: 10px 20px;
+            left: 50%;
+            transform: translate(-50%);
+        }
+        .filter-tabs {
+            .nav {
+                padding-left: 15px;
+                .nav-item {
+                    .nav-link {
+                        padding: 1rem 0.5rem 1rem 0.5rem;
+                        color: $secondary-color;
+                        &.selected {
+                            background-color: $white;
+                            color: $brown-text-color !important;
+                        }
+                    }
+                }
+            }
+        }
+        .filter {
+            display: none;
+            .clear-btn {
+                text-align: right;
+                padding-right: 10px;
+                label {
+                    color: $secondary-color;
+                }
+            }
+            .filter-item {
+                color: $secondary-color;
+            }
+        }
+        .filter.selected {
+            display: block;
+            padding-right: 20px;
         }
 
         .filter {
@@ -237,7 +286,6 @@
                 overflow: auto;
 
                 .filter-item {
-                    color: $white;
                     margin-right: 10px;
                     padding: 1px 0;
 
