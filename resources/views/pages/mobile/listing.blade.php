@@ -10,7 +10,7 @@
 
             <div class="filters d-md-block filter-close-btn" id="filters">
 
-                
+
                 <a class="btn clearall-filter-btn" href="/filter/clear_filter/all">Clear All</a>
             </div>
             <div class="filters   d-md-none" id="sort-mobile">
@@ -20,12 +20,15 @@
                     <span class="filter-title">Sort</span>
                 </div>
                 <hr>
+                <div class="sort-filter-input"><input type="radio" checked name="sort-price-filter" value="recommended">
+                    Recommended </div>
                 <div class="sort-filter-input"><input type="radio" name="sort-price-filter" value="price_low_to_high">
                     Price : Low to High</div>
                 <div class="sort-filter-input"><input type="radio" name="sort-price-filter" value="price_high_to_low">
                     Price : High to Low</div>
                 <div class="sort-filter-input"><input type="radio" name="sort-price-filter" value="popularity">
                     Popularity </div>
+
             </div>
             <div class="listing-top-controls d-block d-md-none">
                 <!-- <div id="page-navigator" class="page-navigator-mobile"></div> -->
@@ -86,7 +89,7 @@
                         @{{/if}}
                         @{{#if variations}}
                             <div class="multiple-variants-icon" sku="@{{sku}}"><i class="far fa-clone -icon"></i></div>
-                        @{{/if}}                       
+                        @{{/if}}
                         <div><img class="variation-img img-fluid" src="@{{main_image}}" alt="variation-img"></div>
 
                 </a><span class="prod-sale-price d-md-none">@{{formatPrice is_price}}</span>
@@ -136,7 +139,7 @@
                         @{{/if}}
                         @{{#if variations}}
                             <div class="multiple-variants-icon" sku="@{{sku}}"><i class="far fa-clone -icon"></i></div>
-                        @{{/if}}                       
+                        @{{/if}}
                         <div><img class="variation-img img-fluid" src="@{{main_image}}" alt="variation-img"></div>
 
                 </a><span class="prod-sale-price d-md-none">@{{formatPrice is_price}}</span>
