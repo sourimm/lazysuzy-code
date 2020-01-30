@@ -104,8 +104,14 @@ class Product extends Model
         $PRICE_ASC = "price_low_to_high";
         $PRICE_DESC = "price_high_to_low";
         $POPULARITY = "popularity";
+        $RECOMMENDED = "recommended";
 
         $sort_type_filter = [
+            [
+                "name" => "Recommended",
+                "value" => $RECOMMENDED,
+                "enabled" => false
+            ],
             [
                 "name" => "Popularity",
                 "value" => $POPULARITY,
@@ -228,10 +234,13 @@ class Product extends Model
             } else if ($sort_type == $POPULARITY) {
                 $query = $query->orderBy('popularity', 'desc');
             }
+            else {
+                $query = $query->orderBy('rec_order', 'desc');
+            }
         }
         // set default sorting to popularity
         else {
-            $query = $query->orderBy('popularity', 'desc');
+            $query = $query->orderBy('rec_order', 'desc');
         }
 
         if ($is_details_minimal) {
@@ -1028,8 +1037,7 @@ class Product extends Model
 
                 if ($isListingAPICall) $var = $var->groupBy("swatch_image_path");
 
-                $var = $var->groupBy("swatch_image")
-                    ->where("product_id", $product->product_sku);
+                $var = $var->where("product_id", $product->product_sku);
 
                 if ($isListingAPICall) $var = $var->limit(7);
                 //->limit(20)
