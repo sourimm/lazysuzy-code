@@ -91,6 +91,11 @@
             font-size: 14px;
             color: $primary-color;
             cursor: pointer;
+            visibility: hidden;
+        }
+
+        .clear-filter.visible {
+            visibility: visible;
         }
 
         ul {
@@ -230,7 +235,6 @@
             bottom: 10px;
             background: $category-bg;
             padding: 10px 20px;
-            left: 50%;
             transform: translate(-50%);
         }
         .filter-tabs {

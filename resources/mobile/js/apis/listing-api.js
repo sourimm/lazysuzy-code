@@ -417,22 +417,29 @@ $(document).ready(function() {
 
         Object.keys(filterData).forEach((key, index) => {
             const data = filterData[key];
+            
+            var filterItem = jQuery('<li/>', {
+                class: 'nav-item'
+            }).appendTo(filterList);
             if (
                 !data ||
                 data.length == 0 ||
                 (data.length &&
                     data.filter(filterData => filterData.enabled).length == 0)
-            ) {
-                return;
+            ) { 
+                var filterLink = jQuery('<a/>', {
+                    class: 'nav-link flex-column disabled-link',
+                    href: 'javascript:void(0)',
+                    text: key
+                }).appendTo(filterItem);
+            } else {
+                var filterLink = jQuery('<a/>', {
+                    class: 'nav-link flex-column',
+                    href: key,
+                    text: key
+                }).appendTo(filterItem);
             }
-            var filterItem = jQuery('<li/>', {
-                class: 'nav-item'
-            }).appendTo(filterList);
-            var filterLink = jQuery('<a/>', {
-                class: 'nav-link flex-column',
-                href: '#' + key,
-                text: key
-            }).appendTo(filterItem);
+            
 
             var filterDiv = jQuery('<div/>', {
                 class: 'filter',
@@ -442,11 +449,24 @@ $(document).ready(function() {
             var clear = jQuery('<div/>', {
                 class: 'clear-btn'
             }).appendTo(filterDiv);
-
+            $(clear).append(
+                '<label for="' +
+                    key +
+                    '" class="clear-filter">Clear</label>'
+            );
+            
             if (key != 'price') {
                 var filterUl = jQuery('<ul/>', {
                     class: 'item-list'
                 }).appendTo(filterDiv);
+                if (
+                    !data ||
+                    data.length == 0 ||
+                    (data.length &&
+                        data.filter(filterData => filterData.enabled).length == 0)
+                ) { 
+                    return;
+                }
                 const isChecked =
                     data.filter(element => element.checked).length > 0;
                 data.forEach(element => {
@@ -474,17 +494,17 @@ $(document).ready(function() {
                     }
                 });
                 isChecked &&
-                    $(clear).append(
+                $(clear).append(
                         '<label for="' +
                             key +
-                            '" class="clear-filter">Clear</label>'
+                            '" class="clear-filter visible">Clear</label>'
                     );
             } else {
                 $(clear).append(
-                    '<label for="' +
-                        key +
-                        '" class="clear-filter">Clear</label>'
-                );
+                        '<label for="' +
+                            key +
+                            '" class="clear-filter visible">Clear</label>'
+                    );
                 $(filterDiv).attr('id', 'price');
                 var priceInput = jQuery('<input/>', {
                     class: 'price-range-slider',
@@ -542,12 +562,14 @@ $(document).ready(function() {
                 '<a class="btn clearall-filter-btn" href="#" id="clearAllFiltersBtn">Clear All</a>'
             );
         }
-        $("[href$='brand']").addClass('selected');
-        $('#brand').addClass('selected');
+
+        var tab = localStorage.getItem('tab') || 'brand';
+        $("[href$=" + tab + "]").addClass('selected');
+        $('#' + tab).addClass('selected');
 
         // $('#filters').append('<hr/>')
 
-        $('.total-results ').html(`See: ${totalResults} products`);
+        $('.total-results ').html(`See ${totalResults} products`);
     }
 
     fetchProducts(false);
@@ -727,12 +749,19 @@ $(document).ready(function() {
         e.preventDefault();
         e.stopPropagation();
 
+        if($(this).hasClass('disabled-link')) {
+           return
+        }
+
         $('.filter.selected').removeClass('selected');
         $('.filter-tabs .nav-link.selected').removeClass('selected');
 
         $(this).addClass('selected');
         const target = $(this).attr('href');
-        $(target).addClass('selected');
+        $('#' + target).addClass('selected');
+        if (typeof localStorage !== 'undefined') {
+            localStorage.setItem('tab', target);        
+        }
     });
     function callWishlistAPI($elm) {
         var strApiToCall = '';

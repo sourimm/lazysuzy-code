@@ -60,15 +60,13 @@
 
             </a>
             <div class="prod-info">
-                <a href="https://lazysuzy.com/brand/@{{site}}">
-                    <span class="-site">
-                        @{{#if is_new}}
-                            <span class="new-tag"><strong>NEW</strong></span>
-                        @{{/if}}
+                <span class="-site">
+                    @{{#if is_new}}
+                        <span class="new-tag"><strong>NEW</strong></span>
+                    @{{/if}}
 
-                        @{{site}}
-                    </span>
-                </a>
+                    @{{site}}
+                </span>
                 @{{#if reviewExist}}
                 <div class="rating-container float-right">
                     <span class="total-ratings">@{{reviews}}</span><div class="rating  @{{ratingClass}}"></div>

@@ -184,6 +184,10 @@ input:disabled + .checkmark + .text {
                 background-color: $white;
                 color: $secondary-color !important;
             }
+            .disabled-link {
+                opacity: .4;
+            }
+            
             .listing-top-controls {
                 position: relative;
                 width: 100%;
