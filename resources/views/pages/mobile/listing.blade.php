@@ -12,21 +12,40 @@
 
                 <a class="btn clearall-filter-btn" href="/filter/clear_filter/all">Clear All</a>
             </div>
-            <div class="filters   d-md-none" id="sort-mobile">
-                <div class="mobile-filter-header">
-                    <div class="filters-close-btn d-md-none float-left"><i class="fa fa-times" aria-hidden="true"></i>
+            <div class="filters sort-container  d-md-none" id="sort-mobile">
+                <div class="mobile-sort-header">
+                    <div class="filters-close-btn d-md-none float-left"><i class="fa fa-arrow-left" aria-hidden="true"></i>
                     </div>
                     <span class="filter-title">Sort</span>
                 </div>
-                <hr>
-                <div class="sort-filter-input"><input type="radio" checked name="sort-price-filter" value="recommended">
-                    Recommended </div>
-                <div class="sort-filter-input"><input type="radio" name="sort-price-filter" value="price_low_to_high">
-                    Price : Low to High</div>
-                <div class="sort-filter-input"><input type="radio" name="sort-price-filter" value="price_high_to_low">
-                    Price : High to Low</div>
-                <div class="sort-filter-input"><input type="radio" name="sort-price-filter" value="popularity">
-                    Popularity </div>
+                <div class="sort-filter-input">
+                    <label class="sort-label">Recommended
+                        <span class="float-right">
+                            <input type="radio" checked name="sort-price-filter" value="recommended">
+                        </span>
+                    </label>
+                </div>
+                <div class="sort-filter-input">
+                    <label class="sort-label">Price : Low to High
+                        <span class="float-right">
+                            <input type="radio" name="sort-price-filter" value="price_low_to_high">
+                        </span>
+                    </label>
+                </div>
+                <div class="sort-filter-input">
+                    <label class="sort-label">Price : High to Low
+                        <span class="float-right">
+                            <input type="radio" name="sort-price-filter" value="price_high_to_low">
+                        </span>
+                    </label>
+                </div>
+                <div class="sort-filter-input">
+                    <label class="sort-label">Popularity
+                        <span class="float-right">
+                            <input type="radio" name="sort-price-filter" value="popularity">
+                        </span>
+                    </label>
+                </div>
 
             </div>
             <div class="listing-top-controls d-block d-md-none">

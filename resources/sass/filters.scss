@@ -202,7 +202,8 @@
         // }
         .sort-filter-input {
             text-align: left;
-            margin: 20px 0;
+            margin: 20px 30px;
+            border-bottom: 1px solid #d3d3d3;
         }
         .filter-title {
             color: $white;
@@ -341,6 +342,23 @@
         .clear-all {
             float: right;
             padding-top: 3px;
+        }
+    }
+    .sort-container {
+        background-color: $white;
+        color: $secondary-color;
+        .mobile-sort-header {
+            color:$white;
+            background-color: $secondary-color;
+            padding: 5px 15px;
+            .filters-close-btn {
+                width: 40px;
+                font-size: 20px;
+            }
+        }
+        .sort-label {
+            width: 100%;
+            margin-bottom: 1rem;
         }
     }
 }

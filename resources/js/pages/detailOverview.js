@@ -125,7 +125,7 @@ $(document).ready(function() {
                     class: 'offer-price'
                 }).appendTo(priceCont);
                 var buyBtn = $('<a/>', {
-                    class: 'btn pdp-buy-btn float-right',
+                    class: 'btn pdp-buy-btn float-right  tr-viewDetails',
                     href: data.product_url,
                     text: 'View Details',
                     target: '_blank'
