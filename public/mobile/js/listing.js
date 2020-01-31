@@ -402,7 +402,7 @@ $(document).ready(function () {
             $(filterLabel).append('<span class="text">' + element.name + '</span>');
           });
         } else {
-          $(filterDiv).attr('id', 'priceFilter');
+          $(filterDiv).attr('id', 'price');
           var priceInput = jQuery('<input/>', {
             "class": 'price-range-slider',
             id: 'priceRangeSlider',
@@ -485,7 +485,7 @@ $(document).ready(function () {
     iPageNo = 0;
     var $filter = $(this).closest('.filter');
 
-    if ($filter.attr('id') === 'priceFilter') {
+    if ($filter.attr('id') === 'price') {
       var $inp = $(this);
       price_from = $inp.data('from');
       price_to = $inp.data('to');
@@ -504,7 +504,7 @@ $(document).ready(function () {
     iPageNo = 0;
     strFilters = '';
     $('.filter').each(function () {
-      if ($(this).attr('id') === 'priceFilter') {
+      if ($(this).attr('id') === 'price') {
         var $inp = $(this);
         price_from = $inp.data('from');
         price_to = $inp.data('to');
@@ -542,7 +542,7 @@ $(document).ready(function () {
   function updateFilters() {
     strFilters = '';
     $('.filter').each(function () {
-      if ($(this).attr('id') === 'priceFilter') {
+      if ($(this).attr('id') === 'price') {
         if (price_from) {
           strFilters += 'price_from:' + price_from + ';';
         }

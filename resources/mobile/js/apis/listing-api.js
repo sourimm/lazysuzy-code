@@ -649,7 +649,7 @@ $(document).ready(function () {
     function updateFilters() {
         strFilters = '';
         $('.filter').each(function () {
-            if ($(this).attr('id') === 'priceFilter') {
+            if ($(this).attr('id') === 'price') {
                 if (price_from) {
                     strFilters += 'price_from:' + price_from + ';';
                 }
