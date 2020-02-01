@@ -6,6 +6,7 @@
     .filter-tabs {
         text-align: left;
         margin: 0;
+        width: 101%;
         li {
             display: inline-block;
 
@@ -90,6 +91,12 @@
             font-size: 14px;
             color: $primary-color;
             cursor: pointer;
+            visibility: hidden;
+        }
+
+        .clear-filter.visible {
+            visibility: visible;
+            color: #999999;
         }
 
         ul {
@@ -171,33 +178,36 @@
         background: $secondary-color;
         color: $white;
         position: fixed;
+        height: 100vh;
         z-index: 100;
         display: none;
         top: 0;
-        padding: 0 15px;
-
+        margin-top: 0px;
+        overflow-x: hidden;
+        overflow-y: auto;
         &.show {
             display: block;
         }
 
-        &:before {
-            content: '';
-            position: absolute;
-            width: 0;
-            height: 0;
-            top: -18px;
-            right: 5px;
-            border-top: solid 10px transparent;
-            border-bottom: solid 10px $secondary-color;
-            border-left: solid 10px transparent;
-            border-right: solid 10px transparent;
-        }
+        // &:before {
+        //     content: '';
+        //     position: absolute;
+        //     width: 0;
+        //     height: 0;
+        //     top: -18px;
+        //     right: 5px;
+        //     border-top: solid 10px transparent;
+        //     border-bottom: solid 10px $secondary-color;
+        //     border-left: solid 10px transparent;
+        //     border-right: solid 10px transparent;
+        // }
         .sort-filter-input {
             text-align: left;
-            margin: 20px 0;
+            margin: 20px 30px;
+            border-bottom: 1px solid #d3d3d3;
         }
         .filter-title {
-            color: $primary-color;
+            color: $white;
             font-size: 20px;
         }
         .clearall-filter-btn {
@@ -212,6 +222,65 @@
         hr {
             color: $white;
             border-top: 1px solid #ebebeb;
+        }
+        .tab-column {
+            padding: 0 0 10px 0;
+            background-color: $grey;
+            height: 90vh;
+        }
+        .filters-height {
+            height: calc(100% - 30px);
+            background-color: $white;
+        }
+        .total-results {
+            color: #ffcc00;
+            text-align: center;
+            position: fixed;
+            bottom: 20px;
+            font-size: 18px;
+            left: 0;
+            right: 0;
+            border: 1px solid lightgray;
+            background-color: #e9ecef;
+            padding: 5px 5px;
+            .filter-results {
+                width: 100%;
+                background-color: #ffcc00;
+                border: none;
+                padding: 10px;
+            }
+        }
+        .filter-tabs {
+            .nav {
+                padding-left: 15px;
+                .nav-item {
+                    .nav-link {
+                        padding: 1rem 0.5rem 1rem 0.5rem;
+                        color: $secondary-color;
+                        &.selected {
+                            background-color: $white;
+                            color: $brown-text-color !important;
+                        }
+                    }
+                }
+            }
+        }
+        .filter {
+            display: none;
+            .clear-btn {
+                text-align: right;
+                padding: 15px 10px 0 0;
+                label {
+                    color: $secondary-color;
+                }
+            }
+            .filter-item {
+                color: $secondary-color;
+            }
+        }
+        .filter.selected {
+            display: block;
+            padding-right: 20px;
         }
 
         .filter {
@@ -230,26 +299,24 @@
             .item-list {
                 white-space: normal;
                 text-align: left;
-                margin-right: 0;
-                max-height: 235px;
+                margin: 0 0 0 10px;
                 overflow: auto;
 
                 .filter-item {
-                    color: $white;
                     margin-right: 10px;
                     padding: 1px 0;
 
                     .filter-label {
                         font-size: 16px;
                         .checkmark {
-                            border: 1px solid $white;
+                            border: 1px solid $secondary-color;
 
                             &:after {
                                 left: 4px;
                                 top: 1px;
                                 width: 5px;
                                 height: 10px;
-                                border: solid $border-color;
+                                border: solid $secondary-color;
                                 border-width: 0 3px 3px 0;
                                 -webkit-transform: rotate(45deg);
                                 transform: rotate(45deg);
@@ -260,6 +327,7 @@
             }
             .irs--sharp {
                 margin-top: 15px;
+                width: 95%;
                 .irs-to {
                     color: $secondary-color;
                 }
@@ -268,9 +336,9 @@
                 }
             }
             .irs-line {
-                border: 1px solid $white;
+                border: 1px solid $secondary-color;
                 top: 30px !important;
-                background-color: $white !important;
+                background-color: $secondary-color !important;
             }
         }
     }
@@ -280,9 +348,84 @@
                 height: inherit;
                 width: inherit;
             }
-            height: 50px;
             width: 40px;
             font-size: 20px;
+        }
+        .clear-all {
+            float: right;
+            padding-top: 3px;
+        }
+    }
+    .sort-container {
+        background-color: $white;
+        color: $secondary-color;
+        .mobile-sort-header {
+            color: $white;
+            background-color: $secondary-color;
+            padding: 5px 15px;
+            .filters-close-btn {
+                width: 40px;
+                font-size: 20px;
+            }
+        }
+        .sort-label {
+            width: 100%;
+            margin-bottom: 1rem;
+        }
+    }
+    .lds-ellipsis {
+        display: inline-block;
+        position: relative;
+        width: 90px;
+        height: 15px;
+    }
+    .lds-ellipsis div {
+        position: absolute;
+        top: 5px;
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: #fff;
+        animation-timing-function: cubic-bezier(0, 1, 1, 0);
+    }
+    .lds-ellipsis div:nth-child(1) {
+        left: 8px;
+        animation: lds-ellipsis1 0.6s infinite;
+    }
+    .lds-ellipsis div:nth-child(2) {
+        left: 8px;
+        animation: lds-ellipsis2 0.6s infinite;
+    }
+    .lds-ellipsis div:nth-child(3) {
+        left: 32px;
+        animation: lds-ellipsis2 0.6s infinite;
+    }
+    .lds-ellipsis div:nth-child(4) {
+        left: 56px;
+        animation: lds-ellipsis3 0.6s infinite;
+    }
+    @keyframes lds-ellipsis1 {
+        0% {
+            transform: scale(0);
+        }
+        100% {
+            transform: scale(1);
+        }
+    }
+    @keyframes lds-ellipsis3 {
+        0% {
+            transform: scale(1);
+        }
+        100% {
+            transform: scale(0);
+        }
+    }
+    @keyframes lds-ellipsis2 {
+        0% {
+            transform: translate(0, 0);
+        }
+        100% {
+            transform: translate(24px, 0);
         }
     }
 }

@@ -73,7 +73,7 @@
                 </div>
                 @{{/if}}
             </div>
-            <div class="-name">@{{name}}</div>
+            <div class="-name">@{{name}}</a></div>
             <div class="-prices">
                 <span class="-cprice">@{{formatPrice is_price}}</span>
                 @{{#ifNeq is_price was_price}}

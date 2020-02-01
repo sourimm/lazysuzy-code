@@ -28,7 +28,7 @@ input:disabled + .checkmark + .text {
 .listing {
     min-height: calc(100vh - (195px));
     @include media-breakpoint-up(md) {
-        min-height: calc(100vh - (145px));    
+        min-height: calc(100vh - (145px));
     }
     .slick-prev,
     .slick-next {
@@ -176,6 +176,18 @@ input:disabled + .checkmark + .text {
     .listing,
     .category-page {
         .listing-container {
+            .mobile-filter-header {
+                padding: 5px 15px;
+            }
+
+            .nav-link.selected {
+                background-color: $white;
+                color: $secondary-color !important;
+            }
+            .disabled-link {
+                opacity: .4;
+            }
+            
             .listing-top-controls {
                 position: relative;
                 width: 100%;
