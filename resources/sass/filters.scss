@@ -226,18 +226,29 @@
         .tab-column {
             padding: 0 0 10px 0;
             background-color: $grey;
+            height: 90vh;
         }
         .filters-height {
             height: calc(100% - 30px);
+            background-color: $white;
         }
         .total-results {
-            color: $primary-color;
+            color: #ffcc00;
             text-align: center;
             position: fixed;
-            bottom: 25px;
-            background: $category-bg;
-            padding: 10px 20px;
-            transform: translate(-60%);
+            bottom: 20px;
+            font-size: 18px;
+            left: 0;
+            right: 0;
+            border: 1px solid lightgray;
+            background-color: #e9ecef;
+            padding: 5px 5px;
+            .filter-results {
+                width: 100%;
+                background-color: #ffcc00;
+                border: none;
+                padding: 10px;
+            }
         }
         .filter-tabs {
             .nav {
@@ -371,8 +382,8 @@
     .lds-ellipsis div {
         position: absolute;
         top: 5px;
-        width: 13px;
-        height: 13px;
+        width: 8px;
+        height: 8px;
         border-radius: 50%;
         background: #fff;
         animation-timing-function: cubic-bezier(0, 1, 1, 0);
