@@ -96,7 +96,7 @@ $(document).ready(function () {
             var strLimit = iLimit === undefined ? '' : '&limit=' + iLimit;
             var filterQuery = `?filters=${strFilters}&sort_type=${strSortType}&pageno=${iPageNo}${strLimit}`;
             var listingApiPath = LISTING_API_PATH + filterQuery;
-
+            resultButton();
             history.pushState(
                 {},
                 '',
@@ -191,10 +191,12 @@ $(document).ready(function () {
                 multiCarouselFuncs.makeMultiCarousel();
             } else {
                 // if (!bClearPrevProducts) {
+                totalResults = data.total;
                 bNoMoreProductsToShow = true;
                 iPageNo -= 1;
                 $('#noProductsText').show();
                 $('#loaderImg').hide();
+                resultButton();
                 return;
                 // }
             }
@@ -403,7 +405,8 @@ $(document).ready(function () {
             class: 'col-3 tab-column'
         }).appendTo(row);
         var col9 = jQuery('<div/>', {
-            class: 'col-9 bg-white'
+            class: 'col-9 bg-white',
+            id:'filter-options'
         }).appendTo(row);
         var filterTabs = jQuery('<div/>', {
             class: 'filter-tabs'
@@ -411,13 +414,11 @@ $(document).ready(function () {
         var filterList = jQuery('<ul/>', {
             class: 'nav flex-column'
         }).appendTo(filterTabs);
-        var result = jQuery('<button/>', {
-            class: 'total-results filters-close-btn'
-        }).appendTo(col9);
+        resultButton();
 
         Object.keys(filterData).forEach((key, index) => {
             const data = filterData[key];
-            if (data === null) {
+            if(data === null) {
                 return;
             }
             var filterItem = jQuery('<li/>', {
@@ -428,7 +429,7 @@ $(document).ready(function () {
                 data.length == 0 ||
                 (data.length &&
                     data.filter(filterData => filterData.enabled).length == 0)
-            ) {
+            ) { 
                 var filterLink = jQuery('<a/>', {
                     class: 'nav-link flex-column disabled-link',
                     href: 'javascript:void(0)',
@@ -441,7 +442,7 @@ $(document).ready(function () {
                     text: key
                 }).appendTo(filterItem);
             }
-
+            
 
             var filterDiv = jQuery('<div/>', {
                 class: 'filter',
@@ -453,10 +454,10 @@ $(document).ready(function () {
             }).appendTo(filterDiv);
             $(clear).append(
                 '<label for="' +
-                key +
-                '" class="clear-filter">Clear</label>'
+                    key +
+                    '" class="clear-filter">Clear</label>'
             );
-
+            
             if (key != 'price') {
                 var filterUl = jQuery('<ul/>', {
                     class: 'item-list'
@@ -466,7 +467,7 @@ $(document).ready(function () {
                     data.length == 0 ||
                     (data.length &&
                         data.filter(filterData => filterData.enabled).length == 0)
-                ) {
+                ) { 
                     return;
                 }
                 const isChecked =
@@ -496,16 +497,16 @@ $(document).ready(function () {
                     }
                 });
                 isChecked &&
-                    $(clear).append(
-                        '<label for="' +
+                $(clear).append(
+                    '<label for="' +
                         key +
                         '" class="clear-filter visible">Clear</label>'
-                    );
+                );
             } else {
                 $(clear).append(
                     '<label for="' +
-                    key +
-                    '" class="clear-filter visible">Clear</label>'
+                        key +
+                        '" class="clear-filter visible">Clear</label>'
                 );
                 $(filterDiv).attr('id', 'price');
                 var priceInput = jQuery('<input/>', {
@@ -571,7 +572,22 @@ $(document).ready(function () {
 
         // $('#filters').append('<hr/>')
 
-        $('.total-results ').html(`See ${totalResults} products`);
+        
+    }
+    
+    function resultButton() {
+        var result = jQuery('<button/>', {
+            class: 'total-results filters-close-btn'
+        }).appendTo('#filter-options');
+        if (bFetchingProducts === true) {
+            $('.total-results ').html("<div class='lds-ellipsis'><div></div><div></div><div></div><div></div></div>");
+        } else {
+            if (totalResults === 1) {
+                $('.total-results ').html(`See ${totalResults} product`);
+            } else {
+                $('.total-results ').html(`See ${totalResults} products`);
+            }
+        }
     }
 
     fetchProducts(false);
@@ -648,7 +664,7 @@ $(document).ready(function () {
 
     function updateFilters() {
         strFilters = '';
-        $('.filter').each(function () {
+        $('.filter').each(function() {
             if ($(this).attr('id') === 'price') {
                 if (price_from) {
                     strFilters += 'price_from:' + price_from + ';';
@@ -751,8 +767,8 @@ $(document).ready(function () {
         e.preventDefault();
         e.stopPropagation();
 
-        if ($(this).hasClass('disabled-link')) {
-            return
+        if($(this).hasClass('disabled-link')) {
+           return
         }
 
         $('.filter.selected').removeClass('selected');
@@ -762,7 +778,7 @@ $(document).ready(function () {
         const target = $(this).attr('href');
         $('#' + target).addClass('selected');
         if (typeof localStorage !== 'undefined') {
-            localStorage.setItem('tab', target);
+            localStorage.setItem('tab', target);        
         }
     });
     function callWishlistAPI($elm) {

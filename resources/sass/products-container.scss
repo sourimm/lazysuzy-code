@@ -70,7 +70,7 @@
                     top: 0px;
                     right: 0px;
                     z-index: 50;
-
+                    color: $icons-color;
                     .-icon {
                         font-size: 20px;
                     }
@@ -87,6 +87,7 @@
                     top: 10px;
                     z-index: 50;
                     font-size: 21px;
+                    color: $icons-color;
                 }
                 
                 .-name {
