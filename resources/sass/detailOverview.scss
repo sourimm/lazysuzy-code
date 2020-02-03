@@ -6,36 +6,50 @@
             }
         }
     }
+
+    .-images {
+        height: 95vh;
+        width: auto;
+        overflow: auto;
+    }
+
     .variation-container {
         .variation-options {
             margin: 10px 0;
+
             .overflow {
                 overflow: hidden;
                 overflow-y: auto;
             }
+
             .swatch-images {
                 display: flex;
                 flex-wrap: wrap;
                 max-height: 180px;
                 padding: 5px 0 20px 0;
+
                 .single {
                     margin: 5px;
                 }
+
                 .variant-img {
                     width: 40px;
                     height: 40px;
                 }
+
                 .variant-img.active {
                     -webkit-box-shadow: 0px 0px 1px 2px #ffcc00;
                     -moz-box-shadow: 0px 0px 1px 2px #ffcc00;
                     box-shadow: 0px 0px 1px 2px #ffcc00;
                 }
+
                 [data-title] {
                     position: relative;
                     cursor: pointer;
                     font-size: 18px;
                     vertical-align: middle;
                 }
+
                 [data-title]:hover::before {
                     content: attr(data-title);
                     position: absolute;
@@ -55,23 +69,28 @@
             }
         }
     }
+
     .prod-desc {
         .d-none {
             display: none;
         }
     }
+
     .prod-desc {
         .d-none {
             display: none;
         }
     }
+
     .prod-desc {
         .d-none {
             display: none;
         }
     }
+
     .-product-details {
         margin: 10px 5px 10px 0;
+
         .original-price {
             font-size: 28px;
             text-decoration: line-through;
@@ -79,11 +98,13 @@
         }
     }
 }
+
 .slick-lightbox {
     .slick-lightbox-inner {
         .slick-lightbox-close::before {
             font-size: 50px !important;
         }
+
         .slick-prev::before,
         .slick-next::before {
             color: $white !important;
@@ -98,32 +119,42 @@
 .products-modal-details {
     overflow: auto;
     overflow-x: hidden;
-    height: 72vh;
+    height: calc(100vh - 409px);
+    width: 100%;
     font-size: 16px;
+
+    &.extended {
+        height: calc(100vh - 190px);
+    }
 }
+
 .navbar-modal {
     background-color: transparent !important;
     color: $products-bg;
     font-size: 18px;
 }
+
 .product-close {
     z-index: 1;
     font-size: 50px !important;
     color: $white;
     margin-right: 35px;
 }
+
 .modal-nav-link {
     display: block;
     padding: 0rem 1rem;
     text-decoration: none;
     color: $category-bg;
 }
+
 .modal-nav-item {
     :hover {
         text-decoration: none;
         color: $products-bg;
     }
 }
+
 .modal-hr {
     margin-top: 0.5rem;
     margin-bottom: 0.5rem;
@@ -140,15 +171,17 @@
 
 .product-modal-body {
     position: relative;
-    flex: 1 1 auto;
-    padding: 15px 15px 0 15px;
+    padding: 0;
 }
+
 .product-modal-dialog {
     margin: 0 auto;
 }
+
 .product-modal-content {
-    height: 100%;
+    height: 100vh;
 }
+
 .modal-header {
     display: flex;
     align-items: flex-start;
@@ -165,6 +198,7 @@
     height: 150px;
     border-radius: 75px;
     box-shadow: 0 6px 18px rgba(0, 0, 0, 0.3) !important;
+
     &.carousel-zoom-pane {
         margin-top: 100px;
     }
@@ -175,6 +209,7 @@
         border-radius: 20px;
         font-size: 14px;
         font-weight: 600;
+
         .pdp-buy-btn {
             width: 30%;
             color: $primary-color;
@@ -213,6 +248,7 @@
             text-decoration: none;
         }
     }
+
     .btn.btn-link {
         width: 100%;
         text-align: left;
@@ -220,11 +256,14 @@
         &:hover {
             color: $golden;
         }
+
         .-text {
             color: $primary-color;
+
             &:hover {
                 color: $golden;
             }
+
             &:after {
                 content: '';
                 width: 0;
@@ -251,21 +290,26 @@
 .prod-main-img {
     display: none;
 }
+
 .box {
     max-width: 1080px;
     margin: auto;
 }
+
 .-text {
     color: $secondary-color;
 }
+
 #scroll-bar-img {
     ::-webkit-scrollbar {
         width: 10px;
     }
+
     ::-webkit-scrollbar-track {
         box-shadow: inset 0 0 5px grey;
         border-radius: 10px;
     }
+
     ::-webkit-scrollbar-thumb {
         background: #ffcc00;
         border-radius: 10px;
@@ -275,6 +319,7 @@
         background: #ffcc00ba;
     }
 }
+
 .btn-link-text {
     font-size: 14px;
     background: none;
@@ -282,6 +327,7 @@
     margin: 0;
     padding: 0;
     cursor: pointer;
+
     &:after {
         content: '>';
         background: none;

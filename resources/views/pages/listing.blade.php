@@ -75,7 +75,7 @@
             </div>
             <div class="-name">@{{name}}</a></div>
             <div class="-prices">
-                <span class="-cprice">@{{formatPrice is_price}}</span>
+                <span class="-cprice @{{#ifNeq is_price was_price}}sale@{{/ifNeq}}">@{{formatPrice is_price}}</span>
                 @{{#ifNeq is_price was_price}}
                 <span class="-oldprice">@{{formatPrice was_price}}</span>
                 @{{/ifNeq}}

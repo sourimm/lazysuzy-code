@@ -279,11 +279,16 @@ input:disabled + .checkmark + .text {
                             left: 0;
                             bottom: 0;
                             background: $off-white;
-                            color: $product-price;
+                            color: $secondary-color;
+
+                            &.sale {
+                                color: $product-price;
+                            }
+                            
                             .new-tag {
                                 display: inline-block;
                                 margin-right: 5px;
-                                color: $secondary-color;
+                                color: $brown-text-color;
                             }
                         }
                         .prod-discount-tag {
@@ -446,11 +451,7 @@ input:disabled + .checkmark + .text {
         color: $white;
     }
 }
-.-images {
-    height: 95vh;
-    width: auto;
-    overflow: auto;
-}
+
 .nav {
     display: flex;
     flex-wrap: nowrap;

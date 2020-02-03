@@ -5,7 +5,7 @@ const Handlebars = require('handlebars');
 // import strItemsNumClass from '../pages/listing';
 // import * as priceSliderContainer from '../pages/listing';
 
-$(document).ready(function() {
+$(document).ready(function () {
     const LISTING_API_PATH = '/api' + location.pathname;
     const FAV_MARK_API = '/api/mark/favourite/';
     const FAV_UNMARK_API = '/api/unmark/favourite/';
@@ -16,19 +16,19 @@ $(document).ready(function() {
     var search = window.location.search.substring(1);
     var source = document.getElementById('listing-template').innerHTML;
     var listingTemplate = Handlebars.compile(source);
-    Handlebars.registerHelper('ifEq', function(v1, v2, options) {
+    Handlebars.registerHelper('ifEq', function (v1, v2, options) {
         if (v1 === v2) {
             return options.fn(this);
         }
         return options.inverse(this);
     });
-    Handlebars.registerHelper('ifNeq', function(v1, v2, options) {
+    Handlebars.registerHelper('ifNeq', function (v1, v2, options) {
         if (v1 !== v2) {
             return options.fn(this);
         }
         return options.inverse(this);
     });
-    Handlebars.registerHelper('formatPrice', function(price) {
+    Handlebars.registerHelper('formatPrice', function (price) {
         if (price.includes('-')) {
             let salepriceRange = price.split('-');
             return `$${Math.round(
@@ -39,11 +39,11 @@ $(document).ready(function() {
         }
         return `$${Math.round(price).toLocaleString()}`;
     });
-    Handlebars.registerHelper('printDiscount', function(discount) {
+    Handlebars.registerHelper('printDiscount', function (discount) {
         if (Math.ceil(discount) > 0) {
             return new Handlebars.SafeString(
                 `<span class="prod-discount-tag d-md-none ${
-                    discount >= 20 ? '_20' : ''
+                discount >= 20 ? '_20' : ''
                 }">${Math.ceil(discount)}%</span>`
             );
         }
@@ -52,13 +52,13 @@ $(document).ready(function() {
 
     var queryObject = search
         ? JSON.parse(
-              '{"' +
-                  decodeURI(search)
-                      .replace(/"/g, '\\"')
-                      .replace(/&/g, '","')
-                      .replace(/=/g, '":"') +
-                  '"}'
-          )
+            '{"' +
+            decodeURI(search)
+                .replace(/"/g, '\\"')
+                .replace(/&/g, '","')
+                .replace(/=/g, '":"') +
+            '"}'
+        )
         : {};
     var strFilters = queryObject.filters || '';
     var strSortType = queryObject.sort_type || '';
@@ -68,7 +68,7 @@ $(document).ready(function() {
     var bNoMoreProductsToShow = false;
     var bFetchingProducts = false;
 
-    $(window).scroll(function() {
+    $(window).scroll(function () {
         if (!bNoMoreProductsToShow) {
             if ($('#loaderImg') && isScrolledIntoView($('#loaderImg')[0])) {
                 fetchProducts(false);
@@ -101,10 +101,10 @@ $(document).ready(function() {
                 {},
                 '',
                 window.location.protocol +
-                    '//' +
-                    window.location.host +
-                    window.location.pathname +
-                    filterQuery
+                '//' +
+                window.location.host +
+                window.location.pathname +
+                filterQuery
             );
             $('#noProductsText').hide();
 
@@ -127,7 +127,7 @@ $(document).ready(function() {
                     );
                 }
                 var productsarry = [];
-                $.when.apply(undefined, apiCall).then(function(...results) {
+                $.when.apply(undefined, apiCall).then(function (...results) {
                     results.map(data => {
                         productsarry = [...productsarry, ...data[0].products];
                     });
@@ -141,10 +141,10 @@ $(document).ready(function() {
                     type: 'GET',
                     url: listingApiPath,
                     dataType: 'json',
-                    success: function(data) {
+                    success: function (data) {
                         listingApiRendering(data);
                     },
-                    error: function(jqXHR, exception) {
+                    error: function (jqXHR, exception) {
                         bFetchingProducts = false;
                         console.log(jqXHR);
                         console.log(exception);
@@ -152,7 +152,7 @@ $(document).ready(function() {
                 });
             }
         }
-        window.listingApiRendering = function(data) {
+        window.listingApiRendering = function (data) {
             bFetchingProducts = false;
             if (bClearPrevProducts) {
                 $('#productsContainerDiv').empty();
@@ -230,160 +230,6 @@ $(document).ready(function() {
     }
 
     var mainProductDiv;
-    function createProductDiv(productDetails) {
-        //Make product main div
-        mainProductDiv = jQuery('<div/>', {
-            id: productDetails.id,
-            sku: productDetails.sku,
-            site: productDetails.site,
-            class: 'ls-product-div col-md-3 ' + strItemsNumClass
-        }).appendTo;
-        var productLink = jQuery('<a/>', {
-            href: PRODUCT_URL + productDetails.sku,
-            class: 'product-detail-modal'
-        }).appendTo(mainProductDiv);
-
-        var product = jQuery('<div/>', {
-            class: 'ls-product'
-        }).appendTo(productLink);
-        if (productDetails.is_price.includes('-')) {
-            let salepriceRange = productDetails.is_price.split('-');
-            var saleprice = jQuery('<span />', {
-                text: `$${Math.round(
-                    salepriceRange[0]
-                ).toLocaleString()} - $${Math.round(
-                    salepriceRange[1]
-                ).toLocaleString()}`,
-                class: 'prod-sale-price d-md-none'
-            }).appendTo(mainProductDiv);
-        } else {
-            var saleprice = jQuery('<span />', {
-                text: `$${Math.round(
-                    productDetails.is_price
-                ).toLocaleString()}`,
-                class: 'prod-sale-price d-md-none'
-            }).appendTo(mainProductDiv);
-        }
-        productDetails.isNew &&
-            jQuery('<span />', {
-                html: `<strong>NEW</strong>`,
-                class: 'new-tag'
-            }).prependTo(saleprice);
-        if (Math.ceil(productDetails.percent_discount) > 0) {
-            var discounttag = jQuery('<span />', {
-                text: `${Math.ceil(productDetails.percent_discount)}%`,
-                class: `prod-discount-tag d-md-none ${
-                    productDetails.percent_discount >= 20 ? '_20' : ''
-                }`
-            }).appendTo(mainProductDiv);
-        }
-
-        jQuery('<img />', {
-            class: 'prod-img img-fluid',
-            src: productDetails.main_image,
-            alt: productDetails.name
-        }).appendTo(product);
-
-        //Product information
-        var prodInfo = jQuery('<div/>', {
-            class: 'prod-info d-none d-md-block'
-        }).appendTo(product);
-        var catDetails = jQuery('<span/>', {
-            class: '-cat-name'
-        }).appendTo(prodInfo);
-        $(catDetails).text(productDetails.site);
-        var prices = jQuery('<span/>', {
-            class: '-prices float-right'
-        }).appendTo(prodInfo);
-        var currPrice = jQuery('<span/>', {
-            class: '-cprice'
-        }).appendTo(prices);
-        $(currPrice).text('$' + productDetails.is_price);
-        if (productDetails.is_price < productDetails.was_price) {
-            var oldPrice = jQuery('<span/>', {
-                class: '-oldprice'
-            }).appendTo(prices);
-            $(oldPrice).text('$' + productDetails.was_price);
-        }
-        var strMarked = productDetails.wishlisted ? 'marked' : '';
-        $(product).append(
-            '<div class="wishlist-icon ' +
-                strMarked +
-                '" sku=' +
-                productDetails.sku +
-                '><i class="far fa-heart -icon"></i></div>'
-        );
-
-        var productInfoNext = jQuery('<div/>', {
-            class: 'd-none d-md-block'
-        }).appendTo(mainProductDiv);
-        $(productInfoNext).append(
-            '<div class="-name">' + productDetails.name + '</div>'
-        );
-
-        var carouselMainDiv = jQuery('<div/>', {
-            class: 'responsive'
-        }).appendTo(productInfoNext);
-
-        var variationImages = productDetails.variations.map(
-            variation => variation.image
-        );
-        var variationSwatchImages = productDetails.variations.map(
-            (variation, idx) => {
-                if (productDetails.site !== 'Westelm') {
-                    return variation.swatch_image || variationImages[idx];
-                } else {
-                    return variation.swatch_image;
-                }
-            }
-        );
-        var variationLinks = productDetails.variations.map(
-            variation => variation.link
-        );
-
-        if (productDetails.main_image != null) {
-            jQuery('<img />', {
-                class: 'variation-img img-fluid',
-                src: productDetails.main_image,
-                alt: 'variation-img'
-            }).appendTo(product);
-        }
-
-        if (variationSwatchImages.length > 0) {
-            variationSwatchImages.forEach((img, idx) => {
-                var responsiveImgDiv = jQuery('<div/>', {
-                    class: 'mini-carousel-item'
-                }).appendTo(carouselMainDiv);
-                var anchor = jQuery('<a/>', {
-                    class: 'responsive-img-a',
-                    href: variationLinks[idx]
-                }).appendTo(responsiveImgDiv);
-                var responsiveImg = jQuery('<img/>', {
-                    class: 'carousel-img img-fluid',
-                    src: img,
-                    'data-prodimg': variationImages[idx]
-                }).appendTo(anchor);
-            });
-        } else {
-            carouselMainDiv.addClass('d-none');
-        }
-
-        if (
-            productDetails.reviews != null &&
-            parseInt(productDetails.reviews) != 0
-        ) {
-            var reviewValue = parseInt(productDetails.reviews);
-            var ratingValue = parseFloat(productDetails.rating).toFixed(1);
-            var ratingClass = ratingValue.toString().replace('.', '_');
-            $(productInfoNext).append(
-                '<div class="rating-container"><div class="rating  rating-' +
-                    ratingClass +
-                    '"></div><span class="total-ratings">' +
-                    reviewValue +
-                    '</span></div>'
-            );
-        }
-    }
 
     function createUpdateFilterData(filterData) {
         bNoMoreProductsToShow = false;
@@ -473,7 +319,7 @@ $(document).ready(function() {
                     data.length == 0 ||
                     (data.length &&
                         data.filter(filterData => filterData.enabled).length ==
-                            0)
+                        0)
                 ) {
                     return;
                 }
@@ -506,14 +352,14 @@ $(document).ready(function() {
                 isChecked &&
                     $(clear).append(
                         '<label for="' +
-                            key +
-                            '" class="clear-filter visible">Clear</label>'
+                        key +
+                        '" class="clear-filter visible">Clear</label>'
                     );
             } else {
                 $(clear).append(
                     '<label for="' +
-                        key +
-                        '" class="clear-filter visible">Clear</label>'
+                    key +
+                    '" class="clear-filter visible">Clear</label>'
                 );
                 $(filterDiv).attr('id', 'price');
                 var priceInput = jQuery('<input/>', {
@@ -539,13 +385,13 @@ $(document).ready(function() {
                     to: data.to ? data.to : data.max,
                     prefix: '$',
                     prettify_separator: ',',
-                    onStart: function(data) {
+                    onStart: function (data) {
                         // fired then range slider is ready
                     },
-                    onChange: function(data) {
+                    onChange: function (data) {
                         // fired on every range slider update
                     },
-                    onFinish: function(data) {
+                    onFinish: function (data) {
                         // fired on pointer release
 
                         var $inp = $('#priceRangeSlider');
@@ -555,7 +401,7 @@ $(document).ready(function() {
                         updateFilters();
                         fetchProducts(true);
                     },
-                    onUpdate: function(data) {
+                    onUpdate: function (data) {
                         // fired on changing slider with Update method
                     }
                 });
@@ -607,7 +453,7 @@ $(document).ready(function() {
             : $('html,body').scrollTop(aTag.position().top);
     }
 
-    $('body').on('click', '.clear-filter', function() {
+    $('body').on('click', '.clear-filter', function () {
         iPageNo = 0;
 
         var $filter = $(this).closest('.filter');
@@ -616,7 +462,7 @@ $(document).ready(function() {
             price_from = $inp.data('from');
             price_to = $inp.data('to');
         } else {
-            $filter.find('input[type="checkbox"]').each(function() {
+            $filter.find('input[type="checkbox"]').each(function () {
                 if (this.checked) {
                     this.checked = false;
                 }
@@ -627,11 +473,11 @@ $(document).ready(function() {
         fetchProducts(true);
     });
 
-    $('body').on('click', '#clearAllFiltersBtn', function() {
+    $('body').on('click', '#clearAllFiltersBtn', function () {
         iPageNo = 0;
 
         strFilters = '';
-        $('.filter').each(function() {
+        $('.filter').each(function () {
             if ($(this).attr('id') === 'price') {
                 var $inp = $(this);
                 price_from = $inp.data('from');
@@ -639,7 +485,7 @@ $(document).ready(function() {
             } else {
                 $(this)
                     .find('input[type="checkbox"]')
-                    .each(function() {
+                    .each(function () {
                         if (this.checked) {
                             this.checked = false;
                         }
@@ -650,19 +496,19 @@ $(document).ready(function() {
     });
 
     /***************Implementation of filter changes **************/
-    $('body').on('change', '.filter input[type="checkbox"]', function() {
+    $('body').on('change', '.filter input[type="checkbox"]', function () {
         iPageNo = 0;
         updateFilters();
         fetchProducts(true);
     });
 
-    $(document).on('select-value-changed', function() {
+    $(document).on('select-value-changed', function () {
         strSortType = $('#selectbox-sort').attr('active');
         iPageNo = 0;
         updateFilters();
         fetchProducts(true);
     });
-    $('input[name="sort-price-filter"]').click(function() {
+    $('input[name="sort-price-filter"]').click(function () {
         strSortType = $('input[name="sort-price-filter"]:checked').val();
         iPageNo = 0;
         updateFilters();
@@ -672,7 +518,7 @@ $(document).ready(function() {
 
     function updateFilters() {
         strFilters = '';
-        $('.filter').each(function() {
+        $('.filter').each(function () {
             if ($(this).attr('id') === 'price') {
                 if (price_from) {
                     strFilters += 'price_from:' + price_from + ';';
@@ -686,7 +532,7 @@ $(document).ready(function() {
                 var bFirstChecked = false;
                 $(this)
                     .find('input[type="checkbox"]')
-                    .each(function(idx) {
+                    .each(function (idx) {
                         if (this.checked) {
                             var delim;
                             if (!bFirstChecked) {
@@ -705,7 +551,7 @@ $(document).ready(function() {
         //  window.location.search = strFilters;
     }
 
-    $('body').on('mouseover', '.slick-slide', function() {
+    $('body').on('mouseover', '.slick-slide', function () {
         $(this)
             .closest('.ls-product-div')
             .find('.variation-img')
@@ -725,7 +571,7 @@ $(document).ready(function() {
             .show();
     });
 
-    $('body').on('mouseleave', '.slick-slide', function() {
+    $('body').on('mouseleave', '.slick-slide', function () {
         $(this)
             .closest('.ls-product-div')
             .find('.variation-img')
@@ -736,7 +582,7 @@ $(document).ready(function() {
             .css('visibility', 'unset');
     });
 
-    $('body').on('click', '.dropdown-submenu a', function(e) {
+    $('body').on('click', '.dropdown-submenu a', function (e) {
         if (isMobile()) {
             // early return if the parent has no hover-class
             if (!$(this).hasClass('hover')) return;
@@ -747,14 +593,14 @@ $(document).ready(function() {
         }
     });
 
-    $('body').on('mouseover', '.dropdown-submenu a', function(e) {
+    $('body').on('mouseover', '.dropdown-submenu a', function (e) {
         if (isMobile()) {
             var time = Date.now();
             $(this).data('hovered', time);
         }
     });
 
-    $('body').on('click', '.wishlist-icon:not(.nav-link)', function(e) {
+    $('body').on('click', '.wishlist-icon:not(.nav-link)', function (e) {
         e.preventDefault();
         e.stopPropagation();
         if ($('#isLoggedIn').val() == 0) {
@@ -764,14 +610,14 @@ $(document).ready(function() {
             callWishlistAPI($(this));
         }
     });
-    $('.filter').on('click', '.filter-label .list-checkbox', function(e) {
+    $('.filter').on('click', '.filter-label .list-checkbox', function (e) {
         e.preventDefault();
         e.stopPropagation();
         if ($(this).is(':checked')) {
             $('.clear-filter').removeClass('d-none');
         }
     });
-    $('body').on('click', '.filter-tabs .nav-link', function(e) {
+    $('body').on('click', '.filter-tabs .nav-link', function (e) {
         e.preventDefault();
         e.stopPropagation();
 
@@ -801,14 +647,14 @@ $(document).ready(function() {
             type: 'GET',
             url: strApiToCall,
             dataType: 'json',
-            success: function(data) {
+            success: function (data) {
                 if (!$elm.hasClass('marked')) {
                     $elm.addClass('marked');
                 } else {
                     $elm.removeClass('marked');
                 }
             },
-            error: function(jqXHR, exception) {
+            error: function (jqXHR, exception) {
                 console.log(jqXHR);
                 console.log(exception);
             }

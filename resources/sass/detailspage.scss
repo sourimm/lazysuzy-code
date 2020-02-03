@@ -4,14 +4,17 @@
 
     .detailspage {
         min-height: calc(100vh - (155px));
+
         .wishlist-icon {
             font-size: 24px;
+
             &.marked {
                 .-icon {
                     font-weight: 900;
                 }
             }
         }
+
         .product-navigator {
             margin: 5px;
         }
@@ -30,6 +33,7 @@
 
             .single-filter {
                 margin: 20px;
+
                 .select {
                     .select-styled {
                         background: white;
@@ -85,14 +89,18 @@
                 }
             }
         }
+
         .zoom-img-variation {
             cursor: zoom-in;
         }
+
         .carousel-img {
             cursor: pointer;
         }
+
         .controls-div {
             height: 33px;
+
             .-icon {
                 font-size: 22px;
                 margin: 5px;
@@ -100,17 +108,20 @@
         }
 
         .-images-container {
-            height: 250px;
+            height: 230px;
             overflow-x: auto;
             margin: 5px 0;
+
             @include media-breakpoint-up(md) {
                 margin: 15px 0px;
             }
+
             .-images {
                 overflow-x: scroll;
                 overflow-y: hidden;
-                height: 250px;
+                height: 230px;
                 white-space: nowrap;
+
                 .-prod-img {
                     max-height: 100%;
                     display: inline-block;
@@ -120,18 +131,22 @@
 
         .variation-container {
             position: relative;
+
             .variation-options {
                 max-width: 375px;
                 overflow-x: scroll;
                 overflow: auto;
+
                 .swatch-images {
                     display: flex;
                     flex-wrap: nowrap;
                     padding: 5px 0 10px 0;
+
                     .variant-img {
                         width: 30px;
                         height: 30px;
                     }
+
                     .variant-img.active {
                         -webkit-box-shadow: 0px 0px 0px 2px #ffcc00;
                         -moz-box-shadow: 0px 0px 0px 2px #ffcc00;
@@ -140,29 +155,36 @@
                 }
             }
         }
+
         .responsive {
             height: auto;
             max-width: 100%;
+
             .slick-slide {
                 margin: 0px;
                 padding: 0px;
             }
+
             .slick-track {
                 margin: 0px;
             }
+
             .mini-carousel-item {
                 .carousel-img {
                     margin: 0px;
                 }
             }
         }
+
         .-product-details {
             margin: 10px 0 0 0;
+
             .-name {
                 text-decoration: none;
                 color: $secondary-color;
                 font-size: 20px;
             }
+
             .offer-price {
                 color: $product-price;
                 font-size: 20px;
@@ -170,6 +192,7 @@
                 display: inline-block;
                 margin-top: 6px;
             }
+
             .price {
                 font-size: 0.8em;
                 text-decoration: line-through;
@@ -185,6 +208,7 @@
             padding: 30px 10px;
             font-size: 24px;
             font-weight: 600;
+
             .pdp-buy-btn {
                 width: 30%;
                 @include primary-button;
@@ -202,14 +226,17 @@
                 display: block;
                 width: 100%;
                 height: auto;
+
                 .select-styled {
                     padding: 5px 15px;
                     border: 1px solid $primary-color;
                     border-radius: 4px;
                 }
+
                 .select-options {
                     max-height: 250px;
                     overflow-y: scroll;
+
                     li {
                         text-align: center;
                         padding-left: 15px;
@@ -225,6 +252,7 @@
             text-decoration: none;
             color: $secondary-color;
             display: inline-block;
+
             .rating {
                 margin-left: 0px;
             }
@@ -238,6 +266,7 @@
     height: 150px;
     border-radius: 75px;
     box-shadow: 0 6px 18px rgba(0, 0, 0, 0.3) !important;
+
     &.carousel-zoom-pane {
         margin-top: 100px;
     }
@@ -309,8 +338,9 @@
     left: 0;
     margin-left: -1rem;
 }
-[data-overflowing='both'] ~ .canvas-scroll-left,
-[data-overflowing='left'] ~ .canvas-scroll-left {
+
+[data-overflowing='both']~.canvas-scroll-left,
+[data-overflowing='left']~.canvas-scroll-left {
     opacity: 1;
 }
 
@@ -318,18 +348,22 @@
     right: 0;
     margin-right: -1rem;
 }
-[data-overflowing='both'] ~ .canvas-scroll-right,
-[data-overflowing='right'] ~ .canvas-scroll-right {
+
+[data-overflowing='both']~.canvas-scroll-right,
+[data-overflowing='right']~.canvas-scroll-right {
     opacity: 1;
 }
+
 @include media-breakpoint-down(md) {
     .nav {
         padding-left: 10px;
     }
+
     .-product-details {
         border-radius: 20px;
         font-size: 14px;
         font-weight: 600;
+
         .pdp-buy-btn {
             text-align: center;
             display: inline-block;
@@ -340,10 +374,12 @@
             border-radius: 10px;
             margin: 2px 0px;
         }
+
         span {
             color: $black;
         }
     }
+
     .description-title {
         font-weight: bold;
     }
@@ -375,6 +411,7 @@
 .tab-pane {
     margin-top: 10px;
 }
+
 .detail-nav-link {
     color: $black;
 }
@@ -387,6 +424,7 @@
             text-decoration: none;
         }
     }
+
     .btn.btn-link {
         width: 100%;
         text-align: left;
@@ -394,11 +432,14 @@
         &:hover {
             color: $golden;
         }
+
         .-text {
             color: $primary-color;
+
             &:hover {
                 color: $golden;
             }
+
             &:after {
                 content: '';
                 width: 0;
@@ -425,21 +466,26 @@
 .prod-main-img {
     display: none;
 }
+
 .box {
     max-width: 1080px;
     margin: auto;
 }
+
 .-text {
     color: $secondary-color;
 }
+
 #scroll-bar-img {
     ::-webkit-scrollbar {
         width: 10px;
     }
+
     ::-webkit-scrollbar-track {
         box-shadow: inset 0 0 5px grey;
         border-radius: 10px;
     }
+
     ::-webkit-scrollbar-thumb {
         background: #ffcc00;
         border-radius: 10px;
@@ -449,6 +495,7 @@
         background: #ffcc00ba;
     }
 }
+
 .btn-link-text {
     font-size: 14px;
     background: none;
@@ -456,6 +503,7 @@
     margin: 0;
     padding: 0;
     cursor: pointer;
+
     &:after {
         content: '>';
         background: none;

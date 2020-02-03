@@ -8,7 +8,7 @@ var md = require('markdown-it')({
     breaks: true
 });
 
-$(document).ready(function() {
+$(document).ready(function () {
     const PDP_API = '/api' + window.location.pathname;
     const FAV_MARK_API = '/api/mark/favourite/';
     const FAV_UNMARK_API = '/api/unmark/favourite/';
@@ -27,20 +27,20 @@ $(document).ready(function() {
     var search = window.location.search.substring(1);
     var queryObject = search
         ? JSON.parse(
-              '{"' +
-                  decodeURI(search)
-                      .replace(/"/g, '\\"')
-                      .replace(/&/g, '","')
-                      .replace(/=/g, '":"') +
-                  '"}'
-          )
+            '{"' +
+            decodeURI(search)
+                .replace(/"/g, '\\"')
+                .replace(/&/g, '","')
+                .replace(/=/g, '":"') +
+            '"}'
+        )
         : {};
     if (isMobile()) {
         return;
     }
     const openProductModal = detail_url => {
         $('#modalProduct').modal();
-        $('#modalProduct').on('hidden.bs.modal', function() {
+        $('#modalProduct').on('hidden.bs.modal', function () {
             window.history.pushState(
                 '',
                 '',
@@ -53,7 +53,7 @@ $(document).ready(function() {
             type: 'GET',
             url: detail_url,
             dataType: 'json',
-            success: function(data) {
+            success: function (data) {
                 LISTING_URL =
                     data.department_info &&
                     (data.department_info[0].category_url ||
@@ -96,7 +96,7 @@ $(document).ready(function() {
                         }).appendTo(div);
 
                         var span = jQuery('<span/>', {
-                            title: img.name
+                            'data-title': img.name
                         }).appendTo(a);
                         if (img.swatch_image) {
                             var responsiveImg = jQuery('<img/>', {
@@ -110,8 +110,10 @@ $(document).ready(function() {
                             }).appendTo(span);
                         }
                     });
+                    $('.products-modal-details').removeClass('extended')
                 } else {
                     $('.variation-container').addClass('d-none');
+                    $('.products-modal-details').addClass('extended')
                 }
 
                 $('.js-site').text(data.site);
@@ -213,7 +215,7 @@ $(document).ready(function() {
                     });
                 }
             },
-            error: function(jqXHR, exception) {
+            error: function (jqXHR, exception) {
                 console.log(jqXHR);
                 console.log(exception);
             }
@@ -229,13 +231,13 @@ $(document).ready(function() {
             `/product/${queryObject.model_sku}${window.location.search}`
         );
     }
-    $(document).on('click', '.js-detail-modal', function(e) {
+    $(document).on('click', '.js-detail-modal', function (e) {
         e.preventDefault();
         e.stopPropagation();
         const product_sku = this.attributes['data-href'].value;
         openProductDetailModal(product_sku);
     });
-    $(document).on('click', '.variant-img', function(e) {
+    $(document).on('click', '.variant-img', function (e) {
         e.preventDefault();
         e.stopPropagation();
         $('.variant-img.active').removeClass('active');
@@ -284,7 +286,7 @@ $(document).ready(function() {
         }
     });
 
-    $('#wishlistBtnDesktop').on('click', function(e) {
+    $('#wishlistBtnDesktop').on('click', function (e) {
         e.preventDefault();
         // callWishlistAPI($(this))
         if ($('#isLoggedIn').val() == 0) {
@@ -308,7 +310,7 @@ $(document).ready(function() {
             type: 'GET',
             url: strApiToCall,
             dataType: 'json',
-            success: function(data) {
+            success: function (data) {
                 console.log(data, 'success');
                 if (!$elm.hasClass('marked-icon')) {
                     $elm.addClass('marked-icon');
@@ -318,7 +320,7 @@ $(document).ready(function() {
                     $elm.find('span').text('Save');
                 }
             },
-            error: function(jqXHR, exception) {
+            error: function (jqXHR, exception) {
                 console.log(jqXHR);
                 console.log(exception);
             }
@@ -327,7 +329,7 @@ $(document).ready(function() {
 
     $('#features')
         .find('.nav-link')
-        .on('click', function() {
+        .on('click', function () {
             if (!$('#collapseB').hasClass('show')) {
                 $('#collapseB').collapse('toggle');
             }
@@ -343,7 +345,7 @@ $(document).ready(function() {
 
     function makeFilters(data, isMobile) {
         var currFilterDiv = isMobile ? $filtersDivMobile : $filtersDiv;
-        Object.keys(data.filters).forEach(function(filter) {
+        Object.keys(data.filters).forEach(function (filter) {
             // data.filters.filter.forEach(options => {
             var transformedLabel = data.filters[filter].label
                 .toLowerCase()
@@ -395,7 +397,7 @@ $(document).ready(function() {
             url: apiPath,
             data: queryParams,
             dataType: 'json',
-            success: function(data) {
+            success: function (data) {
                 $filtersDiv.empty();
                 $filtersDivMobile.empty();
 
@@ -424,12 +426,12 @@ $(document).ready(function() {
                     variationDrift = new Drift(variationImgEl, {});
                 }
 
-                $('.zoom-img').each(function() {
+                $('.zoom-img').each(function () {
                     var options = { namespace: 'carousel' };
                     new Drift(this, options);
                 });
             },
-            error: function(jqXHR, exception) {
+            error: function (jqXHR, exception) {
                 console.log(jqXHR);
                 console.log(exception);
             }
@@ -442,7 +444,7 @@ $(document).ready(function() {
             return variation.swatch_image || variationImages[idx];
         });
         var arrDupes = [];
-        var variationSwatchImagesNew = variationSwatchImages.filter(function(
+        var variationSwatchImagesNew = variationSwatchImages.filter(function (
             item,
             index,
             self
@@ -452,7 +454,7 @@ $(document).ready(function() {
             }
             return self.indexOf(item) === index;
         });
-        var variationImagesNew = variationImages.filter(function(item, index) {
+        var variationImagesNew = variationImages.filter(function (item, index) {
             return arrDupes.indexOf(index) >= 0;
         });
         // for( var i=0; i< arrDupes.length ; i++){
@@ -489,10 +491,10 @@ $(document).ready(function() {
         multiCarouselFuncs.makeMultiCarousel(10, 10);
     }
 
-    $(document).on('select-value-changed', function(e, changedElm) {
+    $(document).on('select-value-changed', function (e, changedElm) {
         $('.select-styled')
             .not(changedElm)
-            .each(function() {
+            .each(function () {
                 if (
                     $(this).attr('active') == '' ||
                     $(this).attr('active') == 'unselected-value'
@@ -538,7 +540,7 @@ $(document).ready(function() {
 
     function onFilterChange(swatchUrl = null) {
         var oQueryParams = new Object();
-        $('.select-styled').each(function(idx) {
+        $('.select-styled').each(function (idx) {
             // var strLabelText = $filtersDiv.find('label[for="'+$(this).attr('id')+'"]').attr('value');
             var currFilter = $(this).attr('active');
             if (currFilter != 'unselected-value') {
@@ -561,7 +563,7 @@ $(document).ready(function() {
         fetchFilters(oQueryParams);
     }
 
-    $('#filterToggleBtn').on('click', function() {
+    $('#filterToggleBtn').on('click', function () {
         $('#filtersDivMobile').toggle();
     });
 

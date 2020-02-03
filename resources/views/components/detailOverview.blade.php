@@ -6,14 +6,6 @@
     <div class="product-modal-content modal-content">
        <div class="product-modal-body modal-body">
           <div class="detailspage" id="detailPage">
-             <div class="d-block d-md-none controls-div">
-                <div class="wishlist-icon float-right m-10" id="wishlistBtn">
-                   <i class="far fa-heart -icon"></i>
-                </div>
-                <div class="filter-toggle float-right m-10" id="filterToggleBtn">
-                   <i class="fas fa-filter -icon"></i>
-                </div>
-             </div>
              <div class="row">
                 <div class=" col-md-6 col-sm-12">
                    <div class="-images-container" id="scroll-bar-img">
@@ -43,15 +35,16 @@
                       </div>
                       <div class="prod-price-card d-none d-md-block"></div>
                       <hr class="modal-hr"/>
+                      <div class="variation-container">
+                        <h4> More Options </h4>
+                        <div class="variation-options">
+                        <div class="swatch-images overflow"></div>
+                        </div>
+                        <hr class="modal-hr"/>
+                     </div>
                       <div class="all-desc">
                          <div class="products-modal-details" data-spy="scroll" data-target="#navbar-example2" data-offset="0">
-                            <div class="variation-container">
-                              <h4> More Options </h4>
-                              <div class="variation-options">
-                              <div class="swatch-images overflow"></div>
-                              </div>
-                              <hr class="modal-hr"/>
-                            </div>
+                            
 
                             <h4 id="Overview">Overview</h4>
                             <p class="-desc d-none d-md-block"></p>
