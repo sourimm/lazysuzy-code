@@ -45,7 +45,7 @@ class Department extends Model
         return $departments;
     }
 
-    public static function get_single_department($dept)
+    public static function j($dept)
     {
         $c_cat = [];
         $dept  = strtolower(trim($dept));

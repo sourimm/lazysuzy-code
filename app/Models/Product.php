@@ -711,10 +711,10 @@ class Product extends Model
             $days = $diff / 60 / 60 / 24;
             if ($days < 4 * 7) $is_new = true;
 
-            $jan182020 = strtotime('2020/01/18'); // 4
+            $jan162020 = strtotime('2020/01/16'); // 4
             $product_date = strtotime($product->created_date); // 5
 
-            if ($jan182020 > $product_date) $is_new = false;
+            if ($jan162020 > $product_date) $is_new = false;
             else $is_new = true;
         }
 
