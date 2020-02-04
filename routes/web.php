@@ -73,7 +73,6 @@ Route::get('/api/filters/variation/product/{sku}', 'API@get_swatch_filter')->nam
 Route::get('/api/wishlist', 'API@get_wishlist')->name('get-wishlist');
 Route::get('/api/mark/favourite/{sku}', 'API@mark_favourite')->name('mark-favourite');
 Route::get('/api/unmark/favourite/{sku}', 'API@unmark_favourite')->name('unmark-favourite');
-Route::get('/api/subscribe', 'Subscribe@subscribe_user')->name('subscribe-user');
 
 
 Route::get('/wishlist', 'ProductController@showWishList')->name('show-wishlist');
