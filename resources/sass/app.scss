@@ -47,6 +47,7 @@
 @import 'dropdown';
 @import 'searchbar';
 @import 'authmodal';
+@import 'subscriber';
 
 //Slick carousel
 $slick-font-family: 'Font Awesome 5 Free';
@@ -76,6 +77,7 @@ body {
     .-btn {
         font-size: 16px;
     }
+
     .col-form-label,
     .form-control {
         margin: 10px 0px;
@@ -90,17 +92,21 @@ body {
 
 .aboutus-main-div {
     background-color: $body-bg-option;
+
     .footer {
         position: absolute;
     }
+
     .main-heading {
         color: $primary-color;
         margin: 30px 0px 20px 0px;
         font-size: 30px;
     }
+
     .secondary-heading {
         margin: 25px 0px;
     }
+
     p {
         margin: 15px 0px;
         font-size: 18px;
@@ -117,24 +123,31 @@ body {
     .-cb2 {
         max-width: 57px;
     }
+
     .-crate {
         max-width: 141px;
     }
+
     .-pier1 {
         max-width: 107px;
     }
+
     .-westelm {
         max-width: 127px;
     }
+
     .-worldmarket {
         max-width: 116px;
     }
+
     .-floyd {
         max-width: 80px;
     }
+
     .more-soon {
         max-width: 189px;
     }
+
     .brand-row {
         display: flex;
     }
@@ -150,10 +163,12 @@ body {
         font-size: 26px;
         font-weight: 600;
     }
+
     .-brands-text {
         text-align: center;
         font-size: 14px;
         margin-bottom: 10px;
+
         @include media-breakpoint-up(md) {
             text-align: left;
             font-size: 18px;
@@ -165,6 +180,7 @@ body {
             font-size: 22px;
         }
     }
+
     .brand-logos {
         padding: 0px 30px;
         text-align: center;
@@ -179,6 +195,7 @@ body {
         }
     }
 }
+
 .row {
     display: -ms-flexbox;
     display: flex;
@@ -187,15 +204,18 @@ body {
     margin-right: -15px;
     margin-left: -15px;
 }
+
 .no-gutters {
     margin-right: 0;
     margin-left: 0;
 }
-.no-gutters > .col,
-.no-gutters > [class*='col-'] {
+
+.no-gutters>.col,
+.no-gutters>[class*='col-'] {
     padding-right: 0;
     padding-left: 0;
 }
+
 .col,
 .col-1,
 .col-10,
@@ -271,6 +291,7 @@ body {
     padding-right: 15px;
     padding-left: 15px;
 }
+
 .col {
     -ms-flex-preferred-size: 0;
     flex-basis: 0;
@@ -278,67 +299,80 @@ body {
     flex-grow: 1;
     max-width: 100%;
 }
+
 .col-auto {
     -ms-flex: 0 0 auto;
     flex: 0 0 auto;
     width: auto;
     max-width: 100%;
 }
+
 .col-1 {
     -ms-flex: 0 0 8.333333%;
     flex: 0 0 8.333333%;
     max-width: 8.333333%;
 }
+
 .col-2 {
     -ms-flex: 0 0 16.666667%;
     flex: 0 0 16.666667%;
     max-width: 16.666667%;
 }
+
 .col-3 {
     -ms-flex: 0 0 25%;
     flex: 0 0 25%;
     max-width: 25%;
 }
+
 .col-4 {
     -ms-flex: 0 0 33.333333%;
     flex: 0 0 33.333333%;
     max-width: 33.333333%;
 }
+
 .col-5 {
     -ms-flex: 0 0 41.666667%;
     flex: 0 0 41.666667%;
     max-width: 41.666667%;
 }
+
 .col-6 {
     -ms-flex: 0 0 50%;
     flex: 0 0 50%;
     max-width: 50%;
 }
+
 .col-7 {
     -ms-flex: 0 0 58.333333%;
     flex: 0 0 58.333333%;
     max-width: 58.333333%;
 }
+
 .col-8 {
     -ms-flex: 0 0 66.666667%;
     flex: 0 0 66.666667%;
     max-width: 66.666667%;
 }
+
 .col-9 {
     -ms-flex: 0 0 75%;
     flex: 0 0 75%;
     max-width: 75%;
 }
+
 .col-10 {
     -ms-flex: 0 0 83.333333%;
     flex: 0 0 83.333333%;
     max-width: 83.333333%;
 }
+
 .col-11 {
     -ms-flex: 0 0 91.666667%;
     flex: 0 0 91.666667%;
     max-width: 91.666667%;
 }
+
 .col-12 {
     -ms-flex: 0 0 100%;
     flex: 0 0 100%;
@@ -353,67 +387,80 @@ body {
         flex-grow: 1;
         max-width: 100%;
     }
+
     .col-sm-auto {
         -ms-flex: 0 0 auto;
         flex: 0 0 auto;
         width: auto;
         max-width: 100%;
     }
+
     .col-sm-1 {
         -ms-flex: 0 0 8.333333%;
         flex: 0 0 8.333333%;
         max-width: 8.333333%;
     }
+
     .col-sm-2 {
         -ms-flex: 0 0 16.666667%;
         flex: 0 0 16.666667%;
         max-width: 16.666667%;
     }
+
     .col-sm-3 {
         -ms-flex: 0 0 25%;
         flex: 0 0 25%;
         max-width: 25%;
     }
+
     .col-sm-4 {
         -ms-flex: 0 0 33.333333%;
         flex: 0 0 33.333333%;
         max-width: 33.333333%;
     }
+
     .col-sm-5 {
         -ms-flex: 0 0 41.666667%;
         flex: 0 0 41.666667%;
         max-width: 41.666667%;
     }
+
     .col-sm-6 {
         -ms-flex: 0 0 50%;
         flex: 0 0 50%;
         max-width: 50%;
     }
+
     .col-sm-7 {
         -ms-flex: 0 0 58.333333%;
         flex: 0 0 58.333333%;
         max-width: 58.333333%;
     }
+
     .col-sm-8 {
         -ms-flex: 0 0 66.666667%;
         flex: 0 0 66.666667%;
         max-width: 66.666667%;
     }
+
     .col-sm-9 {
         -ms-flex: 0 0 75%;
         flex: 0 0 75%;
         max-width: 75%;
     }
+
     .col-sm-10 {
         -ms-flex: 0 0 83.333333%;
         flex: 0 0 83.333333%;
         max-width: 83.333333%;
     }
+
     .col-sm-11 {
         -ms-flex: 0 0 91.666667%;
         flex: 0 0 91.666667%;
         max-width: 91.666667%;
     }
+
     .col-sm-12 {
         -ms-flex: 0 0 100%;
         flex: 0 0 100%;

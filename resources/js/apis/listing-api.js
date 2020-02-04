@@ -1,9 +1,11 @@
 import Handlebars from '../components/handlebar';
 import ListingFactory from '../components/listingFactory';
+import subscriber from './subscriber';
 // import strItemsNumClass from '../pages/listing';
 // import * as priceSliderContainer from '../pages/listing';
 
-$(document).ready(function() {
+subscriber.init()
+$(document).ready(function () {
     const LISTING_API_PATH =
         window.GLOBAL_LISTING_API_PATH || '/api' + location.pathname;
 
@@ -21,7 +23,7 @@ $(document).ready(function() {
         desktopFilterTemplate
     );
 
-    $(window).scroll(function() {
+    $(window).scroll(function () {
         if (
             !listingFactory.bFetchingProducts &&
             !listingFactory.bNoMoreProductsToShow
@@ -48,8 +50,8 @@ $(document).ready(function() {
 
     listingFactory.fetchProducts(false);
 
-    $('body').on('click', '#clearAllFiltersBtn', function() {
-        $('.filter').each(function() {
+    $('body').on('click', '#clearAllFiltersBtn', function () {
+        $('.filter').each(function () {
             if ($(this).attr('id') === 'priceFilter') {
                 listingFactory.updateFromToPrice(
                     $(this).data('from'),
@@ -58,7 +60,7 @@ $(document).ready(function() {
             } else {
                 $(this)
                     .find('input[type="checkbox"]')
-                    .each(function() {
+                    .each(function () {
                         if (this.checked) {
                             this.checked = false;
                         }
@@ -69,15 +71,15 @@ $(document).ready(function() {
     });
 
     /***************Implementation of filter changes **************/
-    $('body').on('change', '.filter input[type="checkbox"]', function() {
+    $('body').on('change', '.filter input[type="checkbox"]', function () {
         listingFactory.resetListing();
     });
 
-    $(document).on('select-value-changed', function() {
+    $(document).on('select-value-changed', function () {
         listingFactory.setSortType($('#selectbox-sort').attr('active'));
         listingFactory.resetListing();
     });
-    $('input[name="sort-price-filter"]').click(function() {
+    $('input[name="sort-price-filter"]').click(function () {
         listingFactory.setSortType(
             $('input[name="sort-price-filter"]:checked').val()
         );
@@ -85,7 +87,7 @@ $(document).ready(function() {
         $('#sort-mobile').toggleClass('show');
     });
 
-    $('body').on('mouseover', '.mini-carousel-item', function() {
+    $('body').on('mouseover', '.mini-carousel-item', function () {
         $(this)
             .closest('.ls-product-div')
             .find('.variation-img')
@@ -105,7 +107,7 @@ $(document).ready(function() {
             .show();
     });
 
-    $('body').on('mouseleave', '.mini-carousel-item', function() {
+    $('body').on('mouseleave', '.mini-carousel-item', function () {
         $(this)
             .closest('.ls-product-div')
             .find('.variation-img')
@@ -116,7 +118,7 @@ $(document).ready(function() {
             .css('visibility', 'unset');
     });
 
-    $('body').on('click', '.wishlist-icon:not(.nav-link)', function(e) {
+    $('body').on('click', '.wishlist-icon:not(.nav-link)', function (e) {
         e.preventDefault();
         e.stopPropagation();
         if ($('#isLoggedIn').val() == 0) {
