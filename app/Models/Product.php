@@ -104,14 +104,8 @@ class Product extends Model
         $PRICE_ASC = "price_low_to_high";
         $PRICE_DESC = "price_high_to_low";
         $POPULARITY = "popularity";
-        $RECOMMENDED = "recommended";
 
         $sort_type_filter = [
-            [
-                "name" => "Recommended",
-                "value" => $RECOMMENDED,
-                "enabled" => false
-            ],
             [
                 "name" => "Popularity",
                 "value" => $POPULARITY,
@@ -234,13 +228,10 @@ class Product extends Model
             } else if ($sort_type == $POPULARITY) {
                 $query = $query->orderBy('popularity', 'desc');
             }
-            else {
-                $query = $query->orderBy('rec_order', 'desc');
-            }
         }
         // set default sorting to popularity
         else {
-            $query = $query->orderBy('rec_order', 'desc');
+            $query = $query->orderBy('popularity', 'desc');
         }
 
         if ($is_details_minimal) {
