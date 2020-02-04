@@ -7,9 +7,10 @@ use App\Models\Variations;
 use Illuminate\Http\Request;
 use App\Models\Wishlist;
 use App\Models\Brands;
+use App\Models\Subscribe;
+
 use Auth;
-
-
+use Subscribe as GlobalSubscribe;
 
 class API extends Controller
 {
@@ -69,5 +70,9 @@ class API extends Controller
 
     public function get_all_brands($key = null) {
         return Brands::get_all($key);
+    }
+
+    public function subscribe_user() {
+        return Subscribe::subscribe_user();
     }
 }
