@@ -101,6 +101,40 @@ class Department extends Model
         return $dept_info;
     }
 
+    public static function get_single_department($dept)
+    {
+        $c_cat = [];
+        $dept  = strtolower(trim($dept));
+        $row   = Department::select(['department', 'LS_ID'])
+            ->where('department_', $dept)
+            ->whereRaw('LENGTH(product_category) = 0 AND LENGTH(product_sub_category) = 0')
+            ->get()
+            ->toArray();
+        if (isset($row[0]['LS_ID'])) {
+            $dept       = $row[0]['department'];
+            $dept_LS_ID = $row[0]['LS_ID'];
+        } else {
+            return null;
+        }
+        $categories = Category::get_categories($dept);
+        foreach ($categories as $category) {
+            $sub_categories = SubCategory::getSubCategories($dept, $category['category']);
+            array_push($c_cat, [
+                'category'       => $category['category'],
+                'LS_ID'          => $category['LS_ID'],
+                'image'          => $category['image'],
+                'link'          => $category['link'],
+                'sub_categories' => $sub_categories,
+            ]);
+        }
+        return [
+            'department' => $dept,
+            'LS_ID'      => $dept_LS_ID,
+            'categories'  => $c_cat,
+        ];
+    }
+
+
     public static function get_board_categories() 
     {
         $cols = ["LS_ID", "department_", "product_category_", "filter_label"];

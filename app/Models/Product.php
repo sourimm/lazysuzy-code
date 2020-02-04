@@ -233,8 +233,7 @@ class Product extends Model
                 $query = $query->orderBy('min_price', 'desc');
             } else if ($sort_type == $POPULARITY) {
                 $query = $query->orderBy('popularity', 'desc');
-            }
-            else {
+            } else {
                 $query = $query->orderBy('rec_order', 'desc');
             }
         }
