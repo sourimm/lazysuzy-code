@@ -240,6 +240,7 @@ class Product extends Model
         // set default sorting to popularity
         else {
             $query = $query->orderBy('rec_order', 'desc');
+
         }
 
         if ($is_details_minimal) {
@@ -710,10 +711,10 @@ class Product extends Model
             $days = $diff / 60 / 60 / 24;
             if ($days < 4 * 7) $is_new = true;
 
-            $jan162020 = strtotime('2020/01/16'); // 4
+            $jan192020 = strtotime('2020/01/19'); // 4
             $product_date = strtotime($product->created_date); // 5
 
-            if ($jan162020 > $product_date) $is_new = false;
+            if ($jan192020 > $product_date) $is_new = false;
             else $is_new = true;
         }
 
