@@ -4,7 +4,7 @@ import subscriber from './subscriber';
 // import strItemsNumClass from '../pages/listing';
 // import * as priceSliderContainer from '../pages/listing';
 
-subscriber.init()
+// subscriber.init()
 $(document).ready(function () {
     const LISTING_API_PATH =
         window.GLOBAL_LISTING_API_PATH || '/api' + location.pathname;
