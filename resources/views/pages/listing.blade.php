@@ -37,9 +37,12 @@
                 <div class="mx-auto text-center" id="loaderImg">
                     <img src="{{ asset('/images/Spinner-1s-100px.gif') }}" alt="Spinner">
                 </div>
+                
             </div>
         </div>
     </div>
+    @component('components.subscriber')
+    @endcomponent
     @component('components.detailOverview')
     @endcomponent
 </div>

@@ -1,0 +1,30 @@
+.subscriber-container {
+    padding: 20px;
+    border-top: 1px solid $grey;
+    border-bottom: 1px solid $grey;
+    margin: 20px 0;
+    font-size: 20px;
+
+    .inner-content {
+        display: flex;
+        justify-content: center;
+    }
+
+    .subscriber-text {
+        margin-right: 20px;
+    }
+
+    .subscriber-form {
+        min-width: 320px;
+
+        input {
+            margin: 0;
+        }
+
+        .btn {
+            color: #ffcc00;
+            background-color: #21334b;
+        }
+
+    }
+}
