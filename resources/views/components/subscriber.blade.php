@@ -1,5 +1,5 @@
 <div class="subscriber-container">
-   <div class="inner-content">
+   <div class="inner-content js-form">
       <div class="subscriber-text">
          <div>Be the first to see new styles & deals on Dining Room Chairs</div>
       </div>
@@ -8,6 +8,10 @@
             <input type="text"class="form-control js-subscriber "placeholder="Email Address"aria-label="Email Address"aria-describedby="button-addon2">
             <div class="input-group-append"><button class="btn js-submitEmail" type="button"id="button-addon2">Submit</button></div>
          </div>
+         <div class="error-message js-error d-none">Please enter a valid email</div>
       </div>
+   </div>
+   <div class="inner-content js-success d-none">
+      <div class="success-message">Thanks for signing up. You'll be the first to receive updates about new collections, top brands and exclusive products.
    </div>
 </div>

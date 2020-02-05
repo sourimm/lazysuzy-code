@@ -19,6 +19,15 @@
 
         input {
             margin: 0;
+
+            &.error {
+                border-color: $red
+            }
+        }
+
+        .error-message {
+            font-size: 14px;
+            color: $red;
         }
 
         .btn {

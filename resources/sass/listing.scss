@@ -14,22 +14,26 @@
 //     }
 // }
 .-features {
+
     // text-transform: lowercase;
     ul {
         padding-left: 15px !important;
     }
 }
-input:disabled + span.checkmark,
-input:disabled + .checkmark + .text {
+
+input:disabled+span.checkmark,
+input:disabled+.checkmark+.text {
     color: #b6b4b4c2;
     border-color: #b6b4b4c2 !important;
 }
 
 .listing {
     min-height: calc(100vh - (195px));
+
     @include media-breakpoint-up(md) {
         min-height: calc(100vh - (145px));
     }
+
     .slick-prev,
     .slick-next {
         &:before {
@@ -41,6 +45,7 @@ input:disabled + .checkmark + .text {
     .listing-container {
         margin-top: 35px;
         margin: auto;
+        min-height: calc(100vh - 314px);
 
         @media only screen and (min-width: 1200px) {
             max-width: 1500px;
@@ -58,12 +63,15 @@ input:disabled + .checkmark + .text {
 
         .sortby {
             text-align: right;
+
             .form-control {
                 display: none;
             }
+
             .select-options li {
                 padding: 12px 30px;
             }
+
             .select-styled {
                 padding: 8px 30px 5px 15px;
             }
@@ -76,6 +84,7 @@ input:disabled + .checkmark + .text {
             top: 8px;
             color: $text-subtle;
         }
+
         .top-button {
             position: fixed;
             bottom: 110px;
@@ -92,6 +101,7 @@ input:disabled + .checkmark + .text {
         }
     }
 }
+
 .category-img {
     width: 100%;
     margin: 20px 0;
@@ -104,8 +114,10 @@ input:disabled + .checkmark + .text {
     margin: 0 auto;
     min-height: 60px;
 }
+
 .category-listing {
     margin-top: 20px;
+
     .row {
         margin-left: 0;
         margin-right: 0;
@@ -124,6 +136,7 @@ input:disabled + .checkmark + .text {
         text-decoration: none;
     }
 }
+
 @media only screen and (max-width: 768px) {
     .listing {
         .searchbar {
@@ -136,8 +149,10 @@ input:disabled + .checkmark + .text {
     .category-img {
         min-height: 162px;
     }
+
     .-depts {
         text-align: center;
+
         .-topCategories {
             .top-trending-img {
                 img {
@@ -152,6 +167,7 @@ input:disabled + .checkmark + .text {
     .listing,
     .category-page {
         font-family: 'Fenix', serif;
+
         .listing-container {
             .listing-top-controls {
                 position: absolute;
@@ -162,17 +178,20 @@ input:disabled + .checkmark + .text {
                     text-align: left;
                     font-size: 18px;
                     text-transform: capitalize;
+
                     a {
                         color: $black;
                         text-decoration: none;
                     }
                 }
+
                 .search-navigator {
                     color: $product-price;
                 }
             }
         }
     }
+
     .listing,
     .category-page {
         .listing-container {
@@ -184,21 +203,24 @@ input:disabled + .checkmark + .text {
                 background-color: $white;
                 color: $secondary-color !important;
             }
+
             .disabled-link {
                 opacity: .4;
             }
-            
+
             .listing-top-controls {
                 position: relative;
                 width: 100%;
                 text-align: center;
                 margin: 5px;
+
                 .filter-toggle-mobile {
                     margin: 0px 45px;
                     position: absolute;
                     left: 0;
                     right: 0;
                 }
+
                 .fix-search {
                     position: fixed;
                     z-index: 100;
@@ -238,6 +260,7 @@ input:disabled + .checkmark + .text {
 
                     .dropdown-item {
                         white-space: unset !important;
+
                         &:hover {
                             .dropdown-menu {
                                 display: block;
@@ -264,6 +287,7 @@ input:disabled + .checkmark + .text {
                     padding: 12px 5px;
                 }
             }
+
             .products-container {
                 margin-top: 35px;
                 padding: 0;
@@ -284,13 +308,14 @@ input:disabled + .checkmark + .text {
                             &.sale {
                                 color: $product-price;
                             }
-                            
+
                             .new-tag {
                                 display: inline-block;
                                 margin-right: 5px;
                                 color: $brown-text-color;
                             }
                         }
+
                         .prod-discount-tag {
                             z-index: 58;
                             position: absolute;
@@ -304,6 +329,7 @@ input:disabled + .checkmark + .text {
                                 background: #e84c01;
                             }
                         }
+
                         margin-bottom: 0px;
                         padding: 1px;
 
@@ -319,9 +345,7 @@ input:disabled + .checkmark + .text {
     }
 
     .main-container {
-        min-height: calc(
-            100vh - #{$navbar-height-mobile} - #{$listing-top-ctrl-height}
-        ) !important;
+        min-height: calc(100vh - #{$navbar-height-mobile} - #{$listing-top-ctrl-height}) !important;
     }
 
     .dropdown-submenu {
@@ -332,6 +356,7 @@ input:disabled + .checkmark + .text {
                 width: 90%;
                 z-index: 5;
             }
+
             .dropdown-toggle {
                 margin-top: 4px;
             }
@@ -352,9 +377,11 @@ input:disabled + .checkmark + .text {
         margin-right: 0.1rem;
     }
 }
+
 .submenu-dropdown {
     padding: 10px;
 }
+
 .sidenav {
     height: 100%;
     width: 0;
@@ -391,6 +418,7 @@ input:disabled + .checkmark + .text {
 .sidenav .collapsible:hover {
     color: $primary-color;
 }
+
 .sidenav-items {
     padding: 0 18px;
     overflow: hidden;
@@ -406,37 +434,45 @@ input:disabled + .checkmark + .text {
             list-style-type: none;
             background-color: $category-bg;
             margin: 0 -20px;
+
             a.link {
                 color: $white;
             }
         }
     }
+
     a.link {
         color: $white;
         width: 80%;
         display: inline-block;
         padding: 5px 0;
         text-decoration: none;
+
         &:hover {
             color: $primary-color;
         }
     }
+
     a.collapsible {
         padding-right: 10px;
         text-decoration: none;
         font-size: 20px;
         display: block;
+
         &.active {
             color: $products-bg;
+
             .side-nav-icon {
                 color: $products-bg;
                 transform: rotate(90deg);
             }
         }
     }
+
     .side-nav-link {
         margin-left: 180px;
     }
+
     .side-nav-icon {
         float: right;
     }
@@ -446,6 +482,7 @@ input:disabled + .checkmark + .text {
     .sidenav {
         padding-top: 15px;
     }
+
     .sidenav a {
         font-size: 18px;
         color: $white;
@@ -458,10 +495,12 @@ input:disabled + .checkmark + .text {
     margin-bottom: 0;
     list-style: none;
 }
+
 .nav-pills .nav-link {
     border-radius: 0.25rem;
     color: $category-bg;
 }
+
 .pdp-buy-btn {
     color: $products-bg;
     background-color: $category-bg;
@@ -469,10 +508,12 @@ input:disabled + .checkmark + .text {
     display: inline-block;
     width: 20%;
 }
+
 .pdp-buy-btn:hover {
     color: $products-bg;
     text-decoration: none;
 }
+
 .-product-details {
     margin: 10px 5px;
 
@@ -480,12 +521,14 @@ input:disabled + .checkmark + .text {
         font-size: 25px;
         color: $product-price;
     }
+
     .price {
         text-decoration: line-through;
         font-size: 25px;
         margin-left: 10px;
     }
 }
+
 //lightbox
 .ekko-lightbox-nav-overlay {
     z-index: 1;
@@ -498,6 +541,7 @@ input:disabled + .checkmark + .text {
     display: flex;
     justify-content: space-between;
     align-items: center;
+
     a {
         // -ms-flex: 1;
         // flex: 1;
@@ -512,11 +556,13 @@ input:disabled + .checkmark + .text {
         z-index: 1;
         text-decoration: none;
     }
+
     a span {
         padding: 0 30px;
         color: $products-bg;
     }
-    a > * {
+
+    a>* {
         -ms-flex-positive: 1;
         flex-grow: 1;
     }
