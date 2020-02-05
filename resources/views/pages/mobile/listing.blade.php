@@ -74,7 +74,6 @@
                     <div class="row" id="productsContainerDiv">
 
                     </div>
-                    <div class="text-center" id="noProductsText">Sorry, no more products to show.</div>
                     <div class="mx-auto" id="loaderImg">
                         <img src="{{ asset('/images/Spinner-1s-100px.gif') }}" alt="Spinner">
                     </div>

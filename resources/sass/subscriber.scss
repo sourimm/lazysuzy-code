@@ -15,7 +15,7 @@
         margin-right: 20px;
         min-width: 320px;
 
-        .category-text {
+        .category-text-inline {
             text-transform: capitalize;
         }
     }
@@ -45,5 +45,13 @@
 
     @media only screen and (max-width: 768px) {
         text-align: center;
+        margin: 10px 0;
+        font-size: 14px;
+
+        .subscriber-text {
+            margin-right: 0px;
+
+
+        }
     }
 }

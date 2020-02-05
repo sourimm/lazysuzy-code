@@ -32,7 +32,6 @@
                 <div class="top-button"><i class="fa fa-arrow-up" aria-hidden="true"></i></div>
                 <div class="row" id="productsContainerDiv">
                 </div>
-                <div class="text-center" style="display:none;" id="noProductsText">Sorry, no more products to show.
                 </div>
                 <div class="mx-auto text-center" id="loaderImg">
                     <img src="{{ asset('/images/Spinner-1s-100px.gif') }}" alt="Spinner">

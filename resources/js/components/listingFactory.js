@@ -1,7 +1,7 @@
-require('ion-rangeslider');
-import makeSelectBox from './custom-selectbox';
-import isMobile from '../app.js';
-import { FAV_MARK_API, FAV_UNMARK_API } from '../constants';
+require("ion-rangeslider");
+import makeSelectBox from "./custom-selectbox";
+import isMobile from "../app.js";
+import { FAV_MARK_API, FAV_UNMARK_API } from "../constants";
 
 export default class ListingFactory {
     constructor(
@@ -23,10 +23,10 @@ export default class ListingFactory {
               )
             : {};
         this.base_url = base_url;
-        this.strFilters = filterVars.strFilters || '';
+        this.strFilters = filterVars.filters || "";
         this.iPageNo = parseInt(filterVars.iPageNo) || 0;
         this.iLimit = filterVars.iLimit;
-        this.sortType = filterVars.sort_type || '';
+        this.sortType = filterVars.sort_type || "";
         this.filterToIgnore = filterConfig.filterToIgnore;
         this.listingTemplate = listingTemplate || undefined;
         this.filterTemplate = filterTemplate || undefined;
@@ -35,13 +35,12 @@ export default class ListingFactory {
         this.price_from = 0;
         this.price_to = 0;
         this.$productContainer =
-            elements.$productContainer || $('#productsContainerDiv');
-        this.$noProductText = elements.$noProductText || $('#noProductsText');
-        this.$totalResults = elements.$totalResults || $('#totalResults');
+            elements.$productContainer || $("#productsContainerDiv");
+        this.$totalResults = elements.$totalResults || $("#totalResults");
         this.$filterContainer =
-            elements.$filterContainer || $('#desktop-filters');
+            elements.$filterContainer || $("#desktop-filters");
         this.$priceRangeSlider =
-            elements.$priceRangeSlider || $('#priceRangeSlider');
+            elements.$priceRangeSlider || $("#priceRangeSlider");
 
         this.generateQueryString = this.generateQueryString.bind(this);
         this.fetchProducts = this.fetchProducts.bind(this);
@@ -52,7 +51,7 @@ export default class ListingFactory {
     }
 
     isFilterApplied(filter, filterItems) {
-        return filter === 'price'
+        return filter === "price"
             ? Math.round(filterItems.from) !== Math.round(filterItems.min) ||
                   Math.round(filterItems.to) !== Math.round(filterItems.max)
             : filterItems.filter(filterItem => filterItem.checked).length > 0;
@@ -68,22 +67,22 @@ export default class ListingFactory {
     }
 
     callWishlistAPI($elm) {
-        var strApiToCall = '';
-        if (!$elm.hasClass('marked')) {
-            strApiToCall = FAV_MARK_API + $elm.attr('sku');
+        var strApiToCall = "";
+        if (!$elm.hasClass("marked")) {
+            strApiToCall = FAV_MARK_API + $elm.attr("sku");
         } else {
-            strApiToCall = FAV_UNMARK_API + $elm.attr('sku');
+            strApiToCall = FAV_UNMARK_API + $elm.attr("sku");
         }
 
         $.ajax({
-            type: 'GET',
+            type: "GET",
             url: strApiToCall,
-            dataType: 'json',
+            dataType: "json",
             success: function(data) {
-                if (!$elm.hasClass('marked')) {
-                    $elm.addClass('marked');
+                if (!$elm.hasClass("marked")) {
+                    $elm.addClass("marked");
                 } else {
-                    $elm.removeClass('marked');
+                    $elm.removeClass("marked");
                 }
             },
             error: function(jqXHR, exception) {
@@ -102,7 +101,7 @@ export default class ListingFactory {
                 continue;
             }
             const filterItems = filterData[filter];
-            const isPrice = filter === 'price';
+            const isPrice = filter === "price";
             (isPrice ||
                 (filterItems &&
                     filterItems.length &&
@@ -117,15 +116,15 @@ export default class ListingFactory {
                 );
             if (isPrice) {
                 const data = filterData[filter];
-                $('#priceRangeSlider').ionRangeSlider({
-                    skin: 'sharp',
-                    type: 'double',
+                $("#priceRangeSlider").ionRangeSlider({
+                    skin: "sharp",
+                    type: "double",
                     min: data.min ? data.min : 0,
                     max: data.max ? data.max : 10000,
                     from: data.from ? data.from : data.min,
                     to: data.to ? data.to : data.max,
-                    prefix: '$',
-                    prettify_separator: ',',
+                    prefix: "$",
+                    prettify_separator: ",",
                     onStart: function(data) {
                         // fired then range slider is ready
                     },
@@ -135,8 +134,8 @@ export default class ListingFactory {
                     onFinish: function(data) {
                         // fired on pointer release
                         _self.updateFromToPrice(
-                            $('#priceRangeSlider').data('from'),
-                            $('#priceRangeSlider').data('to')
+                            $("#priceRangeSlider").data("from"),
+                            $("#priceRangeSlider").data("to")
                         );
                         _self.resetListing();
                     },
@@ -154,24 +153,24 @@ export default class ListingFactory {
         }
 
         this.strFilters
-            ? $('.clearall-filter-btn').show()
-            : $('.clearall-filter-btn').hide();
+            ? $(".clearall-filter-btn").show()
+            : $(".clearall-filter-btn").hide();
     }
 
     generateQueryString() {
-        let strFilters = '';
+        let strFilters = "";
         const _self = this;
-        $('.filter').each(function() {
-            if ($(this).attr('id') === 'priceFilter') {
+        $(".filter").each(function() {
+            if ($(this).attr("id") === "priceFilter") {
                 if (_self.price_from) {
-                    strFilters += 'price_from:' + _self.price_from + ';';
+                    strFilters += "price_from:" + _self.price_from + ";";
                 }
                 if (_self.price_to) {
-                    strFilters += 'price_to:' + _self.price_to + ';';
+                    strFilters += "price_to:" + _self.price_to + ";";
                 }
             } else {
-                var currFilter = $(this).attr('data-filter');
-                strFilters += currFilter + ':';
+                var currFilter = $(this).attr("data-filter");
+                strFilters += currFilter + ":";
                 var bFirstChecked = false;
                 $(this)
                     .find('input[type="checkbox"]')
@@ -179,15 +178,15 @@ export default class ListingFactory {
                         if (this.checked) {
                             var delim;
                             if (!bFirstChecked) {
-                                delim = '';
+                                delim = "";
                                 bFirstChecked = true;
                             } else {
-                                delim = ',';
+                                delim = ",";
                             }
-                            strFilters += delim + $(this).attr('value');
+                            strFilters += delim + $(this).attr("value");
                         }
                     });
-                strFilters += ';';
+                strFilters += ";";
             }
         });
         this.strFilters = strFilters;
@@ -197,20 +196,19 @@ export default class ListingFactory {
     fetchProducts(bClearPrevProducts) {
         this.bFetchingProducts = true;
         const _self = this;
-        var strLimit = this.iLimit === undefined ? '' : '&limit=' + this.iLimit;
+        var strLimit = this.iLimit === undefined ? "" : "&limit=" + this.iLimit;
         var filterQuery = `?filters=${this.strFilters}&sort_type=${this.sortType}&pageno=${this.iPageNo}${strLimit}`;
         var listingApiPath = this.base_url + filterQuery;
 
         history.pushState(
             {},
-            '',
+            "",
             window.location.protocol +
-                '//' +
+                "//" +
                 window.location.host +
                 window.location.pathname +
                 filterQuery
         );
-        this.$noProductText.hide();
 
         if (this.iPageNo > 0 && !this.$productContainer.html().trim()) {
             var apiCall = [];
@@ -219,9 +217,9 @@ export default class ListingFactory {
                 var listingApiPath = this.base_url + filterQuery;
                 apiCall.push(
                     $.ajax({
-                        type: 'GET',
+                        type: "GET",
                         url: listingApiPath,
-                        dataType: 'json'
+                        dataType: "json"
                     })
                 );
             }
@@ -237,9 +235,9 @@ export default class ListingFactory {
         } else {
             this.iPageNo += 1;
             $.ajax({
-                type: 'GET',
+                type: "GET",
                 url: listingApiPath,
-                dataType: 'json',
+                dataType: "json",
                 success: function(data) {
                     listingApiRendering(data);
                 },
@@ -266,10 +264,10 @@ export default class ListingFactory {
                 totalResults = data.total;
                 _self.$totalResults.text(totalResults);
 
-                var anchor = $('<a/>', {
-                    href: '#page' + _self.iPageNo,
-                    id: '#anchor-page' + _self.iPageNo
-                }).appendTo('#productsContainerDiv');
+                var anchor = $("<a/>", {
+                    href: "#page" + _self.iPageNo,
+                    id: "#anchor-page" + _self.iPageNo
+                }).appendTo("#productsContainerDiv");
 
                 for (var product of data.products) {
                     product.percent_discount = Math.round(
@@ -277,10 +275,10 @@ export default class ListingFactory {
                     );
                     product.discountClass =
                         product.percent_discount == 0
-                            ? 'd-none'
+                            ? "d-none"
                             : product.percent_discount > 20
-                            ? '_20'
-                            : '';
+                            ? "_20"
+                            : "";
                     Math.round(product.percent_discount);
                     if (
                         product.reviews != null &&
@@ -292,17 +290,18 @@ export default class ListingFactory {
                         )
                             .toFixed(1)
                             .toString()
-                            .replace('.', '_')}`;
+                            .replace(".", "_")}`;
                     }
                     product.variations = product.variations.map(variation => {
                         variation.swatch_image =
-                            variation.swatch_image || variation.swatch || '';
-                        if (variation.swatch_image !== '') {
-                            product.showMoreVariations = product.variations.length > 6;
+                            variation.swatch_image || variation.swatch || "";
+                        if (variation.swatch_image !== "") {
+                            product.showMoreVariations =
+                                product.variations.length > 6;
                         }
                         return variation;
                     });
-                    
+
                     _self.$productContainer.append(
                         _self.listingTemplate(product)
                     );
@@ -310,21 +309,21 @@ export default class ListingFactory {
             } else {
                 _self.bNoMoreProductsToShow = true;
                 _self.iPageNo -= 1;
-                _self.$noProductText.show();
-                $('#loaderImg').hide();
+                $("#loaderImg").hide();
+                $(".subscriber-container").removeClass("d-none");
                 return;
             }
             if (data.filterData) {
                 _self.renderFilters(data.filterData);
             }
             if (data.sortType) {
-                $('#sort').empty();
+                $("#sort").empty();
                 data.sortType.forEach(element => {
-                    var sortElm = jQuery('<option />', {
+                    var sortElm = jQuery("<option />", {
                         value: element.value,
                         selected: element.enabled,
                         text: element.name
-                    }).appendTo('#sort');
+                    }).appendTo("#sort");
                     if (element.enabled) {
                         strSortType = element.value;
                     }

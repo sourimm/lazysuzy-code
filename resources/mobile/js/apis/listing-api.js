@@ -197,8 +197,8 @@ $(document).ready(function () {
                 totalResults = data.total;
                 bNoMoreProductsToShow = true;
                 iPageNo -= 1;
-                $('#noProductsText').show();
                 $('#loaderImg').hide();
+                $('.subscriber-container').removeClass('d-none')
                 filterData();
                 resultButton();
                 return;
