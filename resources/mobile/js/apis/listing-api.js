@@ -1,6 +1,6 @@
 import * as multiCarouselFuncs from '../components/multi-carousel';
 import makeSelectBox from '../components/custom-selectbox';
-import subscriber from '../components/subscriber';
+import subscriber from '../../../js/apis/subscriber'
 import isMobile from '../../../js/app';
 const Handlebars = require('handlebars');
 // import strItemsNumClass from '../pages/listing';

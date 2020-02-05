@@ -1,7 +1,7 @@
 <div class="subscriber-container">
    <div class="inner-content js-form">
       <div class="subscriber-text">
-         <div>Be the first to see new styles & deals on Dining Room Chairs</div>
+         <div>Be the first to see new styles & deals on <span class="category-text">{{Request::segment(2)}}  {{Request::segment(3)}}</span></div>
       </div>
       <div class="subscriber-form">
          <div class="input-group">

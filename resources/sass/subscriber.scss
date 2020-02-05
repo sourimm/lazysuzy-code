@@ -7,11 +7,17 @@
 
     .inner-content {
         display: flex;
+        flex-wrap: wrap;
         justify-content: center;
     }
 
     .subscriber-text {
         margin-right: 20px;
+        min-width: 320px;
+
+        .category-text {
+            text-transform: capitalize;
+        }
     }
 
     .subscriber-form {
@@ -35,5 +41,9 @@
             background-color: #21334b;
         }
 
+    }
+
+    @media only screen and (max-width: 768px) {
+        text-align: center;
     }
 }
