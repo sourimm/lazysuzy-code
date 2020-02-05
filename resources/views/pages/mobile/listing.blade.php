@@ -82,6 +82,8 @@
             </div>
         </div>
     </div>
+    @component('components.subscriber')
+    @endcomponent
 </div>
 @endsection
 @push('pageSpecificScripts')

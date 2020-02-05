@@ -1,9 +1,11 @@
 import * as multiCarouselFuncs from '../components/multi-carousel';
 import makeSelectBox from '../components/custom-selectbox';
+import subscriber from '../components/subscriber';
 import isMobile from '../../../js/app';
 const Handlebars = require('handlebars');
 // import strItemsNumClass from '../pages/listing';
 // import * as priceSliderContainer from '../pages/listing';
+subscriber()
 
 $(document).ready(function () {
     const LISTING_API_PATH = '/api' + location.pathname;
