@@ -62,7 +62,7 @@ class Product extends Model
         foreach ($data as $key => $val) {
             array_push($LS_IDs, $val->LS_ID);
         }
-        
+
         return $LS_IDs;
     }
 
@@ -137,7 +137,7 @@ class Product extends Model
         $filters     = Input::get("filters");
         $all_filters = [];
         $query       = DB::table('master_data');
-        $is_details_minimal = Input::get("board-view") === "true" ? true : false ;
+        $is_details_minimal = Input::get("board-view") === "true" ? true : false;
 
         if (isset($sort_type)) {
             for ($i = 0; $i < sizeof($sort_type_filter); $i++) {
@@ -241,7 +241,6 @@ class Product extends Model
         // set default sorting to popularity
         else {
             $query = $query->orderBy('rec_order', 'desc');
-
         }
 
         if ($is_details_minimal) {
@@ -449,7 +448,7 @@ class Product extends Model
             // if uncommenting the above line, comment this one
             $LS_IDs = Product::get_sub_cat_LS_IDs($dept, $cat, $all_filters['type']);
 
-//            $LS_IDs = Product::get_dept_cat_LS_ID_arr($dept, $cat->product_sub_category_);
+            //            $LS_IDs = Product::get_dept_cat_LS_ID_arr($dept, $cat->product_sub_category_);
         }
 
         $products = DB::table("master_data")
@@ -533,8 +532,8 @@ class Product extends Model
         }
 
 
-        if (isset($all_filters['color']) && strlen($all_filters['color'][0]) > 0 ) {
-            $colors =implode("|", $all_filters['color']);
+        if (isset($all_filters['color']) && strlen($all_filters['color'][0]) > 0) {
+            $colors = implode("|", $all_filters['color']);
             $products = $products->whereRaw('color REGEXP "' . $colors . '"');
         }
 
@@ -943,25 +942,35 @@ class Product extends Model
             ->where('product_sku', $sku)
             ->get();
 
+        // only check for product_sku and variation_sku if size of variations is > 1 (ref issue #160 -> API -> last point)
+
         foreach ($variations as $variation) {
-            if ($variation->product_sku != $variation->variation_sku) {
-                $link =  "/product/";
+            $link =  "/product/";
 
-                if ($variation->has_parent_sku) {
-                    $link .= $variation->variation_sku;
-                } else {
-                    $link .= $variation->product_sku;
+            if ($variation->has_parent_sku) {
+                $link .= $variation->variation_sku;
+            } else {
+                $link .= $variation->product_sku;
+            }
+
+            $v = [
+                "product_sku" => $variation->product_sku,
+                "variation_sku" => $variation->variation_sku,
+                "name" => $variation->variation_name,
+                "has_parent_sku" => $variation->has_parent_sku == 1 ? true : false,
+                "swatch_image" => Product::$base_siteurl . $variation->swatch_image,
+                "image" => Product::$base_siteurl . $variation->variation_image,
+                "link" => $link
+            ];
+
+            if (sizeof($variations) == 1) {
+                return [
+                    $v
+                ];
+            } else {
+                if ($variation->product_sku != $variation->variation_sku) {
+                    array_push($product_variations, $v);
                 }
-
-                array_push($product_variations, [
-                    "product_sku" => $variation->product_sku,
-                    "variation_sku" => $variation->variation_sku,
-                    "name" => $variation->variation_name,
-                    "has_parent_sku" => $variation->has_parent_sku == 1 ? true : false,
-                    "swatch_image" => Product::$base_siteurl . $variation->swatch_image,
-                    "image" => Product::$base_siteurl . $variation->variation_image,
-                    "link" => $link
-                ]);
             }
         }
 
