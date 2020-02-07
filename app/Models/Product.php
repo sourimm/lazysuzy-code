@@ -49,10 +49,10 @@ class Product extends Model
         if ($dept != "all") {
             if (null == $cat) {
                 $data = $data
-                    ->where('dept_name_long', $dept);
+                    ->where('dept_name_url', $dept);
             } else {
                 $data = $data
-                    ->where('dept_name_long', $dept)
+                    ->where('dept_name_url', $dept)
                     ->where('cat_name_url', $cat);
             }
         }
@@ -62,6 +62,13 @@ class Product extends Model
         foreach ($data as $key => $val) {
             array_push($LS_IDs, $val->LS_ID);
         }
+
+        echo [
+            "dept" => $dept,
+            "cat" => $cat,
+            "data" => $LS_IDs
+        ];
+        die();
         return $LS_IDs;
     }
 
