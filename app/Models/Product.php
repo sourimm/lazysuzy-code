@@ -71,7 +71,7 @@ class Product extends Model
     {
         $ls_id = DB::table('mapping_core')
             ->select('LS_ID')
-            ->where('dept_name_short', $dept)
+            ->where('dept_name_url', $dept)
             ->where('cat_name_url', $cat)
             ->where('cat_sub_url', $sub_category)
             ->get();
