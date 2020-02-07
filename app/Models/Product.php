@@ -62,13 +62,7 @@ class Product extends Model
         foreach ($data as $key => $val) {
             array_push($LS_IDs, $val->LS_ID);
         }
-
-        echo json_encode([
-            "dept" => $dept,
-            "cat" => $cat,
-            "data" => $LS_IDs
-        ]);
-        die();
+        
         return $LS_IDs;
     }
 
