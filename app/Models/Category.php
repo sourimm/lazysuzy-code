@@ -22,22 +22,22 @@ class Category extends Model
             $dept = strtolower(trim($_GET['dept']));
         }
 
-        $rows = Category::select(['product_category', 'product_category_',
-            'category_image','LS_ID', 'filter_label'])
-            ->where('department_', $dept)
-            ->whereRaw('LENGTH(product_category) != 0 AND LENGTH(product_sub_category) = 0')
+        $rows = Category::select(['cat_name_long', 'cat_name_url',
+            'cat_image','LS_ID', 'filter_label', 'cat_name_short'])
+            ->where('dept_name_short', $dept)
+            ->whereRaw('LENGTH(cat_name_short) != 0 AND LENGTH(cat_sub_name) = 0')
             ->get()
             ->toArray();
 
         foreach ($rows as $row) {
-            $sub_categories = SubCategory::getSubCategories($dept, $row['product_category_']);
+            $sub_categories = SubCategory::getSubCategories($dept, $row['cat_name_url']);
             array_push($c_cat, [
-                'category' => $row['product_category'],
-                'product_category_' => $row['product_category_'],
+                'category' => $row['cat_name_short'],
+                'product_category_' => $row['cat_name_url'],
                 'filter_label' => ucfirst($row['filter_label']),
                 'LS_ID' => $row['LS_ID'],
-                'image' => Category::$base_site_url . '' . $row['category_image'],
-                'link' => $listing_base_url . '/' . strtolower($dept) . '/' . strtolower($row['product_category_']),
+                'image' => Category::$base_site_url . '' . $row['cat_image'],
+                'link' => $listing_base_url . '/' . strtolower($dept) . '/' . strtolower($row['cat_name_url']),
                 'sub_categories' => $sub_categories
             ]);
         }
@@ -48,8 +48,8 @@ class Category extends Model
         
         $trending_categories = [];
         $cols = [
-            'department_', 'product_category', 'product_category_',
-            'category_image'
+            'dept_name_long', 'cat_name_long', 'cat_name_url',
+            'cat_image', 'cat_name_short', 'dept_name_url'
         ];
         
         $rows = Category::select($cols)
@@ -61,9 +61,9 @@ class Category extends Model
         
             foreach($rows as $row) {
             array_push($trending_categories, [
-                'category' => $row['product_category'],
-                'link' => '/products/' . $row['department_'] . "/" . $row['product_category_'],
-                'image' => $row['category_image']
+                'category' => $row['cat_name_short'],
+                'link' => '/products/' . $row['dept_name_url'] . "/" . $row['cat_name_url'],
+                'image' => $row['cat_image']
             ]);
         }
         

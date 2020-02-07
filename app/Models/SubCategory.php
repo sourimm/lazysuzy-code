@@ -12,17 +12,17 @@ class SubCategory extends Model
     {
         $sub_categories = [];
 
-        $rows = SubCategory::select(['product_sub_category', 'LS_ID', 'product_sub_category_'])
-            ->where('department_', $department)
-            ->where('product_category_', $category)
-            ->whereRaw('LENGTH(product_sub_category) != 0')
+        $rows = SubCategory::select(['cat_sub_name', 'LS_ID', 'cat_sub_url'])
+            ->where('dept_name_short', $department)
+            ->where('cat_name_url', $category)
+            ->whereRaw('LENGTH(cat_sub_name) != 0')
             ->get()
             ->toArray();
 
         foreach ($rows as $row) {
             array_push($sub_categories, [
-                'sub_category' => $row['product_sub_category'],
-                'link' => "/products/" . strtolower($department) . "/" . strtolower($category) . "/" . strtolower( $row['product_sub_category_']), 
+                'sub_category' => $row['cat_sub_name'],
+                'link' => "/products/" . strtolower($department) . "/" . strtolower($category) . "/" . strtolower( $row['cat_sub_url']), 
                 'LS_ID' => $row['LS_ID']
             ]);
         }
