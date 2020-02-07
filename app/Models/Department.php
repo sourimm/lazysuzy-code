@@ -46,39 +46,6 @@ class Department extends Model
         return $departments;
     }
 
-    public static function j($dept)
-    {
-        $c_cat = [];
-        $dept  = strtolower(trim($dept));
-        $row   = Department::select(['dept_name_long', 'LS_ID'])
-            ->where('dept_name_url', $dept)
-            ->whereRaw('LENGTH(cat_name_long) = 0 AND LENGTH(cat_sub_name) = 0')
-            ->get()
-            ->toArray();
-        if (isset($row[0]['LS_ID'])) {
-            $dept       = $row[0]['dept_name_long'];
-            $dept_LS_ID = $row[0]['LS_ID'];
-        } else {
-            return null;
-        }
-        $categories = Category::get_categories($dept);
-        foreach ($categories as $category) {
-            $sub_categories = SubCategory::getSubCategories($dept, $category['category']);
-            array_push($c_cat, [
-                'category'       => $category['category'],
-                'LS_ID'          => $category['LS_ID'],
-                'image'          => $category['image'],
-                'link'          => $category['link'],
-                'sub_categories' => $sub_categories,
-            ]);
-        }
-        return [
-            'dept_name_long' => $dept,
-            'LS_ID'      => $dept_LS_ID,
-            'categories'  => $c_cat,
-        ];
-    }
-
     public static function get_department_info($LS_ID)
     {
 
@@ -91,9 +58,9 @@ class Department extends Model
         $dept_info = [];
         foreach ($rows as $key => $value) {
             array_push($dept_info, [
-                'department_name' => $value['dept_name_long'],
+                'department_name' => $value['dept_name_short'],
                 'department_url' => '/products/' . $value['dept_name_url'],
-                'category_name' => $value['cat_name_long'],
+                'category_name' => $value['cat_name_short'],
                 'category_url' => '/products/' . $value['dept_name_url'] . '/' . $value['cat_name_url'],
                 'sub_category_name' => $value['cat_sub_name'],
                 'sub_category_url' => '/products/' . $value['dept_name_url'] . '/' . $value['cat_name_url'] . '/' . $value['cat_sub_url'],
@@ -138,7 +105,7 @@ class Department extends Model
 
     public static function get_board_categories()
     {
-        $cols = ["LS_ID", "dept_name_url", "cat_name_long_", "filter_label"];
+        $cols = ["LS_ID", "dept_name_url", "cat_name_url", "filter_label"];
         $rows = Department::select($cols)
             ->where("board_view", 1)
             ->get()
@@ -149,7 +116,7 @@ class Department extends Model
             array_push($categories, [
                 'category' => $row['filter_label'],
                 'LS_ID' => $row['LS_ID'],
-                'link' => '/products/' . $row['dept_name_url'] . '/' . $row['cat_name_long_']
+                'link' => '/products/' . $row['dept_name_url'] . '/' . $row['cat_name_url']
             ]);
         }
 
