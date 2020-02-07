@@ -672,23 +672,37 @@ class Product extends Model
         ];
 
         //$dept, $cat, $subCat
-        $dept_info = DB::table("mapping_core")
-            ->where("dept_name_url", $dept)
-            ->where("cat_name_url", $cat)
-            ->whereRaw("LENGTH(dept_name_long) > 0")
+        $dept_info = DB::table("mapping_core");
+        
+        if ($dept != null)
+            $dept_info = $dept_info->where("dept_name_url", $dept);
+
+        if ($cat != null)
+            $dept_info = $dept_info->where("cat_name_url", $cat);
+        else 
+            $dept_info = $dept_info->whereRaw("LENGTH(cat_name_url) = 0");
+
+        $dept_info = $dept_info->whereRaw("LENGTH(dept_name_long) > 0")
             ->whereRaw("LENGTH(cat_image) > 0")
             ->select(['dept_name_long', 'cat_name_long', 'cat_name_short', 'cat_image'])
             ->limit(1)
             ->get();
+        
         if (isset($dept_info[0])) {
             $d = $dept_info[0];
             $seo_data = [
                 "page_title" => $d->cat_name_long,
                 "full_title" => $d->dept_name_long . " "  . $d->cat_name_short,
                 "email_title" => $d->dept_name_long . " " . $d->cat_name_short,
-                "description" => "Search hundreds of " . $d->cat_name_long  . " from top brands at once. Add to your room designs with your own design boards." 
+                "description" => "Search hundreds of " . $d->cat_name_long  . " from top brands at once. Add to your room designs with your own design boards.",
+                "image_url" => Product::$base_siteurl . $d->cat_image 
+
             ];
         }
+        else {
+            $seo_data = null;
+        }
+        
         return [
             "seo_data" => $seo_data,
             "total"      => $all_filters['count_all'],
