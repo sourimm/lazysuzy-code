@@ -953,24 +953,39 @@ class Product extends Model
                 $link .= $variation->product_sku;
             }
 
+            if ($variation->has_parent_sku == 1) {
+                
+                // cb2_products
+                if (strpos($variation_table, "cb2") !== false) {
+                    $v_image = DB::table("cb2_products_new");
+                }
+                else {
+                    $v_image = DB::table("crateandbarrel_products");
+                }
+
+                $v_image = $v_image->where("product_sku", $variation->variation_sku)
+                    ->select(['main_product_images'])->get()[0]->main_product_images;
+            }
+            else {
+                $v_image = $variation->variation_image;
+            }
+
             $v = [
                 "product_sku" => $variation->product_sku,
                 "variation_sku" => $variation->variation_sku,
                 "name" => $variation->variation_name,
                 "has_parent_sku" => $variation->has_parent_sku == 1 ? true : false,
                 "swatch_image" => Product::$base_siteurl . $variation->swatch_image,
-                "image" => Product::$base_siteurl . $variation->variation_image,
+                "image" => Product::$base_siteurl . $v_image,
                 "link" => $link
             ];
 
             if (sizeof($variations) == 1) {
-                return [
-                    $v
-                ];
-            } else {
                 if ($variation->product_sku != $variation->variation_sku) {
                     array_push($product_variations, $v);
                 }
+            } else {
+                array_push($product_variations, $v);
             }
         
         }
