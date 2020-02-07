@@ -106,13 +106,13 @@ class Department extends Model
     {
         $c_cat = [];
         $dept  = strtolower(trim($dept));
-        $row   = Department::select(['dept_name_long', 'LS_ID'])
+        $row   = Department::select(['dept_name_short', 'LS_ID'])
             ->where('dept_name_url', $dept)
             ->whereRaw('LENGTH(cat_name_long) = 0 AND LENGTH(cat_sub_name) = 0')
             ->get()
             ->toArray();
         if (isset($row[0]['LS_ID'])) {
-            $dept       = $row[0]['dept_name_long'];
+            $dept       = $row[0]['dept_name_short'];
             $dept_LS_ID = $row[0]['LS_ID'];
         } else {
             return null;
