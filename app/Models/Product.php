@@ -63,11 +63,11 @@ class Product extends Model
             array_push($LS_IDs, $val->LS_ID);
         }
 
-        echo [
+        echo json_encode([
             "dept" => $dept,
             "cat" => $cat,
             "data" => $LS_IDs
-        ];
+        ]);
         die();
         return $LS_IDs;
     }
