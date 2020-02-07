@@ -975,14 +975,10 @@ class Product extends Model
             if ($variation->has_parent_sku == 1) {
 
                 // cb2_products
-                if (strpos($variation_table, "cb2") !== false) {
-                    $v_image = DB::table("cb2_products_new_new");
-                } else {
-                    $v_image = DB::table("crateandbarrel_products");
-                }
-
-                $v_image = $v_image->where("product_sku", $variation->variation_sku)
+               $v_image = DB::table("master_data")
+                    ->where("product_sku", $variation->variation_sku)
                     ->select(['main_product_images'])->get();
+                    
                 if (isset($v_image[0])) {
                     $v_image = $v_image[0]->main_product_images;
                 }
