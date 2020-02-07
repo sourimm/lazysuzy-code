@@ -671,7 +671,26 @@ class Product extends Model
             "category" => $dept == "all" ? $category_holder : null
         ];
 
+        //$dept, $cat, $subCat
+        $dept_info = DB::table("mapping_core")
+            ->where("dept_name_url", $dept)
+            ->where("cat_name_url", $cat)
+            ->whereRaw("LENGTH(dept_name_long) > 0")
+            ->whereRaw("LENGTH(cat_image) > 0")
+            ->select(['dept_name_long', 'cat_name_long', 'cat_name_short', 'cat_image'])
+            ->limit(1)
+            ->get();
+        if (isset($dept_info[0])) {
+            $d = $dept_info[0];
+            $seo_data = [
+                "page_title" => $d->cat_name_long,
+                "full_title" => $d->dept_name_long . " "  . $d->cat_name_short,
+                "email_title" => $d->dept_name_long . " " . $d->cat_name_short,
+                "description" => "Search hundreds of " . $d->cat_name_long . 'page_title' . "from top brands at once. Add to your room designs with your own design boards." 
+            ];
+        }
         return [
+            "seo_data" => $seo_data,
             "total"      => $all_filters['count_all'],
             "constructor_count" => Product::$count,
             "sortType"  => isset($all_filters['sort_type']) ? $all_filters['sort_type'] : null,
@@ -963,7 +982,13 @@ class Product extends Model
                 }
 
                 $v_image = $v_image->where("product_sku", $variation->variation_sku)
-                    ->select(['main_product_images'])->get()[0]->main_product_images;
+                    ->select(['main_product_images'])->get();
+                if (isset($v_image[0])) {
+                    $v_image = $v_image[0]->main_product_images;
+                }
+                else {
+                    $variation->variation_image;
+                }
             } else {
                 $v_image = $variation->variation_image;
             }
