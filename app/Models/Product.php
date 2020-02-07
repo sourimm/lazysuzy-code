@@ -62,7 +62,7 @@ class Product extends Model
         foreach ($data as $key => $val) {
             array_push($LS_IDs, $val->LS_ID);
         }
-        
+
         return $LS_IDs;
     }
 
@@ -137,7 +137,7 @@ class Product extends Model
         $filters     = Input::get("filters");
         $all_filters = [];
         $query       = DB::table('master_data');
-        $is_details_minimal = Input::get("board-view") === "true" ? true : false ;
+        $is_details_minimal = Input::get("board-view") === "true" ? true : false;
 
         if (isset($sort_type)) {
             for ($i = 0; $i < sizeof($sort_type_filter); $i++) {
@@ -241,7 +241,6 @@ class Product extends Model
         // set default sorting to popularity
         else {
             $query = $query->orderBy('rec_order', 'desc');
-
         }
 
         if ($is_details_minimal) {
@@ -449,7 +448,7 @@ class Product extends Model
             // if uncommenting the above line, comment this one
             $LS_IDs = Product::get_sub_cat_LS_IDs($dept, $cat, $all_filters['type']);
 
-//            $LS_IDs = Product::get_dept_cat_LS_ID_arr($dept, $cat->product_sub_category_);
+            //            $LS_IDs = Product::get_dept_cat_LS_ID_arr($dept, $cat->product_sub_category_);
         }
 
         $products = DB::table("master_data")
@@ -533,8 +532,8 @@ class Product extends Model
         }
 
 
-        if (isset($all_filters['color']) && strlen($all_filters['color'][0]) > 0 ) {
-            $colors =implode("|", $all_filters['color']);
+        if (isset($all_filters['color']) && strlen($all_filters['color'][0]) > 0) {
+            $colors = implode("|", $all_filters['color']);
             $products = $products->whereRaw('color REGEXP "' . $colors . '"');
         }
 
@@ -968,8 +967,7 @@ class Product extends Model
                 return [
                     $v
                 ];
-            }
-            else {
+            } else {
                 if ($variation->product_sku != $variation->variation_sku) {
                     array_push($product_variations, $v);
                 }
