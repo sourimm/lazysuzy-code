@@ -943,26 +943,38 @@ class Product extends Model
             ->where('product_sku', $sku)
             ->get();
 
+        // only check for product_sku and variation_sku if size of variations is > 1 (ref issue #160 -> API -> last point)
+
         foreach ($variations as $variation) {
-            if ($variation->product_sku != $variation->variation_sku) {
-                $link =  "/product/";
+            $link =  "/product/";
 
-                if ($variation->has_parent_sku) {
-                    $link .= $variation->variation_sku;
-                } else {
-                    $link .= $variation->product_sku;
-                }
-
-                array_push($product_variations, [
-                    "product_sku" => $variation->product_sku,
-                    "variation_sku" => $variation->variation_sku,
-                    "name" => $variation->variation_name,
-                    "has_parent_sku" => $variation->has_parent_sku == 1 ? true : false,
-                    "swatch_image" => Product::$base_siteurl . $variation->swatch_image,
-                    "image" => Product::$base_siteurl . $variation->variation_image,
-                    "link" => $link
-                ]);
+            if ($variation->has_parent_sku) {
+                $link .= $variation->variation_sku;
+            } else {
+                $link .= $variation->product_sku;
             }
+
+            $v = [
+                "product_sku" => $variation->product_sku,
+                "variation_sku" => $variation->variation_sku,
+                "name" => $variation->variation_name,
+                "has_parent_sku" => $variation->has_parent_sku == 1 ? true : false,
+                "swatch_image" => Product::$base_siteurl . $variation->swatch_image,
+                "image" => Product::$base_siteurl . $variation->variation_image,
+                "link" => $link
+            ];
+
+            if (sizeof($variations) == 1) {
+                return [
+                    $v
+                ];
+            }
+            else {
+                if ($variation->product_sku != $variation->variation_sku) {
+                    array_push($product_variations, $v);
+                }
+            }
+        
         }
 
         return $product_variations;
