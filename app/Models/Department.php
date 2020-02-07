@@ -79,7 +79,7 @@ class Department extends Model
         ];
     }
 
-    public static function get_dept_name_urlinfo($LS_ID)
+    public static function get_department_info($LS_ID)
     {
 
         $LS_IDs = explode(",", $LS_ID);
@@ -91,12 +91,12 @@ class Department extends Model
         $dept_info = [];
         foreach ($rows as $key => $value) {
             array_push($dept_info, [
-                'dept_name_urlname' => $value['dept_name_long'],
-                'dept_name_urlurl' => '/products/' . $value['dept_name_url'],
+                'department_name' => $value['dept_name_long'],
+                'department_url' => '/products/' . $value['dept_name_url'],
                 'category_name' => $value['cat_name_long'],
-                'category_url' => '/products/' . $value['dept_name_url'] . '/' . $value['cat_name_long_'],
+                'category_url' => '/products/' . $value['dept_name_url'] . '/' . $value['cat_name_url'],
                 'sub_category_name' => $value['cat_sub_name'],
-                'sub_category_url' => '/products/' . $value['dept_name_url'] . '/' . $value['cat_name_long_'] . '/' . $value['cat_sub_name_'],
+                'sub_category_url' => '/products/' . $value['dept_name_url'] . '/' . $value['cat_name_url'] . '/' . $value['cat_sub_url'],
             ]);
         }
         return $dept_info;
