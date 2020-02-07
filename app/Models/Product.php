@@ -49,11 +49,11 @@ class Product extends Model
         if ($dept != "all") {
             if (null == $cat) {
                 $data = $data
-                    ->where('department_', $dept);
+                    ->where('dept_name_long', $dept);
             } else {
                 $data = $data
-                    ->where('department_', $dept)
-                    ->where('product_category_', $cat);
+                    ->where('dept_name_long', $dept)
+                    ->where('cat_name_url', $cat);
             }
         }
 
@@ -71,9 +71,9 @@ class Product extends Model
     {
         $ls_id = DB::table('mapping_core')
             ->select('LS_ID')
-            ->where('department_', $dept)
-            ->where('product_category_', $cat)
-            ->where('product_sub_category_', $sub_category)
+            ->where('dept_name_short', $dept)
+            ->where('cat_name_url', $cat)
+            ->where('cat_sub_url', $sub_category)
             ->get();
 
         if ($ls_id) {
@@ -498,13 +498,13 @@ class Product extends Model
     {
 
         $sub_cat_LS_IDs = DB::table("mapping_core")
-            ->select(["product_sub_category", "product_sub_category_", "LS_ID"])
-            ->where("department_", $dept);
+            ->select(["cat_name_short", "cat_name_url", "LS_ID", "cat_sub_url", "cat_sub_name"])
+            ->where("dept_name_url", $dept);
 
         if ($cat != null)
-            $sub_cat_LS_IDs = $sub_cat_LS_IDs->where("product_category_", $cat);
+            $sub_cat_LS_IDs = $sub_cat_LS_IDs->where("cat_name_url", $cat);
 
-        return $sub_cat_LS_IDs->whereRaw("LENGTH(product_sub_category_) != 0")->get();
+        return $sub_cat_LS_IDs->whereRaw("LENGTH(cat_name_url) != 0")->get();
     }
 
     // for product type filter ONLY!
@@ -551,10 +551,10 @@ class Product extends Model
 
         foreach ($sub_cat_LS_IDs as $cat) {
             $selected = false;
-            if (strtolower($cat->product_sub_category_) == strtolower($subCat)) $selected = true;
-            $sub_cat_arr[$cat->product_sub_category_] = [
-                "name" => $cat->product_sub_category,
-                "value" => strtolower($cat->product_sub_category_),
+            if (strtolower($cat->cat_sub_url) == strtolower($subCat)) $selected = true;
+            $sub_cat_arr[$cat->cat_sub_url] = [
+                "name" => $cat->cat_sub_name,
+                "value" => strtolower($cat->cat_sub_url),
                 "enabled" => false,
                 "checked" => $selected,
                 "count" => 0
@@ -565,14 +565,14 @@ class Product extends Model
         foreach ($sub_cat_LS_IDs as $cat) {
             foreach ($products as $p) {
                 if (strpos($p->LS_ID, (string) $cat->LS_ID) !== false) {
-                    if (isset($sub_cat_arr[$cat->product_sub_category_])) {
-                        $sub_cat_arr[$cat->product_sub_category_]["enabled"] = true;
-                        $sub_cat_arr[$cat->product_sub_category_]["count"]++;
+                    if (isset($sub_cat_arr[$cat->cat_sub_url])) {
+                        $sub_cat_arr[$cat->cat_sub_url]["enabled"] = true;
+                        $sub_cat_arr[$cat->cat_sub_url]["count"]++;
 
                         if (isset($all_filters['type'])) {
-                            $sub_category = strtolower($cat->product_sub_category_);
+                            $sub_category = strtolower($cat->cat_sub_url);
                             if (in_array($sub_category, $all_filters['type'])) {
-                                $sub_cat_arr[$cat->product_sub_category_]["checked"] = true;
+                                $sub_cat_arr[$cat->cat_sub_url]["checked"] = true;
                             }
                         }
                     }
