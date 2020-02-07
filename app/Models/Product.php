@@ -686,7 +686,7 @@ class Product extends Model
                 "page_title" => $d->cat_name_long,
                 "full_title" => $d->dept_name_long . " "  . $d->cat_name_short,
                 "email_title" => $d->dept_name_long . " " . $d->cat_name_short,
-                "description" => "Search hundreds of " . $d->cat_name_long . 'page_title' . "from top brands at once. Add to your room designs with your own design boards." 
+                "description" => "Search hundreds of " . $d->cat_name_long  . "from top brands at once. Add to your room designs with your own design boards." 
             ];
         }
         return [
@@ -978,7 +978,7 @@ class Product extends Model
                $v_image = DB::table("master_data")
                     ->where("product_sku", $variation->variation_sku)
                     ->select(['main_product_images'])->get();
-                    
+
                 if (isset($v_image[0])) {
                     $v_image = $v_image[0]->main_product_images;
                 }
