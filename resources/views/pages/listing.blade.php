@@ -97,7 +97,7 @@
                 @{{/with}}
                 @{{/each_upto}}
                 @{{#if showMoreVariations}}
-                    <a href="/product/@{{sku}}" class="more-link js-detail-modal">
+                    <a href="/product/@{{sku}}" data-href="/product/@{{sku}}" class="more-link js-detail-modal">
                         + more
                     </a>
                 @{{/if}}
