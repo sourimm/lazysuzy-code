@@ -684,7 +684,7 @@ class Product extends Model
 
         $dept_info = $dept_info->whereRaw("LENGTH(dept_name_long) > 0")
             ->whereRaw("LENGTH(cat_image) > 0")
-            ->select(['dept_name_long', 'cat_name_long', 'cat_name_short', 'cat_image'])
+            ->select(['dept_name_long', 'cat_name_long', 'cat_name_short', 'cat_image', 'filter_label'])
             ->limit(1)
             ->get();
         
@@ -693,7 +693,7 @@ class Product extends Model
             $seo_data = [
                 "page_title" => $d->cat_name_long,
                 "full_title" => $d->dept_name_long . " "  . $d->cat_name_short,
-                "email_title" => $d->dept_name_long . " " . $d->cat_name_short,
+                "email_title" => $d->filter_label,
                 "description" => "Search hundreds of " . $d->cat_name_long  . " from top brands at once. Add to your room designs with your own design boards.",
                 "image_url" => Product::$base_siteurl . $d->cat_image 
 
@@ -986,7 +986,7 @@ class Product extends Model
                 $link .= $variation->product_sku;
             }
 
-            if ($variation->has_parent_sku == 1) {
+            if ($variation->has_parent_sku == 1 && !isset($variation->variation_image)) {
 
                 // cb2_products
                $v_image = DB::table("master_data")
