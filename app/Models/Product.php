@@ -504,7 +504,7 @@ class Product extends Model
         if ($cat != null)
             $sub_cat_LS_IDs = $sub_cat_LS_IDs->where("cat_name_url", $cat);
 
-        return $sub_cat_LS_IDs->whereRaw("LENGTH(cat_name_url) != 0")->get();
+        return $sub_cat_LS_IDs->whereRaw("LENGTH(cat_sub_name) != 0")->get();
     }
 
     // for product type filter ONLY!
