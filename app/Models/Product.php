@@ -997,19 +997,32 @@ class Product extends Model
                     $v_image = $v_image[0]->main_product_images;
                 }
                 else {
-                    $variation->variation_image;
+                    $v_image = $variation->variation_image;
                 }
             } else {
                 $v_image = $variation->variation_image;
             }
 
+            // if last char of swatch image in DB is '/' then there is no 
+            // valid image for the SKU. It is the prefix of image path.
+            // pass NULL ot API in such cases.
+            $swatch_length = strlen($variation->swatch_image);
+            if (isset($variation->swatch_image)) {
+                if ($variation->swatch_image[$swatch_length - 1] == "/") {
+                    $swatch_image = null;
+                }
+                else {
+                    $swatch_image = Product::$base_siteurl . $variation->swatch_image;
+                }
+            }
+             
             $v = [
                 "product_sku" => $variation->product_sku,
                 "variation_sku" => $variation->variation_sku,
                 "name" => $variation->variation_name,
                 "has_parent_sku" => $variation->has_parent_sku == 1 ? true : false,
-                "swatch_image" => Product::$base_siteurl . $variation->swatch_image,
-                "image" => Product::$base_siteurl . $v_image,
+                "swatch_image" => $swatch_image,
+                "image" => isset($variation->v_image) ? Product::$base_siteurl . $v_image : null,
                 "link" => $link
             ];
 
