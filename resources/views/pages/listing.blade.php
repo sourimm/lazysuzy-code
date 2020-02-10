@@ -4,7 +4,7 @@
 @include('./partials/subnav')
 <div class="listing">
     <div class="listing-container main-container container ">
-        <h4 class="page-heading js-pageHeading">{{Request::segment(3)}}</h4>
+        <h4 class="page-heading js-pageHeading"></h4>
         <div class="filters d-md-block filter-close-btn">
             <div class="row">
                 <ul class="filter-tabs col-sm-9" id="desktop-filters">
