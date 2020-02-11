@@ -1006,6 +1006,7 @@ class Product extends Model
             // if last char of swatch image in DB is '/' then there is no 
             // valid image for the SKU. It is the prefix of image path.
             // pass NULL ot API in such cases.
+            $swatch_image = null;
             $swatch_length = strlen($variation->swatch_image);
             if (isset($variation->swatch_image)) {
                 if ($variation->swatch_image[$swatch_length - 1] == "/") {
@@ -1015,7 +1016,7 @@ class Product extends Model
                     $swatch_image = Product::$base_siteurl . $variation->swatch_image;
                 }
             }
-             
+            
             $v = [
                 "product_sku" => $variation->product_sku,
                 "variation_sku" => $variation->variation_sku,
@@ -1023,7 +1024,9 @@ class Product extends Model
                 "has_parent_sku" => $variation->has_parent_sku == 1 ? true : false,
                 "swatch_image" => $swatch_image,
                 "image" => isset($variation->v_image) ? Product::$base_siteurl . $v_image : null,
-                "link" => $link
+                "link" => $link,
+                "is_button" => !isset($swatch_image),
+                "label" => !isset($swatch_image) ? $variation->variation_name : null
             ];
 
             if (sizeof($variations) == 1) {
