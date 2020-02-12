@@ -111,13 +111,13 @@ $(document).ready(function() {
                             }).appendTo(span);
                         }
                     });
+                    $(".products-modal-details").removeClass("extended");
                     if (!hasSwatch) {
                         $(".variation-container").addClass("d-none");
+                        $(".products-modal-details").addClass("extended");
                     }
-                    $(".products-modal-details").removeClass("extended");
                 } else {
                     $(".variation-container").addClass("d-none");
-                    $(".products-modal-details").addClass("extended");
                 }
 
                 $(".js-site").text(data.site);
