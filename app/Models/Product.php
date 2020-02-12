@@ -830,7 +830,7 @@ class Product extends Model
             $data['features'] = in_array($product->name, $desc_BRANDS) ? Product::format_desc_new($product->product_feature) : preg_split("/\\[US\\]|<br>|\\n|\|/", $product->product_feature);
             $data['on_server_images'] = array_map([__CLASS__, "baseUrl"], preg_split("/,|\\[US\\]/", $product->product_images));
             $data['department_info'] = Department::get_department_info($product->LS_ID);
-				$data['extras'] = $extras;
+				$data['selections'] = $extras;
 				$data['hashmap'] = $hashmap;
 
             return $data;
@@ -1067,13 +1067,13 @@ class Product extends Model
         $variation_extras = [];
         if (sizeof($variation_choices) > 4) {
             $variation_extras = [
-                'type' => 'redirect_dropdown',
+                'type' => 'redirect',
                 'options' => $variation_choices
             ];
         }
         else {
             $variation_extras = [
-                'type' => 'redirect_buttons',
+                'type' => 'redirect',
                 'options' => $variation_choices
             ];
         }
@@ -1256,7 +1256,7 @@ class Product extends Model
 						  
 
                     $variation_extras = [
-                        'type' => $is_dropdown ? 'dropdown' : 'buttons',
+                        'type' => $is_dropdown ? 'multi_choice' : 'single_choice',
                         'options' => $extras
                     ];
 
