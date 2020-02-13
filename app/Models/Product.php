@@ -235,12 +235,12 @@ class Product extends Model
             } else if ($sort_type == $POPULARITY) {
                 $query = $query->orderBy('popularity', 'desc');
             } else {
-                $query = $query->orderBy('rec_order', 'desc');
+                $query = $query->orderBy(DB::raw("`rec_order` + `manual_adj`"), 'desc');
             }
         }
         // set default sorting to popularity
         else {
-            $query = $query->orderBy('rec_order', 'desc');
+            $query = $query->orderBy(DB::raw("`rec_order` + `manual_adj`"), 'desc');
         }
 
         if ($is_details_minimal) {
@@ -673,13 +673,13 @@ class Product extends Model
 
         //$dept, $cat, $subCat
         $dept_info = DB::table("mapping_core");
-        
+
         if ($dept != null)
             $dept_info = $dept_info->where("dept_name_url", $dept);
 
         if ($cat != null)
             $dept_info = $dept_info->where("cat_name_url", $cat);
-        else 
+        else
             $dept_info = $dept_info->whereRaw("LENGTH(cat_name_url) = 0");
 
         $dept_info = $dept_info->whereRaw("LENGTH(dept_name_long) > 0")
@@ -687,7 +687,7 @@ class Product extends Model
             ->select(['dept_name_long', 'cat_name_long', 'cat_name_short', 'cat_image', 'filter_label'])
             ->limit(1)
             ->get();
-        
+
         if (isset($dept_info[0])) {
             $d = $dept_info[0];
             $seo_data = [
@@ -695,14 +695,13 @@ class Product extends Model
                 "full_title" => $d->dept_name_long . " "  . $d->cat_name_short,
                 "email_title" => $d->filter_label,
                 "description" => "Search hundreds of " . $d->cat_name_long  . " from top brands at once. Add to your room designs with your own design boards.",
-                "image_url" => Product::$base_siteurl . $d->cat_image 
+                "image_url" => Product::$base_siteurl . $d->cat_image
 
             ];
-        }
-        else {
+        } else {
             $seo_data = null;
         }
-        
+
         return [
             "seo_data" => $seo_data,
             "total"      => $all_filters['count_all'],
@@ -716,20 +715,20 @@ class Product extends Model
 
     public static function get_details($product, $variations, $isListingAPICall = null, $isMarked = false, $isTrending = false, $is_details_minimal = false)
     {
-		  // checking if the variations data has variations buttons (extras) data as well
-		  
+        // checking if the variations data has variations buttons (extras) data as well
+
         $extras = null;
-		  $hashmap = null;
-		  if (isset($variations['hashmap'])) {
-			  $hashmap = $variations['hashmap'];
-		  }
+        $hashmap = null;
+        if (isset($variations['hashmap'])) {
+            $hashmap = $variations['hashmap'];
+        }
 
         if (isset($variations['variations'])) {
             $extras = $variations['extras'];
             $variations = $variations['variations'];
-		  }
-		
-    
+        }
+
+
         $p_val = $wp_val = $discount = null;
 
         $p_price = str_replace("$", "", $product->price);
@@ -830,8 +829,8 @@ class Product extends Model
             $data['features'] = in_array($product->name, $desc_BRANDS) ? Product::format_desc_new($product->product_feature) : preg_split("/\\[US\\]|<br>|\\n|\|/", $product->product_feature);
             $data['on_server_images'] = array_map([__CLASS__, "baseUrl"], preg_split("/,|\\[US\\]/", $product->product_images));
             $data['department_info'] = Department::get_department_info($product->LS_ID);
-				$data['extras'] = $extras;
-				$data['hashmap'] = $hashmap;
+            $data['selections'] = $extras;
+            $data['hashmap'] = $hashmap;
 
             return $data;
         } else {
@@ -1007,14 +1006,13 @@ class Product extends Model
             if ($variation->has_parent_sku == 1 && !isset($variation->variation_image)) {
 
                 // cb2_products
-               $v_image = DB::table("master_data")
+                $v_image = DB::table("master_data")
                     ->where("product_sku", $variation->variation_sku)
                     ->select(['main_product_images'])->get();
 
                 if (isset($v_image[0])) {
                     $v_image = $v_image[0]->main_product_images;
-                }
-                else {
+                } else {
                     $v_image = $variation->variation_image;
                 }
             } else {
@@ -1029,13 +1027,11 @@ class Product extends Model
             if (isset($variation->swatch_image)) {
                 if ($variation->swatch_image[$swatch_length - 1] == "/") {
                     $swatch_image = null;
-                }
-                else {
+                } else {
                     $swatch_image = Product::$base_siteurl . $variation->swatch_image;
                 }
             }
 
-            
             $v = [
                 "product_sku" => $variation->product_sku,
                 "variation_sku" => $variation->variation_sku,
@@ -1059,22 +1055,21 @@ class Product extends Model
             if ($swatch_image == null) {
                 array_push($variation_choices, [
                     'label' => $variation->variation_name,
-                    'link' => $link
+                    'link' => $link,
+                    'var_sku' => $variation->variation_sku
                 ]);
             }
-        
         }
 
         $variation_extras = [];
         if (sizeof($variation_choices) > 4) {
             $variation_extras = [
-                'type' => 'redirect_dropdown',
+                'type' => 'redirect',
                 'options' => $variation_choices
             ];
-        }
-        else {
+        } else {
             $variation_extras = [
-                'type' => 'redirect_buttons',
+                'type' => 'redirect',
                 'options' => $variation_choices
             ];
         }
@@ -1144,9 +1139,9 @@ class Product extends Model
             "attribute_3",
             "attribute_4",
             "attribute_5",
-				"attribute_6",
-				"price",
-				"was_price"
+            "attribute_6",
+            "price",
+            "was_price"
         ];
 
         $variations_extra = [];
@@ -1167,7 +1162,7 @@ class Product extends Model
                 $variation_filters = [];
                 $swatches = [];
                 $extras_key = [];
-                
+
                 foreach ($var as $prod) {
                     $features = [];
                     for ($i = 1; $i <= 6; $i++) {
@@ -1179,7 +1174,7 @@ class Product extends Model
 
                             $filter_key = Product::get_filter_key($str_exp[0]);
                             $features[$filter_key] = $str_exp[1];
-                            
+
                             // set keys for variations data 
                             if (isset($extras_key[$filter_key])) {
                                 if (is_array($extras_key[$filter_key])) {
@@ -1187,12 +1182,11 @@ class Product extends Model
                                         array_push($extras_key[$filter_key], $str_exp[1]);
                                     }
                                 }
-                            }
-                            else {
+                            } else {
                                 $extras_key[$filter_key] = [];
                                 array_push($extras_key[$filter_key], $str_exp[1]);
                             }
-                                
+
                             // setting array indexes for each filter category
                             if (!isset($variation_filters[$filter_key]))
                                 $variation_filters[$filter_key] = [];
@@ -1236,28 +1230,28 @@ class Product extends Model
                         }
                     }
 
-						  $is_dropdown = false;
-						  $extras = [];
-                     foreach($extras_key as $key => $arr) {
+                    $is_dropdown = false;
+                    $extras = [];
+                    foreach ($extras_key as $key => $arr) {
                         if (sizeof($arr) > 4) {
                             $is_dropdown = true;
-								}
-								
-								$extras[$key] = [];
-						  } 
+                        }
 
-						  foreach($extras_key as $key => $arr) {
-							  foreach($arr as $k) {
-								  array_push($extras[$key], [
-									  'label' => $k
-								  ]);
-							  }
-						  }
-						  
-						  
+                        $extras[$key] = [];
+                    }
+
+                    foreach ($extras_key as $key => $arr) {
+                        foreach ($arr as $k) {
+                            array_push($extras[$key], [
+                                'label' => $k
+                            ]);
+                        }
+                    }
+
+
 
                     $variation_extras = [
-                        'type' => $is_dropdown ? 'dropdown' : 'buttons',
+                        'type' => $is_dropdown ? 'multi_choice' : 'single_choice',
                         'options' => $extras
                     ];
 
@@ -1269,11 +1263,11 @@ class Product extends Model
                         "has_parent_sku" => false,
                         "image" => Product::$base_siteurl . $prod->image_path,
                         "link" =>  "/product/" . $product->product_sku,
-								"swatch_image" => strlen($prod->swatch_image) != 0 ? Product::$base_siteurl . $prod->swatch_image_path : null,
-								"price" => $prod->price,
-								"was_price" => $prod->was_price
+                        "swatch_image" => strlen($prod->swatch_image) != 0 ? Product::$base_siteurl . $prod->swatch_image_path : null,
+                        "price" => $prod->price,
+                        "was_price" => $prod->was_price
                     ]);
-               }
+                }
 
 
                 /* if (!$isListingAPICall) {
@@ -1282,29 +1276,31 @@ class Product extends Model
                     ]);
                 } */
 
-					 $hashmap = [];
-					 foreach($variations as $variation) {
-						$features = $variation['features'];
-						ksort($features);
+                $hashmap = [];
+                foreach ($variations as $variation) {
+                    $features = $variation['features'];
+                    ksort($features);
 
-						$str = '';
-						foreach($features as $f => $val) {
-							$str .= $val;
-						}
+                    $str = '';
+                    foreach ($features as $f => $val) {
+                        $str .= $val;
+                    }
 
 
-						$hashmap[md5($str)] = [
-							'price' => $variation['price'],
-							'was_price' => $variation['was_price'],
-							'image' => $variation['image']
-						];
-					 }
-					 
+                    $hashmap[md5($str)] = [
+                        'price' => $variation['price'],
+                        'was_price' => $variation['was_price'],
+                        'image' => $variation['image'],
+                        'var_sku' => $variation['variation_sku']
+
+                    ];
+                }
+
                 return [
-						 'variations' => $variations,
-						 'extras' => $variation_extras,
-						 'hashmap' => $hashmap
-					 ];
+                    'variations' => $variations,
+                    'extras' => $variation_extras,
+                    'hashmap' => $hashmap
+                ];
             }
         }
 
