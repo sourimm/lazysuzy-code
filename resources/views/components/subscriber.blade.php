@@ -2,7 +2,7 @@
    <div class="inner-content js-form">
       <div class="subscriber-text">
          <div>Be the first to see new styles & deals on 
-            <span class="category-text-inline"> {{Request::segment(2)}} {{Request::segment(3)}}</span>
+            <span class="category-text-inline js-category-text"> {{Request::segment(2)}} {{Request::segment(3)}}</span>
          </div>
       </div>
       <div class="subscriber-form">

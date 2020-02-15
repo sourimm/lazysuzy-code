@@ -31,7 +31,7 @@ class CreateTableProducts extends Migration
             $table->string('price')->nullable();
             $table->string('mrp')->nullable();
             $table->string('parent_category')->nullable();
-            $table->string('product_category')->nullable();
+            $table->string('cat_name_long')->nullable();
             $table->string('department')->nullable();
             $table->text('product_feature')->nullable();
             $table->string('collection')->nullable();

@@ -21,12 +21,13 @@ class ProductController extends Controller
         $departmentName = $singleDepartment['department'];
         $listedCategories = $singleDepartment['categories'];
 
-        if (($request->dept!=''&& $request->dept!='mirrors')&&$request->cat== '') {
+        if (($request->dept!='' && $request->dept!='mirrors') && $request->cat== '') {
             return view('pages.category', compact('departmentName', 'listedCategories'));
         }
         if ($request->ajax()) {
             return $products;
         }
+        
         $agent = $_SERVER['HTTP_USER_AGENT'];
 
         if (Utility::is_mobile($agent)) {
@@ -57,7 +58,7 @@ class ProductController extends Controller
 
     public function getProductCategoryWise(Request $request)
     {
-        $products = Product::where('product_category', 'LIKE', '%' . $request->category . '%')->paginate(16);
+        $products = Product::where('cat_name_long', 'LIKE', '%' . $request->category . '%')->paginate(16);
         return $products;
     }
 

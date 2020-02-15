@@ -75,4 +75,4 @@ Route::get('/api/mark/favourite/{sku}', 'API@mark_favourite')->name('mark-favour
 Route::get('/api/unmark/favourite/{sku}', 'API@unmark_favourite')->name('unmark-favourite');
 Route::get('/api/subscribe', 'API@subscribe_user')->name('subscribe');
 
-Route::get('/wishlist', 'ProductController@showWishList')->name('show-wishlist');
+Route::get('/wishlist', 'ProebductController@showWishList')->name('show-wishlist');

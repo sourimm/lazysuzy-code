@@ -17,7 +17,7 @@ class CreateTableDepartmentMapping extends Migration
             $table->increments('id');
             $table->unsignedInteger('ls_id');
             $table->string('department_name');
-            $table->string('product_category');
+            $table->string('cat_name_long');
             $table->string('product_sub_category');
         });
     }

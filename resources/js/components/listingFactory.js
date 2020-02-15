@@ -50,6 +50,12 @@ export default class ListingFactory {
         this.resetListing = this.resetListing.bind(this);
     }
 
+    setSEO(seo) {
+        document.title = `${seo.page_title} | Lazysuzy`;
+        $(".js-category-text").text(seo.email_title);
+        $(".js-pageHeading").text(seo.page_title);
+    }
+
     isFilterApplied(filter, filterItems) {
         return filter === "price"
             ? Math.round(filterItems.from) !== Math.round(filterItems.min) ||
@@ -251,6 +257,9 @@ export default class ListingFactory {
         const listingApiRendering = function(data) {
             _self.bFetchingProducts = false;
             let totalResults = 0;
+            if (!_self.$productContainer.html().trim()) {
+                _self.setSEO(data.seo_data);
+            }
             if (bClearPrevProducts) {
                 _self.$productContainer.empty();
             }
