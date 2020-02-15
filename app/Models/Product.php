@@ -1150,7 +1150,7 @@ class Product extends Model
                 $var = DB::table("westelm_products_skus")
                     ->select($cols);
 
-                if ($isListingAPICall) $var = $var->groupBy("swatch_image_path");
+                $var = $var->groupBy("swatch_image_path");
 
                 $var = $var->where("product_id", $product->product_sku);
 
