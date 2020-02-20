@@ -131,13 +131,17 @@ class Product extends Model
 
         ];
 
+        // getting all the extra params from URL to parse applied filters
         $page_num    = Input::get("pageno");
         $limit       = Input::get("limit");
         $sort_type   = Input::get("sort_type");
         $filters     = Input::get("filters");
+        $new_products_only = filter_var(Input::get('new'), FILTER_VALIDATE_BOOLEAN);
+        $sale_products_only = filter_var(Input::get('sale'), FILTER_VALIDATE_BOOLEAN);
+        $is_details_minimal = filter_var(Input::get('board-view'), FILTER_VALIDATE_BOOLEAN);
+
         $all_filters = [];
         $query       = DB::table('master_data');
-        $is_details_minimal = Input::get("board-view") === "true" ? true : false;
 
         if (isset($sort_type)) {
             for ($i = 0; $i < sizeof($sort_type_filter); $i++) {
@@ -239,12 +243,26 @@ class Product extends Model
             }
         }
         // set default sorting to popularity
-        else {
-            $query = $query->orderBy(DB::raw("`rec_order` + `manual_adj`"), 'desc');
-        }
+         else {
+            if ($sale_products_only == false)
+                $query = $query->orderBy(DB::raw("`rec_order` + `manual_adj`"), 'desc');
+        } 
 
         if ($is_details_minimal) {
             $query = $query->whereRaw('LENGTH(image_xbg) > 0');
+        }
+
+        // for new products only
+        if ($new_products_only == true) {
+            $date_four_weeks_ago = date('Y-m-d', strtotime('-28 days'));
+            $query = $query->whereRaw("created_date >= '" . $date_four_weeks_ago . "'");
+        }
+
+        // for getting products on sale 
+        if ($sale_products_only == true) {
+            $query = $query->whereRaw('price >  0')
+                        ->whereRaw('was_price > 0')
+                        ->orderBy(DB::raw("`price` / `was_price`"), 'asc');
         }
 
         // 6. limit
@@ -271,13 +289,15 @@ class Product extends Model
     }
 
     // this is only for /all API
-    public static function get_all_dept_category_filter($brand_name, $in_filter_categories)
+    public static function get_all_dept_category_filter($brand_name = null, $in_filter_categories)
     {
 
         $LS_IDs = DB::table("master_data")
-            ->select("LS_ID")
-            ->where("site_name", $brand_name)
-            ->distinct("LS_ID")
+            ->select("LS_ID");
+        
+        if ($brand_name !== null) $LS_IDs = $LS_IDs->where("site_name", $brand_name);
+        
+        $LS_IDs = $LS_IDs->distinct("LS_ID")
             ->get();
 
         // get product categories filters
@@ -660,7 +680,9 @@ class Product extends Model
         if ($dept == "all") {
             if (!isset($all_filters['category']))
                 $all_filters['category'] = [];
-            $category_holder = Product::get_all_dept_category_filter($all_filters['brand'][0], $all_filters['category']);
+            
+            $brand_filter = isset($all_filters['brand'][0]) ? $all_filters['brand'][0] : null;
+            $category_holder = Product::get_all_dept_category_filter($brand_filter, $all_filters['category']);
         }
 
         $filter_data = [
@@ -753,15 +775,15 @@ class Product extends Model
 
         $is_new = false;
         if (strlen($product->created_date) > 0) {
-            $diff = strtotime(date("Y-m-d H:i:s")) - strtotime($product->updated_date);
+            $diff = strtotime(date("Y-m-d H:i:s")) - strtotime($product->created_date);
             $days = $diff / 60 / 60 / 24;
             if ($days < 4 * 7) $is_new = true;
 
-            $jan192020 = strtotime('2020/01/19'); // 4
+            /* $jan192020 = strtotime('2020/01/19'); // 4
             $product_date = strtotime($product->created_date); // 5
 
             if ($jan192020 > $product_date) $is_new = false;
-            else $is_new = true;
+            else $is_new = true; */
         }
 
         $main_image = $is_details_minimal ?  $product->image_xbg : $product->main_product_images;
