@@ -136,10 +136,12 @@ class Product extends Model
         $limit       = Input::get("limit");
         $sort_type   = Input::get("sort_type");
         $filters     = Input::get("filters");
-        $new_products_only = filter_var(Input::get('new_only'), FILTER_VALIDATE_BOOLEAN);
+        $new_products_only = filter_var(Input::get('new'), FILTER_VALIDATE_BOOLEAN);
+        $sale_products_only = filter_var(Input::get('sale'), FILTER_VALIDATE_BOOLEAN);
+        $is_details_minimal = filter_var(Input::get('board-view'), FILTER_VALIDATE_BOOLEAN);
+
         $all_filters = [];
         $query       = DB::table('master_data');
-        $is_details_minimal = Input::get("board-view") === "true" ? true : false;
 
         if (isset($sort_type)) {
             for ($i = 0; $i < sizeof($sort_type_filter); $i++) {
@@ -241,9 +243,10 @@ class Product extends Model
             }
         }
         // set default sorting to popularity
-        else {
-            $query = $query->orderBy(DB::raw("`rec_order` + `manual_adj`"), 'desc');
-        }
+         else {
+            if ($sale_products_only == false)
+                $query = $query->orderBy(DB::raw("`rec_order` + `manual_adj`"), 'desc');
+        } 
 
         if ($is_details_minimal) {
             $query = $query->whereRaw('LENGTH(image_xbg) > 0');
@@ -253,6 +256,13 @@ class Product extends Model
         if ($new_products_only == true) {
             $date_four_weeks_ago = date('Y-m-d', strtotime('-28 days'));
             $query = $query->whereRaw("created_date >= '" . $date_four_weeks_ago . "'");
+        }
+
+        // for getting products on sale 
+        if ($sale_products_only == true) {
+            $query = $query->whereRaw('price >  0')
+                        ->whereRaw('was_price > 0')
+                        ->orderBy(DB::raw("`price` / `was_price`"), 'asc');
         }
 
         // 6. limit

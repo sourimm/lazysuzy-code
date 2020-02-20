@@ -51,7 +51,9 @@ class Dimension extends Model
 
     public static function format_pier1($str) {
 
-        if (strpos($str, "[{") == false) return $str;
+        if (strpos($str, "w x") == false
+            || strpos($str, "d x") == false) 
+            return $str;
             
         $str = Dimension::clean_str($str);
 
