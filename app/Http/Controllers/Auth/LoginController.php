@@ -78,6 +78,7 @@ class LoginController extends Controller
         $existingUser = $this->findOrCreateUser($user, $driver);
         Auth::login($existingUser, true);
 
+        if (Auth::check()) setcookie('__user_id', Auth::user()->id);
         return redirect($this->redirectPath());
     }
     
@@ -90,23 +91,24 @@ class LoginController extends Controller
     public function findOrCreateUser($providerUser, $provider)
     {
 
+        $auth_user = null;
         $account = SocialIdentity::whereProviderName($provider)
                   ->whereProviderId($providerUser->getId())
                   ->first();
 
         if ($account) {
-           return $account->user;
+            $auth_user = $account->user;
         } else {
            $user = User::whereEmail($providerUser->getEmail())->first();
            $f_l_name = $this->explodeX(array(' ', '_'), $providerUser->getName());
 
            if (! $user) {
-               $user = User::create([
+                $user = User::create([
                     'email' => $providerUser->getEmail(),
                     'name'  => $providerUser->getName(),
                     'password' => $provider,
                     'first_name' => $f_l_name[0],
-                    'last_name' => $f_l_name[1],
+                    'last_name' => isset($f_l_name[1]) ? $f_l_name[1] : "",
                     'gender' => 'default',
                     'oauth_provider' => $provider,
                     'oauth_uid' => $providerUser->getId(),
@@ -119,9 +121,11 @@ class LoginController extends Controller
                'provider_id'   => $providerUser->getId(),
                'provider_name' => $provider,
            ]);
+            
+           $auth_user =  $user;
+        }
 
-           return $user;
-       }
+        return $auth_user;
     }
     protected function sendFailedLoginResponse(Request $request)
     {   
@@ -141,6 +145,7 @@ class LoginController extends Controller
     public function logout(Request $request)
     {
         Auth::logout();
+        $_COOKIE['user_id'] = NULL;
         return redirect($this->redirectPath());
     }
 }
