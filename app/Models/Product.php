@@ -1060,7 +1060,7 @@ class Product extends Model
                 "name" => $variation->variation_name,
                 "has_parent_sku" => $variation->has_parent_sku == 1 ? true : false,
                 "swatch_image" => $swatch_image,
-                "image" => isset($variation->v_image) ? Product::$base_siteurl . $v_image : null,
+                "image" => isset($v_image) ? Product::$base_siteurl . $v_image : null,
                 "link" => $link,
                 "is_button" => !isset($swatch_image),
                 "label" => !isset($swatch_image) ? $variation->variation_name : null
