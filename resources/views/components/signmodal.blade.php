@@ -15,7 +15,7 @@
             <a href="{{ url('/redirect/google') }}" class="btn btn-danger btn-block"><i class="fa fa-google"></i> Continue with <b>Google</b></a>
           </div> -->
           <div class="d-flex justify-content-center social-buttons">
-            <a href="{{ url('/redirect/google') }}" class="btn btn-primary btn-facebook btn-block"><i class="fa fa-facebook"></i> Continue with <b>Facebook</b></a>
+            <a href="{{ url('/redirect/facebook') }}" class="btn btn-primary btn-facebook btn-block"><i class="fa fa-facebook"></i> Continue with <b>Facebook</b></a>
           </div>
           <div class="d-flex justify-content-center social-buttons">
             <a href="{{ url('/redirect/google') }}" class="btn btn-default btn-block"><i class="fa fa-google"></i> Continue with <b>Google</b></a>
