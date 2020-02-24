@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Department;
 use App\Models\DepartmentMapping;
 use Illuminate\Http\Request;
+use Auth;
 
 class HomeController extends Controller
 {
@@ -26,6 +27,10 @@ class HomeController extends Controller
     public function index()
     {
         $departments = Department::get();
+        
+        if (Auth::check()) {
+            setcookie('__user_id', Auth::user()->id);
+        }
         return view('pages.homepage' ,compact('departments'));
     }
 }
