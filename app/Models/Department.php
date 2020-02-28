@@ -102,6 +102,7 @@ class Department extends Model
         } else {
             return null;
         }
+        
         $categories = Category::get_categories($dept);
         foreach ($categories as $category) {
             $sub_categories = SubCategory::getSubCategories($dept, $category['category']);
@@ -114,12 +115,7 @@ class Department extends Model
                 'sub_categories' => $sub_categories,
             ]);
         }
-        echo json_encode([
-            'department' => $dept,
-            'LS_ID'      => $dept_LS_ID,
-            'categories'  => $c_cat,
-        ]);
-        die();
+    
         return [
             'department' => $dept,
             'LS_ID'      => $dept_LS_ID,
