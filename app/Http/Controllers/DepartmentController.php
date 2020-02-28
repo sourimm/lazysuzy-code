@@ -11,11 +11,14 @@ class DepartmentController extends Controller
 {
     public function index(Request $request)
     {
-        $is_board_view = INPUT::get("board-view");
+        $is_board_view = filter_var(Input::get('board-view'), FILTER_VALIDATE_BOOLEAN);
+        $is_home_call = filter_var(Input::get('home'), FILTER_VALIDATE_BOOLEAN);
+
+
         if ($is_board_view === "true") 
             return response()->json(Department::get_board_categories());
 
-        return response()->json(Department::get_all_Departments());
+        return response()->json(Department::get_all_Departments(false, $is_home_call));
     }
 
     public function get_department($dept)

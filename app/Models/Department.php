@@ -15,11 +15,11 @@ class Department extends Model
         return $this->belongsToMany(Category::class, 'dept_name_urlcategories');
     }
 
-    public static function get_all_departments($dept_name_urlapi = true)
+    public static function get_all_departments($dept_name_urlapi = true, $is_home_call = false)
     {
         $departments = [];
         $base_site   = request()->getHttpHost();
-        $rows        = Department::select(['dept_name_long', 'dept_name_url', 'LS_ID', 'dept_name_short'])
+        $rows        = Department::select(['dept_name_long', 'dept_name_url', 'LS_ID', 'dept_name_short', 'dept_image'])
             ->whereRaw('LENGTH(cat_name_short) = 0 AND LENGTH(cat_sub_name) = 0')
             ->get()
             ->toArray();
@@ -27,15 +27,30 @@ class Department extends Model
         $departments['all_departments'] = [];
 
         foreach ($rows as $row) {
-            $dept       = $row['dept_name_short'];
             $dept_LS_ID = $row['LS_ID'];
-            $categories = Category::get_categories($row['dept_name_short']);
-            array_push($departments['all_departments'], [
-                'department' => $dept,
-                'LS_ID'      => $dept_LS_ID,
-                'link'       => '/products/' . strtolower($row['dept_name_url']),
-                'categories' => $categories,
-            ]);
+            
+            $categories = null;
+            if (!$is_home_call) {
+                $dept       = $row['dept_name_short'];
+                $categories = Category::get_categories($row['dept_name_short']);
+
+                array_push($departments['all_departments'], [
+                    'department' => $dept,
+                    'LS_ID'      => $dept_LS_ID,
+                    'link'       => '/products/' . strtolower($row['dept_name_url']),
+                    'categories' => $categories,
+                ]);
+            }
+            else {
+                $dept       = $row['dept_name_long'];
+                array_push($departments['all_departments'], [
+                    'department' => $dept,
+                    'LS_ID'      => $dept_LS_ID,
+                    'link'       => '/products/' . strtolower($row['dept_name_url']),
+                    'image'      => Department::$base_siteurl . $row['dept_image'],
+                    'categories' => $categories,
+                ]);
+            }
         }
 
         if ($dept_name_urlapi) {
@@ -71,11 +86,14 @@ class Department extends Model
 
     public static function get_single_department($dept)
     {
-        $c_cat = [];
+
         $dept  = strtolower(trim($dept));
-        $row   = Department::select(['dept_name_short', 'LS_ID'])
-            ->where('dept_name_url', $dept)
-            ->whereRaw('LENGTH(cat_name_long) = 0 AND LENGTH(cat_sub_name) = 0')
+        $row   = Department::select(['dept_name_short', 'LS_ID']);
+
+        if ($dept != "all")
+            $row = $row->where('dept_name_url', $dept);
+        
+            $row = $row->whereRaw('LENGTH(cat_name_long) = 0 AND LENGTH(cat_sub_name) = 0')
             ->get()
             ->toArray();
         if (isset($row[0]['LS_ID'])) {
@@ -87,6 +105,7 @@ class Department extends Model
         $categories = Category::get_categories($dept);
         foreach ($categories as $category) {
             $sub_categories = SubCategory::getSubCategories($dept, $category['category']);
+            if ($sub_categories == null) continue;
             array_push($c_cat, [
                 'category'       => $category['category'],
                 'LS_ID'          => $category['LS_ID'],
@@ -95,6 +114,12 @@ class Department extends Model
                 'sub_categories' => $sub_categories,
             ]);
         }
+        echo json_encode([
+            'department' => $dept,
+            'LS_ID'      => $dept_LS_ID,
+            'categories'  => $c_cat,
+        ]);
+        die();
         return [
             'department' => $dept,
             'LS_ID'      => $dept_LS_ID,

@@ -63,7 +63,6 @@ class LoginController extends Controller
     public function handleProviderCallback($driver)
     {
         try {
-            $request->session()->put('state',Str::random(40));
             $user = Socialite::driver($driver)->user();
         } catch (\Exception $e) {
             if ($driver == 'google') {

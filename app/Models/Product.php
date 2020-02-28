@@ -771,7 +771,6 @@ class Product extends Model
             $discount = (1 - ($p_val / $wp_val)) * 100;
             $discount = number_format((float) $discount, 2, '.', '');
         }
-        /* var_dump($product); die(); */
 
         $is_new = false;
         if (strlen($product->created_date) > 0) {
@@ -1306,7 +1305,6 @@ class Product extends Model
                     foreach ($features as $f => $val) {
                         $str .= $val;
                     }
-
 
                     $hashmap[md5($str)] = [
                         'price' => $variation['price'],
