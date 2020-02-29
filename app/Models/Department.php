@@ -87,6 +87,7 @@ class Department extends Model
     public static function get_single_department($dept)
     {
 
+        $c_cat = [];
         $dept  = strtolower(trim($dept));
         $row   = Department::select(['dept_name_short', 'LS_ID']);
 
@@ -106,7 +107,6 @@ class Department extends Model
         $categories = Category::get_categories($dept);
         foreach ($categories as $category) {
             $sub_categories = SubCategory::getSubCategories($dept, $category['category']);
-            if ($sub_categories == null) continue;
             array_push($c_cat, [
                 'category'       => $category['category'],
                 'LS_ID'          => $category['LS_ID'],
