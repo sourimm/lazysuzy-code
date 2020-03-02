@@ -18,7 +18,8 @@ class DepartmentController extends Controller
         if ($is_board_view === "true") 
             return response()->json(Department::get_board_categories());
 
-        return response()->json(Department::get_all_Departments(false, $is_home_call));
+        // 1st parameter is for attaching trending products and trending categories
+        return response()->json(Department::get_all_Departments(true, $is_home_call));
     }
 
     public function get_department($dept)

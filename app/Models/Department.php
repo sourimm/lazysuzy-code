@@ -53,7 +53,7 @@ class Department extends Model
             }
         }
 
-        if ($dept_name_urlapi) {
+        if ($dept_name_urlapi && !$is_home_call) {
             // trending categories will return N top results. Pass N as argument.
             $departments['trending_categories'] = Category::trending_categories(5);
             $departments['trending_products'] = Product::trending_products(10);

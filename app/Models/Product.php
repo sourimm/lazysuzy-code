@@ -308,7 +308,7 @@ class Product extends Model
             ->get();
 
         // get product categories filters
-        $departments = Department::get_all_departments(false);
+        $departments = Department::get_all_departments(false, false);
         $categories = [];
         foreach ($departments['all_departments'] as $department) {
 
