@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Models\Wishlist;
 use App\Models\Brands;
 use App\Models\Subscribe;
+use App\Models\Department;
 
 use Auth;
 use Subscribe as GlobalSubscribe;
@@ -74,5 +75,9 @@ class API extends Controller
 
     public function subscribe_user() {
         return Subscribe::subscribe_user();
+    }
+
+    public function get_categories($dept_url_name) {
+        return Department::get_single_department($dept_url_name);
     }
 }
