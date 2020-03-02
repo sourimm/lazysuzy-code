@@ -136,9 +136,11 @@ class Product extends Model
         $limit       = Input::get("limit");
         $sort_type   = Input::get("sort_type");
         $filters     = Input::get("filters");
-        $new_products_only = filter_var(Input::get('new'), FILTER_VALIDATE_BOOLEAN);
+        $new_products_only  = filter_var(Input::get('new'), FILTER_VALIDATE_BOOLEAN);
         $sale_products_only = filter_var(Input::get('sale'), FILTER_VALIDATE_BOOLEAN);
         $is_details_minimal = filter_var(Input::get('board-view'), FILTER_VALIDATE_BOOLEAN);
+        $is_best_seller     = filter_var(Input::get('bestseller'), FILTER_VALIDATE_BOOLEAN);
+
 
         $all_filters = [];
         $query       = DB::table('master_data');
@@ -225,6 +227,11 @@ class Product extends Model
         // only include sub category products if subcategory is not null
         if ($subCat != null) {
             $LS_IDs = [Product::get_sub_cat_LS_ID($dept, $cat, $subCat)];
+        }
+
+        // override LS_ID array is there is a  `bestseller` filter applied
+        if ($is_best_seller)  {
+            $LS_IDs = ['99'];
         }
 
         $query = $query->whereRaw('LS_ID REGEXP "' . implode("|", $LS_IDs) . '"');
