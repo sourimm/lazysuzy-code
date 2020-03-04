@@ -49,10 +49,8 @@ class Dimension extends Model
         return Dimension::format_cb2($str);
     }
 
-    public static function format_pier1($str) {
-
-        if (strpos($str, "w x") == false
-            || strpos($str, "d x") == false) 
+    public static function format_pier1($str, $skip_str = true) {
+        if (strpos($str, ":") == false) 
             return $str;
             
         $str = Dimension::clean_str($str);
@@ -112,14 +110,18 @@ class Dimension extends Model
         $feature_arr = explode("|", $str);
         $dims = [];
         $lines = [];
-        foreach($feature_arr as $line) {
-            if (strpos($line, ":") !== false 
-                && strpos($line, "\"") !== false) {
-                    $dims_ext = Dimension::format_pier1($line);    
+        foreach ($feature_arr as $line) {
+            if (
+                strpos($line, ":") !== false
+                && strpos($line, "\"") !== false
+            ) {
+                $dims_ext = Dimension::format_pier1($line, false);
+               
+                if ($dims_ext != null)
                     $dims = array_merge($dims, $dims_ext);
-                
-                }
+            }
         }
+        
 
         return $dims;
     }

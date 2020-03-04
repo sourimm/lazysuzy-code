@@ -21,6 +21,11 @@ class User extends Authenticatable
     public function identities()
     {
    		return $this->hasMany('App\Models\SocialIdentity');
-	}
+    }
+    
+    public static function register_user() {
+        echo "in here";
+        die();
+    }
 
 }

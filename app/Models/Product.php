@@ -136,9 +136,11 @@ class Product extends Model
         $limit       = Input::get("limit");
         $sort_type   = Input::get("sort_type");
         $filters     = Input::get("filters");
-        $new_products_only = filter_var(Input::get('new'), FILTER_VALIDATE_BOOLEAN);
+        $new_products_only  = filter_var(Input::get('new'), FILTER_VALIDATE_BOOLEAN);
         $sale_products_only = filter_var(Input::get('sale'), FILTER_VALIDATE_BOOLEAN);
         $is_details_minimal = filter_var(Input::get('board-view'), FILTER_VALIDATE_BOOLEAN);
+        $is_best_seller     = filter_var(Input::get('bestseller'), FILTER_VALIDATE_BOOLEAN);
+
 
         $all_filters = [];
         $query       = DB::table('master_data');
@@ -227,6 +229,11 @@ class Product extends Model
             $LS_IDs = [Product::get_sub_cat_LS_ID($dept, $cat, $subCat)];
         }
 
+        // override LS_ID array is there is a  `bestseller` filter applied
+        if ($is_best_seller)  {
+            $LS_IDs = ['99'];
+        }
+
         $query = $query->whereRaw('LS_ID REGEXP "' . implode("|", $LS_IDs) . '"');
 
         // 7. sort_type
@@ -301,7 +308,7 @@ class Product extends Model
             ->get();
 
         // get product categories filters
-        $departments = Department::get_all_departments(false);
+        $departments = Department::get_all_departments(false, false);
         $categories = [];
         foreach ($departments['all_departments'] as $department) {
 
@@ -771,7 +778,6 @@ class Product extends Model
             $discount = (1 - ($p_val / $wp_val)) * 100;
             $discount = number_format((float) $discount, 2, '.', '');
         }
-        /* var_dump($product); die(); */
 
         $is_new = false;
         if (strlen($product->created_date) > 0) {
@@ -851,8 +857,8 @@ class Product extends Model
             $data['features'] = in_array($product->name, $desc_BRANDS) ? Product::format_desc_new($product->product_feature) : preg_split("/\\[US\\]|<br>|\\n|\|/", $product->product_feature);
             $data['on_server_images'] = array_map([__CLASS__, "baseUrl"], preg_split("/,|\\[US\\]/", $product->product_images));
             $data['department_info'] = Department::get_department_info($product->LS_ID);
-            //$data['selections'] = $extras;
-            //$data['hashmap'] = $hashmap;
+            $data['selections'] = $extras;
+            $data['hashmap'] = $hashmap;
 
             return $data;
         } else {
@@ -1306,7 +1312,6 @@ class Product extends Model
                     foreach ($features as $f => $val) {
                         $str .= $val;
                     }
-
 
                     $hashmap[md5($str)] = [
                         'price' => $variation['price'],

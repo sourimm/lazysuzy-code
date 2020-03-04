@@ -11,10 +11,12 @@ class SubCategory extends Model
     public static function getSubCategories($department, $category)
     {
         $sub_categories = [];
+        $rows = SubCategory::select(['cat_sub_name', 'LS_ID', 'cat_sub_url']);
 
-        $rows = SubCategory::select(['cat_sub_name', 'LS_ID', 'cat_sub_url'])
-            ->where('dept_name_short', $department)
-            ->where('cat_name_url', $category)
+        if ($department != "all")
+            $rows = $rows->where('dept_name_short', $department);
+        
+        $rows = $rows->where('cat_name_url', $category)
             ->whereRaw('LENGTH(cat_sub_name) != 0')
             ->get()
             ->toArray();
@@ -26,7 +28,6 @@ class SubCategory extends Model
                 'LS_ID' => $row['LS_ID']
             ]);
         }
-
         return $sub_categories;
     }
 }

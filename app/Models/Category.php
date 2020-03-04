@@ -23,9 +23,12 @@ class Category extends Model
         }
 
         $rows = Category::select(['cat_name_long', 'cat_name_url',
-            'cat_image','LS_ID', 'filter_label', 'cat_name_short'])
-            ->where('dept_name_short', $dept)
-            ->whereRaw('LENGTH(cat_name_short) != 0 AND LENGTH(cat_sub_name) = 0')
+            'cat_image','LS_ID', 'filter_label', 'cat_name_short']);
+        
+        if ($dept != "all")
+            $rows = $rows->where('dept_name_short', $dept);
+        
+        $rows = $rows->whereRaw('LENGTH(cat_name_short) != 0 AND LENGTH(cat_sub_name) = 0')
             ->get()
             ->toArray();
 

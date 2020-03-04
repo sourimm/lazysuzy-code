@@ -8,6 +8,8 @@ use Illuminate\Http\Request;
 use App\Models\Wishlist;
 use App\Models\Brands;
 use App\Models\Subscribe;
+use App\Models\Department;
+use App\Models\User;
 
 use Auth;
 use Subscribe as GlobalSubscribe;
@@ -27,6 +29,10 @@ class API extends Controller
 
             ]
         ];
+    }
+    
+    public function register_user() {
+        return User::register_user();
     }
     public function getProducts($dept, $cat = null)
     {
@@ -74,5 +80,13 @@ class API extends Controller
 
     public function subscribe_user() {
         return Subscribe::subscribe_user();
+    }
+
+    public function get_categories($dept_url_name) {
+        return Department::get_single_department($dept_url_name);
+    }
+
+    public function get_banners() {
+        return Brands::get_banners();
     }
 }

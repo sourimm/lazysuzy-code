@@ -1,6 +1,8 @@
 <?php
 namespace App\Models;
 
+use App\Models\Utility;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
 
 class Brands extends Model
@@ -31,5 +33,34 @@ class Brands extends Model
 
         return $brands;
 
+    }
+
+    public static function get_banners() {
+        
+        $banners = [];
+        $rows = DB::table("site_banners")
+                    ->select("*")
+                    ->where("is_active", 1)
+                    ->get();
+
+        $agent = $_SERVER['HTTP_USER_AGENT'];
+        
+        if (Utility::is_mobile($agent)) {
+            $image_col = "image_mobile";
+        }
+        else {
+            $image_col = "image";
+        }
+
+        foreach($rows as $row) {
+            
+            array_push($banners, [
+                "name" => $row->name,
+                "image" => Brands::$base_site_url . $row->$image_col,
+                "link" => Brands::$base_site_url . $row->url
+            ]);
+        }
+        
+        return $banners;
     }
 }
