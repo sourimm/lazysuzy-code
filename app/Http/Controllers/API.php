@@ -85,4 +85,8 @@ class API extends Controller
     public function get_categories($dept_url_name) {
         return Department::get_single_department($dept_url_name);
     }
+
+    public function get_banners() {
+        return Brands::get_banners();
+    }
 }
