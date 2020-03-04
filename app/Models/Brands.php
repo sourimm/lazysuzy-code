@@ -56,7 +56,7 @@ class Brands extends Model
             
             array_push($banners, [
                 "name" => $row->name,
-                "image" => $row->$image_col,
+                "image" => Brands::$base_site_url . $row->$image_col,
                 "link" => Brands::$base_site_url . $row->url
             ]);
         }
