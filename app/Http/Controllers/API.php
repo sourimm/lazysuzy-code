@@ -9,6 +9,7 @@ use App\Models\Wishlist;
 use App\Models\Brands;
 use App\Models\Subscribe;
 use App\Models\Department;
+use App\Models\User;
 
 use Auth;
 use Subscribe as GlobalSubscribe;
@@ -28,6 +29,10 @@ class API extends Controller
 
             ]
         ];
+    }
+    
+    public function register_user() {
+        return User::register_user();
     }
     public function getProducts($dept, $cat = null)
     {
