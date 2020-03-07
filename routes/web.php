@@ -55,7 +55,14 @@ Route::get('login/{driver}/callback', 'Auth\LoginController@handleProviderCallba
 /*
 *   API ROUTES
 */
-Route::post('/api/register', 'API@register_user')->name('register');
+
+Route::post('/api/login', 'Auth\UserController@login');
+Route::post('/api/register', 'Auth\UserController@register');
+
+Route::group(['middleware' => 'auth:api'], function () {
+    //Route::post('details', 'UserController@details');
+});
+
 Route::get('/api/get-user', 'API@get_user')->name('get-user');
 Route::get('/api/brand/{key?}', 'API@get_all_brands')->name('get_all_brands');
 
