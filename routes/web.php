@@ -11,6 +11,10 @@
 |
  */
 
+ // mail template checking route
+ Route::get('/mail-test', 'MailerController@send_catalogue')->name('catalogue');
+
+
 Route::get('/', 'HomeController@index')->name('index');
 Route::get('/products/{dept}/{cat?}', 'ProductController@index')->name('products');
 Route::get('/products/{dept}', 'ProductController@index')->name('categories');

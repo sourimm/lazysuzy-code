@@ -21,7 +21,10 @@ class UserController extends Controller
         if (Auth::attempt(['email' => request('email'), 'password' => request('password')])) {
             $user = Auth::user();
             $success['token'] =  $user->createToken('lazysuzy-web')->accessToken;
-            return response()->json(['success' => $success], $this->successStatus);
+            return response()->json([
+                'success' => $success,
+                'user' => $user
+            ], $this->successStatus);
         } else {
             return response()->json(['error' => 'Unauthorised'], 401);
         }

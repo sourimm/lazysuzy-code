@@ -742,8 +742,11 @@ class Product extends Model
         ];
     }
 
-    public static function get_details($product, $variations, $isListingAPICall = null, $isMarked = false, $isTrending = false, $is_details_minimal = false)
+    public static function get_details($product, $variations, 
+                                $isListingAPICall = null, $isMarked = false, 
+                                $isTrending = false, $is_details_minimal = false )
     {
+        // $is_details_minimal => send xbg image instead of main_image. Used in the Design Board section of the site.
         // checking if the variations data has variations buttons (extras) data as well
 
         $extras = null;
