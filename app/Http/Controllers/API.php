@@ -25,7 +25,8 @@ class API extends Controller
         return [
             "auth" => [
                 "is_user" => Auth::check(),
-                "id" => Auth::check() ? Auth::user()->id : null
+                "id" => Auth::check() ? Auth::user()->id : null,
+                "user" => Auth::user()
 
             ]
         ];
