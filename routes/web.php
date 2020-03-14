@@ -92,4 +92,4 @@ Route::get('/api/subscribe', 'API@subscribe_user')->name('subscribe');
 Route::get('/api/banners', 'API@get_banners')->name('banners');
 
 // redundant
-Route::get('/wishlist', 'ProebductController@showWishList')->name('show-wishlist');
+Route::get('/wishlist', 'ProductController@showWishList')->name('show-wishlist');
