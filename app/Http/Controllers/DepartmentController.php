@@ -15,7 +15,7 @@ class DepartmentController extends Controller
         $is_home_call = filter_var(Input::get('home'), FILTER_VALIDATE_BOOLEAN);
 
 
-        if ($is_board_view === "true") 
+        if ($is_board_view) 
             return response()->json(Department::get_board_categories());
 
         // 1st parameter is for attaching trending products and trending categories
