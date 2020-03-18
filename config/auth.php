@@ -104,6 +104,7 @@ return [
         'drivers' => [
             'google',
             'twitter',
+	    'facebook'
         ],
     ],
 
