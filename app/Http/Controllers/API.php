@@ -25,14 +25,15 @@ class API extends Controller
         return [
             "auth" => [
                 "is_user" => Auth::check(),
-                "id" => Auth::check() ? Auth::user()->id : null
+                "id" => Auth::check() ? Auth::user()->id : null,
+                "user" => Auth::user()
 
             ]
         ];
     }
     
-    public function register_user() {
-        return User::register_user();
+    public function login_user() {
+        return User::login();
     }
     public function getProducts($dept, $cat = null)
     {
