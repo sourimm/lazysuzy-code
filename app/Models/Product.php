@@ -667,7 +667,7 @@ class Product extends Model
             $product_LS_IDs = explode(",", $product->LS_ID);
             $skip_product = false;
             foreach($product_LS_IDs as $LS_ID) {
-                if (intval($LS_ID) <= 828 && intval($LS_ID) >= 832) {
+                if (intval($LS_ID) >= 828 && intval($LS_ID) <= 832) {
                     $skip_product = true;
                     break;
                 }
