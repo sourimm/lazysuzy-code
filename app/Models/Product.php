@@ -664,6 +664,18 @@ class Product extends Model
 
         foreach ($products as $product) {
 
+            $product_LS_IDs = explode(",", $product->LS_ID);
+            $skip_product = false;
+            foreach($product_LS_IDs as $LS_ID) {
+                if (intval($LS_ID) <= 828 && intval($LS_ID) >= 832) {
+                    $skip_product = true;
+                    break;
+                }
+            }
+
+            if ($skip_product) 
+                continue;
+            
             if (!in_array($product->product_sku, $products_to_ignore)) {
                 $isMarked = false;
                 if ($is_authenticated) {
