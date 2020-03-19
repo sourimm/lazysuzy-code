@@ -664,6 +664,18 @@ class Product extends Model
 
         foreach ($products as $product) {
 
+            $product_LS_IDs = explode(",", $product->LS_ID);
+            $skip_product = false;
+            foreach($product_LS_IDs as $LS_ID) {
+                if (intval($LS_ID) >= 828 && intval($LS_ID) <= 832) {
+                    $skip_product = true;
+                    break;
+                }
+            }
+
+            if ($skip_product) 
+                continue;
+            
             if (!in_array($product->product_sku, $products_to_ignore)) {
                 $isMarked = false;
                 if ($is_authenticated) {
@@ -742,8 +754,11 @@ class Product extends Model
         ];
     }
 
-    public static function get_details($product, $variations, $isListingAPICall = null, $isMarked = false, $isTrending = false, $is_details_minimal = false)
+    public static function get_details($product, $variations, 
+                                $isListingAPICall = null, $isMarked = false, 
+                                $isTrending = false, $is_details_minimal = false )
     {
+        // $is_details_minimal => send xbg image instead of main_image. Used in the Design Board section of the site.
         // checking if the variations data has variations buttons (extras) data as well
 
         $extras = null;

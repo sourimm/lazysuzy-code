@@ -51,9 +51,11 @@ export default class ListingFactory {
     }
 
     setSEO(seo) {
-        document.title = `${seo.page_title} | Lazysuzy`;
-        $(".js-category-text").text(seo.email_title);
-        $(".js-pageHeading").text(seo.page_title);
+        if (seo) {
+            document.title = `${seo.page_title} | Lazysuzy`;
+            $(".js-category-text").text(seo.email_title);
+            $(".js-pageHeading").text(seo.page_title);
+        }
     }
 
     isFilterApplied(filter, filterItems) {

@@ -2,17 +2,23 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Foundation\Auth\User as Authenticatable;
+use Laravel\Passport\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
 
 
 class User extends Authenticatable
 {
-    use Notifiable;
+    use HasApiTokens, Notifiable;
 
-	protected $fillable = ['name', 'email', 'password', 'first_name', 'last_name', 'gender', 'oauth_provider', 'oauth_uid', 'picture', 'locale'];
+    protected $fillable = [
+        'name', 'email', 'password', 'first_name', 'last_name', 'gender', 'oauth_provider', 'oauth_uid', 'picture', 'locale'
+    ];
+    
+    protected $hidden = [
+        'password', 'remember_token',
+    ];
 
     public function products()
     {
@@ -23,9 +29,8 @@ class User extends Authenticatable
    		return $this->hasMany('App\Models\SocialIdentity');
     }
     
-    public static function register_user() {
-        echo "in here";
-        die();
+    public static function login() {
+       return $_POST;
     }
 
 }
