@@ -62,6 +62,8 @@ Route::get('login/{driver}/callback', 'Auth\LoginController@handleProviderCallba
 
 Route::post('/api/login', 'Auth\UserController@login');
 Route::post('/api/register', 'Auth\UserController@register');
+Route::get('/api/logout', 'Auth\UserController@logout');
+
 
 Route::group(['middleware' => 'auth:api'], function () {
     //Route::post('details', 'UserController@details');
@@ -85,9 +87,9 @@ Route::get('/api/variation/product/{sku}', 'API@get_product_variations')->name('
 // takes a swatch image url as input ?swatch=<url>
 Route::get('/api/filters/variation/product/{sku}', 'API@get_swatch_filter')->name('get-product-attribute-filters');
 
-Route::get('/api/wishlist', 'API@get_wishlist')->name('get-wishlist');
-Route::get('/api/mark/favourite/{sku}', 'API@mark_favourite')->name('mark-favourite');
-Route::get('/api/unmark/favourite/{sku}', 'API@unmark_favourite')->name('unmark-favourite');
+Route::get('/api/wishlist', 'API@get_wishlist')->middleware('auth:api')->name('get-wishlist');
+Route::get('/api/mark/favourite/{sku}', 'API@mark_favourite')->middleware('auth:api')->name('mark-favourite');
+Route::get('/api/unmark/favourite/{sku}', 'API@unmark_favourite')->middleware('auth:api')->name('unmark-favourite');
 Route::get('/api/subscribe', 'API@subscribe_user')->name('subscribe');
 Route::get('/api/banners', 'API@get_banners')->name('banners');
 
