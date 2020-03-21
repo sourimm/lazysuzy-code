@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers\Auth;
 
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 use App\Models\User;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
-
+use App\Http\Controllers\Controller;
+use Dotenv\Parser;
 use Illuminate\Support\Facades\Auth;
 use Validator;
 
@@ -22,7 +23,7 @@ class UserController extends Controller
     {
         if (Auth::attempt(['email' => request('email'), 'password' => request('password')])) {
             $user = Auth::user();
-            $success['token'] =  $user->createToken('lazysuzy-web')->accessToken;
+            $success['token'] =  $user->createToken('Laravel Personal Access Client')->accessToken;
             return response()->json([
                 'success' => $success,
                 'user' => $user
@@ -80,6 +81,31 @@ class UserController extends Controller
         $success['token'] =  $user->createToken('lazysuzy-web')->accessToken;
         $success['user'] =  $user;
         return response()->json(['success' => $success], $this->successStatus);
+    }
+
+    public function logout(Request $request) 
+    {
+
+        $value = $request->bearerToken();
+        $tokenId = (new \Lcobucci\JWT\Parser())->parse($value)->getHeader('jti');
+        $token = $request->user()->tokens->find($tokenId);
+       
+        if (!isset($token->id)) return true;
+        DB::table('oauth_refresh_tokens')
+            ->where('access_token_id', $token->id)
+            ->update([
+                'revoked' => true
+            ]);
+
+        $token->revoke();
+        
+        foreach ($request->user()->tokens as $token) {
+            $token->revoke();
+        }
+        
+        Auth::logout();
+        $_COOKIE['__user_id'] = NULL;
+        return response()->json(true, 204);
     }
 
     /** 
