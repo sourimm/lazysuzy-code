@@ -965,7 +965,7 @@ class Product extends Model
             if (strlen($line) > 0) {
                 if (strrpos($line, "**") == true) {
                     $arr = explode("**", $line)[1];
-                    array_push($new_desc, "<span style= 'font-family:Fenix; font-weight: bold'>" . $arr . "</span>");
+                    array_push($new_desc, "<span style='font-weight: bold'>" . $arr . "</span>");
                 } else if (strrpos($line, "[")) {
                     preg_match("/\[[^\]]*\]/", $line, $matched_texts);
                     preg_match('/\([^\]]*\)/', $line, $matched_links);

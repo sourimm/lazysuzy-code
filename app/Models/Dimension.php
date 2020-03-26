@@ -17,12 +17,13 @@ class Dimension extends Model
         'diam' => 'diameter'
     ];
 
-    public static function clean_str($str) {
+    public static function clean_str($str) 
+    {
         return str_replace(Dimension::$CLEAN_SYMBOLS, '', $str);
     }
 
 
-    public static function format_cb2($str)
+    public static function format_cb2($str) 
     {
         $json_string = $str;
         if ($json_string === "null") return [];
@@ -45,11 +46,13 @@ class Dimension extends Model
         return $d_arr;
     }
 
-    public static function format_cab($str) {
+    public static function format_cab($str) 
+    {
         return Dimension::format_cb2($str);
     }
 
-    public static function format_pier1($str, $skip_str = true) {
+    public static function format_pier1($str, $skip_str = true) 
+    {
         if (strpos($str, ":") == false) 
             return $str;
             
@@ -102,11 +105,13 @@ class Dimension extends Model
         return $dims;
     }
 
-    public static function format_westelm($str) {
+    public static function format_westelm($str) 
+    {
         return Dimension::format_pier1(Dimension::clean_str($str));
     }
 
-    public static function format_new_world($str) {
+    public static function format_new_world($str) 
+    {
         $feature_arr = explode("|", $str);
         $dims = [];
         $lines = [];
