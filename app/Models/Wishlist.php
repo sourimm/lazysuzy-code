@@ -9,7 +9,8 @@ use Illuminate\Support\Facades\Input;
 use Auth;
 
 class Wishlist extends Model {
-    public static function get_whishlist() {
+    public static function get_whishlist() 
+    {
         if(Auth::check()) {
             $user = Auth::user();
             $products = DB::table("user_wishlists")

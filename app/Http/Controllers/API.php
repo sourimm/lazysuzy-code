@@ -21,7 +21,8 @@ class API extends Controller
         return false;
     }
 
-    public function get_user() {
+    public function get_user() 
+    {
         return [
             "auth" => [
                 "is_user" => Auth::check(),

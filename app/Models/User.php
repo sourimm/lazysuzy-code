@@ -28,9 +28,6 @@ class User extends Authenticatable
     {
    		return $this->hasMany('App\Models\SocialIdentity');
     }
-    
-    public static function login() {
-       return $_POST;
-    }
+
 
 }
