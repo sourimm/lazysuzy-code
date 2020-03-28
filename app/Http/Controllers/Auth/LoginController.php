@@ -95,6 +95,8 @@ class LoginController extends Controller
                   ->whereProviderId($providerUser->getId())
                   ->first();
 
+        echo json_encode($providerUser);
+        die();
         if ($account) {
             $auth_user = $account->user;
         } else {

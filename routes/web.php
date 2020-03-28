@@ -69,7 +69,7 @@ Route::group(['middleware' => 'auth:api'], function () {
     //Route::post('details', 'UserController@details');
 });
 
-Route::get('/api/get-user', 'API@get_user')->name('get-user');
+Route::get('/api/get-user', 'API@get_user')->middleware('auth:api')->name('get-user');
 Route::get('/api/brand/{key?}', 'API@get_all_brands')->name('get_all_brands');
 
 Route::get('/api/categories/{dept}', 'API@get_categories')->name('subscribe');

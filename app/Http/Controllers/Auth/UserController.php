@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers\Auth;
 
+use Dotenv\Parser;
 use App\Models\User;
 use Illuminate\Http\Request;
+use App\Models\SocialIdentity;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Controllers\Controller;
-use Dotenv\Parser;
+
 use Illuminate\Support\Facades\Auth;
 use Validator;
 
@@ -19,6 +21,58 @@ class UserController extends Controller
      * 
      * @return \Illuminate\Http\Response 
      */
+    public function explodeX($delimiters, $string)
+    {
+        return explode(chr(1), str_replace($delimiters, chr(1), $string));
+    }
+    public function findOrCreateUser($providerUser, $provider) {
+        $auth_user = null;
+        $account = SocialIdentity::whereProviderName($provider)
+            ->whereProviderId($providerUser->getId())
+            ->first();
+
+        if ($account && $account->user) {
+            $auth_user = $account->user;
+            Auth::login($auth_user, true);
+            $user = Auth::user();
+            
+            $user['access_token'] = $user->createToken('Laravel Personal Access Client')->accessToken;
+            return $user;
+
+        } else {
+            //return $this->register(null, $providerUser);
+            $user = User::whereEmail($providerUser->getEmail())->first();
+            $f_l_name = $this->explodeX(array(' ', '_'), $providerUser->getName());
+
+            if (!$user) {
+                $user = User::create([
+                    'email' => $providerUser->getEmail(),
+                    'name'  => $providerUser->getName(),
+                    'password' => $provider,
+                    'first_name' => $f_l_name[0],
+                    'last_name' => isset($f_l_name[1]) ? $f_l_name[1] : "",
+                    'gender' => 'default',
+                    'oauth_provider' => $provider,
+                    'oauth_uid' => $providerUser->getId(),
+                    'picture' => $providerUser->getAvatar(),
+                    'locale' => 'en',
+                ]);
+
+                $user->identities()->create([
+                    'provider_id'   => $providerUser->getId(),
+                    'provider_name' => $provider,
+                ]);
+
+                $auth_user =  $user;
+                $auth_user['access_token'] = $user->createToken('lazysuzy-web')->accessToken;
+                
+                return $auth_user;
+            }
+
+            return null;
+        
+        }
+    }
     public function login()
     {
         if (Auth::attempt(['email' => request('email'), 'password' => request('password')])) {
