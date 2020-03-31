@@ -53,9 +53,11 @@ class Dimension extends Model
 
     public static function format_pier1($str, $skip_str = true) 
     {
-        if (strpos($str, ":") == false) 
-            return $str;
-            
+        // inputs can be like - 
+        // 1. Bowl: 45.25"Dia x 16.50"H,Base: 27.50"D x 12"H,Cushion: 50"W x 4"D x 50"H // parse
+        // 2. Table expands via two 25" drop-in leaves. // sent as it is
+
+        if (strpos($str, " x ") == false) return $str;
         $str = Dimension::clean_str($str);
 
         $dim_arr = explode(",", $str);
