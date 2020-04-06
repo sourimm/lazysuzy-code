@@ -89,7 +89,7 @@ class Department extends Model
 
         $c_cat = [];
         $dept  = strtolower(trim($dept));
-        $row   = Department::select(['dept_name_short', 'LS_ID']);
+        $row   = Department::select(['dept_name_short', 'LS_ID', 'dept_name_long']);
 
         if ($dept != "all")
             $row = $row->where('dept_name_url', $dept);
@@ -98,7 +98,7 @@ class Department extends Model
             ->get()
             ->toArray();
         if (isset($row[0]['LS_ID'])) {
-            $dept       = $row[0]['dept_name_long'];
+            $dept       = $row[0]['dept_name_short'];
             $dept_LS_ID = $row[0]['LS_ID'];
         } else {
             return null;
