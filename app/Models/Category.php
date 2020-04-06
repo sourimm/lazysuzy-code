@@ -35,7 +35,7 @@ class Category extends Model
         foreach ($rows as $row) {
             $sub_categories = SubCategory::getSubCategories($dept, $row['cat_name_url']);
             array_push($c_cat, [
-                'category' => $row['cat_name_short'],
+                'category' => $row['cat_name_long'],
                 'product_category_' => $row['cat_name_url'],
                 'filter_label' => ucfirst($row['filter_label']),
                 'LS_ID' => $row['LS_ID'],
@@ -64,7 +64,7 @@ class Category extends Model
         
             foreach($rows as $row) {
             array_push($trending_categories, [
-                'category' => $row['cat_name_short'],
+                'category' => $row['cat_name_long'],
                 'link' => '/products/' . $row['dept_name_url'] . "/" . $row['cat_name_url'],
                 'image' => $row['cat_image']
             ]);
