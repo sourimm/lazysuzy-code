@@ -812,6 +812,7 @@ class Product extends Model
             'id'               => $product->id,
             'sku'              => $product->product_sku,
             'is_new'           => $is_new,
+            'redirect'         => $product->redirect,
             //    'sku_hash'         => $product->sku_hash,
             'site'             => $product->name,
             'name'             => $product->product_name,
@@ -1203,7 +1204,7 @@ class Product extends Model
                 //->limit(20)
                 $var = $var->get();
 
-
+                // handle for - if any product has empty swatch image, then include all the entries.
                 $var_add = DB::table("westelm_products_skus")
                     ->select($cols)
                     ->where('product_id', $product->product_sku)
@@ -1288,29 +1289,27 @@ class Product extends Model
 
                     $is_dropdown = false;
                     $extras = [];
+                    $single_select_filters = ['leg_style', 'delivery'];
                     foreach ($extras_key as $key => $arr) {
                         if (sizeof($arr) > 4) {
                             $is_dropdown = true;
                         }
 
-                        $extras[$key] = [];
+                        $select_type = in_array($key, $single_select_filters) ? "single_select" : "multi_select";
+                        $extras[$key] = [
+                            'select_type' => $select_type,
+                            'options' => []
+                        ];
                     }
 
                     foreach ($extras_key as $key => $arr) {
                         foreach ($arr as $k) {
-                            array_push($extras[$key], [
-                                'label' => $k
-                            ]);
+                            array_push($extras[$key]['options'], $k);
                         }
                     }
 
-
-
-                    $variation_extras = [
-                        'type' => $is_dropdown ? 'multi_choice' : 'single_choice',
-                        'options' => $extras
-                    ];
-
+                    $variation_extras = $extras;
+                
                     array_push($variations, [
                         "product_sku" => $product->product_sku,
                         "variation_sku" => $prod->sku,
@@ -1397,13 +1396,46 @@ class Product extends Model
         return null;
     }
 
+    public static function get_redirect_sku($sku = null) {
+        $row = DB::table("product_redirects")
+                ->select(["redirect_sku"])
+                ->where("sku", $sku)
+                ->get();
+
+        if (isset($row[0]) && isset($row[0]->redirect_sku)) {
+            return [
+                "sku" => $row[0]->redirect_sku,
+                "redirect" => true
+            ];
+        }
+        
+        return [
+            "sku" => $sku,
+            "redirect" => false
+        ];
+    }
 
     public static function get_product_details($sku)
     {
+        // check if product needs to be redirected
+
+        $redirect_info = Product::get_redirect_sku($sku);
+        $sku = $redirect_info['sku'];
+
+        $product_redirect = false;
+        if ($redirect_info['redirect']) {
+            $product_redirect = env("APP_URL") . "/product/" . $sku;
+        }
+
         $prod = Product::where('product_sku', $sku)
             ->join("master_brands", "master_data.site_name", "=", "master_brands.value")
 
             ->get();
+        
+        if (!isset($prod[0])) return [];
+        else {
+            $prod[0]['redirect'] = $product_redirect;
+        }
         $westelm_cache_data  = DB::table("westelm_products_skus")
             ->selectRaw("COUNT(product_id) AS product_count, product_id")
             ->groupBy("product_id")
