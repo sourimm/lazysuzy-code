@@ -812,7 +812,7 @@ class Product extends Model
             'id'               => $product->id,
             'sku'              => $product->product_sku,
             'is_new'           => $is_new,
-            'redirect'         => $product->redirect,
+            'redirect'         => isset($product->redirect) ? $product->redirect : false,
             //    'sku_hash'         => $product->sku_hash,
             'site'             => $product->name,
             'name'             => $product->product_name,
