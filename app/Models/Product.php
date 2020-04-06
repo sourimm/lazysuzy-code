@@ -1196,12 +1196,24 @@ class Product extends Model
 
                 $var = $var->groupBy("swatch_image_path");
 
-                $var = $var->where("product_id", $product->product_sku);
+                $var = $var->where("product_id", $product->product_sku)
+                            ->whereRaw("LENGTH(swatch_image_path) > 0");
 
                 if ($isListingAPICall) $var = $var->limit(7);
                 //->limit(20)
                 $var = $var->get();
 
+
+                $var_add = DB::table("westelm_products_skus")
+                    ->select($cols)
+                    ->where('product_id', $product->product_sku)
+                    ->whereRaw('LENGTH(swatch_image_path) = 0')
+                    ->get();
+               
+                $var = $var->merge($var_add);
+                $var = $var->all();
+    
+                //return $var;
                 $variations = [];
                 $variation_filters = [];
                 $swatches = [];

@@ -76,7 +76,8 @@ class Variations extends Model
         $query = DB::table("westelm_products_skus")
             ->select($cols)
             ->distinct('swatch_image')
-            ->where('product_id', $sku);
+            ->where('product_id', $sku)
+            ->whereRaw('LENGTH(swatch_image) > 0');
 
         if (in_array($master_prod[0]->site_name, ['pier1', 'cb2', 'nw'])) {
             return [
@@ -95,6 +96,19 @@ class Variations extends Model
 
 
         $variations = $query->get();
+
+        // handle for - if any product has empty swatch image, then include all the entries.
+
+        $query = DB::table("westelm_products_skus")
+            ->select($cols)
+            ->where('product_id', $sku)
+            ->whereRaw('LENGTH(swatch_image) = 0')
+            ->get();
+
+        
+        $variations->merge($query);
+        $variations = $variations->all();
+
         $filters = [];
         $products = [];
 
