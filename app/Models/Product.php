@@ -1396,7 +1396,7 @@ class Product extends Model
         return null;
     }
 
-    public static function get_redirect_sku($sku = null) {
+    public static function do_redirect($sku = null) {
         $row = DB::table("product_redirects")
                 ->select(["redirect_sku"])
                 ->where("sku", $sku)
@@ -1419,12 +1419,12 @@ class Product extends Model
     {
         // check if product needs to be redirected
 
-        $redirect_info = Product::get_redirect_sku($sku);
+        $redirect_info = Product::do_redirect($sku);
         $sku = $redirect_info['sku'];
 
         $product_redirect = false;
         if ($redirect_info['redirect']) {
-            $product_redirect = env("APP_URL") . "/product/" . $sku;
+           return redirect(env("APP_URL") . "/product/" . $sku, 301);
         }
 
         $prod = Product::where('product_sku', $sku)
@@ -1433,9 +1433,7 @@ class Product extends Model
             ->get();
         
         if (!isset($prod[0])) return [];
-        else {
-            $prod[0]['redirect'] = $product_redirect;
-        }
+
         $westelm_cache_data  = DB::table("westelm_products_skus")
             ->selectRaw("COUNT(product_id) AS product_count, product_id")
             ->groupBy("product_id")
