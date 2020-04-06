@@ -31,7 +31,7 @@ class Department extends Model
             
             $categories = null;
             if (!$is_home_call) {
-                $dept       = $row['dept_name_short'];
+                $dept       = $row['dept_name_long'];
                 $categories = Category::get_categories($row['dept_name_short']);
 
                 array_push($departments['all_departments'], [
@@ -73,7 +73,7 @@ class Department extends Model
         $dept_info = [];
         foreach ($rows as $key => $value) {
             array_push($dept_info, [
-                'department_name' => $value['dept_name_short'],
+                'department_name' => $value['dept_name_long'],
                 'department_url' => '/products/' . $value['dept_name_url'],
                 'category_name' => $value['cat_name_short'],
                 'category_url' => '/products/' . $value['dept_name_url'] . '/' . $value['cat_name_url'],
@@ -98,7 +98,7 @@ class Department extends Model
             ->get()
             ->toArray();
         if (isset($row[0]['LS_ID'])) {
-            $dept       = $row[0]['dept_name_short'];
+            $dept       = $row[0]['dept_name_long'];
             $dept_LS_ID = $row[0]['LS_ID'];
         } else {
             return null;

@@ -57,7 +57,6 @@ class UserController extends Controller
                     'picture' => $providerUser->getAvatar(),
                     'locale' => 'en',
                 ]);
-
                 $user->identities()->create([
                     'provider_id'   => $providerUser->getId(),
                     'provider_name' => $provider,
