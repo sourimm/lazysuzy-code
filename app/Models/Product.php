@@ -1289,13 +1289,13 @@ class Product extends Model
 
                     $is_dropdown = false;
                     $extras = [];
-                    $single_select_filters = ['leg_style', 'delivery'];
+                    $multi_select_filters = ['color', 'fabric'];
                     foreach ($extras_key as $key => $arr) {
                         if (sizeof($arr) > 4) {
                             $is_dropdown = true;
                         }
 
-                        $select_type = in_array($key, $single_select_filters) ? "single_select" : "multi_select";
+                        $select_type = in_array($key, $multi_select_filters) ? "multi_select" : "single_select";
                         $extras[$key] = [
                             'select_type' => $select_type,
                             'options' => []
