@@ -868,21 +868,22 @@ class Product extends Model
         $dims_from_features = ["World Market"]; // these extract dimensions data from features data.
         $dims_text = in_array($product->name, $dims_from_features) ? $product->product_feature : $product->product_dimension;
 
-        $childs = null;
+        $children = null;
         if (!$isListingAPICall) {
 
             // All alpha-numeric SKUs of pier1 products have child products 
             if ($product->site_name == "pier1") {
 
-                if (ctype_alnum($product->product_sku)) {
+                if (!is_numeric($product->product_sku)) {
                     // it is alpha-numeric
+                    
                     $child_rows = DB::table("pier1_products")
                         ->whereRaw("product_set LIKE '%" . $product->product_sku . "%'")
                         ->get();
                     
-                    $child = [];
+                    $children = [];
                     foreach ($child_rows as $row) {
-                        array_push($childs, [
+                        array_push($children, [
                             'parent_sku' => $product->product_sku,
                             'sku' => $row->product_sku,
                             'name' => $row->product_name,
@@ -895,7 +896,7 @@ class Product extends Model
                 }
             }
 
-            $data['set'] = $childs;
+            $data['set'] = $children;
             $data['description'] = in_array($product->name, $desc_BRANDS)  ? Product::format_desc_new($product->product_description) : preg_split("/\\[US\\]|<br>|\\n/", $product->product_description);
             
             $data['dimension'] = Product::normalize_dimension($dims_text, $product->site_name);
