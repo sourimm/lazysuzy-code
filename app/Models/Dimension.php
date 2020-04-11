@@ -123,8 +123,9 @@ class Dimension extends Model
                 && strpos($line, "\"") !== false
             ) {
                 $dims_ext = Dimension::format_pier1($line, false);
-               
-                if ($dims_ext != null)
+               /*  echo "<pre>" . print_r($dims, true) . "</pre>";
+                die(); */
+                if ($dims_ext != null && gettype($dims_ext) == "array")
                     $dims = array_merge($dims, $dims_ext);
             }
         }
