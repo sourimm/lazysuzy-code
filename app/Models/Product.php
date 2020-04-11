@@ -906,7 +906,7 @@ class Product extends Model
             $data['on_server_images'] = array_map([__CLASS__, "baseUrl"], preg_split("/,|\\[US\\]/", $product->product_images));
             $data['department_info'] = Department::get_department_info($product->LS_ID);
             $data['selections'] = $extras;
-            $data['hashmap'] = $hashmap;
+            //$data['hashmap'] = $hashmap;
 
             return $data;
         } else {
@@ -1225,7 +1225,7 @@ class Product extends Model
                 $var = DB::table("westelm_products_skus")
                     ->select($cols);
 
-               $var = $var->groupBy("swatch_image_path");
+               //$var = $var->groupBy("swatch_image_path");
 
                 $var = $var->where("product_id", $product->product_sku)
                             ->whereRaw("LENGTH(swatch_image_path) > 0");
