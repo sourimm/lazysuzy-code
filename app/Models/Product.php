@@ -807,6 +807,8 @@ class Product extends Model
             else $is_new = true; */
         }
 
+        
+
         $main_image = $is_details_minimal ?  $product->image_xbg : $product->main_product_images;
         $data =  [
             'id'               => $product->id,
@@ -866,12 +868,40 @@ class Product extends Model
         $dims_from_features = ["World Market"]; // these extract dimensions data from features data.
         $dims_text = in_array($product->name, $dims_from_features) ? $product->product_feature : $product->product_dimension;
 
+        $children = null;
         if (!$isListingAPICall) {
+
+            // All alpha-numeric SKUs of pier1 products have child products 
+            if ($product->site_name == "pier1") {
+
+                if (!is_numeric($product->product_sku)) {
+                    // it is alpha-numeric
+                    
+                    $child_rows = DB::table("pier1_products")
+                        ->whereRaw("product_set LIKE '%" . $product->product_sku . "%'")
+                        ->get();
+                    
+                    $children = [];
+                    foreach ($child_rows as $row) {
+                        array_push($children, [
+                            'parent_sku' => $product->product_sku,
+                            'sku' => $row->product_sku,
+                            'name' => $row->product_name,
+                            'image' => env('APP_URL') . $row->main_product_images,
+                            'link' => $row->product_url,
+                            'price' => $row->price,
+                            'was_price' => $row->was_price
+                        ]);
+                    }
+                }
+            }
+
+            $data['set'] = $children;
             $data['description'] = in_array($product->name, $desc_BRANDS)  ? Product::format_desc_new($product->product_description) : preg_split("/\\[US\\]|<br>|\\n/", $product->product_description);
             
             $data['dimension'] = Product::normalize_dimension($dims_text, $product->site_name);
             
-            $data['thumb'] = preg_split("/,|\\[US\\]/", $product->thumb);
+            //$data['thumb'] = preg_split("/,|\\[US\\]/", $product->thumb);
             $data['features'] = in_array($product->name, $desc_BRANDS) ? Product::format_desc_new($product->product_feature) : preg_split("/\\[US\\]|<br>|\\n|\|/", $product->product_feature);
             $data['on_server_images'] = array_map([__CLASS__, "baseUrl"], preg_split("/,|\\[US\\]/", $product->product_images));
             $data['department_info'] = Department::get_department_info($product->LS_ID);
