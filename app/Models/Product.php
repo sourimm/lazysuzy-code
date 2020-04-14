@@ -17,6 +17,7 @@ class Product extends Model
     protected $table = "master_data";
     public static $base_siteurl = 'https://www.lazysuzy.com';
     static $count = 0;
+    private static $color_map = null;
 
     public static function trending_products($limit)
     {
@@ -1218,8 +1219,10 @@ class Product extends Model
             "price",
             "was_price"
         ];
-
+        
         $variations_extra = [];
+        $color_map = Product::$color_map;
+
         if (isset($wl_v[$product->product_sku])) {
             if ($wl_v[$product->product_sku]) {
                 $var = DB::table("westelm_products_skus")
@@ -1309,12 +1312,22 @@ class Product extends Model
                     }
 
                     $name = "";
+                    $features['hexcode'] = null;
                     if (isset($features['color'])) {
                         $name = $features['color'];
+
+                        // find the hex code for color;
+                        if(isset($color_map[strtolower($name)])) {
+                            $features['hexcode'] = $color_map[strtolower($name)];
+                        }
+
 
                         if (isset($features['fabric'])) {
                             $name .= ", " . $features['fabric'];
                         }
+
+                        
+
                     }
 
                     $is_dropdown = false;
@@ -1476,8 +1489,18 @@ class Product extends Model
             }
         }
 
-        $westelm_cache_data = [];
+        if (Product::$color_map == null) {
+            // set color map data to be used in setting variations data
+            $color_rows = DB::table("color_mapping")
+                ->select("*")
+                ->get();
+            foreach ($color_rows as $key => $value) {
+                Product::$color_map[strtolower($value->color_alias)] = $value->color_hex;
+                Product::$color_map[strtolower($value->color_name)] = $value->color_hex;
+            }
+        }
 
+        $westelm_cache_data = [];
         $variations = null;
 
         $variations_data = Product::get_variations($prod[0], $westelm_variations_data, false);
