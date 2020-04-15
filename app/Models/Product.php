@@ -1316,12 +1316,16 @@ class Product extends Model
                     if (isset($features['color'])) {
                         $name = $features['color'];
 
+                        $name_arr = explode(" ", $name);
+
                         // find the hex code for color;
-                        if(isset($color_map[strtolower($name)])) {
-                            $features['hexcode'] = $color_map[strtolower($name)];
-                        }
-
-
+                        foreach($name_arr as $name_str) {
+                            if (isset($color_map[strtolower($name_str)])) {
+                                $features['hexcode'] = $color_map[strtolower($name_str)];
+                                break;
+                            }
+                        } 
+                    
                         if (isset($features['fabric'])) {
                             $name .= ", " . $features['fabric'];
                         }
