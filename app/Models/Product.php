@@ -1317,16 +1317,6 @@ class Product extends Model
                     if (isset($features['color'])) {
                         $name = $features['color'];
 
-                        $name_arr = explode(" ", $name);
-
-                        // find the hex code for color;
-                        foreach($name_arr as $name_str) {
-                            if (isset($color_map[strtolower($name_str)])) {
-                                $features['hexcode'] = $color_map[strtolower($name_str)];
-                                break;
-                            }
-                        } 
-                    
                         if (isset($features['fabric'])) {
                             $name .= ", " . $features['fabric'];
                             if (!isset($swatch_map[$name])) {
@@ -1343,13 +1333,22 @@ class Product extends Model
 
                     $is_dropdown = false;
                     $extras = [];
-                    $multi_select_filters = ['color', 'fabric'];
+                    $multi_select_filters = ['color_group', 'fabric'];
                     foreach ($extras_key as $key => $arr) {
                         if (sizeof($arr) > 4) {
                             $is_dropdown = true;
                         }
 
                         $select_type = in_array($key, $multi_select_filters) ? "multi_select" : "single_select";
+                        $select_type = $key == "color" ? "excluded" : $select_type;
+
+                        if ($key == "color") {
+                            $extras["color_group"] = [
+                                'select_type' => "multi_select",
+                                'options' => [],
+                                'hexcodes' => []
+                            ];
+                        }
                         $extras[$key] = [
                             'select_type' => $select_type,
                             'options' => []
@@ -1357,6 +1356,23 @@ class Product extends Model
                     }
 
                     foreach ($extras_key as $key => $arr) {
+                        if ($key == "color") {
+                            foreach ($arr as $k) {
+                                $color_names = explode(" ", $k);
+                                foreach($color_names as $color_name) {
+                                    $color_name = strtolower($color_name);
+                                    if (isset($color_map[$color_name])) {
+
+                                        if (!in_array($color_map[$color_name]['name'], $extras['color_group']['options']))
+                                            $extras['color_group']['options'][] = $color_map[$color_name]['name'];
+                                            
+                                        if (!in_array($color_map[$color_name]['hexcode'], $extras['color_group']['hexcodes']))
+                                            $extras['color_group']['hexcodes'][] = $color_map[$color_name]['hexcode'];
+                                    }
+                                }
+                            }
+                        }
+
                         foreach ($arr as $k) {
                             array_push($extras[$key]['options'], $k);
                         }
@@ -1506,8 +1522,14 @@ class Product extends Model
                 ->select("*")
                 ->get();
             foreach ($color_rows as $key => $value) {
-                Product::$color_map[strtolower($value->color_alias)] = $value->color_hex;
-                Product::$color_map[strtolower($value->color_name)] = $value->color_hex;
+                Product::$color_map[strtolower($value->color_alias)] = [
+                   'hexcode' => $value->color_hex,
+                   'name' => $value->color_name
+                ];
+                Product::$color_map[strtolower($value->color_name)] = [
+                    'hexcode' => $value->color_hex,
+                    'name' => $value->color_name
+                ];
             }
         }
 
