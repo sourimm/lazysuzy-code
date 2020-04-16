@@ -1313,12 +1313,23 @@ class Product extends Model
                     }
 
                     $name = "";
-                    $features['hexcode'] = null;
+                    $features['color_group'] = null;
                     if (isset($features['color'])) {
                         $name = $features['color'];
+                        $name_arr = explode(" ", $name);
 
+                        // find the hex code for color;
+                        foreach ($name_arr as $name_str) {
+                            if (isset($color_map[strtolower($name_str)])) {
+                                $features['color_group'] = $color_map[strtolower($name_str)]['name'];
+                                break;
+                            }
+                        }
                         if (isset($features['fabric'])) {
                             $name .= ", " . $features['fabric'];
+                            // find the hex code for color;
+                            
+
                             if (!isset($swatch_map[$name])) {
                                 $swatch_map[$name] = $prod->swatch_image_path;
                             }
