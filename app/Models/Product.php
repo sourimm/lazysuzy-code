@@ -1221,6 +1221,7 @@ class Product extends Model
         ];
         
         $variations_extra = [];
+        $swatch_map = [];
         $color_map = Product::$color_map;
 
         if (isset($wl_v[$product->product_sku])) {
@@ -1328,6 +1329,12 @@ class Product extends Model
                     
                         if (isset($features['fabric'])) {
                             $name .= ", " . $features['fabric'];
+                            if (!isset($swatch_map[$name])) {
+                                $swatch_map[$name] = $prod->swatch_image_path;
+                            }
+                            else {
+                                $prod->swatch_image_path = $swatch_map[$name];
+                            }
                         }
 
                         
