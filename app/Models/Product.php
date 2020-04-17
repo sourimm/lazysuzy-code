@@ -812,7 +812,7 @@ class Product extends Model
 
         $main_image = $is_details_minimal ?  $product->image_xbg : $product->main_product_images;
         $data =  [
-            'id'               => $product->id,
+            'id'               => isset($product->id) ? $product->id : rand(1, 10000) * rand(1,10000),
             'sku'              => $product->product_sku,
             'is_new'           => $is_new,
             'redirect'         => isset($product->redirect) ? $product->redirect : false,
@@ -1327,9 +1327,7 @@ class Product extends Model
                         }
                         if (isset($features['fabric'])) {
                             $name .= ", " . $features['fabric'];
-                            // find the hex code for color;
                             
-
                             if (!isset($swatch_map[$name])) {
                                 $swatch_map[$name] = $prod->swatch_image_path;
                             }
@@ -1477,36 +1475,87 @@ class Product extends Model
         return null;
     }
 
-    public static function do_redirect($sku = null) {
+    public static function is_redirect($sku = null) {
         $row = DB::table("product_redirects")
-                ->select(["redirect_sku"])
+                ->select(["redirect_sku", "brand"])
                 ->where("sku", $sku)
+                ->where("is_active", 1)
                 ->get();
-
-        if (isset($row[0]) && isset($row[0]->redirect_sku)) {
-            return [
-                "sku" => $row[0]->redirect_sku,
-                "redirect" => true
-            ];
-        }
         
-        return [
-            "sku" => $sku,
-            "redirect" => false
-        ];
+        return isset($row[0]) ? $row[0] : null;
+        
     }
 
     public static function get_product_details($sku)
     {
         // check if product needs to be redirected
+        $redirection = Product::is_redirect($sku);
+        
+        if($redirection != null) {
+            $redirection_sku = $redirection->redirect_sku;
+            $redirect_url = env('APP_URL') . "/product/" . $redirection_sku;
+            $prod_table = isset(Brands::$brand_mapping[$redirection->brand]) ? Brands::$brand_mapping[$redirection->brand] : null;
+            
+            if ($prod_table != null) {
+                $sku_col = in_array($redirection->brand, Brands::$product_id_brands) ? "product_id" : "product_sku"; 
+                $product = DB::table($prod_table)   
+                        ->where($sku_col, $sku)
+                        ->get();
+                $brand_name_verbose = DB::table("master_brands")   
+                                        ->select(["name"])
+                                        ->where("value", $redirection->brand)
+                                        ->get();
+                
+                if(!isset($product[0]) || !isset($brand_name_verbose[0])) {
+                    return ['message' => 'Product ' . $sku . ' not found anywhere with brand ' + $redirection->brand];
+                }
+                else {
+                    $product = $product[0];
+                    $brand = $brand_name_verbose[0];
+                }
+                // format product price data to pass in the following functions
+                //=========================================================================================================
+                $price = explode("-", $product->price);
+                $min_price = -1;
+                $max_price = -1;
 
-        $redirect_info = Product::do_redirect($sku);
-        $sku = $redirect_info['sku'];
+                if (sizeof($price) > 1) {
+                    $min_price = $price[0];
+                    $max_price = $price[1];
+                } else {
+                    $min_price = $max_price = $price[0];
+                }
 
-        $product_redirect = false;
-        if ($redirect_info['redirect']) {
-           return redirect(env("APP_URL") . "/product/" . $sku, 301);
-        }
+                $pop_index = 0;
+                if (isset($product->rating) && isset($product->reviews)) {
+                    $pop_index = ((float) $product->rating / 2) + (2.5 * (1 - exp(- ((float) $product->reviews) / 200)));
+                    $pop_index = $pop_index * 1000000;
+                    $pop_index = (int) $pop_index;
+                }
+                
+                //==========================================================================================================
+
+                $product->site_name  = $redirection->brand;
+                $variations_data = Product::get_variations($product, null, false);
+
+                if (in_array($product->site_name, Brands::$product_id_brands)) {
+                    $product_details = Brands::convert_id_brand_master_data($product, $min_price, $max_price, $pop_index);
+                }
+                else {
+                    $product_details = Brands::convert_normal_master_format($product, $min_price, $max_price, $pop_index);
+                }
+
+                $product_details['name'] = $brand->name;
+                $product = Product::get_details((object)$product_details, $variations_data);
+                $product['redirect_url'] = $redirect_url;
+                $product['redirect'] = true;
+                
+                return $product;
+            }
+            else {
+                return [];
+            }
+        } 
 
         $prod = Product::where('product_sku', $sku)
             ->join("master_brands", "master_data.site_name", "=", "master_brands.value")
