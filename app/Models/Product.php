@@ -1493,7 +1493,11 @@ class Product extends Model
         
         if($redirection != null) {
             $redirection_sku = $redirection->redirect_sku;
-            $redirect_url = env('APP_URL') . "/product/" . $redirection_sku;
+            if ($redirection_sku != null)
+                $redirect_url = env('APP_URL') . "/product/" . $redirection_sku;
+            else 
+                $redirect_url = null;
+                
             $prod_table = isset(Brands::$brand_mapping[$redirection->brand]) ? Brands::$brand_mapping[$redirection->brand] : null;
             
             if ($prod_table != null) {
