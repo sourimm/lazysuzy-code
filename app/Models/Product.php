@@ -1136,19 +1136,12 @@ class Product extends Model
                 ]);
             }
         }
-
-        $variation_extras = [];
-        if (sizeof($variation_choices) > 4) {
-            $variation_extras = [
-                'type' => 'redirect',
-                'options' => $variation_choices
-            ];
-        } else {
-            $variation_extras = [
-                'type' => 'redirect',
-                'options' => $variation_choices
-            ];
-        }
+       
+        $variation_extras = [
+            'type' => 'redirect',
+            'options' => $variation_choices
+        ];
+       
 
         return [
             'variations' => $product_variations,
@@ -1247,7 +1240,9 @@ class Product extends Model
                
                 $var = $var->merge($var_add);
                 $var = $var->all();
-    
+            
+                if (sizeof($var) == 1) return [];
+
                 //return $var;
                 $variations = [];
                 $variation_filters = [];
