@@ -785,9 +785,29 @@ class Product extends Model
         if (isset($price_bits[1]) && isset($was_price_bits[1])) {
             $p_val = $price_bits[0];
             $wp_val = $was_price_bits[0];
+
+            $p_c = $price_bits;
+            $p_wc = $was_price_bits;
+
+          
+
+            $p_c[0] = strpos(trim($p_c[0]), '.') ? number_format(trim($p_c[0]), 2, '.', '') : trim($p_c[0]);
+            $p_c[1] = strpos(trim($p_c[1]), '.') ? number_format(trim($p_c[1]), 2, '.', '') : trim($p_c[1]);
+            
+            $p_wc[0] = strpos(trim($p_wc[0]), '.') ? number_format(trim($p_wc[0]), 2, '.', '') : trim($p_wc[0]);
+            $p_wc[1] = strpos(trim($p_wc[1]), '.') ? number_format(trim($p_wc[1]), 2, '.', '') : trim($p_wc[1]);
+
+            $product->price = implode("-", $p_c);
+            $product->was_price = implode("-", $p_wc);
+            
         } else {
             $p_val = $p_price;
             $wp_val =  $wp_price;
+
+            if (strpos($product->price, '.'))
+                $product->price = number_format($product->price, 2, '.', '');
+            if (strpos($product->was_price, '.'))
+                $product->was_price = number_format($product->price, 2, '.', '');
         }
 
         if (is_numeric($p_val) && is_numeric($wp_val) && $wp_val > 0) {
