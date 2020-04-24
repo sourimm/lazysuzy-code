@@ -97,3 +97,7 @@ Route::get('/api/banners', 'API@get_banners')->name('banners');
 Route::get('/wishlist', 'ProductController@showWishList')->name('show-wishlist');
 
 Route::post('/api/board', '\App\Board\Controllers\Server@get_output');
+
+
+// payment routes
+Route::get('/api/payment/charge/{sku}', 'Payment\PaymentController@charge_client')->name('client-secret');
