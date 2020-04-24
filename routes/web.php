@@ -96,7 +96,7 @@ Route::get('/api/banners', 'API@get_banners')->name('banners');
 // redundant
 Route::get('/wishlist', 'ProductController@showWishList')->name('show-wishlist');
 
-Route::post('/api/board', '\App\Board\Controllers\Server@get_output');
+Route::post('/api/board', '\App\Board\Controllers\Server@get_output')->middleware('cors');
 
 
 // payment routes
