@@ -100,7 +100,7 @@ Route::post('/api/board', '\App\Board\Controllers\Server@get_output')->middlewar
 
 
 // payment routes
-Route::get('/api/payment/charge/{sku}', 'Payment\PaymentController@charge_client')->name('client-secret');
+Route::get('/api/payment/charge', 'Payment\PaymentController@charge_client')->name('client-secret');
 
 // cart and trancastion apis
 Route::post('/api/cart/add/{sku}', 'API@add_to_cart')->name('add-to-cart');

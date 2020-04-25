@@ -7,7 +7,7 @@ use App\Models\Payments\Payment;
 
 class PaymentController extends Controller 
 {
-    public static function charge_client($product_sku) {
-        return Payment::charge($product_sku);
+    public static function charge_client() {
+        return Payment::charge();
     }
 }

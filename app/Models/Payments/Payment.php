@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Stripe;
 class Payment extends Model
 {
-    public static function charge($product_sku) {
+    public static function charge() {
         Stripe\Stripe::setApiKey(env('STRIP_SECRET'));
 
         return [
