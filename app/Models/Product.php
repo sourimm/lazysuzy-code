@@ -810,6 +810,8 @@ class Product extends Model
             'sku'              => $product->product_sku,
             'is_new'           => $is_new,
             'redirect'         => isset($product->redirect) ? $product->redirect : false,
+            'in_inventory'     => isset($product->in_inventory) ? $product->in_inventory : false,
+            'inventory_product_details' => isset($product->inventory_product_details) ? $product->inventory_product_details : null,
             //    'sku_hash'         => $product->sku_hash,
             'site'             => $product->name,
             'name'             => $product->product_name,
@@ -1542,6 +1544,7 @@ class Product extends Model
                 }
 
                 $product_details['name'] = $brand->name;
+                $product_details['in_inventory'] = false;
                 $product = Product::get_details((object)$product_details, $variations_data);
                 $product['redirect_url'] = $redirect_url;
                 $product['redirect'] = true;
@@ -1553,12 +1556,16 @@ class Product extends Model
             }
         } 
 
+        $inventory_prod = DB::table('lz_inventory')
+            ->where('product_sku', $sku)
+            ->get();
+    
         $prod = Product::where('product_sku', $sku)
             ->join("master_brands", "master_data.site_name", "=", "master_brands.value")
-
             ->get();
         
-        if (!isset($prod[0])) return [];
+        if (!isset($prod[0])) 
+             return [];
 
         $westelm_cache_data  = DB::table("westelm_products_skus")
             ->selectRaw("COUNT(product_id) AS product_count, product_id")
@@ -1593,6 +1600,17 @@ class Product extends Model
         $variations = null;
 
         $variations_data = Product::get_variations($prod[0], $westelm_variations_data, false);
+
+        if(isset($inventory_prod[0])) {
+            $prod[0]->in_inventory = true;
+            $prod[0]->inventory_product_details = [
+                'price' => $inventory_prod[0]->price,
+                'count' => $inventory_prod[0]->quantity,
+            ];
+        }
+        else {
+            $prod[0]->in_inventory = false;
+        }
 
         return Product::get_details($prod[0], $variations_data);
     }
