@@ -12,10 +12,10 @@ class Inventory extends Model
         
         return DB::table(Inventory::$inventory_table)
             ->select(
-            Inventory::$inventory_table . '.product_sku',
+                Inventory::$inventory_table . '.product_sku',
                 'master_data.product_name',
-            Inventory::$inventory_table . '.price',
-            Inventory::$inventory_table . '.quantity as count',
+                Inventory::$inventory_table . '.price',
+                Inventory::$inventory_table . '.quantity as count',
                 DB::raw('concat("https://www.lazysuzy.com", master_data.main_product_images) as image'),
                 'master_data.product_description',
                 'master_data.reviews',

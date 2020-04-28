@@ -85,8 +85,10 @@ class Cart extends Model {
                 ->select(Cart::$cart_table . '.product_sku', 
                         DB::raw('count(*) as count'), 'master_data.product_name', 'master_data.price',
                         'master_data.was_price', DB::raw('concat("https://www.lazysuzy.com", master_data.main_product_images) as image'),
-                        'master_data.product_description', 'master_data.reviews', 'master_data.rating')
+                        'master_data.product_description', 'master_data.reviews', 'master_data.rating', 'master_brands.name as site')
                 ->join("master_data", "master_data.product_sku", "=", Cart::$cart_table . ".product_sku")
+                ->join("master_brands", "master_data.site_name", "=", "master_brands.value")
+
                 ->where( Cart::$cart_table . '.is_active', 1)
                 ->groupBy([Cart::$cart_table . '.user_id', Cart::$cart_table . '.product_sku'])
                 ->get();

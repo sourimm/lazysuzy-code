@@ -541,7 +541,6 @@ class Product extends Model
 
         $LS_IDs = Product::get_dept_cat_LS_ID_arr($dept, $cat);
 
-
         if (isset($all_filters['type']) && strlen($all_filters['type'][0]) > 0) {
             // comment this line if you want to show count for all those
             // sub_categories that are paased in the request.
@@ -685,8 +684,6 @@ class Product extends Model
                     }
                 }
 
-
-
                 $variations = Product::get_variations($product, $westelm_variations_data, $isListingAPICall);
                 array_push($p_send, Product::get_details($product, $variations, $isListingAPICall, $isMarked, false, $is_details_minimal));
             }
@@ -773,7 +770,6 @@ class Product extends Model
             $variations = $variations['variations'];
         }
 
-
         $p_val = $wp_val = $discount = null;
 
         $p_price = str_replace("$", "", $product->price);
@@ -808,8 +804,6 @@ class Product extends Model
             else $is_new = true; */
         }
 
-        
-
         $main_image = $is_details_minimal ?  $product->image_xbg : $product->main_product_images;
         $data =  [
             'id'               => isset($product->id) ? $product->id : rand(1, 10000) * rand(1,10000),
@@ -842,8 +836,6 @@ class Product extends Model
             'rating'           => (float) $product->rating,
             'wishlisted'       => $isMarked
             //    'LS_ID'            => $product->LS_ID,
-
-
         ];
 
         /* if ($product->site_name == "westelm" && !$isListingAPICall ) {
