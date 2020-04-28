@@ -82,13 +82,13 @@ class Cart extends Model {
         }
 
         $rows = DB::table(Cart::$cart_table)
-                ->select(Cart::$cart_table .  '.product_sku', 
+                ->select(Cart::$cart_table . '.product_sku', 
                         DB::raw('count(*) as count'), 'master_data.product_name', 'master_data.price',
                         'master_data.was_price', DB::raw('concat("https://www.lazysuzy.com", master_data.main_product_images) as image'),
                         'master_data.product_description', 'master_data.reviews', 'master_data.rating')
                 ->join("master_data", "master_data.product_sku", "=", Cart::$cart_table . ".product_sku")
                 ->where( Cart::$cart_table . '.is_active', 1)
-                ->groupBy(['user_id', 'product_sku'])
+                ->groupBy([Cart::$cart_table . '.user_id', Cart::$cart_table . '.product_sku'])
                 ->get();
         
         $products = [];
@@ -116,7 +116,7 @@ class Cart extends Model {
 
             $product->discount = $discount;
         } 
-        
+
         return $rows;
 
     }

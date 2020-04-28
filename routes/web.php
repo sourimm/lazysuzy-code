@@ -96,11 +96,15 @@ Route::get('/api/banners', 'API@get_banners')->name('banners');
 // redundant
 Route::get('/wishlist', 'ProductController@showWishList')->name('show-wishlist');
 
-Route::post('/api/board', '\App\Board\Controllers\Server@get_output')->middleware('cors');
+Route::post('/api/board', '\App\Board\Controllers\Server@get_output')->middleware(['cors', 'auth:api']);
 
 
 // payment routes
 Route::get('/api/payment/charge', 'Payment\PaymentController@charge_client')->name('client-secret');
+
+// inventory
+Route::get('/api/inventory', 'API@get_inventory')->name('get-inventory');
+
 
 // cart and trancastion apis
 Route::post('/api/cart/add/{sku}', 'API@add_to_cart')->name('add-to-cart');

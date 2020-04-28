@@ -11,6 +11,7 @@ use App\Models\Subscribe;
 use App\Models\Department;
 use App\Models\User;
 use App\Models\Cart;
+use App\Models\Inventory;
 
 use Auth;
 use Subscribe as GlobalSubscribe;
@@ -106,5 +107,10 @@ class API extends Controller
     public function get_cart()
     {
         return Cart::cart();
+    }
+
+    public function get_inventory()
+    {
+        return Inventory::get();
     }
 }
