@@ -100,7 +100,7 @@ Route::post('/api/board', '\App\Board\Controllers\Server@get_output')->middlewar
 
 
 // payment routes
-Route::get('/api/payment/charge', 'Payment\PaymentController@charge_client')->name('client-secret');
+Route::post('/api/payment/charge', 'Payment\PaymentController@charge_client')->name('client-secret');
 
 // inventory
 Route::get('/api/inventory', 'API@get_inventory')->name('get-inventory');

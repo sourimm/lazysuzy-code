@@ -12,7 +12,7 @@ class Server extends Controller {
 
     private $db = null;
 
-    public function __construct(){
+    public function __construct() {
         $db =  new Database(env('DB_HOST'), env('DB_USERNAME'), env('DB_PASSWORD'), env('DB_DATABASE'));
     }
 
@@ -69,7 +69,7 @@ class Server extends Controller {
 
         $imageMeta = getimagesize($filePath);
         
-        if(isset($imageMeta['mime'])){
+        if(isset($imageMeta['mime'])) {
             $imageExtension = Server::mimeToText($imageMeta['mime']);
             // is a valid image file
             if($imageExtension){
