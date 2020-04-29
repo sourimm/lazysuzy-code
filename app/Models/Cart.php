@@ -11,7 +11,7 @@ class Cart extends Model {
 
     private static $cart_table = "lz_user_cart";
 
-    public static function add($sku) {
+    public static function add($sku, $count) {
         // add the product in the cart, 
         // don't delete the product from the inventory 
         // do that on payment initiation
@@ -26,18 +26,27 @@ class Cart extends Model {
             $is_guest = 1;
         }
 
-        $is_inserted = DB::table(Cart::$cart_table)
+        $to_insert = $count;
+        $inserted = 0;
+
+        while($count--) {
+            $is_inserted = DB::table(Cart::$cart_table)
                 ->insert([
                     'user_id' => $user_id,
                     'product_sku' => $sku,
                     'is_guest' => $is_guest
                 ]);
+
+            if ($is_inserted)
+                $inserted++;
+        }
         
-        if($is_inserted) 
+        if($to_insert == $inserted) {
             return [
                 'status' => true,
                 'msg' => 'product ' . $sku . ' added to cart'
             ];
+        }
 
         return [
             'status' => false,
@@ -45,7 +54,7 @@ class Cart extends Model {
         ];
     }
 
-    public static function remove($sku) {
+    public static function remove($sku, $count) {
 
         if (Auth::check()) {
             $user_id = Auth::user()->id;
@@ -58,7 +67,7 @@ class Cart extends Model {
                     ->where("product_sku", $sku)
                     ->where("user_id", $user_id)
                     ->where("is_active", 1)
-                    ->take(1)->update(['is_active' => '0']);
+                    ->take($count)->update(['is_active' => '0']);
                     
 
         if ($is_updated)

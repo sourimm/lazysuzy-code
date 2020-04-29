@@ -95,13 +95,37 @@ class API extends Controller
         return Brands::get_banners();
     }
 
-    public function add_to_cart($sku) {
-        return Cart::add($sku);
+    public function add_to_cart(Request $req) {
+
+        if(strlen($req->input('product_sku')) > 0 
+            && strlen($req->input('count')) > 0) {
+            
+                $sku = $req->input('product_sku');
+                $count = $req->input('count');
+
+                return Cart::add($sku, $count);
+        }
+
+        return [
+            false
+        ];
+       
     }
 
-    public function remove_from_cart($sku)
+    public function remove_from_cart(Request $req)
     {
-        return Cart::remove($sku);
+        if (strlen($req->input('product_sku')) > 0
+            && strlen($req->input('count')) > 0) {
+
+            $sku = $req->input('product_sku');
+            $count = $req->input('count');
+
+            return Cart::remove($sku, $count);
+        }
+
+        return [
+            false
+        ];
     }
 
     public function get_cart()

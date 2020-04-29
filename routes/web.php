@@ -107,6 +107,6 @@ Route::get('/api/inventory', 'API@get_inventory')->name('get-inventory');
 
 
 // cart and trancastion apis
-Route::post('/api/cart/add/{sku}', 'API@add_to_cart')->name('add-to-cart');
-Route::post('/api/cart/remove/{sku}', 'API@remove_from_cart')->name('remove-from-cart');
+Route::post('/api/cart/add', 'API@add_to_cart')->name('add-to-cart');
+Route::post('/api/cart/remove', 'API@remove_from_cart')->name('remove-from-cart');
 Route::get('/api/cart', 'API@get_cart')->name('get-cart');
