@@ -7,21 +7,22 @@ use Illuminate\Support\Facades\DB;
 use Auth;
 
 
-class Cart extends Model {
+class Cart extends Model
+{
 
     private static $cart_table = "lz_user_cart";
 
-    public static function add($sku, $count) {
+    public static function add($sku, $count)
+    {
         // add the product in the cart, 
         // don't delete the product from the inventory 
         // do that on payment initiation
 
         $is_guest = 0;
 
-        if(Auth::check()) {
+        if (Auth::check()) {
             $user_id = Auth::user()->id;
-        }
-        else {
+        } else {
             $user_id = 'guest-1';
             $is_guest = 1;
         }
@@ -29,7 +30,7 @@ class Cart extends Model {
         $to_insert = $count;
         $inserted = 0;
 
-        while($count--) {
+        while ($count--) {
             $is_inserted = DB::table(Cart::$cart_table)
                 ->insert([
                     'user_id' => $user_id,
@@ -40,8 +41,8 @@ class Cart extends Model {
             if ($is_inserted)
                 $inserted++;
         }
-        
-        if($to_insert == $inserted) {
+
+        if ($to_insert == $inserted) {
             return [
                 'status' => true,
                 'msg' => 'product ' . $sku . ' added to cart'
@@ -54,7 +55,8 @@ class Cart extends Model {
         ];
     }
 
-    public static function remove($sku, $count) {
+    public static function remove($sku, $count)
+    {
 
         if (Auth::check()) {
             $user_id = Auth::user()->id;
@@ -62,13 +64,13 @@ class Cart extends Model {
             $user_id = 'guest-1';
         }
 
-        
+
         $is_updated = DB::table(Cart::$cart_table)
-                    ->where("product_sku", $sku)
-                    ->where("user_id", $user_id)
-                    ->where("is_active", 1)
-                    ->take($count)->update(['is_active' => '0']);
-                    
+            ->where("product_sku", $sku)
+            ->where("user_id", $user_id)
+            ->where("is_active", 1)
+            ->take($count)->update(['is_active' => '0']);
+
 
         if ($is_updated)
             return [
@@ -79,10 +81,11 @@ class Cart extends Model {
         return [
             'status' => false,
             'msg' => 'could not remove product ' . $sku . ' from cart'
-        ];   
+        ];
     }
 
-    public static function cart() {
+    public static function cart()
+    {
 
         if (Auth::check()) {
             $user_id = Auth::user()->id;
@@ -91,19 +94,32 @@ class Cart extends Model {
         }
 
         $rows = DB::table(Cart::$cart_table)
-                ->select(Cart::$cart_table . '.product_sku', 
-                        DB::raw('count(*) as count'), 'master_data.product_name', 'master_data.price',
-                        'master_data.was_price', DB::raw('concat("https://www.lazysuzy.com", master_data.main_product_images) as image'),
-                        'master_data.product_description', 'master_data.reviews', 'master_data.rating', 'master_brands.name as site')
-                ->join("master_data", "master_data.product_sku", "=", Cart::$cart_table . ".product_sku")
-                ->join("master_brands", "master_data.site_name", "=", "master_brands.value")
+            ->select(
+                Cart::$cart_table . '.product_sku',
+                DB::raw('count(*) as count'),
+                'master_data.product_name',
+                'lz_inventory.price as retail_price',
+                'master_data.price',
+                'master_data.was_price',
+                DB::raw('concat("https://www.lazysuzy.com", master_data.main_product_images) as image'),
+                'master_data.product_description',
+                'master_data.reviews',
+                'master_data.rating',
+                'master_brands.name as site'
+            )
+            ->join("master_data", "master_data.product_sku", "=", Cart::$cart_table . ".product_sku")
+            ->join("lz_inventory", "lz_inventory.product_sku", "=", "master_data.product_sku")
 
-                ->where( Cart::$cart_table . '.is_active', 1)
-                ->groupBy([Cart::$cart_table . '.user_id', Cart::$cart_table . '.product_sku'])
-                ->get();
-        
+            ->join("master_brands", "master_data.site_name", "=", "master_brands.value")
+
+            ->where(Cart::$cart_table . '.is_active', 1)
+            ->where(Cart::$cart_table . '.user_id', $user_id)
+
+            ->groupBy([Cart::$cart_table . '.user_id', Cart::$cart_table . '.product_sku'])
+            ->get();
+
         $products = [];
-        foreach($rows as $row => $product) {
+        foreach ($rows as $row => $product) {
             $p_val = $wp_val = $discount = null;
 
             $p_price = str_replace("$", "", $product->price);
@@ -126,9 +142,8 @@ class Cart extends Model {
             }
 
             $product->discount = $discount;
-        } 
+        }
 
         return $rows;
-
     }
 }
