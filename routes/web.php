@@ -117,5 +117,5 @@ Route::get('/api/board', '\App\Board\Controllers\BoardController@get_board')->mi
 Route::get('/api/asset', '\App\Board\Controllers\BoardController@get_asset')->middleware(['cors', /* 'auth:api' */]);
 Route::get('/api/board/{id}', '\App\Board\Controllers\BoardController@get_board_with_id')->middleware(['cors', /* 'auth:api' */]);
 Route::post('/api/board/{id}', '\App\Board\Controllers\BoardController@update_board')->middleware(['cors', /* 'auth:api' */]);
-Route::get('/api/asset/{id}', '\App\Board\Controllers\BoardController@get_asset_with_id')->middleware(['cors', /* 'auth:api' */]);
-Route::post('/api/asset/{id}', '\App\Board\Controllers\BoardController@update_asset')->middleware(['cors', /* 'auth:api' */]);
+Route::get('/api/board/asset/{id}', '\App\Board\Controllers\BoardController@get_asset_with_id')->middleware(['cors', /* 'auth:api' */]);
+Route::post('/api/board/asset/{id}', '\App\Board\Controllers\BoardController@update_asset')->middleware(['cors', /* 'auth:api' */]);
