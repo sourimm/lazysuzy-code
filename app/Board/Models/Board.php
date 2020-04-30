@@ -39,7 +39,7 @@ class Board extends Model
                 ->get();
         } else {
             return DB::table(Board::$assets_table)
-                ->where('user_id', $user_id)
+                //->where('user_id', $user_id)
                 ->where('is_active', 1)
                 ->get();
         }
