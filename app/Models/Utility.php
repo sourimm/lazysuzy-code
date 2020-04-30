@@ -2,7 +2,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-
+use Auth;
 class Utility extends Model
 {
     public static function is_mobile($useragent) {
@@ -12,5 +12,13 @@ class Utility extends Model
         }
         
         return false;
+    }
+
+    public static function get_user_id() {
+        if(Auth::check()) {
+            return Auth::user()->id;
+        }
+
+        return "";
     }
 }
