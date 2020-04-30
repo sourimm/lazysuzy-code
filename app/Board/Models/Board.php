@@ -16,14 +16,14 @@ class Board extends Model
         $user_id = Utility::get_user_id();
         if($id != null) {
             return DB::table(Board::$board_table)
-                    ->where('user_id', $user_id)
+                    //->where('user_id', $user_id)
                     ->where('board_id', $id)
                     ->where('is_active', 1)
                     ->get();
         }
         else {
             return DB::table(Board::$board_table)
-                ->where('user_id', $user_id)
+                //->where('user_id', $user_id)
                 ->where('is_active', 1)
                 ->get();
         }
@@ -34,7 +34,7 @@ class Board extends Model
         if ($id != null) {
             return DB::table(Board::$assets_table)
                 ->where('asset_id', $id)
-                ->where('user_id', $user_id)
+                //->where('user_id', $user_id)
                 ->where('is_active', 1)
                 ->get();
         } else {
@@ -63,7 +63,7 @@ class Board extends Model
         }
 
         DB::table(Board::$assets_table)
-            ->where('user_id', $user_id)
+            //->where('user_id', $user_id)
             ->where('asset_id', $id)
             ->update($data);
         
@@ -84,7 +84,7 @@ class Board extends Model
         }
 
         DB::table(Board::$board_table)
-            ->where('user_id', $user_id)
+            //->where('user_id', $user_id)
             ->where('board_id', $id)
             ->update($data);
         
