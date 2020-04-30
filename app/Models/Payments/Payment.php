@@ -11,7 +11,7 @@ use Auth;
 
 class Payment extends Model
 {
-    public static function charge()
+    public static function charge($req)
     {
         $user_id = Auth::check() ? Auth::user()->id : 'guest-1';
 
@@ -66,7 +66,7 @@ class Payment extends Model
                 'country' => 'US',
 
             ],
-            "source" => $_POST['token'],
+            "source" => $req->input('token'),
 
         ]);
 
