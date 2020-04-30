@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Board\Models;
+
+use Illuminate\Support\Facades\DB;
 use mysqli;
 
 class Database  {
@@ -21,7 +23,7 @@ class Database  {
       $response = Database::select($columnSelection, $tableName, $conditions, $orderBy);
       return $response ? $response[0] : array();
    }
-   public static function select($columnSelection = false, $tableName, $conditions = false, $orderBy = false){
+   public static function select($columnSelection = false, $tableName, $conditions = false, $orderBy = false) {
 
       $results = array();
       $columnSelection = is_array($columnSelection) ? implode("," , $columnSelection) : (empty($columnSelection) ? '*' : $columnSelection);
@@ -35,7 +37,9 @@ class Database  {
       $orderBy = $orderBy ? "ORDER BY {$orderBy}" : '';
    
       $query = "SELECT {$columnSelection} FROM `{$tableName}` {$conditions} {$orderBy}";
-      $stmt = Database::$connection -> prepare($query);
+      return DB::select($query);
+      
+/*       $stmt = Database::$connection -> prepare($query);
    
       if($stmt){
          
@@ -59,19 +63,23 @@ class Database  {
          }
       }
    
-      return $results;   
+      return $results; */   
    }
    
    public static function insert($tableName, $insertData){
       
       $insertID = false;
       if(is_array($insertData)){
-        foreach ($insertData as $key => $value) {
+        /* foreach ($insertData as $key => $value) {
           $insertData[$key] = Database::$connection -> real_escape_string($value);
-        }
-         $stmt = Database::$connection -> prepare("INSERT INTO `{$tableName}` (" . implode("," , array_keys($insertData)) . ") VALUES ('" .  implode("','" , $insertData) . "')");
+        } */
+       /*  $q = "INSERT INTO `{$tableName}` (" . implode(",", array_keys($insertData)) . ") VALUES ('" .  implode("','", $insertData) . "')";
+        echo $q; */
+
+        $insertID = DB::table($tableName)->insertGetId($insertData);
+         /* $stmt = Database::$connection -> prepare("INSERT INTO `{$tableName}` (" . implode("," , array_keys($insertData)) . ") VALUES ('" .  implode("','" , $insertData) . "')");
          if($stmt->execute())
-            $insertID = $stmt->insert_id;
+            $insertID = $stmt->insert_id; */
       }
       return $insertID;
    }
@@ -100,7 +108,7 @@ class Database  {
          $updateDataStatement = array();
          if(is_array($updateData)){
             foreach ($updateData as $key => $value) {
-               $updateDataStatement[] = "{$key} = '" . Database::$connection -> real_escape_string($value) . "'";
+               $updateDataStatement[] = "{$key} = '" . $value . "'";
             }
          }
          $updateData = empty($updateDataStatement) ? '' : "SET " . implode(", ", $updateDataStatement);
@@ -113,12 +121,11 @@ class Database  {
          }
          $conditions = empty($conditionsStatement) ? '' : "WHERE " . implode(" AND ", $conditionsStatement);
       
-         $stmt = Database::$connection -> prepare("UPDATE `{$tableName}` {$updateData} {$conditions}");
-   
-         if($stmt->execute())
-            $updated = true;
+         $q = "UPDATE `{$tableName}` {$updateData} {$conditions}";
+
+         return DB::statement($q);
       }
    
-      return $updated;
+      return false;
    }
 }

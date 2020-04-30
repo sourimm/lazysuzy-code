@@ -109,11 +109,10 @@ class Cart extends Model
             )
             ->join("master_data", "master_data.product_sku", "=", Cart::$cart_table . ".product_sku")
             ->join("lz_inventory", "lz_inventory.product_sku", "=", "master_data.product_sku")
-
             ->join("master_brands", "master_data.site_name", "=", "master_brands.value")
 
-            ->where(Cart::$cart_table . '.is_active', 1)
             ->where(Cart::$cart_table . '.user_id', $user_id)
+            ->where(Cart::$cart_table . '.is_active', 1)
 
             ->groupBy([Cart::$cart_table . '.user_id', Cart::$cart_table . '.product_sku'])
             ->get();

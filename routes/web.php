@@ -95,8 +95,8 @@ Route::get('/api/banners', 'API@get_banners')->name('banners');
 
 // redundant
 Route::get('/wishlist', 'ProductController@showWishList')->name('show-wishlist');
-
-Route::post('/api/board', '\App\Board\Controllers\Server@get_output')->middleware(['cors', 'auth:api']);
+/* 
+Route::post('/api/board', '\App\Board\Controllers\Server@get_output')->middleware(['cors']); */
 
 
 // payment routes
@@ -110,3 +110,16 @@ Route::get('/api/inventory', 'API@get_inventory')->name('get-inventory');
 Route::post('/api/cart/add', 'API@add_to_cart')->name('add-to-cart');
 Route::post('/api/cart/remove', 'API@remove_from_cart')->name('remove-from-cart');
 Route::get('/api/cart', 'API@get_cart')->name('get-cart');
+
+// Board Routes
+
+Route::get('/api/board', '\App\Board\Controllers\BoardController@get_board')->middleware(['cors']);
+Route::get('/api/asset', '\App\Board\Controllers\BoardController@get_asset')->middleware(['cors']);
+
+Route::get('/api/board/{id}', '\App\Board\Controllers\BoardController@get_board_with_id')->middleware(['cors']);
+
+Route::post('/api/board/{id}', '\App\Board\Controllers\BoardController@update_board')->middleware(['cors']);
+
+Route::get('/api/asset/{id}', '\App\Board\Controllers\BoardController@get_asset_with_id')->middleware(['cors']);
+
+Route::post('/api/asset/{id}', '\App\Board\Controllers\BoardController@update_asset')->middleware(['cors']);
