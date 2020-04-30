@@ -62,10 +62,12 @@ class Board extends Model
                 unset($data[$field]);
         }
 
-        return DB::table(Board::$assets_table)
+        DB::table(Board::$assets_table)
             ->where('user_id', $user_id)
             ->where('asset_id', $id)
             ->update($data);
+        
+        return Board::asset($id); 
     }
 
     public static function update_board($req, $id) {
@@ -81,10 +83,12 @@ class Board extends Model
                 unset($data[$field]);
         }
 
-        return DB::table(Board::$board_table)
+        DB::table(Board::$board_table)
             ->where('user_id', $user_id)
             ->where('board_id', $id)
             ->update($data);
+        
+        return Board::board($id);
     }
 
 }
