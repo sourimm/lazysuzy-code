@@ -53,6 +53,7 @@ $kernel = $app->make(Illuminate\Contracts\Http\Kernel::class);
 
 header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Methods: GET, PUT, POST, DELETE, OPTIONS');
+header('Accept: application/json');
 
 $response = $kernel->handle(
     $request = Illuminate\Http\Request::capture()
