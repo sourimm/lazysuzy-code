@@ -99,7 +99,7 @@ class Cart extends Model
                 DB::raw('count(*) as count'),
                 'master_data.product_name',
                 'lz_inventory.price as retail_price',
-                'lz_inventory.max_quantity as max_available_count',
+                'lz_inventory.quantity as max_available_count',
                 'master_data.price',
                 'master_data.was_price',
                 DB::raw('concat("https://www.lazysuzy.com", master_data.main_product_images) as image'),
