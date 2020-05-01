@@ -16,7 +16,7 @@ class BoardController extends Controller
         return Board::board($id);
     }
 
-    public static function update_board(Request $req, $id) {
+    public static function update_board(Request $req, $id = null) {
         return Board::update_board($req, $id);
     } 
 
@@ -28,7 +28,7 @@ class BoardController extends Controller
         return Board::asset($id);
     } 
 
-    public static function update_asset(Request $req, $id) {
+    public static function update_asset(Request $req, $id = null) {
         return Board::update_asset($req, $id);
     }
 

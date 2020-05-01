@@ -62,6 +62,15 @@ class Board extends Model
                 unset($data[$field]);
         }
 
+        if($id == null) {
+            // insert data 
+            $data['user_id'] = $user_id;
+            $insertID = DB::table(Board::$assets_table)
+                            ->insertGetId($data);
+
+            return Board::asset($insertID);
+        }
+
         DB::table(Board::$assets_table)
             //->where('user_id', $user_id)
             ->where('asset_id', $id)
@@ -82,6 +91,23 @@ class Board extends Model
             if (strlen($val) == 0)
                 unset($data[$field]);
         }
+
+        if($id == null) {
+            // insert board data
+            $data['user_id'] = $user_id;
+            $insertID = DB::table(Board::$board_table)
+                            ->insertGetId($data);
+
+            return Board::board($insertID);
+        }
+
+        $data = [
+            'state' => $req->input('state'),
+            'title' => $req->input('title'),
+            'preview' => $req->input('preview'),
+        ];
+
+        
 
         DB::table(Board::$board_table)
             //->where('user_id', $user_id)
