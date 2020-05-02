@@ -12,7 +12,7 @@ use Auth;
 class Payment extends Model
 {
     private static $order_table = 'lz_orders';
-    private static $dilivery_table = 'lz_order_delivery';
+    private static $delivery_table = 'lz_order_delivery';
     public static function charge($req) {
         $user_id = Auth::check() ? Auth::user()->id : 'guest-1';
 
@@ -136,10 +136,10 @@ class Payment extends Model
                 }
             }
 
-            $dilivery_details = $req->all();
-            $dilivery_details['order_id'] = $order_id;
+            $delivery_details = $req->all();
+            $delivery_details['order_id'] = $order_id;
             $ID = DB::table('lz_order_delivery')
-                ->insertGetId($dilivery_details);
+                ->insertGetId($delivery_details);
         }
 
         $order = $req->all();
@@ -173,7 +173,7 @@ class Payment extends Model
                         ->join("master_brands", "master_data.site_name", "=", "master_brands.value")
                         ->where('order_id', $order_id)
                         ->get();
-        $response['dilivery'] = DB::table(Payment::$dilivery_table)
+        $response['delivery'] = DB::table(Payment::$delivery_table)
                                 ->where('order_id', $order_id)
                                 ->get();
         return $response;
