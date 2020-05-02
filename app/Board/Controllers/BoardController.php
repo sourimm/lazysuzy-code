@@ -9,7 +9,6 @@ use App\Models\Utility;
 
 class BoardController extends Controller 
 {
-    private static $upload_folder = 'uploads/board';
     public static function get_board() {
         return Board::board();
     }

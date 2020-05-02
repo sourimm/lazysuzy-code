@@ -86,9 +86,10 @@ class Board extends Model
 
         // handle file upload
         $upload = Board::do_upload($req);
-        if($upload == false) {
+        if($upload == true) {
             return [
-                'msg' => 'error in uploading file'
+                'status' => 'success',
+                'msg' => 'file uploaded'
             ];
         }
 
