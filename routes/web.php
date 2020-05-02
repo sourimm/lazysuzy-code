@@ -117,10 +117,11 @@ Route::get('/api/inventory', 'API@get_inventory')->name('get-inventory');
 
 
 // Board Routes
-Route::get('/api/board', '\App\Board\Controllers\BoardController@get_board')->middleware(['cors', /* 'auth:api' */]);
-Route::post('/api/board/asset/{id?}', '\App\Board\Controllers\BoardController@update_asset')->middleware(['cors', /* 'auth:api' */]);
-Route::get('/api/board/asset', '\App\Board\Controllers\BoardController@get_asset')->middleware(['cors', /* 'auth:api' */]);
+Route::post('/api/board/file-upload', '\App\Board\Controllers\BoardController@do_upload')->middleware(['cors', /* 'auth:api' */]);
 Route::get('/api/board/{id}', '\App\Board\Controllers\BoardController@get_board_with_id')->middleware(['cors', /* 'auth:api' */]);
+Route::post('/api/board/asset/{id?}', '\App\Board\Controllers\BoardController@update_asset')->middleware(['cors', /* 'auth:api' */]);
+Route::get('/api/board', '\App\Board\Controllers\BoardController@get_board')->middleware(['cors', /* 'auth:api' */]);
+Route::get('/api/board/asset', '\App\Board\Controllers\BoardController@get_asset')->middleware(['cors', /* 'auth:api' */]);
 Route::post('/api/board/{id?}', '\App\Board\Controllers\BoardController@update_board')->middleware(['cors', /* 'auth:api' */]);
 
 Route::get('/api/board/asset/{id}', '\App\Board\Controllers\BoardController@get_asset_with_id')->middleware(['cors', /* 'auth:api' */]);

@@ -45,7 +45,7 @@ class Board extends Model
         }
     }
 
-    public static function update_asset($req, $id) {
+    public static function update_asset($req, $id = null) {
         $user_id = Utility::get_user_id();
 
         $data = [

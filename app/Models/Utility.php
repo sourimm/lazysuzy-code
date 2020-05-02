@@ -14,11 +14,23 @@ class Utility extends Model
         return false;
     }
 
+    public static function mimeToText($mime) {
+        $mime_map = ['image/bmp' => 'bmp', 'image/x-bmp' => 'bmp', 'image/x-bitmap' => 'bmp', 'image/x-xbitmap' => 'bmp', 'image/x-win-bitmap' => 'bmp', 'image/x-windows-bmp' => 'bmp', 'image/ms-bmp' => 'bmp', 'image/x-ms-bmp' => 'bmp', 'image/gif' => 'gif', 'image/x-icon' => 'ico', 'image/x-ico' => 'ico', 'image/vnd.microsoft.icon' => 'ico', 'image/jpx' => 'jp2', 'image/jpm' => 'jp2', 'image/jpeg' => 'jpeg', 'image/pjpeg' => 'jpeg', 'image/png' => 'png', 'image/x-png' => 'png', 'image/tiff' => 'tiff'];
+
+        return isset($mime_map[$mime]) ? $mime_map[$mime] : false;
+    }
+
     public static function get_user_id() {
         if(Auth::check()) {
             return Auth::user()->id;
         }
 
         return "";
+    }
+
+    public static function generateID() {
+        $s = strtoupper(md5(uniqid(rand(), true)));
+        $guidText = substr($s, 0, 8) . '-' . substr($s, 8, 4) . '-' . substr($s, 12, 4) . '-' . substr($s, 16, 4) . '-' . substr($s, 20);
+        return $guidText;
     }
 }
