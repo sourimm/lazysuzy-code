@@ -13,6 +13,7 @@ class Payment extends Model
 {
     public static function charge($req)
     {
+
         $user_id = Auth::check() ? Auth::user()->id : 'guest-1';
 
         $cart = Cart::cart();
@@ -57,17 +58,17 @@ class Payment extends Model
         Stripe\Stripe::setApiKey(env('STRIP_SECRET'));
 
         $customer = Stripe\Customer::create([
-            'name' => 'Jenny Rosen',
+            'name' => $req->input('billing_f_Name') . ' ' . $req->input('billing_l_Name'),
             'address' => [
-                'line1' => '510 Townsend St',
-                'postal_code' => '98140',
-                'city' => 'San Francisco',
-                'state' => 'CA',
-                'country' => 'US',
-
+                'line1' => $req->input('billing_address_line1'),
+                'city' => $req->input('billing_city'),
+                'state' => $req->input('billing_state'),
+                'country' => substr($req->input('billing_country'), 0, 2),
+                'postal_code' => $req->input('billing_zipcode'),
             ],
-            "source" => $req->input('token'),
-
+            'email' => $req->input('email'),
+            'phone' => $req->input('shipping_phone'),
+            "source" => $req->input('token')
         ]);
 
         // insert record for transaction
@@ -85,7 +86,19 @@ class Payment extends Model
             'customer' => $customer->id,
             "amount" => $total_price * 100,
             "currency" => "usd",
-            "description" => "Test payment from .com.",
+            "description" => "Payment from Lazysuzy.com",
+            'receipt_email' => $req->input('email'),
+            'shipping' => [
+                'address' => [
+                    'line1' => $req->input('shipping_address_line1'),
+                    'city' => $req->input('shipping_city'),
+                    'state' => $req->input('shipping_state'),
+                    'country' => substr($req->input('billing_country'), 0, 2),
+                    'postal_code' => $req->input('shipping_zipcode'),
+                ],
+            'name' => $req->input('shipping_f_Name') . ' ' . $req->input('shipping_l_Name'),
+            'phone' => $req->input('shipping_phone')
+            ]
 
         ]);
 
@@ -118,11 +131,17 @@ class Payment extends Model
                         ]);
                 }
             }
+
+            $dilivery_details = $_POST;
+            $dilivery_details['order_id'] = $order_id;
+            $ID = DB::table('lz_order_delivery')
+                ->insertGetId($dilivery_details);
         }
 
         return [
             'status' => $charge->status,
             'msg' => 'Transaction Successfull',
+            'amount' => $total_price,
             'transaction_id' => $charge->id,
             'reciept_url' => $charge->receipt_url
         ];
