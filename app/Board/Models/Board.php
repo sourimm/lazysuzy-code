@@ -11,6 +11,8 @@ class Board extends Model
 {
     private static $board_table = "board";
     private static $assets_table = "asset";
+    private static $upload_folder = 'uploads/board';
+
 
     public static function board($id = null) {
         $user_id = Utility::get_user_id();
@@ -81,6 +83,15 @@ class Board extends Model
 
     public static function update_board($req, $id) {
         $user_id = Utility::get_user_id();
+
+        // handle file upload
+        $upload = Board::do_upload($req);
+        if($upload == false) {
+            return [
+                'msg' => 'error in uploading file'
+            ];
+        }
+
         $data = [
             'state' => $req->input('state'),
             'title' => $req->input('title'),
@@ -113,6 +124,62 @@ class Board extends Model
             ->update($data);
         
         return Board::board($id);
+    }
+
+    public static function do_upload($req) {
+
+
+        if($req->hasFile('file')) {
+            // file upload
+            $file = $req->file('file');
+            $file_name = Utility::generateID() . $file->getClientOriginalName();
+            $file_path = Board::$upload_folder . '/' . $file_name;
+            $file->move(Board::$upload_folder, $file_name);
+
+            $req->merge([
+                'path' => '/' . $file_path
+            ]);
+            
+            Board::update_asset($req);
+            return true;
+            
+        }
+        else if($req->has('url')) {
+            // url. file download
+            $url = $req->input('url');
+            $remote_image = file_get_contents($url, false, stream_context_create(array(
+                'ssl' => array(
+                    'verify_peer' => false,
+                    'verify_peer_name' => false,
+                ),
+            )));
+
+            $file_path = Board::$upload_folder . '/' . Utility::generateID();
+            file_put_contents($file_path, $remote_image);
+
+            $image_meta = getimagesize($file_path);
+            
+            if(isset($image_meta['mime'])) {
+                $image_ext = Utility::mimeToText($image_meta['mime']);
+                unlink($file_path);
+                $file_path .= '.' . $image_ext;
+
+                $req->merge([
+                    'path' => '/' . $file_path
+                ]);
+
+                if (file_put_contents($file_path, $remote_image)){
+                    Board::update_asset($req);
+                    return true;
+                }
+            }
+            else {
+                return false;
+            }
+        }
+        else {
+            return false;
+        }
     }
 
 }
