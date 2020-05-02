@@ -13,7 +13,6 @@ class Payment extends Model
 {
     public static function charge($req)
     {
-
         $user_id = Auth::check() ? Auth::user()->id : 'guest-1';
 
         $cart = Cart::cart();
@@ -132,7 +131,7 @@ class Payment extends Model
                 }
             }
 
-            $dilivery_details = $_POST;
+            $dilivery_details = $req->all();
             $dilivery_details['order_id'] = $order_id;
             $ID = DB::table('lz_order_delivery')
                 ->insertGetId($dilivery_details);
