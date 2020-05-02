@@ -17,12 +17,13 @@ class Payment extends Model
 
         $cart = Cart::cart();
         $total_price = 0;
+        $total_items = 0;
 
         $order_id = "lz-ord-" . rand(1, 1000) . "-" . rand(1, 10000);
         $products_not_avaiable = [];
         foreach($cart as $product) {
             $total_price += ((float) $product->retail_price) * $product->count;
-
+            $total_items += (int) $product->count;
             $row = DB::table('lz_inventory')
                 ->select('quantity')
                 ->where('product_sku', $product->product_sku)
@@ -53,6 +54,9 @@ class Payment extends Model
             }
            
         }
+        
+        // charge $25 shipping fee for each product
+        $total_price += $total_items * 25; 
 
         Stripe\Stripe::setApiKey(env('STRIP_SECRET'));
 
