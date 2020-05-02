@@ -12,4 +12,16 @@ class PaymentController extends Controller
 
         return Payment::charge($req);
     }
+
+    public static function get_order(Request $req) {
+
+        $order_id = $req->input('order_id');
+        if(!isset($order_id) || strlen($order_id) == 0) {
+            return [
+                'msg' => 'Invalid order ID'
+            ];
+        }
+
+        return Payment::order($order_id);
+    }
 }

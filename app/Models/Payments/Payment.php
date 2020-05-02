@@ -11,8 +11,9 @@ use Auth;
 
 class Payment extends Model
 {
-    public static function charge($req)
-    {
+    private static $order_table = 'lz_orders';
+    private static $dilivery_table = 'lz_order_delivery';
+    public static function charge($req) {
         $user_id = Auth::check() ? Auth::user()->id : 'guest-1';
 
         $cart = Cart::cart();
@@ -141,12 +142,40 @@ class Payment extends Model
                 ->insertGetId($dilivery_details);
         }
 
+        $order = $req->all();
         return [
             'status' => $charge->status,
             'msg' => 'Transaction Successfull',
+            'order_id' => $order_id,
             'amount' => $total_price,
             'transaction_id' => $charge->id,
-            'reciept_url' => $charge->receipt_url
+            'reciept_url' => $charge->receipt_url,
+            'order' => $order
         ];
+    }
+
+    public static function order($order_id) {
+        $response = [];
+        $response['cart'] = DB::table('lz_orders')
+                        ->select(
+                            Payment::$order_table . '.product_sku',
+                            Payment::$order_table . '.price',
+                            Payment::$order_table . '.quantity as count',
+                            'master_data.product_name',
+                            'master_data.was_price',
+                            DB::raw('concat("https://www.lazysuzy.com", master_data.main_product_images) as image'),
+                            'master_data.product_description',
+                            'master_data.reviews',
+                            'master_data.rating',
+                            'master_brands.name as site'
+                        )
+                        ->join("master_data", "master_data.product_sku", "=", Payment::$order_table . ".product_sku")
+                        ->join("master_brands", "master_data.site_name", "=", "master_brands.value")
+                        ->where('order_id', $order_id)
+                        ->get();
+        $response['dilivery'] = DB::table(Payment::$dilivery_table)
+                                ->where('order_id', $order_id)
+                                ->get();
+        return $response;
     }
 }

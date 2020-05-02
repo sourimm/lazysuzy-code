@@ -107,8 +107,6 @@ class Board extends Model
             'preview' => $req->input('preview'),
         ];
 
-        
-
         DB::table(Board::$board_table)
             //->where('user_id', $user_id)
             ->where('board_id', $id)

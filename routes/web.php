@@ -99,20 +99,24 @@ Route::get('/wishlist', 'ProductController@showWishList')->name('show-wishlist')
 Route::post('/api/board', '\App\Board\Controllers\Server@get_output')->middleware(['cors']); */
 
 
+
+
+// cart and transaction apis
+Route::post('/api/cart/add', 'API@add_to_cart')->name('add-to-cart');
+Route::post('/api/cart/remove', 'API@remove_from_cart')->name('remove-from-cart');
+Route::get('/api/cart', 'API@get_cart')->name('get-cart');
+
+
 // payment routes
 Route::post('/api/payment/charge', 'Payment\PaymentController@charge_client')->name('client-secret');
+Route::get('/api/order', 'Payment\PaymentController@get_order')->name('get-order');
 
 // inventory
 Route::get('/api/inventory', 'API@get_inventory')->name('get-inventory');
 
 
-// cart and trancastion apis
-Route::post('/api/cart/add', 'API@add_to_cart')->name('add-to-cart');
-Route::post('/api/cart/remove', 'API@remove_from_cart')->name('remove-from-cart');
-Route::get('/api/cart', 'API@get_cart')->name('get-cart');
 
 // Board Routes
-
 Route::get('/api/board', '\App\Board\Controllers\BoardController@get_board')->middleware(['cors', /* 'auth:api' */]);
 Route::post('/api/board/asset/{id?}', '\App\Board\Controllers\BoardController@update_asset')->middleware(['cors', /* 'auth:api' */]);
 Route::get('/api/board/asset', '\App\Board\Controllers\BoardController@get_asset')->middleware(['cors', /* 'auth:api' */]);
