@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use App\Models\Cart;
 use App\Models\Inventory;
+use App\Models\Mailer;
 use Stripe;
 use Auth;
 
@@ -15,14 +16,30 @@ class Payment extends Model
     private static $delivery_table = 'lz_order_delivery';
     public static function charge($req) {
         $user_id = Auth::check() ? Auth::user()->id : 'guest-1';
-
-        $cart = Cart::cart();
+        $username = Auth::check() ? Auth::user()->first_name : $req->input('billing_f_Name');
+        $mail_data = [];
         $total_price = 0;
         $total_items = 0;
+        $mail_data['order'] = [];
+        $mail_data['order']['products'] = [];
 
+        $mail_data['username'] = $username;
+        $cart = Cart::cart();
         $order_id = "lz-ord-" . rand(1, 1000) . "-" . rand(1, 10000);
-        $products_not_avaiable = [];
         foreach($cart as $product) {
+
+            // add mail reciept data
+            $mail_data['order']['products'][] = [
+                'name' => $product->product_name,
+                'price' => '$' . $product->retail_price,
+                'count' => $product->count,
+                'image' => $product->image,
+                'brand' => $product->site,
+                'sku' => $product->product_sku,
+                'showCount' => $product->count > 1 ? true : false
+
+            ];
+
             $total_price += ((float) $product->retail_price) * $product->count;
             $total_items += (int) $product->count;
             $row = DB::table('lz_inventory')
@@ -56,8 +73,11 @@ class Payment extends Model
            
         }
         
+        $mail_data['total_price'] = '$' . $total_price;
         // charge $25 shipping fee for each product
         $total_price += $total_items * 25; 
+        $mail_data['shipping'] = '$' . ($total_items * 25);
+        $mail_data['order_cost'] = '$' . $total_price;
 
         Stripe\Stripe::setApiKey(env('STRIP_SECRET'));
 
@@ -126,7 +146,7 @@ class Payment extends Model
                     $original_count = $in_stock[0]->quantity;
                     $left_count = $original_count - $p->count;
                     
-                    Cart::remove($p->product_sku, $p->count);
+                    //Cart::remove($p->product_sku, $p->count);
 
                     DB::table('lz_inventory')
                         ->where('product_sku', $p->product_sku)
@@ -140,17 +160,25 @@ class Payment extends Model
             $delivery_details['order_id'] = $order_id;
             $ID = DB::table('lz_order_delivery')
                 ->insertGetId($delivery_details);
+            $customer_name = $req->input('billing_f_Name');
+            $receipt_send = Mailer::send_receipt($req->input('email'), $customer_name, $mail_data);
+            
+            if(!$receipt_send) {
+                // save this order in DB to send the 
+                // mail later
+            }
+            
         }
 
-        $order = $req->all();
         return [
             'status' => $charge->status,
             'msg' => 'Transaction Successfull',
             'order_id' => $order_id,
             'amount' => $total_price,
-            'transaction_id' => $charge->id,
-            'reciept_url' => $charge->receipt_url,
-            'order' => $order
+            'transaction_id' => isset($charge->id) ? $charge->id : null,
+            'reciept_url' => isset($charge->receipt_url) ? $charge->receipt_url : null,
+            'order' => $req->all(),
+            'receipt_send' => $receipt_send
         ];
     }
 
