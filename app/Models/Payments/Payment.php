@@ -146,7 +146,7 @@ class Payment extends Model
                     $original_count = $in_stock[0]->quantity;
                     $left_count = $original_count - $p->count;
                     
-                    //Cart::remove($p->product_sku, $p->count);
+                    Cart::remove($p->product_sku, $p->count);
 
                     DB::table('lz_inventory')
                         ->where('product_sku', $p->product_sku)
