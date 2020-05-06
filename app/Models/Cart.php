@@ -143,7 +143,12 @@ class Cart extends Model
 
             $product->discount = $discount;
         }
-
-        return $rows;
+        
+        //$rows->put('user', Auth::user());
+        $response = [
+            'products' => $rows,
+            'user' => Auth::user()
+        ];
+        return $response;
     }
 }
