@@ -62,6 +62,7 @@ Route::get('login/{driver}/callback', 'Auth\LoginController@handleProviderCallba
 
 Route::post('/api/login', 'Auth\UserController@login');
 Route::post('/api/register', 'Auth\UserController@register');
+Route::post('/api/user/update', 'Auth\UserController@update')->middleware('auth:api');
 Route::get('/api/logout', 'Auth\UserController@logout');
 
 
@@ -117,13 +118,12 @@ Route::get('/api/inventory', 'API@get_inventory')->name('get-inventory');
 
 
 // Board Routes
-Route::post('/api/board/file-upload', '\App\Board\Controllers\BoardController@do_upload')->middleware(['cors', /* 'auth:api' */]);
-Route::get('/api/board/{id}', '\App\Board\Controllers\BoardController@get_board_with_id')->middleware(['cors', /* 'auth:api' */]);
-Route::post('/api/board/asset/{id?}', '\App\Board\Controllers\BoardController@update_asset')->middleware(['cors', /* 'auth:api' */]);
-Route::get('/api/board', '\App\Board\Controllers\BoardController@get_board')->middleware(['cors', /* 'auth:api' */]);
 Route::get('/api/board/asset', '\App\Board\Controllers\BoardController@get_asset')->middleware(['cors', /* 'auth:api' */]);
+Route::get('/api/board/asset/{id}', '\App\Board\Controllers\BoardController@get_asset_with_id')->middleware(['cors', /* 'auth:api' */]);
+Route::post('/api/board/asset/{id?}', '\App\Board\Controllers\BoardController@update_asset')->middleware(['cors', /* 'auth:api' */]);
 
-
+Route::get('/api/board', '\App\Board\Controllers\BoardController@get_board')->middleware(['cors', /* 'auth:api' */]);
+Route::get('/api/board/{id}', '\App\Board\Controllers\BoardController@get_board_with_id')->middleware(['cors', /* 'auth:api' */]);
 Route::post('/api/board/{id?}', '\App\Board\Controllers\BoardController@update_board')->middleware(['cors', /* 'auth:api' */]);
 
-Route::get('/api/board/asset/{id}', '\App\Board\Controllers\BoardController@get_asset_with_id')->middleware(['cors', /* 'auth:api' */]);
+// Route::post('/api/board/file-upload', '\App\Board\Controllers\BoardController@do_upload')->middleware(['cors', /* 'auth:api' */]);

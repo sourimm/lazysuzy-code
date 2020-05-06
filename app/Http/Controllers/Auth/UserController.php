@@ -94,46 +94,72 @@ class UserController extends Controller
     {
 
         //return $request->all();
-
-
-        $validator = Validator::make($request->all(), [
+        
+        $user = false;
+        $data = $request->all();
+        
+        if(isset($data['guest'])){
+          $user = User::create([
+            'name' => '',
+            'email' => '',
+            'password' => '',
+            'first_name' => '',
+            'last_name' => '',
+            'oauth_provider' => 'guest',
+            'oauth_uid' => '',
+            'picture' => 'null',
+            'locale' => 'null',
+            'user_type' => config('user.user_type.guest')
+          ]);
+        }
+        else{
+          $validator = Validator::make($data, [
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8'],
-        ]);
-
-        if ($validator->fails()) {
+          ]);
+          
+          if ($validator->fails()) {
             return response()->json(['error' => $validator->errors()], 401);
-        }
-        
-        $input = $data = $request->all();
-        $input['password'] = bcrypt($input['password']);
-        
-        // handle first and last name for USER
-        $f_name = null;
-        $l_name = null;
-
-        if (strlen($data['name']) > 0) $name  = explode(" ", $data['name']);
-        else $name = "";
-
-        if (isset($name[0])) $f_name = $name[0];
-        if (isset($name[1])) $l_name = $name[1];
-        $user = User::create([
+          }
+          
+          $name = explode(' ', $data['name']);
+          $userData = [
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
-            'first_name' => $f_name,
-            'last_name' => $l_name,
-            'gender' => 'default',
+            'first_name' => isset($name[0]) ? $name[0] : '',
+            'last_name' => isset($name[1]) ? implode(' ', array_slice($name, 1)) : '',
             'oauth_provider' => 'basic',
             'oauth_uid' => rand(0, 100),
             'picture' => 'null',
             'locale' => 'null',
-        ]);
-        //=======================================
+            'user_type' => config('user.user_type.default')
+          ];
+          
+          Auth::shouldUse('api');
+          if(Auth::check()){
+            $user = Auth::user();
+            // check if guest using is trying to convert
+            if(isset($user->user_type) && $user->user_type == config('user.user_type.guest')){
+              if(!$user->update($userData))
+                return response()->json(['error' => ['update' => "unable to update user data"]], 401);
+              }
+              // check if a regular user is trying to create another account
+              else if($user->user_type == config('user.user_type.default')){
+                $user = User::create($userData);
+              }
+            }
+            else
+            $user = User::create($userData);
+        }
         
-        $success['token'] =  $user->createToken('lazysuzy-web')->accessToken;
-        $success['user'] =  $user;
-        return response()->json(['success' => $success], $this->successStatus);
+        if($user){
+          $success['token'] =  $user->createToken('lazysuzy-web')->accessToken;
+          $success['user'] =  $user;
+          return response()->json(['success' => $success], $this->successStatus);
+        }
+        else
+          return response()->json(['error' => ['error' => "unknown error"]], 401);
     }
 
     public function logout(Request $request) 
@@ -170,5 +196,50 @@ class UserController extends Controller
     {
         $user = Auth::user();
         return response()->json(['success' => $user], $this->successStatus);
+    }
+    
+    public function update(Request $request){
+      $data = $request->all();
+      if(Auth::check()){
+        $user = Auth::user();
+        
+        if(isset($data['name'])){
+          $name = explode(' ', $data['name']);
+          $user->first_name = isset($name[0]) ? $name[0] : '';
+          $user->last_name = isset($name[1]) ? implode(' ', array_slice($name, 1)) : '';
+          $user->name = $data['name'];
+        }
+        
+        if(isset($data['email'])){
+          $validator = Validator::make($data, ['email' => ['required', 'string', 'email', 'max:255', 'unique:users']]);
+          
+          if ($validator->fails())
+            return response()->json(['error' => $validator->errors()], 401);
+          
+          $user->email = $data['email'];
+        }
+        
+        // set the password only if does not already exists
+        if(isset($data['password']) && empty($user->password) && $user->user_type == config('user.user_type.guest')){
+          $validator = Validator::make($data, ['password' => ['required', 'string', 'min:8']]);
+          
+          if ($validator->fails())
+            return response()->json(['error' => $validator->errors()], 401);
+          
+            $user->password = Hash::make($data['password']);
+        }
+        
+        // if both email and password exist for user change its type
+        if(!empty($user->email) && !empty($user->password) && $user->user_type == config('user.user_type.guest'))
+          $user->user_type = config('user.user_type.default');
+          
+        if($user->update()){
+          $success['token'] =  $user->createToken('lazysuzy-web')->accessToken;
+          $success['user'] =  $user;
+          return response()->json(['success' => $success], $this->successStatus);
+        }
+        else
+          return response()->json(['error' => ['error' => "unknown error"]], 401);
+      }
     }
 }
