@@ -878,7 +878,13 @@ class Product extends Model
                     
                     $children = [];
                     foreach ($child_rows as $row) {
-                        array_push($children, [
+
+                        // check if this set is there for retail.
+                        $inventory_prod = DB::table('lz_inventory')
+                            ->where('product_sku', $row->product_sku)
+                            ->get();
+                        
+                        $set = [
                             'parent_sku' => $product->product_sku,
                             'sku' => $row->product_sku,
                             'name' => $row->product_name,
@@ -886,7 +892,19 @@ class Product extends Model
                             'link' => $row->product_url,
                             'price' => $row->price,
                             'was_price' => $row->was_price
-                        ]);
+                        ];
+
+                        if (isset($inventory_prod[0])) {
+                            $set['in_inventory'] = true;
+                            $set['inventory_product_details'] = [
+                                'price' => $inventory_prod[0]->price,
+                                'count' => $inventory_prod[0]->quantity,
+                            ];
+                        } else {
+                            $set['in_inventory'] = false;
+                        }
+
+                        array_push($children, $set);
                     }
                 }
             }

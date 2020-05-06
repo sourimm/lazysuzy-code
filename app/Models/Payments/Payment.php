@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use App\Models\Cart;
 use App\Models\Inventory;
+use Illuminate\Support\Str;
+
 use App\Models\Mailer;
 use Stripe;
 use Auth;
@@ -25,7 +27,31 @@ class Payment extends Model
 
         $mail_data['username'] = $username;
         $cart = Cart::cart();
-        $order_id = "lz-ord-" . rand(1, 1000) . "-" . rand(1, 10000);
+
+        // generte and random string of length 5
+        // handle edge case, if there are more than 100 collisions then shift to length +1 
+        $length = 5;
+        $collisions = 0;
+        $order_id = Str::random($length);
+        $found = DB::table(Payment::$order_table)
+                    ->where('order_id', $order_id)
+                    ->count();
+
+        while($found) {
+            $order_id = Str::random($length);
+            $found = DB::table(Payment::$order_table)
+                ->where('order_id', $order_id)
+                ->count();
+            $collisions++;
+
+            if($collisions > 100) {
+                $length += 1;
+                $collisions = 0; 
+            }
+
+        }
+
+        //$order_id = "lz-ord-" . rand(1, 1000) . "-" . rand(1, 10000);
         foreach($cart as $product) {
 
             // add mail reciept data
