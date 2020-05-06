@@ -109,7 +109,7 @@ Route::get('/api/cart', 'API@get_cart')->name('get-cart')->middleware(['auth:api
 
 
 // payment routes
-Route::post('/api/payment/charge', 'Payment\PaymentController@charge_client')->name('client-secret');
+Route::post('/api/payment/charge', 'Payment\PaymentController@charge_client')->middleware(['auth:api'])->name('client-secret');
 Route::get('/api/order', 'Payment\PaymentController@get_order')->middleware(['auth:api'])->name('get-order');
 
 // inventory
