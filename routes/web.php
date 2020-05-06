@@ -105,7 +105,7 @@ Route::post('/api/board', '\App\Board\Controllers\Server@get_output')->middlewar
 // cart and transaction apis
 Route::post('/api/cart/add', 'API@add_to_cart')->name('add-to-cart');
 Route::post('/api/cart/remove', 'API@remove_from_cart')->name('remove-from-cart');
-Route::get('/api/cart', 'API@get_cart')->name('get-cart');
+Route::get('/api/cart', 'API@get_cart')->name('get-cart')->middleware(['auth:api']);;
 
 
 // payment routes
