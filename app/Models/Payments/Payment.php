@@ -225,6 +225,10 @@ class Payment extends Model
 
     public static function order($order_id) {
         $response = [];
+        $rows_shipment_code = DB::table(Cart::$shipment_code_table)
+            ->get()
+            ->toArray();
+        $shipment_codes = array_column($rows_shipment_code, 'rate', 'code');
         $response['cart'] = DB::table('lz_orders')
                         ->select(
                             Payment::$order_table . '.product_sku',
@@ -236,12 +240,26 @@ class Payment extends Model
                             'master_data.product_description',
                             'master_data.reviews',
                             'master_data.rating',
-                            'master_brands.name as site'
+                            'master_brands.name as site',
+                            'lz_inventory.ship_custom',
+                            'lz_inventory.ship_code'
                         )
                         ->join("master_data", "master_data.product_sku", "=", Payment::$order_table . ".product_sku")
+                        ->join("lz_inventory", "lz_inventory.product_sku", "=", "master_data.product_sku")
                         ->join("master_brands", "master_data.site_name", "=", "master_brands.value")
                         ->where('order_id', $order_id)
                         ->get();
+        
+
+        foreach ($response['cart'] as $product) {
+            // set correct shipping cost
+            if (strtolower($product->ship_code) == 's') {
+                $product->ship_custom = $shipment_codes[$product->ship_code];
+            } else if (strtolower($product->ship_code) == 'f') {
+                $product->ship_custom = 0;
+            }
+        }
+
         $response['delivery'] = DB::table(Payment::$delivery_table)
                                 ->where('order_id', $order_id)
                                 ->get();
