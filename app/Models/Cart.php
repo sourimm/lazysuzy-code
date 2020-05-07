@@ -11,6 +11,8 @@ class Cart extends Model
 {
 
     private static $cart_table = "lz_user_cart";
+    private static $shipment_code_table = 'lz_ship_code';
+
 
     public static function add($sku, $count)
     {
@@ -93,12 +95,20 @@ class Cart extends Model
             $user_id = 'guest-1';
         }
 
+        // calculating shipment cost for each SKU
+        $rows_shipment_code = DB::table(Cart::$shipment_code_table)
+            ->get()
+            ->toArray();
+        $shipment_codes = array_column($rows_shipment_code, 'rate', 'code');
+
         $rows = DB::table(Cart::$cart_table)
             ->select(
                 Cart::$cart_table . '.product_sku',
                 DB::raw('count(*) as count'),
                 'master_data.product_name',
                 'lz_inventory.price as retail_price',
+                'lz_inventory.ship_code',
+                'lz_inventory.ship_custom',
                 'lz_inventory.quantity as max_available_count',
                 'master_data.price',
                 'master_data.was_price',
@@ -142,6 +152,14 @@ class Cart extends Model
             }
 
             $product->discount = $discount;
+
+            // set correct shipping cost
+            if($product->ship_code == 'S') {
+                $product->ship_custom = $shipment_codes[$product->ship_code];
+            }
+            else if ($product->ship_code == 'F') {
+                $product->ship_custom = 0;
+            }
         }
         
         return $rows;

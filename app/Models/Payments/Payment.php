@@ -16,12 +16,14 @@ class Payment extends Model
 {
     private static $order_table = 'lz_orders';
     private static $delivery_table = 'lz_order_delivery';
+    private static $shipment_code_table = 'lz_ship_code';
     public static function charge($req) {
         $user_id = Auth::check() ? Auth::user()->id : 'guest-1';
         $username = Auth::check() ? Auth::user()->first_name : $req->input('billing_f_Name');
         $mail_data = [];
         $total_price = 0;
         $total_items = 0;
+        $shipment_cost = 1;
         $mail_data['order'] = [];
         $mail_data['order']['products'] = [];
 
@@ -68,6 +70,12 @@ class Payment extends Model
 
             $total_price += ((float) $product->retail_price) * $product->count;
             $total_items += (int) $product->count;
+            $ship_code = $product->ship_code;
+
+            // if not free-shipping
+            if($ship_code != 'F')
+                $shipment_cost *= (float)($product->ship_custom * $product->count);
+
             $row = DB::table('lz_inventory')
                 ->select('quantity')
                 ->where('product_sku', $product->product_sku)
@@ -100,8 +108,15 @@ class Payment extends Model
         }
         
         $mail_data['total_price'] = '$' . $total_price;
-        // charge $25 shipping fee for each product
-        $total_price += $total_items * 25; 
+
+        // if cost of shipment is 1 then set it to 0
+        // 1 is from when the variable was declared, 
+        // cart has all Free Shipment products 
+        if($shipment_cost == 1) {
+            $shipment_cost = 0;
+        }
+
+        $total_price += $shipment_cost; 
         $mail_data['shipping'] = '$' . ($total_items * 25);
         $mail_data['order_cost'] = '$' . $total_price;
 
