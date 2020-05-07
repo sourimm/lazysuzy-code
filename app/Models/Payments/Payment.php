@@ -70,10 +70,10 @@ class Payment extends Model
 
             $total_price += ((float) $product->retail_price) * $product->count;
             $total_items += (int) $product->count;
-            $ship_code = $product->ship_code;
+            $ship_code = strtolower($product->ship_code);
 
             // if not free-shipping
-            if($ship_code != 'F')
+            if($ship_code != 'f')
                 $shipment_cost *= (float)($product->ship_custom * $product->count);
 
             $row = DB::table('lz_inventory')

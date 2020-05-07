@@ -1505,8 +1505,16 @@ class Product extends Model
         
         if($redirection != null) {
             $redirection_sku = $redirection->redirect_sku;
-            if ($redirection_sku != null)
+            if ($redirection_sku != null) {
                 $redirect_url = env('APP_URL') . "/product/" . $redirection_sku;
+                $data = DB::table("master_data")
+                    ->select(['product_name', 'price', 'was_price', 'main_product_images'])
+                    ->where("product_sku", $redirection_sku)
+                    ->get();
+                if (!isset($data[0]))
+                    return ["message" => "SKU " . $redirection_sku . " NOT FOUND"];
+                $data = $data[0];
+            }
             else 
                 $redirect_url = null;
                 
@@ -1566,7 +1574,13 @@ class Product extends Model
                 $product = Product::get_details((object)$product_details, $variations_data);
                 $product['redirect_url'] = $redirect_url;
                 $product['redirect'] = true;
-                
+
+                if (isset($data)) {
+                    $product['redirect_details']['name'] = $data->product_name;
+                    $product['redirect_details']['price'] = $data->price;
+                    $product['redirect_details']['was_price'] = $data->was_price;
+                    $product['redirect_details']['main_image'] = env('APP_URL') . $data->main_product_images;
+                }
                 return $product;
             }
             else {

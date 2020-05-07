@@ -154,10 +154,10 @@ class Cart extends Model
             $product->discount = $discount;
 
             // set correct shipping cost
-            if($product->ship_code == 'S') {
+            if(strtolower($product->ship_code) == 's') {
                 $product->ship_custom = $shipment_codes[$product->ship_code];
             }
-            else if ($product->ship_code == 'F') {
+            else if (strtolower($product->ship_code) == 'f') {
                 $product->ship_custom = 0;
             }
         }
