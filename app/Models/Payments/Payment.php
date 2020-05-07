@@ -225,7 +225,7 @@ class Payment extends Model
 
     public static function order($order_id) {
         $response = [];
-        $rows_shipment_code = DB::table(Cart::$shipment_code_table)
+        $rows_shipment_code = DB::table(Payment::$shipment_code_table)
             ->get()
             ->toArray();
         $shipment_codes = array_column($rows_shipment_code, 'rate', 'code');
