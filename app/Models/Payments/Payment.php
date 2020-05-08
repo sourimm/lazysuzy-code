@@ -17,6 +17,8 @@ class Payment extends Model
     private static $order_table = 'lz_orders';
     private static $delivery_table = 'lz_order_delivery';
     private static $shipment_code_table = 'lz_ship_code';
+    private static $failed_reciepts = 'lz_failed_receipt';
+
     public static function charge($req) {
         $user_id = Auth::check() ? Auth::user()->id : 'guest-1';
         $username = Auth::check() ? Auth::user()->first_name : $req->input('billing_f_Name');
@@ -204,9 +206,15 @@ class Payment extends Model
             $customer_name = $req->input('billing_f_Name');
             $receipt_send = Mailer::send_receipt($req->input('email'), $customer_name, $mail_data);
             
-            if(!$receipt_send) {
+            if(!$receipt_send['status']) {
                 // save this order in DB to send the 
                 // mail later
+                DB::table(Payment::$failed_reciepts)
+                        ->insert([
+                            'email' => $req->input('email'),
+                            'mail_data' => json_encode($mail_data),
+                            'error' => $receipt_send['error']
+                        ]);
             }
             
         }

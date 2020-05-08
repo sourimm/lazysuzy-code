@@ -148,9 +148,14 @@ class Mailer extends Mailable {
         curl_close($curl);
 
         if ($err) {
-            return false;
+            return [
+                'status' => false,
+                'error' => $err
+            ];
         }
 
-        return true;
+        return [
+            'status' => true
+        ];
     }
 }
