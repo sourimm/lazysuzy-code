@@ -111,7 +111,7 @@ class Mailer extends Mailable {
                         ]
                     ],
                     "dynamic_template_data" => $mail_data,
-                "subject"=> env('MAILER_RECEIPT_SUBJECT')
+                "subject"=> $to_name . ", " . env('MAILER_RECEIPT_SUBJECT')
                 ]
             ],
             "from"=> [
