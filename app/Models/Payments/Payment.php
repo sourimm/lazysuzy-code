@@ -34,13 +34,13 @@ class Payment extends Model
         // handle edge case, if there are more than 100 collisions then shift to length +1 
         $length = 5;
         $collisions = 0;
-        $order_id = Str::random($length);
+        $order_id = strtoupper(Str::random($length));
         $found = DB::table(Payment::$order_table)
                     ->where('order_id', $order_id)
                     ->count();
 
         while($found) {
-            $order_id = Str::random($length);
+            $order_id = strtoupper(Str::random($length));
             $found = DB::table(Payment::$order_table)
                 ->where('order_id', $order_id)
                 ->count();
@@ -50,7 +50,6 @@ class Payment extends Model
                 $length += 1;
                 $collisions = 0; 
             }
-
         }
 
         //$order_id = "lz-ord-" . rand(1, 1000) . "-" . rand(1, 10000);
@@ -199,6 +198,7 @@ class Payment extends Model
 
             $delivery_details = $req->all();
             $delivery_details['order_id'] = $order_id;
+            $delivery_details['user_id'] = $user_id;
             $ID = DB::table('lz_order_delivery')
                 ->insertGetId($delivery_details);
             $customer_name = $req->input('billing_f_Name');
@@ -225,6 +225,7 @@ class Payment extends Model
 
     public static function order($order_id) {
         $response = [];
+        $user = Auth::user();
         $rows_shipment_code = DB::table(Payment::$shipment_code_table)
             ->get()
             ->toArray();
@@ -248,6 +249,7 @@ class Payment extends Model
                         ->join("lz_inventory", "lz_inventory.product_sku", "=", "master_data.product_sku")
                         ->join("master_brands", "master_data.site_name", "=", "master_brands.value")
                         ->where('order_id', $order_id)
+                        ->where('user_id', $user->id)
                         ->get();
         
 
@@ -259,10 +261,18 @@ class Payment extends Model
                 $product->ship_custom = 0;
             }
         }
-
+        
         $response['delivery'] = DB::table(Payment::$delivery_table)
                                 ->where('order_id', $order_id)
+                                ->where('user_id', $user->id)
                                 ->get();
+
+        $response['payment'] = [];
+        if(isset($response['delivery'][0])) {
+            Stripe\Stripe::setApiKey(env('STRIP_SECRET'));
+            $response['payment'] = Stripe\Token::retrieve($response['delivery'][0]->token);
+        }
+      
         return $response;
     }
 }
