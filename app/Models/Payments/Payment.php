@@ -213,7 +213,7 @@ class Payment extends Model
                         ->insert([
                             'email' => $req->input('email'),
                             'mail_data' => json_encode($mail_data),
-                            'error' => json_encode($receipt_send['error'])
+                            'error' => $receipt_send['error']
                         ]);
             }
             
