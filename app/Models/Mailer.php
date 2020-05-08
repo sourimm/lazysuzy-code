@@ -151,8 +151,7 @@ class Mailer extends Mailable {
         if($httpcode != 202 || $err) {
             return [
                 'status' => false,
-                'error' => isset($response->errors) ? $response->errors : $err,
-                'response' => $response
+                'error' => $response
             ];
         }
 
