@@ -10,6 +10,8 @@ use App\Models\Brands;
 use App\Models\Subscribe;
 use App\Models\Department;
 use App\Models\User;
+use App\Models\Cart;
+use App\Models\Inventory;
 
 use Auth;
 use Subscribe as GlobalSubscribe;
@@ -33,7 +35,8 @@ class API extends Controller
         ];
     }
     
-    public function login_user() {
+    public function login_user() 
+    {
         return User::login();
     }
     public function getProducts($dept, $cat = null)
@@ -90,5 +93,48 @@ class API extends Controller
 
     public function get_banners() {
         return Brands::get_banners();
+    }
+
+    public function add_to_cart(Request $req) {
+
+        if(strlen($req->input('product_sku')) > 0 
+            && strlen($req->input('count')) > 0) {
+            
+                $sku = $req->input('product_sku');
+                $count = $req->input('count');
+
+                return Cart::add($sku, $count);
+        }
+
+        return [
+            false
+        ];
+       
+    }
+
+    public function remove_from_cart(Request $req)
+    {
+        if (strlen($req->input('product_sku')) > 0
+            && strlen($req->input('count')) > 0) {
+
+            $sku = $req->input('product_sku');
+            $count = $req->input('count');
+
+            return Cart::remove($sku, $count);
+        }
+
+        return [
+            false
+        ];
+    }
+
+    public function get_cart()
+    {
+        return Cart::cart();
+    }
+
+    public function get_inventory()
+    {
+        return Inventory::get();
     }
 }

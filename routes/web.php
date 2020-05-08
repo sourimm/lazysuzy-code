@@ -62,6 +62,7 @@ Route::get('login/{driver}/callback', 'Auth\LoginController@handleProviderCallba
 
 Route::post('/api/login', 'Auth\UserController@login');
 Route::post('/api/register', 'Auth\UserController@register');
+Route::post('/api/user/update', 'Auth\UserController@update')->middleware('auth:api');
 Route::get('/api/logout', 'Auth\UserController@logout');
 
 
@@ -95,9 +96,30 @@ Route::get('/api/banners', 'API@get_banners')->name('banners');
 
 // redundant
 Route::get('/wishlist', 'ProductController@showWishList')->name('show-wishlist');
+/* 
+Route::post('/api/board', '\App\Board\Controllers\Server@get_output')->middleware(['cors']); */
 
-Route::post('/api/board', '\App\Board\Controllers\Server@get_output');
+
+
+
+// cart and transaction apis
+Route::post('/api/cart/add', 'API@add_to_cart')->middleware(['auth:api'])->name('add-to-cart');
+Route::post('/api/cart/remove', 'API@remove_from_cart')->middleware(['auth:api'])->name('remove-from-cart');
+Route::get('/api/cart', 'API@get_cart')->name('get-cart')->middleware(['auth:api']);
 
 
 // payment routes
-Route::get('/api/payment/charge/{sku}', 'Payment\PaymentController@charge_client')->name('client-secret');
+Route::post('/api/payment/charge', 'Payment\PaymentController@charge_client')->middleware(['auth:api'])->name('client-secret');
+Route::get('/api/order', 'Payment\PaymentController@get_order')->middleware(['auth:api'])->name('get-order');
+
+// inventory
+Route::get('/api/inventory', 'API@get_inventory')->name('get-inventory');
+
+
+
+// Board Routes
+Route::get('/api/board/asset/{id?}', '\App\Board\Controllers\BoardController@get_asset')->middleware(['cors', 'auth:api']);
+Route::post('/api/board/asset/{id?}', '\App\Board\Controllers\BoardController@update_asset')->middleware(['cors', 'auth:api']);
+
+Route::get('/api/board/{id?}', '\App\Board\Controllers\BoardController@get_board')->middleware(['cors', 'auth:api']);
+Route::post('/api/board/{id?}', '\App\Board\Controllers\BoardController@update_board')->middleware(['cors', 'auth:api']);
