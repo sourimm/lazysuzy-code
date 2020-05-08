@@ -24,9 +24,11 @@ class BoardController extends Controller
     
     public static function update_board(Request $request, $id = null) {
         if($id){
-          $board = Board::findOrFail($id);
-          $board->update($request->all());
-          return $board;
+          $board = Board::board($id);
+          if($board){
+            $board->first()->update($request->all());
+            return $board;
+          }
         }
         else
           return Board::create($request->all());

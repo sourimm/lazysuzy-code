@@ -16,9 +16,10 @@ class CreateBoardTables extends Migration
         Schema::create('board', function (Blueprint $table) {
             $table->increments('board_id');
             $table->integer('user_id')->unsigned();
-            $table->json('state');
-            $table->string('title');
-            $table->string('preview');
+            $table->string('uuid', 32);
+            $table->json('state')->nullable();
+            $table->string('title')->nullable();
+            $table->text('preview')->nullable();
             $table->boolean('is_active')->default(1);
             $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP'));
@@ -28,11 +29,11 @@ class CreateBoardTables extends Migration
         Schema::create('asset', function (Blueprint $table) {
             $table->increments('asset_id');
             $table->integer('user_id')->unsigned();
-            $table->string('name');
-            $table->string('price');
-            $table->string('brand');
+            $table->string('name')->nullable();
+            $table->string('price')->nullable();
+            $table->string('brand')->nullable();
             $table->string('path');
-            $table->string('transparent_path');
+            $table->string('transparent_path')->nullable();
             $table->boolean('is_private')->default(1);
             $table->boolean('is_active')->default(1);
             $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
