@@ -44,9 +44,9 @@ return [
         ],
     ],
     'facebook' => [
-        'client_id' => env('128412724729505'),  // Your Facebook App ID
-        'client_secret' => env('8914496cade90ab965a0477b0cb94273'), // Your Facebook App Secret
-        'redirect' => env('localhost:8000/login/facebook/callback'),
+        'client_id' => env('FB_CLIENT_ID'),  // Your Facebook App ID
+        'client_secret' => env('FB_CLIENT_SECRET'), // Your Facebook App Secret
+        'redirect' => env('FB_REDIRECT'),
     ],
     'google' => [
         'client_id'     => env('GOOGLE_CLIENT_ID'),
