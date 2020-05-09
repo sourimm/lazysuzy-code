@@ -1497,8 +1497,12 @@ class Product extends Model
     {
         // check if product needs to be redirected
         $redirection = Product::is_redirect($sku);
+        $inventory_prod = DB::table('lz_inventory')
+            ->where('product_sku', $sku)
+            ->get();
         
         if($redirection != null) {
+           
             $redirection_sku = $redirection->redirect_sku;
             if ($redirection_sku != null) {
                 $redirect_url = env('APP_URL') . "/product/" . $redirection_sku;
@@ -1565,10 +1569,19 @@ class Product extends Model
                 }
 
                 $product_details['name'] = $brand->name;
-                $product_details['in_inventory'] = false;
+                if (isset($inventory_prod[0])) {
+                    $product_details['in_inventory'] = true;
+                    $product_details['inventory_product_details'] = [
+                        'price' => $inventory_prod[0]->price,
+                        'count' => $inventory_prod[0]->quantity,
+                    ];
+                } else {
+                    $product_details['in_inventory'] = false;
+                }
                 $product = Product::get_details((object)$product_details, $variations_data);
                 $product['redirect_url'] = $redirect_url;
                 $product['redirect'] = true;
+
                 if (isset($data)) {
                     $product['redirect_details']['name'] = $data->product_name;
                     $product['redirect_details']['price'] = $data->price;
@@ -1581,11 +1594,6 @@ class Product extends Model
                 return [];
             }
         } 
-
-        $inventory_prod = DB::table('lz_inventory')
-            ->where('product_sku', $sku)
-            ->get();
-    
         $prod = Product::where('product_sku', $sku)
             ->join("master_brands", "master_data.site_name", "=", "master_brands.value")
             ->get();
