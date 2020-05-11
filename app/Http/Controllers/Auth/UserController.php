@@ -198,9 +198,12 @@ class UserController extends Controller
         return response()->json(['success' => $user], $this->successStatus);
     }
     
-    public function update(Request $request){
+    public function update(Request $request) {
       $data = $request->all();
-      if(Auth::check()){
+      // this will pass for guest users also, user_type is the column
+      // that needs to be used to identify the current user as guest or 
+      // registered user
+      if(Auth::check()) {
         $user = Auth::user();
         
         if(isset($data['name'])){
@@ -210,7 +213,7 @@ class UserController extends Controller
           $user->name = $data['name'];
         }
         
-        if(isset($data['email'])){
+        if(isset($data['email'])) {
           $validator = Validator::make($data, ['email' => ['required', 'string', 'email', 'max:255', 'unique:users']]);
           
           if ($validator->fails())
@@ -219,11 +222,19 @@ class UserController extends Controller
           $user->email = $data['email'];
         }
         
-        // set the password only if does not already exists
+        // set the password only if it does not already exists and email is unique 
         if(isset($data['password']) && empty($user->password) && $user->user_type == config('user.user_type.guest')){
-          $validator = Validator::make($data, ['password' => ['required', 'string', 'min:8']]);
           
-          if ($validator->fails())
+          // injecting email in validator to check for unique users
+          // here email is definatly present in the user object 
+          // because a previous call would have set it 
+          $data['email'] = $user->email;
+          $validator = Validator::make($data, [
+              'password' => ['required', 'string', 'min:8'],
+              'email' => ['required', 'string', 'email', 'max:255', 'unique:users']
+              ]);
+          
+          if ($validator->fails()) 
             return response()->json(['error' => $validator->errors()], 401);
           
             $user->password = Hash::make($data['password']);
