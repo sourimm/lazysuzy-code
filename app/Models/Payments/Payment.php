@@ -25,7 +25,7 @@ class Payment extends Model
         $mail_data = [];
         $total_price = 0;
         $total_items = 0;
-        $shipment_cost = 1;
+        $shipment_cost = 0;
         $mail_data['order'] = [];
         $mail_data['order']['products'] = [];
 
