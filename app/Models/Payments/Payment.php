@@ -75,7 +75,7 @@ class Payment extends Model
 
             // if not free-shipping
             if($ship_code != 'f')
-                $shipment_cost *= (float)($product->ship_custom * $product->count);
+                $shipment_cost += (float)($product->ship_custom * $product->count);
 
             $row = DB::table('lz_inventory')
                 ->select('quantity')
