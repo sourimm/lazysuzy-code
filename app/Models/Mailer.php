@@ -100,7 +100,7 @@ class Mailer extends Mailable {
     public static function send_receipt($to, $to_name, $mail_data) {
 
         $curl = curl_init();
-
+        $subject = str_replace("$", " ", env('MAILER_RECEIPT_SUBJECT'));
         $dy_data = [
             "personalizations"=> [
                 [
@@ -111,7 +111,7 @@ class Mailer extends Mailable {
                         ]
                     ],
                     "dynamic_template_data" => $mail_data,
-                "subject"=> $to_name . ", " . env('MAILER_RECEIPT_SUBJECT')
+                "subject"=> $to_name . ", " . $subject
                 ]
             ],
             "from"=> [
