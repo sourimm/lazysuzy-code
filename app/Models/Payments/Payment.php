@@ -118,7 +118,7 @@ class Payment extends Model
         }
 
         $total_price += $shipment_cost; 
-        $mail_data['shipping'] = '$' . ($total_items * 25);
+        $mail_data['shipping'] = '$' . $shipment_cost;
         $mail_data['order_cost'] = '$' . $total_price;
 
         Stripe\Stripe::setApiKey(env('STRIP_SECRET'));
@@ -208,8 +208,8 @@ class Payment extends Model
             // get card details for sending in email reciept
             $card = Stripe\Token::retrieve($req->input('token'));
             $mail_data['card'] = [
-                'last4' => $card['last4'],
-                'expiry' => $card['exp_month'] . '/' . $card['exp_year']
+                'last4' => $card->card->last4,
+                'expiry' => $card->card->exp_month . '/' . $card->card->exp_year
             ];
             $mail_data['shipping_details'] = $delivery_details;
             $mail_data['order_id'] = $order_id;
