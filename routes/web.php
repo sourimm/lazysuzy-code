@@ -96,11 +96,6 @@ Route::get('/api/banners', 'API@get_banners')->name('banners');
 
 // redundant
 Route::get('/wishlist', 'ProductController@showWishList')->name('show-wishlist');
-/* 
-Route::post('/api/board', '\App\Board\Controllers\Server@get_output')->middleware(['cors']); */
-
-
-
 
 // cart and transaction apis
 Route::post('/api/cart/add', 'API@add_to_cart')->middleware(['auth:api'])->name('add-to-cart');
@@ -123,3 +118,4 @@ Route::post('/api/board/asset/{id?}', '\App\Board\Controllers\BoardController@up
 
 Route::get('/api/board/{id?}', '\App\Board\Controllers\BoardController@get_board')->middleware(['cors', 'auth:api']);
 Route::post('/api/board/{id?}', '\App\Board\Controllers\BoardController@update_board')->middleware(['cors', 'auth:api']);
+Route::get('/api/board/preview/{id}', '\App\Board\Controllers\BoardController@get_board_for_preview')->middleware(['cors']);
