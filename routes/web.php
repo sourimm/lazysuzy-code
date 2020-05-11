@@ -123,7 +123,3 @@ Route::post('/api/board/asset/{id?}', '\App\Board\Controllers\BoardController@up
 
 Route::get('/api/board/{id?}', '\App\Board\Controllers\BoardController@get_board')->middleware(['cors', 'auth:api']);
 Route::post('/api/board/{id?}', '\App\Board\Controllers\BoardController@update_board')->middleware(['cors', 'auth:api']);
-
-Route::get('/api/test', function() {
-    echo asset('storage/test.txt');
-});

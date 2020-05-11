@@ -208,8 +208,8 @@ class Payment extends Model
             // get card details for sending in email reciept
             $card = Stripe\Token::retrieve($req->input('token'));
             $mail_data['card'] = [
-                'last4' => $card->last4,
-                'expiry' => $card->exp_month . '/' . $card->exp_year
+                'last4' => $card['last4'],
+                'expiry' => $card['exp_month'] . '/' . $card['exp_year']
             ];
             $mail_data['shipping_details'] = $delivery_details;
             $mail_data['order_id'] = $order_id;
@@ -238,7 +238,8 @@ class Payment extends Model
             'transaction_id' => isset($charge->id) ? $charge->id : null,
             'reciept_url' => isset($charge->receipt_url) ? $charge->receipt_url : null,
             'order' => $req->all(),
-            'receipt_send' => $receipt_send
+            'receipt_send' => $receipt_send,
+            'mail_data' => $mail_data
         ];
     }
 
