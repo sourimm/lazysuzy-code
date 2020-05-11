@@ -16,7 +16,7 @@ class CreateBoardTables extends Migration
         Schema::create('board', function (Blueprint $table) {
             $table->increments('board_id');
             $table->integer('user_id')->unsigned();
-            $table->string('uuid', 32);
+            $table->string('uuid', 50);
             $table->json('state')->nullable();
             $table->string('title')->nullable();
             $table->text('preview')->nullable();

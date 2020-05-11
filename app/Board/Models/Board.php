@@ -13,7 +13,7 @@ class Board extends Model
   protected $table = 'board';
   protected $primaryKey = 'board_id';
   protected $primarySearchKey = 'uuid';
-  protected $fillable = ['state', 'title', 'preview', 'is_active'];   
+  protected $fillable = ['state', 'title', 'preview', 'type_room', 'type_style', 'type_privacy', 'is_private', 'is_active'];   
   
   protected static function boot() {
     parent::boot();
