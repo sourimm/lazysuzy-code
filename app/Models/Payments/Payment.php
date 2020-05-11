@@ -204,6 +204,15 @@ class Payment extends Model
             $ID = DB::table('lz_order_delivery')
                 ->insertGetId($delivery_details);
             $customer_name = $req->input('billing_f_Name');
+
+            // get card details for sending in email reciept
+            $card = Stripe\Token::retrieve($req->input('token'));
+            $mail_data['card'] = [
+                'last4' => $card->last4,
+                'expiry' => $card->exp_month . '/' . $card->exp_year
+            ];
+            $mail_data['shipping_details'] = $delivery_details;
+            $mail_data['order_id'] = $order_id;
             $receipt_send = Mailer::send_receipt($req->input('email'), $customer_name, $mail_data);
             
             if(!$receipt_send['status']) {
@@ -216,6 +225,8 @@ class Payment extends Model
                             'error' => $receipt_send['error']
                         ]);
             }
+
+            
             
         }
 
