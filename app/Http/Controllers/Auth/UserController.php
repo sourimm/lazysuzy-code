@@ -72,7 +72,7 @@ class UserController extends Controller
         
         }
     }
-    public function login()
+    public function login($email = null, $pass = null)
     {
         if (Auth::attempt(['email' => request('email'), 'password' => request('password')])) {
             $user = Auth::user();
@@ -234,9 +234,15 @@ class UserController extends Controller
               'email' => ['required', 'string', 'email', 'max:255', 'unique:users']
               ]);
           
-          if ($validator->fails()) 
+          if ($validator->fails()) {
+
+            $failedRules = $validator->failed();
+            if (isset($failedRules['email']['Unique'])) {
+              return $this->login($data['email'], $data['password']);
+            }
+            
             return response()->json(['error' => $validator->errors()], 401);
-          
+          }
             $user->password = Hash::make($data['password']);
         }
         
