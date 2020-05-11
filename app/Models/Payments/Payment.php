@@ -239,7 +239,8 @@ class Payment extends Model
             'reciept_url' => isset($charge->receipt_url) ? $charge->receipt_url : null,
             'order' => $req->all(),
             'receipt_send' => $receipt_send,
-            'mail_data' => $mail_data
+            'mail_data' => $mail_data,
+            'card' => $card
         ];
     }
 

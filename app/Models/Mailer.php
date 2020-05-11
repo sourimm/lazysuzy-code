@@ -111,7 +111,7 @@ class Mailer extends Mailable {
                         ]
                     ],
                     "dynamic_template_data" => $mail_data,
-                "subject"=> $to_name . ", " . $subject
+                    "subject"=> $to_name . ", " . $subject
                 ]
             ],
             "from"=> [
