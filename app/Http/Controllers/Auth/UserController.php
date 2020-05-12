@@ -76,12 +76,12 @@ class UserController extends Controller
     {
         $user_email = $email;
         $user_pass = $pass;
-        if($user_email == NULL && $user_pass == NULL) {
+        if($user_email == null && $user_pass == null) {
           $user_email = request('email');
           $user_pass = request('password');
         }
 
-        if (Auth::attempt(['email' => $user_email, 'password' => $user_pass])) {
+        if (Auth::check(['email' => $user_email, 'password' => $user_pass, false, false])) {
             $user = Auth::user();
             $success['token'] =  $user->createToken('Laravel Personal Access Client')->accessToken;
             return response()->json([
@@ -172,7 +172,8 @@ class UserController extends Controller
     public function logout(Request $request) 
     {
 
-        $value = $request->bearerToken();
+
+        $value = $token == null ? $request->bearerToken() : $token;
         $tokenId = (new \Lcobucci\JWT\Parser())->parse($value)->getHeader('jti');
         $token = $request->user()->tokens->find($tokenId);
        
