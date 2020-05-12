@@ -184,7 +184,7 @@ class UserController extends Controller
         
         Auth::logout();
         $_COOKIE['__user_id'] = NULL;
-        return response()->json([true], 204);
+        return response()->json(['status' => true], 204);
     }
 
     /** 
