@@ -72,16 +72,9 @@ class UserController extends Controller
         
         }
     }
-    public function login($email = null, $pass = null)
+    public function login()
     {
-        $user_email = $email;
-        $user_pass = $pass;
-        if($user_email == null && $user_pass == null) {
-          $user_email = request('email');
-          $user_pass = request('password');
-        }
-
-        if (Auth::check(['email' => $user_email, 'password' => $user_pass, false, false])) {
+        if (Auth::attempt(['email' => request('email'), 'password' => request('password')])) {
             $user = Auth::user();
             $success['token'] =  $user->createToken('Laravel Personal Access Client')->accessToken;
             return response()->json([
@@ -172,7 +165,6 @@ class UserController extends Controller
     public function logout(Request $request) 
     {
 
-
         $value = $request->bearerToken();
         $tokenId = (new \Lcobucci\JWT\Parser())->parse($value)->getHeader('jti');
         $token = $request->user()->tokens->find($tokenId);
@@ -247,11 +239,12 @@ class UserController extends Controller
             if (isset($failedRules['email']['Unique'])) {
               // future feature addition -- 
               // change the guest user ID to real user ID for corrections in the order related tables
-              $this->logout($request);
-              return $this->login($data['email'], $data['password']);
+              return [
+                'msg' => 'email already taken'
+              ];
             }
 
-              return response()->json(['error' => $validator->errors()], 401);
+            return response()->json(['error' => $validator->errors()], 401);
           }
             $user->password = Hash::make($data['password']);
             $user->email = $data['email'];
