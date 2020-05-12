@@ -60,7 +60,7 @@ Route::get('login/{driver}/callback', 'Auth\LoginController@handleProviderCallba
 *   API ROUTES
 */
 
-Route::post('/api/login', 'Auth\UserController@login');
+Route::post('/api/login', 'Auth\UserController@login')->name('login');
 Route::post('/api/register', 'Auth\UserController@register');
 Route::post('/api/user/update', 'Auth\UserController@update')->middleware('auth:api');
 Route::get('/api/logout', 'Auth\UserController@logout');
