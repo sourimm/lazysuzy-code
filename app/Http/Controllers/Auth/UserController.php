@@ -210,7 +210,7 @@ class UserController extends Controller
           $user->name = $data['name'];
         }
         
-        if(isset($data['email'])){
+        if(isset($data['email']) && !isset($data['password'])){
           $validator = Validator::make($data, ['email' => ['required', 'string', 'email', 'max:255', 'unique:users']]);
           
           if ($validator->fails())
@@ -228,22 +228,26 @@ class UserController extends Controller
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users']
           ]);
 
-                if ($validator->fails()) {
-                    if (isset($data['password'])) {
-                        $creds = $request->only('email', 'password');
-                        if (Auth::guard('web')->attempt(['email' => $data['email'], 'password' => $data['password']], false, false)) {
+            if ($validator->fails()) {
+                if (isset($data['password'])) {
+                    $creds = $request->only('email', 'password');
+                    if (Auth::guard('web')->attempt(['email' => $data['email'], 
+                            'password' => $data['password']], false, false)) {
 
-                            // change the userID in order table to new user's userID here.
-                            $user = Auth::guard('web')->user();
-                            $success['token'] =  $user->createToken('Laravel Personal Access Client')->accessToken;
-                            return response()->json([
-                                'success' => $success,
-                                'user' => $user
-                            ], 200);
-                        }
+                        // change the userID in order table to new user's userID here.
+                        $user = Auth::guard('web')->user();
+                        $success['token'] =  $user->createToken('Laravel Personal Access Client')->accessToken;
+                        return response()->json([
+                            'success' => $success,
+                            'user' => $user
+                        ], 200);
                     }
-                    return response()->json(['error' => $validator->errors()], 401);
-                }
+                    else {
+                        return response()->json(['error' => 'Unauthorised'], 401);
+                    }
+            }
+            return response()->json(['error' => $validator->errors()], 401);
+        }
 
             $user->password = Hash::make($data['password']);
         }
