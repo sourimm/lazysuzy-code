@@ -247,6 +247,7 @@ class UserController extends Controller
             if (isset($failedRules['email']['Unique'])) {
               // future feature addition -- 
               // change the guest user ID to real user ID for corrections in the order related tables
+              $this->logout($request);
               return $this->login($data['email'], $data['password']);
             }
 
