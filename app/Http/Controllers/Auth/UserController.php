@@ -213,14 +213,14 @@ class UserController extends Controller
           $user->name = $data['name'];
         }
         
-        if(isset($data['email'])) {
-          $validator = Validator::make($data, ['email' => ['required', 'string', 'email', 'max:255', 'unique:users']]);
+        /* if(isset($data['email'])) {
+          $validator = Validator::make($data, ['email' => ['required', 'string', 'email', 'max:255']]);
           
           if ($validator->fails())
             return response()->json(['error' => $validator->errors()], 401);
           
           $user->email = $data['email'];
-        }
+        } */
         
         // set the password only if it does not already exists and email is unique 
         if(isset($data['password']) && empty($user->password) && $user->user_type == config('user.user_type.guest')){
@@ -228,7 +228,6 @@ class UserController extends Controller
           // injecting email in validator to check for unique users
           // here email is definatly present in the user object 
           // because a previous call would have set it 
-          $data['email'] = $user->email;
           $validator = Validator::make($data, [
               'password' => ['required', 'string', 'min:8'],
               'email' => ['required', 'string', 'email', 'max:255', 'unique:users']
@@ -238,12 +237,15 @@ class UserController extends Controller
 
             $failedRules = $validator->failed();
             if (isset($failedRules['email']['Unique'])) {
+              // future feature addition -- 
+              // change the guest user ID to real user ID for corrections in the order related tables
               return $this->login($data['email'], $data['password']);
             }
             
-            return response()->json(['error' => $validator->errors()], 401);
+              return response()->json(['error' => $validator->errors()], 401);
           }
             $user->password = Hash::make($data['password']);
+            $user->email = $data['email'];
         }
         
         // if both email and password exist for user change its type
