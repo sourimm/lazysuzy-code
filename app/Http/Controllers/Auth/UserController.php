@@ -184,7 +184,7 @@ class UserController extends Controller
         
         Auth::logout();
         $_COOKIE['__user_id'] = NULL;
-        return response()->json(true, 204);
+        return response()->json([true], 204);
     }
 
     /** 
@@ -222,10 +222,23 @@ class UserController extends Controller
         // set the password only if does not already exists
         if(isset($data['password']) && empty($user->password) && $user->user_type == config('user.user_type.guest')){
           $validator = Validator::make($data, ['password' => ['required', 'string', 'min:8']]);
-          
-          if ($validator->fails())
+
+          $validator = Validator::make($data, [
+            'password' => ['required', 'string', 'min:8'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users']
+          ]);
+
+          if ($validator->fails()) {
+
+            $failedRules = $validator->failed();
+            if (isset($failedRules['email']['Unique'])) {
+              // future feature addition -- 
+              // change the guest user ID to real user ID for corrections in the order related tables
+              
+            }
+
             return response()->json(['error' => $validator->errors()], 401);
-          
+          }
             $user->password = Hash::make($data['password']);
         }
         
