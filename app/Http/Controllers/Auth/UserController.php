@@ -74,7 +74,14 @@ class UserController extends Controller
     }
     public function login($email = null, $pass = null)
     {
-        if (Auth::attempt(['email' => request('email'), 'password' => request('password')])) {
+        $user_email = $email;
+        $user_pass = $pass;
+        if($user_email == NULL && $user_pass == NULL) {
+          $user_email = request('email');
+          $user_pass = request('password');
+        }
+
+        if (Auth::attempt(['email' => $user_email, 'password' => $user_pass])) {
             $user = Auth::user();
             $success['token'] =  $user->createToken('Laravel Personal Access Client')->accessToken;
             return response()->json([
@@ -241,7 +248,7 @@ class UserController extends Controller
               // change the guest user ID to real user ID for corrections in the order related tables
               return $this->login($data['email'], $data['password']);
             }
-            
+
               return response()->json(['error' => $validator->errors()], 401);
           }
             $user->password = Hash::make($data['password']);
