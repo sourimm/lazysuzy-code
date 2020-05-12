@@ -173,7 +173,7 @@ class UserController extends Controller
     {
 
 
-        $value = $token == null ? $request->bearerToken() : $token;
+        $value = $request->bearerToken();
         $tokenId = (new \Lcobucci\JWT\Parser())->parse($value)->getHeader('jti');
         $token = $request->user()->tokens->find($tokenId);
        
