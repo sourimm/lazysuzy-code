@@ -237,11 +237,18 @@ class UserController extends Controller
 
             $failedRules = $validator->failed();
             if (isset($failedRules['email']['Unique'])) {
-              // future feature addition -- 
-              // change the guest user ID to real user ID for corrections in the order related tables
-              return [
-                'msg' => 'email already taken'
-              ];
+            // future feature addition -- 
+            // change the guest user ID to real user ID for corrections in the order related tables
+            if (Auth::attempt(['email' => request('email'), 'password' => request('password')])) {
+              $user = Auth::user();
+              $success['token'] =  $user->createToken('Laravel Personal Access Client')->accessToken;
+              return response()->json([
+                'success' => $success,
+                'user' => $user
+              ], $this->successStatus);
+            } else {
+              return response()->json(['error' => 'Unauthorised'], 401);
+            }
             }
 
             return response()->json(['error' => $validator->errors()], 401);
