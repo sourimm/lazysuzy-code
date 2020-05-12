@@ -198,12 +198,9 @@ class UserController extends Controller
         return response()->json(['success' => $user], $this->successStatus);
     }
     
-    public function update(Request $request) {
+    public function update(Request $request){
       $data = $request->all();
-      // this will pass for guest users also, user_type is the column
-      // that needs to be used to identify the current user as guest or 
-      // registered user
-      if(Auth::check()) {
+      if(Auth::check()){
         $user = Auth::user();
         
         if(isset($data['name'])){
@@ -213,55 +210,30 @@ class UserController extends Controller
           $user->name = $data['name'];
         }
         
-        /* if(isset($data['email'])) {
-          $validator = Validator::make($data, ['email' => ['required', 'string', 'email', 'max:255']]);
+        if(isset($data['email'])){
+          $validator = Validator::make($data, ['email' => ['required', 'string', 'email', 'max:255', 'unique:users']]);
           
           if ($validator->fails())
             return response()->json(['error' => $validator->errors()], 401);
           
           $user->email = $data['email'];
-        } */
+        }
         
-        // set the password only if it does not already exists and email is unique 
+        // set the password only if does not already exists
         if(isset($data['password']) && empty($user->password) && $user->user_type == config('user.user_type.guest')){
+          $validator = Validator::make($data, ['password' => ['required', 'string', 'min:8']]);
           
-          // injecting email in validator to check for unique users
-          // here email is definatly present in the user object 
-          // because a previous call would have set it 
-          $validator = Validator::make($data, [
-              'password' => ['required', 'string', 'min:8'],
-              'email' => ['required', 'string', 'email', 'max:255', 'unique:users']
-              ]);
-          
-          if ($validator->fails()) {
-
-            $failedRules = $validator->failed();
-            if (isset($failedRules['email']['Unique'])) {
-            // future feature addition -- 
-            // change the guest user ID to real user ID for corrections in the order related tables
-            if (Auth::attempt(['email' => request('email'), 'password' => request('password')])) {
-              $user = Auth::user();
-              $success['token'] =  $user->createToken('Laravel Personal Access Client')->accessToken;
-              return response()->json([
-                'success' => $success,
-                'user' => $user
-              ], $this->successStatus);
-            } else {
-              return response()->json(['error' => 'Unauthorised'], 401);
-            }
-            }
-
+          if ($validator->fails())
             return response()->json(['error' => $validator->errors()], 401);
-          }
+          
             $user->password = Hash::make($data['password']);
-            $user->email = $data['email'];
         }
         
         // if both email and password exist for user change its type
         if(!empty($user->email) && !empty($user->password) && $user->user_type == config('user.user_type.guest'))
           $user->user_type = config('user.user_type.default');
           
-        if($user->update()){
+        if($user->update()) {
           $success['token'] =  $user->createToken('lazysuzy-web')->accessToken;
           $success['user'] =  $user;
           return response()->json(['success' => $success], $this->successStatus);
