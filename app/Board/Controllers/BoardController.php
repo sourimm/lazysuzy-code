@@ -104,7 +104,7 @@ class BoardController extends Controller
       Storage::put($filename, $content);
       $path = Storage::putFile('public', new File(storage_path('app') .DIRECTORY_SEPARATOR. $filename));
       Storage::delete($filename);
-      return $path;
+      return Storage::url($path);
     }
 
     
