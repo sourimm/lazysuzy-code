@@ -11,6 +11,7 @@ use Illuminate\Support\Str;
 use App\Models\Mailer;
 use Stripe;
 use Auth;
+use Exception;
 
 class Payment extends Model
 {
@@ -146,89 +147,120 @@ class Payment extends Model
                 'checkout_amount' => $total_price,
                 'status' => 'ongoing',
             ]);
+        
+        $errors = [];
+        try{
+            $charge = Stripe\Charge::create([
+                'customer' => $customer->id,
+                "amount" => $total_price * 100,
+                "currency" => "usd",
+                "description" => "Payment from Lazysuzy.com",
+                'receipt_email' => $req->input('email'),
+                'shipping' => [
+                    'address' => [
+                        'line1' => $req->input('shipping_address_line1'),
+                        'city' => $req->input('shipping_city'),
+                        'state' => $req->input('shipping_state'),
+                        'country' => substr($req->input('billing_country'), 0, 2),
+                        'postal_code' => $req->input('shipping_zipcode'),
+                    ],
+                    'name' => $req->input('shipping_f_Name') . ' ' . $req->input('shipping_l_Name'),
+                    'phone' => $req->input('shipping_phone')
+                ]
 
-        $charge = Stripe\Charge::create([
-            'customer' => $customer->id,
-            "amount" => $total_price * 100,
-            "currency" => "usd",
-            "description" => "Payment from Lazysuzy.com",
-            'receipt_email' => $req->input('email'),
-            'shipping' => [
-                'address' => [
-                    'line1' => $req->input('shipping_address_line1'),
-                    'city' => $req->input('shipping_city'),
-                    'state' => $req->input('shipping_state'),
-                    'country' => substr($req->input('billing_country'), 0, 2),
-                    'postal_code' => $req->input('shipping_zipcode'),
-                ],
-                'name' => $req->input('shipping_f_Name') . ' ' . $req->input('shipping_l_Name'),
-                'phone' => $req->input('shipping_phone')
-            ]
-
-        ]);
-
-        DB::table('lz_transactions')
-            ->where('order_id', $order_id)
-            ->update([
-                'stripe_transaction_id' => $charge->id,
-                'status' => $charge->status
             ]);
 
-        if ($charge->status == 'succeeded') {
-            // remove from stock;
-            foreach ($cart as $product) {
-                $p = $product;
-                $in_stock = DB::table('lz_inventory')
-                    ->select("quantity")
-                    ->where("product_sku", $p->product_sku)
-                    ->get();
+            DB::table('lz_transactions')
+                ->where('order_id', $order_id)
+                ->update([
+                    'stripe_transaction_id' => $charge->id,
+                    'status' => $charge->status
+                ]);
 
-                if (isset($in_stock[0])) {
-                    $original_count = $in_stock[0]->quantity;
-                    $left_count = $original_count - $p->count;
+            if ($charge->status == 'succeeded') {
+                // remove from stock;
+                foreach ($cart as $product) {
+                    $p = $product;
+                    $in_stock = DB::table('lz_inventory')
+                        ->select("quantity")
+                        ->where("product_sku", $p->product_sku)
+                        ->get();
 
-                    Cart::remove($p->product_sku, $p->count);
+                    if (isset($in_stock[0])) {
+                        $original_count = $in_stock[0]->quantity;
+                        $left_count = $original_count - $p->count;
 
-                    DB::table('lz_inventory')
-                        ->where('product_sku', $p->product_sku)
-                        ->update([
-                            'quantity' => $left_count
+                        Cart::remove($p->product_sku, $p->count);
+
+                        DB::table('lz_inventory')
+                            ->where('product_sku', $p->product_sku)
+                            ->update([
+                                'quantity' => $left_count
+                            ]);
+                    }
+                }
+
+                $delivery_details = $req->all();
+                $delivery_details['order_id'] = $order_id;
+                $delivery_details['user_id'] = $user_id;
+                $ID = DB::table('lz_order_delivery')
+                    ->insertGetId($delivery_details);
+                $customer_name = $req->input('billing_f_Name');
+
+                // get card details for sending in email reciept
+                $card = Stripe\Token::retrieve($req->input('token'));
+                $mail_data['card'] = [
+                    'last4' => $card->card->last4,
+                    'expiry' => $card->card->exp_month . '/' . $card->card->exp_year
+                ];
+                $mail_data['shipping_details'] = $delivery_details;
+                $mail_data['order_id'] = $order_id;
+                $receipt_send = Mailer::send_receipt($req->input('email'), $customer_name, $mail_data);
+
+                if (!$receipt_send['status']) {
+                    // save this order in DB to send the 
+                    // mail later
+                    DB::table(Payment::$failed_reciepts)
+                        ->insert([
+                            'email' => $req->input('email'),
+                            'mail_data' => json_encode($mail_data),
+                            'error' => $receipt_send['error']
                         ]);
                 }
+
             }
-
-            $delivery_details = $req->all();
-            $delivery_details['order_id'] = $order_id;
-            $delivery_details['user_id'] = $user_id;
-            $ID = DB::table('lz_order_delivery')
-                ->insertGetId($delivery_details);
-            $customer_name = $req->input('billing_f_Name');
-
-            // get card details for sending in email reciept
-            $card = Stripe\Token::retrieve($req->input('token'));
-            $mail_data['card'] = [
-                'last4' => $card->card->last4,
-                'expiry' => $card->card->exp_month . '/' . $card->card->exp_year
+            
+        } catch (Stripe\Exception\CardException $e) {
+            // Since it's a decline, \Stripe\Exception\CardException will be caught
+           $errors = [
+                'status' => $e->getHttpStatus(),
+                'type' => $e->getError()->type,
+                'code' => $e->getError()->code,
+                'message' => $e->getError()->message
+           ];
+        } catch (Stripe\Exception\RateLimitException $e) {
+            // Too many requests made to the API too quickly
+            $errors = [
+                'status' => $e->getHttpStatus(),
+                'message' => 'Rate Limit Exceeded. You can not make a Payment of this amount',
             ];
-            $mail_data['shipping_details'] = $delivery_details;
-            $mail_data['order_id'] = $order_id;
-            $receipt_send = Mailer::send_receipt($req->input('email'), $customer_name, $mail_data);
-
-            if (!$receipt_send['status']) {
-                // save this order in DB to send the 
-                // mail later
-                DB::table(Payment::$failed_reciepts)
-                    ->insert([
-                        'email' => $req->input('email'),
-                        'mail_data' => json_encode($mail_data),
-                        'error' => $receipt_send['error']
-                    ]);
-            }
+        } catch (Stripe\Exception\InvalidRequestException $e) {
+            // Invalid parameters were supplied to Stripe's API
+        } catch (Stripe\Exception\AuthenticationException $e) {
+            // Authentication with Stripe's API failed
+            // (maybe you changed API keys recently)
+        } catch (Stripe\Exception\ApiConnectionException $e) {
+            // Network communication with Stripe failed
+        } catch (Stripe\Exception\ApiErrorException $e) {
+            // Display a very generic error to the user, and maybe send
+            // yourself an email
+        } catch (Exception $e) {
+            // Something else happened, completely unrelated to Stripe
         }
 
         return [
-            'status' => $charge->status,
-            'charge' => $charge,
+            'status' => 'failed',
+            'errors' => $errors,
             'order_id' => $order_id,
             'amount' => $total_price,
             'transaction_id' => isset($charge->id) ? $charge->id : null,
@@ -238,6 +270,8 @@ class Payment extends Model
             'mail_data' => $mail_data,
             'card' => $card
         ];
+
+        
     }
 
     public static function order($order_id)
