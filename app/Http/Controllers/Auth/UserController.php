@@ -211,58 +211,23 @@ class UserController extends Controller
                 $user->name = $data['name'];
             }
 
-            if (isset($data['email']) && !isset($data['password'])) {
+            if (isset($data['email'])) {
                 $validator = Validator::make($data, ['email' => ['required', 'string', 'email', 'max:255', 'unique:users']]);
 
                 if ($validator->fails())
                     return response()->json(['error' => $validator->errors()], 401);
 
                 $user->email = $data['email'];
-                $success['token'] =  $user->createToken('lazysuzy-web')->accessToken;
-                return response()->json(['success' => $success, 'user' => $user], $this->successStatus);
             }
 
             // set the password only if does not already exists
             if (isset($data['password']) && empty($user->password) && $user->user_type == config('user.user_type.guest')) {
                 $validator = Validator::make($data, ['password' => ['required', 'string', 'min:8']]);
 
-                $validator = Validator::make($data, [
-                    'password' => ['required', 'string', 'min:8'],
-                    'email' => ['required', 'string', 'email', 'max:255', 'unique:users']
-                ]);
-
-                if ($validator->fails()) {
-
-                    $failedRules = $validator->failed();
-
-                    if (isset($failedRules['email']['Unique'])) {
-
-
-                        if (isset($data['password'])) {
-
-                            $creds = $request->only('email', 'password');
-                            if (Auth::guard('web')->attempt([
-                                'email' => $data['email'],
-                                'password' => $data['password']
-                            ], false, false)) {
-
-                                // change the userID in order table to new user's userID here.
-                                $user = Auth::guard('web')->user();
-                                $success['token'] =  $user->createToken('Laravel Personal Access Client')->accessToken;
-                                return response()->json([
-                                    'success' => $success,
-                                    'user' => $user
-                                ], 200);
-                            } else {
-                                return response()->json(['error' => 'Unauthorised'], 401);
-                            }
-                        }
-                    }
+                if ($validator->fails())
                     return response()->json(['error' => $validator->errors()], 401);
-                }
 
                 $user->password = Hash::make($data['password']);
-                $user->email = $data['email'];
             }
 
             // if both email and password exist for user change its type
@@ -271,8 +236,8 @@ class UserController extends Controller
 
             if ($user->update()) {
                 $success['token'] =  $user->createToken('lazysuzy-web')->accessToken;
-
-                return response()->json(['success' => $success, 'user' => $user], $this->successStatus);
+                $success['user'] =  $user;
+                return response()->json(['success' => $success], $this->successStatus);
             } else
                 return response()->json(['error' => ['error' => "unknown error"]], 401);
         }
