@@ -228,7 +228,7 @@ class Payment extends Model
 
         return [
             'status' => $charge->status,
-            'msg' => 'Transaction Successfull',
+            'charge' => $charge,
             'order_id' => $order_id,
             'amount' => $total_price,
             'transaction_id' => isset($charge->id) ? $charge->id : null,
