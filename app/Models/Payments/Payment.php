@@ -121,35 +121,36 @@ class Payment extends Model
         $mail_data['shipping'] = '$' . $shipment_cost;
         $mail_data['order_cost'] = '$' . $total_price;
 
-        Stripe\Stripe::setApiKey(env('STRIP_SECRET'));
-
-        $customer = Stripe\Customer::create([
-            'name' => $req->input('billing_f_Name') . ' ' . $req->input('billing_l_Name'),
-            'address' => [
-                'line1' => $req->input('billing_address_line1'),
-                'city' => $req->input('billing_city'),
-                'state' => $req->input('billing_state'),
-                'country' => substr($req->input('billing_country'), 0, 2),
-                'postal_code' => $req->input('billing_zipcode'),
-            ],
-            'email' => $req->input('email'),
-            'phone' => $req->input('shipping_phone'),
-            "source" => $req->input('token')
-        ]);
-
-        // insert record for transaction
-        DB::table('lz_transactions')
-            ->insert([
-                'user_id' => $user_id,
-                'stripe_customer_id' => $customer->id,
-                'stripe_transaction_id' => "ongoing",
-                'order_id' => $order_id,
-                'checkout_amount' => $total_price,
-                'status' => 'ongoing',
-            ]);
         
         $errors = [];
         try{
+            Stripe\Stripe::setApiKey(env('STRIP_SECRET'));
+
+            $customer = Stripe\Customer::create([
+                'name' => $req->input('billing_f_Name') . ' ' . $req->input('billing_l_Name'),
+                'address' => [
+                    'line1' => $req->input('billing_address_line1'),
+                    'city' => $req->input('billing_city'),
+                    'state' => $req->input('billing_state'),
+                    'country' => substr($req->input('billing_country'), 0, 2),
+                    'postal_code' => $req->input('billing_zipcode'),
+                ],
+                'email' => $req->input('email'),
+                'phone' => $req->input('shipping_phone'),
+                "source" => $req->input('token')
+            ]);
+
+            // insert record for transaction
+            DB::table('lz_transactions')
+                ->insert([
+                    'user_id' => $user_id,
+                    'stripe_customer_id' => $customer->id,
+                    'stripe_transaction_id' => "ongoing",
+                    'order_id' => $order_id,
+                    'checkout_amount' => $total_price,
+                    'status' => 'ongoing',
+                ]);
+        
             $charge = Stripe\Charge::create([
                 'customer' => $customer->id,
                 "amount" => $total_price * 100,
