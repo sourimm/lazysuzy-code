@@ -144,7 +144,7 @@ class Product extends Model
 
 
         $all_filters = [];
-        $query       = DB::table('master_data');
+        $query       = DB::table('master_data')->where('product_status', 'active');
 
         if (isset($sort_type)) {
             for ($i = 0; $i < sizeof($sort_type_filter); $i++) {

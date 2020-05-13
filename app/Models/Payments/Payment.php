@@ -121,9 +121,9 @@ class Payment extends Model
         $mail_data['shipping'] = '$' . $shipment_cost;
         $mail_data['order_cost'] = '$' . $total_price;
 
-        
+
         $errors = [];
-        try{
+        try {
             Stripe\Stripe::setApiKey(env('STRIP_SECRET'));
 
             $customer = Stripe\Customer::create([
@@ -150,7 +150,7 @@ class Payment extends Model
                     'checkout_amount' => $total_price,
                     'status' => 'ongoing',
                 ]);
-        
+
             $charge = Stripe\Charge::create([
                 'customer' => $customer->id,
                 "amount" => $total_price * 100,
@@ -229,21 +229,45 @@ class Payment extends Model
                         ]);
                 }
 
+                return [
+                    'status' => $charge->status,
+                    'order_id' => $order_id,
+                    'amount' => $total_price,
+                    'transaction_id' => isset($charge->id) ? $charge->id : null,
+                    'reciept_url' => isset($charge->receipt_url) ? $charge->receipt_url : null,
+                    'order' => $req->all(),
+                    'receipt_send' => $receipt_send,
+                    'mail_data' => $mail_data,
+                    'card' => $card
+                ];
             }
-            
         } catch (Stripe\Exception\CardException $e) {
             // Since it's a decline, \Stripe\Exception\CardException will be caught
-           $errors = [
+            $errors = [
                 'status' => $e->getHttpStatus(),
                 'type' => $e->getError()->type,
                 'code' => $e->getError()->code,
                 'message' => $e->getError()->message
-           ];
+            ];
+
+            return [
+                'status' => 'failed',
+                'errors' => $errors,
+                'order_id' => $order_id,
+            ];
         } catch (Stripe\Exception\RateLimitException $e) {
             // Too many requests made to the API too quickly
             $errors = [
                 'status' => $e->getHttpStatus(),
-                'message' => 'Rate Limit Exceeded. You can not make a Payment of this amount',
+                'type' => $e->getError()->type,
+                'code' => $e->getError()->code,
+                'message' => 'Rate Limit Exceeded. You can not make a payment of this amount',
+            ];
+
+            return [
+                'status' => 'failed',
+                'errors' => $errors,
+                'order_id' => $order_id,
             ];
         } catch (Stripe\Exception\InvalidRequestException $e) {
             // Invalid parameters were supplied to Stripe's API
@@ -257,22 +281,17 @@ class Payment extends Model
             // yourself an email
         } catch (Exception $e) {
             // Something else happened, completely unrelated to Stripe
+            $errors = [
+                'status' => 402,
+                'message' => $e->getMessage(),
+            ];
+
+            return [
+                'status' => 'failed',
+                'errors' => $errors,
+                'order_id' => $order_id,
+            ];
         }
-
-        return [
-            'status' => 'failed',
-            'errors' => $errors,
-            'order_id' => $order_id,
-            'amount' => $total_price,
-            'transaction_id' => isset($charge->id) ? $charge->id : null,
-            'reciept_url' => isset($charge->receipt_url) ? $charge->receipt_url : null,
-            'order' => $req->all(),
-            'receipt_send' => $receipt_send,
-            'mail_data' => $mail_data,
-            'card' => $card
-        ];
-
-        
     }
 
     public static function order($order_id)
