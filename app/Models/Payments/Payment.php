@@ -75,13 +75,8 @@ class Payment extends Model
             $ship_code = strtolower($product->ship_code);
 
             // if not free-shipping
-<<<<<<< HEAD
-            if($ship_code != 'f')
-                $shipment_cost += (float)($product->ship_custom * $product->count);
-=======
             if ($ship_code != 'f')
                 $shipment_cost += (float) ($product->ship_custom * $product->count);
->>>>>>> master
 
             $row = DB::table('lz_inventory')
                 ->select('quantity')
@@ -121,11 +116,7 @@ class Payment extends Model
             $shipment_cost = 0;
         }
 
-<<<<<<< HEAD
-        $total_price += $shipment_cost; 
-=======
         $total_price += $shipment_cost;
->>>>>>> master
         $mail_data['shipping'] = '$' . $shipment_cost;
         $mail_data['order_cost'] = '$' . $total_price;
 
@@ -233,12 +224,6 @@ class Payment extends Model
                         'error' => $receipt_send['error']
                     ]);
             }
-<<<<<<< HEAD
-
-            
-            
-=======
->>>>>>> master
         }
 
         return [
