@@ -32,6 +32,14 @@ class BoardController extends Controller
       return Asset::asset($id);
     }
     
+    public static function get_asset_for_preview() {
+      Auth::shouldUse('api');
+      return Asset::withoutGlobalScopes()
+              ->where('user_id', '=', Auth::check() ? Auth::id() : 0)
+              ->orWhere('is_private', '=', 0)
+              ->get();
+    }
+    
     public static function update_board(Request $request, $id = null) {
         $data = $request->all();
         
