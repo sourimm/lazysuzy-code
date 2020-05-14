@@ -821,7 +821,7 @@ class Product extends Model
             'was_price'        => str_replace("$", "", $product->was_price),
             'percent_discount' => $discount,
             'model_code'       => $product->model_code,
-            'seating'          => $product->seating,
+            'seating'          => isset($product->seating) ? $product->seating : null,
             //    'description'      => preg_split("/\\[US\\]|<br>|\\n/", $product->product_description),
             //    'dimension'        => $product->site_name == "cb2" ? Product::cb2_dimensions($product->product_dimension) : $product->product_dimension,
             //    'thumb'            => preg_split("/,|\\[US\\]/", $product->thumb),
