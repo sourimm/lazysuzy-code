@@ -23,8 +23,10 @@ class BoardController extends Controller
       Auth::shouldUse('api');
       return Board::withoutGlobalScopes()
               ->id($id)
-              ->where('user_id', '=', Auth::check() ? Auth::id() : 0)
-              ->orWhere('type_privacy', '>', 0)
+              ->where(function ($query) {
+                $query->orWhere('user_id', '=', Auth::check() ? Auth::id() : 0);
+                $query->orWhere('type_privacy', '>', 0);
+              })
               ->get();
     }
     
@@ -46,7 +48,7 @@ class BoardController extends Controller
         if($id){
           $board = Board::board($id);
           if($board){
-            if(isset($data['preview'])){
+            if(isset($data['preview']) && BoardController::is_base64_encoded($data['preview'])){
               $filename = "public/" . $id . '.png';
               if(Storage::put($filename, file_get_contents($data['preview'])))
                 $data['preview'] = Storage::url($filename);
@@ -113,6 +115,10 @@ class BoardController extends Controller
       $path = Storage::putFile('public', new File(storage_path('app') .DIRECTORY_SEPARATOR. $filename));
       Storage::delete($filename);
       return Storage::url($path);
+    }
+    
+    private static function is_base64_encoded($data) {
+      return (strpos($data, 'data:image/png;base64') === 0);
     }
 
     
