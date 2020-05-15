@@ -211,11 +211,21 @@ class Product extends Model
                     ->whereRaw('LS_ID REGEXP "' . implode("|", $all_filters['category']) . '"');
             }
 
-            if(isset($all_filters['seating'])
-                && isset($all_filters['seating'][0])) {
+            if(
+                isset($all_filters['seating'])
+                && isset($all_filters['seating'][0])
+            ) {
                 $query = $query
                     ->whereRaw('seating REGEXP "' . implode("|", $all_filters['seating']) . '"');
                 }
+
+            if (
+                isset($all_filters['shape'])
+                && isset($all_filters['shape'][0])
+            ) {
+                $query = $query
+                    ->whereRaw('shape REGEXP "' . implode("|", $all_filters['shape']) . '"');
+            }
         }
 
         // 4. type
@@ -407,10 +417,10 @@ class Product extends Model
 
     }
 
-/*     public static function get_shape_filter($dept, $cat, $all_filters) {
+     public static function get_shape_filter($dept, $cat, $all_filters) {
 
-        $all_seating = [];
-        $rows = DB::table("filter_map_seating")->get();
+        $all_shapes = [];
+        $rows = DB::table("master_data")->whereRaw('shape IS NOT NULL')->distinct()->get(['shape']);
         $LS_IDs = Product::get_dept_cat_LS_ID_arr($dept, $cat);
         if (sizeof($all_filters) != 0) {
             if (isset($all_filters['type']) && strlen($all_filters['type'][0]) > 0) {
@@ -418,20 +428,20 @@ class Product extends Model
             }
         }
         $products = DB::table("master_data")
-            ->selectRaw("count(product_name) AS products, seating")
+            ->selectRaw("count(product_name) AS products, shape")
             ->whereRaw('LS_ID REGEXP "' . implode("|", $LS_IDs) . '"');
 
-        if (isset($all_filters['seating']) && strlen($all_filters['seating'][0]) > 0) {
+        if (isset($all_filters['shape']) && strlen($all_filters['shape'][0]) > 0) {
 
-            $seatings = implode("|", $all_filters['seating']);
-            $products = $products->whereRaw('seating REGEXP "' . $seatings . '"');
+            $shapes = implode("|", $all_filters['shape']);
+            $products = $products->whereRaw('shape REGEXP "' . $shapes . '"');
         }
-        $products = $products->groupBy('seating')->get();
+        $products = $products->groupBy('shape')->get();
 
         foreach($rows as $row) {
-            $all_seating[$row->seating] = [
-                'seating' => $row->seating,
-                'value' => $row->seating,
+            $all_shapes[$row->shape] = [
+                'shape' => $row->shape,
+                'value' => $row->shape,
                 'count' => 0,
                 'enabled' => false,
                 'checked' => false
@@ -439,27 +449,27 @@ class Product extends Model
         }
 
         foreach ($products as $b) {
-            if (isset($all_seating[$b->seating])) {
-                $all_seating[$b->seating]["enabled"] = true;
-                if (isset($all_filters['seating'])) {
-                    if (in_array($b->seating, $all_filters['seating'])) {
-                        $all_seating[$b->seating]["checked"] = true;
+            if (isset($all_shapes[$b->shape])) {
+                $all_shapes[$b->shape]["enabled"] = true;
+                if (isset($all_filters['shape'])) {
+                    if (in_array($b->shape, $all_filters['shape'])) {
+                        $all_shapes[$b->shape]["checked"] = true;
                     }
                 }
-                
-                $all_seating[$b->seating]["count"] = $b->products;
+
+                $all_shapes[$b->shape]["count"] = $b->products;
             }
         }
 
-        $seating_holder = [];
+        $shapes_holder = [];
 
-        foreach ($all_seating as $name => $value) {
-            array_push($seating_holder, $value);
+        foreach ($all_shapes as $name => $value) {
+            array_push($shapes_holder, $value);
         }
 
-        return $seating_holder;
+        return $shapes_holder;
 
-    } */
+    }
 
     public static function get_brands_filter($dept, $cat, $all_filters)
     {
@@ -811,6 +821,7 @@ class Product extends Model
         $color_filter = Product::get_product_type_filter($dept, $cat, $subCat, $all_filters)['colorFilter'];
 
         $seating_filter = Product::get_seating_filter($dept, $cat, $all_filters);
+        $shape_filter = Product::get_shape_filter($dept, $cat, $all_filters);
 
         if ($dept == "all") {
             if (!isset($all_filters['category']))
@@ -826,7 +837,8 @@ class Product extends Model
             "type" => $product_type_holder,
             "color" => $color_filter,
             "category" => $dept == "all" ? $category_holder : null,
-            "seating" => $seating_filter
+            "seating" => $seating_filter,
+            "shape" => $shape_filter
         ];
 
         //$dept, $cat, $subCat
