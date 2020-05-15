@@ -211,10 +211,10 @@ class Product extends Model
                     ->whereRaw('LS_ID REGEXP "' . implode("|", $all_filters['category']) . '"');
             }
 
-            if(isset($all_filters['seatig'])
+            if(isset($all_filters['seating'])
                 && isset($all_filters['seating'][0])) {
                 $query = $query
-                    ->where('seating', $all_filters['seating'][0]); 
+                    ->whereRaw('seating REGEXP "' . implode("|", $all_filters['seating']) . '"');
                 }
         }
 
