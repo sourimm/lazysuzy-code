@@ -210,6 +210,12 @@ class Product extends Model
                 $query = $query
                     ->whereRaw('LS_ID REGEXP "' . implode("|", $all_filters['category']) . '"');
             }
+
+            if(isset($all_filters['seatig'])
+                && isset($all_filters['seating'][0])) {
+                $query = $query
+                    ->where('seating', $all_filters['seating'][0]); 
+                }
         }
 
         // 4. type
@@ -346,6 +352,115 @@ class Product extends Model
 
         return $filter_categories;
     }
+
+    public static function get_seating_filter($dept, $cat, $all_filters) {
+
+        $all_seating = [];
+        $rows = DB::table("filter_map_seating")->get();
+        $LS_IDs = Product::get_dept_cat_LS_ID_arr($dept, $cat);
+        if (sizeof($all_filters) != 0) {
+            if (isset($all_filters['type']) && strlen($all_filters['type'][0]) > 0) {
+                $LS_IDs = Product::get_sub_cat_LS_IDs($dept, $cat, $all_filters['type']);
+            }
+        }
+        $products = DB::table("master_data")
+            ->selectRaw("count(product_name) AS products, seating")
+            ->whereRaw('LS_ID REGEXP "' . implode("|", $LS_IDs) . '"');
+
+        if (isset($all_filters['seating']) && strlen($all_filters['seating'][0]) > 0) {
+
+            $seatings = implode("|", $all_filters['seating']);
+            $products = $products->whereRaw('seating REGEXP "' . $seatings . '"');
+        }
+        $products = $products->groupBy('seating')->get();
+
+        foreach($rows as $row) {
+            $all_seating[$row->seating] = [
+                'seating' => $row->seating,
+                'value' => $row->seating,
+                'count' => 0,
+                'enabled' => false,
+                'checked' => false
+            ];
+        }
+
+        foreach ($products as $b) {
+            if (isset($all_seating[$b->seating])) {
+                $all_seating[$b->seating]["enabled"] = true;
+                if (isset($all_filters['seating'])) {
+                    if (in_array($b->seating, $all_filters['seating'])) {
+                        $all_seating[$b->seating]["checked"] = true;
+                    }
+                }
+
+                $all_seating[$b->seating]["count"] = $b->products;
+            }
+        }
+
+        $seating_holder = [];
+
+        foreach ($all_seating as $name => $value) {
+            array_push($seating_holder, $value);
+        }
+
+        return $seating_holder;
+
+    }
+
+/*     public static function get_shape_filter($dept, $cat, $all_filters) {
+
+        $all_seating = [];
+        $rows = DB::table("filter_map_seating")->get();
+        $LS_IDs = Product::get_dept_cat_LS_ID_arr($dept, $cat);
+        if (sizeof($all_filters) != 0) {
+            if (isset($all_filters['type']) && strlen($all_filters['type'][0]) > 0) {
+                $LS_IDs = Product::get_sub_cat_LS_IDs($dept, $cat, $all_filters['type']);
+            }
+        }
+        $products = DB::table("master_data")
+            ->selectRaw("count(product_name) AS products, seating")
+            ->whereRaw('LS_ID REGEXP "' . implode("|", $LS_IDs) . '"');
+
+        if (isset($all_filters['seating']) && strlen($all_filters['seating'][0]) > 0) {
+
+            $seatings = implode("|", $all_filters['seating']);
+            $products = $products->whereRaw('seating REGEXP "' . $seatings . '"');
+        }
+        $products = $products->groupBy('seating')->get();
+
+        foreach($rows as $row) {
+            $all_seating[$row->seating] = [
+                'seating' => $row->seating,
+                'value' => $row->seating,
+                'count' => 0,
+                'enabled' => false,
+                'checked' => false
+            ];
+        }
+
+        foreach ($products as $b) {
+            if (isset($all_seating[$b->seating])) {
+                $all_seating[$b->seating]["enabled"] = true;
+                if (isset($all_filters['seating'])) {
+                    if (in_array($b->seating, $all_filters['seating'])) {
+                        $all_seating[$b->seating]["checked"] = true;
+                    }
+                }
+                
+                $all_seating[$b->seating]["count"] = $b->products;
+            }
+        }
+
+        $seating_holder = [];
+
+        foreach ($all_seating as $name => $value) {
+            array_push($seating_holder, $value);
+        }
+
+        return $seating_holder;
+
+    } */
+
     public static function get_brands_filter($dept, $cat, $all_filters)
     {
         $all_brands = [];
@@ -378,6 +493,7 @@ class Product extends Model
             $colors = implode("|", $all_filters['color']);
             $product_brands = $product_brands->whereRaw('color REGEXP "' . $colors . '"');
         }
+
         $product_brands = $product_brands->groupBy('site_name')->get();
 
         foreach ($product_brands as $b) {
@@ -694,6 +810,8 @@ class Product extends Model
         $product_type_holder = Product::get_product_type_filter($dept, $cat, $subCat, $all_filters)['productTypeFilter'];
         $color_filter = Product::get_product_type_filter($dept, $cat, $subCat, $all_filters)['colorFilter'];
 
+        $seating_filter = Product::get_seating_filter($dept, $cat, $all_filters);
+
         if ($dept == "all") {
             if (!isset($all_filters['category']))
                 $all_filters['category'] = [];
@@ -707,7 +825,8 @@ class Product extends Model
             "price"        => $price_holder,
             "type" => $product_type_holder,
             "color" => $color_filter,
-            "category" => $dept == "all" ? $category_holder : null
+            "category" => $dept == "all" ? $category_holder : null,
+            "seating" => $seating_filter
         ];
 
         //$dept, $cat, $subCat
