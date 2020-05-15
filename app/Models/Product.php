@@ -386,7 +386,7 @@ class Product extends Model
 
         foreach($rows as $row) {
             $all_seating[$row->seating] = [
-                'seating' => $row->seating,
+                'name' => $row->seating,
                 'value' => $row->seating,
                 'count' => 0,
                 'enabled' => false,
@@ -440,7 +440,7 @@ class Product extends Model
 
         foreach($rows as $row) {
             $all_shapes[$row->shape] = [
-                'shape' => $row->shape,
+                'name' => $row->shape,
                 'value' => $row->shape,
                 'count' => 0,
                 'enabled' => false,
