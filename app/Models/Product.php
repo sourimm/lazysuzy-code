@@ -1276,6 +1276,21 @@ class Product extends Model
             if ($isTrending) {
                 $data['description'] = in_array($product->name, $desc_BRANDS)  ? Product::format_desc_new($product->product_description) : preg_split("/\\[US\\]|<br>|\\n/", $product->product_description);
             }
+
+            // add inventory data here
+            $inventory_prod = DB::table('lz_inventory')
+                ->where('product_sku', $product->product_sku)
+                ->get();
+
+            if (isset($inventory_prod[0])) {
+                $data['in_inventory'] = true;
+                $data['inventory_product_details'] = [
+                    'price' => $inventory_prod[0]->price,
+                    'count' => $inventory_prod[0]->quantity,
+                ];
+            } else {
+                $data['in_inventory'] = false;
+            }
             return $data;
         }
     }
