@@ -210,6 +210,22 @@ class Product extends Model
                 $query = $query
                     ->whereRaw('LS_ID REGEXP "' . implode("|", $all_filters['category']) . '"');
             }
+
+            if (
+                isset($all_filters['seating'])
+                && isset($all_filters['seating'][0])
+            ) {
+                $query = $query
+                    ->whereRaw('seating REGEXP "' . implode("|", $all_filters['seating']) . '"');
+            }
+
+            if (
+                isset($all_filters['shape'])
+                && isset($all_filters['shape'][0])
+            ) {
+                $query = $query
+                    ->whereRaw('shape REGEXP "' . implode("|", $all_filters['shape']) . '"');
+            }
         }
 
         // 4. type
@@ -231,7 +247,7 @@ class Product extends Model
         }
 
         // override LS_ID array is there is a  `bestseller` filter applied
-        if ($is_best_seller)  {
+        if ($is_best_seller) {
             $LS_IDs = ['99'];
         }
 
@@ -251,10 +267,10 @@ class Product extends Model
             }
         }
         // set default sorting to popularity
-         else {
+        else {
             if ($sale_products_only == false)
                 $query = $query->orderBy(DB::raw("`rec_order` + `manual_adj`"), 'desc');
-        } 
+        }
 
         if ($is_details_minimal) {
             $query = $query->whereRaw('LENGTH(image_xbg) > 0');
@@ -269,8 +285,8 @@ class Product extends Model
         // for getting products on sale 
         if ($sale_products_only == true) {
             $query = $query->whereRaw('price >  0')
-                        ->whereRaw('was_price > 0')
-                        ->orderBy(DB::raw("`price` / `was_price`"), 'asc');
+                ->whereRaw('was_price > 0')
+                ->orderBy(DB::raw("`price` / `was_price`"), 'asc');
         }
 
         // 6. limit
@@ -302,9 +318,9 @@ class Product extends Model
 
         $LS_IDs = DB::table("master_data")
             ->select("LS_ID");
-        
+
         if ($brand_name !== null) $LS_IDs = $LS_IDs->where("site_name", $brand_name);
-        
+
         $LS_IDs = $LS_IDs->distinct("LS_ID")
             ->get();
 
@@ -346,6 +362,202 @@ class Product extends Model
 
         return $filter_categories;
     }
+
+    public static function get_seating_filter($dept, $cat, $all_filters)
+    {
+
+        $all_seating = [];
+        $rows = DB::table("filter_map_seating")->get();
+        $LS_IDs = Product::get_dept_cat_LS_ID_arr($dept, $cat);
+          $products = DB::table("master_data")
+            ->selectRaw("count(product_name) AS products, seating");
+        if (sizeof($all_filters) != 0) {
+            if (isset($all_filters['type']) && strlen($all_filters['type'][0]) > 0) {
+                $LS_IDs = Product::get_sub_cat_LS_IDs($dept, $cat, $all_filters['type']);
+            }
+
+            $products = $products->whereRaw('LS_ID REGEXP "' . implode("|", $LS_IDs) . '"');
+
+            if (
+                isset($all_filters['color'])
+                && strlen($all_filters['color'][0]) > 0
+            ) {
+                $products = $products
+                    ->whereRaw('color REGEXP "' . implode("|", $all_filters['color']) . '"');
+                // input in form - color1|color2|color3
+            }
+
+            if (
+                isset($all_filters['shape'])
+                && isset($all_filters['shape'][0])
+            ) {
+                $products = $products
+                    ->whereRaw('shape REGEXP "' . implode("|", $all_filters['shape']) . '"');
+            }
+
+            // 2. price_from
+            if (isset($all_filters['price_from'])) {
+                $products = $products
+                    ->whereRaw('min_price >= ' . $all_filters['price_from'][0] . '');
+            }
+
+            // 3. price_to
+            if (isset($all_filters['price_to'])) {
+                $products = $products
+                    ->whereRaw('max_price <= ' . $all_filters['price_to'][0] . '');
+            }
+
+            if (
+                isset($all_filters['brand'])
+                && strlen($all_filters['brand'][0]) > 0
+            ) {
+                $products = $products->whereIn('site_name', $all_filters['brand']);
+            }
+
+            if (isset($all_filters['seating']) && strlen($all_filters['seating'][0]) > 0) {
+
+                $seatings = implode("|", $all_filters['seating']);
+                $products = $products->whereRaw('seating REGEXP "' . $seatings . '"');
+            }
+
+        }
+      
+        $products = $products->groupBy('seating')->get();
+
+        foreach ($rows as $row) {
+            $all_seating[$row->seating] = [
+                'name' => $row->seating,
+                'value' => $row->seating,
+                'count' => 0,
+                'enabled' => false,
+                'checked' => false
+            ];
+        }
+
+        foreach ($products as $b) {
+            if (isset($all_seating[$b->seating])) {
+                $all_seating[$b->seating]["enabled"] = true;
+                if (isset($all_filters['seating'])) {
+                    if (in_array($b->seating, $all_filters['seating'])) {
+                        $all_seating[$b->seating]["checked"] = true;
+                    }
+                }
+
+                $all_seating[$b->seating]["count"] = $b->products;
+            }
+        }
+
+        $seating_holder = [];
+
+        foreach ($all_seating as $name => $value) {
+            array_push($seating_holder, $value);
+        }
+
+        return $seating_holder;
+    }
+
+    public static function get_shape_filter($dept, $cat, $all_filters)
+    {
+
+        $all_shapes = [];
+        $rows = DB::table("master_data")->whereRaw('shape IS NOT NULL')->distinct()->get(['shape']);
+        $LS_IDs = Product::get_dept_cat_LS_ID_arr($dept, $cat);
+        $products = DB::table("master_data")
+            ->selectRaw("count(product_name) AS products, shape");
+            
+
+        if (sizeof($all_filters) != 0) {
+            if (isset($all_filters['type']) && strlen($all_filters['type'][0]) > 0) {
+                $LS_IDs = Product::get_sub_cat_LS_IDs($dept, $cat, $all_filters['type']);
+            }
+
+            $products = $products->whereRaw('LS_ID REGEXP "' . implode("|", $LS_IDs) . '"');
+            
+            if (
+                isset($all_filters['seating'])
+                && isset($all_filters['seating'][0])
+            ) {
+                $products = $products
+                    ->whereRaw('seating REGEXP "' . implode("|", $all_filters['seating']) . '"');
+            }
+
+            if (
+                isset($all_filters['brand'])
+                && strlen($all_filters['brand'][0]) > 0
+            ) {
+                $products = $products->whereIn('site_name', $all_filters['brand']);
+            }
+
+            // 2. price_from
+            if (isset($all_filters['price_from'])) {
+                $products = $products
+                    ->whereRaw('min_price >= ' . $all_filters['price_from'][0] . '');
+            }
+
+            // 3. price_to
+            if (isset($all_filters['price_to'])) {
+                $products = $products
+                    ->whereRaw('max_price <= ' . $all_filters['price_to'][0] . '');
+            }
+
+            if (
+                isset($all_filters['color'])
+                && strlen($all_filters['color'][0]) > 0
+            ) {
+                $products = $products
+                    ->whereRaw('color REGEXP "' . implode("|", $all_filters['color']) . '"');
+                // input in form - color1|color2|color3
+            }
+
+            if (
+                isset($all_filters['seating'])
+                && isset($all_filters['seating'][0])
+            ) {
+                $products = $products
+                    ->whereRaw('seating REGEXP "' . implode("|", $all_filters['seating']) . '"');
+            }
+
+            if (isset($all_filters['shape']) && strlen($all_filters['shape'][0]) > 0) {
+
+                $shapes = implode("|", $all_filters['shape']);
+                $products = $products->whereRaw('shape REGEXP "' . $shapes . '"');
+            }
+        }
+       
+        $products = $products->groupBy('shape')->get();
+
+        foreach ($rows as $row) {
+            $all_shapes[$row->shape] = [
+                'name' => $row->shape,
+                'value' => $row->shape,
+                'count' => 0,
+                'enabled' => false,
+                'checked' => false
+            ];
+        }
+
+        foreach ($products as $b) {
+            if (isset($all_shapes[$b->shape])) {
+                $all_shapes[$b->shape]["enabled"] = true;
+                if (isset($all_filters['shape'])) {
+                    if (in_array($b->shape, $all_filters['shape'])) {
+                        $all_shapes[$b->shape]["checked"] = true;
+                    }
+                }
+
+                $all_shapes[$b->shape]["count"] = $b->products;
+            }
+        }
+
+        $shapes_holder = [];
+
+        foreach ($all_shapes as $name => $value) {
+            array_push($shapes_holder, $value);
+        }
+
+        return $shapes_holder;
+    }
+
     public static function get_brands_filter($dept, $cat, $all_filters)
     {
         $all_brands = [];
@@ -363,21 +575,53 @@ class Product extends Model
             ];
         }
 
+        $product_brands = DB::table("master_data")
+            ->selectRaw("count(product_name) AS products, site_name");
+            
+
         if (sizeof($all_filters) != 0) {
             if (isset($all_filters['type']) && strlen($all_filters['type'][0]) > 0) {
                 $LS_IDs = Product::get_sub_cat_LS_IDs($dept, $cat, $all_filters['type']);
+               
+            }
+
+             $product_brands = $product_brands
+                    ->whereRaw('LS_ID REGEXP "' . implode("|", $LS_IDs) . '"');
+            
+            if (
+                isset($all_filters['seating'])
+                && isset($all_filters['seating'][0])
+            ) {
+                $product_brands = $product_brands
+                    ->whereRaw('seating REGEXP "' . implode("|", $all_filters['seating']) . '"');
+            }
+
+            if (
+                isset($all_filters['shape'])
+                && isset($all_filters['shape'][0])
+            ) {
+                $product_brands = $product_brands
+                    ->whereRaw('shape REGEXP "' . implode("|", $all_filters['shape']) . '"');
+            }
+
+            if (isset($all_filters['color']) && strlen($all_filters['color'][0]) > 0) {
+
+                $colors = implode("|", $all_filters['color']);
+                $product_brands = $product_brands->whereRaw('color REGEXP "' . $colors . '"');
+            }
+            // 2. price_from
+            if (isset($all_filters['price_from'])) {
+                $product_brands = $product_brands
+                    ->whereRaw('min_price >= ' . $all_filters['price_from'][0] . '');
+            }
+
+            // 3. price_to
+            if (isset($all_filters['price_to'])) {
+                $product_brands = $product_brands
+                    ->whereRaw('max_price <= ' . $all_filters['price_to'][0] . '');
             }
         }
 
-        $product_brands = DB::table("master_data")
-            ->selectRaw("count(product_name) AS products, site_name")
-            ->whereRaw('LS_ID REGEXP "' . implode("|", $LS_IDs) . '"');
-
-        if (isset($all_filters['color']) && strlen($all_filters['color'][0]) > 0) {
-
-            $colors = implode("|", $all_filters['color']);
-            $product_brands = $product_brands->whereRaw('color REGEXP "' . $colors . '"');
-        }
         $product_brands = $product_brands->groupBy('site_name')->get();
 
         foreach ($product_brands as $b) {
@@ -470,22 +714,60 @@ class Product extends Model
 
         if (isset($all_filters['type']) && strlen($all_filters['type'][0]) > 0) {
             // comment this line if you want to show count for all those
-            // sub_categories that are paased in the request.
+            // sub_categories that are passed in the request.
             //$LS_IDs = Product::get_sub_cat_LS_IDs($dept, $cat, $all_filters['type']);
 
             // if uncommenting the above line, comment this one
             $LS_IDs = Product::get_sub_cat_LS_IDs($dept, $cat, $all_filters['type']);
 
-            //            $LS_IDs = Product::get_dept_cat_LS_ID_arr($dept, $cat->product_sub_category_);
+            // $LS_IDs = Product::get_dept_cat_LS_ID_arr($dept, $cat->product_sub_category_);
         }
 
         $products = DB::table("master_data")
             ->select(['LS_ID', 'color'])
             ->whereRaw('LS_ID REGEXP "' . implode("|", $LS_IDs) . '"');
 
-        if (isset($all_filters['brand']) && strlen($all_filters['brand'][0]) > 0) {
-            $products = $products->whereIn('site_name', $all_filters['brand']);
+        if(sizeof($all_filters) > 0) {
+            if (isset($all_filters['brand']) && strlen($all_filters['brand'][0]) > 0) {
+                $products = $products->whereIn('site_name', $all_filters['brand']);
+            }
+
+            if (
+                isset($all_filters['brand'])
+                && strlen($all_filters['brand'][0]) > 0
+            ) {
+                $products = $products->whereIn('site_name', $all_filters['brand']);
+            }
+
+            // 2. price_from
+            if (isset($all_filters['price_from'])) {
+                $products = $products
+                    ->whereRaw('min_price >= ' . $all_filters['price_from'][0] . '');
+            }
+
+            // 3. price_to
+            if (isset($all_filters['price_to'])) {
+                $products = $products
+                    ->whereRaw('max_price <= ' . $all_filters['price_to'][0] . '');
+            }
+
+            if (
+                isset($all_filters['seating'])
+                && isset($all_filters['seating'][0])
+            ) {
+                $products = $products
+                    ->whereRaw('seating REGEXP "' . implode("|", $all_filters['seating']) . '"');
+            }
+
+            if (
+                isset($all_filters['shape'])
+                && isset($all_filters['shape'][0])
+            ) {
+                $products = $products
+                    ->whereRaw('shape REGEXP "' . implode("|", $all_filters['shape']) . '"');
+            }
         }
+       
 
 
         /* if (isset($all_filters['color']) && strlen($all_filters['color'][0]) > 0) {
@@ -554,15 +836,72 @@ class Product extends Model
             ->select(['LS_ID', 'color'])
             ->whereRaw('LS_ID REGEXP "' . implode("|", $LS_IDs) . '"');
 
-        if (isset($all_filters['brand']) && strlen($all_filters['brand'][0]) > 0) {
-            $products = $products->whereIn('site_name', $all_filters['brand']);
+        if(sizeof($all_filters) > 0) {
+
+            if (isset($all_filters['brand']) && strlen($all_filters['brand'][0]) > 0) {
+                $products = $products->whereIn('site_name', $all_filters['brand']);
+            }
+            if (isset($all_filters['color']) && strlen($all_filters['color'][0]) > 0) {
+                $colors = implode("|", $all_filters['color']);
+                $products = $products->whereRaw('color REGEXP "' . $colors . '"');
+            }
+
+            if (
+                isset($all_filters['brand'])
+                && strlen($all_filters['brand'][0]) > 0
+            ) {
+                $products = $products->whereIn('site_name', $all_filters['brand']);
+            }
+
+            // 2. price_from
+            if (isset($all_filters['price_from'])) {
+                $products = $products
+                    ->whereRaw('min_price >= ' . $all_filters['price_from'][0] . '');
+            }
+
+            // 3. price_to
+            if (isset($all_filters['price_to'])) {
+                $products = $products
+                    ->whereRaw('max_price <= ' . $all_filters['price_to'][0] . '');
+            }
+
+            if (
+                isset($all_filters['color'])
+                && strlen($all_filters['color'][0]) > 0
+            ) {
+                $products = $products
+                    ->whereRaw('color REGEXP "' . implode("|", $all_filters['color']) . '"');
+                // input in form - color1|color2|color3
+            }
+
+            // for /all API catgeory-wise filter
+            if (
+                isset($all_filters['category'])
+                && strlen($all_filters['category'][0])
+            ) {
+                $products = $products
+                    ->whereRaw('LS_ID REGEXP "' . implode("|", $all_filters['category']) . '"');
+            }
+
+            if (
+                isset($all_filters['seating'])
+                && isset($all_filters['seating'][0])
+            ) {
+                $products = $products
+                    ->whereRaw('seating REGEXP "' . implode("|", $all_filters['seating']) . '"');
+            }
+
+            if (
+                isset($all_filters['shape'])
+                && isset($all_filters['shape'][0])
+            ) {
+                $products = $products
+                    ->whereRaw('shape REGEXP "' . implode("|", $all_filters['shape']) . '"');
+            }
         }
 
 
-        if (isset($all_filters['color']) && strlen($all_filters['color'][0]) > 0) {
-            $colors = implode("|", $all_filters['color']);
-            $products = $products->whereRaw('color REGEXP "' . $colors . '"');
-        }
+       
 
         return $products->get();
     }
@@ -666,16 +1005,16 @@ class Product extends Model
 
             $product_LS_IDs = explode(",", $product->LS_ID);
             $skip_product = false;
-            foreach($product_LS_IDs as $LS_ID) {
+            foreach ($product_LS_IDs as $LS_ID) {
                 if (intval($LS_ID) >= 828 && intval($LS_ID) <= 832) {
                     $skip_product = true;
                     break;
                 }
             }
 
-            if ($skip_product) 
+            if ($skip_product)
                 continue;
-            
+
             if (!in_array($product->product_sku, $products_to_ignore)) {
                 $isMarked = false;
                 if ($is_authenticated) {
@@ -694,10 +1033,13 @@ class Product extends Model
         $product_type_holder = Product::get_product_type_filter($dept, $cat, $subCat, $all_filters)['productTypeFilter'];
         $color_filter = Product::get_product_type_filter($dept, $cat, $subCat, $all_filters)['colorFilter'];
 
+        $seating_filter = Product::get_seating_filter($dept, $cat, $all_filters);
+        $shape_filter = Product::get_shape_filter($dept, $cat, $all_filters);
+
         if ($dept == "all") {
             if (!isset($all_filters['category']))
                 $all_filters['category'] = [];
-            
+
             $brand_filter = isset($all_filters['brand'][0]) ? $all_filters['brand'][0] : null;
             $category_holder = Product::get_all_dept_category_filter($brand_filter, $all_filters['category']);
         }
@@ -707,7 +1049,9 @@ class Product extends Model
             "price"        => $price_holder,
             "type" => $product_type_holder,
             "color" => $color_filter,
-            "category" => $dept == "all" ? $category_holder : null
+            "category" => $dept == "all" ? $category_holder : null,
+            "seating" => $seating_filter,
+            "shape" => $shape_filter
         ];
 
         //$dept, $cat, $subCat
@@ -752,10 +1096,14 @@ class Product extends Model
         ];
     }
 
-    public static function get_details($product, $variations, 
-                                $isListingAPICall = null, $isMarked = false, 
-                                $isTrending = false, $is_details_minimal = false )
-    {
+    public static function get_details(
+        $product,
+        $variations,
+        $isListingAPICall = null,
+        $isMarked = false,
+        $isTrending = false,
+        $is_details_minimal = false
+    ) {
         // $is_details_minimal => send xbg image instead of main_image. Used in the Design Board section of the site.
         // checking if the variations data has variations buttons (extras) data as well
 
@@ -806,7 +1154,7 @@ class Product extends Model
 
         $main_image = $is_details_minimal ?  $product->image_xbg : $product->main_product_images;
         $data =  [
-            'id'               => isset($product->id) ? $product->id : rand(1, 10000) * rand(1,10000),
+            'id'               => isset($product->id) ? $product->id : rand(1, 10000) * rand(1, 10000),
             'sku'              => $product->product_sku,
             'is_new'           => $is_new,
             'redirect'         => isset($product->redirect) ? $product->redirect : false,
@@ -821,7 +1169,7 @@ class Product extends Model
             'was_price'        => str_replace("$", "", $product->was_price),
             'percent_discount' => $discount,
             'model_code'       => $product->model_code,
-            'seating'          => $product->seating,
+            'seating'          => isset($product->seating) ? $product->seating : null,
             //    'description'      => preg_split("/\\[US\\]|<br>|\\n/", $product->product_description),
             //    'dimension'        => $product->site_name == "cb2" ? Product::cb2_dimensions($product->product_dimension) : $product->product_dimension,
             //    'thumb'            => preg_split("/,|\\[US\\]/", $product->thumb),
@@ -872,11 +1220,11 @@ class Product extends Model
 
                 if (!is_numeric($product->product_sku)) {
                     // it is alpha-numeric
-                    
+
                     $child_rows = DB::table("pier1_products")
                         ->whereRaw("product_set LIKE '%" . $product->product_sku . "%'")
                         ->get();
-                    
+
                     $children = [];
                     foreach ($child_rows as $row) {
 
@@ -884,7 +1232,7 @@ class Product extends Model
                         $inventory_prod = DB::table('lz_inventory')
                             ->where('product_sku', $row->product_sku)
                             ->get();
-                        
+
                         $set = [
                             'parent_sku' => $product->product_sku,
                             'sku' => $row->product_sku,
@@ -912,9 +1260,9 @@ class Product extends Model
 
             $data['set'] = $children;
             $data['description'] = in_array($product->name, $desc_BRANDS)  ? Product::format_desc_new($product->product_description) : preg_split("/\\[US\\]|<br>|\\n/", $product->product_description);
-            
+
             $data['dimension'] = Product::normalize_dimension($dims_text, $product->site_name);
-            
+
             //$data['thumb'] = preg_split("/,|\\[US\\]/", $product->thumb);
             $data['features'] = in_array($product->name, $desc_BRANDS) ? Product::format_desc_new($product->product_feature) : preg_split("/\\[US\\]|<br>|\\n|\|/", $product->product_feature);
             $data['on_server_images'] = array_map([__CLASS__, "baseUrl"], preg_split("/,|\\[US\\]/", $product->product_images));
@@ -927,6 +1275,21 @@ class Product extends Model
 
             if ($isTrending) {
                 $data['description'] = in_array($product->name, $desc_BRANDS)  ? Product::format_desc_new($product->product_description) : preg_split("/\\[US\\]|<br>|\\n/", $product->product_description);
+            }
+
+            // add inventory data here
+            $inventory_prod = DB::table('lz_inventory')
+                ->where('product_sku', $product->product_sku)
+                ->get();
+
+            if (isset($inventory_prod[0])) {
+                $data['in_inventory'] = true;
+                $data['inventory_product_details'] = [
+                    'price' => $inventory_prod[0]->price,
+                    'count' => $inventory_prod[0]->quantity,
+                ];
+            } else {
+                $data['in_inventory'] = false;
             }
             return $data;
         }
@@ -1149,12 +1512,12 @@ class Product extends Model
                 ]);
             }
         }
-       
+
         $variation_extras = [
             'type' => 'redirect',
             'options' => $variation_choices
         ];
-       
+
 
         return [
             'variations' => $product_variations,
@@ -1225,7 +1588,7 @@ class Product extends Model
             "price",
             "was_price"
         ];
-        
+
         $variations_extra = [];
         $swatch_map = [];
         $color_map = Product::$color_map;
@@ -1235,10 +1598,10 @@ class Product extends Model
                 $var = DB::table("westelm_products_skus")
                     ->select($cols);
 
-               //$var = $var->groupBy("swatch_image_path");
+                //$var = $var->groupBy("swatch_image_path");
 
                 $var = $var->where("product_id", $product->product_sku)
-                            ->whereRaw("LENGTH(swatch_image_path) > 0");
+                    ->whereRaw("LENGTH(swatch_image_path) > 0");
 
                 if ($isListingAPICall) $var = $var->limit(7);
                 //->limit(20)
@@ -1250,10 +1613,10 @@ class Product extends Model
                     ->where('product_id', $product->product_sku)
                     ->whereRaw('LENGTH(swatch_image_path) = 0')
                     ->get();
-               
+
                 $var = $var->merge($var_add);
                 $var = $var->all();
-            
+
                 if (sizeof($var) == 1) return [];
 
                 //return $var;
@@ -1335,17 +1698,13 @@ class Product extends Model
                         }
                         if (isset($features['fabric'])) {
                             $name .= ", " . $features['fabric'];
-                            
+
                             if (!isset($swatch_map[$name])) {
                                 $swatch_map[$name] = $prod->swatch_image_path;
-                            }
-                            else {
+                            } else {
                                 $prod->swatch_image_path = $swatch_map[$name];
                             }
                         }
-
-                        
-
                     }
 
                     $is_dropdown = false;
@@ -1376,13 +1735,13 @@ class Product extends Model
                         if ($key == "color") {
                             foreach ($arr as $k) {
                                 $color_names = explode(" ", $k);
-                                foreach($color_names as $color_name) {
+                                foreach ($color_names as $color_name) {
                                     $color_name = strtolower($color_name);
                                     if (isset($color_map[$color_name])) {
 
                                         if (!in_array($color_map[$color_name]['name'], $extras['color_group']['options']))
                                             $extras['color_group']['options'][] = $color_map[$color_name]['name'];
-                                            
+
                                         if (!in_array($color_map[$color_name]['hexcode'], $extras['color_group']['hexcodes']))
                                             $extras['color_group']['hexcodes'][] = $color_map[$color_name]['hexcode'];
                                     }
@@ -1396,7 +1755,7 @@ class Product extends Model
                     }
 
                     $variation_extras = $extras;
-                
+
                     array_push($variations, [
                         "product_sku" => $product->product_sku,
                         "variation_sku" => $prod->sku,
@@ -1483,15 +1842,15 @@ class Product extends Model
         return null;
     }
 
-    public static function is_redirect($sku = null) {
+    public static function is_redirect($sku = null)
+    {
         $row = DB::table("product_redirects")
-                ->select(["redirect_sku", "brand"])
-                ->where("sku", $sku)
-                ->where("is_active", 1)
-                ->get();
-        
+            ->select(["redirect_sku", "brand"])
+            ->where("sku", $sku)
+            ->where("is_active", 1)
+            ->get();
+
         return isset($row[0]) ? $row[0] : null;
-        
     }
 
     public static function get_product_details($sku)
@@ -1501,9 +1860,9 @@ class Product extends Model
         $inventory_prod = DB::table('lz_inventory')
             ->where('product_sku', $sku)
             ->get();
-        
-        if($redirection != null) {
-           
+
+        if ($redirection != null) {
+
             $redirection_sku = $redirection->redirect_sku;
             if ($redirection_sku != null) {
                 $redirect_url = env('APP_URL') . "/product/" . $redirection_sku;
@@ -1514,26 +1873,24 @@ class Product extends Model
                 if (!isset($data[0]))
                     return ["message" => "SKU " . $redirection_sku . " NOT FOUND"];
                 $data = $data[0];
-            }
-            else 
+            } else
                 $redirect_url = null;
-                
+
             $prod_table = isset(Brands::$brand_mapping[$redirection->brand]) ? Brands::$brand_mapping[$redirection->brand] : null;
-            
+
             if ($prod_table != null) {
-                $sku_col = in_array($redirection->brand, Brands::$product_id_brands) ? "product_id" : "product_sku"; 
-                $product = DB::table($prod_table)   
-                        ->where($sku_col, $sku)
-                        ->get();
-                $brand_name_verbose = DB::table("master_brands")   
-                                        ->select(["name"])
-                                        ->where("value", $redirection->brand)
-                                        ->get();
-                
-                if(!isset($product[0]) || !isset($brand_name_verbose[0])) {
+                $sku_col = in_array($redirection->brand, Brands::$product_id_brands) ? "product_id" : "product_sku";
+                $product = DB::table($prod_table)
+                    ->where($sku_col, $sku)
+                    ->get();
+                $brand_name_verbose = DB::table("master_brands")
+                    ->select(["name"])
+                    ->where("value", $redirection->brand)
+                    ->get();
+
+                if (!isset($product[0]) || !isset($brand_name_verbose[0])) {
                     return ['message' => 'Product ' . $sku . ' not found anywhere with brand ' + $redirection->brand];
-                }
-                else {
+                } else {
                     $product = $product[0];
                     $brand = $brand_name_verbose[0];
                 }
@@ -1556,7 +1913,7 @@ class Product extends Model
                     $pop_index = $pop_index * 1000000;
                     $pop_index = (int) $pop_index;
                 }
-                
+
                 //==========================================================================================================
 
                 $product->site_name  = $redirection->brand;
@@ -1564,8 +1921,7 @@ class Product extends Model
 
                 if (in_array($product->site_name, Brands::$product_id_brands)) {
                     $product_details = Brands::convert_id_brand_master_data($product, $min_price, $max_price, $pop_index);
-                }
-                else {
+                } else {
                     $product_details = Brands::convert_normal_master_format($product, $min_price, $max_price, $pop_index);
                 }
 
@@ -1579,7 +1935,7 @@ class Product extends Model
                 } else {
                     $product_details['in_inventory'] = false;
                 }
-                $product = Product::get_details((object)$product_details, $variations_data);
+                $product = Product::get_details((object) $product_details, $variations_data);
                 $product['redirect_url'] = $redirect_url;
                 $product['redirect'] = true;
 
@@ -1590,17 +1946,16 @@ class Product extends Model
                     $product['redirect_details']['main_image'] = env('APP_URL') . $data->main_product_images;
                 }
                 return $product;
-            }
-            else {
+            } else {
                 return [];
             }
-        } 
+        }
         $prod = Product::where('product_sku', $sku)
             ->join("master_brands", "master_data.site_name", "=", "master_brands.value")
             ->get();
-        
-        if (!isset($prod[0])) 
-             return [];
+
+        if (!isset($prod[0]))
+            return [];
 
         $westelm_cache_data  = DB::table("westelm_products_skus")
             ->selectRaw("COUNT(product_id) AS product_count, product_id")
@@ -1621,8 +1976,8 @@ class Product extends Model
                 ->get();
             foreach ($color_rows as $key => $value) {
                 Product::$color_map[strtolower($value->color_alias)] = [
-                   'hexcode' => $value->color_hex,
-                   'name' => $value->color_name
+                    'hexcode' => $value->color_hex,
+                    'name' => $value->color_name
                 ];
                 Product::$color_map[strtolower($value->color_name)] = [
                     'hexcode' => $value->color_hex,
@@ -1636,14 +1991,13 @@ class Product extends Model
 
         $variations_data = Product::get_variations($prod[0], $westelm_variations_data, false);
 
-        if(isset($inventory_prod[0])) {
+        if (isset($inventory_prod[0])) {
             $prod[0]->in_inventory = true;
             $prod[0]->inventory_product_details = [
                 'price' => $inventory_prod[0]->price,
                 'count' => $inventory_prod[0]->quantity,
             ];
-        }
-        else {
+        } else {
             $prod[0]->in_inventory = false;
         }
 
