@@ -1110,6 +1110,7 @@ class Product extends Model
 
         $extras = null;
         $hashmap = null;
+        $user = Auth::user();
         if (isset($variations['hashmap'])) {
             $hashmap = $variations['hashmap'];
         }
@@ -1228,8 +1229,11 @@ class Product extends Model
 
                     $children = [];
                     foreach ($child_rows as $row) {
+                        $items_in_cart = DB::table(Product::$cart_table)
+                            ->where('user_id', $user->id)
+                            ->where('product_sku', $row->product_sku)
+                            ->get()->count();
 
-                        // check if this set is there for retail.
                         $inventory_prod = DB::table('lz_inventory')
                             ->where('product_sku', $row->product_sku)
                             ->get();
@@ -1244,11 +1248,15 @@ class Product extends Model
                             'was_price' => $row->was_price
                         ];
 
+                        $product_count_remaining = 0;
+
                         if (isset($inventory_prod[0])) {
+                            $product_count_remaining = $inventory_prod[0]->quantity - $items_in_cart;
+                            
                             $set['in_inventory'] = true;
                             $set['inventory_product_details'] = [
                                 'price' => $inventory_prod[0]->price,
-                                'count' => $inventory_prod[0]->quantity,
+                                'count' => $product_count_remaining,
                             ];
                         } else {
                             $set['in_inventory'] = false;
@@ -1278,16 +1286,23 @@ class Product extends Model
                 $data['description'] = in_array($product->name, $desc_BRANDS)  ? Product::format_desc_new($product->product_description) : preg_split("/\\[US\\]|<br>|\\n/", $product->product_description);
             }
 
-            // add inventory data here
+            $items_in_cart = DB::table(Product::$cart_table)
+                ->where('user_id', $user->id)
+                ->where('product_sku', $row->product_sku)
+                ->get()->count();
+
             $inventory_prod = DB::table('lz_inventory')
                 ->where('product_sku', $product->product_sku)
                 ->get();
 
+            $product_count_remaining = 0;
+
             if (isset($inventory_prod[0])) {
+                $product_count_remaining = $inventory_prod[0]->quantity - $items_in_cart;
                 $data['in_inventory'] = true;
                 $data['inventory_product_details'] = [
                     'price' => $inventory_prod[0]->price,
-                    'count' => $inventory_prod[0]->quantity,
+                    'count' =>  $product_count_remaining,
                 ];
             } else {
                 $data['in_inventory'] = false;
