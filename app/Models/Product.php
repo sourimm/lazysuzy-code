@@ -1289,7 +1289,7 @@ class Product extends Model
 
             $items_in_cart = DB::table(Product::$cart_table)
                 ->where('user_id', $user->id)
-                ->where('product_sku', $row->product_sku)
+                ->where('product_sku', $product->product_sku)
                 ->where('is_active', 1)
                 ->get()->count();
 
