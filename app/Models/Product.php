@@ -1232,6 +1232,7 @@ class Product extends Model
                         $items_in_cart = DB::table(Product::$cart_table)
                             ->where('user_id', $user->id)
                             ->where('product_sku', $row->product_sku)
+                            ->where('is_active', 1)
                             ->get()->count();
 
                         $inventory_prod = DB::table('lz_inventory')
@@ -1289,6 +1290,7 @@ class Product extends Model
             $items_in_cart = DB::table(Product::$cart_table)
                 ->where('user_id', $user->id)
                 ->where('product_sku', $row->product_sku)
+                ->where('is_active', 1)
                 ->get()->count();
 
             $inventory_prod = DB::table('lz_inventory')
@@ -1875,6 +1877,7 @@ class Product extends Model
         $user = Auth::user();
         $items_in_cart = DB::table(Product::$cart_table)
             ->where('user_id', $user->id)
+            ->where('is_active', 1)
             ->where('product_sku', $sku)
             ->get()->count();
         // check if product needs to be redirected
