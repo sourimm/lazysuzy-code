@@ -509,20 +509,6 @@ class Product extends Model
                     ->whereRaw('color REGEXP "' . implode("|", $all_filters['color']) . '"');
                 // input in form - color1|color2|color3
             }
-
-            if (
-                isset($all_filters['seating'])
-                && isset($all_filters['seating'][0])
-            ) {
-                $products = $products
-                    ->whereRaw('seating REGEXP "' . implode("|", $all_filters['seating']) . '"');
-            }
-
-            if (isset($all_filters['shape']) && strlen($all_filters['shape'][0]) > 0) {
-
-                $shapes = implode("|", $all_filters['shape']);
-                $products = $products->whereRaw('shape REGEXP "' . $shapes . '"');
-            }
         }
        
         $products = $products->groupBy('shape')->get();
