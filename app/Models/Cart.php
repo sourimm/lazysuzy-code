@@ -51,7 +51,7 @@ class Cart extends Model
         if(($items_in_cart + $to_insert) > $items_in_inventory) {
             return [
                 'status' => false,
-                'msg' => 'Seems like you can not enter more products at this time. Please try later!'
+                'msg' => 'Currently available stock already added to cart'
             ];
         }
 
