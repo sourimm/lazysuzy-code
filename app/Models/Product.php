@@ -1870,7 +1870,7 @@ class Product extends Model
         
         $product_count_remaining = 0;
 
-        if($inventory_prod[0]) {
+        if(isset($inventory_prod[0])) {
             $product_count_remaining = $inventory_prod[0]->quantity - $items_in_cart;
         }
 
