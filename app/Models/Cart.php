@@ -42,36 +42,38 @@ class Cart extends Model
                 ->where('product_sku', $sku)
                 ->get();
         
-        if(isset($items_in_inventory[0])) 
-            $items_in_inventory = $items_in_inventory[0]->count;
+        if(isset($items_in_inventory[0])) {
+            $items_in_inventory_count = $items_in_inventory[0]->count;
         
-        $to_insert = $count;
-        $inserted = 0;
+            $to_insert = $count;
+            $inserted = 0;
 
-        if(($items_in_cart + $to_insert) > $items_in_inventory) {
-            return [
-                'status' => false,
-                'msg' => 'Currently available stock already added to cart'
-            ];
-        }
+            if(($items_in_cart + $to_insert) > $items_in_inventory_count) {
+                return [
+                    'status' => false,
+                    'msg' => 'Currently available stock already added to cart'
+                ];
+            }
+            
 
-        while ($count--) {
-            $is_inserted = DB::table(Cart::$cart_table)
-                ->insert([
-                    'user_id' => $user_id,
-                    'product_sku' => $sku,
-                    'is_guest' => $is_guest
-                ]);
+            while ($count--) {
+                $is_inserted = DB::table(Cart::$cart_table)
+                    ->insert([
+                        'user_id' => $user_id,
+                        'product_sku' => $sku,
+                        'is_guest' => $is_guest
+                    ]);
 
-            if ($is_inserted)
-                $inserted++;
-        }
+                if ($is_inserted)
+                    $inserted++;
+            }
 
-        if ($to_insert == $inserted) {
-            return [
-                'status' => true,
-                'msg' => 'product ' . $sku . ' added to cart'
-            ];
+            if ($to_insert == $inserted) {
+                return [
+                    'status' => true,
+                    'msg' => 'product ' . $sku . ' added to cart'
+                ];
+            }
         }
 
         return [
