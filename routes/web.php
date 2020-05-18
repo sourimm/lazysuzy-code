@@ -80,7 +80,7 @@ Route::get('/api/departments/{dept}', 'DepartmentController@get_department')->na
 Route::get('/api/categories', 'CategoryController@get_all_categories')->name('get_category');
 Route::get('/api/products/{dept}/{cat?}/{subCat?}', 'API@filter_products')->name('get-products');
 Route::get('/api/products/{dept}/{cat}', 'API@filter_products')->name('category');
-Route::get('/api/product/{sku}', 'API@get_product_details')->name('get-product-details');
+Route::get('/api/product/{sku}', 'API@get_product_details')->middleware('auth:api')->name('get-product-details');
 
 // has a filter attached. request has format attribute_1=<val>&attribute_2=<val> and so on...
 Route::get('/api/variation/product/{sku}', 'API@get_product_variations')->name('get-product-variations');

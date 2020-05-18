@@ -18,6 +18,7 @@ class Product extends Model
     public static $base_siteurl = 'https://www.lazysuzy.com';
     static $count = 0;
     private static $color_map = null;
+    private static $cart_table = 'lz_user_cart';
 
     public static function trending_products($limit)
     {
@@ -1855,11 +1856,23 @@ class Product extends Model
 
     public static function get_product_details($sku)
     {
+
+        $user = Auth::user();
+        $items_in_cart = DB::table(Product::$cart_table)
+            ->where('user_id', $user->id)
+            ->where('product_sku', $sku)
+            ->get()->count();
         // check if product needs to be redirected
         $redirection = Product::is_redirect($sku);
         $inventory_prod = DB::table('lz_inventory')
             ->where('product_sku', $sku)
             ->get();
+        
+        $product_count_remaining = 0;
+
+        if($inventory_prod[0]) {
+            $product_count_remaining = $inventory_prod[0]->quantity - $items_in_cart;
+        }
 
         if ($redirection != null) {
 
@@ -1930,7 +1943,7 @@ class Product extends Model
                     $product_details['in_inventory'] = true;
                     $product_details['inventory_product_details'] = [
                         'price' => $inventory_prod[0]->price,
-                        'count' => $inventory_prod[0]->quantity,
+                        'count' => $product_count_remaining,
                     ];
                 } else {
                     $product_details['in_inventory'] = false;
@@ -1995,7 +2008,7 @@ class Product extends Model
             $prod[0]->in_inventory = true;
             $prod[0]->inventory_product_details = [
                 'price' => $inventory_prod[0]->price,
-                'count' => $inventory_prod[0]->quantity,
+                'count' => $product_count_remaining,
             ];
         } else {
             $prod[0]->in_inventory = false;

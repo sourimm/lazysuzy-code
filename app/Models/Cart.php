@@ -12,7 +12,7 @@ class Cart extends Model
 
     private static $cart_table = "lz_user_cart";
     private static $shipment_code_table = 'lz_ship_code';
-
+    private static $inventory_table = 'lz_inventory';
 
     public static function add($sku, $count)
     {
@@ -29,8 +29,31 @@ class Cart extends Model
             $is_guest = 1;
         }
 
+        // let's get the items that are already present in the user_cart 
+        // right now and then we'll only insert new products if total item count
+        // suits the inventory count
+        $items_in_cart = DB::table(Cart::$cart_table)
+                ->where('user_id', $user_id)
+                ->where('product_sku', $sku)
+                ->get()->count();
+        
+        $items_in_inventory = DB::table(Cart::$inventory_table)
+                ->select(['quantity as count'])
+                ->where('product_sku', $sku)
+                ->get();
+        
+        if(isset($items_in_inventory[0])) 
+            $items_in_inventory = $items_in_inventory[0]->count;
+        
         $to_insert = $count;
         $inserted = 0;
+
+        if(($items_in_cart + $to_insert) > $items_in_inventory) {
+            return [
+                'status' => false,
+                'msg' => 'Seems like you can not enter more products at this time. Please try later!'
+            ];
+        }
 
         while ($count--) {
             $is_inserted = DB::table(Cart::$cart_table)
