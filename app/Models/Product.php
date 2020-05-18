@@ -415,12 +415,6 @@ class Product extends Model
                 $products = $products->whereIn('site_name', $all_filters['brand']);
             }
 
-            if (isset($all_filters['seating']) && strlen($all_filters['seating'][0]) > 0) {
-
-                $seatings = implode("|", $all_filters['seating']);
-                $products = $products->whereRaw('seating REGEXP "' . $seatings . '"');
-            }
-
         }
       
         $products = $products->groupBy('seating')->get();
@@ -715,9 +709,6 @@ class Product extends Model
             ->whereRaw('LS_ID REGEXP "' . implode("|", $LS_IDs) . '"');
 
         if(sizeof($all_filters) > 0) {
-            if (isset($all_filters['brand']) && strlen($all_filters['brand'][0]) > 0) {
-                $products = $products->whereIn('site_name', $all_filters['brand']);
-            }
 
             if (
                 isset($all_filters['brand'])
