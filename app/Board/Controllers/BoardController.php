@@ -96,7 +96,7 @@ class BoardController extends Controller
           $response = $client->post(env('REMOVEBG_API_ENDPOINT'), [
             'headers' => ['X-API-Key' => env('REMOVEBG_API_KEY')],
             'form_params' => [
-              'image_url' => url($asset->path),
+              'image_url' => asset($asset->path),
               'format' => 'png',
             ]
           ]);
