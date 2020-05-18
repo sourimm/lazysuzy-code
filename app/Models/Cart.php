@@ -35,6 +35,7 @@ class Cart extends Model
         $items_in_cart = DB::table(Cart::$cart_table)
                 ->where('user_id', $user_id)
                 ->where('product_sku', $sku)
+                ->where('is_active', 1)
                 ->get()->count();
         
         $items_in_inventory = DB::table(Cart::$inventory_table)
