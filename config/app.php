@@ -53,6 +53,7 @@ return [
     */
 
     'url' => env('APP_URL', 'https://www.lazysuzy.com'),
+    'password_reset_domain' => env('PASSOWORD_RESET_DOMAIN', 'http://www.lazysuzy.com:8081'),
 
     'asset_url' => env('ASSET_URL', null),
 
