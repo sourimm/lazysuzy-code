@@ -1212,6 +1212,12 @@ class Product extends Model
             array_pop($variations);
         } */
 
+        // call coming from the board
+        if($is_details_minimal) {
+            $data['board_thumbs'] = $product->image_xbg_thumbs;
+            $data['board_cropped'] = $product->image_xbg_cropped;
+        }
+
         if (isset($variations) && !$is_details_minimal) {
 
             for ($i = 0; $i < sizeof($variations); $i++) {
