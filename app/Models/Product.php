@@ -179,7 +179,7 @@ class Product extends Model
                 isset($all_filters['brand'])
                 && strlen($all_filters['brand'][0]) > 0
             ) {
-                $query = $query->whereIn('site_name', $all_filters['brand']);
+                $query = $query->whereRaw('site_name REGEXP "' . implode("|", $all_filters['brand']) . '"');
             }
 
             // 2. price_from
@@ -203,14 +203,7 @@ class Product extends Model
                 // input in form - color1|color2|color3
             }
 
-            // for /all API catgeory-wise filter
-            if (
-                isset($all_filters['category'])
-                && strlen($all_filters['category'][0])
-            ) {
-                $query = $query
-                    ->whereRaw('LS_ID REGEXP "' . implode("|", $all_filters['category']) . '"');
-            }
+           
 
             if (
                 isset($all_filters['seating'])
@@ -242,6 +235,7 @@ class Product extends Model
             }
         }
 
+
         // only include sub category products if subcategory is not null
         if ($subCat != null) {
             $LS_IDs = [Product::get_sub_cat_LS_ID($dept, $cat, $subCat)];
@@ -250,6 +244,14 @@ class Product extends Model
         // override LS_ID array is there is a  `bestseller` filter applied
         if ($is_best_seller) {
             $LS_IDs = ['99'];
+        }
+
+        // for /all API catgeory-wise filter
+        if (
+            isset($all_filters['category'])
+            && strlen($all_filters['category'][0])
+        ) {
+            $LS_IDs = $all_filters['category'];
         }
 
         $query = $query->whereRaw('LS_ID REGEXP "' . implode("|", $LS_IDs) . '"');
@@ -275,6 +277,10 @@ class Product extends Model
 
         if ($is_details_minimal) {
             $query = $query->whereRaw('LENGTH(image_xbg) > 0');
+            $all_filters['is_board_view'] = true;
+        }
+        else {
+            $all_filters['is_board_view'] = false;
         }
 
         // for new products only
@@ -561,7 +567,6 @@ class Product extends Model
         $all_b = DB::table("master_brands")->orderBy("name")->get();
         $LS_IDs = Product::get_dept_cat_LS_ID_arr($dept, $cat);
 
-
         foreach ($all_b as $brand) {
             $all_brands[$brand->value] = [
                 "name" => $brand->name,
@@ -577,6 +582,12 @@ class Product extends Model
             
 
         if (sizeof($all_filters) != 0) {
+
+            if(isset( $all_filters['is_board_view'])) {
+                $product_brands = $product_brands->whereRaw('LENGTH(image_xbg) > 0');
+
+            }
+
             if (isset($all_filters['type']) && strlen($all_filters['type'][0]) > 0) {
                 $LS_IDs = Product::get_sub_cat_LS_IDs($dept, $cat, $all_filters['type']);
                
@@ -588,7 +599,8 @@ class Product extends Model
             ) {
                 $LS_IDs = $all_filters['category'];
             }
-             $product_brands = $product_brands
+
+            $product_brands = $product_brands
                     ->whereRaw('LS_ID REGEXP "' . implode("|", $LS_IDs) . '"');
             
             if (
@@ -833,6 +845,12 @@ class Product extends Model
             // if uncommenting the above line, comment this one
             $LS_IDs = Product::get_dept_cat_LS_ID_arr($dept, $cat);
         }
+        if (
+            isset($all_filters['category'])
+            && strlen($all_filters['category'][0])
+        ) {
+            $LS_IDs = $all_filters['category'];
+        }
 
         $products = DB::table("master_data")
             ->select(['LS_ID', 'color'])
@@ -901,10 +919,7 @@ class Product extends Model
                     ->whereRaw('shape REGEXP "' . implode("|", $all_filters['shape']) . '"');
             }
         }
-
-
-       
-
+        
         return $products->get();
     }
 
