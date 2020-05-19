@@ -1214,8 +1214,8 @@ class Product extends Model
 
         // call coming from the board
         if($is_details_minimal) {
-            $data['board_thumbs'] = $product->image_xbg_thumb;
-            $data['board_cropped'] = $product->image_xbg_cropped;
+            $data['board_thumb'] = env('APP_URL') . $product->image_xbg_thumb;
+            $data['board_cropped'] = env('APP_URL') . $product->image_xbg_cropped;
         }
 
         if (isset($variations) && !$is_details_minimal) {
