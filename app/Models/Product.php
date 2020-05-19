@@ -389,6 +389,14 @@ class Product extends Model
             }
 
             if (
+                isset($all_filters['category'])
+                && strlen($all_filters['category'][0])
+            ) {
+                $products = $products
+                    ->whereRaw('LS_ID REGEXP "' . implode("|", $all_filters['category']) . '"');
+            }
+
+            if (
                 isset($all_filters['shape'])
                 && isset($all_filters['shape'][0])
             ) {
@@ -468,6 +476,14 @@ class Product extends Model
 
             $products = $products->whereRaw('LS_ID REGEXP "' . implode("|", $LS_IDs) . '"');
             
+            if (
+                isset($all_filters['category'])
+                && strlen($all_filters['category'][0])
+            ) {
+                $products = $products
+                    ->whereRaw('LS_ID REGEXP "' . implode("|", $all_filters['category']) . '"');
+            }
+
             if (
                 isset($all_filters['seating'])
                 && isset($all_filters['seating'][0])
