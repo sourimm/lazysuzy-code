@@ -1214,7 +1214,7 @@ class Product extends Model
 
         // call coming from the board
         if($is_details_minimal) {
-            $data['board_thumbs'] = $product->image_xbg_thumbs;
+            $data['board_thumbs'] = $product->image_xbg_thumb;
             $data['board_cropped'] = $product->image_xbg_cropped;
         }
 
