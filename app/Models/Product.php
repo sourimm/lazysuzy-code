@@ -582,6 +582,12 @@ class Product extends Model
                
             }
 
+            if (
+                isset($all_filters['category'])
+                && strlen($all_filters['category'][0])
+            ) {
+                $LS_IDs = $all_filters['category'];
+            }
              $product_brands = $product_brands
                     ->whereRaw('LS_ID REGEXP "' . implode("|", $LS_IDs) . '"');
             
@@ -593,13 +599,7 @@ class Product extends Model
                     ->whereRaw('seating REGEXP "' . implode("|", $all_filters['seating']) . '"');
             }
 
-            if (
-                isset($all_filters['category'])
-                && strlen($all_filters['category'][0])
-            ) {
-                $product_brands = $product_brands
-                    ->whereRaw('LS_ID REGEXP "' . implode("|", $all_filters['category']) . '"');
-            }
+            
 
             if (
                 isset($all_filters['shape'])
