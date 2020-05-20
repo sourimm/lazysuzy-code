@@ -1913,7 +1913,7 @@ class Product extends Model
 
         if(isset($inventory_prod[0])) {
             $product_count_remaining = $inventory_prod[0]->quantity - $items_in_cart;
-            $is_low = $inventory_prod[0]->quantity > 5;
+            $is_low = $inventory_prod[0]->quantity <= 5;
         }
 
         if ($redirection != null) {
