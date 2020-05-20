@@ -1909,9 +1909,11 @@ class Product extends Model
             ->get();
         
         $product_count_remaining = 0;
+        $is_low = false;
 
         if(isset($inventory_prod[0])) {
             $product_count_remaining = $inventory_prod[0]->quantity - $items_in_cart;
+            $is_low = $inventory_prod[0]->quantity > 5;
         }
 
         if ($redirection != null) {
@@ -1984,6 +1986,8 @@ class Product extends Model
                     $product_details['inventory_product_details'] = [
                         'price' => $inventory_prod[0]->price,
                         'count' => $product_count_remaining,
+                        'message' => $inventory_prod[0]->message,
+                        'is_low' => $is_low
                     ];
                 } else {
                     $product_details['in_inventory'] = false;
@@ -2049,6 +2053,10 @@ class Product extends Model
             $prod[0]->inventory_product_details = [
                 'price' => $inventory_prod[0]->price,
                 'count' => $product_count_remaining,
+                'message' => $inventory_prod[0]->message,
+                'is_low' => $is_low
+
+
             ];
         } else {
             $prod[0]->in_inventory = false;
