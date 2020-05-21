@@ -995,7 +995,7 @@ class Product extends Model
         // get user cart
         $user_cart = Cart::cart();
         
-        /* ==============PREPROCESS FOR INVENTORY DETAILS FOR LISTING API ================*/
+        /* ============== PREPROCESS FOR INVENTORY DETAILS FOR LISTING API ================*/
         $user_skus = [];
         foreach($user_cart as  $prod) {
             $prod = (object) $prod;
@@ -1008,7 +1008,7 @@ class Product extends Model
             $inventory_prod[$prod->product_sku]->is_low = $prod->quantity <= 5;
         }
 
-        /* ==============PREPROCESS FOR INVENTORY DETAILS FOR LISTING API ================*/
+        /* ===============================================================================*/
         
         $westelm_variations_data = [];
 
@@ -1061,6 +1061,7 @@ class Product extends Model
                     }
                 }
 
+                /*=========================== INVENTORY DETAILS IN LISTING API ================================*/
 
                 $product->in_inventory = false;
                 $product->inventory_product_details = null;
@@ -1077,6 +1078,9 @@ class Product extends Model
                     $inventory_prod[$product_sku]->quantity = $product_count_remaining;
                     $product->inventory_product_details = (array) $inventory_prod[$product_sku];
                 }
+                
+                /*==============================================================================================*/
+
 
                 $variations = Product::get_variations($product, $westelm_variations_data, $isListingAPICall);
                 array_push($p_send, Product::get_details($product, $variations, $isListingAPICall, $isMarked, false, $is_details_minimal));
