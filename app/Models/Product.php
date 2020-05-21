@@ -1155,6 +1155,13 @@ class Product extends Model
             $wp_val =  $wp_price;
         }
 
+        // if product in inventory then calculate the discount 
+        // based on inventory price value
+        if(isset($product->in_inventory) && $product->in_inventory) {
+            $p_val = $product->inventory_product_details['price'];
+            $product->price = (string) $p_val;
+        }
+
         if (is_numeric($p_val) && is_numeric($wp_val) && $wp_val > 0) {
             $discount = (1 - ($p_val / $wp_val)) * 100;
             $discount = number_format((float) $discount, 2, '.', '');
