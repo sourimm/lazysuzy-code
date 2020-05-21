@@ -1251,16 +1251,7 @@ class Product extends Model
 
                     $children = [];
                     foreach ($child_rows as $row) {
-                        $items_in_cart = DB::table(Product::$cart_table)
-                            ->where('user_id', $user->id)
-                            ->where('product_sku', $row->product_sku)
-                            ->where('is_active', 1)
-                            ->get()->count();
-
-                        $inventory_prod = DB::table('lz_inventory')
-                            ->where('product_sku', $row->product_sku)
-                            ->get();
-
+                        $product_set_inventory_details = Product::get_product_from_inventory($user, $row->product_sku);
                         $set = [
                             'parent_sku' => $product->product_sku,
                             'sku' => $row->product_sku,
@@ -1270,20 +1261,7 @@ class Product extends Model
                             'price' => $row->price,
                             'was_price' => $row->was_price
                         ];
-
-                        $product_count_remaining = 0;
-
-                        if (isset($inventory_prod[0])) {
-                            $product_count_remaining = $inventory_prod[0]->quantity - $items_in_cart;
-                            
-                            $set['in_inventory'] = true;
-                            $set['inventory_product_details'] = [
-                                'price' => $inventory_prod[0]->price,
-                                'count' => $product_count_remaining,
-                            ];
-                        } else {
-                            $set['in_inventory'] = false;
-                        }
+                        $set = array_merge($product_set_inventory_details, $set);
 
                         array_push($children, $set);
                     }
@@ -1893,29 +1871,60 @@ class Product extends Model
         return isset($row[0]) ? $row[0] : null;
     }
 
-    public static function get_product_details($sku)
-    {
+    /* 
+        this will return an object that will contain all the info regarding
+        product from inventory. This function takes in account for the items 
+        already present in the user cart and calculates the right amount 
+        of products that can be added in the cart on next attempt 
+    */ 
+    public static function get_product_from_inventory($user, $sku) {
 
-        $user = Auth::user();
-        $items_in_cart = DB::table(Product::$cart_table)
-            ->where('user_id', $user->id)
-            ->where('is_active', 1)
-            ->where('product_sku', $sku)
-            ->get()->count();
-        // check if product needs to be redirected
-        $redirection = Product::is_redirect($sku);
-        $inventory_prod = DB::table('lz_inventory')
-            ->where('product_sku', $sku)
-            ->get();
-        
+        $res = [];
+        $res['in_inventory'] = false;
+        $res['inventory_product_details'] = null;
         $product_count_remaining = 0;
         $is_low = false;
 
-        if(isset($inventory_prod[0])) {
-            $product_count_remaining = $inventory_prod[0]->quantity - $items_in_cart;
-            $is_low = $inventory_prod[0]->quantity <= 5;
+        // we take the product count already present in the users cart
+        // and then product object from the inventory
+        if($user != NULL) {
+            $items_in_cart = DB::table(Product::$cart_table)
+                ->where('user_id', $user->id)
+                ->where('is_active', 1)
+                ->where('product_sku', $sku)
+                ->get()->count();
+
+            $inventory_prod = DB::table('lz_inventory')
+                ->where('product_sku', $sku)
+                ->get();
+
+            if (isset($inventory_prod[0])) {
+                $product_count_remaining = $inventory_prod[0]->quantity - $items_in_cart;
+
+                // is_low needs to be set to true if quantity is less than or equal to 5
+                $is_low = $inventory_prod[0]->quantity <= 5;
+
+                $res['in_inventory'] = true;
+                $res['inventory_product_details'] = [
+                    'price' => $inventory_prod[0]->price,
+                    'count' => $product_count_remaining,
+                    'message' => $inventory_prod[0]->message,
+                    'is_low' => $is_low
+                ];
+            }
+
         }
 
+        return $res;
+    }
+
+    public static function get_product_details($sku)
+    {
+        $user = Auth::user();
+        $product_inventory_details = Product::get_product_from_inventory($user, $sku);
+        
+        // check if product needs to be redirected
+        $redirection = Product::is_redirect($sku);
         if ($redirection != null) {
 
             $redirection_sku = $redirection->redirect_sku;
@@ -1981,17 +1990,10 @@ class Product extends Model
                 }
 
                 $product_details['name'] = $brand->name;
-                if (isset($inventory_prod[0])) {
-                    $product_details['in_inventory'] = true;
-                    $product_details['inventory_product_details'] = [
-                        'price' => $inventory_prod[0]->price,
-                        'count' => $product_count_remaining,
-                        'message' => $inventory_prod[0]->message,
-                        'is_low' => $is_low
-                    ];
-                } else {
-                    $product_details['in_inventory'] = false;
-                }
+               
+                // adding inventory object details to main product array 
+                $product_details = array_merge($product_details, $product_inventory_details);
+
                 $product = Product::get_details((object) $product_details, $variations_data);
                 $product['redirect_url'] = $redirect_url;
                 $product['redirect'] = true;
@@ -2009,7 +2011,7 @@ class Product extends Model
         }
         $prod = Product::where('product_sku', $sku)
             ->join("master_brands", "master_data.site_name", "=", "master_brands.value")
-            ->get();
+            ->get()->toArray();
 
         if (!isset($prod[0]))
             return [];
@@ -2046,22 +2048,8 @@ class Product extends Model
         $westelm_cache_data = [];
         $variations = null;
 
-        $variations_data = Product::get_variations($prod[0], $westelm_variations_data, false);
-
-        if (isset($inventory_prod[0])) {
-            $prod[0]->in_inventory = true;
-            $prod[0]->inventory_product_details = [
-                'price' => $inventory_prod[0]->price,
-                'count' => $product_count_remaining,
-                'message' => $inventory_prod[0]->message,
-                'is_low' => $is_low
-
-
-            ];
-        } else {
-            $prod[0]->in_inventory = false;
-        }
-
+        $variations_data = Product::get_variations((object)$prod[0], $westelm_variations_data, false);
+        $prod[0] = (object) array_merge((array)$prod[0], $product_inventory_details);
         return Product::get_details($prod[0], $variations_data);
     }
 
