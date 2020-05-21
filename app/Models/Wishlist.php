@@ -18,10 +18,12 @@ class Wishlist extends Model {
                 ->join("master_brands", "master_data.site_name", "=", "master_brands.value")
                 ->where("user_id", $user->id)
                 ->where("is_active", 1)
-                ->get();
+                ->get()->toArray();
             $products_structured = [];
-            foreach($products as $prod) {
+            foreach((object) $products as $prod) {
                 $variations = Product::get_variations($prod, null, true);
+                $product_inventory_details = Product::get_product_from_inventory($user, $prod->product_sku);
+                $prod = (object) array_merge($product_inventory_details, (array) $prod);
                 array_push($products_structured, Product::get_details($prod, $variations, true, true));
             }
             

@@ -1121,6 +1121,9 @@ class Product extends Model
         $isTrending = false,
         $is_details_minimal = false
     ) {
+
+        // NOTE: $isListingCall and $isMarked will also be true for wishlish API call
+
         // $is_details_minimal => send xbg image instead of main_image. Used in the Design Board section of the site.
         // checking if the variations data has variations buttons (extras) data as well
 
@@ -1170,7 +1173,7 @@ class Product extends Model
             else $is_new = true; */
         }
 
-        $main_image = $is_details_minimal ?  $product->image_xbg : $product->main_product_images;
+        $main_image = ($is_details_minimal) ?  $product->image_xbg : $product->main_product_images;
         $data =  [
             'id'               => isset($product->id) ? $product->id : rand(1, 10000) * rand(1, 10000),
             'sku'              => $product->product_sku,
@@ -1213,9 +1216,9 @@ class Product extends Model
         } */
 
         // call coming from the board
-        if($is_details_minimal) {
-            $data['board_thumb'] = env('APP_URL') . $product->image_xbg_thumb;
-            $data['board_cropped'] = env('APP_URL') . $product->image_xbg_cropped;
+        if($is_details_minimal || $isMarked) {
+            $data['board_thumb'] = strlen($product->image_xbg_thumb) > 0 ? env('APP_URL') . $product->image_xbg_thumb : null;
+            $data['board_cropped'] = strlen($product->image_xbg_cropped) > 0 ? env('APP_URL') . $product->image_xbg_cropped : null;
         }
 
         if (isset($variations) && !$is_details_minimal) {
@@ -1287,28 +1290,8 @@ class Product extends Model
                 $data['description'] = in_array($product->name, $desc_BRANDS)  ? Product::format_desc_new($product->product_description) : preg_split("/\\[US\\]|<br>|\\n/", $product->product_description);
             }
 
-            $items_in_cart = DB::table(Product::$cart_table)
-                ->where('user_id', $user->id)
-                ->where('product_sku', $product->product_sku)
-                ->where('is_active', 1)
-                ->get()->count();
-
-            $inventory_prod = DB::table('lz_inventory')
-                ->where('product_sku', $product->product_sku)
-                ->get();
-
-            $product_count_remaining = 0;
-
-            if (isset($inventory_prod[0])) {
-                $product_count_remaining = $inventory_prod[0]->quantity - $items_in_cart;
-                $data['in_inventory'] = true;
-                $data['inventory_product_details'] = [
-                    'price' => $inventory_prod[0]->price,
-                    'count' =>  $product_count_remaining,
-                ];
-            } else {
-                $data['in_inventory'] = false;
-            }
+            $product_inventory_details = Product::get_product_from_inventory($user, $product->product_sku);
+            $data = array_merge($product_inventory_details, $data);
             return $data;
         }
     }
