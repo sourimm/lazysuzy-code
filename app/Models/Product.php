@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Input;
 use App\Models\Department;
 use App\Models\Dimension;
+use App\Models\Cart;
 
 use Auth;
 
@@ -989,6 +990,26 @@ class Product extends Model
         $products_to_ignore = DB::table("products_ignore")->select("sku")->get()->toArray();
         $products_to_ignore = array_column($products_to_ignore, "sku");
 
+        // get inventory list 
+        $inventory_products_db = DB::table('lz_inventory')->select(["product_sku", "quantity", "message", "price"])->get();
+        // get user cart
+        $user_cart = Cart::cart();
+        
+        /* ==============PREPROCESS FOR INVENTORY DETAILS FOR LISTING API ================*/
+        $user_skus = [];
+        foreach($user_cart as  $prod) {
+            $prod = (object) $prod;
+            $user_skus[$prod->product_sku] = $prod;
+        }
+
+        $inventory_prod = [];
+        foreach($inventory_products_db as $prod) {
+            $inventory_prod[$prod->product_sku] = $prod;
+            $inventory_prod[$prod->product_sku]->is_low = $prod->quantity <= 5;
+        }
+
+        /* ==============PREPROCESS FOR INVENTORY DETAILS FOR LISTING API ================*/
+        
         $westelm_variations_data = [];
 
         if (sizeof($westelm_cache_data) > 0) {
@@ -1038,6 +1059,23 @@ class Product extends Model
                     if (in_array($product->product_sku, $wishlist_products)) {
                         $isMarked = true;
                     }
+                }
+
+
+                $product->in_inventory = false;
+                $product->inventory_product_details = null;
+
+                $product_sku = $product->product_sku;
+                if(isset($inventory_prod[$product_sku])) {
+                    $product->in_inventory = true;
+
+                    $product_count_remaining = $inventory_prod[$product_sku]->quantity;
+                    // if sku present in the cart then minus the count from inventory
+                    if(isset($user_skus[$product_sku]))
+                        $product_count_remaining -= $user_skus[$product_sku]->count;
+                    
+                    $inventory_prod[$product_sku]->quantity = $product_count_remaining;
+                    $product->inventory_product_details = (array) $inventory_prod[$product_sku];
                 }
 
                 $variations = Product::get_variations($product, $westelm_variations_data, $isListingAPICall);
