@@ -584,7 +584,7 @@ class Product extends Model
 
         if (sizeof($all_filters) != 0) {
 
-            if(isset( $all_filters['is_board_view'])) {
+            if(isset($all_filters['is_board_view'])) {
                 $product_brands = $product_brands->whereRaw('LENGTH(image_xbg) > 0');
 
             }
@@ -604,7 +604,7 @@ class Product extends Model
             $product_brands = $product_brands
                     ->whereRaw('LS_ID REGEXP "' . implode("|", $LS_IDs) . '"');
             
-            if (
+            /* if (
                 isset($all_filters['seating'])
                 && isset($all_filters['seating'][0])
             ) {
@@ -612,15 +612,13 @@ class Product extends Model
                     ->whereRaw('seating REGEXP "' . implode("|", $all_filters['seating']) . '"');
             }
 
-            
-
             if (
                 isset($all_filters['shape'])
                 && isset($all_filters['shape'][0])
             ) {
                 $product_brands = $product_brands
                     ->whereRaw('shape REGEXP "' . implode("|", $all_filters['shape']) . '"');
-            }
+            } */
 
             if (isset($all_filters['color']) && strlen($all_filters['color'][0]) > 0) {
 
