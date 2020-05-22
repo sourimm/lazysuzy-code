@@ -640,8 +640,6 @@ class Product extends Model
 
         $product_brands = $product_brands->groupBy('site_name');
 
-        return [$product_brands->toSql()];
-
         foreach ($product_brands as $b) {
             if (isset($all_brands[$b->site_name])) {
                 $all_brands[$b->site_name]["enabled"] = true;
