@@ -638,7 +638,7 @@ class Product extends Model
             }
         }
 
-        $product_brands = $product_brands->groupBy('site_name')->get();
+        $product_brands = $product_brands->groupBy('site_name');
 
         return [$product_brands->toSql()];
 
