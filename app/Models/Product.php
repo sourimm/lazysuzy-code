@@ -584,7 +584,7 @@ class Product extends Model
 
         if (sizeof($all_filters) != 0) {
 
-            if(isset($all_filters['is_board_view'])) {
+            if(isset($all_filters['is_board_view']) && $all_filters['is_board_view']) {
                 $product_brands = $product_brands->whereRaw('LENGTH(image_xbg) > 0');
 
             }
