@@ -604,7 +604,7 @@ class Product extends Model
             $product_brands = $product_brands
                     ->whereRaw('LS_ID REGEXP "' . implode("|", $LS_IDs) . '"');
             
-            /* if (
+            if (
                 isset($all_filters['seating'])
                 && isset($all_filters['seating'][0])
             ) {
@@ -618,7 +618,7 @@ class Product extends Model
             ) {
                 $product_brands = $product_brands
                     ->whereRaw('shape REGEXP "' . implode("|", $all_filters['shape']) . '"');
-            } */
+            }
 
             if (isset($all_filters['color']) && strlen($all_filters['color'][0]) > 0) {
 
@@ -639,6 +639,8 @@ class Product extends Model
         }
 
         $product_brands = $product_brands->groupBy('site_name')->get();
+
+        return [$product_brands];
 
         foreach ($product_brands as $b) {
             if (isset($all_brands[$b->site_name])) {
