@@ -25,7 +25,7 @@ class ResetPasswordController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/';
+    protected $redirectTo = 'https://www.lazysuzy.com';
 
     /**
      * Create a new controller instance.
