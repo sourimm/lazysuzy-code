@@ -100,7 +100,7 @@ class Product extends Model
         return $LS_IDs;
     }
 
-    public static function get_filter_products($dept, $cat = null, $subCat = null)
+    public static function get_filter_products($dept, $cat = null, $subCat = null, $isAdmiAPICall = false)
     {
         $perPage = 24;
         DB::enableQueryLog();
@@ -304,7 +304,10 @@ class Product extends Model
 
         //echo "<pre>" . print_r($all_filters, ""true);
         $query = $query->join("master_brands", "master_data.site_name", "=", "master_brands.value");
-        return Product::getProductObj($query->get(), $all_filters, $dept, $cat, $subCat, true, $is_details_minimal);
+        $isListingAPICall = true;
+
+        if($isAdmiAPICall == true) $isListingAPICall = false;
+        return Product::getProductObj($query->get(), $all_filters, $dept, $cat, $subCat, $isListingAPICall, $is_details_minimal);
     }
 
     public static function get_dept_cat_LS_ID_arr($dept, $cat)
@@ -1222,7 +1225,7 @@ class Product extends Model
 
         $main_image = ($is_details_minimal) ?  $product->image_xbg : $product->main_product_images;
         $data =  [
-            'id'               => isset($product->id) ? $product->id : rand(1, 10000) * rand(1, 10000),
+            //'id'               => isset($product->id) ? $product->id : rand(1, 10000) * rand(1, 10000),
             'sku'              => $product->product_sku,
             'is_new'           => $is_new,
             'redirect'         => isset($product->redirect) ? $product->redirect : false,
@@ -1236,7 +1239,7 @@ class Product extends Model
             'is_price'         => $product->price,
             'was_price'        => str_replace("$", "", $product->was_price),
             'percent_discount' => $discount,
-            'model_code'       => $product->model_code,
+            //'model_code'       => $product->model_code,
             'seating'          => isset($product->seating) ? $product->seating : null,
             //    'description'      => preg_split("/\\[US\\]|<br>|\\n/", $product->product_description),
             //    'dimension'        => $product->site_name == "cb2" ? Product::cb2_dimensions($product->product_dimension) : $product->product_dimension,
@@ -1244,9 +1247,9 @@ class Product extends Model
             'color'            => $product->color,
             //    'images'           => array_map([__CLASS__, "baseUrl"], preg_split("/,|\\[US\\]/", $product->images)),
             //    'features'         => preg_split("/\\[US\\]|<br>|\\n/", $product->product_feature),
-            'collection'       => $product->collection,
+            //'collection'       => $product->collection,
             //    'set'              => $product->product_set,
-            'condition'        => $product->product_condition,
+            //'condition'        => $product->product_condition,
             //    'created_date'     => $product->created_date,
             //    'updated_date'     => $product->updated_date,
             //    'on_server_images' => array_map([__CLASS__, "baseUrl"], preg_split("/,|\\[US\\]/", $product->product_images)),

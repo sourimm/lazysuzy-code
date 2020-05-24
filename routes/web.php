@@ -120,3 +120,20 @@ Route::post('/api/board/asset/{id?}', '\App\Board\Controllers\BoardController@up
 Route::get('/api/board/preview/{id}', '\App\Board\Controllers\BoardController@get_board_for_preview')->middleware(['cors']);
 Route::get('/api/board/{id?}', '\App\Board\Controllers\BoardController@get_board')->middleware(['cors', 'auth:api']);
 Route::post('/api/board/{id?}', '\App\Board\Controllers\BoardController@update_board')->middleware(['cors', 'auth:api']);
+
+
+
+
+
+
+
+/* ==================================================BACKEND ADMIN APIS========================================== */
+
+Route::middleware(['auth:api', 'cors', 'admin'])->group(function() {
+
+    Route::get('/api/admin/products/{dept}/{cat?}/{subCat?}', 'Admin\Dashboard@filter_products')->name('admin-get-products');
+    Route::get('/api/admin/products/{dept}/{cat}', 'Admin\Dashboard@filter_products')->name('admin-category');
+    Route::get('/api/admin/product/{sku}', 'Admin\Dashboard@get_product_details')->name('admin-get-product-details');
+});
+
+/* ============================================================================================================== */
