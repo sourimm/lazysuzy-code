@@ -1265,7 +1265,7 @@ class Product extends Model
             array_pop($variations);
         } */
 
-        // call coming from the board
+        // call coming from the board 
         if($is_details_minimal || $isMarked) {
             $data['board_thumb'] = strlen($product->image_xbg_thumb) > 0 ? env('APP_URL') . $product->image_xbg_thumb : null;
             $data['board_cropped'] = strlen($product->image_xbg_cropped) > 0 ? env('APP_URL') . $product->image_xbg_cropped : null;
@@ -1333,6 +1333,10 @@ class Product extends Model
             $data['selections'] = $extras;
             //$data['hashmap'] = $hashmap;
 
+
+            // these values are used in backend admin APIs
+            $data['xbg_primary'] = $product->image_xbg_select_primary;
+            $data['xbg_secondary'] = $product->image_xbg_select_secondary;
             return $data;
         } else {
 

@@ -22,10 +22,32 @@ class Dashboard extends Controller
 
             $images = $data['products'][$x]['on_server_images'];
             $images_with_base = [];
+            $xbg_primary = $data['products'][$x]['xbg_primary'];
+            $xbg_secondary = $data['products'][$x]['xbg_secondary'];
+
+            // image names without extension
+            $xbg_primary = explode("/", $xbg_primary);
+            $xbg_primary = end($xbg_primary);
+            $xbg_primary = current(explode(".", $xbg_primary));
+
+            $xbg_secondary = explode("/", $xbg_secondary);
+            $xbg_secondary = end($xbg_secondary);
+            $xbg_secondary = current(explode(".", $xbg_secondary));
+
             foreach($images as $img) {
+                $btag = null;
+                $image_name = explode("/", $img);
+                $image_name = end($image_name);
+
+                // image name without the extension
+                $image_name = current(explode(".", $image_name));
+                
+                if(strpos($xbg_primary, $image_name) !== false) $btag = 'primary';
+                else if(strpos($xbg_secondary, $image_name) !== false) $btag = 'secondary';
+
                 $images_with_base[] = [
                     'url' => $img,
-                    'btag' => null
+                    'btag' => $btag
                 ];
             }
 
