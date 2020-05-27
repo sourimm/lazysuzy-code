@@ -36,7 +36,7 @@ class UserController extends Controller
             Auth::login($auth_user, true);
             $user = Auth::user();
             
-            $user['access_token'] = $user->createToken('Laravel Personal Access Client')->accessToken;
+            $user['access_token'] = $user->createToken('lazysuzy-web')->accessToken;
             return $user;
 
         } else {
@@ -72,11 +72,12 @@ class UserController extends Controller
         
         }
     }
+
     public function login()
     {
         if (Auth::attempt(['email' => request('email'), 'password' => request('password')])) {
             $user = Auth::user();
-            $success['token'] =  $user->createToken('Laravel Personal Access Client')->accessToken;
+            $success['token'] =  $user->createToken('lazysuzy-web')->accessToken;
             return response()->json([
                 'success' => $success,
                 'user' => $user
@@ -98,7 +99,7 @@ class UserController extends Controller
         $user = false;
         $data = $request->all();
         
-        if(isset($data['guest'])){
+        if(isset($data['guest'])) {
           $user = User::create([
             'name' => '',
             'email' => '',
@@ -137,7 +138,7 @@ class UserController extends Controller
           ];
           
           Auth::shouldUse('api');
-          if(Auth::check()){
+          if(Auth::check()) {
             $user = Auth::user();
             // check if guest using is trying to convert
             if(isset($user->user_type) && $user->user_type == config('user.user_type.guest')){
@@ -178,12 +179,10 @@ class UserController extends Controller
 
         $token->revoke();
         
-        foreach ($request->user()->tokens as $token) {
+        /* foreach ($request->user()->tokens as $token) {
             $token->revoke();
-        }
+        } */
         
-        Auth::logout();
-        $_COOKIE['__user_id'] = NULL;
         return response()->json(['status' => true], 204);
     }
 

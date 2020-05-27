@@ -63,7 +63,7 @@ Route::get('login/{driver}/callback', 'Auth\LoginController@handleProviderCallba
 Route::post('/api/login', 'Auth\UserController@login')->name('login');
 Route::post('/api/register', 'Auth\UserController@register');
 Route::post('/api/user/update', 'Auth\UserController@update')->middleware('auth:api');
-Route::get('/api/logout', 'Auth\UserController@logout');
+Route::get('/api/logout', 'Auth\UserController@logout')->middleware('auth:api');
 
 
 Route::group(['middleware' => 'auth:api'], function () {
