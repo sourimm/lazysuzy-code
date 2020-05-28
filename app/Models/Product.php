@@ -277,7 +277,7 @@ class Product extends Model
         }
 
         if ($is_details_minimal) {
-            $query = $query->whereRaw('LENGTH(image_xbg) > 0');
+            $query = $query->whereRaw('image_xbg_processed = 1');
             $all_filters['is_board_view'] = true;
         }
         else {
@@ -588,7 +588,7 @@ class Product extends Model
         if (sizeof($all_filters) != 0) {
 
             if(isset($all_filters['is_board_view']) && $all_filters['is_board_view']) {
-                $product_brands = $product_brands->whereRaw('LENGTH(image_xbg) > 0');
+                $product_brands = $product_brands->whereRaw('image_xbg_processed = 1');
 
             }
 
