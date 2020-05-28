@@ -122,11 +122,6 @@ Route::get('/api/board/{id?}', '\App\Board\Controllers\BoardController@get_board
 Route::post('/api/board/{id?}', '\App\Board\Controllers\BoardController@update_board')->middleware(['cors', 'auth:api']);
 
 
-
-
-
-
-
 /* ==================================================BACKEND ADMIN APIS========================================== */
 
 Route::middleware(['auth:api', 'cors', 'admin'])->group(function() {
