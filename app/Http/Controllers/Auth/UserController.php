@@ -155,7 +155,7 @@ class UserController extends Controller
         }
         
         if($user){
-          $success['token'] = $request->bearerToken();;
+          $success['token'] = $user->createToken('lazysuzy-web')->accessToken;
           $success['user'] =  $user;
           return response()->json(['success' => $success], $this->successStatus);
         }
@@ -201,6 +201,7 @@ class UserController extends Controller
 
     public function update(Request $request)
     {
+        $convert_user = false;
         $data = $request->all();
         if (Auth::check()) {
             $user = Auth::user();
@@ -232,12 +233,49 @@ class UserController extends Controller
             }
 
             // if both email and password exist for user change its type
-            if (!empty($user->email) && !empty($user->password) && $user->user_type == config('user.user_type.guest'))
+            if (isset($data['password']) && isset($data['email']) && $user->user_type == config('user.user_type.guest')) {
+
+                $validator = Validator::make($data, [
+                    'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+                    'password' => ['required', 'string', 'min:8']
+                ]);
+
+                if ($validator->fails())
+                    return response()->json(['error' => $validator->errors()], 401);
+
+                // user is being converted to regular user now
                 $user->user_type = config('user.user_type.default');
+                $user->email = $data['email'];
+                $user->password = Hash::make($data['password']);
+
+                // take the guest auth token and disable it on all the devices
+                $value = $request->bearerToken();
+                $tokenId = (new \Lcobucci\JWT\Parser())->parse($value)->getHeader('jti');
+                $token = $request->user()->tokens->find($tokenId);
+
+                if (isset($token->id)) {
+                    // this will revoke the token on all devices
+                    DB::table('oauth_refresh_tokens')
+                        ->where('access_token_id', $token->id)
+                        ->update([
+                            'revoked' => true
+                        ]);
+                    $convert_user = true;
+                } 
+
+                $token->revoke();
+                //===============================================================
+            }
 
             if ($user->update()) {
-                $success['token'] =  $user->createToken('lazysuzy-web')->accessToken;
+
+                if($convert_user)
+                    $success['token'] =  $user->createToken('lazysuzy-web')->accessToken;
+                else 
+                    $success['token'] =  $request->bearerToken();
+
                 $success['user'] =  $user;
+                $success['is_converted'] = $convert_user;
                 return response()->json(['success' => $success], $this->successStatus);
             } else
                 return response()->json(['error' => ['error' => "unknown error"]], 401);
