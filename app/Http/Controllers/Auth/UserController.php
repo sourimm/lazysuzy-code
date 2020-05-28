@@ -155,7 +155,7 @@ class UserController extends Controller
         }
         
         if($user){
-          $success['token'] =  $user->createToken('lazysuzy-web')->accessToken;
+          $success['token'] = $request->bearerToken();;
           $success['user'] =  $user;
           return response()->json(['success' => $success], $this->successStatus);
         }

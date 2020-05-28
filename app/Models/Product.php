@@ -589,12 +589,10 @@ class Product extends Model
 
             if(isset($all_filters['is_board_view']) && $all_filters['is_board_view']) {
                 $product_brands = $product_brands->whereRaw('image_xbg_processed = 1');
-
             }
 
             if (isset($all_filters['type']) && strlen($all_filters['type'][0]) > 0) {
                 $LS_IDs = Product::get_sub_cat_LS_IDs($dept, $cat, $all_filters['type']);
-               
             }
 
             if (
