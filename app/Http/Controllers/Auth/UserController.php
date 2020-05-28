@@ -155,7 +155,7 @@ class UserController extends Controller
         }
         
         if($user){
-          $success['token'] =  $user->createToken('lazysuzy-web')->accessToken;
+          $success['token'] = $request->bearerToken();;
           $success['user'] =  $user;
           return response()->json(['success' => $success], $this->successStatus);
         }
@@ -171,11 +171,13 @@ class UserController extends Controller
         $token = $request->user()->tokens->find($tokenId);
        
         if (!isset($token->id)) return true;
-        DB::table('oauth_refresh_tokens')
+        
+        // this will revoke the token on all devices
+        /* DB::table('oauth_refresh_tokens')
             ->where('access_token_id', $token->id)
             ->update([
                 'revoked' => true
-            ]);
+            ]); */
 
         $token->revoke();
         
