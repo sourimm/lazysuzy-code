@@ -33,4 +33,18 @@ class Utility extends Model
         $guidText = substr($s, 0, 8) . '-' . substr($s, 8, 4) . '-' . substr($s, 12, 4) . '-' . substr($s, 16, 4) . '-' . substr($s, 20);
         return $guidText;
     }
+
+
+    // this is used to format strings like 
+    // http:/lazysuzy.com/image/ggimggg_xbgs.php
+    // to "ggimggg"
+    public static function get_core_image_name($img)
+    {
+        $img = explode("/", $img);
+        $img = end($img);
+        $img = current(explode(".", $img));
+        $img = substr($img, 0, strlen($img) - 5);
+
+        return $img;
+    }
 }
