@@ -27,7 +27,7 @@ class Wishlist extends Model {
                 $product_inventory_details = Product::get_product_from_inventory($user, $prod->product_sku);
                 $prod = (object) array_merge($product_inventory_details, (array) $prod);
                 
-                array_push($products_structured, Product::get_details($prod, $variations, true, true,));
+                array_push($products_structured, Product::get_details($prod, $variations, true, true));
             }
             
             return [
