@@ -129,6 +129,7 @@ Route::middleware(['auth:api', 'cors', 'admin'])->group(function() {
     Route::get('/api/admin/products/{dept}/{cat?}/{subCat?}', 'Admin\Dashboard@filter_products')->name('admin-get-products');
     Route::get('/api/admin/products/{dept}/{cat}', 'Admin\Dashboard@filter_products')->name('admin-category');
     Route::get('/api/admin/product/{sku}', 'Admin\Dashboard@get_product_details')->name('admin-get-product-details');
+    Route::post('/api/admin/mark/image', 'Admin\Dashboard@mark_image')->name('mark-image');
 });
 
 /* ============================================================================================================== */

@@ -1222,6 +1222,8 @@ class Product extends Model
         }
 
         $main_image = ($is_details_minimal) ?  $product->image_xbg : $product->main_product_images;
+
+        // for wishlist 
         $data =  [
             //'id'               => isset($product->id) ? $product->id : rand(1, 10000) * rand(1, 10000),
             'sku'              => $product->product_sku,
@@ -2172,5 +2174,11 @@ class Product extends Model
                 return null;
                 break;
         }
+    }
+
+    public static function mark_image($product_sku, $image, $col) {
+        return DB::table('master_data')
+            ->where('product_sku', $product_sku)
+            ->update([ $col => $image]);
     }
 };

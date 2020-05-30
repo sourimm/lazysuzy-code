@@ -15,7 +15,7 @@ npm-debug.log
 yarn-error.log
 .idea/
 .DS_Store
-
+public/*
 public/css
 public/js
 public/mix-manifest.json
