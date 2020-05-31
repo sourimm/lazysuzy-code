@@ -47,4 +47,29 @@ class Utility extends Model
 
         return $img;
     }
+
+    // this takes in the normal image path and converts it 
+    // to path that will be saved for xbg images 
+    // for primary and secondary images
+    public static function make_new_path($image, $type)
+    {
+
+        $image_process_columns = config('admin.image_process_columns');
+        $image_process_folders = config('admin.image_process_folders');
+
+        // construct the new location path 
+        $image_path_elements =  explode("/", $image);
+        $image_path_elements[2] = $image_process_folders[$type]; // new folder
+
+        $image_name = explode(".", $image_path_elements[3]);
+        $new_image_name = $image_name[0] . "_" . $image_process_folders[$type];
+        $image_name[0] = $new_image_name;
+
+        $new_image_name = implode(".", $image_name);
+        $image_path_elements[3] = $new_image_name;
+        $new_image_path = implode("/", $image_path_elements);
+
+        // new image will be like /westelm/xbgs/image.jpg
+        return $new_image_path;
+    }
 }

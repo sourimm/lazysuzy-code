@@ -26,13 +26,18 @@ class Dashboard extends Controller
 
             $images = $data['products'][$x]['on_server_images'];
             $images_with_base = [];
-            $xbg_primary = $data['products'][$x]['xbg_primary'];
-            $xbg_secondary = $data['products'][$x]['xbg_secondary'];
+            $xbg_primary = explode(",", $data['products'][$x]['xbg_primary']);
+            $xbg_secondary = explode(",", $data['products'][$x]['xbg_secondary']);
 
+            $_pri = [];
+            $_sec = [];
             // image names without extension
-            $xbg_primary = Utility::get_core_image_name($xbg_primary);
-            $xbg_secondary = Utility::get_core_image_name($xbg_secondary);
+            foreach($xbg_primary as $i) $_pri[] = Utility::get_core_image_name($i);
+            foreach ($xbg_secondary as $j) $_sec[] = Utility::get_core_image_name($j);
 
+            $xbg_primary = $_pri;
+            $xbg_secondary = $_sec;
+           
             foreach($images as $img) {
                 $btag = null;
                 $image_name = explode("/", $img);
@@ -41,8 +46,24 @@ class Dashboard extends Controller
                 // image name without the extension
                 $image_name = current(explode(".", $image_name));
                 
-                if($xbg_primary == $image_name) $btag = 'primary';
-                else if($xbg_secondary == $image_name) $btag = 'secondary';
+                foreach($xbg_primary as $i) {
+                    //echo "p " . $i . " == " . $image_name . " |\n";
+                    if ($i == $image_name) {
+                        $btag = 'primary';
+                        break;
+                    }
+                }
+
+                if($btag == null) {
+                    foreach ($xbg_secondary as $j) {
+                       // echo "s " . $j . " == " . $image_name . " |\n";
+                    
+                        if ($j == $image_name) {
+                            $btag = 'secondary';
+                            break;
+                        }
+                    }
+                }
 
                 $images_with_base[] = [
                     'url' => $img,
@@ -61,6 +82,7 @@ class Dashboard extends Controller
         return Product::get_product_details($sku);
     }
 
+    
     public function mark_image(Request $request) {
         $image = Input::post('image');
         $sku = Input::post('product_sku');
@@ -72,37 +94,32 @@ class Dashboard extends Controller
 
                 $image_process_columns = config('admin.image_process_columns');
                 $image_process_folders = config('admin.image_process_folders');
-              
+
                 // incomming image will have domain name at the starting
                 // we'll have to remove the domain name
                 $image =  str_replace(env('APP_URL'), "", $image);
-                // construct the new location path 
-                $image_path_elements =  explode("/", $image);
-                $image_path_elements[2] = $image_process_folders[$type]; // new folder
 
-                $image_name = explode(".", $image_path_elements[3]);
-                $new_image_name = $image_name[0] . "_" . $image_process_folders[$type];
-                $image_name[0] = $new_image_name;
+                $new_image = Utility::make_new_path($image, $type);
                 
-                $new_image_name = implode(".", $image_name);
-                $image_path_elements[3] = $new_image_name;
-                $new_image_path = implode("/", $image_path_elements);
-
                 $image = public_path() . $image;
-                $new_image_path = public_path() . $new_image_path; 
+                $new_image_path = public_path() . $new_image; 
 
+                // new image path, this will be used for 
+                // checking if the folder /westelm/xbgs exists 
+                // or not
+                $image_path_elements = explode("/", $new_image);
                 $image_folder = public_path() . "/" . $image_path_elements[1] . "/" . $image_path_elements[2];
               
                 // if folder not exists make folder
                 if(!File::exists($image_folder))
                     File::makeDirectory($image_folder);
-                
+               
                 // if file noe exists make file
                 if(!File::exists($new_image_path))
                     File::copy($image, $new_image_path);
                 
                 if(File::exists($new_image_path)) {
-                    $db_path = str_replace(public_path(), "", $new_image_name);
+                    $db_path = str_replace(public_path(), "", $new_image_path);
                     return [
                         'status' => (bool) Product::mark_image($sku, $db_path, $image_process_columns[$type]),
                         'image' => $db_path
