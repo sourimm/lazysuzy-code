@@ -100,7 +100,7 @@ class Product extends Model
         return $LS_IDs;
     }
 
-    public static function get_filter_products($dept, $cat = null, $subCat = null)
+    public static function get_filter_products($dept, $cat = null, $subCat = null, $isAdmiAPICall = false)
     {
         $perPage = 24;
         DB::enableQueryLog();
@@ -277,7 +277,7 @@ class Product extends Model
         }
 
         if ($is_details_minimal) {
-            $query = $query->whereRaw('LENGTH(image_xbg) > 0');
+            $query = $query->whereRaw('image_xbg_processed = 1');
             $all_filters['is_board_view'] = true;
         }
         else {
@@ -304,7 +304,10 @@ class Product extends Model
 
         //echo "<pre>" . print_r($all_filters, ""true);
         $query = $query->join("master_brands", "master_data.site_name", "=", "master_brands.value");
-        return Product::getProductObj($query->get(), $all_filters, $dept, $cat, $subCat, true, $is_details_minimal);
+        $isListingAPICall = true;
+
+        if($isAdmiAPICall == true) $isListingAPICall = false;
+        return Product::getProductObj($query->get(), $all_filters, $dept, $cat, $subCat, $isListingAPICall, $is_details_minimal);
     }
 
     public static function get_dept_cat_LS_ID_arr($dept, $cat)
@@ -585,13 +588,11 @@ class Product extends Model
         if (sizeof($all_filters) != 0) {
 
             if(isset($all_filters['is_board_view']) && $all_filters['is_board_view']) {
-                $product_brands = $product_brands->whereRaw('LENGTH(image_xbg) > 0');
-
+                $product_brands = $product_brands->whereRaw('image_xbg_processed = 1');
             }
 
             if (isset($all_filters['type']) && strlen($all_filters['type'][0]) > 0) {
                 $LS_IDs = Product::get_sub_cat_LS_IDs($dept, $cat, $all_filters['type']);
-               
             }
 
             if (
@@ -1221,8 +1222,10 @@ class Product extends Model
         }
 
         $main_image = ($is_details_minimal) ?  $product->image_xbg : $product->main_product_images;
+
+        // for wishlist 
         $data =  [
-            'id'               => isset($product->id) ? $product->id : rand(1, 10000) * rand(1, 10000),
+            //'id'               => isset($product->id) ? $product->id : rand(1, 10000) * rand(1, 10000),
             'sku'              => $product->product_sku,
             'is_new'           => $is_new,
             'redirect'         => isset($product->redirect) ? $product->redirect : false,
@@ -1236,7 +1239,7 @@ class Product extends Model
             'is_price'         => $product->price,
             'was_price'        => str_replace("$", "", $product->was_price),
             'percent_discount' => $discount,
-            'model_code'       => $product->model_code,
+            //'model_code'       => $product->model_code,
             'seating'          => isset($product->seating) ? $product->seating : null,
             //    'description'      => preg_split("/\\[US\\]|<br>|\\n/", $product->product_description),
             //    'dimension'        => $product->site_name == "cb2" ? Product::cb2_dimensions($product->product_dimension) : $product->product_dimension,
@@ -1244,9 +1247,9 @@ class Product extends Model
             'color'            => $product->color,
             //    'images'           => array_map([__CLASS__, "baseUrl"], preg_split("/,|\\[US\\]/", $product->images)),
             //    'features'         => preg_split("/\\[US\\]|<br>|\\n/", $product->product_feature),
-            'collection'       => $product->collection,
+            //'collection'       => $product->collection,
             //    'set'              => $product->product_set,
-            'condition'        => $product->product_condition,
+            //'condition'        => $product->product_condition,
             //    'created_date'     => $product->created_date,
             //    'updated_date'     => $product->updated_date,
             //    'on_server_images' => array_map([__CLASS__, "baseUrl"], preg_split("/,|\\[US\\]/", $product->product_images)),
@@ -1262,7 +1265,7 @@ class Product extends Model
             array_pop($variations);
         } */
 
-        // call coming from the board
+        // call coming from the board 
         if($is_details_minimal || $isMarked) {
             $data['board_thumb'] = strlen($product->image_xbg_thumb) > 0 ? env('APP_URL') . $product->image_xbg_thumb : null;
             $data['board_cropped'] = strlen($product->image_xbg_cropped) > 0 ? env('APP_URL') . $product->image_xbg_cropped : null;
@@ -1330,6 +1333,10 @@ class Product extends Model
             $data['selections'] = $extras;
             //$data['hashmap'] = $hashmap;
 
+
+            // these values are used in backend admin APIs
+            $data['xbg_primary'] = $product->image_xbg_select_primary;
+            $data['xbg_secondary'] = $product->image_xbg_select_secondary;
             return $data;
         } else {
 
@@ -2167,5 +2174,30 @@ class Product extends Model
                 return null;
                 break;
         }
+    }
+
+    public static function mark_image($product_sku, $image, $col) {
+
+        $img_files = DB::table('master_data')   
+                ->select([$col])
+                ->where('product_sku', $product_sku)
+                ->get();
+        
+        if(isset($img_files[0])) {
+            $file_paths = $img_files[0]->$col;
+            $file_paths = explode(",", $file_paths);
+
+            if(!in_array($image, $file_paths)) {
+                $file_paths[] = $image;
+                $file_paths_all = implode(",", $file_paths);
+
+                return DB::table('master_data')
+                    ->where('product_sku', $product_sku)
+                    ->update([$col => $file_paths_all]);
+            }
+        }
+
+        return false;
+        
     }
 };

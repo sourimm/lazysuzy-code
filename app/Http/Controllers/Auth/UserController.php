@@ -36,7 +36,7 @@ class UserController extends Controller
             Auth::login($auth_user, true);
             $user = Auth::user();
             
-            $user['access_token'] = $user->createToken('Laravel Personal Access Client')->accessToken;
+            $user['access_token'] = $user->createToken('lazysuzy-web')->accessToken;
             return $user;
 
         } else {
@@ -72,11 +72,12 @@ class UserController extends Controller
         
         }
     }
+
     public function login()
     {
         if (Auth::attempt(['email' => request('email'), 'password' => request('password')])) {
             $user = Auth::user();
-            $success['token'] =  $user->createToken('Laravel Personal Access Client')->accessToken;
+            $success['token'] =  $user->createToken('lazysuzy-web')->accessToken;
             return response()->json([
                 'success' => $success,
                 'user' => $user
@@ -98,7 +99,7 @@ class UserController extends Controller
         $user = false;
         $data = $request->all();
         
-        if(isset($data['guest'])){
+        if(isset($data['guest'])) {
           $user = User::create([
             'name' => '',
             'email' => '',
@@ -137,7 +138,7 @@ class UserController extends Controller
           ];
           
           Auth::shouldUse('api');
-          if(Auth::check()){
+          if(Auth::check()) {
             $user = Auth::user();
             // check if guest using is trying to convert
             if(isset($user->user_type) && $user->user_type == config('user.user_type.guest')){
@@ -154,7 +155,7 @@ class UserController extends Controller
         }
         
         if($user){
-          $success['token'] =  $user->createToken('lazysuzy-web')->accessToken;
+          $success['token'] = $user->createToken('lazysuzy-web')->accessToken;
           $success['user'] =  $user;
           return response()->json(['success' => $success], $this->successStatus);
         }
@@ -170,20 +171,20 @@ class UserController extends Controller
         $token = $request->user()->tokens->find($tokenId);
        
         if (!isset($token->id)) return true;
-        DB::table('oauth_refresh_tokens')
+        
+        // this will revoke the token on all devices
+        /* DB::table('oauth_refresh_tokens')
             ->where('access_token_id', $token->id)
             ->update([
                 'revoked' => true
-            ]);
+            ]); */
 
         $token->revoke();
         
-        foreach ($request->user()->tokens as $token) {
+        /* foreach ($request->user()->tokens as $token) {
             $token->revoke();
-        }
+        } */
         
-        Auth::logout();
-        $_COOKIE['__user_id'] = NULL;
         return response()->json(['status' => true], 204);
     }
 
@@ -200,6 +201,7 @@ class UserController extends Controller
 
     public function update(Request $request)
     {
+        $convert_user = false;
         $data = $request->all();
         if (Auth::check()) {
             $user = Auth::user();
@@ -231,12 +233,49 @@ class UserController extends Controller
             }
 
             // if both email and password exist for user change its type
-            if (!empty($user->email) && !empty($user->password) && $user->user_type == config('user.user_type.guest'))
+            if (isset($data['password']) && isset($data['email']) && $user->user_type == config('user.user_type.guest')) {
+
+                $validator = Validator::make($data, [
+                    'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+                    'password' => ['required', 'string', 'min:8']
+                ]);
+
+                if ($validator->fails())
+                    return response()->json(['error' => $validator->errors()], 401);
+
+                // user is being converted to regular user now
                 $user->user_type = config('user.user_type.default');
+                $user->email = $data['email'];
+                $user->password = Hash::make($data['password']);
+
+                // take the guest auth token and disable it on all the devices
+                $value = $request->bearerToken();
+                $tokenId = (new \Lcobucci\JWT\Parser())->parse($value)->getHeader('jti');
+                $token = $request->user()->tokens->find($tokenId);
+
+                if (isset($token->id)) {
+                    // this will revoke the token on all devices
+                    DB::table('oauth_refresh_tokens')
+                        ->where('access_token_id', $token->id)
+                        ->update([
+                            'revoked' => true
+                        ]);
+                    $convert_user = true;
+                } 
+
+                $token->revoke();
+                //===============================================================
+            }
 
             if ($user->update()) {
-                $success['token'] =  $user->createToken('lazysuzy-web')->accessToken;
+
+                if($convert_user)
+                    $success['token'] =  $user->createToken('lazysuzy-web')->accessToken;
+                else 
+                    $success['token'] =  $request->bearerToken();
+
                 $success['user'] =  $user;
+                $success['is_converted'] = $convert_user;
                 return response()->json(['success' => $success], $this->successStatus);
             } else
                 return response()->json(['error' => ['error' => "unknown error"]], 401);

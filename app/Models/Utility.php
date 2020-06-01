@@ -33,4 +33,43 @@ class Utility extends Model
         $guidText = substr($s, 0, 8) . '-' . substr($s, 8, 4) . '-' . substr($s, 12, 4) . '-' . substr($s, 16, 4) . '-' . substr($s, 20);
         return $guidText;
     }
+
+
+    // this is used to format strings like 
+    // http:/lazysuzy.com/image/ggimggg_xbgs.php
+    // to "ggimggg"
+    public static function get_core_image_name($img)
+    {
+        $img = explode("/", $img);
+        $img = end($img);
+        $img = current(explode(".", $img));
+        $img = substr($img, 0, strlen($img) - 5);
+
+        return $img;
+    }
+
+    // this takes in the normal image path and converts it 
+    // to path that will be saved for xbg images 
+    // for primary and secondary images
+    public static function make_new_path($image, $type)
+    {
+
+        $image_process_columns = config('admin.image_process_columns');
+        $image_process_folders = config('admin.image_process_folders');
+
+        // construct the new location path 
+        $image_path_elements =  explode("/", $image);
+        $image_path_elements[2] = $image_process_folders[$type]; // new folder
+
+        $image_name = explode(".", $image_path_elements[3]);
+        $new_image_name = $image_name[0] . "_" . $image_process_folders[$type];
+        $image_name[0] = $new_image_name;
+
+        $new_image_name = implode(".", $image_name);
+        $image_path_elements[3] = $new_image_name;
+        $new_image_path = implode("/", $image_path_elements);
+
+        // new image will be like /westelm/xbgs/image.jpg
+        return $new_image_path;
+    }
 }
