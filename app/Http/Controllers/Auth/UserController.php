@@ -106,7 +106,7 @@ class UserController extends Controller
             'password' => '',
             'first_name' => '',
             'last_name' => '',
-            'oauth_provider' => 'guest',
+            'oauth_provider' => '',
             'oauth_uid' => '',
             'picture' => 'null',
             'locale' => 'null',
@@ -282,4 +282,8 @@ class UserController extends Controller
         }
     }
 
+    public function keepAlive() {
+      Auth::shouldUse('api');
+      return response()->json(['alive' => Auth::check()], $this->successStatus);
+    }
 }
