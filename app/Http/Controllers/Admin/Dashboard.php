@@ -114,7 +114,7 @@ class Dashboard extends Controller
                 if(!File::exists($image_folder))
                     File::makeDirectory($image_folder);
                
-                // if file noe exists make file
+                // if file not exists make file
                 if(!File::exists($new_image_path))
                     File::copy($image, $new_image_path);
                 
