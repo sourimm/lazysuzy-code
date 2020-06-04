@@ -128,4 +128,13 @@ Route::middleware(['auth:api', 'cors', 'admin'])->group(function() {
     Route::post('/api/admin/mark/image', 'Admin\Dashboard@mark_image')->name('mark-image');
 });
 
+
+Route::group([
+    'prefix' => '/api/password' 
+], function() {
+    Route::post('create', 'Auth\ResetPasswordController@create');
+    Route::get('find/{token}', 'Auth\ResetPasswordController@find');
+    Route::post('reset', 'Auth\ResetPasswordController@reset');
+});
+
 /* ============================================================================================================== */
