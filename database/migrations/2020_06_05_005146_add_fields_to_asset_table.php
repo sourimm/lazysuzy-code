@@ -13,8 +13,8 @@ class AddFieldsToAssetTable extends Migration
     public function up()
     {
         Schema::table('asset', function (Blueprint $table) {
-            $table->string('listing_url')->after('transparent_path');
-            $table->string('tags')->after('listing_url');
+            $table->string('listing_url')>nullable()->after('transparent_path');
+            $table->string('tags')>nullable()->after('listing_url');
         });
     }
 
