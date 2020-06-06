@@ -11,7 +11,7 @@ class Asset extends Model
 {
   protected $table = 'asset';
   protected $primaryKey = 'asset_id';
-  protected $fillable = ['name', 'price', 'brand', 'path', 'is_private', 'is_active'];
+  protected $fillable = ['name', 'price', 'brand', 'path', 'listing_url', 'tags', 'is_private', 'is_active'];
   
   protected static function boot() {
     parent::boot();
