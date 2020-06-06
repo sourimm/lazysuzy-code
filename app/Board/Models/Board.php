@@ -19,11 +19,25 @@ class Board extends Model
     parent::boot();
     static::addGlobalScope(new AuthAndActiveScope);
     static::creating(function($board){
-      $board->uuid = (string) Str::uuid();
+      $board->uuid = Board::randomId(6);
+      // $board->uuid = (string) Str::uuid();
     });
     static::saving(function($board){
       $board->user_id = Auth::id();
     });
+  }
+  
+  private static function randomId($length = 10){
+
+     $str_result = '0123456789abcdefghijklmnopqrstuvwxyz'; 
+     $id = substr(str_shuffle($str_result), 0, $length);
+     
+     $validator = \Validator::make(['uuid'=>$id],['uuid'=>'unique:board']);
+     
+     if($validator->fails())
+          return $this->randomId();
+
+     return $id;
   }
   
   public function scopeID($query, $boardID) {
