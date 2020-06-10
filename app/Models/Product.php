@@ -2208,7 +2208,7 @@ class Product extends Model
         $variations = null;
         $isListingAPICall = true;
         $isMarked = false;
-        $is_details_minimal = true;
+        $is_details_minimal = false;
 
         foreach($product_rows as $product) {
             $response[] = Product::get_details($product, $variations, $isListingAPICall, $isMarked, false, $is_details_minimal);
