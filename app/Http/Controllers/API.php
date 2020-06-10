@@ -49,8 +49,13 @@ class API extends Controller
         return Product::get_filter_products($dept, $cat, $subCat);
     }
    
-    public function get_product_details($sku)
-    {
+    public function get_product_details(Request $req, $sku)
+    {   
+        $skus = $req->input('skus');
+        
+        if(isset($skus) && strlen($skus) > 0)
+            return Product::get_selected_products(explode(",", $skus));
+
         return Product::get_product_details($sku);
     }
 

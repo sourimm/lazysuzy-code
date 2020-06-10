@@ -2200,4 +2200,20 @@ class Product extends Model
         return false;
         
     }
+
+    public static function get_selected_products($sku_array) {
+        $product_rows = Product::whereIn('product_sku', $sku_array)->get();
+        $response = [];
+
+        $variations = null;
+        $isListingAPICall = true;
+        $isMarked = false;
+        $is_details_minimal = true;
+
+        foreach($product_rows as $product) {
+            $response[] = Product::get_details($product, $variations, $isListingAPICall, $isMarked, false, $is_details_minimal);
+        }
+
+        return $response;
+    }
 };
