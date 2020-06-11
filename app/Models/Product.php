@@ -143,6 +143,8 @@ class Product extends Model
         $sale_products_only = filter_var(Input::get('sale'), FILTER_VALIDATE_BOOLEAN);
         $is_details_minimal = filter_var(Input::get('board-view'), FILTER_VALIDATE_BOOLEAN);
         $is_best_seller     = filter_var(Input::get('bestseller'), FILTER_VALIDATE_BOOLEAN);
+        $is_admin_call = filter_var(Input::get('admin'), FILTER_VALIDATE_BOOLEAN);
+
 
 
         $all_filters = [];
@@ -277,7 +279,9 @@ class Product extends Model
         }
 
         if ($is_details_minimal) {
-            $query = $query->whereRaw('image_xbg_processed = 1');
+
+            if(!$is_admin_call)
+                $query = $query->whereRaw('image_xbg_processed = 1');
             $all_filters['is_board_view'] = true;
         }
         else {
@@ -306,6 +310,7 @@ class Product extends Model
         $query = $query->join("master_brands", "master_data.site_name", "=", "master_brands.value");
         $isListingAPICall = true;
 
+       
         if($isAdmiAPICall == true) $isListingAPICall = false;
         return Product::getProductObj($query->get(), $all_filters, $dept, $cat, $subCat, $isListingAPICall, $is_details_minimal);
     }
@@ -358,8 +363,7 @@ class Product extends Model
                 }
             }
         } */
-        $check_for_sub_catgories = true;
-        $categories = Category::get_board_categories($check_for_sub_catgories);
+        $categories = Category::get_board_categories();
 
         $filter_categories = [];
         foreach ($LS_IDs as $LS_ID) {
