@@ -9,16 +9,21 @@ use Illuminate\Support\Facades\Input;
 use Auth;
 
 class Wishlist extends Model {
-    public static function get_whishlist() 
+    public static function get_whishlist($is_board_view = false) 
     {
         if(Auth::check()) {
             $user = Auth::user();
             $products = DB::table("user_wishlists")
                 ->join("master_data", "master_data.product_sku", "=", "user_wishlists.product_id")
-                ->join("master_brands", "master_data.site_name", "=", "master_brands.value")
-                ->where("user_id", $user->id)
+                ->join("master_brands", "master_data.site_name", "=", "master_brands.value");
+
+            if($is_board_view) 
+                $products->where("master_data.image_xbg_processed", 1);
+
+            $products = $products->where("user_id", $user->id)
                 ->where("is_active", 1)
                 ->get()->toArray();
+                
             $products_structured = [];
             foreach((object) $products as $prod) {
                 $variations = Product::get_variations($prod, null, true);

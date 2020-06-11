@@ -18,7 +18,7 @@ use Subscribe as GlobalSubscribe;
 
 class API extends Controller
 {
-    public function index(Request $request)
+    public function index(Request $requestuest)
     {
         return false;
     }
@@ -49,8 +49,13 @@ class API extends Controller
         return Product::get_filter_products($dept, $cat, $subCat);
     }
    
-    public function get_product_details($sku)
-    {
+    public function get_product_details(Request $request, $sku)
+    {   
+        $skus = $request->input('skus');
+        
+        if(isset($skus) && strlen($skus) > 0)
+            return Product::get_selected_products(explode(",", $skus));
+
         return Product::get_product_details($sku);
     }
 
@@ -74,9 +79,14 @@ class API extends Controller
         return Wishlist::unmark_favourite_product($sku);
     }
 
-    public function get_wishlist()
+    public function get_wishlist(Request $request)
     {
-        return Wishlist::get_whishlist();
+        $board_view = $request->input('board-view');
+        if(isset($board_view) && strtolower($board_view) == 'true')
+            $board_view = true;
+        else $board_view = false;
+
+        return Wishlist::get_whishlist($board_view);
     }
 
     public function get_all_brands($key = null) {
@@ -95,13 +105,13 @@ class API extends Controller
         return Brands::get_banners();
     }
 
-    public function add_to_cart(Request $req) {
+    public function add_to_cart(Request $request) {
 
-        if(strlen($req->input('product_sku')) > 0 
-            && strlen($req->input('count')) > 0) {
+        if(strlen($request->input('product_sku')) > 0 
+            && strlen($request->input('count')) > 0) {
             
-                $sku = $req->input('product_sku');
-                $count = $req->input('count');
+                $sku = $request->input('product_sku');
+                $count = $request->input('count');
 
                 return Cart::add($sku, $count);
         }
@@ -112,13 +122,13 @@ class API extends Controller
        
     }
 
-    public function remove_from_cart(Request $req)
+    public function remove_from_cart(Request $request)
     {
-        if (strlen($req->input('product_sku')) > 0
-            && strlen($req->input('count')) > 0) {
+        if (strlen($request->input('product_sku')) > 0
+            && strlen($request->input('count')) > 0) {
 
-            $sku = $req->input('product_sku');
-            $count = $req->input('count');
+            $sku = $request->input('product_sku');
+            $count = $request->input('count');
 
             return Cart::remove($sku, $count);
         }

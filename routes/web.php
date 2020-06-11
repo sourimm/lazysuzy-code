@@ -46,7 +46,7 @@ Route::get('/category', function () {
 
 Auth::routes();
 
-Route::get('/logout', 'Auth\LoginController@logout');
+// Route::get('/logout', 'Auth\LoginController@logout');
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('redirect/{driver}', 'Auth\LoginController@redirectToProvider')
 ->name('login.provider')
@@ -64,11 +64,7 @@ Route::post('/api/login', 'Auth\UserController@login')->name('login');
 Route::post('/api/register', 'Auth\UserController@register');
 Route::post('/api/user/update', 'Auth\UserController@update')->middleware('auth:api');
 Route::get('/api/logout', 'Auth\UserController@logout')->middleware('auth:api');
-
-
-Route::group(['middleware' => 'auth:api'], function () {
-    //Route::post('details', 'UserController@details');
-});
+Route::get('/api/user/keepalive', 'Auth\UserController@keepAlive');
 
 Route::get('/api/get-user', 'API@get_user')->middleware('auth:api')->name('get-user');
 Route::get('/api/brand/{key?}', 'API@get_all_brands')->middleware('auth:api')->name('get_all_brands');
@@ -130,6 +126,15 @@ Route::middleware(['auth:api', 'cors', 'admin'])->group(function() {
     Route::get('/api/admin/products/{dept}/{cat}', 'Admin\Dashboard@filter_products')->name('admin-category');
     Route::get('/api/admin/product/{sku}', 'Admin\Dashboard@get_product_details')->name('admin-get-product-details');
     Route::post('/api/admin/mark/image', 'Admin\Dashboard@mark_image')->name('mark-image');
+});
+
+
+Route::group([
+    'prefix' => '/api/password' 
+], function() {
+    Route::post('create', 'Auth\ResetPasswordController@create');
+    Route::get('find/{token}', 'Auth\ResetPasswordController@find');
+    Route::post('reset', 'Auth\ResetPasswordController@reset');
 });
 
 /* ============================================================================================================== */

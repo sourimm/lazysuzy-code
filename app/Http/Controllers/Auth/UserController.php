@@ -16,13 +16,8 @@ use Validator;
 class UserController extends Controller
 {
     public $successStatus = 200;
-    /** 
-     * login api 
-     * 
-     * @return \Illuminate\Http\Response 
-     */
-    public function explodeX($delimiters, $string)
-    {
+
+    public function explodeX($delimiters, $string) {
         return explode(chr(1), str_replace($delimiters, chr(1), $string));
     }
     public function findOrCreateUser($providerUser, $provider) {
@@ -35,7 +30,7 @@ class UserController extends Controller
             $auth_user = $account->user;
             Auth::login($auth_user, true);
             $user = Auth::user();
-            
+            $this->logout($request, true);
             $user['access_token'] = $user->createToken('lazysuzy-web')->accessToken;
             return $user;
 
@@ -72,9 +67,7 @@ class UserController extends Controller
         
         }
     }
-
-    public function login()
-    {
+    public function login() {
         if (Auth::attempt(['email' => request('email'), 'password' => request('password')])) {
             $user = Auth::user();
             $success['token'] =  $user->createToken('lazysuzy-web')->accessToken;
@@ -86,19 +79,11 @@ class UserController extends Controller
             return response()->json(['error' => 'Unauthorised'], 401);
         }
     }
-    /** 
-     * Register api 
-     * 
-     * @return \Illuminate\Http\Response 
-     */
-    public function register(Request $request)
-    {
-
-        //return $request->all();
-        
+    public function register(Request $request) {
         $user = false;
         $data = $request->all();
         
+        // register a type guest user
         if(isset($data['guest'])) {
           $user = User::create([
             'name' => '',
@@ -106,13 +91,14 @@ class UserController extends Controller
             'password' => '',
             'first_name' => '',
             'last_name' => '',
-            'oauth_provider' => 'guest',
+            'oauth_provider' => '',
             'oauth_uid' => '',
             'picture' => 'null',
             'locale' => 'null',
             'user_type' => config('user.user_type.guest')
           ]);
         }
+        // register a regular user
         else{
           $validator = Validator::make($data, [
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
@@ -138,71 +124,51 @@ class UserController extends Controller
           ];
           
           Auth::shouldUse('api');
+          // check if the registration request coming from an already authenticated user
           if(Auth::check()) {
             $user = Auth::user();
             // check if guest using is trying to convert
             if(isset($user->user_type) && $user->user_type == config('user.user_type.guest')){
-              if(!$user->update($userData))
+              // there was some problem in upgrading the user
+              if(!$user->update($userData)){
                 return response()->json(['error' => ['update' => "unable to update user data"]], 401);
               }
-              // check if a regular user is trying to create another account
-              else if($user->user_type == config('user.user_type.default')){
-                $user = User::create($userData);
-              }
+              // invalidate all previous session for this user
+              $this->logout($request, true);
             }
-            else
+            // check if a regular user is trying to create another account
+            else if($user->user_type == config('user.user_type.default')){
+              $user = User::create($userData);
+            }
+          }
+          else
             $user = User::create($userData);
         }
         
         if($user){
-          $success['token'] = $user->createToken('lazysuzy-web')->accessToken;
+          $success['token'] = $user->createToken('lazysuzy-web')->accessToken;  
           $success['user'] =  $user;
           return response()->json(['success' => $success], $this->successStatus);
         }
         else
-          return response()->json(['error' => ['error' => "unknown error"]], 401);
+          return response()->json(['error' => ['error' => "unable to register the user"]], 401);
     }
-
-    public function logout(Request $request) 
-    {
-
-        $value = $request->bearerToken();
-        $tokenId = (new \Lcobucci\JWT\Parser())->parse($value)->getHeader('jti');
-        $token = $request->user()->tokens->find($tokenId);
-       
-        if (!isset($token->id)) return true;
-        
-        // this will revoke the token on all devices
-        /* DB::table('oauth_refresh_tokens')
-            ->where('access_token_id', $token->id)
-            ->update([
-                'revoked' => true
-            ]); */
-
-        $token->revoke();
-        
-        /* foreach ($request->user()->tokens as $token) {
+    public function logout(Request $request, $fromEverywhere = false) {
+      if($fromEverywhere)
+        foreach ($request->user()->tokens as $token) {
             $token->revoke();
-        } */
-        
-        return response()->json(['status' => true], 204);
+        }
+      else{
+        $currentToken = $request->bearerToken();
+        $tokenId = (new \Lcobucci\JWT\Parser())->parse($currentToken)->getHeader('jti');
+        $request->user()->tokens->find($tokenId)->revoke();
+      }
+      return response()->json(['status' => true], 204);
     }
-
-    /** 
-     * details api 
-     * 
-     * @return \Illuminate\Http\Response 
-     */
-    public function details()
-    {
-        $user = Auth::user();
-        return response()->json(['success' => $user], $this->successStatus);
-    }
-
-    public function update(Request $request)
-    {
-        $convert_user = false;
+    public function update(Request $request) {
         $data = $request->all();
+        
+        // in order to update the user must be logged in
         if (Auth::check()) {
             $user = Auth::user();
 
@@ -232,54 +198,22 @@ class UserController extends Controller
                 $user->password = Hash::make($data['password']);
             }
 
-            // if both email and password exist for user change its type
+            // if both email and password exist and type is guest then the user is trying to signup
             if (isset($data['password']) && isset($data['email']) && $user->user_type == config('user.user_type.guest')) {
-
-                $validator = Validator::make($data, [
-                    'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-                    'password' => ['required', 'string', 'min:8']
-                ]);
-
-                if ($validator->fails())
-                    return response()->json(['error' => $validator->errors()], 401);
-
-                // user is being converted to regular user now
-                $user->user_type = config('user.user_type.default');
-                $user->email = $data['email'];
-                $user->password = Hash::make($data['password']);
-
-                // take the guest auth token and disable it on all the devices
-                $value = $request->bearerToken();
-                $tokenId = (new \Lcobucci\JWT\Parser())->parse($value)->getHeader('jti');
-                $token = $request->user()->tokens->find($tokenId);
-
-                if (isset($token->id)) {
-                    // this will revoke the token on all devices
-                    DB::table('oauth_refresh_tokens')
-                        ->where('access_token_id', $token->id)
-                        ->update([
-                            'revoked' => true
-                        ]);
-                    $convert_user = true;
-                } 
-
-                $token->revoke();
-                //===============================================================
+              return $this->register($request);
             }
-
-            if ($user->update()) {
-
-                if($convert_user)
-                    $success['token'] =  $user->createToken('lazysuzy-web')->accessToken;
-                else 
-                    $success['token'] =  $request->bearerToken();
-
-                $success['user'] =  $user;
-                $success['is_converted'] = $convert_user;
-                return response()->json(['success' => $success], $this->successStatus);
-            } else
-                return response()->json(['error' => ['error' => "unknown error"]], 401);
+            else {
+              if ($user->update()) {
+                  $success['token'] =  $request->bearerToken();  
+                  $success['user'] =  $user;
+                  return response()->json(['success' => $success], $this->successStatus);
+              } else
+                  return response()->json(['error' => ['error' => "unknown error"]], 401);
+            }
         }
     }
-
+    public function keepAlive() {
+      Auth::shouldUse('api');
+      return response()->json(['alive' => Auth::check()], $this->successStatus);
+    }
 }

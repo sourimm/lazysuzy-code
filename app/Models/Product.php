@@ -143,6 +143,8 @@ class Product extends Model
         $sale_products_only = filter_var(Input::get('sale'), FILTER_VALIDATE_BOOLEAN);
         $is_details_minimal = filter_var(Input::get('board-view'), FILTER_VALIDATE_BOOLEAN);
         $is_best_seller     = filter_var(Input::get('bestseller'), FILTER_VALIDATE_BOOLEAN);
+        $is_admin_call = filter_var(Input::get('admin'), FILTER_VALIDATE_BOOLEAN);
+
 
 
         $all_filters = [];
@@ -277,7 +279,9 @@ class Product extends Model
         }
 
         if ($is_details_minimal) {
-            $query = $query->whereRaw('image_xbg_processed = 1');
+
+            if(!$is_admin_call)
+                $query = $query->whereRaw('image_xbg_processed = 1');
             $all_filters['is_board_view'] = true;
         }
         else {
@@ -306,6 +310,7 @@ class Product extends Model
         $query = $query->join("master_brands", "master_data.site_name", "=", "master_brands.value");
         $isListingAPICall = true;
 
+       
         if($isAdmiAPICall == true) $isListingAPICall = false;
         return Product::getProductObj($query->get(), $all_filters, $dept, $cat, $subCat, $isListingAPICall, $is_details_minimal);
     }
@@ -335,23 +340,30 @@ class Product extends Model
         $LS_IDs = $LS_IDs->distinct("LS_ID")
             ->get();
 
-        // get product categories filters
-        $departments = Department::get_all_departments(false, false);
+        /* // get product categories filters
+        
+         * @param bool $dept_name_url_api
+         * @param bool $is_home_call
+         * @param bool $is_board_view
+         
+        $departments = Department::get_all_departments(false, false, true);
         $categories = [];
         foreach ($departments['all_departments'] as $department) {
 
-            if (isset($department['categories']) && sizeof($department['categories']) > 0) {
+            if (isset($department['categories']) 
+                && sizeof($department['categories']) > 0) {
+
                 foreach ($department['categories'] as $cat) {
                     $categories[$cat['LS_ID']] = [
                         'name' => $cat['filter_label'],
                         'value' => $cat['LS_ID'],
-                        //'' => $cat['LS_ID'],
                         'checked' => false,
                         'enabled' => false
                     ];
                 }
             }
-        }
+        } */
+        $categories = Category::get_board_categories();
 
         $filter_categories = [];
         foreach ($LS_IDs as $LS_ID) {
@@ -1099,7 +1111,7 @@ class Product extends Model
                 $all_filters['category'] = [];
 
             $brand_filter = isset($all_filters['brand'][0]) ? $all_filters['brand'][0] : null;
-            $category_holder = Product::get_all_dept_category_filter($brand_filter, $all_filters['category']);
+            $category_holder =  Product::get_all_dept_category_filter($brand_filter, $all_filters['category']);
         }
 
         $filter_data = [
@@ -2199,5 +2211,21 @@ class Product extends Model
 
         return false;
         
+    }
+
+    public static function get_selected_products($sku_array) {
+        $product_rows = Product::whereIn('product_sku', $sku_array)->get();
+        $response = [];
+
+        $variations = null;
+        $isListingAPICall = true;
+        $isMarked = false;
+        $is_details_minimal = false;
+
+        foreach($product_rows as $product) {
+            $response[] = Product::get_details($product, $variations, $isListingAPICall, $isMarked, false, $is_details_minimal);
+        }
+
+        return $response;
     }
 };
