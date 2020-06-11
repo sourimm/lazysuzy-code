@@ -15,11 +15,12 @@ class Department extends Model
         return $this->belongsToMany(Category::class, 'dept_name_urlcategories');
     }
 
-    public static function get_all_departments($dept_name_urlapi = true, $is_home_call = false)
+    public static function get_all_departments($dept_name_url_api = true, $is_home_call = false, $is_board_view = false)
     {
         $departments = [];
         $base_site   = request()->getHttpHost();
-        $rows        = Department::select(['dept_name_long', 'dept_name_url', 'LS_ID', 'dept_name_short', 'dept_image'])
+        
+        $rows        = Department::select(['dept_name_long', 'dept_name_url', 'LS_ID', 'dept_name_short', 'dept_image', 'board_view'])
             ->whereRaw('LENGTH(cat_name_short) = 0 AND LENGTH(cat_sub_name) = 0')
             ->get()
             ->toArray();
@@ -53,7 +54,7 @@ class Department extends Model
             }
         }
 
-        if ($dept_name_urlapi && !$is_home_call) {
+        if ($dept_name_url_api && !$is_home_call) {
             // trending categories will return N top results. Pass N as argument.
             $departments['trending_categories'] = Category::trending_categories(5);
             $departments['trending_products'] = Product::trending_products(10);

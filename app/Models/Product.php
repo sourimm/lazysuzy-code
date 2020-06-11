@@ -335,23 +335,31 @@ class Product extends Model
         $LS_IDs = $LS_IDs->distinct("LS_ID")
             ->get();
 
-        // get product categories filters
-        $departments = Department::get_all_departments(false, false);
+        /* // get product categories filters
+        
+         * @param bool $dept_name_url_api
+         * @param bool $is_home_call
+         * @param bool $is_board_view
+         
+        $departments = Department::get_all_departments(false, false, true);
         $categories = [];
         foreach ($departments['all_departments'] as $department) {
 
-            if (isset($department['categories']) && sizeof($department['categories']) > 0) {
+            if (isset($department['categories']) 
+                && sizeof($department['categories']) > 0) {
+
                 foreach ($department['categories'] as $cat) {
                     $categories[$cat['LS_ID']] = [
                         'name' => $cat['filter_label'],
                         'value' => $cat['LS_ID'],
-                        //'' => $cat['LS_ID'],
                         'checked' => false,
                         'enabled' => false
                     ];
                 }
             }
-        }
+        } */
+        $check_for_sub_catgories = true;
+        $categories = Category::get_board_categories($check_for_sub_catgories);
 
         $filter_categories = [];
         foreach ($LS_IDs as $LS_ID) {
@@ -1099,7 +1107,7 @@ class Product extends Model
                 $all_filters['category'] = [];
 
             $brand_filter = isset($all_filters['brand'][0]) ? $all_filters['brand'][0] : null;
-            $category_holder = Product::get_all_dept_category_filter($brand_filter, $all_filters['category']);
+            $category_holder =  Product::get_all_dept_category_filter($brand_filter, $all_filters['category']);
         }
 
         $filter_data = [

@@ -73,4 +73,56 @@ class Category extends Model
         return $trending_categories;
         
     }
+
+    /**
+     * This function gets all the boaed categories, from mapping_core table 
+     * there is a similar function in Departments.php that does soething similar
+     * but this function will not be as straighforward as that one
+     *
+     * @param boolean $get_board_categories
+     * @return array $catgeories - an associative array with "LSID" => category_obj
+     */
+    public static function get_board_categories($get_board_categories = true) {
+        $cols = ["LS_ID", "dept_name_url", "cat_name_url", 
+        "filter_label", "cat_image", "cat_sub_name", "cat_sub_url"];
+        $rows = Category::select($cols)
+            ->where("board_view", 1)
+            ->get()
+            ->toArray();
+
+        $categories = [];
+
+        foreach ($rows as $row) {
+
+            if(strlen($row['cat_sub_name']) == 0
+                && strlen($row['cat_sub_url'] == 0)) {
+                    // this is a valid category with board_view = 1 
+                    // so inlcude all it's sub categories 
+                    // in the output as well!
+                    
+                    $sub_cat_rows = Category::select($cols)
+                        ->where('cat_name_url', $row['cat_name_url'])
+                        ->whereRaw("LENGTH(cat_sub_name) > 0")
+                        ->get()->toArray();
+                    
+                    foreach ($sub_cat_rows as $_row) {
+                        $categories[$_row['LS_ID']] = [
+                            'name' => strlen($_row['filter_label']) > 1 ? $_row['filter_label'] : $_row['cat_sub_name'],
+                            'value' => $_row['LS_ID'],
+                            'chaecked' => false,
+                            'enabled' => false
+                        ];
+                    }
+                }
+
+            $categories[$row['LS_ID']] = [
+                'name' => strlen($row['filter_label']) > 1 ? $row['filter_label'] : $row['cat_sub_name'],
+                'value' => $row['LS_ID'],
+                'chaecked' => false,
+                'enabled' => false
+            ];
+        }
+
+        return $categories;
+    }
 }
