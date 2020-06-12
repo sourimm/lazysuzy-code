@@ -23,7 +23,7 @@ class Category extends Model
         }
 
         $rows = Category::select(['cat_name_long', 'cat_name_url',
-            'cat_image','LS_ID', 'filter_label', 'cat_name_short']);
+            'cat_image','LS_ID', 'filter_label', 'cat_name_short', 'cat_icon']);
         
         if ($dept != "all")
             $rows = $rows->where('dept_name_short', $dept);
@@ -84,7 +84,7 @@ class Category extends Model
      */
     public static function get_board_categories($get_board_categories = true) {
         $cols = ["LS_ID", "dept_name_url", "cat_name_url", 
-        "filter_label", "cat_image", "cat_sub_name", "cat_sub_url"];
+        "filter_label", "cat_image", "cat_sub_name", "cat_sub_url", "cat_icon"];
         $rows = Category::select($cols)
             ->where("board_view", 1)
             ->get()
