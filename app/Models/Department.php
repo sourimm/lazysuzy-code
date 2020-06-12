@@ -127,7 +127,7 @@ class Department extends Model
 
     public static function get_board_categories()
     {
-        $cols = ["LS_ID", "dept_name_url", "cat_name_url", "filter_label", "cat_image"];
+        $cols = ["LS_ID", "dept_name_url", "cat_name_url", "filter_label", "cat_image", "cat_icon"];
         $rows = Department::select($cols)
             ->where("board_view", 1)
             ->get()
@@ -139,7 +139,8 @@ class Department extends Model
                 'category' => $row['filter_label'],
                 'LS_ID' => $row['LS_ID'],
                 'link' => '/products/' . $row['dept_name_url'] . '/' . $row['cat_name_url'],
-                'image' => env('APP_URL') . $row['cat_image']
+                'image' => env('APP_URL') . $row['cat_image'],
+                'icon' => $row['cat_icon']
             ]);
         }
 
