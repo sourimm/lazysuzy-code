@@ -678,15 +678,54 @@ class Product extends Model
     {
 
         $p_to = $p_from = null;
+
+        $price = DB::table('master_data');
         $LS_IDs = Product::get_dept_cat_LS_ID_arr($dept, $cat);
 
-        $min = DB::table("master_data")
-            ->whereRaw('LS_ID REGEXP "' . implode("|", $LS_IDs) . '"')
-            ->min('min_price');
+        if (isset($all_filters['type']) && strlen($all_filters['type'][0]) > 0) {
+            $LS_IDs = Product::get_sub_cat_LS_IDs($dept, $cat, $all_filters['type']);
+        }
+        if (
+            isset($all_filters['category'])
+            && strlen($all_filters['category'][0])
+        ) {
+            $LS_IDs = $all_filters['category'];
+        }
 
-        $max = DB::table("master_data")
-            ->whereRaw('LS_ID REGEXP "' . implode("|", $LS_IDs) . '"')
-            ->max('max_price');
+        $price = $price->whereRaw('LS_ID REGEXP "' . implode("|", $LS_IDs) . '"');
+        
+        if (
+            isset($all_filters['brand'])
+            && strlen($all_filters['brand'][0]) > 0
+        ) {
+            $price = $price->whereIn('site_name', $all_filters['brand']);
+        }
+
+        if (
+            isset($all_filters['seating'])
+            && isset($all_filters['seating'][0])
+        ) {
+            $price = $price
+                ->whereRaw('seating REGEXP "' . implode("|", $all_filters['seating']) . '"');
+        }
+
+        if (
+            isset($all_filters['shape'])
+            && isset($all_filters['shape'][0])
+        ) {
+            $price = $price
+                ->whereRaw('shape REGEXP "' . implode("|", $all_filters['shape']) . '"');
+        }
+
+        if (isset($all_filters['color']) && strlen($all_filters['color'][0]) > 0) {
+
+            $colors = implode("|", $all_filters['color']);
+            $price = $price->whereRaw('color REGEXP "' . $colors . '"');
+        }
+
+        $min = $price->min('min_price');
+
+        $max = $price->max('max_price');
 
         if (sizeof($all_filters) == 0) {
             // get min price and max price for all the products
