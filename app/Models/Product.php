@@ -709,6 +709,13 @@ class Product extends Model
                 ->whereRaw('seating REGEXP "' . implode("|", $all_filters['seating']) . '"');
         }
 
+        if(
+            isset($all_filters['is_board_view']) 
+            && $all_filters['is_board_view']
+        ) {
+            $price = $price->where('image_xbg_processed', 1);
+        }
+
         if (
             isset($all_filters['shape'])
             && isset($all_filters['shape'][0])
@@ -724,7 +731,6 @@ class Product extends Model
         }
 
         $min = $price->min('min_price');
-
         $max = $price->max('max_price');
 
         if (sizeof($all_filters) == 0) {
