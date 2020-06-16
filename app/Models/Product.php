@@ -305,6 +305,9 @@ class Product extends Model
         $all_filters['limit'] = $limit;
         $all_filters['count_all'] = $query->count();
         $query = $query->offset($start)->limit($limit);
+        /* echo $query->toSql();
+        print_r($query->getBindings());
+        die(); */
 
         //echo "<pre>" . print_r($all_filters, ""true);
         $query = $query->join("master_brands", "master_data.site_name", "=", "master_brands.value");
@@ -786,15 +789,17 @@ class Product extends Model
         $LS_IDs = Product::get_dept_cat_LS_ID_arr($dept, $cat);
 
 
+        // 4. type
         if (isset($all_filters['type']) && strlen($all_filters['type'][0]) > 0) {
-            // comment this line if you want to show count for all those
-            // sub_categories that are passed in the request.
-            //$LS_IDs = Product::get_sub_cat_LS_IDs($dept, $cat, $all_filters['type']);
-
-            // if uncommenting the above line, comment this one
+            // will only return products that match the LS_IDs for the `types` mentioned.
             $LS_IDs = Product::get_sub_cat_LS_IDs($dept, $cat, $all_filters['type']);
-
-            // $LS_IDs = Product::get_dept_cat_LS_ID_arr($dept, $cat->product_sub_category_);
+        } else {
+            // 5. departments and categories
+            if (null != $cat) {
+                $LS_IDs = Product::get_LS_IDs($dept, $cat);
+            } else {
+                $LS_IDs = Product::get_LS_IDs($dept);
+            }
         }
         // for /all API catgeory-wise filter
         if (
@@ -809,6 +814,9 @@ class Product extends Model
             ->whereRaw('LS_ID REGEXP "' . implode("|", $LS_IDs) . '"');
 
         if(sizeof($all_filters) > 0) {
+            if (isset($all_filters['is_board_view']) && $all_filters['is_board_view']) {
+                $products = $products->whereRaw('image_xbg_processed = 1');
+            }
 
             if (
                 isset($all_filters['brand'])
