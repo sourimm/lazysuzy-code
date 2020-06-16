@@ -880,7 +880,6 @@ class Product extends Model
             $product_colors = explode(",", $product->color);
             foreach ($product_colors as $p_color) {
                 
-                echo "checking: " . $p_color . "\n"; 
                 if (strlen($p_color) > 0 && array_key_exists(strtolower($p_color), $colors)) {
                     $colors[strtolower($p_color)]['name'] = ucfirst($p_color);
                     $colors[strtolower($p_color)]['enabled'] = true;
