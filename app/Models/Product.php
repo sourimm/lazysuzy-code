@@ -879,8 +879,10 @@ class Product extends Model
     {
 
         $sub_cat_LS_IDs = DB::table("mapping_core")
-            ->select(["cat_name_short", "cat_name_url", "LS_ID", "cat_sub_url", "cat_sub_name"])
-            ->where("dept_name_url", $dept);
+            ->select(["cat_name_short", "cat_name_url", "LS_ID", "cat_sub_url", "cat_sub_name"]);
+        
+        if($dept != NULL && $dept != "all")
+              $sub_cat_LS_IDs = $sub_cat_LS_IDs->where("dept_name_url", $dept);
 
         if ($cat != null)
             $sub_cat_LS_IDs = $sub_cat_LS_IDs->where("cat_name_url", $cat);
@@ -984,7 +986,7 @@ class Product extends Model
     {
 
         $products = Product::get_filter_products_meta($dept, $category, $subCat, $all_filters);
-
+        
         $sub_cat_arr = [];
 
         $sub_cat_LS_IDs = Product::get_sub_cat_data($dept, $category);
