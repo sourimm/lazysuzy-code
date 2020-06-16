@@ -140,7 +140,7 @@ class Department extends Model
                 'LS_ID' => $row['LS_ID'],
                 'link' => '/products/' . $row['dept_name_url'] . '/' . $row['cat_name_url'],
                 'image' => env('APP_URL') . $row['cat_image'],
-                'icon' => $row['cat_icon']    
+                'icon' => $row['cat_icon']
             ]);
         }
 

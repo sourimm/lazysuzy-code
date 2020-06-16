@@ -305,6 +305,9 @@ class Product extends Model
         $all_filters['limit'] = $limit;
         $all_filters['count_all'] = $query->count();
         $query = $query->offset($start)->limit($limit);
+        /* echo $query->toSql();
+        print_r($query->getBindings());
+        die(); */
 
         //echo "<pre>" . print_r($all_filters, ""true);
         $query = $query->join("master_brands", "master_data.site_name", "=", "master_brands.value");
@@ -678,15 +681,60 @@ class Product extends Model
     {
 
         $p_to = $p_from = null;
+
+        $price = DB::table('master_data');
         $LS_IDs = Product::get_dept_cat_LS_ID_arr($dept, $cat);
 
-        $min = DB::table("master_data")
-            ->whereRaw('LS_ID REGEXP "' . implode("|", $LS_IDs) . '"')
-            ->min('min_price');
+        if (isset($all_filters['type']) && strlen($all_filters['type'][0]) > 0) {
+            $LS_IDs = Product::get_sub_cat_LS_IDs($dept, $cat, $all_filters['type']);
+        }
+        if (
+            isset($all_filters['category'])
+            && strlen($all_filters['category'][0])
+        ) {
+            $LS_IDs = $all_filters['category'];
+        }
 
-        $max = DB::table("master_data")
-            ->whereRaw('LS_ID REGEXP "' . implode("|", $LS_IDs) . '"')
-            ->max('max_price');
+        $price = $price->whereRaw('LS_ID REGEXP "' . implode("|", $LS_IDs) . '"');
+        
+        if (
+            isset($all_filters['brand'])
+            && strlen($all_filters['brand'][0]) > 0
+        ) {
+            $price = $price->whereIn('site_name', $all_filters['brand']);
+        }
+
+        if (
+            isset($all_filters['seating'])
+            && isset($all_filters['seating'][0])
+        ) {
+            $price = $price
+                ->whereRaw('seating REGEXP "' . implode("|", $all_filters['seating']) . '"');
+        }
+
+        if(
+            isset($all_filters['is_board_view']) 
+            && $all_filters['is_board_view']
+        ) {
+            $price = $price->where('image_xbg_processed', 1);
+        }
+
+        if (
+            isset($all_filters['shape'])
+            && isset($all_filters['shape'][0])
+        ) {
+            $price = $price
+                ->whereRaw('shape REGEXP "' . implode("|", $all_filters['shape']) . '"');
+        }
+
+        if (isset($all_filters['color']) && strlen($all_filters['color'][0]) > 0) {
+
+            $colors = implode("|", $all_filters['color']);
+            $price = $price->whereRaw('color REGEXP "' . $colors . '"');
+        }
+
+        $min = $price->min('min_price');
+        $max = $price->max('max_price');
 
         if (sizeof($all_filters) == 0) {
             // get min price and max price for all the products
@@ -741,15 +789,24 @@ class Product extends Model
         $LS_IDs = Product::get_dept_cat_LS_ID_arr($dept, $cat);
 
 
+        // 4. type
         if (isset($all_filters['type']) && strlen($all_filters['type'][0]) > 0) {
-            // comment this line if you want to show count for all those
-            // sub_categories that are passed in the request.
-            //$LS_IDs = Product::get_sub_cat_LS_IDs($dept, $cat, $all_filters['type']);
-
-            // if uncommenting the above line, comment this one
+            // will only return products that match the LS_IDs for the `types` mentioned.
             $LS_IDs = Product::get_sub_cat_LS_IDs($dept, $cat, $all_filters['type']);
-
-            // $LS_IDs = Product::get_dept_cat_LS_ID_arr($dept, $cat->product_sub_category_);
+        } else {
+            // 5. departments and categories
+            if (null != $cat) {
+                $LS_IDs = Product::get_LS_IDs($dept, $cat);
+            } else {
+                $LS_IDs = Product::get_LS_IDs($dept);
+            }
+        }
+        // for /all API catgeory-wise filter
+        if (
+            isset($all_filters['category'])
+            && strlen($all_filters['category'][0])
+        ) {
+            $LS_IDs = $all_filters['category'];
         }
 
         $products = DB::table("master_data")
@@ -757,6 +814,9 @@ class Product extends Model
             ->whereRaw('LS_ID REGEXP "' . implode("|", $LS_IDs) . '"');
 
         if(sizeof($all_filters) > 0) {
+            if (isset($all_filters['is_board_view']) && $all_filters['is_board_view']) {
+                $products = $products->whereRaw('image_xbg_processed = 1');
+            }
 
             if (
                 isset($all_filters['brand'])
@@ -785,6 +845,8 @@ class Product extends Model
                     ->whereRaw('seating REGEXP "' . implode("|", $all_filters['seating']) . '"');
             }
 
+           
+
             if (
                 isset($all_filters['shape'])
                 && isset($all_filters['shape'][0])
@@ -801,7 +863,7 @@ class Product extends Model
             $products = $products->whereRaw('color REGEXP "' . $colors_from_request . '"');
         }  */
 
-        $products =  $products->get();
+        $products = $products->get();
 
         foreach ($colors as $key => $color_hex) {
             $colors[$key] = [
@@ -809,15 +871,21 @@ class Product extends Model
                 'value' => strtolower($key),
                 'hex' => $color_hex,
                 'enabled' => false,
-                'checked' => isset($req_colors) && in_array($key, $req_colors)
+                'checked' => isset($req_colors) && in_array($key, $req_colors),
+                'count' => 0
             ];
         }
+
         foreach ($products as $product) {
             $product_colors = explode(",", $product->color);
             foreach ($product_colors as $p_color) {
+                
+                echo "checking: " . $p_color . "\n"; 
                 if (strlen($p_color) > 0 && array_key_exists(strtolower($p_color), $colors)) {
                     $colors[strtolower($p_color)]['name'] = ucfirst($p_color);
                     $colors[strtolower($p_color)]['enabled'] = true;
+                    $colors[strtolower($p_color)]['count'] += 1;
+                    
                 }
             }
         }
@@ -834,8 +902,10 @@ class Product extends Model
     {
 
         $sub_cat_LS_IDs = DB::table("mapping_core")
-            ->select(["cat_name_short", "cat_name_url", "LS_ID", "cat_sub_url", "cat_sub_name"])
-            ->where("dept_name_url", $dept);
+            ->select(["cat_name_short", "cat_name_url", "LS_ID", "cat_sub_url", "cat_sub_name"]);
+        
+        if($dept != NULL && $dept != "all")
+              $sub_cat_LS_IDs = $sub_cat_LS_IDs->where("dept_name_url", $dept);
 
         if ($cat != null)
             $sub_cat_LS_IDs = $sub_cat_LS_IDs->where("cat_name_url", $cat);
@@ -939,7 +1009,7 @@ class Product extends Model
     {
 
         $products = Product::get_filter_products_meta($dept, $category, $subCat, $all_filters);
-
+        
         $sub_cat_arr = [];
 
         $sub_cat_LS_IDs = Product::get_sub_cat_data($dept, $category);
