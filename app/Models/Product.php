@@ -796,6 +796,13 @@ class Product extends Model
 
             // $LS_IDs = Product::get_dept_cat_LS_ID_arr($dept, $cat->product_sub_category_);
         }
+        // for /all API catgeory-wise filter
+        if (
+            isset($all_filters['category'])
+            && strlen($all_filters['category'][0])
+        ) {
+            $LS_IDs = $all_filters['category'];
+        }
 
         $products = DB::table("master_data")
             ->select(['LS_ID', 'color'])
@@ -830,6 +837,8 @@ class Product extends Model
                     ->whereRaw('seating REGEXP "' . implode("|", $all_filters['seating']) . '"');
             }
 
+           
+
             if (
                 isset($all_filters['shape'])
                 && isset($all_filters['shape'][0])
@@ -846,7 +855,7 @@ class Product extends Model
             $products = $products->whereRaw('color REGEXP "' . $colors_from_request . '"');
         }  */
 
-        $products =  $products->get();
+        $products = $products->get();
 
         foreach ($colors as $key => $color_hex) {
             $colors[$key] = [
@@ -854,15 +863,21 @@ class Product extends Model
                 'value' => strtolower($key),
                 'hex' => $color_hex,
                 'enabled' => false,
-                'checked' => isset($req_colors) && in_array($key, $req_colors)
+                'checked' => isset($req_colors) && in_array($key, $req_colors),
+                'count' => 0
             ];
         }
+
         foreach ($products as $product) {
             $product_colors = explode(",", $product->color);
             foreach ($product_colors as $p_color) {
+                
+                //echo "checking: " . $p_color . "\n"; 
                 if (strlen($p_color) > 0 && array_key_exists(strtolower($p_color), $colors)) {
                     $colors[strtolower($p_color)]['name'] = ucfirst($p_color);
                     $colors[strtolower($p_color)]['enabled'] = true;
+                    $colors[strtolower($p_color)]['count'] += 1;
+                    
                 }
             }
         }
