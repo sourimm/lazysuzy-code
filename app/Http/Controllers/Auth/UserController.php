@@ -30,7 +30,6 @@ class UserController extends Controller
             $auth_user = $account->user;
             Auth::login($auth_user, true);
             $user = Auth::user();
-            $this->logout($request, true);
             $user['access_token'] = $user->createToken('lazysuzy-web')->accessToken;
             return $user;
 
