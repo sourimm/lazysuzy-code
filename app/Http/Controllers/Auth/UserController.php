@@ -22,6 +22,7 @@ class UserController extends Controller
         return explode(chr(1), str_replace($delimiters, chr(1), $string));
     }
     public function findOrCreateUser($providerUser, $provider) {
+  
         $auth_user = null;
         $account = SocialIdentity::whereProviderName($provider)
             ->whereProviderId($providerUser->getId())
@@ -31,7 +32,6 @@ class UserController extends Controller
             $auth_user = $account->user;
             Auth::login($auth_user, true);
             $user = Auth::user();
-            $user['access_token'] = $user->createToken('lazysuzy-web')->accessToken;
             return $user;
 
         } else {
@@ -288,7 +288,6 @@ class UserController extends Controller
          
         }
       }
-
       
       return [
         'errors' => $error, 
