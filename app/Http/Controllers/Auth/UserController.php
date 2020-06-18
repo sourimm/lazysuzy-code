@@ -9,7 +9,8 @@ use App\Models\SocialIdentity;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Controllers\Controller;
-
+use App\Models\Utility;
+use Illuminate\Contracts\Validation\Validator as ValidationValidator;
 use Illuminate\Support\Facades\Auth;
 use Validator;
 
@@ -214,5 +215,85 @@ class UserController extends Controller
     public function keepAlive() {
       Auth::shouldUse('api');
       return response()->json(['alive' => Auth::check()], $this->successStatus);
+    }
+
+    public function details_update(Request $request) {
+      $data = $request->all();
+      $validator = null;
+      $user = Auth::user(); // get the user
+
+      // update info if request has the attrs
+      if(isset($data['description']) && strlen($data['description']) > 0)
+        $user->description = $data['description'];
+      
+      if (isset($data['location']) && strlen($data['location']) > 0)
+        $user->location = $data['location'];
+      
+        if (isset($data['tag_line']) && strlen($data['tag_line']) > 0)
+        $user->tag_line = $data['tag_line'];
+      
+      // update data once that does not require validation
+      $user->update();
+
+      // validated data will be updated seperately so that if 
+      // any data fails the validation all the other info 
+      // sent in the request is updated
+      
+      $error = [];
+      if (isset($data['website']) && strlen($data['website']) > 0) {
+        $validator = Validator::make($data, [
+          'website' => 'url'
+        ]);
+
+        if($validator->fails()) 
+         $error[] = response()->json(['error' => $validator->errors()], 422);
+        else {
+          $user->website = $data['website'];
+          $user->update();
+        }
+      }
+
+      if (isset($data['username']) && strlen($data['username']) > 0) {
+        $validator = Validator::make($data, [
+          'username' => 'unique:users|alpha_dash'
+        ]);
+
+        if ($validator->fails())
+          $error[] = response()->json(['error' => $validator->errors()], 422);
+        else {
+          $user->username = $data['username'];
+          $user->update();
+        }
+      }
+
+      if(isset($data['image'])) {
+        $validator = Validator::make($data, [
+          'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        ]);
+
+        if ($validator->fails())
+          $error[] = response()->json(['error' => $validator->errors()], 422);
+        else {
+          // uplaod image
+          $upload_folder = public_path('uimg');
+          $image_name = time() . '-' . Utility::generateID() . '.' . request()->image->getClientOriginalExtension();
+          $uplaod = request()->image->move($upload_folder, $image_name);
+
+          if($uplaod) {
+            $user->picture = '/uimg/' . $image_name;
+            $user->update();
+          }
+          else 
+            $error[] = response()->json(['error' => 'image could not be uploaded. Please try again.'], 422);
+         
+        }
+      }
+
+      
+      return [
+        'errors' => $error, 
+        'user' => Auth::user()
+      ];
+        
     }
 }
