@@ -16,6 +16,7 @@ class AppendToTokenResponse
      */
     public function handle($request, Closure $next)
     {
+        // get response of the API request first /api/oauth/token
         $response =  $next($request);
 
         $content = json_decode($response->content(), true);
