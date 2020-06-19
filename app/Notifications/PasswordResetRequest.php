@@ -12,15 +12,17 @@ class PasswordResetRequest extends Notification
     use Queueable;
 
     protected $tokens;
+    private $email;
 
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct($token)
+    public function __construct($password_reset)
     {
-        $this->token = $token;
+        $this->token = $password_reset->token;
+        $this->email = $password_reset->email;
     }
 
     /**
@@ -42,7 +44,7 @@ class PasswordResetRequest extends Notification
      */
     public function toMail($notifiable)
     {
-        $url = config('app.password_reset') . '/reset-password/' . $this->token;
+        $url = config('app.password_reset') . '/reset-password?token=' . $this->token . '&email=' . $this->email;
         return (new MailMessage)
                     ->line('You are receiving this email because we received a password reset request for your account.')
                     ->action('Reset Password', $url)
