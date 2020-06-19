@@ -279,9 +279,12 @@ class Product extends Model
         }
 
         if ($is_details_minimal) {
-
-            if(!$is_admin_call)
+            if(!$is_admin_call) 
                 $query = $query->whereRaw('image_xbg_processed = 1');
+            else {
+                // for admin api calls xbg_image filter must not be applied
+                $all_filters['is_admin_call'] = true;
+            }
             $all_filters['is_board_view'] = true;
         }
         else {
@@ -315,7 +318,10 @@ class Product extends Model
 
        
         if($isAdmiAPICall == true) $isListingAPICall = false;
-        return Product::getProductObj($query->get(), $all_filters, $dept, $cat, $subCat, $isListingAPICall, $is_details_minimal);
+
+        $a = Product::getProductObj($query->get(), $all_filters, $dept, $cat, $subCat, $isListingAPICall, $is_details_minimal, $is_admin_call);
+        $a['a'] = Utility::get_sql_raw($query);
+        return $a;
     }
 
     public static function get_dept_cat_LS_ID_arr($dept, $cat)
@@ -603,7 +609,9 @@ class Product extends Model
         if (sizeof($all_filters) != 0) {
 
             if(isset($all_filters['is_board_view']) && $all_filters['is_board_view']) {
-                $product_brands = $product_brands->whereRaw('image_xbg_processed = 1');
+
+                if(!isset($all_filters['is_admin_call']) || !$all_filters['is_admin_call'])
+                    $product_brands = $product_brands->whereRaw('image_xbg_processed = 1');
             }
 
             if (isset($all_filters['type']) && strlen($all_filters['type'][0]) > 0) {
@@ -656,7 +664,7 @@ class Product extends Model
 
         $product_brands = $product_brands->groupBy('site_name')->get();
 
-        foreach ($product_brands as $b) {
+       foreach ($product_brands as $b) {
             if (isset($all_brands[$b->site_name])) {
                 $all_brands[$b->site_name]["enabled"] = true;
                 if (isset($all_filters['brand'])) {
@@ -712,11 +720,10 @@ class Product extends Model
                 ->whereRaw('seating REGEXP "' . implode("|", $all_filters['seating']) . '"');
         }
 
-        if(
-            isset($all_filters['is_board_view']) 
-            && $all_filters['is_board_view']
-        ) {
-            $price = $price->where('image_xbg_processed', 1);
+        if (isset($all_filters['is_board_view']) && $all_filters['is_board_view']) {
+
+            if (!isset($all_filters['is_admin_call']) || !$all_filters['is_admin_call'])
+            $product_brands = $product_brands->whereRaw('image_xbg_processed = 1');
         }
 
         if (
@@ -815,7 +822,9 @@ class Product extends Model
 
         if(sizeof($all_filters) > 0) {
             if (isset($all_filters['is_board_view']) && $all_filters['is_board_view']) {
-                $products = $products->whereRaw('image_xbg_processed = 1');
+
+                if (!isset($all_filters['is_admin_call']) || !$all_filters['is_admin_call'])
+                $product_brands = $product_brands->whereRaw('image_xbg_processed = 1');
             }
 
             if (
@@ -975,15 +984,6 @@ class Product extends Model
                 // input in form - color1|color2|color3
             }
 
-            // for /all API catgeory-wise filter
-            if (
-                isset($all_filters['category'])
-                && strlen($all_filters['category'][0])
-            ) {
-                $products = $products
-                    ->whereRaw('LS_ID REGEXP "' . implode("|", $all_filters['category']) . '"');
-            }
-
             if (
                 isset($all_filters['seating'])
                 && isset($all_filters['seating'][0])
@@ -998,6 +998,12 @@ class Product extends Model
             ) {
                 $products = $products
                     ->whereRaw('shape REGEXP "' . implode("|", $all_filters['shape']) . '"');
+            }
+
+            if (isset($all_filters['is_board_view']) && $all_filters['is_board_view']) {
+
+                if (!isset($all_filters['is_admin_call']) || !$all_filters['is_admin_call'])
+                    $products = $products->whereRaw('image_xbg_processed = 1');
             }
         }
         
