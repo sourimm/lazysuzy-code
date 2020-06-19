@@ -279,8 +279,10 @@ class Product extends Model
         }
 
         if ($is_details_minimal) {
-            if(!$is_admin_call) 
+            if(!$is_admin_call) {
+                $all_filters['is_admin_call'] = false;
                 $query = $query->whereRaw('image_xbg_processed = 1');
+            }
             else {
                 // for admin api calls xbg_image filter must not be applied
                 $all_filters['is_admin_call'] = true;
@@ -824,7 +826,7 @@ class Product extends Model
             if (isset($all_filters['is_board_view']) && $all_filters['is_board_view']) {
 
                 if (!isset($all_filters['is_admin_call']) || !$all_filters['is_admin_call'])
-                $product_brands = $product_brands->whereRaw('image_xbg_processed = 1');
+                    $products = $products->whereRaw('image_xbg_processed = 1');
             }
 
             if (
