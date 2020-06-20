@@ -85,10 +85,16 @@ class Category extends Model
     public static function get_board_categories($get_board_categories = true) {
         $cols = ["LS_ID", "dept_name_url", "cat_name_url", 
         "filter_label", "cat_image", "cat_sub_name", "cat_sub_url", "cat_icon"];
-        $rows = Category::select($cols)
-            ->where("board_view", 1)
-            ->get()
-            ->toArray();
+        $rows = Category::select($cols);
+
+        if($get_board_categories) {
+            $rows = $rows->where("board_view", 1);
+        }
+        else {
+            $rows = $rows->whereRaw('LENGTH(cat_sub_name) = 0 AND LENGTH(cat_name_url) != 0'); 
+        }
+
+        $rows = $rows->get()->toArray();
 
         $categories = [];
 

@@ -375,7 +375,8 @@ class Product extends Model
                     ];
                 }
             }
-        } */
+        }
+        */
 
         // if 'is_boad_view' is set to true this function will also check for sub-categories
         // otherwise will only get categories
@@ -871,9 +872,6 @@ class Product extends Model
                     ->whereRaw('shape REGEXP "' . implode("|", $all_filters['shape']) . '"');
             }
         }
-       
-
-
         /* if (isset($all_filters['color']) && strlen($all_filters['color'][0]) > 0) {
             $colors_from_request = implode("|", $all_filters['color']);
             $products = $products->whereRaw('color REGEXP "' . $colors_from_request . '"');
