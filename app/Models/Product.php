@@ -324,7 +324,7 @@ class Product extends Model
         $a = Product::getProductObj($query->get(), $all_filters, $dept, $cat, $subCat, $isListingAPICall, $is_details_minimal, $is_admin_call);
         
         // add debug params to test quickly
-        //$a['a'] = Utility::get_sql_raw($query);
+        $a['a'] = Utility::get_sql_raw($query);
         return $a;
     }
 
@@ -342,9 +342,9 @@ class Product extends Model
     }
 
     // this is only for /all API
-    public static function get_all_dept_category_filter($brand_name = null, $in_filter_categories)
+    public static function get_all_dept_category_filter($brand_name = null, $all_filters)
     {
-
+        $in_filter_categories = $all_filters['category'];
         $LS_IDs = DB::table("master_data")
             ->select("LS_ID");
 
@@ -376,7 +376,8 @@ class Product extends Model
                 }
             }
         } */
-        $categories = Category::get_board_categories();
+
+        $categories = Category::get_board_categories($all_filters['is_board_view']);
 
         $filter_categories = [];
         foreach ($LS_IDs as $LS_ID) {
@@ -1190,7 +1191,7 @@ class Product extends Model
                 $all_filters['category'] = [];
 
             $brand_filter = isset($all_filters['brand'][0]) ? $all_filters['brand'][0] : null;
-            $category_holder =  Product::get_all_dept_category_filter($brand_filter, $all_filters['category']);
+            $category_holder =  Product::get_all_dept_category_filter($brand_filter, $all_filters);
         }
 
         $filter_data = [

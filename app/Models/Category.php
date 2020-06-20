@@ -76,10 +76,10 @@ class Category extends Model
 
     /**
      * This function gets all the boaed categories, from mapping_core table 
-     * there is a similar function in Departments.php that does soething similar
+     * there is a similar function in Departments.php that does something similar
      * but this function will not be as straighforward as that one
      *
-     * @param boolean $get_board_categories
+     * @param boolean $get_board_categories -> get sub-categories for category also
      * @return array $catgeories - an associative array with "LSID" => category_obj
      */
     public static function get_board_categories($get_board_categories = true) {
@@ -95,7 +95,7 @@ class Category extends Model
         foreach ($rows as $row) {
 
             if(strlen($row['cat_sub_name']) == 0
-                && strlen($row['cat_sub_url'] == 0)) {
+                && strlen($row['cat_sub_url'] == 0) && $get_board_categories) {
                     // this is a valid category with board_view = 1 
                     // so inlcude all it's sub categories 
                     // in the output as well!
