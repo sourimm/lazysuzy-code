@@ -322,7 +322,9 @@ class Product extends Model
         if($isAdmiAPICall == true) $isListingAPICall = false;
 
         $a = Product::getProductObj($query->get(), $all_filters, $dept, $cat, $subCat, $isListingAPICall, $is_details_minimal, $is_admin_call);
-        $a['a'] = Utility::get_sql_raw($query);
+        
+        // add debug params to test quickly
+        //$a['a'] = Utility::get_sql_raw($query);
         return $a;
     }
 
