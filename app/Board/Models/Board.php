@@ -47,7 +47,7 @@ class Board extends Model
 
   public static function board($id = null) {
     $boards = Board::id($id)->get();
-    $id ?: $boards->makeHidden(['state']);
+    // $id ?: $boards->makeHidden(['state']);
     return $boards;
   }
 }
