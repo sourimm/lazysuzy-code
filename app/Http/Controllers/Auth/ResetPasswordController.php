@@ -48,7 +48,7 @@ class ResetPasswordController extends Controller
         );
 
         if($user && $passwordReset)
-            $user->notify(new PasswordResetRequest($passwordReset->token));
+            $user->notify(new PasswordResetRequest($passwordReset));
         
         return response()->json([
             'message' => 'Password Reset Email Sent',
