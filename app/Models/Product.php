@@ -725,7 +725,7 @@ class Product extends Model
         if (isset($all_filters['is_board_view']) && $all_filters['is_board_view']) {
 
             if (!isset($all_filters['is_admin_call']) || !$all_filters['is_admin_call'])
-            $product_brands = $product_brands->whereRaw('image_xbg_processed = 1');
+            $price = $price->whereRaw('image_xbg_processed = 1');
         }
 
         if (
