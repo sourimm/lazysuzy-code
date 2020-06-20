@@ -77,7 +77,11 @@ class Category extends Model
     /**
      * This function gets all the boaed categories, from mapping_core table 
      * there is a similar function in Departments.php that does something similar
-     * but this function will not be as straighforward as that one
+     * but this function will not be as straighforward as that one.
+     * 
+     * If the board view is true then this will retund categories and sub-catgeories 
+     * with board-view = 1 in the database, otherwise if 'is_board_view' is false
+     * this will return only categories.
      *
      * @param boolean $get_board_categories -> get sub-categories for category also
      * @return array $catgeories - an associative array with "LSID" => category_obj

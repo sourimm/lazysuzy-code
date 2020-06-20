@@ -911,7 +911,13 @@ class Product extends Model
 
         return $colors_f;
     }
-    public static function get_sub_cat_data($dept, $cat)
+
+    /* 
+     * category value can be present in $cat variable or in
+     * $all_filter['category'] if the request is made from /all
+     * products API. 
+    */
+    public static function get_sub_cat_data($dept, $cat, $all_filters)
     {
 
         $sub_cat_LS_IDs = DB::table("mapping_core")
@@ -922,6 +928,16 @@ class Product extends Model
 
         if ($cat != null)
             $sub_cat_LS_IDs = $sub_cat_LS_IDs->where("cat_name_url", $cat);
+
+        if(isset($all_filters['category']) && sizeof($all_filters['category']) > 0) {
+            // the request is comming from all products API and has a category LSID
+            // attached with it
+            $LS_ID = $all_filters['category'];
+            // ADD LOGIC HERE FOR LIMITING THE SEARCH RESULTS 
+            // BASED ON THE SELECTED CATGEORY IN THE /ALL PRODUCTS API
+            // (redundant this check if already applied in the main function)
+            // ** not deleteing it for future reminders 
+        }
 
         return $sub_cat_LS_IDs->whereRaw("LENGTH(cat_sub_name) != 0")->get();
     }
@@ -1022,7 +1038,7 @@ class Product extends Model
         
         $sub_cat_arr = [];
 
-        $sub_cat_LS_IDs = Product::get_sub_cat_data($dept, $category);
+        $sub_cat_LS_IDs = Product::get_sub_cat_data($dept, $category, $all_filters);
 
         foreach ($sub_cat_LS_IDs as $cat) {
             $selected = false;
