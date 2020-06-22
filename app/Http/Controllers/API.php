@@ -14,6 +14,7 @@ use App\Models\Cart;
 use App\Models\Inventory;
 
 use Auth;
+use Illuminate\Support\Facades\Validator;
 use Subscribe as GlobalSubscribe;
 
 class API extends Controller
@@ -34,6 +35,20 @@ class API extends Controller
             ]
         ];
     }
+
+    public function user_details(Request $request) {
+        $data = $request->all();
+        $validator = Validator::make($data, [
+            'username' => 'required|alpha_dash'
+        ]);
+        
+        if($validator->fails())
+            return response()->json(['error' => $validator->errors()], 422);
+        
+        $user = User::where('username', $data['username'])->first();
+        
+        return $user == NULL ? [null] : $user;
+    }   
     
     public function login_user() 
     {
