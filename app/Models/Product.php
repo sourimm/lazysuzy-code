@@ -211,8 +211,6 @@ class Product extends Model
                 // input in form - color1|color2|color3
             }
 
-           
-
             if (
                 isset($all_filters['seating'])
                 && isset($all_filters['seating'][0])
@@ -230,17 +228,9 @@ class Product extends Model
             }
         }
 
-       
-
-
         // only include sub category products if subcategory is not null
         if ($subCat != null) {
             $LS_IDs = [Product::get_sub_cat_LS_ID($dept, $cat, $subCat)];
-        }
-
-        // override LS_ID array is there is a  `bestseller` filter applied
-        if ($is_best_seller) {
-            $LS_IDs = ['99'];
         }
 
         // for /all API catgeory-wise filter
@@ -267,6 +257,11 @@ class Product extends Model
             } else {
                 $LS_IDs = Product::get_LS_IDs($dept);
             }
+        }
+
+        // override LS_ID array is there is a  `bestseller` filter applied
+        if ($is_best_seller) {
+            $LS_IDs = ['99'];
         }
 
         $query = $query->whereRaw('LS_ID REGEXP "' . implode("|", $LS_IDs) . '"');
@@ -1041,48 +1036,67 @@ class Product extends Model
     public static function get_product_type_filter($dept, $category, $subCat, $all_filters)
     {
 
-        $products = Product::get_filter_products_meta($dept, $category, $subCat, $all_filters);
-        
-        $sub_cat_arr = [];
-
-        $sub_cat_LS_IDs = Product::get_sub_cat_data($dept, $category, $all_filters);
-
-        foreach ($sub_cat_LS_IDs as $cat) {
-            $selected = false;
-            if (strtolower($cat->cat_sub_url) == strtolower($subCat)) $selected = true;
-            $sub_cat_arr[$cat->cat_sub_url] = [
-                "name" => $cat->cat_sub_name,
-                "value" => strtolower($cat->cat_sub_url),
-                "enabled" => false,
-                "checked" => $selected,
-                "count" => 0
-            ];
+        // for all products API 
+        // $dept will be 'all' and the catgeories will come from 
+        // $all_filters data, we want to show the type filter only when some 
+        // catgeory is selected, so return an empty array for types if 
+        // now categories is selected
+        $do_process = true;
+        if($dept == 'all') {
+            if(!isset($all_filters['category']))
+                $do_process = false;
+            else if(sizeof($all_filters['category']) == 0)
+                $do_process = false;
         }
+        
+        if($do_process == true) {
+            $products = Product::get_filter_products_meta($dept, $category, $subCat, $all_filters);
 
-        //echo "<pre>" . print_r($all_filters, true);
-        foreach ($sub_cat_LS_IDs as $cat) {
-            foreach ($products as $p) {
-                if (strpos($p->LS_ID, (string) $cat->LS_ID) !== false) {
-                    if (isset($sub_cat_arr[$cat->cat_sub_url])) {
-                        $sub_cat_arr[$cat->cat_sub_url]["enabled"] = true;
-                        $sub_cat_arr[$cat->cat_sub_url]["count"]++;
+            $sub_cat_arr = [];
 
-                        if (isset($all_filters['type'])) {
-                            $sub_category = strtolower($cat->cat_sub_url);
+            $sub_cat_LS_IDs = Product::get_sub_cat_data($dept, $category, $all_filters);
 
-                            if (in_array($sub_category, $all_filters['type'])) {
-                                $sub_cat_arr[$cat->cat_sub_url]["checked"] = true;
+            foreach ($sub_cat_LS_IDs as $cat) {
+                $selected = false;
+                if (strtolower($cat->cat_sub_url) == strtolower($subCat)) $selected = true;
+                $sub_cat_arr[$cat->cat_sub_url] = [
+                    "name" => $cat->cat_sub_name,
+                    "value" => strtolower($cat->cat_sub_url),
+                    "enabled" => false,
+                    "checked" => $selected,
+                    "count" => 0
+                ];
+            }
+
+            //echo "<pre>" . print_r($all_filters, true);
+            foreach ($sub_cat_LS_IDs as $cat) {
+                foreach ($products as $p) {
+                    if (strpos($p->LS_ID, (string) $cat->LS_ID) !== false) {
+                        if (isset($sub_cat_arr[$cat->cat_sub_url])) {
+                            $sub_cat_arr[$cat->cat_sub_url]["enabled"] = true;
+                            $sub_cat_arr[$cat->cat_sub_url]["count"]++;
+
+                            if (isset($all_filters['type'])) {
+                                $sub_category = strtolower($cat->cat_sub_url);
+
+                                if (in_array($sub_category, $all_filters['type'])) {
+                                    $sub_cat_arr[$cat->cat_sub_url]["checked"] = true;
+                                }
                             }
                         }
                     }
                 }
             }
-        }
 
-        $arr = [];
-        foreach ($sub_cat_arr as $key => $value) {
-            array_push($arr, $value);
+            $arr = [];
+            foreach ($sub_cat_arr as $key => $value) {
+                array_push($arr, $value);
+            }
         }
+        else {
+            $arr = [];
+        }
+        
         $color_filter = isset($all_filters['color']) && strlen($all_filters['color'][0]) > 0 ? $all_filters['color'] : null;
         return [
             'colorFilter' => Product::get_color_filter($dept, $category, $subCat, $all_filters, $color_filter),
