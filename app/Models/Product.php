@@ -946,8 +946,8 @@ class Product extends Model
             $LS_ID = $all_filters['category'];
             // ADD LOGIC HERE FOR LIMITING THE SEARCH RESULTS 
             // BASED ON THE SELECTED CATGEORY IN THE /ALL PRODUCTS API
-            // (redundant this check if already applied in the main function)
-            // ** not deleteing it for future reminders 
+            $LS_IDs = SubCategory::get_sub_cat_LSIDs($all_filters['category']);
+            $sub_cat_LS_IDs = $sub_cat_LS_IDs->whereIn('LS_ID', $LS_IDs);
         }
 
         return $sub_cat_LS_IDs->whereRaw("LENGTH(cat_sub_name) != 0")->get();
@@ -980,14 +980,6 @@ class Product extends Model
             ->whereRaw('LS_ID REGEXP "' . implode("|", $LS_IDs) . '"');
 
         if(sizeof($all_filters) > 0) {
-
-            if (isset($all_filters['brand']) && strlen($all_filters['brand'][0]) > 0) {
-                $products = $products->whereIn('site_name', $all_filters['brand']);
-            }
-            if (isset($all_filters['color']) && strlen($all_filters['color'][0]) > 0) {
-                $colors = implode("|", $all_filters['color']);
-                $products = $products->whereRaw('color REGEXP "' . $colors . '"');
-            }
 
             if (
                 isset($all_filters['brand'])
@@ -1074,6 +1066,7 @@ class Product extends Model
 
                         if (isset($all_filters['type'])) {
                             $sub_category = strtolower($cat->cat_sub_url);
+
                             if (in_array($sub_category, $all_filters['type'])) {
                                 $sub_cat_arr[$cat->cat_sub_url]["checked"] = true;
                             }
