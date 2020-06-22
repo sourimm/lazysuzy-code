@@ -252,6 +252,7 @@ class Product extends Model
             // so we'll have to get the sub-categories included in this 
             // catgeory
             $LS_IDs = SubCategory::get_sub_cat_LSIDs($all_filters['category']); 
+          
         }
 
         // 4. type 
@@ -259,7 +260,7 @@ class Product extends Model
         if (isset($all_filters['type']) && strlen($all_filters['type'][0]) > 0) {
             // will only return products that match the LS_IDs for the `types` mentioned.
             $LS_IDs = Product::get_sub_cat_LS_IDs($dept, $cat, $all_filters['type']);
-        } else {
+        } else if(!isset($all_filters['category'])){
             // 5. departments and categories
             if (null != $cat) {
                 $LS_IDs = Product::get_LS_IDs($dept, $cat);
