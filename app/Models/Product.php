@@ -83,9 +83,8 @@ class Product extends Model
         $ls_id = $ls_id->where('cat_sub_url', $sub_category)->get();
         
         /* echo json_encode(Utility::get_sql_raw($ls_id));
-        die(); */
-            //
-
+        die();  */
+            
         if ($ls_id) {
             return $ls_id[0]->LS_ID;
         } else {
@@ -231,18 +230,7 @@ class Product extends Model
             }
         }
 
-        // 4. type
-        if (isset($all_filters['type']) && strlen($all_filters['type'][0]) > 0) {
-            // will only return products that match the LS_IDs for the `types` mentioned.
-            $LS_IDs = Product::get_sub_cat_LS_IDs($dept, $cat, $all_filters['type']);
-        } else {
-            // 5. departments and categories
-            if (null != $cat) {
-                $LS_IDs = Product::get_LS_IDs($dept, $cat);
-            } else {
-                $LS_IDs = Product::get_LS_IDs($dept);
-            }
-        }
+       
 
 
         // only include sub category products if subcategory is not null
@@ -264,6 +252,20 @@ class Product extends Model
             // so we'll have to get the sub-categories included in this 
             // catgeory
             $LS_IDs = SubCategory::get_sub_cat_LSIDs($all_filters['category']); 
+        }
+
+        // 4. type 
+        // NOTE: This filter will always come after category filter
+        if (isset($all_filters['type']) && strlen($all_filters['type'][0]) > 0) {
+            // will only return products that match the LS_IDs for the `types` mentioned.
+            $LS_IDs = Product::get_sub_cat_LS_IDs($dept, $cat, $all_filters['type']);
+        } else {
+            // 5. departments and categories
+            if (null != $cat) {
+                $LS_IDs = Product::get_LS_IDs($dept, $cat);
+            } else {
+                $LS_IDs = Product::get_LS_IDs($dept);
+            }
         }
 
         $query = $query->whereRaw('LS_ID REGEXP "' . implode("|", $LS_IDs) . '"');
