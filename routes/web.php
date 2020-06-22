@@ -67,10 +67,10 @@ Route::post('/api/user/update', 'Auth\UserController@update')->middleware('auth:
 Route::post('/api/user/details/update', 'Auth\UserController@details_update')->middleware('auth:api');
 Route::get('/api/logout', 'Auth\UserController@logout')->middleware('auth:api');
 Route::get('/api/user/keepalive', 'Auth\UserController@keepAlive');
-Route::get('/api/get-user', 'API@get_user')->middleware('auth:api')->name('get-user');
+Route::get('/api/get-user', 'API@get_user')->middleware(['cors', 'auth:api'])->name('get-user');
 
 // this will take username and send the user details object in response
-Route::get('/api/user/details', 'API@user_details')->middleware('auth:api')->name('user-details');
+Route::get('/api/user/details', 'API@user_details')->middleware(['cors', 'auth:api'])->name('user-details');
 
 
 
