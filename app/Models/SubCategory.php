@@ -56,8 +56,8 @@ class SubCategory extends Model
 
         $LS_ID_string = implode(",", $cat_LS_IDs);
         $LS_ID_string  = '(' . $LS_ID_string . ')';
-        $rows = DB::select( DB::raw("SELECT LS_ID FROM mapping_core WHERE cat_name_long in (SELECT cat_name_long FROM mapping_core WHERE LS_ID in $LS_ID_string) AND LS_ID NOT IN $LS_ID_string") );
-        
+        $rows = DB::select( DB::raw("SELECT LS_ID FROM mapping_core WHERE cat_name_long in (SELECT cat_name_long FROM mapping_core WHERE LS_ID in $LS_ID_string)") );
+
         foreach ($rows as $r) {
             $LS_IDs[] = $r->LS_ID;
         }
