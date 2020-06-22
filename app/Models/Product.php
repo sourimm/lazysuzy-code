@@ -74,11 +74,17 @@ class Product extends Model
     public static function get_sub_cat_LS_ID($dept, $cat, $sub_category)
     {
         $ls_id = DB::table('mapping_core')
-            ->select('LS_ID')
-            ->where('dept_name_url', $dept)
-            ->where('cat_name_url', $cat)
-            ->where('cat_sub_url', $sub_category)
-            ->get();
+            ->select('LS_ID');
+        if($dept != 'all')
+            $ls_id = $ls_id->where('dept_name_url', $dept);
+        if($cat != null)
+            $ls_id = $ls_id->where('cat_name_url', $cat);
+            
+        $ls_id = $ls_id->where('cat_sub_url', $sub_category)->get();
+        
+        /* echo json_encode(Utility::get_sql_raw($ls_id));
+        die(); */
+            //
 
         if ($ls_id) {
             return $ls_id[0]->LS_ID;
@@ -254,7 +260,10 @@ class Product extends Model
             isset($all_filters['category'])
             && strlen($all_filters['category'][0])
         ) {
-            $LS_IDs = $all_filters['category'];
+            // we want to show all the products of this category
+            // so we'll have to get the sub-categories included in this 
+            // catgeory
+            $LS_IDs = SubCategory::get_sub_cat_LSIDs($all_filters['category']); 
         }
 
         $query = $query->whereRaw('LS_ID REGEXP "' . implode("|", $LS_IDs) . '"');
@@ -708,7 +717,8 @@ class Product extends Model
             isset($all_filters['category'])
             && strlen($all_filters['category'][0])
         ) {
-            $LS_IDs = $all_filters['category'];
+            $LS_IDs =
+            SubCategory::get_sub_cat_LSIDs($all_filters['category']);
         }
 
         $price = $price->whereRaw('LS_ID REGEXP "' . implode("|", $LS_IDs) . '"');
@@ -821,7 +831,8 @@ class Product extends Model
             isset($all_filters['category'])
             && strlen($all_filters['category'][0])
         ) {
-            $LS_IDs = $all_filters['category'];
+            $LS_IDs =
+            SubCategory::get_sub_cat_LSIDs($all_filters['category']);
         }
 
         $products = DB::table("master_data")
@@ -960,7 +971,8 @@ class Product extends Model
             isset($all_filters['category'])
             && strlen($all_filters['category'][0])
         ) {
-            $LS_IDs = $all_filters['category'];
+            $LS_IDs =
+            SubCategory::get_sub_cat_LSIDs($all_filters['category']);
         }
 
         $products = DB::table("master_data")

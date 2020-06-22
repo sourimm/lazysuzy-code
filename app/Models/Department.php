@@ -107,7 +107,7 @@ class Department extends Model
         
         $categories = Category::get_categories($dept);
         foreach ($categories as $category) {
-            $sub_categories = SubCategory::getSubCategories($dept, $category['category']);
+            $sub_categories = SubCategory::get_sub_categories($dept, $category['category']);
             array_push($c_cat, [
                 'category'       => $category['category'],
                 'LS_ID'          => $category['LS_ID'],

@@ -33,7 +33,7 @@ class Category extends Model
             ->toArray();
 
         foreach ($rows as $row) {
-            $sub_categories = SubCategory::getSubCategories($dept, $row['cat_name_url']);
+            $sub_categories = SubCategory::get_sub_categories($dept, $row['cat_name_url']);
             array_push($c_cat, [
                 'category' => $row['cat_name_long'],
                 'product_category_' => $row['cat_name_url'],
