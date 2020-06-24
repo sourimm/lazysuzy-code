@@ -21,6 +21,7 @@ class BoardController extends Controller
         $user = Auth::id();
         foreach($board as &$b) {
             $b->is_liked = BoardLikes::is_board_liked($b->board_id, $user);
+            $b->like_count = BoardLikes::get_board_likes($b->board_id);
         }
         
         return $board;
