@@ -13,8 +13,7 @@ class Board extends Model
   protected $table = 'board';
   protected $primaryKey = 'board_id';
   protected $primarySearchKey = 'uuid';
-  protected $fillable = ['state', 'title', 'preview', 'type_room', 'type_style', 'type_privacy', 'is_published', 'is_active'];   
-  
+  protected $fillable = ['state', 'title', 'preview', 'type_room', 'type_style', 'type_privacy', 'is_published', 'is_active'];
   protected static function boot() {
     parent::boot();
     static::addGlobalScope(new AuthAndActiveScope);
@@ -27,6 +26,10 @@ class Board extends Model
     });
   }
   
+  public function setIsLikedAttribute($value) {
+    $this->attributes['is_liked'] = $value;
+  }
+
   private static function randomId($length = 10){
 
      $str_result = '0123456789abcdefghijklmnopqrstuvwxyz'; 

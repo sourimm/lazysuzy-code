@@ -122,6 +122,9 @@ Route::get('/api/board/preview/{id}', '\App\Board\Controllers\BoardController@ge
 Route::get('/api/board/{id?}', '\App\Board\Controllers\BoardController@get_board')->middleware(['cors', 'auth:api']);
 Route::post('/api/board/{id?}', '\App\Board\Controllers\BoardController@update_board')->middleware(['cors', 'auth:api']);
 
+Route::post('api/board/like/{id}', '\App\Board\Controllers\BoardController@like_board')->middleware(['cors', 'auth:api']);
+Route::post('api/board/unlike/{id}', '\App\Board\Controllers\BoardController@unlike_board')->middleware(['cors', 'auth:api']);
+
 
 /* ==================================================BACKEND ADMIN APIS========================================== */
 

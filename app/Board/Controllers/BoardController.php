@@ -5,7 +5,7 @@ namespace App\Board\Controllers;
 use App\Http\Controllers\Controller;
 use App\Board\Models\Asset;
 use App\Board\Models\Board;
-
+use App\Models\BoardLikes;
 use Illuminate\Http\File;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -16,7 +16,13 @@ use Illuminate\Support\Facades\Auth;
 class BoardController extends Controller 
 {
     public static function get_board($id = null) {
-        return Board::board($id);
+        $board = Board::board($id);
+        $user = Auth::id();
+        foreach($board as &$b) {
+            $b->is_liked = BoardLikes::is_board_liked($b->board_id, $user);
+        }
+        
+        return $board;
     }
 
     public static function get_board_for_preview($id) {
@@ -119,6 +125,26 @@ class BoardController extends Controller
     
     private static function is_base64_encoded($data) {
       return (strpos($data, 'data:image/png;base64') === 0);
+    }
+
+    public function like_board($board_id) {
+
+        $user = Auth::user();
+        if(isset($board_id))
+          return response()->json(BoardLikes::like_board($board_id, $user->id), 200);
+        
+        return response()->json(['error' => 'Invalid Board'], 422);
+    }
+
+    public function unlike_board($board_id) {
+      $user = Auth::user();
+      if(isset($board_id))
+        if( (bool)BoardLikes::unlike_board($board_id, $user->id) )
+          return response()->json(['message' => 'Board unliked'], 200);
+        else
+          return response()->json(['message' => 'Could not unlike board'], 200);
+
+      return response()->json(['error' => 'Invalid Board'], 422);
     }
 
     
