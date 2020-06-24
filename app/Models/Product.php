@@ -1344,6 +1344,8 @@ class Product extends Model
             $days = $diff / 60 / 60 / 24;
             if ($days < 4 * 7) $is_new = true;
 
+
+            // making product added date to fixed
             /* $jan192020 = strtotime('2020/01/19'); // 4
             $product_date = strtotime($product->created_date); // 5
 
