@@ -19,7 +19,6 @@ class Board extends Model
     static::addGlobalScope(new AuthAndActiveScope);
     static::creating(function($board){
       $board->uuid = Board::randomId(6);
-      // $board->uuid = (string) Str::uuid();
     });
     static::saving(function($board){
       $board->user_id = Auth::id();
