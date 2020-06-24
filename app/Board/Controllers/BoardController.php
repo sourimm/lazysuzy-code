@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Auth;
 class BoardController extends Controller 
 {
     public static function get_board($id = null) {
+        // this has array of board objects 
         $board = Board::board($id);
         $user = Auth::id();
         foreach($board as &$b) {
@@ -38,7 +39,7 @@ class BoardController extends Controller
     
     public static function get_asset($id = null) {
       return Asset::asset($id);
-      
+
     }
     
     public static function get_asset_for_preview() {
