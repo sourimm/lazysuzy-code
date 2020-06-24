@@ -38,6 +38,7 @@ class BoardController extends Controller
     
     public static function get_asset($id = null) {
       return Asset::asset($id);
+      
     }
     
     public static function get_asset_for_preview() {
