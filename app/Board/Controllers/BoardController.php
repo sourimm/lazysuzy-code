@@ -5,7 +5,7 @@ namespace App\Board\Controllers;
 use App\Http\Controllers\Controller;
 use App\Board\Models\Asset;
 use App\Board\Models\Board;
-use App\Models\BoardLikes;
+use App\Board\Models\BoardLikes;
 use Illuminate\Http\File;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -148,7 +148,5 @@ class BoardController extends Controller
           return response()->json(['message' => 'Could not unlike board'], 200);
 
       return response()->json(['error' => 'Invalid Board'], 422);
-    }
-
-    
+    }    
 }

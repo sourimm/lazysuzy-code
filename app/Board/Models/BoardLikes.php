@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace App\Board\Models;
 
 use App\Board\Models\Board;
 use Illuminate\Database\Eloquent\Model;
@@ -15,17 +15,17 @@ class BoardLikes extends Model
      * @var string
      */
     protected $table = 'board_likes';
-    public static function like_board($board_id, $user_id) {
+    public static function like_board($board_id, $user_id)
+    {
 
         $record = null;
         try {
-            
+
             $record = new BoardLikes();
             $record->user_id = $user_id;
             $record->board_id = $board_id;
             $record->save();
-        }
-        catch (QueryException $ex) {
+        } catch (QueryException $ex) {
             $record = [
                 'error' => 'Could not like the board.'
             ];
@@ -34,29 +34,31 @@ class BoardLikes extends Model
         return $record;
     }
 
-    public static function unlike_board($board_id, $user_id) {
+    public static function unlike_board($board_id, $user_id)
+    {
 
         $record = BoardLikes::where('user_id', $user_id)
             ->where('board_id', $board_id);
         return $record->delete();
     }
 
-    public static function get_board_likes($board_id) {
-        
+    public static function get_board_likes($board_id)
+    {
+
         return BoardLikes::where('board_id', $board_id)
             ->count();
     }
 
-    public static function is_board_liked($board_id, $user_id) {
+    public static function is_board_liked($board_id, $user_id)
+    {
 
         try {
             $liked = BoardLikes::where('user_id', $user_id)
                 ->where('board_id', $board_id)->first();
-            if(!isset($liked))  
+            if (!isset($liked))
                 return false;
             return true;
-        }
-        catch(NotFoundHttpException $e) {
+        } catch (NotFoundHttpException $e) {
             return false;
         }
     }
