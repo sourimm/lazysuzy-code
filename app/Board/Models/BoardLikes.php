@@ -23,7 +23,7 @@ class BoardLikes extends Model
 
             $record = new BoardLikes();
             $record->user_id = $user_id;
-            $record->board_id = $board_id;
+            $record->uuid = $board_id;
             $record->save();
         } catch (QueryException $ex) {
             $record = [
@@ -38,14 +38,14 @@ class BoardLikes extends Model
     {
 
         $record = BoardLikes::where('user_id', $user_id)
-            ->where('board_id', $board_id);
+            ->where('uuid', $board_id);
         return $record->delete();
     }
 
     public static function get_board_likes($board_id)
     {
 
-        return BoardLikes::where('board_id', $board_id)
+        return BoardLikes::where('uuid', $board_id)
             ->count();
     }
 
@@ -54,7 +54,7 @@ class BoardLikes extends Model
 
         try {
             $liked = BoardLikes::where('user_id', $user_id)
-                ->where('board_id', $board_id)->first();
+                ->where('uuid', $board_id)->first();
             if (!isset($liked))
                 return false;
             return true;

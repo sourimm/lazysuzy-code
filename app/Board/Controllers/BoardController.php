@@ -29,13 +29,20 @@ class BoardController extends Controller
 
     public static function get_board_for_preview($id) {
       Auth::shouldUse('api');
-      return Board::withoutGlobalScopes()
+      $board =  Board::withoutGlobalScopes()
               ->id($id)
               ->where(function ($query) {
                 $query->orWhere('user_id', '=', Auth::check() ? Auth::id() : 0);
                 $query->orWhere('type_privacy', '>', 0);
               })
               ->get();
+      
+      if(isset($board[0])) {
+        $board[0]['is_liked'] = BoardLikes::is_board_liked($id, Auth::id());
+        $board[0]['like_count'] = BoardLikes::get_board_likes($id);
+      }
+
+      return $board;
     }
     
     public static function get_asset($id = null) {

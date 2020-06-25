@@ -16,12 +16,12 @@ class CreateBoardLikesTable extends Migration
         Schema::create('board_likes', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->integer('user_id')->unsigned();
-            $table->integer('board_id')->unsigned();
+            $table->string('uuid', 50);
             $table->timestamps();
-            $table->unique(array('board_id', 'user_id'));
+            $table->unique(array('uuid', 'user_id'));
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            //$table->foreign('board_id')->references('board_id')->on('board')->onDelete('cascade');
+            //$table->foreign('uuid')->references('uuid')->on('board')->onDelete('cascade');
 
         });
     }
