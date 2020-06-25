@@ -1120,7 +1120,10 @@ class Product extends Model
         $products_to_ignore = array_column($products_to_ignore, "sku");
 
         // get inventory list 
-        $inventory_products_db = DB::table('lz_inventory')->select(["product_sku", "quantity", "message", "price"])->get();
+        $inventory_products_db = DB::table('lz_inventory')
+            ->select(["product_sku", "quantity", "message", "price"])
+            ->where('is_active', 1)
+            ->get();
         // get user cart
         $user_cart = Cart::cart();
         
@@ -2065,6 +2068,7 @@ class Product extends Model
 
             $inventory_prod = DB::table('lz_inventory')
                 ->where('product_sku', $sku)
+                ->where('is_active', 1)
                 ->get();
 
             if (isset($inventory_prod[0])) {
