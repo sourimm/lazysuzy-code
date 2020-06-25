@@ -7,6 +7,7 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
 
 use App\Board\Scopes\AuthAndActiveScope;
+use Illuminate\Support\Facades\DB;
 
 class Board extends Model
 {    
@@ -50,6 +51,14 @@ class Board extends Model
   public static function board($id = null) {
     $boards = Board::id($id)->get();
     // $id ?: $boards->makeHidden(['state']);
+    return $boards;
+  }
+
+  public static function get_board_by_username($username) {
+    $cols = ['board_id', 'user_id', 'uuid', 'state', 'title', 'preview', 'type_room', 'type_style', 'type_privacy', 'is_published', 'is_active', 'board.created_at', 'board.updated_at'];
+    $boards = DB::table('board')->select($cols)->where('users.username', $username)
+      ->join('users', 'users.id', '=', 'board.user_id')->get();
+    
     return $boards;
   }
 }

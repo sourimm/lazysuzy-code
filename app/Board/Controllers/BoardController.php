@@ -15,13 +15,25 @@ use Illuminate\Support\Facades\Auth;
 
 class BoardController extends Controller 
 {
-    public static function get_board($id = null) {
-        // this has array of board objects 
-        $board = Board::board($id);
+    public static function get_board(Request $request, $id = null) {
+
+        $data = $request->all();
+        $username = isset($data['username']) ? $data['username'] : null;
+
+        $validator = Validator::make($data, [
+          'username' => 'alpha_dash'
+        ]);
+
+        if($validator->fails())
+          return response()->json(['error' => $validator->errors()], 422);
+
+        if(!isset($username)) $board = Board::board($id);
+        else $board = Board::get_board_by_username($username);
+
         $user = Auth::id();
-        foreach($board as &$b) {
-            $b->is_liked = BoardLikes::is_board_liked($b->board_id, $user);
-            $b->like_count = BoardLikes::get_board_likes($b->board_id);
+        foreach ($board as &$b) {
+          $b->is_liked = BoardLikes::is_board_liked($b->uuid, $user);
+          $b->like_count = BoardLikes::get_board_likes($b->uuid);
         }
         
         return $board;
