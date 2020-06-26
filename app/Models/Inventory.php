@@ -8,6 +8,16 @@ use Illuminate\Support\Facades\DB;
 class Inventory extends Model 
 {
     private static $inventory_table = "lz_inventory";
+    private static $cart_table = 'lz_user_cart';
+    protected $table = 'lz_inventory';
+
+    /**
+     * This will return Product info. for the products added in the cart.
+     * This will only work for products that are parent SKUs, for varaitions
+     * we follow a different procedure.
+     *
+     * @return List 
+     */
     public static function get() {
         
         return DB::table(Inventory::$inventory_table)
@@ -27,5 +37,69 @@ class Inventory extends Model
             ->where(Inventory::$inventory_table . '.is_active', 1)
             ->get()
             ->toArray();
+    }
+
+    /* 
+        this will return an object that will contain all the info regarding
+        product from inventory. This function takes in account for the items 
+        already present in the user cart and calculates the right amount 
+        of products that can be added in the cart on next attempt 
+    */
+    public static function get_product_from_inventory($user, $sku)
+    {
+
+        $res = [];
+        $res['in_inventory'] = false;
+        $res['inventory_product_details'] = null;
+        $product_count_remaining = 0;
+        $is_low = false;
+
+        // we take the product count already present in the users cart
+        // and then product object from the inventory
+        if ($user != NULL) {
+            $items_in_cart = DB::table(Inventory::$cart_table)
+                ->where('user_id', $user->id)
+                ->where('is_active', 1)
+                ->where('product_sku', $sku)
+                ->get()->count();
+
+            $inventory_prod = Inventory::where('product_sku', $sku)
+                ->where('is_active', 1)
+                ->get();
+
+            if (isset($inventory_prod[0])) {
+                $product_count_remaining = $inventory_prod[0]->quantity - $items_in_cart;
+
+                // is_low needs to be set to true if quantity is less than or equal to 5
+                $is_low = $inventory_prod[0]->quantity <= 5;
+
+                $res['in_inventory'] = true;
+                $res['inventory_product_details'] = [
+                    'price' => $inventory_prod[0]->price,
+                    'was_price' => $inventory_prod[0]->was_price,
+                    'count' => $product_count_remaining,
+                    'message' => $inventory_prod[0]->message,
+                    'is_low' => $is_low
+                ];
+            }
+        }
+
+        return $res;
+    }
+
+    /**
+     * This will return a SKU keyed list of all the products that are
+     * in the inventory
+     *
+     * @return void
+     */
+    public static function get_product_list() {
+        $rows = Inventory::all();
+        $products = [];
+        foreach ($rows as $row) {
+            $products[$row->product_sku] = $row;
+        }
+
+        return $products;
     }
 }

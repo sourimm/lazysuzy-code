@@ -323,12 +323,12 @@ class Product extends Model
 
         //echo "<pre>" . print_r($all_filters, ""true);
         $query = $query->join("master_brands", "master_data.site_name", "=", "master_brands.value");
-        $isListingAPICall = true;
+        $is_listing_API_call = true;
 
        
-        if($isAdmiAPICall == true) $isListingAPICall = false;
+        if($isAdmiAPICall == true) $is_listing_API_call = false;
 
-        $a = Product::getProductObj($query->get(), $all_filters, $dept, $cat, $subCat, $isListingAPICall, $is_details_minimal, $is_admin_call);
+        $a = Product::getProductObj($query->get(), $all_filters, $dept, $cat, $subCat, $is_listing_API_call, $is_details_minimal, $is_admin_call);
         
         // add debug params to test quickly
         $a['a'] = Utility::get_sql_raw($query);
@@ -1104,7 +1104,7 @@ class Product extends Model
         ];
     }
 
-    public static function getProductObj($products, $all_filters, $dept, $cat, $subCat, $isListingAPICall = null, $is_details_minimal = false)
+    public static function getProductObj($products, $all_filters, $dept, $cat, $subCat, $is_listing_API_call = null, $is_details_minimal = false)
     {
         $p_send              = [];
         $filter_data         = [];
@@ -1214,8 +1214,8 @@ class Product extends Model
                 /*==============================================================================================*/
 
 
-                $variations = Product::get_variations($product, $westelm_variations_data, $isListingAPICall);
-                array_push($p_send, Product::get_details($product, $variations, $isListingAPICall, $isMarked, false, $is_details_minimal));
+                $variations = Product::get_variations($product, $westelm_variations_data, $is_listing_API_call);
+                array_push($p_send, Product::get_details($product, $variations, $is_listing_API_call, $isMarked, false, $is_details_minimal));
             }
         }
 
@@ -1290,7 +1290,7 @@ class Product extends Model
     public static function get_details(
         $product,
         $variations,
-        $isListingAPICall = null,
+        $is_listing_API_call = null,
         $isMarked = false,
         $isTrending = false,
         $is_details_minimal = false
@@ -1395,7 +1395,7 @@ class Product extends Model
             //    'LS_ID'            => $product->LS_ID,
         ];
 
-        /* if ($product->site_name == "westelm" && !$isListingAPICall ) {
+        /* if ($product->site_name == "westelm" && !$is_listing_API_call ) {
             $data['filters'] = end($variations)['filters'];
             array_pop($variations);
         } */
@@ -1425,7 +1425,7 @@ class Product extends Model
         $dims_text = in_array($product->name, $dims_from_features) ? $product->product_feature : $product->product_dimension;
 
         $children = null;
-        if (!$isListingAPICall) {
+        if (!$is_listing_API_call) {
 
             // All alpha-numeric SKUs of pier1 products have child products 
             if ($product->site_name == "pier1") {
@@ -1439,16 +1439,22 @@ class Product extends Model
 
                     $children = [];
                     foreach ($child_rows as $row) {
-                        $product_set_inventory_details = Product::get_product_from_inventory($user, $row->product_sku);
+                        $product_set_inventory_details = Inventory::get_product_from_inventory($user, $row->product_sku);
+                        $price = $was_price = null;
+                        if($product_set_inventory_details['in_inventory']) {
+                            $price = $product_set_inventory_details['inventory_product_details']['price'];
+                            $was_price = $product_set_inventory_details['inventory_product_details']['was_price'];
+                        }
                         $set = [
                             'parent_sku' => $product->product_sku,
                             'sku' => $row->product_sku,
                             'name' => $row->product_name,
                             'image' => env('APP_URL') . $row->main_product_images,
                             'link' => $row->product_url,
-                            'price' => $row->price,
-                            'was_price' => $row->was_price
+                            'price' => isset($price) ? $price : $row->price,
+                            'was_price' => isset($was_price) ? $was_price : $row->was_price
                         ];
+
                         $set = array_merge($product_set_inventory_details, $set);
 
                         array_push($children, $set);
@@ -1479,7 +1485,7 @@ class Product extends Model
                 $data['description'] = in_array($product->name, $desc_BRANDS)  ? Product::format_desc_new($product->product_description) : preg_split("/\\[US\\]|<br>|\\n/", $product->product_description);
             }
 
-            $product_inventory_details = Product::get_product_from_inventory($user, $product->product_sku);
+            $product_inventory_details = Inventory::get_product_from_inventory($user, $product->product_sku);
             $data = array_merge($product_inventory_details, $data);
             return $data;
         }
@@ -1760,7 +1766,7 @@ class Product extends Model
         return $key;
     }
 
-    public static function get_westelm_variations($product, $wl_v, $isListingAPICall = null)
+    public static function get_westelm_variations($product, $wl_v, $is_listing_API_call = null)
     {
         $cols = [
             "sku",
@@ -1793,7 +1799,7 @@ class Product extends Model
                 $var = $var->where("product_id", $product->product_sku)
                     ->whereRaw("LENGTH(swatch_image_path) > 0");
 
-                if ($isListingAPICall) $var = $var->limit(7);
+                if ($is_listing_API_call) $var = $var->limit(7);
                 //->limit(20)
                 $var = $var->get();
 
@@ -1961,7 +1967,7 @@ class Product extends Model
                 }
 
 
-                /* if (!$isListingAPICall) {
+                /* if (!$is_listing_API_call) {
                     array_push($variations, [
                         "filters" => Product::get_all_variation_filters($product->product_sku)
                     ]);
@@ -1997,26 +2003,44 @@ class Product extends Model
         return [];
     }
 
-    public static function get_variations($product, $wl_v = null, $isListingAPICall = null)
+    public static function get_variations($product, $wl_v = null, $is_listing_API_call = null)
     {
-
+      
+        $variation = [];
         switch ($product->site_name) {
             case 'cb2':
-                return Product::get_c_variations($product->product_sku, 'cb2_products_variations');
+                $variations = Product::get_c_variations($product->product_sku, 'cb2_products_variations');
                 break;
             case 'cab':
-                return Product::get_c_variations($product->product_sku, 'crateandbarrel_products_variations');
+                $variations = Product::get_c_variations($product->product_sku, 'crateandbarrel_products_variations');
                 break;
             case 'pier1':
-                return Product::get_pier1_variations($product);
+                $variations = Product::get_pier1_variations($product);
                 break;
             case 'westelm':
-                return Product::get_westelm_variations($product, $wl_v, $isListingAPICall);
+                $variations = Product::get_westelm_variations($product, $wl_v, $is_listing_API_call);
                 break;
             default:
-                return [];
+                $variations = [];
                 break;
         }
+
+        if(isset($variations['variations']) && is_array($variations['variations'])) {
+            foreach ($variations['variations'] as &$var) {
+                $inv_product = Inventory::get_product_from_inventory(Auth::user(), $var['variation_sku']);
+
+                // override variations price data with inventory data
+                if ($inv_product['in_inventory']) {
+                    $var['price'] = $inv_product['inventory_product_details']['price'];
+                    $var['was_price'] = $inv_product['inventory_product_details']['was_price'];
+                }
+                
+                $var = array_merge($var, $inv_product);
+            }
+        }
+       
+
+        return $variations;
     }
 
     // LS_ID can be comma separated.
@@ -2043,58 +2067,12 @@ class Product extends Model
         return isset($row[0]) ? $row[0] : null;
     }
 
-    /* 
-        this will return an object that will contain all the info regarding
-        product from inventory. This function takes in account for the items 
-        already present in the user cart and calculates the right amount 
-        of products that can be added in the cart on next attempt 
-    */ 
-    public static function get_product_from_inventory($user, $sku) {
-
-        $res = [];
-        $res['in_inventory'] = false;
-        $res['inventory_product_details'] = null;
-        $product_count_remaining = 0;
-        $is_low = false;
-
-        // we take the product count already present in the users cart
-        // and then product object from the inventory
-        if($user != NULL) {
-            $items_in_cart = DB::table(Product::$cart_table)
-                ->where('user_id', $user->id)
-                ->where('is_active', 1)
-                ->where('product_sku', $sku)
-                ->get()->count();
-
-            $inventory_prod = DB::table('lz_inventory')
-                ->where('product_sku', $sku)
-                ->where('is_active', 1)
-                ->get();
-
-            if (isset($inventory_prod[0])) {
-                $product_count_remaining = $inventory_prod[0]->quantity - $items_in_cart;
-
-                // is_low needs to be set to true if quantity is less than or equal to 5
-                $is_low = $inventory_prod[0]->quantity <= 5;
-
-                $res['in_inventory'] = true;
-                $res['inventory_product_details'] = [
-                    'price' => $inventory_prod[0]->price,
-                    'count' => $product_count_remaining,
-                    'message' => $inventory_prod[0]->message,
-                    'is_low' => $is_low
-                ];
-            }
-
-        }
-
-        return $res;
-    }
+   
 
     public static function get_product_details($sku)
     {
         $user = Auth::user();
-        $product_inventory_details = Product::get_product_from_inventory($user, $sku);
+        $product_inventory_details = Inventory::get_product_from_inventory($user, $sku);
         
         // check if product needs to be redirected
         $redirection = Product::is_redirect($sku);
@@ -2342,12 +2320,12 @@ class Product extends Model
         $response = [];
 
         $variations = null;
-        $isListingAPICall = true;
+        $is_listing_API_call = true;
         $isMarked = false;
         $is_details_minimal = false;
 
         foreach($product_rows as $product) {
-            $response[] = Product::get_details($product, $variations, $isListingAPICall, $isMarked, false, $is_details_minimal);
+            $response[] = Product::get_details($product, $variations, $is_listing_API_call, $isMarked, false, $is_details_minimal);
         }
 
         return $response;
