@@ -55,9 +55,16 @@ class Board extends Model
   }
 
   public static function get_board_by_username($username) {
-    $cols = ['board_id', 'user_id', 'uuid', 'state', 'title', 'preview', 'type_room', 'type_style', 'type_privacy', 'is_published', 'is_active', 'board.created_at', 'board.updated_at'];
-    $boards = DB::table('board')->select($cols)->where('users.username', $username)
-      ->join('users', 'users.id', '=', 'board.user_id')->get();
+    $cols = ['board_id', 'user_id', 'uuid', 'state', 
+      'title', 'preview', 'type_room', 'type_style', 
+      'type_privacy', 'is_published', 'is_active', 
+      'board.created_at', 'board.updated_at'];
+    
+      $boards = DB::table('board')
+        ->select($cols)
+        ->where('users.username', $username)
+        ->join('users', 'users.id', '=', 'board.user_id')
+        ->get();
     
     return $boards;
   }

@@ -52,6 +52,8 @@ class BoardController extends Controller
       if(isset($board[0])) {
         $board[0]['is_liked'] = BoardLikes::is_board_liked($id, Auth::id());
         $board[0]['like_count'] = BoardLikes::get_board_likes($id);
+        $board[0]['username'] = Auth::user()->username;
+        $board[0]['picture'] = Auth::user()->picture;
       }
 
       return $board;
