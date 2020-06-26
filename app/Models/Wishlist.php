@@ -29,7 +29,7 @@ class Wishlist extends Model {
                 $variations = Product::get_variations($prod, null, true);
 
                 // inject inventory details
-                $product_inventory_details = Product::get_product_from_inventory($user, $prod->product_sku);
+                $product_inventory_details = Inventory::get_product_from_inventory($user, $prod->product_sku);
                 $prod = (object) array_merge($product_inventory_details, (array) $prod);
                 
                 array_push($products_structured, Product::get_details($prod, $variations, true, true));
