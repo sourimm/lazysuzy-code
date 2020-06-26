@@ -15,13 +15,14 @@ class Cart extends Model
     private static $shipment_code_table = 'lz_ship_code';
     private static $inventory_table = 'lz_inventory';
 
-    public static function add($sku, $count)
+    public static function add($sku, $count, $parent)
     {
         // add the product in the cart, 
         // don't delete the product from the inventory 
         // do that on payment initiation
 
         $is_guest = 0;
+        
 
         if (Auth::check()) {
             $user_id = Auth::user()->id;
@@ -63,6 +64,7 @@ class Cart extends Model
                     ->insert([
                         'user_id' => $user_id,
                         'product_sku' => $sku,
+                        'parent_sku' => $parent,
                         'is_guest' => $is_guest
                     ]);
 
