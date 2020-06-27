@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Controllers\Controller;
 use App\Models\Utility;
+use Dotenv\Validator as DotenvValidator;
 use Illuminate\Contracts\Validation\Validator as ValidationValidator;
 use Illuminate\Support\Facades\Auth;
 use Validator;
@@ -20,6 +21,32 @@ class UserController extends Controller
 
     public function explodeX($delimiters, $string) {
         return explode(chr(1), str_replace($delimiters, chr(1), $string));
+    }
+
+    public function create_username($email, $name) {
+      $email_head = explode("@", $email);
+      $names = $this->explodeX([' ', '_'], $name);
+
+      $f_name = isset($names[0]) ? $names[0] : null;
+      $l_name = isset($names[0]) ? $names[0] : null;
+
+      $username = $email_head . '-' . rand(0,999);
+
+      if(isset($f_name) && isset($l_name))
+        $username = $f_name . strtoupper($l_name[0]) . '-' . rand(0, 999);
+
+      $validator = Validator::make(['username' => $username], [
+        'username' => 'unique:users|alpha_dash'
+      ]);
+
+      while($validator->fails()) {
+        $username = $username . '-' . rand(0, 9);
+        $validator = Validator::make(['username' => $username], [
+          'username' => 'unique:users|alpha_dash'
+        ]);
+      }
+
+      return $username;
     }
     public function findOrCreateUser($providerUser, $provider) {
         $auth_user = null;
@@ -36,6 +63,8 @@ class UserController extends Controller
             //return $this->register(null, $providerUser);
             $user = User::whereEmail($providerUser->getEmail())->first();
             $f_l_name = $this->explodeX(array(' ', '_'), $providerUser->getName());
+
+           
             if (!$user) {
                 $user = User::create([
                     'email' => $providerUser->getEmail(),
@@ -47,6 +76,7 @@ class UserController extends Controller
                     'oauth_provider' => $provider,
                     'oauth_uid' => $providerUser->getId(),
                     'picture' => $providerUser->getAvatar(),
+                    'username' => $this->create_username($providerUser->getEmail(), $providerUser->getName()),
                     'locale' => 'en',
                 ]);
 
@@ -96,8 +126,9 @@ class UserController extends Controller
             'last_name' => '',
             'oauth_provider' => '',
             'oauth_uid' => '',
-            'picture' => 'null',
-            'locale' => 'null',
+            'picture' => '',
+            'locale' => '',
+            'username' => '',
             'user_type' => config('user.user_type.guest')
           ]);
         }
@@ -121,8 +152,9 @@ class UserController extends Controller
             'last_name' => isset($name[1]) ? implode(' ', array_slice($name, 1)) : '',
             'oauth_provider' => 'basic',
             'oauth_uid' => rand(0, 100),
-            'picture' => 'null',
-            'locale' => 'null',
+            'picture' => '',
+            'locale' => '',
+            'username' => $this->create_username($data['email'], $data['name']),
             'user_type' => config('user.user_type.default')
           ];
           
@@ -226,13 +258,13 @@ class UserController extends Controller
       $user = Auth::user(); // get the user
 
       // update info if request has the attrs
-      if(isset($data['description']) && strlen($data['description']) > 0)
+      if(isset($data['description']))
         $user->description = $data['description'];
       
-      if (isset($data['location']) && strlen($data['location']) > 0)
+      if (isset($data['location']))
         $user->location = $data['location'];
       
-        if (isset($data['tag_line']) && strlen($data['tag_line']) > 0)
+        if (isset($data['tag_line']))
         $user->tag_line = $data['tag_line'];
       
       // update data once that does not require validation
@@ -241,19 +273,12 @@ class UserController extends Controller
       // validated data will be updated seperately so that if 
       // any data fails the validation all the other info 
       // sent in the request is updated
-      
       $error = [];
-      if (isset($data['website']) && strlen($data['website']) > 0) {
-        $validator = Validator::make($data, [
-          'website' => 'url'
-        ]);
-
-        if($validator->fails()) 
-         $error[] = response()->json(['error' => $validator->errors()], 422);
-        else {
+      if (isset($data['website'])) {
+          
           $user->website = $data['website'];
           $user->update();
-        }
+        
       }
 
       if (isset($data['username']) && strlen($data['username']) > 0) {
