@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Board\Models\Asset;
 use App\Board\Models\Board;
 use App\Board\Models\BoardLikes;
+use App\Models\Utility;
 use Illuminate\Http\File;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -54,9 +55,10 @@ class BoardController extends Controller
         $board[0]['like_count'] = BoardLikes::get_board_likes($id);
 
         // get board owner info (it is not always the Auth::user())
-        $row = Board::where('uuid', $id)  
-          ->join("users", "board.user_id", "=", "users.id")
-          ->get();
+        $row = Board::withoutGlobalScopes()->where('uuid', $id)  
+          ->join("users", "board.user_id", "=", "users.id");
+
+        $row = $row->get();
 
         if(isset($row[0])) {
           $row = $row[0];
