@@ -126,7 +126,6 @@ class UserController extends Controller
             'last_name' => '',
             'oauth_provider' => '',
             'oauth_uid' => '',
-            'username' => '',
             'user_type' => config('user.user_type.guest')
           ]);
         }
