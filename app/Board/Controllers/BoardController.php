@@ -52,8 +52,17 @@ class BoardController extends Controller
       if(isset($board[0])) {
         $board[0]['is_liked'] = BoardLikes::is_board_liked($id, Auth::id());
         $board[0]['like_count'] = BoardLikes::get_board_likes($id);
-        $board[0]['username'] = Auth::user()->username;
-        $board[0]['picture'] = Auth::user()->picture;
+
+        // get board owner info (it is not always the Auth::user())
+        $row = Board::where('uuid', $id)  
+          ->join("users", "board.user_id", "=", "users.id")
+          ->get();
+
+        if(isset($row[0])) {
+          $row = $row[0];
+          $board[0]['username'] = $row->username;
+          $board[0]['picture'] = $row->picture;
+        }
       }
 
       return $board;
