@@ -253,13 +253,16 @@ class UserController extends Controller
       $user = Auth::user(); // get the user
 
       // update info if request has the attrs
-      if(isset($data['description']))
+      if(array_key_exists('description', $data) 
+        && (isset($data['description']) || strlen($data['description']) == 0))
         $user->description = $data['description'];
       
-      if (isset($data['location']))
+      if (array_key_exists('location', $data) 
+        && (isset($data['location']) || strlen($data['location']) == 0))
         $user->location = $data['location'];
       
-        if (isset($data['tag_line']))
+      if (array_key_exists('tag_line', $data)
+        && (isset($data['tag_line']) || strlen($data['tag_line']) == 0))
         $user->tag_line = $data['tag_line'];
       
       // update data once that does not require validation
@@ -269,14 +272,16 @@ class UserController extends Controller
       // any data fails the validation all the other info 
       // sent in the request is updated
       $error = [];
-      if (isset($data['website'])) {
+      if (array_key_exists('website', $data)
+          && (isset($data['website']) || strlen($data['website']) == 0)) {
           
           $user->website = $data['website'];
           $user->update();
         
       }
 
-      if (isset($data['username']) && strlen($data['username']) > 0) {
+      if (array_key_exists('username', $data)
+          && (isset($data['username']) && strlen($data['username']) > 0)) {
         $validator = Validator::make($data, [
           'username' => 'unique:users|alpha_dash'
         ]);
@@ -289,7 +294,8 @@ class UserController extends Controller
         }
       }
 
-      if(isset($data['image'])) {
+      if(array_key_exists('image', $data)
+        && isset($data['image'])) {
         $validator = Validator::make($data, [
           'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
