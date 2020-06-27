@@ -28,12 +28,12 @@ class UserController extends Controller
       $names = $this->explodeX([' ', '_'], $name);
 
       $f_name = isset($names[0]) ? $names[0] : null;
-      $l_name = isset($names[0]) ? $names[0] : null;
+      $l_name = isset($names[1]) ? $names[1] : null;
 
       $username = $email_head . '-' . rand(0,999);
 
       if(isset($f_name) && isset($l_name))
-        $username = $f_name . strtoupper($l_name[0]) . '-' . rand(0, 999);
+        $username = strtolower($f_name) . strtoupper($l_name[0]) . '-' . rand(0, 999);
 
       $validator = Validator::make(['username' => $username], [
         'username' => 'unique:users|alpha_dash'
@@ -126,8 +126,6 @@ class UserController extends Controller
             'last_name' => '',
             'oauth_provider' => '',
             'oauth_uid' => '',
-            'picture' => '',
-            'locale' => '',
             'username' => '',
             'user_type' => config('user.user_type.guest')
           ]);
@@ -152,8 +150,6 @@ class UserController extends Controller
             'last_name' => isset($name[1]) ? implode(' ', array_slice($name, 1)) : '',
             'oauth_provider' => 'basic',
             'oauth_uid' => rand(0, 100),
-            'picture' => '',
-            'locale' => '',
             'username' => $this->create_username($data['email'], $data['name']),
             'user_type' => config('user.user_type.default')
           ];
