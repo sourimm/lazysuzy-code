@@ -23,8 +23,8 @@ class UserController extends Controller
         return explode(chr(1), str_replace($delimiters, chr(1), $string));
     }
 
-    public function create_username($email, $name) {
-      $email_head = explode("@", $email);
+    public function create_username($email, $name) { serve 
+      $email_head = explode("@", $email)[0];
       $names = $this->explodeX([' ', '_'], $name);
 
       $f_name = isset($names[0]) ? $names[0] : null;
