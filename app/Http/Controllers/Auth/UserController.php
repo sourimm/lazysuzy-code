@@ -252,6 +252,8 @@ class UserController extends Controller
       $validator = null;
       $user = Auth::user(); // get the user
 
+
+      // allow users to save empty values in the following fields
       // update info if request has the attrs
       if(array_key_exists('description', $data) 
         && (isset($data['description']) || strlen($data['description']) == 0))
