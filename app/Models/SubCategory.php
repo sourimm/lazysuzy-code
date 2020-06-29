@@ -42,6 +42,17 @@ class SubCategory extends Model
     public static function get_sub_cat_LSIDs($cat_LS_IDs) 
     {
         $LS_IDs = [];
+        $categories = []; // LS_ID
+        $sub_categories = []; // LS_ID
+        
+        // we will only find sub-cat for catgeory LSIDs, 
+        // NOTE: there are some LS_IDs shown on the board that are 
+        // sub-catgeories them selves. So using those to find sub-catgories 
+        // will produce additional LS_IDs
+        // if the LS_ID is already a sub-cat then just include it and don't 
+        // do anthing, if LS_ID is category LSID then find it's sub-cat LS_IDs
+        $rows = SubCategory::whereIn('LS_ID', $cat_LS_IDs)->get();
+
         // we'll have to get the cat_name_url value because then only we can
         // search for sub-categories
         // SELECT * FROM mapping_core WHERE cat_name_long =  (SELECT cat_name_url FROM mapping_core WHERE LS_ID = '210');
@@ -54,14 +65,30 @@ class SubCategory extends Model
             else $cat_LS_IDs[$i] = '\'' . $cat_LS_IDs[$i] . '\'';
         }
 
-        $LS_ID_string = implode(",", $cat_LS_IDs);
-        $LS_ID_string  = '(' . $LS_ID_string . ')';
-        $rows = DB::select( DB::raw("SELECT LS_ID FROM mapping_core WHERE cat_name_long in (SELECT cat_name_long FROM mapping_core WHERE LS_ID in $LS_ID_string)") );
-
-        foreach ($rows as $r) {
-            $LS_IDs[] = $r->LS_ID;
+        foreach($rows as $row) {
+            if(strlen($row->cat_sub_url) == 0) {
+                // this is a category LS_ID
+                $categories[] = $row->LS_ID;
+            }
+            else {
+                // this is a sub-catgeory LS_ID
+                $sub_categories[] = $row->LS_ID;
+            }
         }
 
-        return $LS_IDs;
+        $LS_ID_string = implode(",", $categories);
+        $LS_ID_string  = '(' . $LS_ID_string . ')';
+
+        if(strlen($LS_ID_string) != 2) {
+            $rows = DB::select(DB::raw("SELECT LS_ID FROM mapping_core WHERE cat_name_long in 
+                (SELECT cat_name_long FROM mapping_core WHERE LS_ID in $LS_ID_string)"));
+
+            foreach ($rows as $r) {
+                $LS_IDs[] = $r->LS_ID;
+            }
+        }
+       
+
+        return array_merge($LS_IDs, $sub_categories);
     }
 }
