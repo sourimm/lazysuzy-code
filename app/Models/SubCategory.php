@@ -55,7 +55,7 @@ class SubCategory extends Model
 
         // we'll have to get the cat_name_url value because then only we can
         // search for sub-categories
-        // SELECT * FROM mapping_core WHERE cat_name_long =  (SELECT cat_name_url FROM mapping_core WHERE LS_ID = '210');
+        // SELECT * FROM mapping_core WHERE cat_name_long = (SELECT cat_name_url FROM mapping_core WHERE LS_ID = '210');
 
         // checking for wrong input, because we're going ot use 
         // this input directly in the query, there is some scope of 
@@ -81,7 +81,8 @@ class SubCategory extends Model
 
         if(strlen($LS_ID_string) != 2) {
             $rows = DB::select(DB::raw("SELECT LS_ID FROM mapping_core WHERE cat_name_long in 
-                (SELECT cat_name_long FROM mapping_core WHERE LS_ID in $LS_ID_string)"));
+                (SELECT cat_name_long FROM mapping_core WHERE LS_ID in $LS_ID_string)
+                AND dept_name_long IN (SELECT dept_name_long FROM mapping_core WHERE LS_ID IN $LS_ID_string)"));
 
             foreach ($rows as $r) {
                 $LS_IDs[] = $r->LS_ID;
