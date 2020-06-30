@@ -292,6 +292,7 @@ class Cart extends Model
             // item cost
             if(isset($state)) {
                 $sales_tax = SalesTax::get_sales_tax($state);
+                $product->sales_tax = $sales_tax;
                 $product->total_sales_tax = $sales_tax * $product->count;
             }
         }
