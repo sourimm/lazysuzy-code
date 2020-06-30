@@ -165,7 +165,6 @@ class API extends Controller
     public function get_cart(Request $request)
     {
         $data = $request->all();
-        var_dump($request->all());
         $state_code = null;
         if(isset($data['state_code']) 
             && strlen($data['state_code']) > 0)
