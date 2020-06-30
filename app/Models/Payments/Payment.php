@@ -9,6 +9,7 @@ use App\Models\Inventory;
 use Illuminate\Support\Str;
 
 use App\Models\Mailer;
+use App\Models\Utility;
 use Stripe;
 use Auth;
 use Exception;
@@ -154,6 +155,14 @@ class Payment extends Model
                     'checkout_amount' => $total_price,
                     'status' => 'ongoing',
                 ]);
+
+            // add dump for orders API 
+            DB::table('lz_order_dump')
+                    ->insert([
+                        'user_id' => $user_id,
+                        'order_id' => $order_id,
+                        'order_json' => json_encode($cart)
+                    ]);
 
             $charge = Stripe\Charge::create([
                 'customer' => $customer->id,
@@ -302,41 +311,17 @@ class Payment extends Model
     {
         $response = [];
         $user = Auth::user();
-        $rows_shipment_code = DB::table(Payment::$shipment_code_table)
-            ->get()
-            ->toArray();
-        $shipment_codes = array_column($rows_shipment_code, 'rate', 'code');
-        $response['cart'] = DB::table('lz_orders')
-            ->select(
-                Payment::$order_table . '.product_sku',
-                Payment::$order_table . '.price',
-                Payment::$order_table . '.quantity as count',
-                'master_data.product_name',
-                'master_data.was_price',
-                DB::raw('concat("https://www.lazysuzy.com", master_data.main_product_images) as image'),
-                'master_data.product_description',
-                'master_data.reviews',
-                'master_data.rating',
-                'master_brands.name as site',
-                'lz_inventory.ship_custom',
-                'lz_inventory.ship_code'
-            )
-            ->join("master_data", "master_data.product_sku", "=", Payment::$order_table . ".product_sku")
-            ->join("lz_inventory", "lz_inventory.product_sku", "=", "master_data.product_sku")
-            ->join("master_brands", "master_data.site_name", "=", "master_brands.value")
-            ->where('order_id', $order_id)
+
+        $order_ = DB::table('lz_order_dump')
             ->where('user_id', $user->id)
+            ->where('order_id', $order_id)
             ->get();
+            
+        if(!isset($order_[0])) return null;
 
-
-        foreach ($response['cart'] as $product) {
-            // set correct shipping cost
-            if (strtolower($product->ship_code) == 's') {
-                $product->ship_custom = $shipment_codes[$product->ship_code];
-            } else if (strtolower($product->ship_code) == 'f') {
-                $product->ship_custom = 0;
-            }
-        }
+        $order_ = $order_[0];
+        $order_data = json_decode($order_->order_json, true);
+        $response['cart'] = $order_data;// $order_data['products'];
 
         $response['delivery'] = DB::table(Payment::$delivery_table)
             ->where('order_id', $order_id)
