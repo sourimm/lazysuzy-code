@@ -164,7 +164,8 @@ class Cart extends Model
                 "reviews",
                 "rating",
                 "product_description",
-                "master_brands.value as site_value"
+                "master_brands.value as site_value",
+                "master_brands.name as site"
             ])
             ->whereIn('master_data.product_sku', $parents)
             ->join("master_brands", "master_data.site_name", "=", "master_brands.value")
@@ -209,6 +210,7 @@ class Cart extends Model
                     $vrow->review = $row->reviews;
                     $vrow->rating = $row->rating;
                     $vrow->description = $row->product_description;
+                    $vrow->site = $row->site;
 
                     $cart[] = $vrow;
                 }
@@ -288,36 +290,36 @@ class Cart extends Model
 
             $product->total_ship_custom = $product->ship_custom * $product->count;
 
-            // if $state is not null, get the state tax and add it in the total
-            // item cost
-            if(isset($state)) {
-                $sales_tax = SalesTax::get_sales_tax($state);
-                $product->sales_tax = $sales_tax;
-                $product->total_sales_tax = $sales_tax * $product->count;
-            }
-            else {
-                $product->sales_tax = 0;
-                $product->total_sales_tax = 0;
-            }
+           
         }
-        
+
+        // if $state is not null, get the state tax and add it in the total
+        // item cost
+        $sales_tax = 0; // this is applied 1 time for a order.
+        if (isset($state)) {
+            $sales_tax = SalesTax::get_sales_tax($state); 
+        }
+
         $res = ['products' => [], 'order' => [
             'sub_total' => 0,
             'total_cost' => 0,
             'shipment_total' => 0,
             'sales_tax_total' => 0
         ]];
+
         foreach($cart_rows as $p) {
             $res['products'][] = $p;
             $res['order']['sub_total'] += $p->total_price;
-            $res['order']['sales_tax_total'] += $p->total_sales_tax;
             $res['order']['shipment_total'] += $p->total_ship_custom;
         }
+
+        $res['order']['sales_tax_total'] = number_format((float) $sales_tax, 2, '.', '');
 
         $res['order']['total_cost'] = $res['order']['shipment_total'] 
         + $res['order']['sales_tax_total']
         + $res['order']['sub_total'];
-        
+
+        $res['order']['total_cost'] = number_format((float) $res['order']['total_cost'], 2, '.', '');
         return $res;
     }
 }

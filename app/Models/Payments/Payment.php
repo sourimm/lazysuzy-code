@@ -117,10 +117,14 @@ class Payment extends Model
             $shipment_cost = 0;
         }
 
-        $total_price += $shipment_cost;
+        // add sales tax cost to total
+        $sales_tax = $cart['order']['sales_tax_total'];
+
+        $total_price += $shipment_cost + $sales_tax;
         $mail_data['shipping'] = '$' . $shipment_cost;
         $mail_data['order_cost'] = '$' . $total_price;
-
+        $mail_data['sales_tax'] = '$' . $sales_tax;
+        
 
         $errors = [];
         try {
