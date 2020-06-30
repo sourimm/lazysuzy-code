@@ -104,15 +104,18 @@ class API extends Controller
         return Wishlist::get_whishlist($board_view);
     }
 
-    public function get_all_brands($key = null) {
+    public function get_all_brands($key = null) 
+    {
         return Brands::get_all($key);
     }
 
-    public function subscribe_user() {
+    public function subscribe_user() 
+    {
         return Subscribe::subscribe_user();
     }
 
-    public function get_categories($dept_url_name) {
+    public function get_categories($dept_url_name) 
+    {
         return Department::get_single_department($dept_url_name);
     }
 
@@ -120,7 +123,8 @@ class API extends Controller
         return Brands::get_banners();
     }
 
-    public function add_to_cart(Request $request) {
+    public function add_to_cart(Request $request) 
+    {
 
         if(strlen($request->input('product_sku')) > 0 
             && strlen($request->input('count')) > 0) {
@@ -158,9 +162,17 @@ class API extends Controller
         ];
     }
 
-    public function get_cart()
+    public function get_cart(Request $request)
     {
-        return Cart::cart();
+        $data = $request->all();
+        var_dump($request->all());
+        $state_code = null;
+        if(isset($data['state_code']) 
+            && strlen($data['state_code']) > 0)
+            $state_code = strtoupper($data['state_code']);
+
+           
+        return Cart::cart($state_code);
     }
 
     public function get_inventory()

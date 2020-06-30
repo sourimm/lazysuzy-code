@@ -115,7 +115,7 @@ class Cart extends Model
         ];
     }
 
-    public static function cart()
+    public static function cart($state = null)
     {
         $variation_tables = Config::get('tables.variations');
 
@@ -148,7 +148,9 @@ class Cart extends Model
             if( isset($row->product_sku) && isset($row->parent_sku)
                 && strlen($row->parent_sku) > 0 && $row->product_sku != $row->parent_sku) {
                     // for variations SKU, details of parent SKU from master_data table
-                    $parents[] = $row->parent_sku;
+                    if(!in_array($row->parent_sku, $parents))
+                        $parents[] = $row->parent_sku;
+                    
                     $variations[] = $row->product_sku;
                 }
         }
@@ -182,10 +184,11 @@ class Cart extends Model
 
             if(isset($table) && isset($name) && isset($image)) {
                 $vrow = DB::table($table)
-                    ->select([$name . ' as variation_name',
-                    DB::raw('concat("https://www.lazysuzy.com", ' . $image .') as image'),
+                    ->select([
+                    $table . "." . $sku . ' as product_sku',
                     DB::raw('count(*) as count'),
-                    $table . "." . $sku . ' as variation_sku',
+                    DB::raw('concat("https://www.lazysuzy.com", ' . $image .') as image'),
+                    $name . ' as product_name',
                     'lz_inventory.price as retail_price',
                     'lz_inventory.ship_code',
                     'lz_inventory.ship_custom',
@@ -193,13 +196,16 @@ class Cart extends Model
                     'lz_inventory.price',
                     'lz_inventory.was_price',
                 ])->where($sku, $variations[$parent_index])
-                ->join("lz_inventory", "lz_inventory.product_sku", "=", $table . "." . $sku)
+                ->join("lz_inventory", $table . "." . $sku, "=", "lz_inventory.product_sku")
+                ->join(Cart::$cart_table, Cart::$cart_table . ".product_sku" , "=", "lz_inventory.product_sku")
+                ->where(Cart::$cart_table . '.user_id', $user_id)
+                ->where(Cart::$cart_table . '.is_active', 1)
+                ->groupBy([Cart::$cart_table . '.user_id', Cart::$cart_table . '.product_sku'])
                 ->get()->toArray();
-                
                 if(isset($vrow[0])) {
                     $vrow = $vrow[0];
-                    $vrow->product_sku = $row->product_sku;
-                    $vrow->product_name = $row->product_name;
+                    $vrow->parent_sku = $row->product_sku;
+                    $vrow->parent_name = $row->product_name;
                     $vrow->review = $row->reviews;
                     $vrow->rating = $row->rating;
                     $vrow->description = $row->product_description;
@@ -212,8 +218,6 @@ class Cart extends Model
 
         }
 
-
-       
         $rows = DB::table(Cart::$cart_table)
             ->select(
                 Cart::$cart_table . '.product_sku',
@@ -272,6 +276,7 @@ class Cart extends Model
             }
 
             $product->discount = $discount;
+            $product->total_price = $product->price * $product->count;
 
             // set correct shipping cost
             if(strtolower($product->ship_code) == 's') {
@@ -279,6 +284,15 @@ class Cart extends Model
             }
             else if (strtolower($product->ship_code) == 'f') {
                 $product->ship_custom = 0;
+            }
+
+            $product->total_ship_custom = $shipment_codes[$product->ship_code] * $product->count;
+
+            // if $state is not null, get the state tax and add it in the total
+            // item cost
+            if(isset($state)) {
+                $sales_tax = SalesTax::get_sales_tax($state);
+                $product->total_sales_tax = $sales_tax * $product->count;
             }
         }
         
