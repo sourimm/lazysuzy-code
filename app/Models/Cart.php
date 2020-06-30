@@ -245,11 +245,11 @@ class Cart extends Model
             ->groupBy([Cart::$cart_table . '.user_id', Cart::$cart_table . '.product_sku'])
             ->get()->toArray();
 
-        $rows = array_merge($rows, $cart);
+        $cart_rows = array_merge($rows, $cart);
         $products = [];
 
        
-        foreach ($rows as $row => &$product) {
+        foreach ($cart_rows as $row => &$product) {
 
             $p_val = $wp_val = $discount = null;
 
@@ -286,7 +286,7 @@ class Cart extends Model
                 $product->ship_custom = 0;
             }
 
-            $product->total_ship_custom = $shipment_codes[$product->ship_code] * $product->count;
+            $product->total_ship_custom = $product->ship_custom * $product->count;
 
             // if $state is not null, get the state tax and add it in the total
             // item cost
@@ -295,8 +295,29 @@ class Cart extends Model
                 $product->sales_tax = $sales_tax;
                 $product->total_sales_tax = $sales_tax * $product->count;
             }
+            else {
+                $product->sales_tax = 0;
+                $product->total_sales_tax = 0;
+            }
         }
         
-        return $rows;
+        $res = ['products' => [], 'order' => [
+            'sub_total' => 0,
+            'total_cost' => 0,
+            'shipment_total' => 0,
+            'sales_tax_total' => 0
+        ]];
+        foreach($cart_rows as $p) {
+            $res['products'][] = $p;
+            $res['order']['sub_total'] += $p->total_price;
+            $res['order']['sales_tax_total'] += $p->total_sales_tax;
+            $res['order']['shipment_total'] += $p->total_ship_custom;
+        }
+
+        $res['order']['total_cost'] = $res['order']['shipment_total'] 
+        + $res['order']['sales_tax_total'] 
+        + $res['order']['sub_total'];
+        
+        return $res;
     }
 }
