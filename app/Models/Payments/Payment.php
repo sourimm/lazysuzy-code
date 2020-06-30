@@ -57,7 +57,7 @@ class Payment extends Model
         }
 
         //$order_id = "lz-ord-" . rand(1, 1000) . "-" . rand(1, 10000);
-        foreach ($cart as $product) {
+        foreach ($cart['products'] as $product) {
 
             // add mail reciept data
             $mail_data['order']['products'][] = [
@@ -180,7 +180,7 @@ class Payment extends Model
 
             if ($charge->status == 'succeeded') {
                 // remove from stock;
-                foreach ($cart as $product) {
+                foreach ($cart['products'] as $product) {
                     $p = $product;
                     $in_stock = DB::table('lz_inventory')
                         ->select("quantity")

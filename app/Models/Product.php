@@ -1124,8 +1124,10 @@ class Product extends Model
             ->select(["product_sku", "quantity", "message", "price"])
             ->where('is_active', 1)
             ->get();
-        // get user cart
-        $user_cart = Cart::cart();
+        
+            // get user cart
+        $cart = Cart::cart();
+        $user_cart = $cart['products'];
         
         /* ============== PREPROCESS FOR INVENTORY DETAILS FOR LISTING API ================*/
         $user_skus = [];

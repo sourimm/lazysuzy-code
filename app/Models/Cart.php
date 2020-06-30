@@ -315,7 +315,7 @@ class Cart extends Model
         }
 
         $res['order']['total_cost'] = $res['order']['shipment_total'] 
-        + $res['order']['sales_tax_total'] 
+        + $res['order']['sales_tax_total']
         + $res['order']['sub_total'];
         
         return $res;
