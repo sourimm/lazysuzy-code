@@ -148,12 +148,23 @@ class Cart extends Model
             if( isset($row->product_sku) && isset($row->parent_sku)
                 && strlen($row->parent_sku) > 0 && $row->product_sku != $row->parent_sku) {
                     // for variations SKU, details of parent SKU from master_data table
-                    if(!in_array($row->parent_sku, $parents))
-                        $parents[] = $row->parent_sku;
+                    // [parent_sku] => [variation_sku1, var_sku2...]
+                    if(!isset($parents[$row->parent_sku]))
+                        $parents[$row->parent_sku] = [];
                     
-                    $variations[] = $row->product_sku;
+                    if(!in_array($row->product_sku, $parents[$row->parent_sku]))
+                        $parents[$row->parent_sku][] = $row->product_sku;
                 }
         }
+
+       /*  echo json_encode($parents);
+        echo json_encode($variations);
+        die(); */
+        
+        // getting all distinct parents
+        $dist_parents = [];
+        foreach($parents as $parent_sku => $variation_skus)
+            $dist_parents[] = $parent_sku;
 
         // get parent details
         $parent_rows = DB::table('master_data')
@@ -167,7 +178,7 @@ class Cart extends Model
                 "master_brands.value as site_value",
                 "master_brands.name as site"
             ])
-            ->whereIn('master_data.product_sku', $parents)
+            ->whereIn('master_data.product_sku', $dist_parents)
             ->join("master_brands", "master_data.site_name", "=", "master_brands.value")
             ->get();
     
@@ -184,7 +195,7 @@ class Cart extends Model
             // get variations details, we only need name and image
 
             if(isset($table) && isset($name) && isset($image)) {
-                $vrow = DB::table($table)
+                $vrows = DB::table($table)
                     ->select([
                     $table . "." . $sku . ' as product_sku',
                     DB::raw('count(*) as count'),
@@ -196,15 +207,15 @@ class Cart extends Model
                     'lz_inventory.quantity as max_available_count',
                     'lz_inventory.price',
                     'lz_inventory.was_price',
-                ])->where($sku, $variations[$parent_index])
+                ])->whereIn($sku, $parents[$row->product_sku]) // get all variations related to this parent product_sku
                 ->join("lz_inventory", $table . "." . $sku, "=", "lz_inventory.product_sku")
                 ->join(Cart::$cart_table, Cart::$cart_table . ".product_sku" , "=", "lz_inventory.product_sku")
                 ->where(Cart::$cart_table . '.user_id', $user_id)
                 ->where(Cart::$cart_table . '.is_active', 1)
-                ->groupBy([Cart::$cart_table . '.user_id', Cart::$cart_table . '.product_sku'])
+                ->groupBy(Cart::$cart_table . '.product_sku')
                 ->get()->toArray();
-                if(isset($vrow[0])) {
-                    $vrow = $vrow[0];
+                
+                foreach($vrows as &$vrow) {
                     $vrow->parent_sku = $row->product_sku;
                     $vrow->parent_name = $row->product_name;
                     $vrow->review = $row->reviews;
@@ -214,11 +225,12 @@ class Cart extends Model
 
                     $cart[] = $vrow;
                 }
-                $parent_index++;
-
             }
 
         }
+
+        echo json_encode($cart);
+        die();
 
         $rows = DB::table(Cart::$cart_table)
             ->select(
