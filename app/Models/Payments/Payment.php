@@ -23,8 +23,14 @@ class Payment extends Model
 
     public static function charge($req)
     {
-        $user_id = Auth::check() ? Auth::user()->id : 'guest-1';
-        $username = Auth::check() ? Auth::user()->first_name : $req->input('billing_f_Name');
+        // there will always be a user auth 
+        $user = Auth::user();
+        $user_id = $user->id;
+        $username = null;
+
+        if(strlen($user->first_name) > 1) $username = $user->first_name;
+        else $username = $req->input('billing_f_Name');
+
         $mail_data = [];
         $total_price = 0;
         $total_items = 0;
