@@ -212,8 +212,10 @@ class Cart extends Model
                 ->join(Cart::$cart_table, Cart::$cart_table . ".product_sku" , "=", "lz_inventory.product_sku")
                 ->where(Cart::$cart_table . '.user_id', $user_id)
                 ->where(Cart::$cart_table . '.is_active', 1)
-                ->groupBy(Cart::$cart_table . '.product_sku')
-                ->get()->toArray();
+                ->groupBy(Cart::$cart_table . '.product_sku');
+
+                $que = Utility::get_sql_raw($vrows);
+                $vrows = $vrows->get()->toArray();
                 
                 // one parent SKU can have many variations SKUs 
                 // in the cart
@@ -332,6 +334,8 @@ class Cart extends Model
         + $res['order']['sub_total'];
 
         $res['order']['total_cost'] = number_format((float) $res['order']['total_cost'], 2, '.', '');
+
+        $res['query'] = $que;
         return $res;
     }
 }
