@@ -137,7 +137,8 @@ class Cart extends Model
         // we'll have to make a separate list
 
         // get all the products for this user 
-        $rows = Cart::where('user_id', $user_id)->get();
+        $rows = Cart::where('user_id', $user_id)
+            ->where('is_active', 1)->get();
         $parents = []; //parent[i] => variations[i]
         $variations = [];
         foreach($rows as &$row) {
@@ -192,6 +193,7 @@ class Cart extends Model
             $name = isset($variation_tables[$row->site_name]['table']) ? $variation_tables[$row->site_name]['name'] : null;
             $image = isset($variation_tables[$row->site_name]['table']) ? $variation_tables[$row->site_name]['image'] : null;
             $sku = isset($variation_tables[$row->site_name]['table']) ? $variation_tables[$row->site_name]['sku'] : null;
+            $parent_sku_field = isset($variation_tables[$row->site_name]['table']) ? $variation_tables[$row->site_name]['parent_sku'] : null;
             // get variations details, we only need name and image
 
             if(isset($table) && isset($name) && isset($image)) {
@@ -212,6 +214,7 @@ class Cart extends Model
                 ->join(Cart::$cart_table, Cart::$cart_table . ".product_sku" , "=", "lz_inventory.product_sku")
                 ->where(Cart::$cart_table . '.user_id', $user_id)
                 ->where(Cart::$cart_table . '.is_active', 1)
+                ->where($table . '.'. $parent_sku_field, $row->product_sku) // where parent SKU is given in variations table
                 ->groupBy(Cart::$cart_table . '.product_sku');
 
                 $que = Utility::get_sql_raw($vrows);
