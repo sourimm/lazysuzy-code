@@ -215,6 +215,8 @@ class Cart extends Model
                 ->groupBy(Cart::$cart_table . '.product_sku')
                 ->get()->toArray();
                 
+                // one parent SKU can have many variations SKUs 
+                // in the cart
                 foreach($vrows as &$vrow) {
                     $vrow->parent_sku = $row->product_sku;
                     $vrow->parent_name = $row->product_name;
@@ -228,9 +230,6 @@ class Cart extends Model
             }
 
         }
-
-        echo json_encode($cart);
-        die();
 
         $rows = DB::table(Cart::$cart_table)
             ->select(
