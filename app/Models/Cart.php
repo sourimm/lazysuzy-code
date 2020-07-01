@@ -217,7 +217,6 @@ class Cart extends Model
                 ->where($table . '.'. $parent_sku_field, $row->product_sku) // where parent SKU is given in variations table
                 ->groupBy(Cart::$cart_table . '.product_sku');
 
-                $que = Utility::get_sql_raw($vrows);
                 $vrows = $vrows->get()->toArray();
                 
                 // one parent SKU can have many variations SKUs 
@@ -312,8 +311,11 @@ class Cart extends Model
         // if $state is not null, get the state tax and add it in the total
         // item cost
         $sales_tax = 0; // this is applied 1 time for a order.
+        $sales_shipping = false; // if false, apply tax on only product price else apply on product price and shipping
         if (isset($state)) {
-            $sales_tax = SalesTax::get_sales_tax($state); 
+            $sales_t = SalesTax::get_sales_tax($state); 
+            $sales_tax = $sales_t[0];
+            $sales_shipping = $sales_t[1];
         }
 
         $res = ['products' => [], 'order' => [
@@ -329,7 +331,12 @@ class Cart extends Model
             $res['order']['shipment_total'] += $p->total_ship_custom;
         }
 
-        $res['order']['sales_tax_total'] = number_format((float) $sales_tax, 2, '.', '');
+        if($sales_shipping)
+            $res['order']['sales_tax_total'] = ($res['order']['sub_total'] + $res['order']['shipment_total']) * $sales_tax;
+        else
+            $res['order']['sales_tax_total'] = $res['order']['sub_total'] * $sales_tax;
+
+        $res['order']['sales_tax_total'] = number_format((float) $res['order']['sales_tax_total'], 2, '.', '');
         $res['order']['sub_total'] = number_format((float) $res['order']['sub_total'], 2, '.', '');
 
         $res['order']['total_cost'] = $res['order']['shipment_total'] 
@@ -338,7 +345,6 @@ class Cart extends Model
 
         $res['order']['total_cost'] = number_format((float) $res['order']['total_cost'], 2, '.', '');
 
-        $res['query'] = $que;
         return $res;
     }
 }
