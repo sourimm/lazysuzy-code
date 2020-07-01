@@ -314,6 +314,7 @@ class Cart extends Model
         }
 
         $res['order']['sales_tax_total'] = number_format((float) $sales_tax, 2, '.', '');
+        $res['order']['sub_total'] = number_format((float) $res['order']['sub_total'], 2, '.', '');
 
         $res['order']['total_cost'] = $res['order']['shipment_total'] 
         + $res['order']['sales_tax_total']
