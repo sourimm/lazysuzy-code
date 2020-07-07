@@ -43,7 +43,6 @@ Route::get('/category', function () {
 });
 
 
-
 Auth::routes();
 
 // Route::get('/logout', 'Auth\LoginController@logout');
@@ -103,7 +102,6 @@ Route::post('/api/cart/add', 'API@add_to_cart')->middleware(['auth:api'])->name(
 Route::post('/api/cart/remove', 'API@remove_from_cart')->middleware(['auth:api'])->name('remove-from-cart');
 Route::get('/api/cart', 'API@get_cart')->name('get-cart')->middleware(['auth:api']);
 
-
 // payment routes
 Route::post('/api/payment/charge', 'Payment\PaymentController@charge_client')->middleware(['auth:api'])->name('client-secret');
 Route::get('/api/order', 'Payment\PaymentController@get_order')->middleware(['auth:api'])->name('get-order');
@@ -111,21 +109,16 @@ Route::get('/api/order', 'Payment\PaymentController@get_order')->middleware(['au
 // inventory
 Route::get('/api/inventory', 'API@get_inventory')->name('get-inventory');
 
-
-
 // Board Routes
 Route::get('/api/board/asset/preview', '\App\Board\Controllers\BoardController@get_asset_for_preview')->middleware(['cors']);
 Route::get('/api/board/asset/{id?}', '\App\Board\Controllers\BoardController@get_asset')->middleware(['cors', 'auth:api']);
 Route::post('/api/board/asset/{id?}', '\App\Board\Controllers\BoardController@update_asset')->middleware(['cors', 'auth:api']);
-
 Route::get('/api/board/preview/{id}', '\App\Board\Controllers\BoardController@get_board_for_preview')->middleware(['cors']);
 Route::get('/api/board/{id?}', '\App\Board\Controllers\BoardController@get_board')->middleware(['cors', 'auth:api']);
 Route::post('/api/board/{id?}', '\App\Board\Controllers\BoardController@update_board')->middleware(['cors', 'auth:api']);
-
 Route::post('/api/board/like/{id}', '\App\Board\Controllers\BoardController@like_board')->middleware(['cors', 'auth:api']);
 Route::post('/api/board/unlike/{id}', '\App\Board\Controllers\BoardController@unlike_board')->middleware(['cors', 'auth:api']);
 Route::get('/api/board/get/all', '\App\Board\Controllers\BoardController@get_all_boards')->middleware(['cors', 'auth:api']);
-
 
 /* ==================================================BACKEND ADMIN APIS========================================== */
 
@@ -136,8 +129,6 @@ Route::middleware(['auth:api', 'cors', 'admin'])->group(function() {
     Route::get('/api/admin/product/{sku}', 'Admin\Dashboard@get_product_details')->name('admin-get-product-details');
     Route::post('/api/admin/mark/image', 'Admin\Dashboard@mark_image')->name('mark-image');
 });
-
-
 Route::group([
     'prefix' => '/api/password' 
 ], function() {
