@@ -124,6 +124,7 @@ Route::post('/api/board/{id?}', '\App\Board\Controllers\BoardController@update_b
 
 Route::post('api/board/like/{id}', '\App\Board\Controllers\BoardController@like_board')->middleware(['cors', 'auth:api']);
 Route::post('api/board/unlike/{id}', '\App\Board\Controllers\BoardController@unlike_board')->middleware(['cors', 'auth:api']);
+Route::get('api/board/get/all', '\App\Board\Controllers\BoardController@get_all_boards')->middleware(['cors', 'auth:api']);
 
 
 /* ==================================================BACKEND ADMIN APIS========================================== */

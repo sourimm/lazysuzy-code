@@ -30,7 +30,7 @@ class Board extends Model
     $this->attributes['is_liked'] = $value;
   }
 
-  private static function randomId($length = 10){
+  private static function randomId($length = 10) {
 
      $str_result = '0123456789abcdefghijklmnopqrstuvwxyz'; 
      $id = substr(str_shuffle($str_result), 0, $length);
@@ -65,6 +65,20 @@ class Board extends Model
         ->where('users.username', $username)
         ->join('users', 'users.id', '=', 'board.user_id')
         ->get();
+    
+    return $boards;
+  }
+
+  public static function all_boards() {
+    $boards = Board::withoutGlobalScopes()
+      ->where('type_privacy', 2)
+      ->where('is_published', 1)
+      ->where('is_active', 1)->get();
+
+    foreach($boards as &$board) {
+      $board->is_liked = BoardLikes::is_board_liked($board->uuid, Auth::id());
+      $board->like_count = BoardLikes::get_board_likes($board->uuid);
+    }
     
     return $boards;
   }

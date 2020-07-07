@@ -180,5 +180,9 @@ class BoardController extends Controller
           return response()->json(['message' => 'Could not unlike board'], 200);
 
       return response()->json(['error' => 'Invalid Board'], 422);
-    }    
+    }  
+    
+    public function get_all_boards() {
+      return Board::all_boards();
+    }
 }
