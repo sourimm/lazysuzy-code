@@ -118,6 +118,7 @@ class Cart extends Model
     public static function cart($state = null)
     {
         $variation_tables = Config::get('tables.variations');
+        $native_shipping_codes = Config::get('shipping.native_shipping_codes');
 
         if (Auth::check()) {
             $user_id = Auth::user()->id;
@@ -295,15 +296,26 @@ class Cart extends Model
             $product->discount = $discount;
             $product->total_price = $product->price * $product->count;
 
-            // set correct shipping cost
-            if(strtolower($product->ship_code) == 's') {
-                $product->ship_custom = $shipment_codes[$product->ship_code];
-            }
-            else if (strtolower($product->ship_code) == 'f') {
-                $product->ship_custom = 0;
-            }
+            // $product->ship_custom already has a value because we joined the tables
+            // we're now updating this value to match correct shipping cost 
+            if(in_array($product->ship_code, $native_shipping_codes)) {
+                // set correct shipping cost
+                if (strtolower($product->ship_code) == 's') {
+                    $product->ship_custom = $shipment_codes[$product->ship_code];
+                } else if (strtolower($product->ship_code) == 'f') {
+                    // f is for free shipping 
+                    $product->ship_custom = 0;
+                }
+                $product->total_ship_custom = $product->ship_custom * $product->count;
 
-            $product->total_ship_custom = $product->ship_custom * $product->count;
+            } else {
+                // for all codes that have shipping directly from the brand retailers
+                $product->ship_custom = $shipment_codes[$product->ship_code];
+
+                // we just charge the shipping once for all the items for that SKU
+                $product->total_ship_custom = $product->ship_custom;
+            }           
+
 
            
         }
