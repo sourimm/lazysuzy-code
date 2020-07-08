@@ -418,6 +418,18 @@ class Product extends Model
           $products = DB::table("master_data")
             ->selectRaw("count(product_name) AS products, seating");
         if (sizeof($all_filters) != 0) {
+
+            // for /all API catgeory-wise filter
+            if (
+                isset($all_filters['category'])
+                && strlen($all_filters['category'][0])
+            ) {
+                // we want to show all the products of this category
+                // so we'll have to get the sub-categories included in this 
+                // catgeory
+                $LS_IDs = SubCategory::get_sub_cat_LSIDs($all_filters['category']);
+            }
+
             if (isset($all_filters['type']) && strlen($all_filters['type'][0]) > 0) {
                 $LS_IDs = Product::get_sub_cat_LS_IDs($dept, $cat, $all_filters['type']);
             }
@@ -433,16 +445,7 @@ class Product extends Model
                 // input in form - color1|color2|color3
             }
 
-            // for /all API catgeory-wise filter
-            if (
-                isset($all_filters['category'])
-                && strlen($all_filters['category'][0])
-            ) {
-                // we want to show all the products of this category
-                // so we'll have to get the sub-categories included in this 
-                // catgeory
-                $LS_IDs = SubCategory::get_sub_cat_LSIDs($all_filters['category']);
-            }
+          
             if (
                 isset($all_filters['shape'])
                 && isset($all_filters['shape'][0])
@@ -473,7 +476,6 @@ class Product extends Model
         }
       
         $products = $products->groupBy('seating')->get();
-
         foreach ($rows as $row) {
             $all_seating[$row->seating] = [
                 'name' => $row->seating,
