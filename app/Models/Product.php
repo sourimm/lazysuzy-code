@@ -825,6 +825,14 @@ class Product extends Model
 
         $LS_IDs = Product::get_dept_cat_LS_ID_arr($dept, $cat);
 
+        // for /all API catgeory-wise filter
+        if (
+            isset($all_filters['category'])
+            && strlen($all_filters['category'][0])
+        ) {
+            $LS_IDs =
+                SubCategory::get_sub_cat_LSIDs($all_filters['category']);
+        }
 
         // 4. type
         if (isset($all_filters['type']) && strlen($all_filters['type'][0]) > 0) {
@@ -838,14 +846,7 @@ class Product extends Model
                 $LS_IDs = Product::get_LS_IDs($dept);
             }
         }
-        // for /all API catgeory-wise filter
-        if (
-            isset($all_filters['category'])
-            && strlen($all_filters['category'][0])
-        ) {
-            $LS_IDs =
-            SubCategory::get_sub_cat_LSIDs($all_filters['category']);
-        }
+       
 
         $products = DB::table("master_data")
             ->select(['LS_ID', 'color'])
