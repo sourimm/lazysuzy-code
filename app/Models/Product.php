@@ -108,7 +108,6 @@ class Product extends Model
     public static function get_filter_products($dept, $cat = null, $subCat = null, $isAdmiAPICall = false)
     {
         $perPage = 24;
-        DB::enableQueryLog();
         $LS_IDs = null;
         $PRICE_ASC = "price_low_to_high";
         $PRICE_DESC = "price_high_to_low";
@@ -434,14 +433,16 @@ class Product extends Model
                 // input in form - color1|color2|color3
             }
 
+            // for /all API catgeory-wise filter
             if (
                 isset($all_filters['category'])
                 && strlen($all_filters['category'][0])
             ) {
-                $products = $products
-                    ->whereRaw('LS_ID REGEXP "' . implode("|", $all_filters['category']) . '"');
+                // we want to show all the products of this category
+                // so we'll have to get the sub-categories included in this 
+                // catgeory
+                $LS_IDs = SubCategory::get_sub_cat_LSIDs($all_filters['category']);
             }
-
             if (
                 isset($all_filters['shape'])
                 && isset($all_filters['shape'][0])
@@ -521,13 +522,16 @@ class Product extends Model
             }
 
             $products = $products->whereRaw('LS_ID REGEXP "' . implode("|", $LS_IDs) . '"');
-            
+
+            // for /all API catgeory-wise filter
             if (
                 isset($all_filters['category'])
                 && strlen($all_filters['category'][0])
             ) {
-                $products = $products
-                    ->whereRaw('LS_ID REGEXP "' . implode("|", $all_filters['category']) . '"');
+                // we want to show all the products of this category
+                // so we'll have to get the sub-categories included in this 
+                // catgeory
+                $LS_IDs = SubCategory::get_sub_cat_LSIDs($all_filters['category']);
             }
 
             if (
@@ -629,16 +633,22 @@ class Product extends Model
                     $product_brands = $product_brands->whereRaw('image_xbg_processed = 1');
             }
 
-            if (isset($all_filters['type']) && strlen($all_filters['type'][0]) > 0) {
-                $LS_IDs = Product::get_sub_cat_LS_IDs($dept, $cat, $all_filters['type']);
-            }
-
+            // for /all API catgeory-wise filter
             if (
                 isset($all_filters['category'])
                 && strlen($all_filters['category'][0])
             ) {
-                $LS_IDs = $all_filters['category'];
+                // we want to show all the products of this category
+                // so we'll have to get the sub-categories included in this 
+                // catgeory
+                $LS_IDs = SubCategory::get_sub_cat_LSIDs($all_filters['category']);
             }
+
+            if (isset($all_filters['type']) && strlen($all_filters['type'][0]) > 0) {
+                $LS_IDs = Product::get_sub_cat_LS_IDs($dept, $cat, $all_filters['type']);
+            }
+
+            
 
             $product_brands = $product_brands
                     ->whereRaw('LS_ID REGEXP "' . implode("|", $LS_IDs) . '"');
@@ -678,8 +688,7 @@ class Product extends Model
         }
 
         $product_brands = $product_brands->groupBy('site_name')->get();
-
-       foreach ($product_brands as $b) {
+        foreach ($product_brands as $b) {
             if (isset($all_brands[$b->site_name])) {
                 $all_brands[$b->site_name]["enabled"] = true;
                 if (isset($all_filters['brand'])) {
@@ -711,12 +720,15 @@ class Product extends Model
         if (isset($all_filters['type']) && strlen($all_filters['type'][0]) > 0) {
             $LS_IDs = Product::get_sub_cat_LS_IDs($dept, $cat, $all_filters['type']);
         }
+        // for /all API catgeory-wise filter
         if (
             isset($all_filters['category'])
             && strlen($all_filters['category'][0])
         ) {
-            $LS_IDs =
-            SubCategory::get_sub_cat_LSIDs($all_filters['category']);
+            // we want to show all the products of this category
+            // so we'll have to get the sub-categories included in this 
+            // catgeory
+            $LS_IDs = SubCategory::get_sub_cat_LSIDs($all_filters['category']);
         }
 
         $price = $price->whereRaw('LS_ID REGEXP "' . implode("|", $LS_IDs) . '"');
@@ -957,6 +969,16 @@ class Product extends Model
 
         $LS_IDs = Product::get_dept_cat_LS_ID_arr($dept, $cat);
 
+        // for /all API catgeory-wise filter
+        if (
+            isset($all_filters['category'])
+            && strlen($all_filters['category'][0])
+        ) {
+            // we want to show all the products of this category
+            // so we'll have to get the sub-categories included in this 
+            // catgeory
+            $LS_IDs = SubCategory::get_sub_cat_LSIDs($all_filters['category']);
+        }
         if (isset($all_filters['type']) && strlen($all_filters['type'][0]) > 0) {
             // comment this line if you want to show count for all those
             // sub_categories that are paased in the request.
@@ -965,13 +987,7 @@ class Product extends Model
             // if uncommenting the above line, comment this one
             $LS_IDs = Product::get_dept_cat_LS_ID_arr($dept, $cat);
         }
-        if (
-            isset($all_filters['category'])
-            && strlen($all_filters['category'][0])
-        ) {
-            $LS_IDs =
-            SubCategory::get_sub_cat_LSIDs($all_filters['category']);
-        }
+        
 
         $products = DB::table("master_data")
             ->select(['LS_ID', 'color'])
