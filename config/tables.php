@@ -37,5 +37,8 @@
                 'sku' => 'product_sku',
                 'parent_sku' => 'product_sku'
             ]
-        ]
+        ],
+
+        'LS_ID_mapping' => 'mapping_core' 
+            
     ];

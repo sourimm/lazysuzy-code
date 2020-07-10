@@ -11,7 +11,7 @@ use App\Models\Dimension;
 use App\Models\Cart;
 
 use Auth;
-
+use Illuminate\Support\Facades\Config;
 
 class Product extends Model
 {
@@ -885,8 +885,6 @@ class Product extends Model
                 $products = $products
                     ->whereRaw('seating REGEXP "' . implode("|", $all_filters['seating']) . '"');
             }
-
-           
 
             if (
                 isset($all_filters['shape'])
@@ -2088,6 +2086,34 @@ class Product extends Model
         return isset($row[0]) ? $row[0] : null;
     }
 
+
+    public static function product_seo($sku, $ls_id) {
+        
+        $rows = DB::table(Config::get('tables.LS_ID_mapping'))
+            ->whereIn('LS_ID', explode(",", $ls_id))
+            ->get();
+        
+        $d = null;
+        foreach($rows as $row) {
+            if(strlen($row->cat_name_long) > 0 
+                && strlen($row->dept_name_long) > 0) {
+
+                    $d = $row;
+                    break;
+                }
+        }
+
+        if($d != null)
+            return  [
+                "page_title" => $d->cat_name_long,
+                "full_title" => $d->dept_name_long . " "  . $d->cat_name_short,
+                "email_title" => $d->filter_label,
+                "description" => "Search hundreds of " . $d->cat_name_long  . " from top brands at once. Add to your room designs with your own design boards.",
+                "image_url" => Product::$base_siteurl . $d->cat_image
+            ];
+        
+        return [];
+    }
    
 
     public static function get_product_details($sku)
@@ -2176,7 +2202,10 @@ class Product extends Model
                     $product['redirect_details']['was_price'] = $data->was_price;
                     $product['redirect_details']['main_image'] = env('APP_URL') . $data->main_product_images;
                 }
-                return $product;
+
+                $res['product'] = $product;
+                $res['seo_data'] = Product::product_seo($sku, $product_details['LS_ID']);
+                return $res;
             } else {
                 return [];
             }
@@ -2222,7 +2251,10 @@ class Product extends Model
 
         $variations_data = Product::get_variations((object)$prod[0], $westelm_variations_data, false);
         $prod[0] = (object) array_merge((array)$prod[0], $product_inventory_details);
-        return Product::get_details($prod[0], $variations_data);
+        return [
+            "seo_data" => Product::product_seo($sku, $prod[0]->LS_ID),
+            "product" => Product::get_details($prod[0], $variations_data)
+        ];
     }
 
     // sends unique filter values.
