@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Board\Models\Asset;
 use App\Board\Models\Board;
 use App\Board\Models\BoardLikes;
+use App\Board\Models\BoardOptions;
 use App\Models\Utility;
 use Illuminate\Http\File;
 use Illuminate\Http\Request;
@@ -184,5 +185,9 @@ class BoardController extends Controller
     
     public function get_all_boards() {
       return Board::all_boards();
+    }
+    
+    public function get_all_options() {
+      return BoardOptions::get_all();
     }
 }
