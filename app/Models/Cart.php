@@ -221,9 +221,11 @@ class Cart extends Model
                     'lz_inventory.quantity as max_available_count',
                     'lz_inventory.price',
                     'lz_inventory.was_price',
+                    'lz_ship_code.label'
                 ])->whereIn($sku, $parents[$row->product_sku]) // get all variations related to this parent product_sku
                 ->join("lz_inventory", $table . "." . $sku, "=", "lz_inventory.product_sku")
                 ->join(Cart::$cart_table, Cart::$cart_table . ".product_sku" , "=", "lz_inventory.product_sku")
+                ->join("lz_ship_code", "lz_ship_code.code", "=", "lz_inventory.ship_code")
                 ->where(Cart::$cart_table . '.user_id', $user_id)
                 ->where(Cart::$cart_table . '.is_active', 1)
                 ->where($table . '.'. $parent_sku_field, $row->product_sku) // where parent SKU is given in variations table
@@ -241,6 +243,7 @@ class Cart extends Model
                     $vrow->description = $row->product_description;
                     $vrow->site = $row->site;
                     $vrow->brand_id = $row->site_name;
+                    $vrow->label = $row->label;
 
                     $cart[] = $vrow;
                 }
@@ -264,11 +267,13 @@ class Cart extends Model
                 'master_data.reviews',
                 'master_data.rating',
                 'master_brands.name as site',
-                'master_brands.value as brand_id'
+                'master_brands.value as brand_id',
+                'lz_ship_code.label'
             )
             ->join("master_data", "master_data.product_sku", "=", Cart::$cart_table . ".product_sku")
             ->join("lz_inventory", "lz_inventory.product_sku", "=", "master_data.product_sku")
             ->join("master_brands", "master_data.site_name", "=", "master_brands.value")
+            ->join("lz_ship_code", "lz_ship_code.code", "=", "lz_inventory.ship_code")
 
             ->where(Cart::$cart_table . '.user_id', $user_id)
             ->where(Cart::$cart_table . '.is_active', 1)
