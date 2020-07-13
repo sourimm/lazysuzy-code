@@ -130,8 +130,19 @@ class Cart extends Model
         $rows_shipment_code = DB::table(Cart::$shipment_code_table)
             ->get()
             ->toArray();
-        $shipment_codes = array_column($rows_shipment_code, 'rate', 'code');
-        
+
+        // make haskmap that will store the comibation of code and brand from 
+        // normal shipping codes and just shipping code to value mapping 
+        // for native shipping codes that include free shipping and LZ shipping
+
+        $shipment_codes = [];
+        foreach($rows_shipment_code as $row) {
+            if(in_array($row->code, $native_shipping_codes))
+                $shipment_codes[$row->code] = $row->rate;
+            else {
+                $shipment_codes[$row->code . '-' . $row->brand_id] = $row->rate;
+            }
+        }
         
         // we can have products that are not in the master_data table 
         // but prent in one of the variations table, so for those products 
@@ -229,6 +240,7 @@ class Cart extends Model
                     $vrow->rating = $row->rating;
                     $vrow->description = $row->product_description;
                     $vrow->site = $row->site;
+                    $vrow->brand_id = $row->site_name;
 
                     $cart[] = $vrow;
                 }
@@ -251,7 +263,8 @@ class Cart extends Model
                 'master_data.product_description',
                 'master_data.reviews',
                 'master_data.rating',
-                'master_brands.name as site'
+                'master_brands.name as site',
+                'master_brands.value as brand_id'
             )
             ->join("master_data", "master_data.product_sku", "=", Cart::$cart_table . ".product_sku")
             ->join("lz_inventory", "lz_inventory.product_sku", "=", "master_data.product_sku")
@@ -266,7 +279,11 @@ class Cart extends Model
         $cart_rows = array_merge($rows, $cart);
         $products = [];
 
-       
+        // [brand] => [total_price of products for that brand]
+        $total_cost_rate_shipping = [];
+
+        // [brand] => [total_cost for barnd]
+        $total_cart_fixed_shipping = [];
         foreach ($cart_rows as $row => &$product) {
 
             $p_val = $wp_val = $discount = null;
@@ -298,26 +315,34 @@ class Cart extends Model
 
             // $product->ship_custom already has a value because we joined the tables
             // we're now updating this value to match correct shipping cost 
-            if(in_array($product->ship_code, $native_shipping_codes)) {
-                // set correct shipping cost
-                if (strtolower($product->ship_code) == 's') {
-                    $product->ship_custom = $shipment_codes[$product->ship_code];
-                } else if (strtolower($product->ship_code) == 'f') {
-                    // f is for free shipping 
-                    $product->ship_custom = 0;
-                }
-                $product->total_ship_custom = $product->ship_custom * $product->count;
-
-            } else {
-                // for all codes that have shipping directly from the brand retailers
+            
+            // set correct shipping cost
+            if (($product->ship_code) == config('shipping.lazysuzy_shipping')) {
                 $product->ship_custom = $shipment_codes[$product->ship_code];
+            
+            } else if (($product->ship_code) == config('shipping.free_shipping')) {
+                // f is for free shipping 
+                $product->ship_custom = 0;
+            
+            } else if($product->ship_code == config('shipping.fixed_shipping')) {
+                $product->ship_custom = 0;
+                $product->is_calculated_separately = true;
+                if(!isset($total_cart_fixed_shipping[$product->brand_id]))
+                    $total_cart_fixed_shipping[$product->brand_id] = 0;
+                
+                $total_cart_fixed_shipping[$product->brand_id] = $shipment_codes[$product->ship_code . '-' . $product->brand_id];
+            
+            } else if($product->ship_code == config('shipping.rate_shipping')) {
+                $product->ship_custom = 0;
+                $product->is_calculated_separately = true;
+                if (!isset($total_cost_rate_shipping[$product->brand_id]))
+                    $total_cost_rate_shipping[$product->brand_id] = 0;
 
-                // we just charge the shipping once for all the items for that SKU
-                $product->total_ship_custom = $product->ship_custom;
-            }           
+                $total_cost_rate_shipping[$product->brand_id] += ($product->retail_price * $product->count);
+            }
 
-
-           
+            $product->total_ship_custom = $product->ship_custom * $product->count;
+                   
         }
 
         // if $state is not null, get the state tax and add it in the total
@@ -342,6 +367,22 @@ class Cart extends Model
             $res['order']['sub_total'] += $p->total_price;
             $res['order']['shipment_total'] += $p->total_ship_custom;
         }
+
+        // now add the SV and WG shipment product rate
+        $total_fixed_shipping_charge_for_all_brands = 0;
+        if(sizeof($total_cart_fixed_shipping) > 0) {
+            foreach($total_cart_fixed_shipping as $brand => $value)
+                $total_fixed_shipping_charge_for_all_brands += $value;
+        }
+
+        $total_rate_shipping_charge_for_all_brands = 0;
+        if(sizeof($total_cost_rate_shipping) > 0) {
+            foreach($total_cost_rate_shipping as $brand => $price) {
+                $total_rate_shipping_charge_for_all_brands += ($price * $shipment_codes[config('shipping.rate_shipping') . '-' . $brand]);
+            }
+        }
+
+        $res['order']['shipment_total'] += $total_fixed_shipping_charge_for_all_brands + $total_rate_shipping_charge_for_all_brands;
 
         if($sales_shipping)
             $res['order']['sales_tax_total'] = ($res['order']['sub_total'] + $res['order']['shipment_total']) * $sales_tax;
