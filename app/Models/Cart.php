@@ -243,7 +243,6 @@ class Cart extends Model
                     $vrow->description = $row->product_description;
                     $vrow->site = $row->site;
                     $vrow->brand_id = $row->site_name;
-                    $vrow->label = $row->label;
 
                     $cart[] = $vrow;
                 }
