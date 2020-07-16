@@ -221,7 +221,8 @@ class Cart extends Model
                     'lz_inventory.quantity as max_available_count',
                     'lz_inventory.price',
                     'lz_inventory.was_price',
-                    'lz_ship_code.label'
+                    'lz_ship_code.label',
+
                 ])->whereIn($sku, $parents[$row->product_sku]) // get all variations related to this parent product_sku
                 ->join("lz_inventory", $table . "." . $sku, "=", "lz_inventory.product_sku")
                 ->join(Cart::$cart_table, Cart::$cart_table . ".product_sku" , "=", "lz_inventory.product_sku")
@@ -276,6 +277,7 @@ class Cart extends Model
 
             ->where(Cart::$cart_table . '.user_id', $user_id)
             ->where(Cart::$cart_table . '.is_active', 1)
+            ->whereRaw('lz_ship_code.brand_id = master_data.site_name')
 
             ->groupBy([Cart::$cart_table . '.user_id', Cart::$cart_table . '.product_sku'])
             ->get()->toArray();
@@ -322,27 +324,33 @@ class Cart extends Model
             
             // set correct shipping cost
             if (($product->ship_code) == config('shipping.lazysuzy_shipping')) {
+                
                 $product->ship_custom = $shipment_codes[$product->ship_code];
             
             } else if (($product->ship_code) == config('shipping.free_shipping')) {
-                // f is for free shipping 
+
                 $product->ship_custom = 0;
             
             } else if($product->ship_code == config('shipping.fixed_shipping')) {
+
                 $product->ship_custom = 0;
                 $product->is_calculated_separately = true;
-                if(!isset($total_cart_fixed_shipping[$product->brand_id]))
-                    $total_cart_fixed_shipping[$product->brand_id] = 0;
+
+                    if (!isset($total_cart_fixed_shipping[$product->brand_id]))
+                        $total_cart_fixed_shipping[$product->brand_id] = 0;
+
+                    $total_cart_fixed_shipping[$product->brand_id] = $shipment_codes[$product->ship_code . '-' . $product->brand_id];
                 
-                $total_cart_fixed_shipping[$product->brand_id] = $shipment_codes[$product->ship_code . '-' . $product->brand_id];
             
             } else if($product->ship_code == config('shipping.rate_shipping')) {
+                
                 $product->ship_custom = 0;
                 $product->is_calculated_separately = true;
                 if (!isset($total_cost_rate_shipping[$product->brand_id]))
                     $total_cost_rate_shipping[$product->brand_id] = 0;
 
                 $total_cost_rate_shipping[$product->brand_id] += ($product->retail_price * $product->count);
+            
             }
 
             $product->total_ship_custom = $product->ship_custom * $product->count;
