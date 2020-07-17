@@ -361,12 +361,6 @@ class Cart extends Model
                    
         }
 
-        // set priority 
-        // if WG product is there in the cart for that brand 
-        // just consider WG cost, don't consider SG/SC costs
-
-        foreach()
-
         // if $state is not null, get the state tax and add it in the total
         // item cost
         $sales_tax = 0; // this is applied 1 time for a order.
