@@ -353,13 +353,24 @@ class Cart extends Model
             
             }
 
-            if(!isset($total_cart_fixed_shipping[$product->brand_id]))
+            if(!isset($total_cart_fixed_shipping[config('shipping.fixed_shipping') . '-' . $product->brand_id])))
                 $product->total_ship_custom = $product->ship_custom * $product->count;
             else {
                 $product->is_calculated_separately = true;
-                $product->total_ship_custom = 0;
             }
                    
+        }
+
+        // set priority 
+        // if WG product is there in the cart for that brand 
+        // just consider WG cost, don't consider SG/SC costs
+        foreach($cart_rows as $row => &$product) {
+
+            foreach($total_cart_fixed_shipping as $brand => $val) {
+                if($product->brand_id == $brand) 
+                    $product->total_ship_custom = 0;
+                    $product->is_calculated_separately = true;
+            }
         }
 
         // if $state is not null, get the state tax and add it in the total
