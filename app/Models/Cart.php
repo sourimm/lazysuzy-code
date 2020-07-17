@@ -357,6 +357,7 @@ class Cart extends Model
                 $product->total_ship_custom = $product->ship_custom * $product->count;
             else {
                 $product->is_calculated_separately = true;
+                $product->total_ship_custom = 0;
             }
                    
         }
