@@ -353,12 +353,7 @@ class Cart extends Model
             
             }
 
-            if(!isset($total_cart_fixed_shipping[config('shipping.fixed_shipping') . '-' . $product->brand_id])))
-                $product->total_ship_custom = $product->ship_custom * $product->count;
-            else {
-                $product->is_calculated_separately = true;
-            }
-                   
+            $product->total_ship_custom = $product->ship_custom * $product->count;                   
         }
 
         // set priority 
@@ -367,9 +362,10 @@ class Cart extends Model
         foreach($cart_rows as $row => &$product) {
 
             foreach($total_cart_fixed_shipping as $brand => $val) {
-                if($product->brand_id == $brand) 
+                if($product->brand_id == $brand) {
                     $product->total_ship_custom = 0;
                     $product->is_calculated_separately = true;
+                }
             }
         }
 
