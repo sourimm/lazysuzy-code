@@ -115,6 +115,10 @@ class Cart extends Model
         ];
     }
 
+    private function cut($code) {
+        return substr($code,0, 2);
+    }
+
     public static function cart($state = null)
     {
         $variation_tables = Config::get('tables.variations');
@@ -137,11 +141,7 @@ class Cart extends Model
 
         $shipment_codes = [];
         foreach($rows_shipment_code as $row) {
-            if(in_array($row->code, $native_shipping_codes))
-                $shipment_codes[$row->code] = $row->rate;
-            else {
-                $shipment_codes[$row->code . '-' . $row->brand_id] = $row->rate;
-            }
+                $shipment_codes[$row->code] = $row->rate;          
         }
         
         // we can have products that are not in the master_data table 
@@ -277,7 +277,6 @@ class Cart extends Model
 
             ->where(Cart::$cart_table . '.user_id', $user_id)
             ->where(Cart::$cart_table . '.is_active', 1)
-            ->whereRaw('lz_ship_code.brand_id = master_data.site_name')
 
             ->groupBy([Cart::$cart_table . '.user_id', Cart::$cart_table . '.product_sku'])
             ->get()->toArray();
@@ -323,15 +322,16 @@ class Cart extends Model
             // we're now updating this value to match correct shipping cost 
             
             // set correct shipping cost
-            if (($product->ship_code) == config('shipping.lazysuzy_shipping')) {
+            $ship_code = (new self)->cut(($product->ship_code));
+            if ($ship_code == config('shipping.lazysuzy_shipping')) {
                 
                 $product->ship_custom = $shipment_codes[$product->ship_code];
             
-            } else if (($product->ship_code) == config('shipping.free_shipping')) {
+            } else if ($ship_code == config('shipping.free_shipping')) {
 
                 $product->ship_custom = 0;
             
-            } else if($product->ship_code == config('shipping.fixed_shipping')) {
+            } else if($ship_code == config('shipping.fixed_shipping')) {
 
                 $product->ship_custom = 0;
                 $product->is_calculated_separately = true;
@@ -339,10 +339,10 @@ class Cart extends Model
                     if (!isset($total_cart_fixed_shipping[$product->brand_id]))
                         $total_cart_fixed_shipping[$product->brand_id] = 0;
 
-                    $total_cart_fixed_shipping[$product->brand_id] = $shipment_codes[$product->ship_code . '-' . $product->brand_id];
+                    $total_cart_fixed_shipping[$product->brand_id] = $shipment_codes[$product->ship_code];
                 
             
-            } else if($product->ship_code == config('shipping.rate_shipping')) {
+            } else if($ship_code == config('shipping.rate_shipping')) {
                 
                 $product->ship_custom = 0;
                 $product->is_calculated_separately = true;
@@ -402,7 +402,7 @@ class Cart extends Model
         $total_rate_shipping_charge_for_all_brands = 0;
         if(sizeof($total_cost_rate_shipping) > 0) {
             foreach($total_cost_rate_shipping as $brand => $price) {
-                $total_rate_shipping_charge_for_all_brands += ($price * $shipment_codes[config('shipping.rate_shipping') . '-' . $brand]);
+                $total_rate_shipping_charge_for_all_brands += ($price * $shipment_codes[config('shipping.rate_shipping'). $brand]);
             }
         }
 
