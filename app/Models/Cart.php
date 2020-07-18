@@ -145,7 +145,9 @@ class Cart extends Model
 
         $shipment_codes = [];
         foreach($rows_shipment_code as $row) {
-                $shipment_codes[$row->code] = $row->rate;          
+
+            if(strlen($row->code) > 2)
+            $shipment_codes[$row->code] = $row->rate;          
         }
         
         // we can have products that are not in the master_data table 
@@ -327,9 +329,10 @@ class Cart extends Model
             
             // set correct shipping cost
             $ship_code = (new self)->cut(($product->ship_code));
+            //echo json_encode($shipment_codes);die();
             if ($ship_code == config('shipping.lazysuzy_shipping')) {
                 
-                $product->ship_custom = $shipment_codes[$product->ship_code];
+                //$product->ship_custom = $shipment_codes[$product->ship_code];
             
             } else if ($ship_code == config('shipping.free_shipping')) {
 
