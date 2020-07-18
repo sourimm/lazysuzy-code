@@ -343,7 +343,7 @@ class Cart extends Model
                     if (!isset($total_cart_fixed_shipping[$product->brand_id]))
                         $total_cart_fixed_shipping[$product->brand_id] = 0;
 
-                    $total_cart_fixed_shipping[$product->brand_id] = $shipment_codes[$ship_code];
+                    $total_cart_fixed_shipping[$product->brand_id] = $shipment_codes[$product->ship_code];
                 
             
             } else if($ship_code == config('shipping.rate_shipping')) {
