@@ -624,7 +624,8 @@ class Product extends Model
         }
 
         $product_brands = DB::table("master_data")
-            ->selectRaw("count(product_name) AS products, site_name");
+            ->selectRaw("count(product_name) AS products, site_name")
+            ->where("product_status", "active");
             
 
         if (sizeof($all_filters) != 0) {
@@ -649,8 +650,6 @@ class Product extends Model
             if (isset($all_filters['type']) && strlen($all_filters['type'][0]) > 0) {
                 $LS_IDs = Product::get_sub_cat_LS_IDs($dept, $cat, $all_filters['type']);
             }
-
-            
 
             $product_brands = $product_brands
                     ->whereRaw('LS_ID REGEXP "' . implode("|", $LS_IDs) . '"');
