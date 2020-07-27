@@ -1648,7 +1648,9 @@ class Product extends Model
             "swatch_image",
             "variation_image",
             "variation_name",
-            "has_parent_sku"
+            "has_parent_sku",
+            "price",
+            "was_price"
         ];
 
         $product_variations = [];
@@ -1707,7 +1709,9 @@ class Product extends Model
                 "image" => isset($v_image) ? Product::$base_siteurl . $v_image : null,
                 "link" => $link,
                 "is_button" => !isset($swatch_image),
-                "label" => !isset($swatch_image) ? $variation->variation_name : null
+                "label" => !isset($swatch_image) ? $variation->variation_name : null,
+                "price" => isset($variation->price) ? $variation->price : null,
+                "was_price" => isset($variation->was_price) ? $variation->was_price : null,
             ];
 
             if (sizeof($variations) == 1) {
