@@ -1494,8 +1494,8 @@ class Product extends Model
 
 
             // these values are used in backend admin APIs
-            $data['xbg_primary'] = $product->image_xbg_select_primary;
-            $data['xbg_secondary'] = $product->image_xbg_select_secondary;
+            $data['xbg_primary'] = isset($product->image_xbg_select_primary) ? $product->image_xbg_select_primary : null;
+            $data['xbg_secondary'] = isset($product->image_xbg_select_secondary) ? $product->image_xbg_select_secondary : null;
             return $data;
         } else {
 
