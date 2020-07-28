@@ -151,7 +151,7 @@ class Cart extends Model
         }
         
         // we can have products that are not in the master_data table 
-        // but prent in one of the variations table, so for those products 
+        // but present in one of the variations table, so for those products 
         // we'll have to make a separate list
 
         // get all the products for this user 

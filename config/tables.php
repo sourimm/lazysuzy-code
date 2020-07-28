@@ -17,7 +17,7 @@
                 'parent_sku' => 'product_sku'
             ],
             'cb2' => [
-                'table' => 'cb2_product_variations',
+                'table' => 'cb2_products_variations',
                 'name' => 'variation_name',
                 'image' => 'variation_image',
                 'sku' => 'variation_sku',
