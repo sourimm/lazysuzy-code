@@ -31,6 +31,8 @@ class Cart extends Model
             $is_guest = 1;
         }
 
+        
+
         // let's get the items that are already present in the user_cart 
         // right now and then we'll only insert new products if total item count
         // suits the inventory count
@@ -71,6 +73,15 @@ class Cart extends Model
                 if ($is_inserted)
                     $inserted++;
             }
+
+
+            // update parent skus for same order skus 
+            // this will take care of the case where we have same variations 
+            // SKUs for different parents
+
+            $update = DB::table(Cart::$cart_table)
+                ->where('product_sku', $sku)
+                ->update(['parent_sku' => $parent]);
 
             if ($to_insert == $inserted) {
                 return [
@@ -237,7 +248,6 @@ class Cart extends Model
                 ->where(Cart::$cart_table . '.is_active', 1)
                 ->where($table . '.'. $parent_sku_field, $row->product_sku) // where parent SKU is given in variations table
                 ->groupBy(Cart::$cart_table . '.product_sku');
-
                 $vrows = $vrows->get()->toArray();
                 
                 // one parent SKU can have many variations SKUs 
