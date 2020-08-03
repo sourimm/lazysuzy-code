@@ -1811,7 +1811,7 @@ class Product extends Model
         $swatch_map = [];
         $color_map = Product::$color_map;
 
-        if (isset($wl_v[$product->product_sku])) {
+        if (isset($product->product_sku) && isset($wl_v[$product->product_sku])) {
             if ($wl_v[$product->product_sku]) {
                 $var = DB::table("westelm_products_skus")
                     ->select($cols);
