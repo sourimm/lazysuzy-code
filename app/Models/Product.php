@@ -512,7 +512,7 @@ class Product extends Model
     {
 
         $all_shapes = [];
-        $rows = DB::table("master_data")->whereRaw('shape IS NOT NULL')->where('shape != ' , '')->distinct()->get(['shape']);
+        $rows = DB::table("master_data")->whereRaw('shape IS NOT NULL')->whereRaw("LENGTH(shape) > 0")->distinct()->get(['shape']);
         $LS_IDs = Product::get_dept_cat_LS_ID_arr($dept, $cat);
         $products = DB::table("master_data")
             ->selectRaw("count(product_name) AS products, shape");
