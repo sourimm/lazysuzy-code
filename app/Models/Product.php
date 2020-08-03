@@ -515,7 +515,7 @@ class Product extends Model
         $rows = DB::table("master_data")->whereRaw('shape IS NOT NULL')->where('shape != ' , '')->distinct()->get(['shape']);
         $LS_IDs = Product::get_dept_cat_LS_ID_arr($dept, $cat);
         $products = DB::table("master_data")
-            ->selectRaw("count(product_name) AS products, shape")
+            ->selectRaw("count(product_name) AS products, shape");
             
 
         if (sizeof($all_filters) != 0) {
