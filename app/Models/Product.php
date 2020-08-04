@@ -1659,6 +1659,7 @@ class Product extends Model
             ->select($cols)
             ->distinct('variation_sku')
             ->where('product_sku', $sku)
+            ->where('is_active', 'active')
             ->get();
 
         // only check for product_sku and variation_sku if size of variations is > 1 (ref issue #160 -> API -> last point)
