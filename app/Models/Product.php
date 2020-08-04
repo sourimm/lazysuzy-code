@@ -523,7 +523,6 @@ class Product extends Model
                 $LS_IDs = Product::get_sub_cat_LS_IDs($dept, $cat, $all_filters['type']);
             }
 
-            $products = $products->whereRaw('LS_ID REGEXP "' . implode("|", $LS_IDs) . '"');
 
             // for /all API catgeory-wise filter
             if (
@@ -535,6 +534,8 @@ class Product extends Model
                 // catgeory
                 $LS_IDs = SubCategory::get_sub_cat_LSIDs($all_filters['category']);
             }
+
+            $products = $products->whereRaw('LS_ID REGEXP "' . implode("|", $LS_IDs) . '"');
 
             if (
                 isset($all_filters['seating'])
@@ -572,7 +573,6 @@ class Product extends Model
                 // input in form - color1|color2|color3
             }
         }
-       
         $products = $products->groupBy('shape')->get();
 
         foreach ($rows as $row) {
