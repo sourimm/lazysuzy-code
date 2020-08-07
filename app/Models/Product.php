@@ -28,7 +28,7 @@ class Product extends Model
         $rows = DB::table("trending_products")
             ->select("*")
             ->join("master_data", "master_data.product_sku", "=", "trending_products.product_sku")
-            ->join("master_brands", "master_data.site_name", "=", "master_brands.value")
+            ->join("master_brands", "master_data.brand", "=", "master_brands.value")
             ->limit($limit)
             ->orderBy("trending_products.rank", "ASC")
             ->get();
@@ -186,7 +186,7 @@ class Product extends Model
                 isset($all_filters['brand'])
                 && strlen($all_filters['brand'][0]) > 0
             ) {
-                $query = $query->whereRaw('site_name REGEXP "' . implode("|", $all_filters['brand']) . '"');
+                $query = $query->whereRaw('brand REGEXP "' . implode("|", $all_filters['brand']) . '"');
             }
 
             // 2. price_from
@@ -318,7 +318,7 @@ class Product extends Model
         die(); */
 
         //echo "<pre>" . print_r($all_filters, ""true);
-        $query = $query->join("master_brands", "master_data.site_name", "=", "master_brands.value");
+        $query = $query->join("master_brands", "master_data.brand", "=", "master_brands.value");
         $is_listing_API_call = true;
 
 
@@ -351,7 +351,7 @@ class Product extends Model
         $LS_IDs = DB::table("master_data")
             ->select("LS_ID");
 
-        if ($brand_name !== null) $LS_IDs = $LS_IDs->where("site_name", $brand_name);
+        if ($brand_name !== null) $LS_IDs = $LS_IDs->where("brand", $brand_name);
 
         $LS_IDs = $LS_IDs->distinct("LS_ID")
             ->get();
@@ -467,7 +467,7 @@ class Product extends Model
                 isset($all_filters['brand'])
                 && strlen($all_filters['brand'][0]) > 0
             ) {
-                $products = $products->whereIn('site_name', $all_filters['brand']);
+                $products = $products->whereIn('brand', $all_filters['brand']);
             }
         }
 
@@ -545,7 +545,7 @@ class Product extends Model
                 isset($all_filters['brand'])
                 && strlen($all_filters['brand'][0]) > 0
             ) {
-                $products = $products->whereIn('site_name', $all_filters['brand']);
+                $products = $products->whereIn('brand', $all_filters['brand']);
             }
 
             // 2. price_from
@@ -620,7 +620,7 @@ class Product extends Model
         }
 
         $product_brands = DB::table("master_data")
-            ->selectRaw("count(product_name) AS products, site_name")
+            ->selectRaw("count(product_name) AS products, brand")
             ->where("product_status", "active");
 
 
@@ -684,16 +684,16 @@ class Product extends Model
             }
         }
 
-        $product_brands = $product_brands->groupBy('site_name')->get();
+        $product_brands = $product_brands->groupBy('brand')->get();
         foreach ($product_brands as $b) {
-            if (isset($all_brands[$b->site_name])) {
-                $all_brands[$b->site_name]["enabled"] = true;
+            if (isset($all_brands[$b->brand])) {
+                $all_brands[$b->brand]["enabled"] = true;
                 if (isset($all_filters['brand'])) {
-                    if (in_array($b->site_name, $all_filters['brand'])) {
-                        $all_brands[$b->site_name]["checked"] = true;
+                    if (in_array($b->brand, $all_filters['brand'])) {
+                        $all_brands[$b->brand]["checked"] = true;
                     }
                 }
-                $all_brands[$b->site_name]["count"] = $b->products;
+                $all_brands[$b->brand]["count"] = $b->products;
             }
         }
 
@@ -734,7 +734,7 @@ class Product extends Model
             isset($all_filters['brand'])
             && strlen($all_filters['brand'][0]) > 0
         ) {
-            $price = $price->whereIn('site_name', $all_filters['brand']);
+            $price = $price->whereIn('brand', $all_filters['brand']);
         }
 
         if (
@@ -851,7 +851,7 @@ class Product extends Model
                 isset($all_filters['brand'])
                 && strlen($all_filters['brand'][0]) > 0
             ) {
-                $products = $products->whereIn('site_name', $all_filters['brand']);
+                $products = $products->whereIn('brand', $all_filters['brand']);
             }
 
             // 2. price_from
@@ -987,7 +987,7 @@ class Product extends Model
                 isset($all_filters['brand'])
                 && strlen($all_filters['brand'][0]) > 0
             ) {
-                $products = $products->whereIn('site_name', $all_filters['brand']);
+                $products = $products->whereIn('brand', $all_filters['brand']);
             }
 
             // 2. price_from
@@ -1382,7 +1382,7 @@ class Product extends Model
             //'model_code'       => $product->model_code,
             'seating'          => isset($product->seating) ? $product->seating : null,
             //    'description'      => preg_split("/\\[US\\]|<br>|\\n/", $product->product_description),
-            //    'dimension'        => $product->site_name == "cb2" ? Product::cb2_dimensions($product->product_dimension) : $product->product_dimension,
+            //    'dimension'        => $product->brand == "cb2" ? Product::cb2_dimensions($product->product_dimension) : $product->product_dimension,
             //    'thumb'            => preg_split("/,|\\[US\\]/", $product->thumb),
             'color'            => $product->color,
             //    'images'           => array_map([__CLASS__, "baseUrl"], preg_split("/,|\\[US\\]/", $product->images)),
@@ -1400,7 +1400,7 @@ class Product extends Model
             //    'LS_ID'            => $product->LS_ID,
         ];
 
-        /* if ($product->site_name == "westelm" && !$is_listing_API_call ) {
+        /* if ($product->brand == "westelm" && !$is_listing_API_call ) {
             $data['filters'] = end($variations)['filters'];
             array_pop($variations);
         } */
@@ -1433,7 +1433,7 @@ class Product extends Model
         if (!$is_listing_API_call) {
 
             // All alpha-numeric SKUs of pier1 products have child products 
-            if ($product->site_name == "pier1") {
+            if ($product->brand == "pier1") {
 
                 if (!is_numeric($product->product_sku)) {
                     // it is alpha-numeric
@@ -1470,7 +1470,7 @@ class Product extends Model
             $data['set'] = $children;
             $data['description'] = in_array($product->name, $desc_BRANDS)  ? Product::format_desc_new($product->product_description) : preg_split("/\\[US\\]|<br>|\\n/", $product->product_description);
 
-            $data['dimension'] = Product::normalize_dimension($dims_text, $product->site_name);
+            $data['dimension'] = Product::normalize_dimension($dims_text, $product->brand);
 
             //$data['thumb'] = preg_split("/,|\\[US\\]/", $product->thumb);
             $data['features'] = in_array($product->name, $desc_BRANDS) ? Product::format_desc_new($product->product_feature) : preg_split("/\\[US\\]|<br>|\\n|\|/", $product->product_feature);
@@ -2017,7 +2017,7 @@ class Product extends Model
     {
 
         $variation = [];
-        switch ($product->site_name) {
+        switch ($product->brand) {
             case 'cb2':
                 $variations = Product::get_c_variations($product->product_sku, 'cb2_products_variations');
                 break;
@@ -2172,10 +2172,10 @@ class Product extends Model
 
                 //==========================================================================================================
 
-                $product->site_name  = $redirection->brand;
+                $product->brand  = $redirection->brand;
                 $variations_data = Product::get_variations($product, null, false);
 
-                if (in_array($product->site_name, Brands::$product_id_brands)) {
+                if (in_array($product->brand, Brands::$product_id_brands)) {
                     $product_details = Brands::convert_id_brand_master_data($product, $min_price, $max_price, $pop_index);
                 } else {
                     $product_details = Brands::convert_normal_master_format($product, $min_price, $max_price, $pop_index);
@@ -2205,7 +2205,7 @@ class Product extends Model
             }
         }
         $prod = Product::where('product_sku', $sku)
-            ->join("master_brands", "master_data.site_name", "=", "master_brands.value")
+            ->join("master_brands", "master_data.brand", "=", "master_brands.value")
             ->get()->toArray();
 
         if (!isset($prod[0]))
