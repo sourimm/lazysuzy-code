@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Models\Category;
 use App\Models\SubCategory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class Department extends Model
 {
@@ -15,10 +16,12 @@ class Department extends Model
         return $this->belongsToMany(Category::class, 'dept_name_urlcategories');
     }
 
-    public static function get_all_departments($dept_name_url_api = true, $is_home_call = false, $is_board_view = false)
+    public static function get_all_departments($dept_name_url_api = true, $is_home_call = false,
+     $is_board_view = false, $brands = null)
     {
         $departments = [];
         $base_site   = request()->getHttpHost();
+        
         
         $rows        = Department::select(['dept_name_long', 'dept_name_url', 'LS_ID', 'dept_name_short', 'dept_image', 'board_view'])
             ->whereRaw('LENGTH(cat_name_short) = 0 AND LENGTH(cat_sub_name) = 0')
@@ -27,19 +30,25 @@ class Department extends Model
 
         $departments['all_departments'] = [];
 
+        // if brands have value only send data that is applicable to those brands
+        if(isset($brands)) {
+           $brand_LSID_array = Brands::get_brand_LS_IDs($brands);          
+        }
+
         foreach ($rows as $row) {
             $dept_LS_ID = $row['LS_ID'];
-            
+
             $categories = null;
             if (!$is_home_call) {
                 $dept       = $row['dept_name_long'];
-                $categories = Category::get_categories($row['dept_name_short']);
+                $categories = Category::get_categories($row['dept_name_short'], $brands);
 
                 array_push($departments['all_departments'], [
                     'department' => $dept,
+                    'enabled'    => !isset($brands), // if brands filter is present disable all department and only enable for brands
                     'LS_ID'      => $dept_LS_ID,
                     'link'       => '/products/' . strtolower($row['dept_name_url']),
-                    'categories' => $categories,
+                    'categories' => $categories
                 ]);
             }
             else {
@@ -54,6 +63,32 @@ class Department extends Model
             }
         }
 
+
+        if(isset($brands)) {
+            foreach ($departments['all_departments'] as &$data) {
+                if (isset($brand_LSID_array[$data['LS_ID']])) {
+                    $data['enabled'] = true;
+                }
+
+                foreach ($data['categories'] as &$cat) {
+                    if (isset($brand_LSID_array[$cat['LS_ID']])) {
+                        $cat['enabled'] = true;
+
+                        // move enabled = true to department
+                        $data['enabled'] = true;
+                    }
+
+                    foreach ($cat['sub_categories'] as &$sub_cat) {
+                        if (isset($brand_LSID_array[$sub_cat['LS_ID']])) {
+                            $sub_cat['enabled'] = true;
+                            $cat['enabled'] = true;
+                            $data['enabled'] = true;
+                        }
+                    }
+                }
+            }
+        }
+        
         if ($dept_name_url_api && !$is_home_call) {
             // trending categories will return N top results. Pass N as argument.
             $departments['trending_categories'] = Category::trending_categories(5);

@@ -39,6 +39,7 @@
             ]
         ],
 
-        'LS_ID_mapping' => 'mapping_core' 
+        'LS_ID_mapping' => 'mapping_core',
+        'master_table' => 'master_data'
             
     ];

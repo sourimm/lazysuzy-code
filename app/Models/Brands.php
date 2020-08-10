@@ -180,4 +180,22 @@ class Brands extends Model
 
         return $arr;
     }
+
+    public static function get_brand_LS_IDs($brands) {
+        $brand_LSID_rows = DB::table(config('tables.master_table'))
+            ->select('LS_ID')
+            ->whereIn('brand', $brands)
+            ->groupBy('LS_ID')
+            ->get();
+
+        $brand_LSID_array = [];
+        foreach ($brand_LSID_rows as $row) {
+            $array = explode(",", $row->LS_ID);
+            foreach ($array as $a)
+                if (strlen($a) > 0)
+                    $brand_LSID_array[$a] = true;
+        }
+        
+        return $brand_LSID_array;
+    }
 }

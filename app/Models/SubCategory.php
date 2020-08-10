@@ -9,7 +9,7 @@ class SubCategory extends Model
 {
     protected $table = "mapping_core";
 
-    public static function get_sub_categories($department, $category)
+    public static function get_sub_categories($department, $category, $brands = null)
     {
         $sub_categories = [];
         $rows = SubCategory::select(['cat_sub_name', 'LS_ID', 'cat_sub_url']);
@@ -25,6 +25,7 @@ class SubCategory extends Model
         foreach ($rows as $row) {
             array_push($sub_categories, [
                 'sub_category' => $row['cat_sub_name'],
+                'enabled' => !isset($brands),
                 'link' => "/products/" . strtolower($department) . "/" . strtolower($category) . "/" . strtolower( $row['cat_sub_url']), 
                 'LS_ID' => $row['LS_ID']
             ]);

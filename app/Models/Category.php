@@ -12,7 +12,7 @@ class Category extends Model
 
     protected $listing_base_url = "/products";
 
-    public static function get_categories($dept = null)
+    public static function get_categories($dept = null, $brands = null)
     {
         $c_cat = [];
         $base_site = request()->getHttpHost();
@@ -33,9 +33,10 @@ class Category extends Model
             ->toArray();
 
         foreach ($rows as $row) {
-            $sub_categories = SubCategory::get_sub_categories($dept, $row['cat_name_url']);
+            $sub_categories = SubCategory::get_sub_categories($dept, $row['cat_name_url'], $brands);
             array_push($c_cat, [
                 'category' => $row['cat_name_long'],
+                'enabled' => !isset($brands),
                 'product_category_' => $row['cat_name_url'],
                 'filter_label' => ucfirst($row['filter_label']),
                 'LS_ID' => $row['LS_ID'],
