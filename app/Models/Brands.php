@@ -185,6 +185,7 @@ class Brands extends Model
         $brand_LSID_rows = DB::table(config('tables.master_table'))
             ->select('LS_ID')
             ->whereIn('brand', $brands)
+            ->where('product_status', 'active')
             ->groupBy('LS_ID')
             ->get();
 
