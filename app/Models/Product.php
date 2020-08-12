@@ -2330,7 +2330,9 @@ class Product extends Model
             case 'nw':
                 return Dimension::format_new_world($dim_str);
                 break;
-
+            case 'floyd':
+                return Dimension::format_westelm($dim_str);
+                break;
             default:
                 return null;
                 break;
