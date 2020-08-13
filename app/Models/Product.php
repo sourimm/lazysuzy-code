@@ -2334,7 +2334,7 @@ class Product extends Model
                 return Dimension::format_westelm($dim_str);
                 break;
             default:
-                return null;
+                return Dimension::format_westelm($dim_str);;
                 break;
         }
     }
