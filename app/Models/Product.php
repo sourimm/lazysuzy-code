@@ -1425,8 +1425,8 @@ class Product extends Model
         }
 
 
-        $desc_BRANDS = ["West Elm"];
-        $dims_from_features = ["World Market"]; // these extract dimensions data from features data.
+        $desc_BRANDS = Config::get('meta.to_formate_brands');
+        $dims_from_features = Config::get('meta.dims_form_feature_brands'); // these extract dimensions data from features data.
         $dims_text = in_array($product->name, $dims_from_features) ? $product->product_feature : $product->product_dimension;
 
         $children = null;
