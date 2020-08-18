@@ -2145,7 +2145,7 @@ class Product extends Model
                     ->get();
 
                 if (!isset($product[0]) || !isset($brand_name_verbose[0])) {
-                    return ['message' => 'Product ' . $sku . ' not found anywhere with brand ' + $redirection->brand];
+                    return ['message' => 'Product ' . $sku . ' not found anywhere with brand ' . $redirection->brand];
                 } else {
                     $product = $product[0];
                     $brand = $brand_name_verbose[0];
@@ -2182,7 +2182,6 @@ class Product extends Model
                 }
 
                 $product_details['name'] = $brand->name;
-
                 // adding inventory object details to main product array 
                 $product_details = array_merge($product_details, $product_inventory_details);
 

@@ -14,7 +14,8 @@ class Brands extends Model
         'cb2' => 'cb2_products_new_new',
         'cnb' => 'crateandbarrel_products',
         'westelm' => 'westelm_products_parents',
-        'nw' => 'nw_products_API'
+        'nw' => 'nw_products_API',
+        'cab' => 'crateandbarrel_products',
     ];
     public static $product_id_brands = ["floyd", "westelm", "potterybarn"];
     public static $xbg_sites = ['nw', 'westelm'];
@@ -101,6 +102,7 @@ class Brands extends Model
             'product_images'      => $product->product_images,
             'main_product_images' => $product->main_product_images,
             'site_name'           => $product->site_name,
+            'brand'               => $product->brand,
             'reviews'             => $product->reviews,
             'rating'              => $product->rating,
             'master_id'           => $product->master_id,
@@ -153,6 +155,7 @@ class Brands extends Model
             'product_images'      => $product->product_images_path,
             'main_product_images' => $product->main_image_path,
             'site_name'           => $product->site_name,
+            'brand'               => $product->brand,
             'reviews'             => 0,
             'rating'              => 0,
             'master_id'           => null,
