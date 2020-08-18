@@ -1425,7 +1425,7 @@ class Product extends Model
         }
 
 
-        $desc_BRANDS = Config::get('meta.to_formate_brands');
+        $desc_BRANDS = Config::get('meta.to_format_brands');
         $dims_from_features = Config::get('meta.dims_form_feature_brands'); // these extract dimensions data from features data.
         $dims_text = in_array($product->name, $dims_from_features) ? $product->product_feature : $product->product_dimension;
 
@@ -2017,7 +2017,7 @@ class Product extends Model
     {
 
         $variation = [];
-        switch ($product->brand) {
+        switch ($product->site_name) {
             case 'cb2':
                 $variations = Product::get_c_variations($product->product_sku, 'cb2_products_variations');
                 break;
