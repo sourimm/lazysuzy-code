@@ -81,14 +81,6 @@ class Payment extends Model
 
             ];
 
-            $total_price += ((float) $product->retail_price) * $product->count;
-            $total_items += (int) $product->count;
-            $ship_code = strtolower($product->ship_code);
-
-            // if not free-shipping
-            if ($ship_code != 'f')
-                $shipment_cost += (float) ($product->ship_custom * $product->count);
-
             $row = DB::table('lz_inventory')
                 ->select('quantity')
                 ->where('product_sku', $product->product_sku)
@@ -118,19 +110,16 @@ class Payment extends Model
             }
         }
 
-        $mail_data['total_price'] = '$' . $total_price;
+        $total_price = $cart['order']['total_cost'];
+        $sub_total = $cart['order']['sub_total'];
+        $shipment_cost = $cart['order']['shipment_total'];
+        $sales_tax = $cart['order']['sales_tax_total'];
 
-        // if cost of shipment is 1 then set it to 0
-        // 1 is from when the variable was declared, 
-        // cart has all Free Shipment products 
-        if ($shipment_cost == 1) {
-            $shipment_cost = 0;
-        }
+        $mail_data['total_price'] = '$' . $sub_total;
 
         // add sales tax cost to total
         $sales_tax = $cart['order']['sales_tax_total'];
 
-        $total_price += $shipment_cost + $sales_tax;
         $mail_data['shipping'] = '$' . $shipment_cost;
         $mail_data['order_cost'] = '$' . $total_price;
         $mail_data['sales_tax'] = '$' . $sales_tax;
