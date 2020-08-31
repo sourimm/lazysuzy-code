@@ -16,6 +16,17 @@ use Illuminate\Support\Facades\Config;
 class Product extends Model
 {
     protected $table = "master_data";
+
+    //Guard Id from mass assignment
+    protected $guarded = ['id'];
+
+    // Timestamp Column names in DB
+    const CREATED_AT = 'created_date';
+    const UPDATED_AT = 'updated_date';
+
+    protected $casts = [
+        'product_dimension' => 'array',
+    ];
     public static $base_siteurl = 'https://www.lazysuzy.com';
     static $count = 0;
     private static $color_map = null;
@@ -238,12 +249,12 @@ class Product extends Model
             && strlen($all_filters['category'][0])
         ) {
             // we want to show all the products of this category
-            // so we'll have to get the sub-categories included in this 
+            // so we'll have to get the sub-categories included in this
             // catgeory
             $LS_IDs = SubCategory::get_sub_cat_LSIDs($all_filters['category']);
         }
 
-        // 4. type 
+        // 4. type
         // NOTE: This filter will always come after category filter
         if (isset($all_filters['type']) && strlen($all_filters['type'][0]) > 0) {
             // will only return products that match the LS_IDs for the `types` mentioned.
@@ -302,7 +313,7 @@ class Product extends Model
             $query = $query->whereRaw("created_date >= '" . $date_four_weeks_ago . "'");
         }
 
-        // for getting products on sale 
+        // for getting products on sale
         if ($sale_products_only == true) {
             $query = $query->whereRaw('price >  0')
                 ->whereRaw('was_price > 0')
@@ -357,16 +368,16 @@ class Product extends Model
             ->get();
 
         /* // get product categories filters
-        
+
          * @param bool $dept_name_url_api
          * @param bool $is_home_call
          * @param bool $is_board_view
-         
+
         $departments = Department::get_all_departments(false, false, true);
         $categories = [];
         foreach ($departments['all_departments'] as $department) {
 
-            if (isset($department['categories']) 
+            if (isset($department['categories'])
                 && sizeof($department['categories']) > 0) {
 
                 foreach ($department['categories'] as $cat) {
@@ -422,7 +433,7 @@ class Product extends Model
                 && strlen($all_filters['category'][0])
             ) {
                 // we want to show all the products of this category
-                // so we'll have to get the sub-categories included in this 
+                // so we'll have to get the sub-categories included in this
                 // catgeory
                 $LS_IDs = SubCategory::get_sub_cat_LSIDs($all_filters['category']);
             }
@@ -526,7 +537,7 @@ class Product extends Model
                 && strlen($all_filters['category'][0])
             ) {
                 // we want to show all the products of this category
-                // so we'll have to get the sub-categories included in this 
+                // so we'll have to get the sub-categories included in this
                 // catgeory
                 $LS_IDs = SubCategory::get_sub_cat_LSIDs($all_filters['category']);
             }
@@ -638,7 +649,7 @@ class Product extends Model
                 && strlen($all_filters['category'][0])
             ) {
                 // we want to show all the products of this category
-                // so we'll have to get the sub-categories included in this 
+                // so we'll have to get the sub-categories included in this
                 // catgeory
                 $LS_IDs = SubCategory::get_sub_cat_LSIDs($all_filters['category']);
             }
@@ -723,7 +734,7 @@ class Product extends Model
             && strlen($all_filters['category'][0])
         ) {
             // we want to show all the products of this category
-            // so we'll have to get the sub-categories included in this 
+            // so we'll have to get the sub-categories included in this
             // catgeory
             $LS_IDs = SubCategory::get_sub_cat_LSIDs($all_filters['category']);
         }
@@ -829,7 +840,7 @@ class Product extends Model
             && strlen($all_filters['category'][0])
         ) {
             // we want to show all the products of this category
-            // so we'll have to get the sub-categories included in this 
+            // so we'll have to get the sub-categories included in this
             // catgeory
             $LS_IDs = SubCategory::get_sub_cat_LSIDs($all_filters['category']);
         }
@@ -921,10 +932,10 @@ class Product extends Model
         return $colors_f;
     }
 
-    /* 
+    /*
      * category value can be present in $cat variable or in
      * $all_filter['category'] if the request is made from /all
-     * products API. 
+     * products API.
     */
     public static function get_sub_cat_data($dept, $cat, $all_filters)
     {
@@ -942,7 +953,7 @@ class Product extends Model
             // the request is comming from all products API and has a category LSID
             // attached with it
             $LS_ID = $all_filters['category'];
-            // ADD LOGIC HERE FOR LIMITING THE SEARCH RESULTS 
+            // ADD LOGIC HERE FOR LIMITING THE SEARCH RESULTS
             // BASED ON THE SELECTED CATGEORY IN THE /ALL PRODUCTS API
             $LS_IDs = SubCategory::get_sub_cat_LSIDs($all_filters['category']);
             $sub_cat_LS_IDs = $sub_cat_LS_IDs->whereIn('LS_ID', $LS_IDs);
@@ -963,7 +974,7 @@ class Product extends Model
             && strlen($all_filters['category'][0])
         ) {
             // we want to show all the products of this category
-            // so we'll have to get the sub-categories included in this 
+            // so we'll have to get the sub-categories included in this
             // catgeory
             $LS_IDs = SubCategory::get_sub_cat_LSIDs($all_filters['category']);
         }
@@ -1040,10 +1051,10 @@ class Product extends Model
     public static function get_product_type_filter($dept, $category, $subCat, $all_filters)
     {
 
-        // for all products API 
-        // $dept will be 'all' and the catgeories will come from 
-        // $all_filters data, we want to show the type filter only when some 
-        // catgeory is selected, so return an empty array for types if 
+        // for all products API
+        // $dept will be 'all' and the catgeories will come from
+        // $all_filters data, we want to show the type filter only when some
+        // catgeory is selected, so return an empty array for types if
         // now categories is selected
         $do_process = true;
         if ($dept == 'all') {
@@ -1122,7 +1133,7 @@ class Product extends Model
         $products_to_ignore = DB::table("products_ignore")->select("sku")->get()->toArray();
         $products_to_ignore = array_column($products_to_ignore, "sku");
 
-        // get inventory list 
+        // get inventory list
         $inventory_products_db = DB::table('lz_inventory')
             ->select(["product_sku", "quantity", "message", "price"])
             ->where('is_active', 1)
@@ -1334,7 +1345,7 @@ class Product extends Model
             $wp_val =  $wp_price;
         }
 
-        // if product in inventory then calculate the discount 
+        // if product in inventory then calculate the discount
         // based on inventory price value
         if (isset($product->in_inventory) && $product->in_inventory) {
             $p_val = $product->inventory_product_details['price'];
@@ -1363,7 +1374,7 @@ class Product extends Model
 
         $main_image = ($is_details_minimal) ?  $product->image_xbg : $product->main_product_images;
 
-        // for wishlist 
+        // for wishlist
         $data =  [
             //'id'               => isset($product->id) ? $product->id : rand(1, 10000) * rand(1, 10000),
             'sku'              => $product->product_sku,
@@ -1405,7 +1416,7 @@ class Product extends Model
             array_pop($variations);
         } */
 
-        // call coming from the board 
+        // call coming from the board
         if ($is_details_minimal || $isMarked) {
             $data['board_thumb'] = strlen($product->image_xbg_thumb) > 0 ? env('APP_URL') . $product->image_xbg_thumb : null;
             $data['board_cropped'] = strlen($product->image_xbg_cropped) > 0 ? env('APP_URL') . $product->image_xbg_cropped : null;
@@ -1432,7 +1443,7 @@ class Product extends Model
         $children = null;
         if (!$is_listing_API_call) {
 
-            // All alpha-numeric SKUs of pier1 products have child products 
+            // All alpha-numeric SKUs of pier1 products have child products
             if ($product->brand == "pier1") {
 
                 if (!is_numeric($product->product_sku)) {
@@ -1676,7 +1687,7 @@ class Product extends Model
                 $v_image = $variation->variation_image;
             }
 
-            // if last char of swatch image in DB is '/' then there is no 
+            // if last char of swatch image in DB is '/' then there is no
             // valid image for the SKU. It is the prefix of image path.
             // pass NULL ot API in such cases.
             $swatch_image = null;
@@ -1843,7 +1854,7 @@ class Product extends Model
                             $filter_key = Product::get_filter_key($str_exp[0]);
                             $features[$filter_key] = $str_exp[1];
 
-                            // set keys for variations data 
+                            // set keys for variations data
                             if (isset($extras_key[$filter_key])) {
                                 if (is_array($extras_key[$filter_key])) {
                                     if (!in_array($str_exp[1], $extras_key[$filter_key])) {
@@ -2182,7 +2193,7 @@ class Product extends Model
                 }
 
                 $product_details['name'] = $brand->name;
-                // adding inventory object details to main product array 
+                // adding inventory object details to main product array
                 $product_details = array_merge($product_details, $product_inventory_details);
 
                 $product = Product::get_details((object) $product_details, $variations_data);
