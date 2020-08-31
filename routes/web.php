@@ -11,8 +11,10 @@
 |
  */
 
- // mail template checking route
- Route::get('/mail-test', 'MailerController@send_catalogue')->name('catalogue');
+
+
+// mail template checking route
+Route::get('/mail-test', 'MailerController@send_catalogue')->name('catalogue');
 
 
 Route::get('/', 'HomeController@index')->name('index');
@@ -35,7 +37,7 @@ Route::get('/termsofservice', function () {
 Route::get('/aboutus', function () {
     return view('pages.aboutus');
 });
-Route::get('/brand/{brand_name}',function(){
+Route::get('/brand/{brand_name}', function () {
     return view('pages.brands');
 });
 Route::get('/category', function () {
@@ -48,11 +50,11 @@ Auth::routes();
 // Route::get('/logout', 'Auth\LoginController@logout');
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('redirect/{driver}', 'Auth\LoginController@redirectToProvider')
-->name('login.provider')
-->where('driver', implode('|', config('auth.socialite.drivers')));
+    ->name('login.provider')
+    ->where('driver', implode('|', config('auth.socialite.drivers')));
 Route::get('login/{driver}/callback', 'Auth\LoginController@handleProviderCallback')
-->name('login.callback')
-->where('driver', implode('|', config('auth.socialite.drivers')));
+    ->name('login.callback')
+    ->where('driver', implode('|', config('auth.socialite.drivers')));
 
 
 /*
@@ -124,7 +126,8 @@ Route::get('/api/board/get/options', '\App\Board\Controllers\BoardController@get
 
 /* ==================================================BACKEND ADMIN APIS========================================== */
 
-Route::middleware(['auth:api', 'cors', 'admin'])->group(function() {
+
+Route::middleware(['auth:api', 'cors', 'admin'])->group(function () {
 
     Route::get('/api/admin/products/{dept}/{cat?}/{subCat?}', 'Admin\Dashboard@filter_products')->name('admin-get-products');
     Route::get('/api/admin/products/{dept}/{cat}', 'Admin\Dashboard@filter_products')->name('admin-category');
@@ -143,8 +146,8 @@ Route::middleware(['auth:api', 'cors', 'admin'])->group(function() {
     });
 });
 Route::group([
-    'prefix' => '/api/password' 
-], function() {
+    'prefix' => '/api/password'
+], function () {
     Route::post('create', 'Auth\ResetPasswordController@create');
     Route::get('find/{token}', 'Auth\ResetPasswordController@find');
     Route::post('reset', 'Auth\ResetPasswordController@reset');
