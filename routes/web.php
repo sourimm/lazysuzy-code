@@ -122,6 +122,9 @@ Route::get('/api/board/get/all', '\App\Board\Controllers\BoardController@get_all
 Route::get('/api/board/get/options', '\App\Board\Controllers\BoardController@get_all_options')->middleware(['cors', 'auth:api']);
 
 
+// search keywords 
+Route::get('/api/seach-keywords', 'SearchController@get_all')->middleware(['cors'])->name('search-keywords');
+
 /* ==================================================BACKEND ADMIN APIS========================================== */
 
 Route::middleware(['auth:api', 'cors', 'admin'])->group(function() {
@@ -131,6 +134,7 @@ Route::middleware(['auth:api', 'cors', 'admin'])->group(function() {
     Route::get('/api/admin/product/{sku}', 'Admin\Dashboard@get_product_details')->name('admin-get-product-details');
     Route::post('/api/admin/mark/image', 'Admin\Dashboard@mark_image')->name('mark-image');
 });
+
 Route::group([
     'prefix' => '/api/password' 
 ], function() {
