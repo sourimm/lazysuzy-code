@@ -128,7 +128,7 @@ Route::get('/api/board/get/options', '\App\Board\Controllers\BoardController@get
 
 
 // search keywords 
-Route::get('/api/seach-keywords', 'SearchController@get_all')->middleware(['cors'])->name('search-keywords');
+Route::get('/api/search-keywords', 'SearchController@get_all')->middleware(['cors'])->name('search-keywords');
 
 /* ==================================================BACKEND ADMIN APIS========================================== */
 
