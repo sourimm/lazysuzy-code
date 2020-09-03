@@ -1833,6 +1833,8 @@ class Product extends Model
                 $swatches = [];
                 $extras_key = [];
 
+                $variations_extra = [];
+                
                 foreach ($var as $prod) {
                     $features = [];
                     for ($i = 1; $i <= 6; $i++) {
