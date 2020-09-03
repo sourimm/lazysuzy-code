@@ -1813,7 +1813,8 @@ class Product extends Model
         if (isset($product->product_sku) && isset($wl_v[$product->product_sku])) {
             if ($wl_v[$product->product_sku]) {
                 $var = DB::table("westelm_products_skus")
-                    ->select($cols);
+                    ->select($cols)
+                    ->where('status', 'active');
 
                 //$var = $var->groupBy("swatch_image_path");
 
@@ -1827,6 +1828,7 @@ class Product extends Model
                 // handle for - if any product has empty swatch image, then include all the entries.
                 $var_add = DB::table("westelm_products_skus")
                     ->select($cols)
+                    ->where('status', 'active')
                     ->where('product_id', $product->product_sku)
                     ->whereRaw('LENGTH(swatch_image_path) = 0')
                     ->get();
@@ -1842,6 +1844,8 @@ class Product extends Model
                 $swatches = [];
                 $extras_key = [];
 
+                $variations_extra = [];
+                
                 foreach ($var as $prod) {
                     $features = [];
                     for ($i = 1; $i <= 6; $i++) {
