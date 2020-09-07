@@ -309,7 +309,7 @@ class Product extends Model
 
         // for new products only
         if ($new_products_only == true) {
-            $date_four_weeks_ago = date('Y-m-d', strtotime('-28 days'));
+            $date_four_weeks_ago = date('Y-m-d', strtotime('-60 days'));
             $query = $query->whereRaw("created_date >= '" . $date_four_weeks_ago . "'");
         }
 
