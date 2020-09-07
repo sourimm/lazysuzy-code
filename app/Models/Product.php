@@ -1361,7 +1361,7 @@ class Product extends Model
         if (strlen($product->created_date) > 0) {
             $diff = strtotime(date("Y-m-d H:i:s")) - strtotime($product->created_date);
             $days = $diff / 60 / 60 / 24;
-            if ($days < 4 * 7) $is_new = true;
+            if ($days < 2 * 4 * 7) $is_new = true;
 
 
             // making product added date to fixed
