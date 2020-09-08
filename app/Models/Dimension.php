@@ -25,8 +25,12 @@ class Dimension extends Model
 
     public static function format_cb2($str) 
     {
-        $json_string = $str;
+        // some products of cb2 and cab started sending arrays 
+        // inplace of dims. string, some changes in the product API (mapper)
+        // not clear 
+        $json_string = is_array($str) ? json_encode($str) : $str;
         if ($json_string === "null") return [];
+
         $json_string = preg_replace('/[[:cntrl:]]/', '', $json_string);
         $dim = json_decode($json_string);
 
