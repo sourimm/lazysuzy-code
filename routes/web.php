@@ -127,7 +127,7 @@ Route::get('/api/board/get/all', '\App\Board\Controllers\BoardController@get_all
 Route::get('/api/board/get/options', '\App\Board\Controllers\BoardController@get_all_options')->middleware(['cors', 'auth:api']);
 
 
-// search keywords 
+// search keywords
 Route::get('/api/search-keywords', 'SearchController@get_all')->middleware(['cors'])->name('search-keywords');
 
 /* ==================================================BACKEND ADMIN APIS========================================== */
@@ -141,16 +141,14 @@ Route::middleware(['auth:api', 'cors', 'admin'])->group(function () {
     Route::post('/api/admin/mark/image', 'Admin\Dashboard@mark_image')->name('mark-image');
 
 
-    Route::group(['prefix' => '/api/admin/staging-products'], function () {
-        Route::get('', 'Admin\StagingDataController@get_staging_products_list')->name('staging_product.list');
-        Route::get('next', 'Admin\StagingDataController@get_next_staging_product')->name('staging_product.next');
-        Route::post('update/{id}', 'Admin\StagingDataController@update_staging_product')->name('staging.product.update');
-        Route::post('update-multiple', 'Admin\StagingDataController@update_multiple_staging_product')->name('staging.product.update.multiple');
-        Route::get('{id}', 'Admin\StagingDataController@get_staging_product')->name('staging.product');
-
-        // Route::post('{id}','Admin\Dashboard@store_staging_product')->name('staging.product.store');
-
+    Route::group(['prefix' => '/api/admin/new-products'], function () {
+        Route::get('', 'Admin\NewProductsController@get_new_products_list')->name('new_product.list');
+        Route::get('next', 'Admin\NewProductsController@get_next_new_product')->name('new_product.next');
+        Route::post('update/{id}', 'Admin\NewProductsController@update_new_product')->name('new.product.update');
+        Route::post('update-multiple', 'Admin\NewProductsController@update_multiple_new_product')->name('new.product.update.multiple');
+        Route::get('{id}', 'Admin\NewProductsController@get_new_product')->name('new.product');
     });
+    
 });
 
 Route::group([
