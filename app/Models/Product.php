@@ -2031,6 +2031,11 @@ class Product extends Model
     public static function get_variations($product, $wl_v = null, $is_listing_API_call = null)
     {
 
+
+        // Listing API update. Just send count of variations in listing API
+        if($is_listing_API_call)
+            return $product->variations_count;
+
         $variation = [];
         switch ($product->site_name) {
             case 'cb2':
