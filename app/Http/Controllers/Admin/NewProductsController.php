@@ -11,6 +11,8 @@ use Exception;
 use Illuminate\Support\Facades\DB;
 
 class NewProductsController extends Controller
+{
+
     private $code_map = [
         '100' => 'SV',
         '400' => 'WG',
