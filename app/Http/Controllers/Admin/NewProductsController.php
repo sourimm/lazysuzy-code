@@ -20,7 +20,7 @@ class NewProductsController extends Controller
     private $table_site_map = array(
         'cb2_products_new_new'     => 'cb2',
         'nw_products_API'          => 'nw',
-        'pier1_products'           => 'pier1',
+        '   '           => 'pier1',
         'westelm_products_parents' => 'westelm',
         'crateandbarrel_products'  => 'cab'
         //'floyd_products_parents',
@@ -42,12 +42,13 @@ class NewProductsController extends Controller
         $new_products = NewProduct::where('status', 'new')
             ->orderBy('created_date', 'asc')
             ->paginate($limit);
-        $count = NewProduct::where('status', 'noaction')->count();
-        $new_products->product_to_review = $count;
         // dd($new_products);
+
+        $filters = $this->getFilters();
         return response()->json([
             'status' => 'success',
             'data' => $new_products,
+            'filters'=>$filters,
         ]);
     }
 
@@ -163,5 +164,10 @@ class NewProductsController extends Controller
             }
         }
         return $inv_products;
+    }
+
+    public function getFilters(){
+        $filters = DB::table('filters')->get()->groupBy('filter_label');
+        return $filters;
     }
 }
