@@ -72,12 +72,18 @@ class NewProductsController extends Controller
             return $product->status === 'rejected';
         });
         $accepted_products = $accepted_products->map(function ($product) {
-            $product->color = implode(',', $product->color);
-            $product->seating = implode(',', $product->seating);
-            $product->shape = implode(',', $product->shape);
-            $product->material = implode(',', $product->material);
-            $product->fabric = implode(',', $product->fabric);
-            $product->ls_id = implode(',', $product->ls_id);
+           $color = $product->color??[];
+           $seating =$product->seating??[];
+            $shape = $product->shape ?? [];
+            $material = $product->material ?? [];
+            $fabric = $product->fabric ?? [];
+            $ls_id = $product->ls_id ?? [];
+            $product->color = implode(',', $color);
+            $product->seating = implode(',', $seating);
+            $product->shape = implode(',', $shape);
+            $product->material = implode(',', $material);
+            $product->fabric = implode(',', $fabric);
+            $product->ls_id = implode(',', $ls_id);
             return $product;
         });
         DB::beginTransaction();
