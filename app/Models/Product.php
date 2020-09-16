@@ -285,11 +285,9 @@ class Product extends Model
             } else if ($sort_type == $POPULARITY) {
                 $query = $query->orderBy('popularity', 'desc');
             } else if ($sort_type == $RECOMMENDED){
-                $query = $query->orderBy('serial', 'desc');
-            }
-            else {
-                // sort products based on serial by default
-                $query = $query->orderBy('serial', 'desc');
+                $query = $query->orderBy('serial', 'acs');
+            } else {
+                $query = $query->orderBy('serial', 'asc');
             }
         }
         // set default sorting to popularity
