@@ -20,7 +20,6 @@ class NewProductsController extends Controller
     private $table_site_map = array(
         'cb2_products_new_new'     => 'cb2',
         'nw_products_API'          => 'nw',
-        '   '           => 'pier1',
         'westelm_products_parents' => 'westelm',
         'crateandbarrel_products'  => 'cab'
         //'floyd_products_parents',
@@ -36,7 +35,7 @@ class NewProductsController extends Controller
      *
      * Return all new Products on which no action has been taken
      * @param Request $request
-     * @return Json
+     * @return JsonResponse $response
      */
     public function get_new_products_list(Request $request, $limit = 10)
     {
@@ -78,12 +77,16 @@ class NewProductsController extends Controller
             $material = $product->material ?? [];
             $fabric = $product->fabric ?? [];
             $ls_id = $product->ls_id ?? [];
+            $mfg_country = $product->mfg_country??[];
+
             $product->color = implode(',', $color);
             $product->seating = implode(',', $seating);
             $product->shape = implode(',', $shape);
             $product->material = implode(',', $material);
             $product->fabric = implode(',', $fabric);
             $product->ls_id = implode(',', $ls_id);
+            $product->mfg_country = implode(',', $mfg_country);
+
             return $product;
         });
         DB::beginTransaction();
@@ -114,6 +117,7 @@ class NewProductsController extends Controller
             }
         } catch (Exception $e) {
             DB::rollBack();
+
             return response()->json([
                 'status' => 'failed',
                 'message' => $e->getMessage(),
@@ -146,6 +150,7 @@ class NewProductsController extends Controller
                         'price' => $row->price,
                         'was_price' => $row->was_price,
                         'ship_code' => $shipping_code,
+                        'brand' => $key,
                         'ship_custom' => $shipping_code == 'SCNW' ? $row->shipping_code : NULL
                     ];
                 } else {
@@ -155,8 +160,8 @@ class NewProductsController extends Controller
                         'quantity' => 1000,
                         'price' => $row->price,
                         'was_price' => $row->was_price,
-                        'ship_code'
-                        => $shipping_code
+                        'brand'=> $key,
+                        'ship_code'=> $shipping_code
                     ];
                 }
             }
