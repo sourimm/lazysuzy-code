@@ -20,7 +20,7 @@ class NewProductsController extends Controller
     private $table_site_map = array(
         'cb2_products_new_new'     => 'cb2',
         'nw_products_API'          => 'nw',
-        'pier1_products'           => 'pier1',
+        '   '           => 'pier1',
         'westelm_products_parents' => 'westelm',
         'crateandbarrel_products'  => 'cab'
         //'floyd_products_parents',
@@ -31,6 +31,7 @@ class NewProductsController extends Controller
     {
         return $shipping_code == 49 ? 'WGNW' : 'SCNW';
     }
+
     /**
      *
      * Return all new Products on which no action has been taken
@@ -42,59 +43,57 @@ class NewProductsController extends Controller
         $new_products = NewProduct::where('status', 'new')
             ->orderBy('created_date', 'asc')
             ->paginate($limit);
-        $count = NewProduct::where('status', 'noaction')->count();
-        $new_products->product_to_review = $count;
         // dd($new_products);
+
+        $extra['filters'] = $this->getFilters();
+        $extra['mapping_core'] = $this->getMappingCore();
+
         return response()->json([
             'status' => 'success',
             'data' => $new_products,
+            'extra' => $extra,
         ]);
     }
 
     /**
-     * Not being used right now
-     * @deprecated
+     * Update Multiple Products.
      * @param Request $request
-     * @return response JSON
+     * @return JsonResponse $response
      */
-    public function get_next_new_product(Request $request)
-    {
-        $new_products = NewProduct::where('status', 'noaction')
-            ->orderBy('created_date', 'asc')
-            ->paginate(25);
-        $count = NewProduct::where('status', 'noaction')->count();
-        $new_products->product_to_review = $count;
-        return response()->json([
-            'status' => 'success',
-            'data' => $new_products,
-        ]);
-    }
-
     public function update_multiple_new_product(Request $request)
     {
         //convert products recieved by default as associative arrays to Collection
         $products = collect(json_decode(json_encode($request->get('products'))));
-        $products = $products->map(function ($product) {
-            $product->color = implode(',', $product->color);
-            unset($product->colors);
-            return $product;
-        });
+
         $accepted_products = $products->filter(function ($product) {
-            return $product->status === 'approved' ? true : false;
+            return $product->status === 'approved';
         });
         $rejected_products = $products->filter(function ($product) {
-            return $product->status === 'rejected' ? true : false;
+            return $product->status === 'rejected';
         });
-
+        $accepted_products = $accepted_products->map(function ($product) {
+           $color = $product->color??[];
+           $seating =$product->seating??[];
+            $shape = $product->shape ?? [];
+            $material = $product->material ?? [];
+            $fabric = $product->fabric ?? [];
+            $ls_id = $product->ls_id ?? [];
+            $product->color = implode(',', $color);
+            $product->seating = implode(',', $seating);
+            $product->shape = implode(',', $shape);
+            $product->material = implode(',', $material);
+            $product->fabric = implode(',', $fabric);
+            $product->ls_id = implode(',', $ls_id);
+            return $product;
+        });
         DB::beginTransaction();
         try {
             $inventory_products = [];
             if ($rejected_products->count() > 0) {
-                $newProducts = NewProduct::whereIn('id', $rejected_products->pluck('id'))->update([
+                NewProduct::whereIn('id', $rejected_products->pluck('id'))->update([
                     'status' => 'rejected'
                 ]);
             }
-
 
             if ($accepted_products->count() > 0) {
                 $inventory_products = $this->getInventoryProducts($accepted_products);
@@ -131,7 +130,7 @@ class NewProductsController extends Controller
      * @param Illuminate\Support\Collection
      * @return array
      */
-    public function getInventoryProducts($products)
+    private function getInventoryProducts($products)
     {
         $inv_products = [];
         $products = $products->groupBy('site_name');
@@ -163,5 +162,18 @@ class NewProductsController extends Controller
             }
         }
         return $inv_products;
+    }
+
+    private function getFilters()
+    {
+        $filters = DB::table('filters')->get()->groupBy('filter_label');
+        return $filters;
+    }
+
+    private function getMappingCore(){
+        $mapping_core = DB::table('mapping_core')
+        ->select('LS_ID', 'dept_name_short', 'cat_name_short', 'cat_sub_name')
+        ->get();
+        return $mapping_core;
     }
 }
