@@ -127,7 +127,7 @@ class Product extends Model
 
         $sort_type_filter = [
             [
-                "name" => "Recommended",
+                "name" => "Top Picks",
                 "value" => $RECOMMENDED,
                 "enabled" => false
             ],
@@ -284,8 +284,12 @@ class Product extends Model
                 $query = $query->orderBy('min_price', 'desc');
             } else if ($sort_type == $POPULARITY) {
                 $query = $query->orderBy('popularity', 'desc');
-            } else {
-                $query = $query->orderBy(DB::raw("`rec_order` + `manual_adj`"), 'desc');
+            } else if ($sort_type == $RECOMMENDED){
+                $query = $query->orderBy('serial', 'desc');
+            }
+            else {
+                // sort products based on serial by default
+                $query = $query->orderBy('serial', 'desc');
             }
         }
         // set default sorting to popularity
