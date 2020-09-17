@@ -17,6 +17,11 @@ class NewProductsController extends Controller
         '100' => 'SV',
         '400' => 'WG',
     ];
+    private $inventory_maintained_products = [
+        'cb2',
+        'nw',
+        'cab'
+    ];
     private $table_site_map = array(
         'cb2_products_new_new'     => 'cb2',
         'nw_products_API'          => 'nw',
@@ -37,9 +42,10 @@ class NewProductsController extends Controller
      * @param Request $request
      * @return JsonResponse $response
      */
-    public function get_new_products_list(Request $request, $limit = 10)
+    public function get_new_products_list(Request $request, $limit = 5)
     {
         $new_products = NewProduct::where('status', 'new')
+            // ->where('site_name','cab')
             ->orderBy('created_date', 'asc')
             ->paginate($limit);
         // dd($new_products);
@@ -62,8 +68,8 @@ class NewProductsController extends Controller
     public function update_multiple_new_product(Request $request)
     {
         //convert products recieved by default as associative arrays to Collection
-        $products = collect(json_decode(json_encode($request->get('products'))));
 
+        $products = collect(json_decode(json_encode($request->get('products'))));
         $accepted_products = $products->filter(function ($product) {
             return $product->status === 'approved';
         });
@@ -117,7 +123,6 @@ class NewProductsController extends Controller
             }
         } catch (Exception $e) {
             DB::rollBack();
-
             return response()->json([
                 'status' => 'failed',
                 'message' => $e->getMessage(),
@@ -139,13 +144,18 @@ class NewProductsController extends Controller
         $inv_products = [];
         $products = $products->groupBy('site_name');
         foreach ($products as $key => $value) {
+            $isInventoryMaintained = array_search($key, $this->inventory_maintained_products);
+            if(!$isInventoryMaintained)
+            {
+                continue;
+            }
             $table = array_search($key, $this->table_site_map);
             foreach ($value as $product) {
                 $row = DB::table($table)->where('product_sku', $product->product_sku)->first();
                 if ($key == 'nw') {
                     $shipping_code = $this->get_nw_ship_code($row->shipping_code);
                     $inv_products[] = [
-                        'product_sku' => $row->product_sku,
+                        'product_sku' => $product->product_sku,
                         'quantity' => 1000,
                         'price' => $row->price,
                         'was_price' => $row->was_price,
@@ -156,7 +166,7 @@ class NewProductsController extends Controller
                 } else {
                     $shipping_code = $this->code_map[$row->shipping_code] . strtoupper($key);
                     $inv_products[] = [
-                        'product_sku' => $row->product_sku,
+                        'product_sku' => $product->product_sku,
                         'quantity' => 1000,
                         'price' => $row->price,
                         'was_price' => $row->was_price,
