@@ -12,16 +12,21 @@ use Illuminate\Support\Facades\DB;
 
 class NewProductsController extends Controller
 {
-
     private $code_map = [
         '100' => 'SV',
         '400' => 'WG',
     ];
     private $inventory_maintained_products = [
-        'cb2',
-        'nw',
-        'cab'
+        1=>'cb2',
+        2=>'nw',
+        3=>'cab'
     ];
+
+    private $variation_sku_tables =array (
+        'cb2_products_variations'=>'cb2',
+        'crateandbarrel_products_variations'=>'cab'
+    );
+
     private $table_site_map = array(
         'cb2_products_new_new'     => 'cb2',
         'nw_products_API'          => 'nw',
@@ -36,6 +41,7 @@ class NewProductsController extends Controller
         return $shipping_code == 49 ? 'WGNW' : 'SCNW';
     }
 
+
     /**
      *
      * Return all new Products on which no action has been taken
@@ -45,7 +51,8 @@ class NewProductsController extends Controller
     public function get_new_products_list(Request $request, $limit = 5)
     {
         $new_products = NewProduct::where('status', 'new')
-            // ->where('site_name','cab')
+           //  ->where('site_name','cab')
+             ->where('product_sku', '462352')
             ->orderBy('created_date', 'asc')
             ->paginate($limit);
         // dd($new_products);
@@ -59,7 +66,18 @@ class NewProductsController extends Controller
             'extra' => $extra,
         ]);
     }
+    private function getFilters()
+    {
+        $filters = DB::table('filters')->get()->groupBy('filter_label');
+        return $filters;
+    }
 
+    private function getMappingCore(){
+        $mapping_core = DB::table('mapping_core')
+        ->select('LS_ID', 'dept_name_short', 'cat_name_short', 'cat_sub_name')
+        ->get();
+        return $mapping_core;
+    }
     /**
      * Update Multiple Products.
      * @param Request $request
@@ -142,7 +160,11 @@ class NewProductsController extends Controller
     private function getInventoryProducts($products)
     {
         $inv_products = [];
+        // get all the product_skus from the Inventory. Reduces the no of queries performed when
+        // checking if an product or variation is already in the table
+        $inventory_products = DB::table('lz_inventory')->select('product_sku')->get();
         $products = $products->groupBy('site_name');
+
         foreach ($products as $key => $value) {
             $isInventoryMaintained = array_search($key, $this->inventory_maintained_products);
             if(!$isInventoryMaintained)
@@ -163,7 +185,7 @@ class NewProductsController extends Controller
                         'brand' => $key,
                         'ship_custom' => $shipping_code == 'SCNW' ? $row->shipping_code : NULL
                     ];
-                } else {
+                } else  if($key =='cab'|| $key=='cb2'){
                     $shipping_code = $this->code_map[$row->shipping_code] . strtoupper($key);
                     $inv_products[] = [
                         'product_sku' => $product->product_sku,
@@ -173,22 +195,52 @@ class NewProductsController extends Controller
                         'brand'=> $key,
                         'ship_code'=> $shipping_code
                     ];
+                    $variation_table = array_search($key,$this->variation_sku_tables);
+                    $variation_skus = DB::table($variation_table)->where([
+                        'product_sku'=>$product->product_sku,
+                        'has_parent_sku' =>0,
+                        'is_active' =>'active'
+                    ])->get();
+                    if($variation_skus)
+                    {
+                        foreach($variation_skus as $variation)
+                            {
+                                $isPresent = $inventory_products->has($variation->variation_sku);
+                                if(!$isPresent)
+                                {
+                                    $inv_products[] = [
+                                        'product_sku' => $variation->variation_sku,
+                                        'quantity' => 1000,
+                                        'price' => $variation->price,
+                                        'was_price' => $variation->was_price,
+                                        'brand'=> $key,
+                                        'ship_code'=> $shipping_code
+                                    ];
+                                }
+                            }
+                    }
                 }
             }
         }
+       // dd($inv_products);
         return $inv_products;
     }
 
-    private function getFilters()
-    {
-        $filters = DB::table('filters')->get()->groupBy('filter_label');
-        return $filters;
-    }
+    // private function addVariations($inv_products,$variation_skus)
+    // {
+    //     foreach($variation_skus as $variation)
+    //     {
+    //         $inv_products[] = [
+    //             'product_sku' => $variation->variation_sku,
+    //                     'quantity' => 1000,
+    //                     'price' => $variation->price,
+    //                     'was_price' => $variation->was_price,
+    //                     'brand'=> $key,
+    //                     'ship_code'=> $shipping_code
+    //         ];
+    //     }
+    //     return $inv_products;
+    // }
 
-    private function getMappingCore(){
-        $mapping_core = DB::table('mapping_core')
-        ->select('LS_ID', 'dept_name_short', 'cat_name_short', 'cat_sub_name')
-        ->get();
-        return $mapping_core;
-    }
+
 }
