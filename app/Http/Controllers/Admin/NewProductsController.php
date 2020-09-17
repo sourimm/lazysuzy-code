@@ -52,7 +52,7 @@ class NewProductsController extends Controller
     {
         $new_products = NewProduct::where('status', 'new')
            //  ->where('site_name','cab')
-             ->where('product_sku', '462352')
+            //  ->where('product_sku', '462352')
             ->orderBy('created_date', 'asc')
             ->paginate($limit);
         // dd($new_products);
