@@ -4,9 +4,9 @@ namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Models\Inventory;
 use App\Models\NewProduct;
 use App\Models\Product;
+use App\Services\InventoryService;
 use Exception;
 use Illuminate\Support\Facades\DB;
 
@@ -52,10 +52,9 @@ class NewProductsController extends Controller
     {
         $new_products = NewProduct::where('status', 'new')
            //  ->where('site_name','cab')
-            //  ->where('product_sku', '462352')
+            // ->where('product_sku', '476033')
             ->orderBy('created_date', 'asc')
             ->paginate($limit);
-        // dd($new_products);
 
         $extra['filters'] = $this->getFilters();
         $extra['mapping_core'] = $this->getMappingCore();
@@ -123,9 +122,8 @@ class NewProductsController extends Controller
             }
 
             if ($accepted_products->count() > 0) {
-                $inventory_products = $this->getInventoryProducts($accepted_products);
+                $this->addInventoryProducts($accepted_products);
                 NewProduct::whereIn('id', $accepted_products->pluck('id'))->delete();
-                Inventory::insert($inventory_products);
             }
             foreach ($accepted_products as $product) {
                 unset($product->status);
@@ -153,13 +151,14 @@ class NewProductsController extends Controller
     }
 
     /**
-     * Creates a products array fit for insertion in Inventory Table from given products from table master_new
+     * Checks products and inserts new values to inventory. If sku is already present then update it
      * @param Illuminate\Support\Collection
      * @return array
      */
-    private function getInventoryProducts($products)
+    private function addInventoryProducts($products)
     {
-        $inv_products = [];
+        $to_insert = [];
+        $to_update = [];
         // get all the product_skus from the Inventory. Reduces the no of queries performed when
         // checking if an product or variation is already in the table
         $inventory_products = DB::table('lz_inventory')->select('product_sku')->get();
@@ -176,7 +175,7 @@ class NewProductsController extends Controller
                 $row = DB::table($table)->where('product_sku', $product->product_sku)->first();
                 if ($key == 'nw') {
                     $shipping_code = $this->get_nw_ship_code($row->shipping_code);
-                    $inv_products[] = [
+                    $to_insert[] = [
                         'product_sku' => $product->product_sku,
                         'quantity' => 1000,
                         'price' => $row->price,
@@ -187,14 +186,30 @@ class NewProductsController extends Controller
                     ];
                 } else  if($key =='cab'|| $key=='cb2'){
                     $shipping_code = $this->code_map[$row->shipping_code] . strtoupper($key);
-                    $inv_products[] = [
-                        'product_sku' => $product->product_sku,
-                        'quantity' => 1000,
-                        'price' => $row->price,
-                        'was_price' => $row->was_price,
-                        'brand'=> $key,
-                        'ship_code'=> $shipping_code
-                    ];
+                    $isInInventory = $inventory_products->where('product_sku',$product->product_sku)->isNotEmpty();
+                    if($isInInventory)
+                    {
+                        $to_update[] = [
+                            'product_sku' => $product->product_sku,
+                            'price' => $row->price,
+                            'was_price' => $row->was_price,
+                            'brand'=> $key,
+                            'ship_code'=> $shipping_code
+                        ];
+                        // DB::table('lz_inventory')->where('product_sku',$product->product_sku)
+                        // ->update($toUpdate);
+                    }
+                    else{
+                        $to_insert[] = [
+                            'product_sku' => $product->product_sku,
+                            'quantity' => 1000,
+                            'price' => $row->price,
+                            'was_price' => $row->was_price,
+                            'brand'=> $key,
+                            'ship_code'=> $shipping_code
+                        ];
+                    }
+
                     $variation_table = array_search($key,$this->variation_sku_tables);
                     $variation_skus = DB::table($variation_table)->where([
                         'product_sku'=>$product->product_sku,
@@ -205,12 +220,21 @@ class NewProductsController extends Controller
                     {
                         foreach($variation_skus as $variation)
                             {
-                                $isPresent = $inventory_products->has($variation->variation_sku);
+                                $isPresent = $inventory_products->where('product_sku',$variation->variation_sku)->isNotEmpty();
                                 if(!$isPresent)
                                 {
-                                    $inv_products[] = [
+                                    $to_insert[] = [
                                         'product_sku' => $variation->variation_sku,
                                         'quantity' => 1000,
+                                        'price' => $variation->price,
+                                        'was_price' => $variation->was_price,
+                                        'brand'=> $key,
+                                        'ship_code'=> $shipping_code
+                                    ];
+                                }
+                                else {
+                                    $to_update[] = [
+                                        'product_sku' => $variation->variation_sku,
                                         'price' => $variation->price,
                                         'was_price' => $variation->was_price,
                                         'brand'=> $key,
@@ -222,15 +246,28 @@ class NewProductsController extends Controller
                 }
             }
         }
-       // dd($inv_products);
-        return $inv_products;
+        // dd($to_insert ,$to_update);
+       $this->updateInventoryTable($to_insert,$to_update);
+        // return $to_insert;
     }
 
-    // private function addVariations($inv_products,$variation_skus)
+    private function searchForSku($item, $key)
+    {
+        return $item->product_sku === $key;
+    }
+    private function updateInventoryTable($to_insert,$to_update)
+    {
+        $inventoryService = new InventoryService();
+        $inventoryService->insert($to_insert);
+        $inventoryService->update($to_update);
+    }
+
+
+    // private function addVariations($to_insert,$variation_skus)
     // {
     //     foreach($variation_skus as $variation)
     //     {
-    //         $inv_products[] = [
+    //         $to_insert[] = [
     //             'product_sku' => $variation->variation_sku,
     //                     'quantity' => 1000,
     //                     'price' => $variation->price,
@@ -239,7 +276,7 @@ class NewProductsController extends Controller
     //                     'ship_code'=> $shipping_code
     //         ];
     //     }
-    //     return $inv_products;
+    //     return $to_insert;
     // }
 
 
