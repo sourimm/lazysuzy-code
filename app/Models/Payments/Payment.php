@@ -132,10 +132,11 @@ class Payment extends Model
             DB::table('lz_transactions')
                 ->insert([
                     'user_id' => $user_id,
-                    'stripe_transaction_id' => "ongoing",
+                    'stripe_customer_id' => 'ONGOING',
+                    'stripe_transaction_id' => "ONGOING",
                     'order_id' => $order_id,
                     'checkout_amount' => $total_price,
-                    'status' => 'ongoing',
+                    'status' => 'ONGOING',
                 ]);
             
             Stripe\Stripe::setApiKey(env('STRIP_SECRET'));
