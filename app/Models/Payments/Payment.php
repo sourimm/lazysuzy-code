@@ -127,6 +127,17 @@ class Payment extends Model
 
         $errors = [];
         try {
+
+            // insert record for transaction
+            DB::table('lz_transactions')
+                ->insert([
+                    'user_id' => $user_id,
+                    'stripe_transaction_id' => "ongoing",
+                    'order_id' => $order_id,
+                    'checkout_amount' => $total_price,
+                    'status' => 'ongoing',
+                ]);
+            
             Stripe\Stripe::setApiKey(env('STRIP_SECRET'));
 
             $customer = Stripe\Customer::create([
@@ -142,18 +153,12 @@ class Payment extends Model
                 'phone' => $req->input('shipping_phone'),
                 "source" => $req->input('token')
             ]);
-
-            // insert record for transaction
+            
             DB::table('lz_transactions')
-                ->insert([
-                    'user_id' => $user_id,
-                    'stripe_customer_id' => $customer->id,
-                    'stripe_transaction_id' => "ongoing",
-                    'order_id' => $order_id,
-                    'checkout_amount' => $total_price,
-                    'status' => 'ongoing',
+                ->where('order_id', $order_id)
+                ->update([
+                    'stripe_customer_id' => $customer->id
                 ]);
-
             // add dump for orders API 
             DB::table('lz_order_dump')
                     ->insert([
@@ -307,7 +312,7 @@ class Payment extends Model
                 'status' => 402,
                 'message' => $e->getMessage(),
             ];
-            
+
             DB::table('lz_transactions')
             ->where('order_id', $order_id)
                 ->update([
