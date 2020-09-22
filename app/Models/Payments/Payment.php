@@ -261,6 +261,12 @@ class Payment extends Model
                 'message' => $e->getError()->message
             ];
 
+            DB::table('lz_transactions')
+            ->where('order_id', $order_id)
+            ->update([
+                'status' => $errors['message']
+            ]);
+
             return [
                 'status' => 'failed',
                 'errors' => $errors,
@@ -275,6 +281,11 @@ class Payment extends Model
                 'message' => 'Rate Limit Exceeded. You can not make a payment of this amount',
             ];
 
+            DB::table('lz_transactions')
+            ->where('order_id', $order_id)
+                ->update([
+                    'status' => $errors['message']
+                ]);
             return [
                 'status' => 'failed',
                 'errors' => $errors,
@@ -296,7 +307,12 @@ class Payment extends Model
                 'status' => 402,
                 'message' => $e->getMessage(),
             ];
-
+            
+            DB::table('lz_transactions')
+            ->where('order_id', $order_id)
+                ->update([
+                    'status' => $errors['message']
+                ]);
             return [
                 'status' => 'failed',
                 'errors' => $errors,
