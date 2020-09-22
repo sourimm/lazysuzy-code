@@ -269,7 +269,7 @@ class Payment extends Model
             DB::table('lz_transactions')
             ->where('order_id', $order_id)
             ->update([
-                'status' => $errors['message']
+                'status' => $errors['code'] . " | " . $errors['message']
             ]);
 
             return [
@@ -289,7 +289,7 @@ class Payment extends Model
             DB::table('lz_transactions')
             ->where('order_id', $order_id)
                 ->update([
-                    'status' => $errors['message']
+                    'status' => $errors['code'] . " | " . $errors['message']
                 ]);
             return [
                 'status' => 'failed',
@@ -316,7 +316,7 @@ class Payment extends Model
             DB::table('lz_transactions')
             ->where('order_id', $order_id)
                 ->update([
-                    'status' => $errors['message']
+                    'status' => $errors['status'] . " | " . $errors['message']
                 ]);
             return [
                 'status' => 'failed',
