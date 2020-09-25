@@ -17,7 +17,8 @@ class DimensionsFilter extends Model
         $dim_filters = [];
         $dim_columns = Config::get('tables.dimension_columns');
         $dim_label_map = Config::get('tables.dimension_labels');
-        $products = DB::table((new self)->table)->select($dim_columns);
+        $products = DB::table((new self)->table)->select($dim_columns)
+            ->where('product_status', 'active');
 
         // get applicable LS_IDs
         $LS_IDs = Product::get_dept_cat_LS_ID_arr($dept, $cat);
@@ -40,7 +41,10 @@ class DimensionsFilter extends Model
                 $LS_IDs = Product::get_sub_cat_LS_IDs($dept, $cat, $all_filters['type']);
             }
 
-            $products = $products->whereRaw('LS_ID REGEXP "' . implode("|", $LS_IDs) . '"');
+            // can avoid this matching because all products will by default 
+            // require all products in DB
+            if($dept != "all")
+                $products = $products->whereRaw('LS_ID REGEXP "' . implode("|", $LS_IDs) . '"');
 
             if (
                 isset($all_filters['color'])
