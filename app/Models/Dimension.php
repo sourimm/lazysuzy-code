@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Dimension extends Model
 {
-    public static $CLEAN_SYMBOLS = [ ];
+    public static $CLEAN_SYMBOLS = [];
     public static $DIMS = [
         'w' => 'width',
         'h' => 'height',
@@ -23,11 +23,12 @@ class Dimension extends Model
     }
 
 
-    public static function format_cb2($str) 
+    public static function format_cb2($str)
     {
         // some products of cb2 and cab started sending arrays 
-        // inplace of dims. string, some changes in the product API (mapper)
+        // in place of dim. string, some changes in the product API (mapper)
         // not clear 
+
         $json_string = is_array($str) ? json_encode($str) : $str;
         if ($json_string === "null") return [];
 
@@ -55,11 +56,11 @@ class Dimension extends Model
         return Dimension::format_cb2($str);
     }
 
-    public static function format_pier1($str, $skip_str = true) 
+    public static function format_pier1($str, $skip_str = true)
     {
         // inputs can be like - 
-        // 1. Bowl: 45.25"Dia x 16.50"H,Base: 27.50"D x 12"H,Cushion: 50"W x 4"D x 50"H // parse
-        // 2. Table expands via two 25" drop-in leaves. // sent as it is
+        // 1. Bowl: 45.25"Dia x 16.50"H,Base: 27.50"D x 12"H,Cushion: 50"W x 4"D x 50"H -> parse
+        // 2. Table expands via two 25" drop-in leaves. -> sent as it is
 
         if (strpos($str, " x ") == false) return $str;
         $str = Dimension::clean_str($str);
@@ -104,8 +105,6 @@ class Dimension extends Model
                 array_push($dims, $dim_values);
                 $dim_values['filter'] = 1;
             }
-                
-            
         }
 
         return $dims;
@@ -127,8 +126,7 @@ class Dimension extends Model
                 && strpos($line, "\"") !== false
             ) {
                 $dims_ext = Dimension::format_pier1($line, false);
-               /*  echo "<pre>" . print_r($dims, true) . "</pre>";
-                die(); */
+               
                 if ($dims_ext != null && gettype($dims_ext) == "array")
                     $dims = array_merge($dims, $dims_ext);
             }
@@ -136,5 +134,4 @@ class Dimension extends Model
         
         return $dims;
     }
-
 }

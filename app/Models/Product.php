@@ -4,14 +4,14 @@ namespace App\Models;
 
 use App\Http\Controllers\ProductController;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\DB;
 use App\Models\Department;
 use App\Models\Dimension;
 use App\Models\Cart;
 
 use Auth;
-use Illuminate\Support\Facades\Config;
 
 class Product extends Model
 {
@@ -1260,7 +1260,8 @@ class Product extends Model
             "color" => $color_filter,
             "category" => $dept == "all" ? $category_holder : null,
             "seating" => $seating_filter,
-            "shape" => $shape_filter
+            "shape" => $shape_filter,
+            "dimensions" => DimensionsFilter::get_filter($dept, $cat, $all_filters)
         ];
 
         //$dept, $cat, $subCat
@@ -1444,18 +1445,19 @@ class Product extends Model
 
         $desc_BRANDS = Config::get('meta.to_format_brands');
         $dims_from_features = Config::get('meta.dims_form_feature_brands'); // these extract dimensions data from features data.
+        $sets_enabled_brands = Config::get('meta.sets_enabled_brands');
         $dims_text = in_array($product->name, $dims_from_features) ? $product->product_feature : $product->product_dimension;
 
         $children = null;
         if (!$is_listing_API_call) {
 
-            // All alpha-numeric SKUs of pier1 products have child products
-            if ($product->brand == "pier1") {
+            // All alpha-numeric SKUs of `sets enabled brands` products have child products
+            if (in_array($product->brand, $sets_enabled_brands)) {
 
                 if (!is_numeric($product->product_sku)) {
                     // it is alpha-numeric
-
-                    $child_rows = DB::table("pier1_products")
+                    $product_table = Utility::get_sets_enabled_brand_table($product->brand);
+                    $child_rows = DB::table($product_table)
                         ->whereRaw("product_set LIKE '%" . $product->product_sku . "%'")
                         ->get();
 

@@ -40,6 +40,14 @@
         ],
 
         'LS_ID_mapping' => 'mapping_core',
-        'master_table' => 'master_data'
-            
-    ];
+        'master_table' => 'master_data',
+        'dimension_columns' => ['dim_height', 'dim_width', 'dim_length', 'dim_depth', 'dim_diameter', 'dim_square'],
+        'dimension_labels' => [
+            'dim_height' => 'Height', 
+            'dim_width' => 'Width', 
+            'dim_length' => 'Length', 
+            'dim_depth' => 'Depth', 
+            'dim_diameter' => 'Diameter', 
+            'dim_square' => 'Square'
+        ]    
+    ];  
