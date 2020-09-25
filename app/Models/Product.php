@@ -295,7 +295,7 @@ class Product extends Model
         }
         // set default sorting to popularity
         else {
-            if ($sale_products_only == false)
+            if ($sale_products_only == false && !$new_products_only)
                 $query = $query->orderBy(DB::raw("`rec_order` + `manual_adj`"), 'desc');
         }
 
@@ -316,6 +316,7 @@ class Product extends Model
         if ($new_products_only == true) {
             $date_four_weeks_ago = date('Y-m-d', strtotime('-60 days'));
             $query = $query->whereRaw("created_date >= '" . $date_four_weeks_ago . "'");
+            $query = $query->orderBy('new_group', 'asc');
         }
 
         // for getting products on sale
@@ -1141,7 +1142,7 @@ class Product extends Model
 
         // get inventory list
         $inventory_products_db = DB::table('lz_inventory')
-            ->select(["product_sku", "quantity", "message", "price"])
+            ->select(["product_sku", "quantity", "message", "price", "ship_code"])
             ->where('is_active', 1)
             ->get();
 
@@ -1160,6 +1161,10 @@ class Product extends Model
         foreach ($inventory_products_db as $prod) {
             $inventory_prod[$prod->product_sku] = $prod;
             $inventory_prod[$prod->product_sku]->is_low = $prod->quantity <= 5;
+            $inventory_prod[$prod->product_sku]->is_shipping_free = ($prod->ship_code == Config::get('shipping.free_shipping'));
+
+            // remove extra property from product object to save data transfer.
+            unset($prod->ship_code);
         }
 
         /* ===============================================================================*/

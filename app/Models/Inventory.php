@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 
 class Inventory extends Model 
@@ -79,7 +80,8 @@ class Inventory extends Model
                     'was_price' => $inventory_prod[0]->was_price,
                     'count' => $product_count_remaining,
                     'message' => $inventory_prod[0]->message,
-                    'is_low' => $is_low
+                    'is_low' => $is_low,
+                    'is_shipping_free' => ($inventory_prod[0]->ship_code == Config::get('shipping.free_shipping'))
                 ];
             }
         }
