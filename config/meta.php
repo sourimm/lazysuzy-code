@@ -7,5 +7,6 @@
         'sets_enabled_tables' => [
             'nw' => 'nw_products_API',
             'pier1' => 'pier1_products'
-        ]
+        ],
+        'dimension_range_difference' => 20
     ];

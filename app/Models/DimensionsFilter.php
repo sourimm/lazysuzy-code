@@ -93,6 +93,7 @@ class DimensionsFilter extends Model
 
         // get all min and max values for all dimensions columns
         foreach($dim_columns as $column) {
+            //$products = $products->where($column, '>', 0);
             $dim_filters[$column] = [
                 'label' => $dim_label_map[$column],
                 'value' => $column,
@@ -101,7 +102,48 @@ class DimensionsFilter extends Model
             ];
         }
 
-        return $dim_filters;
+        return self::make_list_options($dim_filters);
+    }
+
+    /**
+     * Input: min and max values for each type of dimensions filter
+     * Output: list of ranges to select from, lower range and upper range will 
+     * have a difference of env('meta.dimension_range_difference')
+     *
+     * @param [Associative Array] $dim_filters
+     * @return [Associative Array] $dim_range_list: List of options, range based
+     */
+    private static function make_list_options($dim_filters) {
+
+        $dim_range_list = [];
+        foreach($dim_filters as $dimension_type => $obj) {
+            $ranges = self::make_range($obj['min'], $obj['max']);
+
+            $dim_range_list[$dimension_type] = [
+                'label' => $obj['label'],
+                'value' => $obj['value'],
+                'ranges' => $ranges
+            ];
+        }
+
+        return $dim_range_list;
+    }
+
+    private static function make_range($lower_bound, $upper_bound) {
+        
+        if(!isset($lower_bound) || !isset($upper_bound))
+            return [];
+
+        $ranges = [];
+        $dimension_range_difference = Config::get('meta.dimension_range_difference');
+        
+        while($upper_bound > $lower_bound) {
+            $local_lower_range = $upper_bound - $dimension_range_difference;
+            $ranges[] = [$upper_bound, max($local_lower_range, $lower_bound)];
+            $upper_bound = max($lower_bound, ($upper_bound - $dimension_range_difference));
+        }
+
+        return $ranges;
     }
 
 }

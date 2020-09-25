@@ -1125,6 +1125,7 @@ class Product extends Model
 
     public static function get_product_obj($products, $all_filters, $dept, $cat, $subCat, $is_listing_API_call = null, $is_details_minimal = false)
     {
+
         $p_send              = [];
         $filter_data         = [];
         $brand_holder        = [];
