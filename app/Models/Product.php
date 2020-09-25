@@ -191,6 +191,8 @@ class Product extends Model
                 }
             }
 
+            
+
             // FILTERS
             // 1. brand_names
             if (
@@ -237,6 +239,7 @@ class Product extends Model
                     ->whereRaw('shape REGEXP "' . implode("|", $all_filters['shape']) . '"');
             }
         }
+
 
         // only include sub category products if subcategory is not null
         if ($subCat != null) {
@@ -337,7 +340,7 @@ class Product extends Model
 
         if ($isAdmiAPICall == true) $is_listing_API_call = false;
 
-        $a = Product::getProductObj($query->get(), $all_filters, $dept, $cat, $subCat, $is_listing_API_call, $is_details_minimal, $is_admin_call);
+        $a = Product::get_product_obj($query->get(), $all_filters, $dept, $cat, $subCat, $is_listing_API_call, $is_details_minimal, $is_admin_call);
 
         // add debug params to test quickly
         $a['a'] = Utility::get_sql_raw($query);
@@ -1057,7 +1060,7 @@ class Product extends Model
         // $dept will be 'all' and the catgeories will come from
         // $all_filters data, we want to show the type filter only when some
         // catgeory is selected, so return an empty array for types if
-        // now categories is selected
+        // no categories is selected
         $do_process = true;
         if ($dept == 'all') {
             if (!isset($all_filters['category']))
@@ -1120,7 +1123,7 @@ class Product extends Model
         ];
     }
 
-    public static function getProductObj($products, $all_filters, $dept, $cat, $subCat, $is_listing_API_call = null, $is_details_minimal = false)
+    public static function get_product_obj($products, $all_filters, $dept, $cat, $subCat, $is_listing_API_call = null, $is_details_minimal = false)
     {
         $p_send              = [];
         $filter_data         = [];
@@ -1490,7 +1493,7 @@ class Product extends Model
             $data['description'] = in_array($product->name, $desc_BRANDS)  ? Product::format_desc_new($product->product_description) : preg_split("/\\[US\\]|<br>|\\n/", $product->product_description);
 
             $dimensions_data = Product::normalize_dimension($dims_text, $product->brand);
-            $data['dimension'] =isset($dimensions_data) ? $dimensions_data : [$product->brand] ;
+            $data['dimension'] =isset($dimensions_data) ? $dimensions_data : [];
 
             //$data['thumb'] = preg_split("/,|\\[US\\]/", $product->thumb);
             $data['features'] = in_array($product->name, $desc_BRANDS) ? Product::format_desc_new($product->product_feature) : preg_split("/\\[US\\]|<br>|\\n|\|/", $product->product_feature);

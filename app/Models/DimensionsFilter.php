@@ -21,11 +21,13 @@ class DimensionsFilter extends Model
 
         // get applicable LS_IDs
         $LS_IDs = Product::get_dept_cat_LS_ID_arr($dept, $cat);
+        
         if (sizeof($all_filters) != 0) {
 
             // for /all API catgeory-wise filter
             if (
                 isset($all_filters['category'])
+                && !empty($all_filters['category'])
                 && strlen($all_filters['category'][0])
             ) {
                 // we want to show all the products of this category
