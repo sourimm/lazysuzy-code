@@ -1490,7 +1490,7 @@ class Product extends Model
             $data['description'] = in_array($product->name, $desc_BRANDS)  ? Product::format_desc_new($product->product_description) : preg_split("/\\[US\\]|<br>|\\n/", $product->product_description);
 
             $dimensions_data = Product::normalize_dimension($dims_text, $product->brand);
-            $data['dimension'] =isset($dimensions_data) ? $dimensions_data : [] ;
+            $data['dimension'] =isset($dimensions_data) ? $dimensions_data : [$product->brand] ;
 
             //$data['thumb'] = preg_split("/,|\\[US\\]/", $product->thumb);
             $data['features'] = in_array($product->name, $desc_BRANDS) ? Product::format_desc_new($product->product_feature) : preg_split("/\\[US\\]|<br>|\\n|\|/", $product->product_feature);
