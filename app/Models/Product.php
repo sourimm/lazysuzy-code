@@ -1262,6 +1262,7 @@ class Product extends Model
             $category_holder =  Product::get_all_dept_category_filter($brand_filter, $all_filters);
         }
 
+        $dimension_filter = DimensionsFilter::get_filter($dept, $cat, $all_filters);
         $filter_data = [
             "brand"  => $brand_holder,
             "price"        => $price_holder,
@@ -1270,7 +1271,13 @@ class Product extends Model
             "category" => $dept == "all" ? $category_holder : null,
             "seating" => $seating_filter,
             "shape" => $shape_filter,
-            "dimensions" => DimensionsFilter::get_filter($dept, $cat, $all_filters)
+            "height" => [$dimension_filter['dim_height']],
+            "width" => [$dimension_filter['dim_width']],
+            "length" => [$dimension_filter['dim_length']],
+            "diameter" => [$dimension_filter['dim_diameter']],
+            "square" => [$dimension_filter['dim_square']],
+
+
         ];
 
         //$dept, $cat, $subCat

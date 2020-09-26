@@ -120,9 +120,11 @@ class DimensionsFilter extends Model
             $ranges = self::make_range($obj['min'], $obj['max']);
 
             $dim_range_list[$dimension_type] = [
-                'label' => $obj['label'],
-                'value' => $obj['value'],
-                'ranges' => $ranges
+                'name' => $obj['label'],
+                'key' => $obj['value'],
+                'enabled' => true,
+                'checked' => false,
+                'values' => $ranges
             ];
         }
 
@@ -139,7 +141,10 @@ class DimensionsFilter extends Model
         
         while($upper_bound > $lower_bound) {
             $local_lower_range = $upper_bound - $dimension_range_difference;
-            $ranges[] = [$upper_bound, max($local_lower_range, $lower_bound)];
+            $ranges[] = [
+                "max" => $upper_bound, 
+                "min" => max($local_lower_range, $lower_bound)
+            ];
             $upper_bound = max($lower_bound, ($upper_bound - $dimension_range_difference));
         }
 
