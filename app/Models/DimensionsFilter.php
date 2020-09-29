@@ -102,7 +102,7 @@ class DimensionsFilter extends Model
             ];
         }
 
-        return self::make_list_options($dim_filters);
+        return self::make_list_options($dim_filters, $all_filters);
     }
 
     /**
@@ -113,17 +113,19 @@ class DimensionsFilter extends Model
      * @param [Associative Array] $dim_filters
      * @return [Associative Array] $dim_range_list: List of options, range based
      */
-    private static function make_list_options($dim_filters) {
+    private static function make_list_options($dim_filters, $all_filters) {
 
         $dim_range_list = [];
         foreach($dim_filters as $dimension_type => $obj) {
             $ranges = self::make_range($obj['min'], $obj['max']);
-
+            usort($ranges, function ($a, $b) {
+                return $a["min"] > $b["min"];
+            });
             $dim_range_list[$dimension_type] = [
                 'name' => $obj['label'],
                 'key' => $obj['value'],
                 'enabled' => true,
-                'checked' => false,
+                'checked' => isset($all_filters[strtolower($obj['label']) . '_to']),
                 'values' => $ranges
             ];
         }
@@ -143,12 +145,32 @@ class DimensionsFilter extends Model
             $local_lower_range = $upper_bound - $dimension_range_difference;
             $ranges[] = [
                 "max" => $upper_bound, 
-                "min" => max($local_lower_range, $lower_bound)
+                "min" => max($local_lower_range + 0.1, $lower_bound)
             ];
             $upper_bound = max($lower_bound, ($upper_bound - $dimension_range_difference));
         }
 
         return $ranges;
+    }
+
+    public static function apply_dimensions_filters($query, $all_filters) {
+
+        // get filter_key => column_name mapping 
+        $col_to_label_map = Config::get('tables.dimension_labels'); 
+        $label_to_col_map = array_flip($col_to_label_map);
+
+        foreach($label_to_col_map as $label => $col_name) {
+            if(isset($all_filters[strtolower($label) . "_to"])) {
+                // this filer is present in the API
+
+                $filter_to = $all_filters[strtolower($label) . "_to"];
+                $filter_from = $all_filters[strtolower($label) . "_from"];
+
+                $query = $query->where($col_name, ">=", $filter_from)
+                            ->where($col_name, "<=", $filter_to);
+            }
+        }
+        return $query;
     }
 
 }
