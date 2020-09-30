@@ -450,6 +450,7 @@ class Product extends Model
             }
 
             $products = $products->whereRaw('LS_ID REGEXP "' . implode("|", $LS_IDs) . '"');
+            $products = DimensionsFilter::apply_dimensions_filters($products, $all_filters);
 
             if (
                 isset($all_filters['color'])
@@ -550,6 +551,7 @@ class Product extends Model
             }
 
             $products = $products->whereRaw('LS_ID REGEXP "' . implode("|", $LS_IDs) . '"');
+            $products = DimensionsFilter::apply_dimensions_filters($products, $all_filters);
 
             if (
                 isset($all_filters['seating'])
@@ -592,7 +594,7 @@ class Product extends Model
         foreach ($rows as $row) {
             $all_shapes[$row->shape] = [
                 'name' => $row->shape,
-                'value' => $row->shape,
+                'value' => strtolower($row->shape),
                 'count' => 0,
                 'enabled' => false,
                 'checked' => false
@@ -603,7 +605,8 @@ class Product extends Model
             if (isset($all_shapes[$b->shape])) {
                 $all_shapes[$b->shape]["enabled"] = true;
                 if (isset($all_filters['shape'])) {
-                    if (in_array($b->shape, $all_filters['shape'])) {
+                    echo $b->shape, " " , json_encode($all_filters['shape']);
+                    if (in_array(strtolower($b->shape), $all_filters['shape'])) {
                         $all_shapes[$b->shape]["checked"] = true;
                     }
                 }
@@ -667,6 +670,8 @@ class Product extends Model
 
             $product_brands = $product_brands
                 ->whereRaw('LS_ID REGEXP "' . implode("|", $LS_IDs) . '"');
+
+            $product_brands = DimensionsFilter::apply_dimensions_filters($product_brands, $all_filters);
 
             if (
                 isset($all_filters['seating'])
@@ -747,6 +752,7 @@ class Product extends Model
         }
 
         $price = $price->whereRaw('LS_ID REGEXP "' . implode("|", $LS_IDs) . '"');
+        $price = DimensionsFilter::apply_dimensions_filters($price, $all_filters);
 
         if (
             isset($all_filters['brand'])
@@ -857,6 +863,8 @@ class Product extends Model
         $products = DB::table("master_data")
             ->select(['LS_ID', 'color'])
             ->whereRaw('LS_ID REGEXP "' . implode("|", $LS_IDs) . '"');
+
+        $products = DimensionsFilter::apply_dimensions_filters($products, $all_filters);
 
         if (sizeof($all_filters) > 0) {
             if (isset($all_filters['is_board_view']) && $all_filters['is_board_view']) {
@@ -998,6 +1006,8 @@ class Product extends Model
         $products = DB::table("master_data")
             ->select(['LS_ID', 'color'])
             ->whereRaw('LS_ID REGEXP "' . implode("|", $LS_IDs) . '"');
+        $products = DimensionsFilter::apply_dimensions_filters($products, $all_filters);
+
 
         if (sizeof($all_filters) > 0) {
 
