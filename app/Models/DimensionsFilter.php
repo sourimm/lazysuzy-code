@@ -121,11 +121,33 @@ class DimensionsFilter extends Model
             usort($ranges, function ($a, $b) {
                 return $a["min"] > $b["min"];
             });
+
+            if(isset($all_filters[strtolower($obj['label']) . '_to'])) {
+                $to = $all_filters[strtolower($obj['label']) . '_to']; // $to = array of values
+                $from = $all_filters[strtolower($obj['label']) . '_from']; // from = array of values
+                
+                foreach($ranges as &$range) {
+
+                    
+
+                    foreach($to as $index => $val) {
+                        
+                        if (isset($range['checked']) && $range['checked'] == true)
+                            continue;
+
+                        if ((float)$range['min'] == (float) $from[$index] && (float)$range['max'] == (float) $to[$index])
+                            $range['checked'] = true;
+                        else
+                            $range['checked'] = false;
+                    }
+                    
+                } 
+            }
+
             $dim_range_list[$dimension_type] = [
                 'name' => $obj['label'],
                 'key' => $obj['value'],
                 'enabled' => true,
-                'checked' => isset($all_filters[strtolower($obj['label']) . '_to']),
                 'values' => $ranges
             ];
         }
@@ -145,7 +167,8 @@ class DimensionsFilter extends Model
             $local_lower_range = $upper_bound - $dimension_range_difference;
             $ranges[] = [
                 "max" => $upper_bound, 
-                "min" => max($local_lower_range + 0.1, $lower_bound)
+                "min" => max($local_lower_range, $lower_bound),
+                "checked" => false
             ];
             $upper_bound = max($lower_bound, ($upper_bound - $dimension_range_difference));
         }
