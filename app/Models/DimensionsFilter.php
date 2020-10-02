@@ -164,7 +164,7 @@ class DimensionsFilter extends Model
         $dimension_range_difference = Config::get('meta.dimension_range_difference');
         
         $local_upper_bound = $lower_bound;
-        
+
         while($lower_bound < $upper_bound) {
             $ranges[] = [
                 "min" => $lower_bound,
@@ -192,19 +192,19 @@ class DimensionsFilter extends Model
                 $filter_to = $all_filters[strtolower($label) . "_to"];
                 $filter_from = $all_filters[strtolower($label) . "_from"];
 
-                for($i = 0; $i < sizeof($filter_to); $i++) {
+                $query = $query->where(function($query) use ($filter_from, 
+                    $filter_to, $col_name) {
+                    for ($i = 0; $i < sizeof($filter_to); $i++) {
 
-                    if($i == 0) {
-                        $query = $query->where($col_name, ">=", $filter_from[$i])
+                        if ($i == 0) {
+                            $query = $query->where($col_name, ">=", $filter_from[$i])
                             ->where($col_name, "<=", $filter_to[$i]);
-                    }
-                    else {
-                        $query = $query->orWhere($col_name, ">=", $filter_from[$i])
+                        } else {
+                            $query = $query->orWhere($col_name, ">=", $filter_from[$i])
                             ->where($col_name, "<=", $filter_to[$i]);
+                        }
                     }
-                }
-
-                
+                });
             }
         }
         return $query;
