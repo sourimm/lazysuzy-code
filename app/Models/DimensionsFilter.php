@@ -163,14 +163,17 @@ class DimensionsFilter extends Model
         $ranges = [];
         $dimension_range_difference = Config::get('meta.dimension_range_difference');
         
-        while($upper_bound > $lower_bound) {
-            $local_lower_range = $upper_bound - $dimension_range_difference;
+        $local_upper_bound = $lower_bound;
+        
+        while($lower_bound < $upper_bound) {
             $ranges[] = [
-                "max" => $upper_bound, 
-                "min" => max($local_lower_range, $lower_bound),
+                "min" => $lower_bound,
+                "max" => $local_upper_bound + $dimension_range_difference,
                 "checked" => false
             ];
-            $upper_bound = max($lower_bound, ($upper_bound - $dimension_range_difference));
+
+            $lower_bound += $dimension_range_difference;
+            $local_upper_bound += $dimension_range_difference;
         }
 
         return $ranges;
