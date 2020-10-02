@@ -795,8 +795,8 @@ class Product extends Model
         if (sizeof($all_filters) == 0) {
             // get min price and max price for all the products
             return [
-                "min" => $min,
-                "max" => $max
+                "min" => isset($min) ? $min : 0,
+                "max" => isset($max) ? $max : 0
             ];
         } else {
 
