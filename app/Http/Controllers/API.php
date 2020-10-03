@@ -166,12 +166,18 @@ class API extends Controller
     {
         $data = $request->all();
         $state_code = null;
+        $promo_code = null;
+        
         if(isset($data['state_code']) 
             && strlen($data['state_code']) > 0)
             $state_code = strtoupper($data['state_code']);
 
+        if(isset($data['promo'])
+            && strlen($data['promo']) > 0)
+        $promo_code = $data['promo'];
+
            
-        return Cart::cart($state_code);
+        return Cart::cart($state_code, $promo_code);
     }
 
     public function get_inventory()

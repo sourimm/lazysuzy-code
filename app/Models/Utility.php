@@ -2,6 +2,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Config;
+
 use Auth;
 class Utility extends Model
 {
@@ -79,5 +81,10 @@ class Utility extends Model
             $binding = addslashes($binding);
             return is_numeric($binding) ? $binding : "'{$binding}'";
         })->toArray());
+    }
+
+    public static function get_sets_enabled_brand_table($brand) {
+        
+        return Config::get('meta.sets_enabled_tables')[$brand]; 
     }
 }

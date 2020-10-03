@@ -102,7 +102,7 @@ class DimensionsFilter extends Model
             ];
         }
 
-        return self::make_list_options($dim_filters);
+        return self::make_list_options($dim_filters, $all_filters);
     }
 
     /**
@@ -113,17 +113,41 @@ class DimensionsFilter extends Model
      * @param [Associative Array] $dim_filters
      * @return [Associative Array] $dim_range_list: List of options, range based
      */
-    private static function make_list_options($dim_filters) {
+    private static function make_list_options($dim_filters, $all_filters) {
 
         $dim_range_list = [];
         foreach($dim_filters as $dimension_type => $obj) {
             $ranges = self::make_range($obj['min'], $obj['max']);
+            usort($ranges, function ($a, $b) {
+                return $a["min"] > $b["min"];
+            });
+
+            if(isset($all_filters[strtolower($obj['label']) . '_to'])) {
+                $to = $all_filters[strtolower($obj['label']) . '_to']; // $to = array of values
+                $from = $all_filters[strtolower($obj['label']) . '_from']; // from = array of values
+                
+                foreach($ranges as &$range) {
+
+                    
+
+                    foreach($to as $index => $val) {
+                        
+                        if (isset($range['checked']) && $range['checked'] == true)
+                            continue;
+
+                        if ((float)$range['min'] == (float) $from[$index] && (float)$range['max'] == (float) $to[$index])
+                            $range['checked'] = true;
+                        else
+                            $range['checked'] = false;
+                    }
+                    
+                } 
+            }
 
             $dim_range_list[$dimension_type] = [
                 'name' => $obj['label'],
                 'key' => $obj['value'],
                 'enabled' => true,
-                'checked' => false,
                 'values' => $ranges
             ];
         }
@@ -139,16 +163,51 @@ class DimensionsFilter extends Model
         $ranges = [];
         $dimension_range_difference = Config::get('meta.dimension_range_difference');
         
-        while($upper_bound > $lower_bound) {
-            $local_lower_range = $upper_bound - $dimension_range_difference;
+        $local_upper_bound = $lower_bound;
+
+        while($lower_bound < $upper_bound) {
             $ranges[] = [
-                "max" => $upper_bound, 
-                "min" => max($local_lower_range, $lower_bound)
+                "min" => $lower_bound,
+                "max" => $local_upper_bound + $dimension_range_difference,
+                "checked" => false
             ];
-            $upper_bound = max($lower_bound, ($upper_bound - $dimension_range_difference));
+
+            $lower_bound += $dimension_range_difference;
+            $local_upper_bound += $dimension_range_difference;
         }
 
         return $ranges;
+    }
+
+    public static function apply_dimensions_filters($query, $all_filters) {
+
+        // get filter_key => column_name mapping 
+        $col_to_label_map = Config::get('tables.dimension_labels'); 
+        $label_to_col_map = array_flip($col_to_label_map);
+
+        foreach($label_to_col_map as $label => $col_name) {
+            if(isset($all_filters[strtolower($label) . "_to"])) {
+                // this filer is present in the API
+
+                $filter_to = $all_filters[strtolower($label) . "_to"];
+                $filter_from = $all_filters[strtolower($label) . "_from"];
+
+                $query = $query->where(function($query) use ($filter_from, 
+                    $filter_to, $col_name) {
+                    for ($i = 0; $i < sizeof($filter_to); $i++) {
+
+                        if ($i == 0) {
+                            $query = $query->where($col_name, ">=", $filter_from[$i])
+                            ->where($col_name, "<=", $filter_to[$i]);
+                        } else {
+                            $query = $query->orWhere($col_name, ">=", $filter_from[$i])
+                            ->where($col_name, "<=", $filter_to[$i]);
+                        }
+                    }
+                });
+            }
+        }
+        return $query;
     }
 
 }

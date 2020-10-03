@@ -4,14 +4,14 @@ namespace App\Models;
 
 use App\Http\Controllers\ProductController;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\DB;
 use App\Models\Department;
 use App\Models\Dimension;
 use App\Models\Cart;
 
 use Auth;
-use Illuminate\Support\Facades\Config;
 
 class Product extends Model
 {
@@ -191,6 +191,8 @@ class Product extends Model
                 }
             }
 
+            
+
             // FILTERS
             // 1. brand_names
             if (
@@ -238,6 +240,7 @@ class Product extends Model
             }
         }
 
+
         // only include sub category products if subcategory is not null
         if ($subCat != null) {
             $LS_IDs = [Product::get_sub_cat_LS_ID($dept, $cat, $subCat)];
@@ -274,6 +277,7 @@ class Product extends Model
         }
 
         $query = $query->whereRaw('LS_ID REGEXP "' . implode("|", $LS_IDs) . '"');
+        $query = DimensionsFilter::apply_dimensions_filters($query, $all_filters);
 
         // 7. sort_type
         if (isset($sort_type)) {
@@ -292,7 +296,7 @@ class Product extends Model
         }
         // set default sorting to popularity
         else {
-            if ($sale_products_only == false)
+            if ($sale_products_only == false && !$new_products_only)
                 $query = $query->orderBy(DB::raw("`rec_order` + `manual_adj`"), 'desc');
         }
 
@@ -313,6 +317,7 @@ class Product extends Model
         if ($new_products_only == true) {
             $date_four_weeks_ago = date('Y-m-d', strtotime('-60 days'));
             $query = $query->whereRaw("created_date >= '" . $date_four_weeks_ago . "'");
+            $query = $query->orderBy('new_group', 'asc');
         }
 
         // for getting products on sale
@@ -337,7 +342,7 @@ class Product extends Model
 
         if ($isAdmiAPICall == true) $is_listing_API_call = false;
 
-        $a = Product::getProductObj($query->get(), $all_filters, $dept, $cat, $subCat, $is_listing_API_call, $is_details_minimal, $is_admin_call);
+        $a = Product::get_product_obj($query->get(), $all_filters, $dept, $cat, $subCat, $is_listing_API_call, $is_details_minimal, $is_admin_call);
 
         // add debug params to test quickly
         $a['a'] = Utility::get_sql_raw($query);
@@ -445,6 +450,7 @@ class Product extends Model
             }
 
             $products = $products->whereRaw('LS_ID REGEXP "' . implode("|", $LS_IDs) . '"');
+            $products = DimensionsFilter::apply_dimensions_filters($products, $all_filters);
 
             if (
                 isset($all_filters['color'])
@@ -545,6 +551,7 @@ class Product extends Model
             }
 
             $products = $products->whereRaw('LS_ID REGEXP "' . implode("|", $LS_IDs) . '"');
+            $products = DimensionsFilter::apply_dimensions_filters($products, $all_filters);
 
             if (
                 isset($all_filters['seating'])
@@ -587,7 +594,7 @@ class Product extends Model
         foreach ($rows as $row) {
             $all_shapes[$row->shape] = [
                 'name' => $row->shape,
-                'value' => $row->shape,
+                'value' => strtolower($row->shape),
                 'count' => 0,
                 'enabled' => false,
                 'checked' => false
@@ -598,7 +605,8 @@ class Product extends Model
             if (isset($all_shapes[$b->shape])) {
                 $all_shapes[$b->shape]["enabled"] = true;
                 if (isset($all_filters['shape'])) {
-                    if (in_array($b->shape, $all_filters['shape'])) {
+                    echo $b->shape, " " , json_encode($all_filters['shape']);
+                    if (in_array(strtolower($b->shape), $all_filters['shape'])) {
                         $all_shapes[$b->shape]["checked"] = true;
                     }
                 }
@@ -662,6 +670,8 @@ class Product extends Model
 
             $product_brands = $product_brands
                 ->whereRaw('LS_ID REGEXP "' . implode("|", $LS_IDs) . '"');
+
+            $product_brands = DimensionsFilter::apply_dimensions_filters($product_brands, $all_filters);
 
             if (
                 isset($all_filters['seating'])
@@ -742,6 +752,7 @@ class Product extends Model
         }
 
         $price = $price->whereRaw('LS_ID REGEXP "' . implode("|", $LS_IDs) . '"');
+        $price = DimensionsFilter::apply_dimensions_filters($price, $all_filters);
 
         if (
             isset($all_filters['brand'])
@@ -784,8 +795,8 @@ class Product extends Model
         if (sizeof($all_filters) == 0) {
             // get min price and max price for all the products
             return [
-                "min" => $min,
-                "max" => $max
+                "min" => isset($min) ? $min : 0,
+                "max" => isset($max) ? $max : 0
             ];
         } else {
 
@@ -803,8 +814,8 @@ class Product extends Model
             return [
                 "from" => round($p_from),
                 "to" => round($p_to),
-                "max" => $max,
-                "min" => $min
+                "max" => isset($max) ? $max : 0,
+                "min" => isset($min) ? $min : 0,
             ];
         }
     }
@@ -852,6 +863,8 @@ class Product extends Model
         $products = DB::table("master_data")
             ->select(['LS_ID', 'color'])
             ->whereRaw('LS_ID REGEXP "' . implode("|", $LS_IDs) . '"');
+
+        $products = DimensionsFilter::apply_dimensions_filters($products, $all_filters);
 
         if (sizeof($all_filters) > 0) {
             if (isset($all_filters['is_board_view']) && $all_filters['is_board_view']) {
@@ -993,6 +1006,8 @@ class Product extends Model
         $products = DB::table("master_data")
             ->select(['LS_ID', 'color'])
             ->whereRaw('LS_ID REGEXP "' . implode("|", $LS_IDs) . '"');
+        $products = DimensionsFilter::apply_dimensions_filters($products, $all_filters);
+
 
         if (sizeof($all_filters) > 0) {
 
@@ -1057,7 +1072,7 @@ class Product extends Model
         // $dept will be 'all' and the catgeories will come from
         // $all_filters data, we want to show the type filter only when some
         // catgeory is selected, so return an empty array for types if
-        // now categories is selected
+        // no categories is selected
         $do_process = true;
         if ($dept == 'all') {
             if (!isset($all_filters['category']))
@@ -1120,8 +1135,9 @@ class Product extends Model
         ];
     }
 
-    public static function getProductObj($products, $all_filters, $dept, $cat, $subCat, $is_listing_API_call = null, $is_details_minimal = false)
+    public static function get_product_obj($products, $all_filters, $dept, $cat, $subCat, $is_listing_API_call = null, $is_details_minimal = false)
     {
+
         $p_send              = [];
         $filter_data         = [];
         $brand_holder        = [];
@@ -1137,7 +1153,7 @@ class Product extends Model
 
         // get inventory list
         $inventory_products_db = DB::table('lz_inventory')
-            ->select(["product_sku", "quantity", "message", "price"])
+            ->select(["product_sku", "quantity", "message", "price", "ship_code"])
             ->where('is_active', 1)
             ->get();
 
@@ -1156,6 +1172,10 @@ class Product extends Model
         foreach ($inventory_products_db as $prod) {
             $inventory_prod[$prod->product_sku] = $prod;
             $inventory_prod[$prod->product_sku]->is_low = $prod->quantity <= 5;
+            $inventory_prod[$prod->product_sku]->is_shipping_free = ($prod->ship_code == Config::get('shipping.free_shipping'));
+
+            // remove extra property from product object to save data transfer.
+            unset($prod->ship_code);
         }
 
         /* ===============================================================================*/
@@ -1253,6 +1273,7 @@ class Product extends Model
             $category_holder =  Product::get_all_dept_category_filter($brand_filter, $all_filters);
         }
 
+        $dimension_filter = DimensionsFilter::get_filter($dept, $cat, $all_filters);
         $filter_data = [
             "brand"  => $brand_holder,
             "price"        => $price_holder,
@@ -1260,7 +1281,12 @@ class Product extends Model
             "color" => $color_filter,
             "category" => $dept == "all" ? $category_holder : null,
             "seating" => $seating_filter,
-            "shape" => $shape_filter
+            "shape" => $shape_filter,
+            "height" => [$dimension_filter['dim_height']],
+            "width" => [$dimension_filter['dim_width']],
+            "length" => [$dimension_filter['dim_length']],
+            "diameter" => [$dimension_filter['dim_diameter']],
+            "square" => [$dimension_filter['dim_square']],
         ];
 
         //$dept, $cat, $subCat
@@ -1444,18 +1470,19 @@ class Product extends Model
 
         $desc_BRANDS = Config::get('meta.to_format_brands');
         $dims_from_features = Config::get('meta.dims_form_feature_brands'); // these extract dimensions data from features data.
+        $sets_enabled_brands = Config::get('meta.sets_enabled_brands');
         $dims_text = in_array($product->name, $dims_from_features) ? $product->product_feature : $product->product_dimension;
 
         $children = null;
         if (!$is_listing_API_call) {
 
-            // All alpha-numeric SKUs of pier1 products have child products
-            if ($product->brand == "pier1") {
+            // All alpha-numeric SKUs of `sets enabled brands` products have child products
+            if (in_array($product->brand, $sets_enabled_brands)) {
 
                 if (!is_numeric($product->product_sku)) {
                     // it is alpha-numeric
-
-                    $child_rows = DB::table("pier1_products")
+                    $product_table = Utility::get_sets_enabled_brand_table($product->brand);
+                    $child_rows = DB::table($product_table)
                         ->whereRaw("product_set LIKE '%" . $product->product_sku . "%'")
                         ->get();
 
@@ -1487,7 +1514,8 @@ class Product extends Model
             $data['set'] = $children;
             $data['description'] = in_array($product->name, $desc_BRANDS)  ? Product::format_desc_new($product->product_description) : preg_split("/\\[US\\]|<br>|\\n/", $product->product_description);
 
-            $data['dimension'] = Product::normalize_dimension($dims_text, $product->brand);
+            $dimensions_data = Product::normalize_dimension($dims_text, $product->brand);
+            $data['dimension'] =isset($dimensions_data) ? $dimensions_data : [];
 
             //$data['thumb'] = preg_split("/,|\\[US\\]/", $product->thumb);
             $data['features'] = in_array($product->name, $desc_BRANDS) ? Product::format_desc_new($product->product_feature) : preg_split("/\\[US\\]|<br>|\\n|\|/", $product->product_feature);

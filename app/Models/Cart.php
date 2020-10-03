@@ -134,7 +134,7 @@ class Cart extends Model
         return substr($code, 2, strlen($code) - 2);
     }
 
-    public static function cart($state = null)
+    public static function cart($state = null, $promo_code = null)
     {
         $variation_tables = Config::get('tables.variations');
         $native_shipping_codes = Config::get('shipping.native_shipping_codes');
@@ -430,15 +430,19 @@ class Cart extends Model
         else
             $res['order']['sales_tax_total'] = $res['order']['sub_total'] * $sales_tax;
 
-        $res['order']['sales_tax_total'] = number_format((float) $res['order']['sales_tax_total'], 2, '.', '');
-        $res['order']['sub_total'] = number_format((float) $res['order']['sub_total'], 2, '.', '');
-
+        
         $res['order']['total_cost'] = $res['order']['shipment_total'] 
         + $res['order']['sales_tax_total']
         + $res['order']['sub_total'];
 
+        $res['order']['sales_tax_total'] = number_format((float) $res['order']['sales_tax_total'], 2, '.', '');
+        $res['order']['sub_total'] = number_format((float) $res['order']['sub_total'], 2, '.', '');
+        $res['order']['shipment_total'] = number_format((float) $res['order']['shipment_total'], 2, '.', '');
         $res['order']['total_cost'] = number_format((float) $res['order']['total_cost'], 2, '.', '');
 
+
+        if(isset($promo_code))
+            $res = PromoDiscount::calculate_discount($res, $promo_code);
         return $res;
     }
 }
