@@ -87,4 +87,8 @@ class Utility extends Model
         
         return Config::get('meta.sets_enabled_tables')[$brand]; 
     }
+
+    public static function rm_comma($str) {
+        return str_replace(["$", ",", " "], "", $str);
+    }
 }

@@ -76,8 +76,8 @@ class Inventory extends Model
 
                 $res['in_inventory'] = true;
                 $res['inventory_product_details'] = [
-                    'price' => $inventory_prod[0]->price,
-                    'was_price' => $inventory_prod[0]->was_price,
+                    'price' => Utility::rm_comma($inventory_prod[0]->price),
+                    'was_price' => Utility::rm_comma($inventory_prod[0]->was_price),
                     'count' => $product_count_remaining,
                     'message' => $inventory_prod[0]->message,
                     'is_low' => $is_low,
