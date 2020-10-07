@@ -1287,6 +1287,7 @@ class Product extends Model
             "length" => [$dimension_filter['dim_length']],
             "diameter" => [$dimension_filter['dim_diameter']],
             "square" => [$dimension_filter['dim_square']],
+            "depth" => [$dimension_filter['dim_depth']],
         ];
 
         //$dept, $cat, $subCat
