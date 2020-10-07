@@ -1276,7 +1276,7 @@ class Product extends Model
         $dimension_filter = DimensionsFilter::get_filter($dept, $cat, $all_filters);
         $filter_data = [
             "brand"  => $brand_holder,
-            "price"        => $price_holder,
+            "price"  => $price_holder,
             "type" => $product_type_holder,
             "color" => $color_filter,
             "category" => $dept == "all" ? $category_holder : null,
@@ -1287,6 +1287,7 @@ class Product extends Model
             "length" => [$dimension_filter['dim_length']],
             "diameter" => [$dimension_filter['dim_diameter']],
             "square" => [$dimension_filter['dim_square']],
+            "depth" => [$dimension_filter['dim_depth']]
         ];
 
         //$dept, $cat, $subCat

@@ -127,15 +127,13 @@ class DimensionsFilter extends Model
                 $from = $all_filters[strtolower($obj['label']) . '_from']; // from = array of values
                 
                 foreach($ranges as &$range) {
-
-                    
-
                     foreach($to as $index => $val) {
                         
                         if (isset($range['checked']) && $range['checked'] == true)
                             continue;
 
-                        if ((float)$range['min'] == (float) $from[$index] && (float)$range['max'] == (float) $to[$index])
+                        if ((float)$range['min'] == (float) $from[$index] 
+                            && (float)$range['max'] == (float) $to[$index])
                             $range['checked'] = true;
                         else
                             $range['checked'] = false;
