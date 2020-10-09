@@ -605,7 +605,6 @@ class Product extends Model
             if (isset($all_shapes[$b->shape])) {
                 $all_shapes[$b->shape]["enabled"] = true;
                 if (isset($all_filters['shape'])) {
-                    echo $b->shape, " " , json_encode($all_filters['shape']);
                     if (in_array(strtolower($b->shape), $all_filters['shape'])) {
                         $all_shapes[$b->shape]["checked"] = true;
                     }
