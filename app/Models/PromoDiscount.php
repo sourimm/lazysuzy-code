@@ -67,7 +67,7 @@ class PromoDiscount extends Model
                     
                 }
                 
-                $promo_discount = number_format($promo_discount, 2);
+                $promo_discount = round($promo_discount, 2);
                 $price_after_discount = $total_product_cost_before_discount - $promo_discount;
                 $product->promo_discount = $promo_discount;
                 $product->total_price = $price_after_discount;
@@ -147,7 +147,6 @@ class PromoDiscount extends Model
             if(self::is_user_allowed($user, $promo_details)) {
                 $status['is_valid'] = true;
                 $status['details']['discount_details'] = $promo_details;
-
                 return $status;
             } else {
                 $status['details']['error_msg'] = 'Sorry! This coupon is not allowed for you.';
