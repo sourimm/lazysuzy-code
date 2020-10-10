@@ -440,9 +440,9 @@ class Cart extends Model
         $res['order']['shipment_total'] = number_format((float) $res['order']['shipment_total'], 2, '.', '');
         $res['order']['total_cost'] = number_format((float) $res['order']['total_cost'], 2, '.', '');
 
-
-        if(isset($promo_code))
+        if (isset($promo_code))
             $res = PromoDiscount::calculate_discount($res, $promo_code);
+        
         return $res;
     }
 }

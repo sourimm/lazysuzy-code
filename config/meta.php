@@ -8,5 +8,7 @@
             'nw' => 'nw_products_API',
             'pier1' => 'pier1_products'
         ],
-        'dimension_range_difference' => 10
+        'dimension_range_difference' => 10,
+        'discount_percent' => 'pct',
+        'discount_flat' => 'amt'
     ];

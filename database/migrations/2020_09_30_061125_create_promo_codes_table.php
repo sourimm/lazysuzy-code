@@ -16,6 +16,7 @@ class CreatePromoCodesTable extends Migration
             $table->string('name', 255);
             $table->string('description', 400);
             $table->enum('type',['pct','amt']);
+            $table->integer('value')->default(0);
             $table->string('applicable_brands');
             $table->string('applicable_categories', 200)->default('*');
             $table->integer('allowed_count')->default('1');
