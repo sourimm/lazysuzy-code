@@ -55,7 +55,7 @@ class PromoDiscount extends Model
         $cart['order']['sub_total'] = $cart['order']['sub_total'] - $total_dicount_availed;
         $cart['order']['total_cost'] = $cart['order']['total_cost'] - $total_dicount_availed;
         $cart['order']['total_promo_discount'] = $total_dicount_availed;
-        
+
         $cart['promo_details'] = [
             'code' => $promo_code,
             'name' => $promo_details['discount_details']['name'],
@@ -155,26 +155,33 @@ class PromoDiscount extends Model
 
         $promo_details = $promo_details[0];
 
-        // if user can apply this promo code
-        if(self::is_promo_count_valid($user, $promo_details)) {
+        if(self::is_promo_not_expired($promo_details)) {
+            // if user can apply this promo code
+            if (self::is_promo_count_valid($user, $promo_details)) {
 
-            // if this user is is in special group that allows them to apply 
-            // the promo code
-            if(self::is_user_allowed($user, $promo_details)) {
-                $status['is_valid'] = true;
-                $status['details']['discount_details'] = $promo_details;
-                return $status;
+                // if this user is is in special group that allows them to apply 
+                // the promo code
+                if (self::is_user_allowed($user, $promo_details)) {
+                    $status['is_valid'] = true;
+                    $status['details']['discount_details'] = $promo_details;
+                    return $status;
+                } else {
+                    $status['details']['error_msg'] = 'Sorry! This coupon is not allowed for you.';
+                    return $status;
+                }
             } else {
-                $status['details']['error_msg'] = 'Sorry! This coupon is not allowed for you.';
+                $status['details']['error_msg'] = 'Seems like you have already exhausted maximum limit for this discount code.';
                 return $status;
             }
         } else {
-            $status['details']['error_msg'] = 'Seems like you have already exhausted maximum limit for this discount code.';
+            $status['details']['error_msg'] = "Seems like this coupon is already expired.";
             return $status;
         }
-   
+        
+
         return $status;
     }
+
 
     /**
      * returns simple true and false based on the domain (email) of users
@@ -245,5 +252,14 @@ class PromoDiscount extends Model
         }
         
         return $sku_available_for_promo;
+    }
+
+    private static function is_promo_not_expired($promo_details) {
+        $promo_expiry_date = $promo_details['expiry'];
+        $today = time();
+        $expiry = strtotime($promo_expiry_date);
+
+        // expiry should be a future date, hence it should be greater that now()
+        return ($expiry - $today) > 0;
     }
 }
