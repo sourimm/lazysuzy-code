@@ -435,14 +435,18 @@ class Cart extends Model
         + $res['order']['sales_tax_total']
         + $res['order']['sub_total'];
 
-        $res['order']['sales_tax_total'] = number_format((float) $res['order']['sales_tax_total'], 2, '.', '');
-        $res['order']['sub_total'] = number_format((float) $res['order']['sub_total'], 2, '.', '');
-        $res['order']['shipment_total'] = number_format((float) $res['order']['shipment_total'], 2, '.', '');
-        $res['order']['total_cost'] = number_format((float) $res['order']['total_cost'], 2, '.', '');
+    
+        $res['order']['total_promo_discount'] = 0;
+        $res['order']['original_total_cost'] = round($res['order']['total_cost'], 2);
 
         if (isset($promo_code))
             $res = PromoDiscount::calculate_discount($res, $promo_code);
-        
+
+        $res['order']['sales_tax_total'] = round((float) $res['order']['sales_tax_total'], 2);
+        $res['order']['sub_total'] = round((float) $res['order']['sub_total'], 2);
+        $res['order']['shipment_total'] = round((float) $res['order']['shipment_total'], 2);
+        $res['order']['total_cost'] = round((float) $res['order']['total_cost'], 2);
+
         return $res;
     }
 }

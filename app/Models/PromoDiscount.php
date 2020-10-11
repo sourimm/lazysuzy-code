@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 use Auth;
 
+use function PHPSTORM_META\map;
+
 class PromoDiscount extends Model
 {
     protected $table = "lz_promo";
@@ -42,9 +44,23 @@ class PromoDiscount extends Model
             $cart = self::add_promo_discount($valid_SKUs_for_discount, $cart, $promo_details['discount_details']);
         }
 
+        // every product will have promo discount in it's object 
+        // ['order'] object still has total price so reduce the price from the 
+        // orders object data here
+        $total_dicount_availed = 0;
+        foreach($cart['products'] as $product) {
+            $total_dicount_availed += isset($product->promo_discount) ? $product->promo_discount : 0;
+        }
+
+        $cart['order']['sub_total'] = $cart['order']['sub_total'] - $total_dicount_availed;
+        $cart['order']['total_cost'] = $cart['order']['total_cost'] - $total_dicount_availed;
+        $cart['order']['total_promo_discount'] = $total_dicount_availed;
+        
         $cart['promo_details'] = [
             'code' => $promo_code,
-            'details' => $promo_details
+            'name' => $promo_details['discount_details']['name'],
+            'description' => $promo_details['discount_details']['description'],
+            'total_discount' => $total_dicount_availed
         ];
 
         return $cart;
