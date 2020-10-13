@@ -79,8 +79,7 @@ class PromoDiscount extends Model
                 if($promo_type == Config::get('meta.discount_percent')) {
                     $promo_discount = $total_product_cost_before_discount * ((float) $promo_details['value'] / 100);
                 } else if($promo_type == Config::get('meta.discount_flat')) {
-                    $promo_discount = $total_product_cost_before_discount - (float)$promo_details['value'];
-                    
+                    $promo_discount = round((float)$promo_details['value'], 2);
                 }
                 
                 $promo_discount = round($promo_discount, 2);
@@ -140,6 +139,7 @@ class PromoDiscount extends Model
          
         /*
         * promo code is valid if
+        * 1.0 Promo code expiry date should be in future 
         * 1. LS_ID of products, Discount will be given on products that have LS_ID match with PROMO CODE
         * 2. Users must qualify for the PROMO CODE, i.e they must have there domain mentioned in the allowed_users col
             '*' is for `valid for all users` and
@@ -155,6 +155,11 @@ class PromoDiscount extends Model
 
         $promo_details = $promo_details[0];
 
+        /********************************************************************
+        *********************************************************************
+        ******** CHANGE THIS CODE TO FACTORY PATTERN WHEN YOU GET TIME!!!****
+        *********************************************************************
+        *********************************************************************/
         if(self::is_promo_not_expired($promo_details)) {
             // if user can apply this promo code
             if (self::is_promo_count_valid($user, $promo_details)) {
@@ -254,6 +259,12 @@ class PromoDiscount extends Model
         return $sku_available_for_promo;
     }
 
+    /**
+     * Check if promo is expired or not
+     *
+     * @param [type] $promo_details
+     * @return boolean
+     */
     private static function is_promo_not_expired($promo_details) {
         $promo_expiry_date = $promo_details['expiry'];
         $today = time();
