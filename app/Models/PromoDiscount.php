@@ -62,7 +62,10 @@ class PromoDiscount extends Model
         }
 
         $cart['order']['sub_total'] = max(0, $cart['order']['sub_total'] - $total_dicount_availed);
-        $cart['order']['total_cost'] = max(0, $cart['order']['total_cost'] - $total_dicount_availed);
+        $cart['order']['total_cost'] = $cart['order']['shipment_total']
+                                        + $cart['order']['sales_tax_total']
+                                        + $cart['order']['sub_total'];
+                                        
         $cart['order']['total_promo_discount'] = $total_dicount_availed;
 
         $cart['promo_details'] = [
