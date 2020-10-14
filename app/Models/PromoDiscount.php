@@ -43,7 +43,7 @@ class PromoDiscount extends Model
         else {
 
             // check if promo applies on the whole order or on individual products
-            $promo_apply = $promo_details['apply_on'];
+            $promo_apply = $promo_details['discount_details']['apply_on'];
             if($promo_apply == Config::get('meta.discount_on_products')) {
                 $cart = self::add_promo_discount($valid_SKUs_for_discount, $cart, $promo_details['discount_details']);
             }
@@ -78,8 +78,8 @@ class PromoDiscount extends Model
     private static function apply_discount_on_total($cart, $promo_details) {
 
         $promo_type = $promo_details['type'];
-        $total_product_price_before_discount = $promo_details['order']['sub_total'];
-        $total_order_price_before_discount = $promo_details['order']['total_cost'];
+        $total_product_price_before_discount = $cart['order']['sub_total'];
+        $total_order_price_before_discount = $cart['order']['total_cost'];
         $promo_discount = 0;
 
         if ($promo_type == Config::get('meta.discount_percent')) {
