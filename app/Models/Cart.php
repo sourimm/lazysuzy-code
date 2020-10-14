@@ -442,6 +442,15 @@ class Cart extends Model
         if (isset($promo_code))
             $res = PromoDiscount::calculate_discount($res, $promo_code);
 
+
+        // again calculate sales tax because we need sales tax to be calculated 
+        // on discounted values 
+        
+        if ($sales_shipping)
+            $res['order']['sales_tax_total'] = ($res['order']['sub_total'] + $res['order']['shipment_total']) * $sales_tax;
+        else
+            $res['order']['sales_tax_total'] = $res['order']['sub_total'] * $sales_tax;
+
         $res['order']['sales_tax_total'] = round((float) $res['order']['sales_tax_total'], 2);
         $res['order']['sub_total'] = round((float) $res['order']['sub_total'], 2);
         $res['order']['shipment_total'] = round((float) $res['order']['shipment_total'], 2);
