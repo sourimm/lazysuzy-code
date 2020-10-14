@@ -34,6 +34,7 @@ class PromoDiscount extends Model
 
         $promo_details = $promo_status['details'];
         $valid_SKUs_for_discount = self::LSIDs_allowed($cart, $promo_details['discount_details']);
+        $total_dicount_availed = 0;
         
         if(sizeof($valid_SKUs_for_discount) == 0) {
            $cart['promo_details']['error_msg'] = "Sorry! This coupon is not applicable on any product in your cart";
@@ -41,19 +42,27 @@ class PromoDiscount extends Model
         }
         else {
 
-            $cart = self::add_promo_discount($valid_SKUs_for_discount, $cart, $promo_details['discount_details']);
+            // check if promo applies on the whole order or on individual products
+            $promo_apply = $promo_details['apply_on'];
+            if($promo_apply == Config::get('meta.discount_on_products')) {
+                $cart = self::add_promo_discount($valid_SKUs_for_discount, $cart, $promo_details['discount_details']);
+            }
+            else {
+                // if promo is to be applied on total order
+                // then we just substract the discount amount from the total_cost 
+                $total_dicount_availed = self::apply_discount_on_total($cart, $promo_details['discount_details']);
+            }
         }
 
         // every product will have promo discount in it's object 
         // ['order'] object still has total price so reduce the price from the 
         // orders object data here
-        $total_dicount_availed = 0;
         foreach($cart['products'] as $product) {
             $total_dicount_availed += isset($product->promo_discount) ? $product->promo_discount : 0;
         }
 
-        $cart['order']['sub_total'] = $cart['order']['sub_total'] - $total_dicount_availed;
-        $cart['order']['total_cost'] = $cart['order']['total_cost'] - $total_dicount_availed;
+        $cart['order']['sub_total'] = max(0, $cart['order']['sub_total'] - $total_dicount_availed);
+        $cart['order']['total_cost'] = max(0, $cart['order']['total_cost'] - $total_dicount_availed);
         $cart['order']['total_promo_discount'] = $total_dicount_availed;
 
         $cart['promo_details'] = [
@@ -66,8 +75,25 @@ class PromoDiscount extends Model
         return $cart;
     }
 
+    private static function apply_discount_on_total($cart, $promo_details) {
+
+        $promo_type = $promo_details['type'];
+        $total_product_price_before_discount = $promo_details['order']['sub_total'];
+        $total_order_price_before_discount = $promo_details['order']['total_cost'];
+        $promo_discount = 0;
+
+        if ($promo_type == Config::get('meta.discount_percent')) {
+            $promo_discount = $total_order_price_before_discount * ((float) $promo_details['value'] / 100);
+        } else if ($promo_type == Config::get('meta.discount_flat')) {
+            $promo_discount = round((float)$promo_details['value'], 2);
+        }
+
+        return round($promo_discount, 2);
+    }
+
     private static function add_promo_discount($applicable_SKUs, $cart, $promo_details) {
 
+        // check if promo is percentage type or flat type
         $promo_type = $promo_details['type'];
         $total_promo_discount = 0;
         foreach($cart['products'] as &$product) {

@@ -10,5 +10,7 @@
         ],
         'dimension_range_difference' => 10,
         'discount_percent' => 'pct',
-        'discount_flat' => 'amt'
+        'discount_flat' => 'amt',
+        'discount_on_products' => 'PRODUCTS',
+        'discount_on_total' => 'TOTAL'
     ];
