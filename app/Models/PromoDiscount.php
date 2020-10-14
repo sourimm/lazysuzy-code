@@ -79,11 +79,10 @@ class PromoDiscount extends Model
 
         $promo_type = $promo_details['type'];
         $total_product_price_before_discount = $cart['order']['sub_total'];
-        $total_order_price_before_discount = $cart['order']['total_cost'];
         $promo_discount = 0;
 
         if ($promo_type == Config::get('meta.discount_percent')) {
-            $promo_discount = $total_order_price_before_discount * ((float) $promo_details['value'] / 100);
+            $promo_discount = $total_product_price_before_discount * ((float) $promo_details['value'] / 100);
         } else if ($promo_type == Config::get('meta.discount_flat')) {
             $promo_discount = round((float)$promo_details['value'], 2);
         }
