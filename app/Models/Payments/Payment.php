@@ -41,8 +41,9 @@ class Payment extends Model
         $mail_data['username'] = $username;
 
         $shipping_state = $req->input('shipping_state');
+        $promo_code = $req->input('promo');
 
-        $cart = Cart::cart($shipping_state);
+        $cart = Cart::cart($shipping_state, $promo_code);
 
         // generte and random string of length 5
         // handle edge case, if there are more than 100 collisions then shift to length +1 
