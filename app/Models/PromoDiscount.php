@@ -91,7 +91,7 @@ class PromoDiscount extends Model
         }
 
         if($total_product_price_before_discount - $promo_discount_value <= 0)
-            $promo_discount = $promo_discount_value - $total_product_price_before_discount;
+            $promo_discount = $total_product_price_before_discount;
 
         return round($promo_discount, 2);
     }
