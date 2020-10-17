@@ -199,7 +199,7 @@ class PromoDiscount extends Model
                     $status['details']['discount_details'] = $promo_details;
                     return $status;
                 } else {
-                    $status['details']['error_msg'] = 'Sorry! This coupon is not allowed for you.';
+                    $status['details']['error_msg'] = 'Please sign in with a valid email to use this promo code.';
                     return $status;
                 }
             } else {
@@ -224,16 +224,16 @@ class PromoDiscount extends Model
 
         $user_mail = $user->email;
         $domain = explode("@", $user_mail);
-        
+        $allowed_domains = explode(",", $promo_details['special_users']);
+
+        if (in_array("*", $allowed_domains))
+            return true;
+
         if(sizeof($domain) != 2)
             return false;
 
         // abs@gmail.com domain = gmail
         $domain = explode(".", $domain[1])[0];
-        $allowed_domains = explode(",", $promo_details['special_users']);
-        
-        if(in_array("*", $allowed_domains))
-            return true;
         
         return in_array($domain, $allowed_domains);
     }
