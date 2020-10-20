@@ -104,4 +104,16 @@ class Wishlist extends Model {
         }
         return $result;
     }
+
+    public static function is_wishlisted($user, $sku) {
+
+        $user_id  = $user->id;
+        $product_sku = $sku;
+
+        return DB::table("user_wishlists")
+            ->where("product_id", $product_sku)
+            ->where("user_id", $user_id)
+            ->where("is_active", 1)
+            ->exists();
+    }
 }

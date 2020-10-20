@@ -2298,9 +2298,10 @@ class Product extends Model
 
         $variations_data = Product::get_variations((object)$prod[0], $westelm_variations_data, false);
         $prod[0] = (object) array_merge((array)$prod[0], $product_inventory_details);
+        $is_wishlisted = Wishlist::is_wishlisted($user, $sku);
         return [
             "seo_data" => Product::product_seo($sku, $prod[0]->LS_ID),
-            "product" => Product::get_details($prod[0], $variations_data)
+            "product" => Product::get_details($prod[0], $variations_data, false, $is_wishlisted)
         ];
     }
 
