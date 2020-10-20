@@ -90,7 +90,7 @@ class Wishlist extends Model {
             if ($update) {
                 return [
                     "status" => true,
-                    "msg" => "Unmark Success"
+                    "msg" => "Un-mark Success"
                 ];
             } else {
                 return [
