@@ -125,7 +125,7 @@ class DimensionsFilter extends Model
             if(isset($all_filters[strtolower($obj['label']) . '_to'])) {
                 $to = $all_filters[strtolower($obj['label']) . '_to']; // $to = array of values
                 $from = $all_filters[strtolower($obj['label']) . '_from']; // from = array of values
-                
+            
                 foreach($ranges as &$range) {
                     foreach($to as $index => $val) {
                         
@@ -157,6 +157,11 @@ class DimensionsFilter extends Model
         
         if(!isset($lower_bound) || !isset($upper_bound))
             return [];
+
+        // round lower and upper limit to generate asthetic ranges 
+        // like 2.5 to 34 will be converted to 0 to 40
+        $lower_bound = floor((float) $lower_bound / 10) * 10;
+        $upper_bound = ceil((float) ($upper_bound / 10) + 0.1) * 10;
 
         $ranges = [];
         $dimension_range_difference = Config::get('meta.dimension_range_difference');
