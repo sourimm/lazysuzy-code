@@ -2138,7 +2138,19 @@ class Product extends Model
         $rows = DB::table(Config::get('tables.LS_ID_mapping'))
             ->whereIn('LS_ID', explode(",", $ls_id))
             ->get();
-
+            
+        $product_details = DB::table(Config::get('tables.master_table'))
+            ->select([ 
+                Config::get('tables.master_table') .".product_name", 
+                Config::get('tables.master_brands') .".name as brand_name"
+                ])->join(Config::get('tables.master_brands'), 
+                        Config::get('tables.master_table') . ".brand", 
+                        "=",
+                        Config::get('tables.master_brands') . ".value"
+                    )->where(Config::get('tables.master_table') . ".product_sku", $sku)
+                    ->get();
+        
+            
         $d = null;
         foreach ($rows as $row) {
             if (
@@ -2151,14 +2163,20 @@ class Product extends Model
             }
         }
 
-        if ($d != null)
+        if ($d != null || sizeof($product_details) == 0) {
+            if (sizeof($product_details) >= 1) {
+                $product_details = $product_details[0];
+            } 
             return  [
                 "page_title" => $d->cat_name_long,
                 "full_title" => $d->dept_name_long . " "  . $d->cat_name_short,
                 "email_title" => $d->filter_label,
                 "description" => "Search hundreds of " . $d->cat_name_long  . " from top brands at once. Add to your room designs with your own design boards.",
-                "image_url" => Product::$base_siteurl . $d->cat_image
+                "image_url" => Product::$base_siteurl . $d->cat_image,
+                "product_name" => $product_details->product_name,
+                "brand" => $product_details->brand_name
             ];
+        }
 
         return [];
     }
