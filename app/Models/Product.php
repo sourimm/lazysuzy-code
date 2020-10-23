@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Collections;
 use App\Http\Controllers\ProductController;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Config;
@@ -1511,6 +1512,7 @@ class Product extends Model
                 }
             }
 
+            $data['collections'] = Collections::get_collections($product->product_sku, $product->collection, $product->brand);
             $data['set'] = $children;
             $data['description'] = in_array($product->name, $desc_BRANDS)  ? Product::format_desc_new($product->product_description) : preg_split("/\\[US\\]|<br>|\\n/", $product->product_description);
 
