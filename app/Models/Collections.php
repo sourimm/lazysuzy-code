@@ -44,4 +44,46 @@ class Collections extends Model
         
         return $collections;
     }  
+
+    /**
+     * GET /api/collections?collection=xx
+     * Send details for xx collection via listed endpoint
+     *
+     * @param [type] $collection
+     * @return void
+     */
+    public static function get_collection_details($collection) {
+
+        $collections_table = Config::get('tables.collections');
+        $collection_detail_count = Config::get('tables.collection_detail_count');
+        $collection_details = [];
+        $row = DB::table($collections_table)->where('value', $collection)->get();
+
+        if(sizeof($row) == 0) 
+            return $collection_details;
+
+        $row = $row[0];
+        $collection_details['head_description'] = $row->desc_header;
+        $collection_details['cover_details'] = [
+            'image' => env('APP_URL') . $row->image_cover,
+            'description' => $row->desc_cover
+        ];
+        $collection_details['sub_details'] = [];
+
+        for($i = 1; $i <= $collection_detail_count; $i++) {
+            $desc_key = 'desc_sub_' . $i;
+            $img_key = 'image_sub_' . $i;
+
+
+            if(strlen($row->$img_key) > 0 && strlen($row->$desc_key) > 0) {
+                $collection_details['sub_details'][] = [
+                    'image' => env('APP_URL') . $row->$img_key,
+                    'description' => $row->$desc_key
+                ];
+            }
+            
+        }
+
+        return $collection_details;
+    }
 }

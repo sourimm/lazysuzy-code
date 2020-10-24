@@ -42,6 +42,8 @@
         'LS_ID_mapping' => 'mapping_core',
         'master_table' => 'master_data',
         'master_brands' => 'master_brands',
+        'collections' => 'master_collections',
+        'collection_detail_count' => 3,
         'dimension_columns' => ['dim_height', 'dim_width', 'dim_length', 'dim_depth', 'dim_diameter', 'dim_square'],
         'dimension_labels' => [
             'dim_height' => 'Height', 

@@ -11,6 +11,7 @@ use App\Models\Subscribe;
 use App\Models\Department;
 use App\Models\User;
 use App\Models\Cart;
+use App\Models\Collections;
 use App\Models\Inventory;
 
 use Auth;
@@ -183,5 +184,14 @@ class API extends Controller
     public function get_inventory()
     {
         return Inventory::get();
+    }
+
+    public function get_collection_details(Request $request)
+    {   
+        $collection_key = $request->input('collection');
+        if(!isset($collection_key) || strlen($collection_key) == 0)
+            return [];
+
+        return Collections::get_collection_details($collection_key);
     }
 }

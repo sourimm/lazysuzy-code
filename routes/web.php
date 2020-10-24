@@ -78,6 +78,8 @@ Route::get('/api/user/details', 'API@user_details')->middleware(['cors', 'auth:a
 
 
 
+Route::get('/api/collection', 'API@get_collection_details')->middleware('auth:api')->name('get-collection-details');
+
 Route::get('/api/brand/{key?}', 'API@get_all_brands')->middleware('auth:api')->name('get_all_brands');
 Route::get('/api/categories/{dept}', 'API@get_categories')->middleware('auth:api')->name('cat-api');
 Route::get('/api/all-departments', 'DepartmentController@index')->middleware('auth:api')->name('get_all_departments');
