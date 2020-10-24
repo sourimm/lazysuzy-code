@@ -194,4 +194,9 @@ class API extends Controller
 
         return Collections::get_collection_details($collection_key);
     }
+
+    public function get_all_collections() {
+
+        return Collections::get_collection_list();
+    }
 }

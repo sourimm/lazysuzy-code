@@ -10,8 +10,8 @@ use Illuminate\Support\Facades\DB;
 
 class Collections extends Model
 {
-    public static function get_collections($sku, $collection_key, $brand) {
 
+    public static function get_collections($sku, $collection_key, $brand) {
         $collections = [];
         if(!isset($collection_key) || strlen($collection_key) == 0)
             return $collections;
@@ -54,10 +54,10 @@ class Collections extends Model
      */
     public static function get_collection_details($collection) {
 
-        $collections_table = Config::get('tables.collections');
+        $collection_table = Config::get('tables.collections'); 
         $collection_detail_count = Config::get('tables.collection_detail_count');
         $collection_details = [];
-        $row = DB::table($collections_table)->where('value', $collection)->get();
+        $row = DB::table($collection_table)->where('value', $collection)->get();
 
         if(sizeof($row) == 0) 
             return $collection_details;
@@ -85,5 +85,28 @@ class Collections extends Model
         }
 
         return $collection_details;
+    }
+
+
+    /**
+     * List of all available collections
+     *
+     * @return void
+     */
+    public static function get_collection_list() {
+        $collection_table = Config::get('tables.collections'); 
+        $collection_list = [];
+        $to_select = ["name", "value"];
+        $rows = DB::table($collection_table)->select($to_select)
+            ->where('is_active', 1)->get();
+
+        foreach($rows as $row) {
+            $collection_list[] = [
+                "name" => $row->name,
+                "value" => $row->value
+            ];
+        }
+
+        return $collection_list;
     }
 }

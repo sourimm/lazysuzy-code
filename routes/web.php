@@ -77,7 +77,7 @@ Route::get('/api/get-user', 'API@get_user')->middleware(['cors', 'auth:api'])->n
 Route::get('/api/user/details', 'API@user_details')->middleware(['cors', 'auth:api'])->name('user-details');
 
 
-
+Route::get('/api/collections', 'API@get_all_collections')->middleware('auth:api')->name('get-collections');
 Route::get('/api/collection', 'API@get_collection_details')->middleware('auth:api')->name('get-collection-details');
 
 Route::get('/api/brand/{key?}', 'API@get_all_brands')->middleware('auth:api')->name('get_all_brands');
