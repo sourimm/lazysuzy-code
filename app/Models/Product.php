@@ -279,6 +279,7 @@ class Product extends Model
 
         $query = $query->whereRaw('LS_ID REGEXP "' . implode("|", $LS_IDs) . '"');
         $query = DimensionsFilter::apply_dimensions_filters($query, $all_filters);
+        $query = CollectionFilter::apply_collections_filter($query, $all_filters);
 
         // 7. sort_type
         if (isset($sort_type)) {

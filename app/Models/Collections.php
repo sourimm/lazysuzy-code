@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
@@ -50,7 +49,7 @@ class Collections extends Model
      * Send details for xx collection via listed endpoint
      *
      * @param [type] $collection
-     * @return void
+     * @return collection_details 
      */
     public static function get_collection_details($collection) {
 
@@ -91,7 +90,7 @@ class Collections extends Model
     /**
      * List of all available collections
      *
-     * @return void
+     * @return list_of_collections
      */
     public static function get_collection_list() {
         $collection_table = Config::get('tables.collections'); 
