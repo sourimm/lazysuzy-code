@@ -95,13 +95,13 @@ class Collections extends Model
     public static function get_collection_list() {
         $collection_table = Config::get('tables.collections'); 
         $collection_list = [];
-        $to_select = ["name", "value"];
+        $to_select = ["name", "value", "brand"];
         $rows = DB::table($collection_table)->select($to_select)
             ->where('is_active', 1)->get();
 
         foreach($rows as $row) {
             $collection_list[] = [
-                "name" => $row->name,
+                "name" => $row->name . " X " . $row->brand,
                 "value" => $row->value
             ];
         }
