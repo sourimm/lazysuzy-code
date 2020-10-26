@@ -1299,6 +1299,7 @@ class Product extends Model
             "diameter" => [$dimension_filter['dim_diameter']],
             "square" => [$dimension_filter['dim_square']],
             "depth" => [$dimension_filter['dim_depth']],
+            "collection" => isset($all_filters['collection']) ? $all_filters['collection'] : null
         ];
 
         //$dept, $cat, $subCat
