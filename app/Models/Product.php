@@ -377,6 +377,11 @@ class Product extends Model
         $LS_IDs = $LS_IDs->distinct("LS_ID")
             ->get();
 
+        // for collections filter, only show those catgeories that are available for 
+        // the given collection values 
+        // this will be empty if collections filter is not applied
+        $collection_catgeory_LS_IDs = Collections::get_LSIDs($all_filters);
+
         /* // get product categories filters
 
          * @param bool $dept_name_url_api
@@ -410,7 +415,11 @@ class Product extends Model
         foreach ($LS_IDs as $LS_ID) {
             $IDs = explode(",", $LS_ID->LS_ID);
             foreach ($IDs as $ID) {
-                if (isset($categories[$ID])) {
+                if (( empty($collection_catgeory_LS_IDs) && isset($categories[$ID]))
+                    || (!empty($collection_catgeory_LS_IDs) 
+                        && in_array($ID, $collection_catgeory_LS_IDs) 
+                        && isset($categories[$ID]))
+                ) {
                     if (in_array($categories[$ID]['value'], $in_filter_categories)) {
                         $categories[$ID]['checked'] = true;
                     }
@@ -922,6 +931,7 @@ class Product extends Model
             $colors_from_request = implode("|", $all_filters['color']);
             $products = $products->whereRaw('color REGEXP "' . $colors_from_request . '"');
         }  */
+
 
         $products = $products->get();
 

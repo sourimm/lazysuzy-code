@@ -109,4 +109,34 @@ class Collections extends Model
 
         return $collection_list;
     }
+    
+    /**
+     * retunrn all the LSIDs that are there for the available collection options
+     *
+     * @param [type] $all_filters
+     * @return array
+     */
+    public static function get_LSIDs($all_filters) {
+
+        if(!isset($all_filters['collection']) || sizeof($all_filters['collection']) == 0)
+            return [];
+        
+        $ls_ids = DB::table(Config::get('tables.master_table'))
+            ->select('LS_ID')
+            ->whereRaw('collection REGEXP "' . implode("|", $all_filters['collection']) . '"')
+            ->get();
+
+        $collection_LSIDs = [];
+
+        foreach($ls_ids as $id) {
+            $arr = explode(",", $id->LS_ID);
+            foreach($arr as $id_a) {
+                if(strlen($id_a) > 0 && !in_array($id_a, $collection_LSIDs)) {
+                    $collection_LSIDs[] = $id_a;
+                }
+            } 
+        }
+
+        return $collection_LSIDs;
+    }
 }
