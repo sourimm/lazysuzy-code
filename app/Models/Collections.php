@@ -62,6 +62,7 @@ class Collections extends Model
             return $collection_details;
 
         $row = $row[0];
+        $collection_details['name'] = $row->name;
         $collection_details['head_description'] = $row->desc_header;
         $collection_details['cover_details'] = [
             'image' => env('APP_URL') . $row->image_cover,
