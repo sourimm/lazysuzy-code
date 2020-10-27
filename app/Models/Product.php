@@ -282,7 +282,8 @@ class Product extends Model
         $query = CollectionFilter::apply_collections_filter($query, $all_filters);
 
         // 7. sort_type
-        if (isset($sort_type)) {
+        if (isset($sort_type) || (isset($all_filters['collection']) 
+            && sizeof($all_filters['collection']) > 0)) {
 
             if ($sort_type == $PRICE_ASC) {
                 $query = $query->orderBy('min_price', 'asc');

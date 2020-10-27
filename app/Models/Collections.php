@@ -101,7 +101,7 @@ class Collections extends Model
 
         foreach($rows as $row) {
             $collection_list[] = [
-                "name" => $row->name . " X " . $row->brand,
+                "name" => $row->name . " x " . $row->brand,
                 "value" => $row->value
             ];
         }
