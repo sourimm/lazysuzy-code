@@ -91,7 +91,7 @@ class DimensionsFilter extends Model
             }
         }
 
-        $products = CollectionFilter::apply_dimensions_filters($products, $all_filters);
+        $products = CollectionFilter::apply_collections_filter($products, $all_filters);
         // get all min and max values for all dimensions columns
         foreach($dim_columns as $column) {
             //$products = $products->where($column, '>', 0);
