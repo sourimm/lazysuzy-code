@@ -1452,7 +1452,7 @@ class Product extends Model
             //    'features'         => preg_split("/\\[US\\]|<br>|\\n/", $product->product_feature),
             'collection'       => $product->collection,
             //    'set'              => $product->product_set,
-            'condition'        => $product->product_condition,
+            'condition'        => (isset($product->product_condition) || strlen($product->product_condition) > 0) ? $product->product_condition : null,
             //    'created_date'     => $product->created_date,
             //    'updated_date'     => $product->updated_date,
             //    'on_server_images' => array_map([__CLASS__, "baseUrl"], preg_split("/,|\\[US\\]/", $product->product_images)),
