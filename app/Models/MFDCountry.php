@@ -4,27 +4,26 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
-use PhpParser\ErrorHandler\Collecting;
 
-class MaterialFilter extends Model
+class MFDCountry extends Model
 {
-    
     /**
-     * Apply material filter on the product listing API
+     * Apply mfg_country filter on the product listing API
      *
      * @param [type] $query
      * @param [type] $all_filters
      * @return DBQueryIntance
      */
-    public static function apply($query, $all_filters) {
+    public static function apply($query, $all_filters)
+    {
 
-        if(!isset($all_filters['material']) || sizeof($all_filters['material']) == 0)
+
+        if (!isset($all_filters['mfg_country']) || sizeof($all_filters['mfg_country']) == 0)
             return $query;
 
-        $query = $query->whereRaw('material REGEXP "' . implode("|", $all_filters['material']) . '"');
+        $query = $query->whereRaw('mfg_country REGEXP "' . implode("|", $all_filters['mfg_country']) . '"');
         return $query;
     }
-
 
     /**
      * Send filter data that will be shown on the front end.
@@ -35,20 +34,21 @@ class MaterialFilter extends Model
      * @param [type] $all_filters
      * @return array
      */
-    public static function get_filter_data($dept, $cat, $all_filters) {
+    public static function get_filter_data($dept, $cat, $all_filters)
+    {
 
-        $all_materials = [];
+        $all_mfg_countrys = [];
 
-        // get distinct possible values for material filter
-        $rows = DB::table("master_data")->whereRaw('material IS NOT NULL')
-            ->whereRaw("LENGTH(material) > 0")
-            ->distinct()
-            ->get(['material']);
+        // get distinct possible values for mfg_country filter
+        $rows = DB::table("master_data")->whereRaw('mfg_country IS NOT NULL')
+        ->whereRaw("LENGTH(mfg_country) > 0")
+        ->distinct()
+            ->get(['mfg_country']);
         $LS_IDs = Product::get_dept_cat_LS_ID_arr($dept, $cat);
         $products = DB::table("master_data")
-        ->selectRaw("count(product_name) AS products, material")
-        ->whereRaw('material IS NOT NULL')
-        ->whereRaw('LENGTH(material) > 0');
+        ->selectRaw("count(product_name) AS products, mfg_country")
+        ->whereRaw('mfg_country IS NOT NULL')
+        ->whereRaw('LENGTH(mfg_country) > 0');
 
 
         if (sizeof($all_filters) != 0) {
@@ -109,22 +109,20 @@ class MaterialFilter extends Model
 
             $products = DimensionsFilter::apply($products, $all_filters);
             $products = CollectionFilter::apply($products, $all_filters);
-            $products = FabricFilter::apply($products, $all_filters);
-            $products = MFDCountry::apply($products, $all_filters);
+            $products = MaterialFilter::apply($products, $all_filters);
             $products = DesignerFilter::apply($products, $all_filters);
-
         }
 
-        $products = $products->groupBy('material')->get();
+        $products = $products->groupBy('mfg_country')->get();
 
-        // material data can contain comma separated values
+        // mfg_country data can contain comma separated values
         foreach ($rows as $row) {
 
-            $filter_key = $row->material;
+            $filter_key = $row->mfg_country;
             $filter_keys = explode(",", $filter_key);
 
-            foreach($filter_keys as $key) {
-                $all_materials[$key] = [
+            foreach ($filter_keys as $key) {
+                $all_mfg_countrys[$key] = [
                     'name' => trim($key),
                     'value' => trim($key),
                     'count' => 0,
@@ -132,35 +130,33 @@ class MaterialFilter extends Model
                     'checked' => false
                 ];
             }
-            
         }
 
         foreach ($products as $b) {
-            $filter_key = $b->material;
+            $filter_key = $b->mfg_country;
             $filter_keys = explode(",", $filter_key);
-            foreach($filter_keys as $key) {
+            foreach ($filter_keys as $key) {
 
-                if (isset($all_materials[$key])) {
+                if (isset($all_mfg_countrys[$key])) {
 
-                    $all_materials[$key]["enabled"] = true;
-                    if (isset($all_filters['material'])) {
+                    $all_mfg_countrys[$key]["enabled"] = true;
+                    if (isset($all_filters['mfg_country'])) {
                         $filter_key = $key;
-                        if (in_array($filter_key, $all_filters['material'])) {
-                            $all_materials[$key]["checked"] = true;
+                        if (in_array($filter_key, $all_filters['mfg_country'])) {
+                            $all_mfg_countrys[$key]["checked"] = true;
                         }
                     }
 
-                    $all_materials[$key]["count"] += $b->products;
+                    $all_mfg_countrys[$key]["count"] += $b->products;
                 }
-              
             }
         }
 
-        $material_holder = [];
+        $mfg_country_holder = [];
 
-        foreach ($all_materials as $name => $value) {
-            array_push($material_holder, $value);
+        foreach ($all_mfg_countrys as $name => $value) {
+            array_push($mfg_country_holder, $value);
         }
-        return $material_holder;
+        return $mfg_country_holder;
     }
 }

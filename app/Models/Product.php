@@ -280,6 +280,12 @@ class Product extends Model
         $query = $query->whereRaw('LS_ID REGEXP "' . implode("|", $LS_IDs) . '"');
         $query = DimensionsFilter::apply($query, $all_filters);
         $query = CollectionFilter::apply($query, $all_filters);
+        $query = MaterialFilter::apply($query, $all_filters);
+        $query = FabricFilter::apply($query, $all_filters);
+        $query = DesignerFilter::apply($query, $all_filters);
+        $query = MFDCountry::apply($query, $all_filters);
+
+
 
         // 7. sort_type
         if (isset($sort_type) || (isset($all_filters['collection']) 
@@ -464,6 +470,10 @@ class Product extends Model
             $products = $products->whereRaw('LS_ID REGEXP "' . implode("|", $LS_IDs) . '"');
             $products = DimensionsFilter::apply($products, $all_filters);
             $products = CollectionFilter::apply($products, $all_filters);
+            $products = MaterialFilter::apply($products, $all_filters);
+            $products = FabricFilter::apply($products, $all_filters);
+            $products = DesignerFilter::apply($products, $all_filters);
+            $products = MFDCountry::apply($products, $all_filters);
 
 
             if (
@@ -567,6 +577,10 @@ class Product extends Model
             $products = $products->whereRaw('LS_ID REGEXP "' . implode("|", $LS_IDs) . '"');
             $products = DimensionsFilter::apply($products, $all_filters);
             $products = CollectionFilter::apply($products, $all_filters);
+            $products = MaterialFilter::apply($products, $all_filters);
+            $products = FabricFilter::apply($products, $all_filters);
+            $products = DesignerFilter::apply($products, $all_filters);
+            $products = MFDCountry::apply($products, $all_filters);
 
 
             if (
@@ -688,6 +702,10 @@ class Product extends Model
 
             $product_brands = DimensionsFilter::apply($product_brands, $all_filters);
             $product_brands = CollectionFilter::apply($product_brands, $all_filters);
+            $product_brands = MaterialFilter::apply($product_brands, $all_filters);
+            $product_brands = FabricFilter::apply($product_brands, $all_filters);
+            $product_brands = DesignerFilter::apply($product_brands, $all_filters);
+            $product_brands = MFDCountry::apply($product_brands, $all_filters);
 
             if (
                 isset($all_filters['seating'])
@@ -770,6 +788,10 @@ class Product extends Model
         $price = $price->whereRaw('LS_ID REGEXP "' . implode("|", $LS_IDs) . '"');
         $price = DimensionsFilter::apply($price, $all_filters);
         $price = CollectionFilter::apply($price, $all_filters);
+        $price = MaterialFilter::apply($price, $all_filters);
+        $price = FabricFilter::apply($price, $all_filters);
+        $price = DesignerFilter::apply($price, $all_filters);
+        $price = MFDCountry::apply($price, $all_filters);
 
         if (
             isset($all_filters['brand'])
@@ -884,6 +906,11 @@ class Product extends Model
 
         $products = DimensionsFilter::apply($products, $all_filters);
         $products = CollectionFilter::apply($products, $all_filters);
+        $products = MaterialFilter::apply($products, $all_filters);
+        $products = FabricFilter::apply($products, $all_filters);
+        $products = DesignerFilter::apply($products, $all_filters);
+        $products = MFDCountry::apply($products, $all_filters);
+
 
         if (sizeof($all_filters) > 0) {
             if (isset($all_filters['is_board_view']) && $all_filters['is_board_view']) {
@@ -1028,8 +1055,10 @@ class Product extends Model
             ->whereRaw('LS_ID REGEXP "' . implode("|", $LS_IDs) . '"');
         $products = DimensionsFilter::apply($products, $all_filters);
         $products = CollectionFilter::apply($products, $all_filters);
-
-
+        $products = MaterialFilter::apply($products, $all_filters);
+        $products = FabricFilter::apply($products, $all_filters);
+        $products = DesignerFilter::apply($products, $all_filters);
+        $products = MFDCountry::apply($products, $all_filters);
 
         if (sizeof($all_filters) > 0) {
 
@@ -1297,6 +1326,10 @@ class Product extends Model
 
         $dimension_filter = DimensionsFilter::get_filter($dept, $cat, $all_filters);
         $filter_data = [
+            "mfg_country" => MFDCountry::get_filter_data($dept, $cat, $all_filters),
+            "designer" => DesignerFilter::get_filter_data($dept, $cat, $all_filters),
+            "fabric" => FabricFilter::get_filter_data($dept, $cat, $all_filters),
+            "material" => MaterialFilter::get_filter_data($dept, $cat, $all_filters),
             "brand"  => $brand_holder,
             "price"  => $price_holder,
             "type" => $product_type_holder,
