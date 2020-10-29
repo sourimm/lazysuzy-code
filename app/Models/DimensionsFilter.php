@@ -91,7 +91,7 @@ class DimensionsFilter extends Model
             }
         }
 
-        $products = CollectionFilter::apply_collections_filter($products, $all_filters);
+        $products = CollectionFilter::apply($products, $all_filters);
         // get all min and max values for all dimensions columns
         foreach($dim_columns as $column) {
             //$products = $products->where($column, '>', 0);
@@ -183,7 +183,7 @@ class DimensionsFilter extends Model
         return $ranges;
     }
 
-    public static function apply_dimensions_filters($query, $all_filters) {
+    public static function apply($query, $all_filters) {
 
         // get filter_key => column_name mapping 
         $col_to_label_map = Config::get('tables.dimension_labels'); 

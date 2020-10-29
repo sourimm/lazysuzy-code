@@ -278,8 +278,8 @@ class Product extends Model
         }
 
         $query = $query->whereRaw('LS_ID REGEXP "' . implode("|", $LS_IDs) . '"');
-        $query = DimensionsFilter::apply_dimensions_filters($query, $all_filters);
-        $query = CollectionFilter::apply_collections_filter($query, $all_filters);
+        $query = DimensionsFilter::apply($query, $all_filters);
+        $query = CollectionFilter::apply($query, $all_filters);
 
         // 7. sort_type
         if (isset($sort_type) || (isset($all_filters['collection']) 
@@ -462,8 +462,8 @@ class Product extends Model
             }
 
             $products = $products->whereRaw('LS_ID REGEXP "' . implode("|", $LS_IDs) . '"');
-            $products = DimensionsFilter::apply_dimensions_filters($products, $all_filters);
-            $products = CollectionFilter::apply_collections_filter($products, $all_filters);
+            $products = DimensionsFilter::apply($products, $all_filters);
+            $products = CollectionFilter::apply($products, $all_filters);
 
 
             if (
@@ -565,8 +565,8 @@ class Product extends Model
             }
 
             $products = $products->whereRaw('LS_ID REGEXP "' . implode("|", $LS_IDs) . '"');
-            $products = DimensionsFilter::apply_dimensions_filters($products, $all_filters);
-            $products = CollectionFilter::apply_collections_filter($products, $all_filters);
+            $products = DimensionsFilter::apply($products, $all_filters);
+            $products = CollectionFilter::apply($products, $all_filters);
 
 
             if (
@@ -686,8 +686,8 @@ class Product extends Model
             $product_brands = $product_brands
                 ->whereRaw('LS_ID REGEXP "' . implode("|", $LS_IDs) . '"');
 
-            $product_brands = DimensionsFilter::apply_dimensions_filters($product_brands, $all_filters);
-            $product_brands = CollectionFilter::apply_collections_filter($product_brands, $all_filters);
+            $product_brands = DimensionsFilter::apply($product_brands, $all_filters);
+            $product_brands = CollectionFilter::apply($product_brands, $all_filters);
 
             if (
                 isset($all_filters['seating'])
@@ -768,8 +768,8 @@ class Product extends Model
         }
         
         $price = $price->whereRaw('LS_ID REGEXP "' . implode("|", $LS_IDs) . '"');
-        $price = DimensionsFilter::apply_dimensions_filters($price, $all_filters);
-        $price = CollectionFilter::apply_collections_filter($price, $all_filters);
+        $price = DimensionsFilter::apply($price, $all_filters);
+        $price = CollectionFilter::apply($price, $all_filters);
 
         if (
             isset($all_filters['brand'])
@@ -882,8 +882,8 @@ class Product extends Model
             ->select(['LS_ID', 'color'])
             ->whereRaw('LS_ID REGEXP "' . implode("|", $LS_IDs) . '"');
 
-        $products = DimensionsFilter::apply_dimensions_filters($products, $all_filters);
-        $products = CollectionFilter::apply_collections_filter($products, $all_filters);
+        $products = DimensionsFilter::apply($products, $all_filters);
+        $products = CollectionFilter::apply($products, $all_filters);
 
         if (sizeof($all_filters) > 0) {
             if (isset($all_filters['is_board_view']) && $all_filters['is_board_view']) {
@@ -1026,8 +1026,8 @@ class Product extends Model
         $products = DB::table("master_data")
             ->select(['LS_ID', 'color'])
             ->whereRaw('LS_ID REGEXP "' . implode("|", $LS_IDs) . '"');
-        $products = DimensionsFilter::apply_dimensions_filters($products, $all_filters);
-        $products = CollectionFilter::apply_collections_filter($products, $all_filters);
+        $products = DimensionsFilter::apply($products, $all_filters);
+        $products = CollectionFilter::apply($products, $all_filters);
 
 
 

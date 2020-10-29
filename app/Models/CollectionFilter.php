@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\DB;
 class CollectionFilter extends Model
 {
 
-    public static function apply_collections_filter($query, $all_filters) {
+    public static function apply($query, $all_filters) {
 
         if(!isset($all_filters['collection']) 
             || sizeof($all_filters['collection']) == 0) {
