@@ -1326,10 +1326,6 @@ class Product extends Model
 
         $dimension_filter = DimensionsFilter::get_filter($dept, $cat, $all_filters);
         $filter_data = [
-            "mfg_country" => MFDCountry::get_filter_data($dept, $cat, $all_filters),
-            "designer" => DesignerFilter::get_filter_data($dept, $cat, $all_filters),
-            "fabric" => FabricFilter::get_filter_data($dept, $cat, $all_filters),
-            "material" => MaterialFilter::get_filter_data($dept, $cat, $all_filters),
             "brand"  => $brand_holder,
             "price"  => $price_holder,
             "type" => $product_type_holder,
@@ -1343,7 +1339,11 @@ class Product extends Model
             "diameter" => [$dimension_filter['dim_diameter']],
             "square" => [$dimension_filter['dim_square']],
             "depth" => [$dimension_filter['dim_depth']],
-            "collection" => isset($all_filters['collection']) ? $all_filters['collection'] : null
+            "collection" => isset($all_filters['collection']) ? $all_filters['collection'] : null,
+            "mfg_country" => MFDCountry::get_filter_data($dept, $cat, $all_filters),
+            "designer" => DesignerFilter::get_filter_data($dept, $cat, $all_filters),
+            "fabric" => FabricFilter::get_filter_data($dept, $cat, $all_filters),
+            "material" => MaterialFilter::get_filter_data($dept, $cat, $all_filters),
         ];
 
         //$dept, $cat, $subCat
@@ -1520,7 +1520,6 @@ class Product extends Model
                 }
             }
             
-
             $data['variations'] = $variations;
         }
 

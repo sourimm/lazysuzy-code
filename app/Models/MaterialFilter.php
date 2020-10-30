@@ -33,7 +33,7 @@ class MaterialFilter extends Model
      * @param [type] $dept
      * @param [type] $cat
      * @param [type] $all_filters
-     * @return array
+     * @return Array
      */
     public static function get_filter_data($dept, $cat, $all_filters) {
 
