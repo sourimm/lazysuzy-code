@@ -115,7 +115,7 @@ class PromoDiscount extends Model
                 
                 $promo_discount = round($promo_discount, 2);
                 $price_after_discount = max(0, $total_product_cost_before_discount - $promo_discount);
-                $product->promo_discount = $price_after_discount <= 0 ? ($promo_discount - $total_product_cost_before_discount) : $promo_discount;
+                $product->promo_discount = $price_after_discount <= 0 ? ($total_product_cost_before_discount) : $promo_discount;
 
                 $product->total_price = $price_after_discount;
                 $product->original_total_price = $total_product_cost_before_discount;
