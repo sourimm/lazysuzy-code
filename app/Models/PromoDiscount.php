@@ -276,8 +276,10 @@ class PromoDiscount extends Model
 
         // if promo is valid for all categories 
         // return all in-cart SKUs
-        if(in_array("*", $promo_lsids))
+        if(in_array("*", $promo_lsids)) {
+            $in_cart_skus = self::check_for_mfg_country($in_cart_skus, $cart['products'], $promo_details);
             return $in_cart_skus;
+        }
 
         $sku_available_for_promo = [];
         foreach($sku_lsid_map as $sku => $lsid_str) {
@@ -288,7 +290,54 @@ class PromoDiscount extends Model
             }
         }
         
+
+        $sku_available_for_promo = self::check_for_mfg_country($sku_available_for_promo, $cart['products'], $promo_details);
         return $sku_available_for_promo;
+    }
+
+    /**
+     * filter SKUs that pass the mfg_country check
+     * mfg country for the product must match the mfg country there in the inventory table
+     *
+     * @param [type] $valid_skus
+     * @return Array
+     */
+    public static function check_for_mfg_country($valid_skus, $cart_products, $promo_details) {
+        $allowed_SKUs = [];
+
+        // if there is no mfg_contry in the inventory table then
+        // no need to add this check
+        
+        //echo json_encode($promo_details);
+        if(!isset($promo_details['mfg_country'])
+             || strlen($promo_details['mfg_country']) == 0)
+            return $valid_skus;
+
+        foreach($cart_products as $product) {
+            
+            if(isset($product->mfg_country)) {
+
+                if(strlen($product->mfg_country) == 0) {
+                    $allowed_SKUs[] = $product->product_sku;
+                    break;
+                }
+
+                $product_mfg_contries = explode(",", strtolower($product->mfg_country));
+                $inventory_product_mfg_contries = explode(",", strtolower($promo_details['mfg_country']));
+
+                foreach($product_mfg_contries as $country) {
+
+                    if(in_array($country, $inventory_product_mfg_contries)) {
+                        
+                    }
+                }
+            }
+            else {
+                $allowed_SKUs[] = $product->product_sku;    
+            }
+        }
+
+        return $allowed_SKUs;
     }
 
     /**

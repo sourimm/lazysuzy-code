@@ -204,6 +204,7 @@ class Cart extends Model
                 "site_name",
                 "reviews",
                 "rating",
+                "mfg_country",
                 "product_description",
                 "master_brands.value as site_value",
                 "master_brands.name as site"
@@ -260,6 +261,7 @@ class Cart extends Model
                     $vrow->description = $row->product_description;
                     $vrow->site = $row->site;
                     $vrow->brand_id = $row->site_name;
+                    $vrow->mfg_county = $row->mfg_country;
 
                     $cart[] = $vrow;
                 }
@@ -282,6 +284,7 @@ class Cart extends Model
                 'master_data.product_description',
                 'master_data.reviews',
                 'master_data.rating',
+                'master_data.mfg_country',
                 'master_brands.name as site',
                 'master_brands.value as brand_id',
                 'lz_ship_code.label'

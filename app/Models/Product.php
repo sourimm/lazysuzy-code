@@ -1331,8 +1331,8 @@ class Product extends Model
             "type" => $product_type_holder,
             "color" => $color_filter,
             "category" => $dept == "all" ? $category_holder : null,
-            "seating" => $seating_filter,
             "shape" => $shape_filter,
+            "seating" => $seating_filter,
             "height" => [$dimension_filter['dim_height']],
             "width" => [$dimension_filter['dim_width']],
             "length" => [$dimension_filter['dim_length']],
@@ -1340,12 +1340,12 @@ class Product extends Model
             "square" => [$dimension_filter['dim_square']],
             "depth" => [$dimension_filter['dim_depth']],
             "collection" => isset($all_filters['collection']) ? $all_filters['collection'] : null,
-            "mfg_country" => MFDCountry::get_filter_data($dept, $cat, $all_filters),
-            "designer" => DesignerFilter::get_filter_data($dept, $cat, $all_filters),
-            "fabric" => FabricFilter::get_filter_data($dept, $cat, $all_filters),
             "material" => MaterialFilter::get_filter_data($dept, $cat, $all_filters),
+            "fabric" => FabricFilter::get_filter_data($dept, $cat, $all_filters),
+            "designer" => DesignerFilter::get_filter_data($dept, $cat, $all_filters),
+            "mfg_country" => MFDCountry::get_filter_data($dept, $cat, $all_filters),
         ];
-
+        
         //$dept, $cat, $subCat
         $dept_info = DB::table("mapping_core");
 
