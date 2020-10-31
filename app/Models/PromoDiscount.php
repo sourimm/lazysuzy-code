@@ -313,9 +313,13 @@ class PromoDiscount extends Model
              || strlen($promo_details['mfg_country']) == 0)
             return $valid_skus;
 
+        if ($promo_details['mfg_country'] == "*")
+            return $valid_skus;
+
+
         foreach($cart_products as $product) {
             
-            if(isset($product->mfg_country)) {
+            if(isset($product->mfg_country) && strlen($product->mfg_country) > 0) {
 
                 if(strlen($product->mfg_country) == 0) {
                     $allowed_SKUs[] = $product->product_sku;
@@ -333,7 +337,8 @@ class PromoDiscount extends Model
                 }
             }
             else {
-                $allowed_SKUs[] = $product->product_sku;    
+                // only those SKU will match which match the mfg_country
+                //$allowed_SKUs[] = $product->product_sku;    
             }
         }
 
