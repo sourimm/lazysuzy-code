@@ -321,18 +321,14 @@ class PromoDiscount extends Model
             
             if(isset($product->mfg_country) && strlen($product->mfg_country) > 0) {
 
-                if(strlen($product->mfg_country) == 0) {
-                    $allowed_SKUs[] = $product->product_sku;
-                    break;
-                }
-
                 $product_mfg_contries = explode(",", strtolower($product->mfg_country));
                 $inventory_product_mfg_contries = explode(",", strtolower($promo_details['mfg_country']));
 
                 foreach($product_mfg_contries as $country) {
 
                     if(in_array($country, $inventory_product_mfg_contries)) {
-                        
+                        $allowed_SKUs[] = $product->product_sku;
+                        break;
                     }
                 }
             }
