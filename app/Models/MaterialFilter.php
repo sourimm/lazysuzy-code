@@ -120,12 +120,12 @@ class MaterialFilter extends Model
         // material data can contain comma separated values
         foreach ($rows as $row) {
 
-            $filter_key = $row->material;
+            $filter_key = strtolower($row->material);
             $filter_keys = explode(",", $filter_key);
 
             foreach($filter_keys as $key) {
                 $all_materials[$key] = [
-                    'name' => trim($key),
+                    'name' => trim(ucwords($key)),
                     'value' => trim($key),
                     'count' => 0,
                     'enabled' => false,
@@ -136,7 +136,7 @@ class MaterialFilter extends Model
         }
 
         foreach ($products as $b) {
-            $filter_key = $b->material;
+            $filter_key = strtolower($b->material);
             $filter_keys = explode(",", $filter_key);
             foreach($filter_keys as $key) {
 
@@ -146,7 +146,7 @@ class MaterialFilter extends Model
                     if (isset($all_filters['material'])) {
                         $filter_key = $key;
                         if (in_array($filter_key, $all_filters['material'])) {
-                            $all_materials[$key]["checked"] = true;
+                            $all_materials[$filter_key]["checked"] = true;
                         }
                     }
 

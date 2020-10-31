@@ -37,7 +37,7 @@ class MFDCountry extends Model
     public static function get_filter_data($dept, $cat, $all_filters)
     {
 
-        $all_mfg_countrys = [];
+        $all_mfg_countries = [];
 
         // get distinct possible values for mfg_country filter
         $rows = DB::table("master_data")->whereRaw('mfg_country IS NOT NULL')
@@ -118,12 +118,12 @@ class MFDCountry extends Model
         // mfg_country data can contain comma separated values
         foreach ($rows as $row) {
 
-            $filter_key = $row->mfg_country;
+            $filter_key = strtolower($row->mfg_country);
             $filter_keys = explode(",", $filter_key);
 
             foreach ($filter_keys as $key) {
-                $all_mfg_countrys[$key] = [
-                    'name' => trim($key),
+                $all_mfg_countries[$key] = [
+                    'name' => ucwords(trim($key)),
                     'value' => trim($key),
                     'count' => 0,
                     'enabled' => false,
@@ -133,28 +133,30 @@ class MFDCountry extends Model
         }
 
         foreach ($products as $b) {
-            $filter_key = $b->mfg_country;
+            $filter_key = strtolower($b->mfg_country);
             $filter_keys = explode(",", $filter_key);
+
             foreach ($filter_keys as $key) {
 
-                if (isset($all_mfg_countrys[$key])) {
+                if (isset($all_mfg_countries[$key])) {
 
-                    $all_mfg_countrys[$key]["enabled"] = true;
+                    $all_mfg_countries[$key]["enabled"] = true;
+                    $f_key = $key;
+
                     if (isset($all_filters['mfg_country'])) {
-                        $filter_key = $key;
-                        if (in_array($filter_key, $all_filters['mfg_country'])) {
-                            $all_mfg_countrys[$key]["checked"] = true;
+                        if (in_array($f_key, $all_filters['mfg_country'])) {
+                            $all_mfg_countries[$f_key]["checked"] = true;
                         }
                     }
 
-                    $all_mfg_countrys[$key]["count"] += $b->products;
+                    $all_mfg_countries[$f_key]["count"] += $b->products;
                 }
             }
         }
 
         $mfg_country_holder = [];
 
-        foreach ($all_mfg_countrys as $name => $value) {
+        foreach ($all_mfg_countries as $name => $value) {
             array_push($mfg_country_holder, $value);
         }
         return $mfg_country_holder;

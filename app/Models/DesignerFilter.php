@@ -120,12 +120,12 @@ class DesignerFilter extends Model
         // designer data can contain comma separated values
         foreach ($rows as $row) {
 
-            $filter_key = $row->designer;
+            $filter_key = strtolower($row->designer);
             $filter_keys = explode(",", $filter_key);
 
             foreach ($filter_keys as $key) {
                 $all_designers[$key] = [
-                    'name' => trim($key),
+                    'name' => ucwords(trim($key)),
                     'value' => trim($key),
                     'count' => 0,
                     'enabled' => false,
@@ -135,7 +135,7 @@ class DesignerFilter extends Model
         }
 
         foreach ($products as $b) {
-            $filter_key = $b->designer;
+            $filter_key = strtolower($b->designer);
             $filter_keys = explode(",", $filter_key);
             foreach ($filter_keys as $key) {
 
@@ -145,7 +145,7 @@ class DesignerFilter extends Model
                     if (isset($all_filters['designer'])) {
                         $filter_key = $key;
                         if (in_array($filter_key, $all_filters['designer'])) {
-                            $all_designers[$key]["checked"] = true;
+                            $all_designers[$filter_key]["checked"] = true;
                         }
                     }
 
