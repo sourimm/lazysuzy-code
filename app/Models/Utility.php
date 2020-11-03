@@ -100,7 +100,6 @@ class Utility extends Model
 
         foreach($ls_ids as $id) {
 
-            echo "check: " . (int) $id;
             if(strlen($id) == 4 && $id[0] == "1")
                 return true;
             
