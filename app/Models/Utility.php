@@ -94,12 +94,15 @@ class Utility extends Model
 
     public static function match_exclude_LDIS($LS_ID) {
 
+        echo "ls_id: " . $LS_ID;
         $ls_ids = explode(",", $LS_ID);
         if(sizeof($ls_ids) == 0) 
             return false;
 
+        echo json_encode($ls_ids);
         foreach($ls_ids as $id) {
 
+            echo "check: " . (int) $id;
             if(strlen($id) == 4 && $id[0] == "1")
                 return true;
             
