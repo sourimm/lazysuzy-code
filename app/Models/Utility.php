@@ -91,4 +91,43 @@ class Utility extends Model
     public static function rm_comma($str) {
         return str_replace(["$", ",", " "], "", $str);
     }
+
+    public static function match_exclude_LDIS($LS_ID) {
+
+        $ls_ids = explode(",", $LS_ID);
+        if(sizeof($ls_ids) == 0) 
+            return false;
+
+        foreach($ls_ids as $id) {
+
+            if(strlen($id) == 4 && $id[0] == "1")
+                return true;
+            
+            if((int)$id >= 223 && (int)$id <= 330)
+                return true;
+
+            if ((int)$id >= 400 && (int)$id <= 403)
+                return true;
+
+            if ((int)$id >= 501 && (int)$id <= 509)
+                return true;
+
+            if ((int)$id >= 510 && (int)$id <= 514)
+                return true;
+
+            if ((int)$id >= 602 && (int)$id <= 605)
+                return true;
+
+            if ((int)$id >= 822 && (int)$id <= 826)
+                return true;
+
+            if ((int)$id >= 930 && (int)$id <= 930)
+                return true;
+
+            if ((int)$id >= 940 && (int)$id <= 944)
+                return true;
+        }
+
+        return false;
+    }
 }
