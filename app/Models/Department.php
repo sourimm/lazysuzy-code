@@ -125,7 +125,9 @@ class Department extends Model
 
         $c_cat = [];
         $dept  = strtolower(trim($dept));
-        $row   = Department::select(['dept_name_short', 'LS_ID', 'dept_name_long']);
+        $dept_long = $dept;
+        $dept_image = NULL;
+        $row   = Department::select(['dept_name_short', 'LS_ID', 'dept_name_long', 'dept_image']);
 
         if ($dept != "all")
             $row = $row->where('dept_name_url', $dept);
@@ -135,6 +137,8 @@ class Department extends Model
             ->toArray();
         if (isset($row[0]['LS_ID'])) {
             $dept       = $row[0]['dept_name_short'];
+            $dept_long  = $row[0]['dept_name_long'];
+            $dept_image = $row[0]['dept_image']; 
             $dept_LS_ID = $row[0]['LS_ID'];
         } else {
             return null;
@@ -154,6 +158,8 @@ class Department extends Model
     
         return [
             'department' => $dept,
+            'department_long' => $dept_long,
+            'department_image' => env('APP_URL') . $dept_image,
             'LS_ID'      => $dept_LS_ID,
             'categories'  => $c_cat,
         ];
