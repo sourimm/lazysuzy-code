@@ -12,6 +12,7 @@ use App\Models\Department;
 use App\Models\User;
 use App\Models\Cart;
 use App\Models\Collections;
+use App\Models\Deals;
 use App\Models\Inventory;
 
 use Auth;
@@ -198,5 +199,10 @@ class API extends Controller
     public function get_all_collections() {
 
         return Collections::get_collection_list();
+    }
+
+    public function get_deals() {
+
+        return Deals::get_deals();
     }
 }
