@@ -1369,6 +1369,11 @@ class Product extends Model
                 "page_title" => $d->cat_name_long,
                 "full_title" => $d->dept_name_long . " "  . $d->cat_name_short,
                 "email_title" => $d->filter_label,
+                "email_title" => $d->filter_label,
+                "dept_name_long" => $d->dept_name_long,
+                "cat_name_long" => $d->cat_name_long,
+                "cat_name_short" => $d->cat_name_short,
+                "cat_image" => Product::$base_siteurl . $d->cat_image,
                 "description" => "Search hundreds of " . $d->cat_name_long  . " from top brands at once. Add to your room designs with your own design boards.",
                 "image_url" => Product::$base_siteurl . $d->cat_image
 
@@ -2233,6 +2238,10 @@ class Product extends Model
                 "page_title" => $d->cat_name_long,
                 "full_title" => $d->dept_name_long . " "  . $d->cat_name_short,
                 "email_title" => $d->filter_label,
+                "dept_name_long" => $d->dept_name_long,
+                "cat_name_long" => $d->cat_name_long,
+                "cat_name_short" => $d->cat_name_short,
+                "cat_image" => $d->cat_image,
                 "description" => "Search hundreds of " . $d->cat_name_long  . " from top brands at once. Add to your room designs with your own design boards.",
                 "image_url" => Product::$base_siteurl . $d->cat_image,
                 "product_name" => $product_details->product_name,
