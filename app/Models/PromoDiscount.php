@@ -304,7 +304,7 @@ class PromoDiscount extends Model
      * given in the promo details
      *
      */
-    public static function check_for_brands($valid_skus, $cart_products, $promo_details) {
+    public static function check_for_brand($valid_skus, $cart_products, $promo_details) {
 
         $allowed_SKUs = [];
         $valid_brands = $promo_details['applicable_brands'];
