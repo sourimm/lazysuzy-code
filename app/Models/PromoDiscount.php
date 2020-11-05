@@ -258,8 +258,8 @@ class PromoDiscount extends Model
      * Return empty array if no products match the promo code LS_ID
      * else return matched SKU array
      *
-     * @param [type] $cart
-     * @param [type] $promo_details
+     * @param [array] $cart
+     * @param [Object] $promo_details
      * @return boolean
      */
     private static function LSIDs_allowed($cart, $promo_details) {
@@ -292,15 +292,44 @@ class PromoDiscount extends Model
         
 
         $sku_available_for_promo = self::check_for_mfg_country($sku_available_for_promo, $cart['products'], $promo_details);
+        $sku_available_for_promo = self::check_for_brand($sku_available_for_promo, $cart['products'], $promo_details);
         return $sku_available_for_promo;
+    }
+
+
+    /**
+     * Return the SKUs allowed for promo that satisfy the brand name constraint 
+     * given in the promo details
+     *
+     */
+    public static function check_for_brands($valid_skus, $cart_products, $promo_details) {
+
+        $allowed_SKUs = [];
+        $valid_brands = $promo_details['applicable_brands'];
+
+        if($valid_brands == "*")
+            return $valid_skus;
+        
+        if(!isset($valid_brands) || strlen($valid_brands) == 0)
+            return [];
+
+        $valid_brands = explode(",", $valid_brands);
+        foreach($cart_products as $product) {
+            if(in_array($product->product_sku, $valid_skus)) {
+
+                if(in_array($product->site_name, $valid_brands)){
+                    $skus_valid[] = $product->product_sku;
+                }
+            }
+        }
+
+        return $allowed_SKUs;
     }
 
     /**
      * filter SKUs that pass the mfg_country check
      * mfg country for the product must match the mfg country there in the inventory table
      *
-     * @param [type] $valid_skus
-     * @return Array
      */
     public static function check_for_mfg_country($valid_skus, $cart_products, $promo_details) {
         $allowed_SKUs = [];
@@ -344,7 +373,7 @@ class PromoDiscount extends Model
     /**
      * Check if promo is expired or not
      *
-     * @param [type] $promo_details
+     * @param [object] $promo_details
      * @return boolean
      */
     private static function is_promo_not_expired($promo_details) {
