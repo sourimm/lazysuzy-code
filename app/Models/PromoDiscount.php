@@ -309,6 +309,7 @@ class PromoDiscount extends Model
         $allowed_SKUs = [];
         $valid_brands = $promo_details['applicable_brands'];
 
+        echo $valid_brands . "\n";
         if($valid_brands == "*")
             return $valid_skus;
         
@@ -320,7 +321,7 @@ class PromoDiscount extends Model
             if(in_array($product->product_sku, $valid_skus)) {
 
                 if(in_array($product->brand_id, $valid_brands)){
-                    $skus_valid[] = $product->product_sku;
+                    $allowed_SKUs[] = $product->product_sku;
                 }
             }
         }
