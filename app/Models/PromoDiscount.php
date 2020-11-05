@@ -278,6 +278,8 @@ class PromoDiscount extends Model
         // return all in-cart SKUs
         if(in_array("*", $promo_lsids)) {
             $in_cart_skus = self::check_for_mfg_country($in_cart_skus, $cart['products'], $promo_details);
+            $in_cart_skus = self::check_for_brand($in_cart_skus, $cart['products'], $promo_details);
+
             return $in_cart_skus;
         }
 
@@ -317,7 +319,7 @@ class PromoDiscount extends Model
         foreach($cart_products as $product) {
             if(in_array($product->product_sku, $valid_skus)) {
 
-                if(in_array($product->site_name, $valid_brands)){
+                if(in_array($product->brand_id, $valid_brands)){
                     $skus_valid[] = $product->product_sku;
                 }
             }
