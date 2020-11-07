@@ -16,8 +16,8 @@ class CheckCache
      */
     public function handle($request, Closure $next) {
         
-        $product_sku = json_encode($request->url());
-        return Cache::remember($product_sku, env('CACHE_LIFETIME'), 
+        $key = json_encode($request->fullUrl());
+        return Cache::remember($key, env('CACHE_LIFETIME'), 
             function() use($next, $request) {
                 return $next($request);
             }
