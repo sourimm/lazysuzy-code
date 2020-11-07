@@ -15,6 +15,7 @@
 
 // mail template checking route
 
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/mail-test', 'MailerController@send_catalogue')->name('catalogue');
@@ -90,7 +91,7 @@ Route::get('/api/departments/{dept}', 'DepartmentController@get_department')->mi
 Route::get('/api/categories', 'CategoryController@get_all_categories')->middleware('auth:api')->name('get_category');
 Route::get('/api/products/{dept}/{cat?}/{subCat?}', 'API@filter_products')->middleware('auth:api')->name('get-products');
 Route::get('/api/products/{dept}/{cat}', 'API@filter_products')->middleware('auth:api')->name('category');
-Route::get('/api/product/{sku}', 'API@get_product_details')->middleware('auth:api')->name('get-product-details');
+Route::get('/api/product/{sku}', 'API@get_product_details')->middleware(['auth:api', 'cached'])->name('get-product-details');
 
 // has a filter attached. request has format attribute_1=<val>&attribute_2=<val> and so on...
 Route::get('/api/variation/product/{sku}', 'API@get_product_variations')->name('get-product-variations');
