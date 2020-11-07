@@ -89,7 +89,7 @@ Route::get('/api/categories/{dept}', 'API@get_categories')->middleware('auth:api
 Route::get('/api/all-departments', 'DepartmentController@index')->middleware(['auth:api', 'cached'])->name('get_all_departments');
 Route::get('/api/departments/{dept}', 'DepartmentController@get_department')->middleware('auth:api')->name('get_department');
 Route::get('/api/categories', 'CategoryController@get_all_categories')->middleware('auth:api')->name('get_category');
-Route::get('/api/products/{dept}/{cat?}/{subCat?}', 'API@filter_products')->middleware('auth:api')->name('get-products');
+Route::get('/api/products/{dept}/{cat?}/{subCat?}', 'API@filter_products')->middleware(['auth:api', 'cached'])->name('get-products');
 Route::get('/api/products/{dept}/{cat}', 'API@filter_products')->middleware('auth:api')->name('category');
 Route::get('/api/product/{sku}', 'API@get_product_details')->middleware(['auth:api', 'cached'])->name('get-product-details');
 
