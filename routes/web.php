@@ -174,5 +174,6 @@ Route::group(['prefix' => '/api/cache'], function() {
 
         // clear all the cached data in my cache.
         Cache::flush();
+        return json_encode(["msg" => "cache flushed"]);
     });
 });
