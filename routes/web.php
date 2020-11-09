@@ -166,3 +166,13 @@ Route::group([
 });
 
 /* ============================================================================================================== */
+
+// cache APIs 
+
+Route::group(['prefix' => '/api/cache'], function() {
+    Route::get('clear', function() {
+
+        // clear all the cached data in my cache.
+        Cache::flush();
+    });
+});
