@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 
 class MFDCountry extends Model
@@ -123,7 +124,7 @@ class MFDCountry extends Model
 
             foreach ($filter_keys as $key) {
                 $all_mfg_countries[$key] = [
-                    'name' => ucwords(trim($key)),
+                    'name' => in_array(trim($key), Config::get('meta.S_COUNTRIES')) ? strtoupper(trim($key)) : ucwords(trim($key)),
                     'value' => trim($key),
                     'count' => 0,
                     'enabled' => false,
