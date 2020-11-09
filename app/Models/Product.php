@@ -187,6 +187,10 @@ class Product extends Model
                 $block_str = explode(":", $block);
 
                 if (isset($block_str[0]) && isset($block_str[1])) {
+
+                    // change filter keys for some filters 
+                    $block_str[0] = ($block_str[0] == "country") ? "mfg_country" : $block_str[0];
+                    
                     $all_filters[$block_str[0]] = explode(",", $block_str[1]);
                     $all_filters[$block_str[0]] = array_map("strtolower", $all_filters[$block_str[0]]);
                 }
