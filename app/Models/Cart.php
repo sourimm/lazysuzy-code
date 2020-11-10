@@ -171,7 +171,6 @@ class Cart extends Model
         $parents = []; //parent[i] => variations[i]
         $variations = [];
 
-        echo count($rows) . " count of rows in cart table\n";
         foreach($rows as &$row) {
             // we will only process products that are variations of the parent 
             // product, for normal products (parent products) the code after this 
@@ -215,7 +214,6 @@ class Cart extends Model
             ->join("master_brands", "master_data.site_name", "=", "master_brands.value")
             ->get();
         
-        echo count($parent_rows) . " count of parent details\n";
         $parent_index = 0;
         $cart = [];
         foreach($parent_rows as $row) {
@@ -253,11 +251,8 @@ class Cart extends Model
                 ->where($table . '.'. $parent_sku_field, $row->product_sku) // where parent SKU is given in variations table
                 ->groupBy(Cart::$cart_table . '.product_sku');
 
-
-                echo Utility::get_sql_raw($vrows);
                 $vrows = $vrows->get()->toArray();
                 
-                echo count($vrows) . " count of variations\n";
                 // one parent SKU can have many variations SKUs 
                 // in the cart
                 foreach($vrows as &$vrow) {
