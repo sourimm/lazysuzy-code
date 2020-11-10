@@ -17,9 +17,10 @@ class CheckCache
     public function handle($request, Closure $next) {
         
         $key = json_encode($request->fullUrl());
-        return $next($request);
+        $key = md5($key);
         return Cache::remember($key, env('CACHE_LIFETIME'), 
             function() use($next, $request) {
+                return $next($request);
             }
         );
 
