@@ -64,7 +64,8 @@ class Kernel extends HttpKernel
         'cors' => \App\Http\Middleware\Cors::class,
         'admin' => \App\Http\Middleware\CheckUserType::class,
         'append_to_auth' =>\App\Http\Middleware\AppendToTokenResponse::class,
-        'cached' => \App\Http\Middleware\CheckCache::class
+        'cached' => \App\Http\Middleware\CheckCache::class,
+        'user_visit' => \App\Http\Middleware\UserVisit::class
 
     ];
 
