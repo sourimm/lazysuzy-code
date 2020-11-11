@@ -441,6 +441,13 @@ class Product extends Model
         foreach ($categories as $cat)
             array_push($filter_categories, $cat);
 
+        // sort based on LS_ID
+        usort($filter_categories, function($cat1, $cat2) {
+            if($cat1['value'] == $cat2['value']) return 0;
+
+            return $cat1['value'] < $cat2['value'] ? -1 : 1;
+        });
+
         return $filter_categories;
     }
 
@@ -1324,6 +1331,7 @@ class Product extends Model
 
             $brand_filter = isset($all_filters['brand'][0]) ? $all_filters['brand'][0] : null;
             $category_holder =  Product::get_all_dept_category_filter($brand_filter, $all_filters);
+        
         }
 
         $dimension_filter = DimensionsFilter::get_filter($dept, $cat, $all_filters);
