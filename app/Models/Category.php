@@ -129,7 +129,7 @@ class Category extends Model
             $categories[$row['LS_ID']] = [
                 'name' => strlen($row['filter_label']) > 1 ? $row['filter_label'] : $row['cat_name_url'],
                 'value' => $row['LS_ID'],
-                'chaecked' => false,
+                'checked' => false,
                 'enabled' => false
             ];
         }
