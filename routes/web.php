@@ -86,12 +86,12 @@ Route::get('/api/collection', 'API@get_collection_details')->middleware('auth:ap
 
 Route::get('/api/brand/{key?}', 'API@get_all_brands')->middleware('auth:api')->name('get_all_brands');
 Route::get('/api/categories/{dept}', 'API@get_categories')->middleware('auth:api')->name('cat-api');
-Route::get('/api/all-departments', 'DepartmentController@index')->middleware(['auth:api', 'cached'])->name('get_all_departments');
+Route::get('/api/all-departments', 'DepartmentController@index')->middleware(['auth:api'/* , 'cached' */])->name('get_all_departments');
 Route::get('/api/departments/{dept}', 'DepartmentController@get_department')->middleware('auth:api')->name('get_department');
 Route::get('/api/categories', 'CategoryController@get_all_categories')->middleware('auth:api')->name('get_category');
-Route::get('/api/products/{dept}/{cat?}/{subCat?}', 'API@filter_products')->middleware(['auth:api', 'cached'])->name('get-products');
+Route::get('/api/products/{dept}/{cat?}/{subCat?}', 'API@filter_products')->middleware(['auth:api'/* , 'cached' */])->name('get-products');
 Route::get('/api/products/{dept}/{cat}', 'API@filter_products')->middleware('auth:api')->name('category');
-Route::get('/api/product/{sku}', 'API@get_product_details')->middleware(['auth:api', 'user_visit', 'cached'])->name('get-product-details');
+Route::get('/api/product/{sku}', 'API@get_product_details')->middleware(['auth:api', 'user_visit'/* , 'cached' */])->name('get-product-details');
 
 // has a filter attached. request has format attribute_1=<val>&attribute_2=<val> and so on...
 Route::get('/api/variation/product/{sku}', 'API@get_product_variations')->name('get-product-variations');
