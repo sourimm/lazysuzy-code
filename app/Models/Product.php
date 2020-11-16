@@ -2516,6 +2516,33 @@ class Product extends Model
 
         return false;
     }
+    /**
+     * Same as above function just changing name of table to master_new
+     */
+    public static function mark_image_master_new($product_sku, $image, $col)
+    {
+
+        $img_files = DB::table('master_new')
+            ->select([$col])
+            ->where('product_sku', $product_sku)
+            ->get();
+
+        if (isset($img_files[0])) {
+            $file_paths = $img_files[0]->$col;
+            $file_paths = explode(",", $file_paths);
+
+            if (!in_array($image, $file_paths)) {
+                $file_paths[] = $image;
+                $file_paths_all = implode(",", $file_paths);
+
+                return DB::table('master_new')
+                    ->where('product_sku', $product_sku)
+                    ->update([$col => $file_paths_all]);
+            }
+        }
+
+        return false;
+    }
 
     public static function get_selected_products($sku_array)
     {

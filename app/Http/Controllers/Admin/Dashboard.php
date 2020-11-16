@@ -121,7 +121,7 @@ class Dashboard extends Controller
                 if(File::exists($new_image_path)) {
                     $db_path = str_replace(public_path(), "", $new_image_path);
                     return [
-                        'status' => (bool) Product::mark_image($sku, $db_path, $image_process_columns[$type]),
+                        'status' => (bool) Product::mark_image_master_new($sku, $db_path, $image_process_columns[$type]),
                         'image' => $db_path
                     ];
                 }
