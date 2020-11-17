@@ -16,5 +16,20 @@ class UserVisits extends Model
             ['updated_at' => time(), 'num_views' => DB::raw('num_views + 1')]
         );
 
+        return $visit;
+    }
+
+    public static function reset_visits($user_id) {
+        $visit = UserVisits::updateOrCreate(
+            ['user_id' => $user_id],
+            ['updated_at' => time(), 'num_views' => 0]
+        );
+
+        return $visit;
+    }
+
+    public static function get_visited_skus($user_id) {
+
+        $visits = UserVisits::where('user_id', $user_id)->get();
     }
 }

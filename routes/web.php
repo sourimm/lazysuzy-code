@@ -74,6 +74,8 @@ Route::get('/api/logout', 'Auth\UserController@logout')->middleware('auth:api');
 Route::get('/api/user/keepalive', 'Auth\UserController@keepAlive');
 Route::get('/api/get-user', 'API@get_user')->middleware(['cors', 'auth:api'])->name('get-user');
 
+Route::get('/api/sku-history', 'API@get_visited_skus')->middleware(['cors', 'auth:api'])->name('get-visited-skus');
+
 // this will take username and send the user details object in response
 Route::get('/api/user/details', 'API@user_details')->middleware(['cors', 'auth:api'])->name('user-details');
 
