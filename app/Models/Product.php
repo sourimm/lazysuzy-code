@@ -194,7 +194,7 @@ class Product extends Model
                     $all_filters[$block_str[0]] = explode(",", $block_str[1]);
                     $all_filters[$block_str[0]] = array_map("strtolower", $all_filters[$block_str[0]]);
                 }
-            }            
+            }
 
             // FILTERS
             // 1. brand_names
@@ -290,7 +290,7 @@ class Product extends Model
 
 
         // 7. sort_type
-        if (isset($sort_type) || (isset($all_filters['collection']) 
+        if (isset($sort_type) || (isset($all_filters['collection'])
             && sizeof($all_filters['collection']) > 0)) {
 
             if ($sort_type == $PRICE_ASC) {
@@ -299,7 +299,7 @@ class Product extends Model
                 $query = $query->orderBy('min_price', 'desc');
             } else if ($sort_type == $POPULARITY) {
                 $query = $query->orderBy('popularity', 'desc');
-            } else if ($sort_type == $RECOMMENDED){
+            } else if ($sort_type == $RECOMMENDED) {
                 $query = $query->orderBy('serial', 'asc');
             } else {
                 $query = $query->orderBy('serial', 'asc');
@@ -382,6 +382,9 @@ class Product extends Model
 
         if ($brand_name !== null) $LS_IDs = $LS_IDs->where("brand", $brand_name);
 
+        // all all new filters here
+        $LS_IDs = Filters::apply(null, null, $all_filters, $LS_IDs, Config::get('meta.FILTER_ESCAPE_CATEGORY'));
+
         $LS_IDs = $LS_IDs->distinct("LS_ID")
             ->get();
 
@@ -423,9 +426,9 @@ class Product extends Model
         foreach ($LS_IDs as $LS_ID) {
             $IDs = explode(",", $LS_ID->LS_ID);
             foreach ($IDs as $ID) {
-                if (( empty($collection_catgeory_LS_IDs) && isset($categories[$ID]))
-                    || (!empty($collection_catgeory_LS_IDs) 
-                        && in_array($ID, $collection_catgeory_LS_IDs) 
+                if ((empty($collection_catgeory_LS_IDs) && isset($categories[$ID]))
+                    || (!empty($collection_catgeory_LS_IDs)
+                        && in_array($ID, $collection_catgeory_LS_IDs)
                         && isset($categories[$ID]))
                 ) {
                     if (in_array($categories[$ID]['value'], $in_filter_categories)) {
@@ -442,8 +445,8 @@ class Product extends Model
             array_push($filter_categories, $cat);
 
         // sort based on LS_ID
-        usort($filter_categories, function($cat1, $cat2) {
-            if($cat1['value'] == $cat2['value']) return 0;
+        usort($filter_categories, function ($cat1, $cat2) {
+            if ($cat1['value'] == $cat2['value']) return 0;
 
             return $cat1['value'] < $cat2['value'] ? -1 : 1;
         });
@@ -793,7 +796,7 @@ class Product extends Model
             // catgeory
             $LS_IDs = SubCategory::get_sub_cat_LSIDs($all_filters['category']);
         }
-        
+
         $price = $price->whereRaw('LS_ID REGEXP "' . implode("|", $LS_IDs) . '"');
         $price = DimensionsFilter::apply($price, $all_filters);
         $price = CollectionFilter::apply($price, $all_filters);
@@ -1331,7 +1334,6 @@ class Product extends Model
 
             $brand_filter = isset($all_filters['brand'][0]) ? $all_filters['brand'][0] : null;
             $category_holder =  Product::get_all_dept_category_filter($brand_filter, $all_filters);
-        
         }
 
         $dimension_filter = DimensionsFilter::get_filter($dept, $cat, $all_filters);
@@ -1355,7 +1357,7 @@ class Product extends Model
             "designer" => DesignerFilter::get_filter_data($dept, $cat, $all_filters),
             "country" => MFDCountry::get_filter_data($dept, $cat, $all_filters),
         ];
-        
+
         //$dept, $cat, $subCat
         $dept_info = DB::table("mapping_core");
 
@@ -1524,8 +1526,8 @@ class Product extends Model
 
         if (isset($variations) && !$is_details_minimal) {
 
-            
-            if(is_array($variations)) {
+
+            if (is_array($variations)) {
                 for ($i = 0; $i < sizeof($variations); $i++) {
                     if (isset($variations[$i]['image'])) {
                         if ($variations[$i]['image'] === Product::$base_siteurl) {
@@ -1534,7 +1536,7 @@ class Product extends Model
                     }
                 }
             }
-            
+
             $data['variations'] = $variations;
         }
 
@@ -1587,7 +1589,7 @@ class Product extends Model
             $data['description'] = in_array($product->name, $desc_BRANDS)  ? Product::format_desc_new($product->product_description) : preg_split("/\\[US\\]|<br>|\\n/", $product->product_description);
 
             $dimensions_data = Product::normalize_dimension($dims_text, $product->brand);
-            $data['dimension'] =isset($dimensions_data) ? $dimensions_data : [];
+            $data['dimension'] = isset($dimensions_data) ? $dimensions_data : [];
 
             //$data['thumb'] = preg_split("/,|\\[US\\]/", $product->thumb);
             $data['features'] = in_array($product->name, $desc_BRANDS) ? Product::format_desc_new($product->product_feature) : preg_split("/\\[US\\]|<br>|\\n|\|/", $product->product_feature);
@@ -1951,7 +1953,7 @@ class Product extends Model
                 $extras_key = [];
 
                 $variation_extras = [];
-                
+
                 foreach ($var as $prod) {
                     $features = [];
                     for ($i = 1; $i <= 6; $i++) {
@@ -2046,7 +2048,7 @@ class Product extends Model
                         $select_type = in_array($key, $multi_select_filters) ? "multi_select" : "single_select";
                         $select_type = in_array($key, $excluded_options) ? "excluded" : $select_type;
 
-                        $select_type = ($key == 'color' && Utility::match_exclude_LDIS($product->LS_ID)) ? "excluded" : $select_type; 
+                        $select_type = ($key == 'color' && Utility::match_exclude_LDIS($product->LS_ID)) ? "excluded" : $select_type;
 
                         if ($key == "color") {
                             $extras["color_group"] = [
@@ -2144,7 +2146,7 @@ class Product extends Model
 
 
         // Listing API update. Just send count of variations in listing API
-        if($is_listing_API_call)
+        if ($is_listing_API_call)
             return $product->variations_count;
 
         $variation = [];
@@ -2215,19 +2217,20 @@ class Product extends Model
         $rows = DB::table(Config::get('tables.LS_ID_mapping'))
             ->whereIn('LS_ID', explode(",", $ls_id))
             ->get();
-            
+
         $product_details = DB::table(Config::get('tables.master_table'))
-            ->select([ 
-                Config::get('tables.master_table') .".product_name", 
-                Config::get('tables.master_brands') .".name as brand_name"
-                ])->join(Config::get('tables.master_brands'), 
-                        Config::get('tables.master_table') . ".brand", 
-                        "=",
-                        Config::get('tables.master_brands') . ".value"
-                    )->where(Config::get('tables.master_table') . ".product_sku", $sku)
-                    ->get();
-        
-            
+            ->select([
+                Config::get('tables.master_table') . ".product_name",
+                Config::get('tables.master_brands') . ".name as brand_name"
+            ])->join(
+                Config::get('tables.master_brands'),
+                Config::get('tables.master_table') . ".brand",
+                "=",
+                Config::get('tables.master_brands') . ".value"
+            )->where(Config::get('tables.master_table') . ".product_sku", $sku)
+            ->get();
+
+
         $d = null;
         foreach ($rows as $row) {
             if (
@@ -2243,7 +2246,7 @@ class Product extends Model
         if ($d != null || sizeof($product_details) == 0) {
             if (sizeof($product_details) >= 1) {
                 $product_details = $product_details[0];
-            } 
+            }
             return  [
                 "page_title" => $d->cat_name_long,
                 "full_title" => $d->dept_name_long . " "  . $d->cat_name_short,

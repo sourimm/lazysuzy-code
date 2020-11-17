@@ -14,7 +14,7 @@ use App\Models\Cart;
 use App\Models\Collections;
 use App\Models\Deals;
 use App\Models\Inventory;
-
+use App\Models\UserVisits;
 use Auth;
 use Illuminate\Support\Facades\Validator;
 use Subscribe as GlobalSubscribe;
@@ -204,5 +204,16 @@ class API extends Controller
     public function get_deals() {
 
         return Deals::get_deals();
+    }
+
+    public function get_visited_skus() {
+
+        if(Auth::check()) {
+            return UserVisits::get_visited_skus(Auth::user()->id);
+        } 
+
+        return [
+            false
+        ];
     }
 }

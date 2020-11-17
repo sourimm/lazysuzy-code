@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Config;
 
 class Filters extends Model
 {
@@ -17,11 +18,26 @@ class Filters extends Model
      * @param [type] $all_filters
      * @param [type] $query
      * @param [type] $filter_id
-     * @return void
+     * @return object
      */
-    public static function apply($cat, $dept, $all_filters, $query, $filter_id = NULL) {
+    public static function apply($cat, $dept, $all_filters, $query, $filter_id = NULL)
+    {
 
         // set filters based on the $filters_id
+        switch ($filter_id) {
+            case Config::get('FILTER_ESCAPE_CATEGORY'):
+                $query = DimensionsFilter::apply($query, $all_filters);
+                $query = CollectionFilter::apply($query, $all_filters);
+                $query = MaterialFilter::apply($query, $all_filters);
+                $query = FabricFilter::apply($query, $all_filters);
+                $query = DesignerFilter::apply($query, $all_filters);
+                $query = MFDCountry::apply($query, $all_filters);
+                break;
+
+            default:
+                # code...
+                break;
+        }
 
         return $query;
     }

@@ -9,6 +9,7 @@ use App\Models\SocialIdentity;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Controllers\Controller;
+use App\Models\UserVisits;
 use App\Models\Utility;
 use Dotenv\Validator as DotenvValidator;
 use Illuminate\Contracts\Validation\Validator as ValidationValidator;
@@ -195,6 +196,7 @@ class UserController extends Controller
       }
       return response()->json(['status' => true], 204);
     }
+
     public function update(Request $request) {
         $data = $request->all();
         
@@ -230,6 +232,9 @@ class UserController extends Controller
 
             // if both email and password exist and type is guest then the user is trying to signup
             if (isset($data['password']) && isset($data['email']) && $user->user_type == config('user.user_type.guest')) {
+             
+              // reset SKU visits 
+              //UserVisits::reset_visits($user->id);
               return $this->register($request);
             }
             else {
