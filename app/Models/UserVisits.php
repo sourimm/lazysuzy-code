@@ -47,8 +47,7 @@ class UserVisits extends Model
             Config::get('tables.master_table'),
             Config::get('tables.user_views') . ".product_sku",
             "=",
-            Config::get('tables.master_table') . ".product_sku",
-
+            Config::get('tables.master_table') . ".product_sku"
         )->join(
             Config::get('tables.master_brands'),
             Config::get('tables.master_table') . ".brand",
