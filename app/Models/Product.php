@@ -308,7 +308,7 @@ class Product extends Model
         // set default sorting to popularity
         else {
             if ($sale_products_only == false && !$new_products_only)
-                $query = $query->orderBy(DB::raw("`rec_order` + `manual_adj`"), 'desc');
+                $query = $query->orderBy('serial', 'asc');
         }
 
         if ($is_details_minimal) {
