@@ -1,8 +1,10 @@
 <?php
+
 namespace App\Models;
 
 use Dotenv\Lines;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Config;
 
 class Dimension extends Model
 {
@@ -17,7 +19,7 @@ class Dimension extends Model
         'diam' => 'diameter'
     ];
 
-    public static function clean_str($str) 
+    public static function clean_str($str)
     {
         return str_replace(Dimension::$CLEAN_SYMBOLS, '', $str);
     }
@@ -51,7 +53,7 @@ class Dimension extends Model
         return $d_arr;
     }
 
-    public static function format_cab($str) 
+    public static function format_cab($str)
     {
         return Dimension::format_cb2($str);
     }
@@ -62,7 +64,13 @@ class Dimension extends Model
         // 1. Bowl: 45.25"Dia x 16.50"H,Base: 27.50"D x 12"H,Cushion: 50"W x 4"D x 50"H -> parse
         // 2. Table expands via two 25" drop-in leaves. -> sent as it is
 
-        if (strpos($str, " x ") == false) return $str;
+        // return empty data is type check on $str fails
+        if (gettype($str) != gettype(Config::get('meta.STRING')))
+            return [];
+
+        if (strpos($str, " x ") == false)
+            return $str;
+
         $str = Dimension::clean_str($str);
 
         $dim_arr = explode(",", $str);
@@ -81,7 +89,7 @@ class Dimension extends Model
 
             $x = 0;
 
-            foreach($d_val_arr as $val) {
+            foreach ($d_val_arr as $val) {
 
                 $val_pair = explode("\"", trim($val));
                 if (isset($val_pair[0]) && isset($val_pair[1])) {
@@ -90,8 +98,7 @@ class Dimension extends Model
                     if (isset(Dimension::$DIMS[$val_pair[1]])) {
                         $label = Dimension::$DIMS[$val_pair[1]];
                         $x++;
-                    }
-                    else $label = $val_pair[1];
+                    } else $label = $val_pair[1];
 
                     if (strlen($val_pair[1]) == 0 || !isset($val_pair[1])) $label = $dim_seq[$x];
 
@@ -110,12 +117,12 @@ class Dimension extends Model
         return $dims;
     }
 
-    public static function format_westelm($str) 
+    public static function format_westelm($str)
     {
         return Dimension::format_pier1(Dimension::clean_str($str));
     }
 
-    public static function format_new_world($str) 
+    public static function format_new_world($str)
     {
         $feature_arr = explode("|", $str);
         $dims = [];
@@ -126,12 +133,12 @@ class Dimension extends Model
                 && strpos($line, "\"") !== false
             ) {
                 $dims_ext = Dimension::format_pier1($line, false);
-               
+
                 if ($dims_ext != null && gettype($dims_ext) == "array")
                     $dims = array_merge($dims, $dims_ext);
             }
         }
-        
+
         return $dims;
     }
 }

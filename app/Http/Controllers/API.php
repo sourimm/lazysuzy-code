@@ -13,6 +13,7 @@ use App\Models\User;
 use App\Models\Cart;
 use App\Models\Collections;
 use App\Models\Deals;
+use App\Models\Dimension;
 use App\Models\Inventory;
 use App\Models\UserVisits;
 use Auth;
@@ -26,7 +27,7 @@ class API extends Controller
         return false;
     }
 
-    public function get_user() 
+    public function get_user()
     {
         return [
             "auth" => [
@@ -38,21 +39,22 @@ class API extends Controller
         ];
     }
 
-    public function user_details(Request $request) {
+    public function user_details(Request $request)
+    {
         $data = $request->all();
         $validator = Validator::make($data, [
             'username' => 'required|alpha_dash'
         ]);
-        
-        if($validator->fails())
+
+        if ($validator->fails())
             return response()->json(['error' => $validator->errors()], 422);
-        
+
         $user = User::where('username', $data['username'])->first();
-        
+
         return $user == NULL ? [null] : $user;
-    }   
-    
-    public function login_user() 
+    }
+
+    public function login_user()
     {
         return User::login();
     }
@@ -65,12 +67,12 @@ class API extends Controller
     {
         return Product::get_filter_products($dept, $cat, $subCat);
     }
-   
+
     public function get_product_details(Request $request, $sku)
-    {   
+    {
         $skus = $request->input('skus');
-        
-        if(isset($skus) && strlen($skus) > 0)
+
+        if (isset($skus) && strlen($skus) > 0)
             return Product::get_selected_products(explode(",", $skus));
 
         return Product::get_product_details($sku);
@@ -99,59 +101,63 @@ class API extends Controller
     public function get_wishlist(Request $request)
     {
         $board_view = $request->input('board-view');
-        if(isset($board_view) && strtolower($board_view) == 'true')
+        if (isset($board_view) && strtolower($board_view) == 'true')
             $board_view = true;
         else $board_view = false;
 
         return Wishlist::get_whishlist($board_view);
     }
 
-    public function get_all_brands($key = null) 
+    public function get_all_brands($key = null)
     {
         return Brands::get_all($key);
     }
 
-    public function subscribe_user() 
+    public function subscribe_user()
     {
         return Subscribe::subscribe_user();
     }
 
-    public function get_categories($dept_url_name) 
+    public function get_categories($dept_url_name)
     {
         return Department::get_single_department($dept_url_name);
     }
 
-    public function get_banners() {
+    public function get_banners()
+    {
         return Brands::get_banners();
     }
 
-    public function add_to_cart(Request $request) 
+    public function add_to_cart(Request $request)
     {
 
-        if(strlen($request->input('product_sku')) > 0 
-            && strlen($request->input('count')) > 0) {
-            
-                $sku = $request->input('product_sku');
-                $parent = $request->input('parent_sku');
+        if (
+            strlen($request->input('product_sku')) > 0
+            && strlen($request->input('count')) > 0
+        ) {
 
-                if(!isset($parent) || strlen($parent) == 0) 
-                    $parent = $sku;
+            $sku = $request->input('product_sku');
+            $parent = $request->input('parent_sku');
 
-                $count = $request->input('count');
+            if (!isset($parent) || strlen($parent) == 0)
+                $parent = $sku;
 
-                return Cart::add($sku, $count, $parent);
+            $count = $request->input('count');
+
+            return Cart::add($sku, $count, $parent);
         }
 
         return [
             false
         ];
-       
     }
 
     public function remove_from_cart(Request $request)
     {
-        if (strlen($request->input('product_sku')) > 0
-            && strlen($request->input('count')) > 0) {
+        if (
+            strlen($request->input('product_sku')) > 0
+            && strlen($request->input('count')) > 0
+        ) {
 
             $sku = $request->input('product_sku');
             $count = $request->input('count');
@@ -169,16 +175,20 @@ class API extends Controller
         $data = $request->all();
         $state_code = null;
         $promo_code = null;
-        
-        if(isset($data['state_code']) 
-            && strlen($data['state_code']) > 0)
+
+        if (
+            isset($data['state_code'])
+            && strlen($data['state_code']) > 0
+        )
             $state_code = strtoupper($data['state_code']);
 
-        if(isset($data['promo'])
-            && strlen($data['promo']) > 0)
-        $promo_code = $data['promo'];
+        if (
+            isset($data['promo'])
+            && strlen($data['promo']) > 0
+        )
+            $promo_code = $data['promo'];
 
-           
+
         return Cart::cart($state_code, $promo_code);
     }
 
@@ -188,29 +198,32 @@ class API extends Controller
     }
 
     public function get_collection_details(Request $request)
-    {   
+    {
         $collection_key = $request->input('collection');
-        if(!isset($collection_key) || strlen($collection_key) == 0)
+        if (!isset($collection_key) || strlen($collection_key) == 0)
             return [];
 
         return Collections::get_collection_details($collection_key);
     }
 
-    public function get_all_collections() {
+    public function get_all_collections()
+    {
 
         return Collections::get_collection_list();
     }
 
-    public function get_deals() {
+    public function get_deals()
+    {
 
         return Deals::get_deals();
     }
 
-    public function get_visited_skus() {
+    public function get_visited_skus()
+    {
 
-        if(Auth::check()) {
+        if (Auth::check()) {
             return UserVisits::get_visited_skus(Auth::user()->id);
-        } 
+        }
 
         return [
             false
