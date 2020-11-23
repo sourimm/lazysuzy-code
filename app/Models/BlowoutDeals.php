@@ -41,7 +41,7 @@ class BlowoutDeals extends Model
             Config::get('tables.blowout_deals') . '.product_sku'
         )->join(
             Config::get('tables.master_brands'),
-            Config::get('tables.master_table') . '.site_name',
+            Config::get('tables.master_table') . '.brand',
             "=",
             Config::get('tables.master_brands') . '.value'
         )
