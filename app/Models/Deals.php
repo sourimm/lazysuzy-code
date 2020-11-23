@@ -9,6 +9,6 @@ class Deals extends Model
     protected $table = 'site_deals';
     public static function get_deals()
     {
-        return Deals::orderBy('rank', 'ASC')->get();
+        return Deals::where('is_active', 1)->orderBy('rank', 'ASC')->get();
     }
 }
