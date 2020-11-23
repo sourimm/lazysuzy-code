@@ -156,7 +156,6 @@ Route::middleware(['auth:api', 'cors', 'admin'])->group(function () {
         Route::post('update-multiple', 'Admin\NewProductsController@update_multiple_new_product')->name('new.product.update.multiple');
         Route::get('{id}', 'Admin\NewProductsController@get_new_product')->name('new.product');
     });
-    
 });
 
 Route::group([
@@ -171,11 +170,17 @@ Route::group([
 
 // cache APIs 
 
-Route::group(['prefix' => '/api/cache'], function() {
-    Route::get('clear', function() {
+Route::group(['prefix' => '/api/cache'], function () {
+    Route::get('clear', function () {
 
         // clear all the cached data in my cache.
         Cache::flush();
         return json_encode(["msg" => "cache flushed"]);
     });
+});
+
+
+// deals API 
+Route::group(['prefix' => '/api/v1/blowout-deals'], function () {
+    Route::get('/', 'API@get_blowout_deals')->name('get-blowout-deals');
 });

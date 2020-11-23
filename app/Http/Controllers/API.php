@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\BlowoutDeals;
 use App\Models\Product;
 use App\Models\Variations;
 use Illuminate\Http\Request;
@@ -228,5 +229,11 @@ class API extends Controller
         return [
             false
         ];
+    }
+
+    public function get_blowout_deals()
+    {
+
+        return BlowoutDeals::get_deals();
     }
 }
