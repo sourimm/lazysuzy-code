@@ -27,7 +27,7 @@ class BlowoutDeals extends Model
 
             Config::get('tables.blowout_deals') . '.parent_sku',
             Config::get('tables.blowout_deals') . '.start_time',
-            Config::get('tables.blowout_deals') . '.end_time',
+            Config::get('tables.blowout_deals') . '.end_time'
 
         )->join(
             Config::get('tables.inventory'),
@@ -45,7 +45,7 @@ class BlowoutDeals extends Model
             "=",
             Config::get('tables.master_brands') . '.value'
         )
-            ->where(DB::raw(Config::get('tables.blowout_deals') . '.parent_sku', Config::get('tables.inventory') . '.parent_sku'))
+            //->where(DB::raw(Config::get('tables.blowout_deals') . '.parent_sku', Config::get('tables.inventory') . '.parent_sku'))
             ->where(Config::get('tables.blowout_deals') . '.is_active', '1')
             ->orderBy(Config::get('tables.blowout_deals') . '.end_time', 'asc');
 
