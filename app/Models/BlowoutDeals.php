@@ -56,7 +56,7 @@ class BlowoutDeals extends Model
         foreach ($deals as &$deal) {
             $deal['status'] = self::get_status($deal);
             $deal['time'] = self::get_time_remaining($deal, $deal['status']);
-            $deal['total_quantity'] = 100;
+            $deal['total_quantity'] = 1000;
         }
 
         return $deals;
