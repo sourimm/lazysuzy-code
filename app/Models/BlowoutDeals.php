@@ -25,6 +25,7 @@ class BlowoutDeals extends Model
 
             Config::get('tables.master_brands') . '.name as brand',
 
+            Config::get('tables.blowout_deals') . '.product_sku',
             Config::get('tables.blowout_deals') . '.parent_sku',
             Config::get('tables.blowout_deals') . '.start_time',
             Config::get('tables.blowout_deals') . '.end_time'
@@ -55,6 +56,7 @@ class BlowoutDeals extends Model
         foreach ($deals as &$deal) {
             $deal['status'] = self::get_status($deal);
             $deal['time'] = self::get_time_remaining($deal, $deal['status']);
+            $deal['total_quantity'] = 100;
         }
 
         return $deals;
