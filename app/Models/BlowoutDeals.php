@@ -80,6 +80,8 @@ class BlowoutDeals extends Model
             DB::table(Config::get('tables.master_table'))->select(
                 [
                     Config::get('tables.master_table') . '.product_sku',
+                    Config::get('tables.master_table') . '.price',
+                    Config::get('tables.master_table') . '.was_price',
 
                     Config::get('tables.master_table') . '.product_name',
                     Config::get('tables.master_table') . '.rating',
