@@ -139,13 +139,15 @@ class API extends Controller
 
             $sku = $request->input('product_sku');
             $parent = $request->input('parent_sku');
+            $origin = $request->input('cart_origin');
+            $origin = strlen($origin) > 0 ? $origin : NULL;
 
             if (!isset($parent) || strlen($parent) == 0)
                 $parent = $sku;
 
             $count = $request->input('count');
 
-            return Cart::add($sku, $count, $parent);
+            return Cart::add($sku, $count, $parent, $origin);
         }
 
         return [
