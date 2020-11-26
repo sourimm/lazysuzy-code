@@ -13,6 +13,26 @@ class BlowoutDeals extends Model
 
     public static function get_deals()
     {
+        $deals = BlowoutDeals::get();
+
+        $parent_skus = [];
+        $parents = [];
+        $variation_skus = [];
+        $variations_parents = [];
+
+        foreach ($deals as $deal) {
+            $deal_sku = $deal->product_sku;
+            $parent_sku = $deal->parent_sku;
+            if ($deal->parent_sku == NULL) {
+                $parent_skus[$deal_sku] = $deal;
+                $parents[] = $deal_sku;
+            } else {
+                $variation_skus[$parent_sku] = $deal;
+                $variations_parents[] = $parent_sku;
+            }
+        }
+
+        // get parent SKU details
         $deals = BlowoutDeals::select(
             Config::get('tables.master_table') . '.product_name',
             Config::get('tables.master_table') . '.rating',
@@ -50,17 +70,46 @@ class BlowoutDeals extends Model
         )
             ->where(DB::raw(Config::get('tables.blowout_deals') . '.parent_sku', Config::get('tables.inventory') . '.parent_sku'))
             ->where(Config::get('tables.blowout_deals') . '.is_active', '1')
+            ->where(Config::get('tables.blowout_deals') . '.parent_sku', NULL)
             ->orderBy(Config::get('tables.blowout_deals') . '.end_time', 'asc');
 
-        //echo Utility::get_sql_raw($deals);
-        $blowout_deals = [];
-        $deals = $deals->get();
-        foreach ($deals as &$deal) {
-            $deal['status'] = self::get_status($deal);
-            $deal['time'] = self::get_time_remaining($deal, $deal['status']);
+        $parent_sku_details = $deals->get()->toArray();
+
+
+        $var_query =
+            DB::table(Config::get('tables.master_table'))->select(
+                [
+                    Config::get('tables.master_table') . '.product_sku',
+
+                    Config::get('tables.master_table') . '.product_name',
+                    Config::get('tables.master_table') . '.rating',
+                    DB::raw("CONCAT('" . env('APP_URL') . "', " . Config::get('tables.master_table') . '.main_product_images' . ") AS image"),
+                    DB::raw('NOW() as now'),
+
+                    Config::get('tables.master_brands') . '.name as brand',
+
+                ]
+            )
+            ->join(Config::get('tables.master_brands'), Config::get('tables.master_brand') . '.value', '=', Config::get('tables.master_table') . '.brand');
+
+        $variation_sku_details = $var_query->whereIn(Config::get('tables.master_table') . '.product_sku', $variations_parents)->get()->toArray();
+
+
+        foreach ($variation_sku_details as &$deal) {
+            $deal->is_variation = true;
+            $deal->start_time = $variation_skus[$deal->product_sku]['start_time'];
+            $deal->end_time = $variation_skus[$deal->product_sku]['end_time'];
+            $deal->now = $variation_skus[$deal->product_sku]['now'];
         }
 
-        return $deals;
+        foreach ($parent_sku_details as &$deal) {
+            $deal['status'] = self::get_status((object)$deal);
+            $deal['time'] = self::get_time_remaining((object)$deal, $deal['status']);
+            $deal['is_variation'] = false;
+        }
+
+        $parent_sku_details = array_merge($parent_sku_details, $variation_sku_details);
+        return $parent_sku_details;
     }
 
     private static function get_time_remaining($deal, $status)
@@ -80,6 +129,7 @@ class BlowoutDeals extends Model
 
     private static function get_status($deal)
     {
+
         $quantity = $deal->quantity;
         $start_time = strtotime($deal->start_time);
         $end_time = strtotime($deal->end_time);
