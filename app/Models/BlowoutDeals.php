@@ -136,11 +136,12 @@ class BlowoutDeals extends Model
     {
 
         $quantity = $deal->quantity;
+        $total_quantity = $deal->total_quantity;
         $start_time = strtotime($deal->start_time);
         $end_time = strtotime($deal->end_time);
         $now = strtotime($deal->now);
 
-        if ($quantity == 0 || $now >= $end_time)
+        if ($quantity == $total_quantity || $now >= $end_time)
             return Config::get('meta.DEAL_EXPIRED');
 
 
