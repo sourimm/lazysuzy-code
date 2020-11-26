@@ -88,8 +88,11 @@ class BlowoutDeals extends Model
 
                     Config::get('tables.master_brands') . '.name as brand',
 
+                    Config::get('tables.blowout_deals') . '.total_quantity',
+                    Config::get('tables.blowout_deals') . '.purchased_quantity as quantity',
+
                 ]
-            )
+            )->join(Config::get('tables.blowout_deals'), Config::get('tables.blowout_deals') . '.parent_sku', '=', Config::get('tables.master_table') . '.product_sku')
             ->join(Config::get('tables.master_brands'), Config::get('tables.master_brand') . '.value', '=', Config::get('tables.master_table') . '.brand');
 
         $variation_sku_details = $var_query->whereIn(Config::get('tables.master_table') . '.product_sku', $variations_parents)->get()->toArray();
