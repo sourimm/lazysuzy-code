@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\DB;
 
 class BlowoutDeals extends Model
 {
-    protected $table = "lz_blowout_deals";
+    protected $table = "site_deals_flash";
 
     public static function get_deals()
     {
@@ -21,11 +21,13 @@ class BlowoutDeals extends Model
 
             Config::get('tables.inventory') . '.price',
             Config::get('tables.inventory') . '.was_price',
-            Config::get('tables.inventory') . '.quantity',
 
             Config::get('tables.master_brands') . '.name as brand',
 
             Config::get('tables.blowout_deals') . '.product_sku',
+            Config::get('tables.blowout_deals') . '.total_quantity',
+            Config::get('tables.blowout_deals') . '.purchased_quantity as quantity',
+
             Config::get('tables.blowout_deals') . '.parent_sku',
             Config::get('tables.blowout_deals') . '.start_time',
             Config::get('tables.blowout_deals') . '.end_time'
@@ -46,7 +48,7 @@ class BlowoutDeals extends Model
             "=",
             Config::get('tables.master_brands') . '.value'
         )
-            //->where(DB::raw(Config::get('tables.blowout_deals') . '.parent_sku', Config::get('tables.inventory') . '.parent_sku'))
+            ->where(DB::raw(Config::get('tables.blowout_deals') . '.parent_sku', Config::get('tables.inventory') . '.parent_sku'))
             ->where(Config::get('tables.blowout_deals') . '.is_active', '1')
             ->orderBy(Config::get('tables.blowout_deals') . '.end_time', 'asc');
 
@@ -56,7 +58,6 @@ class BlowoutDeals extends Model
         foreach ($deals as &$deal) {
             $deal['status'] = self::get_status($deal);
             $deal['time'] = self::get_time_remaining($deal, $deal['status']);
-            $deal['total_quantity'] = 1000;
         }
 
         return $deals;

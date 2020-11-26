@@ -44,7 +44,7 @@ return [
     'master_brands' => 'master_brands',
     'collections' => 'master_collections',
     'inventory' => 'lz_inventory',
-    'blowout_deals' => 'lz_blowout_deals',
+    'blowout_deals' => 'site_deals_flash',
     'user_views' => 'user_views',
     'collection_detail_count' => 3,
     'dimension_columns' => ['dim_height', 'dim_width', 'dim_length', 'dim_depth', 'dim_diameter', 'dim_square'],
