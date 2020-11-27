@@ -113,8 +113,8 @@ class BlowoutDeals extends Model
             $deal['is_variation'] = false;
         }
 
-        $parent_sku_details = array_merge($parent_sku_details, $variation_sku_details);
-        return $parent_sku_details;
+        $deals = array_merge($parent_sku_details, $variation_sku_details);
+        return $deals;
     }
 
     private static function get_time_remaining($deal, $status)

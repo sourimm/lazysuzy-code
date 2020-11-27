@@ -278,6 +278,8 @@ class Cart extends Model
         $rows = DB::table(Cart::$cart_table)
             ->select(
                 Cart::$cart_table . '.product_sku',
+                Cart::$cart_table . '.origin as product_origin',
+
                 DB::raw('count(*) as count'),
                 'master_data.product_name',
                 'lz_inventory.price as retail_price',

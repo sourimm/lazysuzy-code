@@ -13,6 +13,7 @@ use App\Models\Utility;
 use Stripe;
 use Auth;
 use Exception;
+use Illuminate\Support\Facades\Config;
 
 class Payment extends Model
 {
@@ -28,7 +29,7 @@ class Payment extends Model
         $user_id = $user->id;
         $username = null;
 
-        if(strlen($user->first_name) > 1) $username = $user->first_name;
+        if (strlen($user->first_name) > 1) $username = $user->first_name;
         else $username = $req->input('billing_f_Name');
 
         $mail_data = [];
@@ -68,7 +69,16 @@ class Payment extends Model
         }
 
         //$order_id = "lz-ord-" . rand(1, 1000) . "-" . rand(1, 10000);
+        $deal_SKUs = [];
         foreach ($cart['products'] as $product) {
+
+            // add product SKUs that have a code linking them to any kind of deal.
+            if ($product['product_origin'] != NULL) {
+                $deal_SKUs[$product->product_origin][] = [
+                    "sku" => $product->product_sku,
+                    "count" => $product->count
+                ];
+            }
 
             // add mail reciept data
             $mail_data['order']['products'][] = [
@@ -124,7 +134,7 @@ class Payment extends Model
         $mail_data['shipping'] = '$' . $shipment_cost;
         $mail_data['order_cost'] = '$' . $total_price;
         $mail_data['sales_tax'] = '$' . $sales_tax;
-        
+
 
         $errors = [];
         try {
@@ -139,7 +149,7 @@ class Payment extends Model
                     'checkout_amount' => $total_price,
                     'status' => 'ONGOING',
                 ]);
-            
+
             Stripe\Stripe::setApiKey(env('STRIP_SECRET'));
 
             $customer = Stripe\Customer::create([
@@ -155,7 +165,7 @@ class Payment extends Model
                 'phone' => $req->input('shipping_phone'),
                 "source" => $req->input('token')
             ]);
-            
+
             DB::table('lz_transactions')
                 ->where('order_id', $order_id)
                 ->update([
@@ -163,11 +173,11 @@ class Payment extends Model
                 ]);
             // add dump for orders API 
             DB::table('lz_order_dump')
-                    ->insert([
-                        'user_id' => $user_id,
-                        'order_id' => $order_id,
-                        'order_json' => json_encode($cart)
-                    ]);
+                ->insert([
+                    'user_id' => $user_id,
+                    'order_id' => $order_id,
+                    'order_json' => json_encode($cart)
+                ]);
 
             $charge = Stripe\Charge::create([
                 'customer' => $customer->id,
@@ -197,6 +207,9 @@ class Payment extends Model
                 ]);
 
             if ($charge->status == 'succeeded') {
+
+                self::update_deal_stock($deal_SKUs);
+
                 // remove from stock;
                 foreach ($cart['products'] as $product) {
                     $p = $product;
@@ -269,10 +282,10 @@ class Payment extends Model
             ];
 
             DB::table('lz_transactions')
-            ->where('order_id', $order_id)
-            ->update([
-                'status' => $errors['code'] . " | " . $errors['message']
-            ]);
+                ->where('order_id', $order_id)
+                ->update([
+                    'status' => $errors['code'] . " | " . $errors['message']
+                ]);
 
             return [
                 'status' => 'failed',
@@ -289,7 +302,7 @@ class Payment extends Model
             ];
 
             DB::table('lz_transactions')
-            ->where('order_id', $order_id)
+                ->where('order_id', $order_id)
                 ->update([
                     'status' => $errors['code'] . " | " . $errors['message']
                 ]);
@@ -316,7 +329,7 @@ class Payment extends Model
             ];
 
             DB::table('lz_transactions')
-            ->where('order_id', $order_id)
+                ->where('order_id', $order_id)
                 ->update([
                     'status' => $errors['status'] . " | " . $errors['message']
                 ]);
@@ -325,6 +338,19 @@ class Payment extends Model
                 'errors' => $errors,
                 'order_id' => $order_id,
             ];
+        }
+    }
+
+    private static function update_deal_stock($deal_skus)
+    {
+        foreach ($deal_skus as $deal_code => $skus) {
+            foreach ($skus as $sku_details) {
+
+                DB::table(Config::get('tables.blowout_deals'))
+                    ->where('product_sku', $sku_details['sku'])
+                    ->where('deal_code', $deal_code)
+                    ->update(['purchased_quantity' => DB::raw('purchased_quantity + ' . $sku_details['count'])]);
+            }
         }
     }
 
@@ -337,12 +363,12 @@ class Payment extends Model
             ->where('user_id', $user->id)
             ->where('order_id', $order_id)
             ->get();
-            
-        if(!isset($order_[0])) return null;
+
+        if (!isset($order_[0])) return null;
 
         $order_ = $order_[0];
         $order_data = json_decode($order_->order_json, true);
-        $response['cart'] = $order_data;// $order_data['products'];
+        $response['cart'] = $order_data; // $order_data['products'];
 
         $response['delivery'] = DB::table(Payment::$delivery_table)
             ->where('order_id', $order_id)
