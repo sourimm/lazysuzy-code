@@ -108,6 +108,8 @@ class BlowoutDeals extends Model
         return BlowoutDeals::select(
             Config::get('tables.master_table') . '.product_name',
             Config::get('tables.master_table') . '.rating',
+            Config::get('tables.master_table') . '.reviews',
+
             DB::raw("CONCAT('" . env('APP_URL') . "', " . Config::get('tables.master_table') . '.main_product_images' . ") AS image"),
             DB::raw('NOW() as now'),
 
@@ -156,6 +158,8 @@ class BlowoutDeals extends Model
 
                 Config::get('tables.master_table') . '.product_name',
                 Config::get('tables.master_table') . '.rating',
+                Config::get('tables.master_table') . '.reviews',
+
                 DB::raw("CONCAT('" . env('APP_URL') . "', " . Config::get('tables.master_table') . '.main_product_images' . ") AS image"),
                 DB::raw('NOW() as now'),
 
