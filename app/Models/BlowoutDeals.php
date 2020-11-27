@@ -108,6 +108,7 @@ class BlowoutDeals extends Model
         }
 
         foreach ($parent_sku_details as &$deal) {
+            $deal['quantity'] = min($deal['quantity'], $deal['total_quantity']);
             $deal['status'] = self::get_status((object)$deal);
             $deal['time'] = self::get_time_remaining((object)$deal, $deal['status']);
             $deal['is_variation'] = false;
@@ -141,7 +142,7 @@ class BlowoutDeals extends Model
         $end_time = strtotime($deal->end_time);
         $now = strtotime($deal->now);
 
-        if ($quantity == $total_quantity || $now >= $end_time)
+        if ($quantity >= $total_quantity || $now >= $end_time)
             return Config::get('meta.DEAL_EXPIRED');
 
 
