@@ -33,70 +33,11 @@ class BlowoutDeals extends Model
         }
 
         // get parent SKU details
-        $deals = BlowoutDeals::select(
-            Config::get('tables.master_table') . '.product_name',
-            Config::get('tables.master_table') . '.rating',
-            DB::raw("CONCAT('" . env('APP_URL') . "', " . Config::get('tables.master_table') . '.main_product_images' . ") AS image"),
-            DB::raw('NOW() as now'),
-
-            Config::get('tables.inventory') . '.price',
-            Config::get('tables.inventory') . '.was_price',
-
-            Config::get('tables.master_brands') . '.name as brand',
-
-            Config::get('tables.blowout_deals') . '.product_sku',
-            Config::get('tables.blowout_deals') . '.total_quantity',
-            Config::get('tables.blowout_deals') . '.purchased_quantity as quantity',
-
-            Config::get('tables.blowout_deals') . '.parent_sku',
-            Config::get('tables.blowout_deals') . '.start_time',
-            Config::get('tables.blowout_deals') . '.end_time'
-
-        )->join(
-            Config::get('tables.inventory'),
-            Config::get('tables.inventory') . '.product_sku',
-            "=",
-            Config::get('tables.blowout_deals') . '.product_sku'
-        )->join(
-            Config::get('tables.master_table'),
-            Config::get('tables.master_table') . '.product_sku',
-            "=",
-            Config::get('tables.blowout_deals') . '.product_sku'
-        )->join(
-            Config::get('tables.master_brands'),
-            Config::get('tables.master_table') . '.brand',
-            "=",
-            Config::get('tables.master_brands') . '.value'
-        )
-            ->where(DB::raw(Config::get('tables.blowout_deals') . '.parent_sku', Config::get('tables.inventory') . '.parent_sku'))
-            ->where(Config::get('tables.blowout_deals') . '.is_active', '1')
-            ->where(Config::get('tables.blowout_deals') . '.parent_sku', NULL)
-            ->orderBy(Config::get('tables.blowout_deals') . '.end_time', 'asc');
-
+        $deals = self::get_deals_from_table();
         $parent_sku_details = $deals->get()->toArray();
 
 
-        $var_query =
-            DB::table(Config::get('tables.master_table'))->select(
-                [
-                    Config::get('tables.master_table') . '.product_sku',
-                    Config::get('tables.master_table') . '.price',
-                    Config::get('tables.master_table') . '.was_price',
-
-                    Config::get('tables.master_table') . '.product_name',
-                    Config::get('tables.master_table') . '.rating',
-                    DB::raw("CONCAT('" . env('APP_URL') . "', " . Config::get('tables.master_table') . '.main_product_images' . ") AS image"),
-                    DB::raw('NOW() as now'),
-
-                    Config::get('tables.master_brands') . '.name as brand',
-
-                    Config::get('tables.blowout_deals') . '.total_quantity',
-                    Config::get('tables.blowout_deals') . '.purchased_quantity as quantity',
-
-                ]
-            )->join(Config::get('tables.blowout_deals'), Config::get('tables.blowout_deals') . '.parent_sku', '=', Config::get('tables.master_table') . '.product_sku')
-            ->join(Config::get('tables.master_brands'), Config::get('tables.master_brand') . '.value', '=', Config::get('tables.master_table') . '.brand');
-
+        $var_query = self::get_var_deals_from_table();
         $variation_sku_details = $var_query->whereIn(Config::get('tables.master_table') . '.product_sku', $variations_parents)->get()->toArray();
 
 
@@ -150,5 +91,80 @@ class BlowoutDeals extends Model
             return Config::get('meta.DEAL_ONGOING');
 
         return Config::get('meta.DEAL_INQUEUE');
+    }
+
+    private static function get_deals_from_table()
+    {
+        return BlowoutDeals::select(
+            Config::get('tables.master_table') . '.product_name',
+            Config::get('tables.master_table') . '.rating',
+            DB::raw("CONCAT('" . env('APP_URL') . "', " . Config::get('tables.master_table') . '.main_product_images' . ") AS image"),
+            DB::raw('NOW() as now'),
+
+            Config::get('tables.inventory') . '.price',
+            Config::get('tables.inventory') . '.was_price',
+
+            Config::get('tables.master_brands') . '.name as brand',
+
+            Config::get('tables.blowout_deals') . '.product_sku',
+            Config::get('tables.blowout_deals') . '.total_quantity',
+            Config::get('tables.blowout_deals') . '.purchased_quantity as quantity',
+
+            Config::get('tables.blowout_deals') . '.parent_sku',
+            Config::get('tables.blowout_deals') . '.start_time',
+            Config::get('tables.blowout_deals') . '.end_time'
+
+        )->join(
+            Config::get('tables.inventory'),
+            Config::get('tables.inventory') . '.product_sku',
+            "=",
+            Config::get('tables.blowout_deals') . '.product_sku'
+        )->join(
+            Config::get('tables.master_table'),
+            Config::get('tables.master_table') . '.product_sku',
+            "=",
+            Config::get('tables.blowout_deals') . '.product_sku'
+        )->join(
+            Config::get('tables.master_brands'),
+            Config::get('tables.master_table') . '.brand',
+            "=",
+            Config::get('tables.master_brands') . '.value'
+        )
+            ->where(DB::raw(Config::get('tables.blowout_deals') . '.parent_sku', Config::get('tables.inventory') . '.parent_sku'))
+            ->where(Config::get('tables.blowout_deals') . '.is_active', '1')
+            ->where(Config::get('tables.blowout_deals') . '.parent_sku', NULL)
+            ->orderBy(Config::get('tables.blowout_deals') . '.end_time', 'asc');
+    }
+
+    private static function get_var_deals_from_table()
+    {
+        return DB::table(Config::get('tables.master_table'))->select(
+            [
+                Config::get('tables.master_table') . '.product_sku',
+                Config::get('tables.master_table') . '.price',
+                Config::get('tables.master_table') . '.was_price',
+
+                Config::get('tables.master_table') . '.product_name',
+                Config::get('tables.master_table') . '.rating',
+                DB::raw("CONCAT('" . env('APP_URL') . "', " . Config::get('tables.master_table') . '.main_product_images' . ") AS image"),
+                DB::raw('NOW() as now'),
+
+                Config::get('tables.master_brands') . '.name as brand',
+
+                Config::get('tables.blowout_deals') . '.total_quantity',
+                Config::get('tables.blowout_deals') . '.purchased_quantity as quantity',
+
+            ]
+        )->join(
+            Config::get('tables.blowout_deals'),
+            Config::get('tables.blowout_deals') . '.parent_sku',
+            '=',
+            Config::get('tables.master_table') . '.product_sku'
+        )->join(
+            Config::get('tables.master_brands'),
+            Config::get('tables.master_brand') . '.value',
+            '=',
+            Config::get('tables.master_table') . '.brand'
+        );
     }
 }
