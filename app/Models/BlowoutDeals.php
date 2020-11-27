@@ -13,7 +13,15 @@ class BlowoutDeals extends Model
 
     public static function get_deals()
     {
-        $deals = BlowoutDeals::get();
+        $deals = BlowoutDeals::select([
+            'product_sku',
+            'parent_sku',
+            'purchased_quantity',
+            'total_quantity',
+            'start_time',
+            'end_time',
+            DB::raw('NOW() as now')
+        ])->get();
 
         $parent_skus = [];
         $parents = [];
@@ -47,6 +55,7 @@ class BlowoutDeals extends Model
             $deal->end_time = $variation_skus[$deal->product_sku]['end_time'];
             $deal->now = $variation_skus[$deal->product_sku]['now'];
             $deal->status = self::get_status($deal);
+            $deal->time = self::get_time_remaining($deal, $deal->status);
         }
 
         foreach ($parent_sku_details as &$deal) {
