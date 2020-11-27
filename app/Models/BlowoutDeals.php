@@ -46,7 +46,7 @@ class BlowoutDeals extends Model
             $deal->start_time = $variation_skus[$deal->product_sku]['start_time'];
             $deal->end_time = $variation_skus[$deal->product_sku]['end_time'];
             $deal->now = $variation_skus[$deal->product_sku]['now'];
-            $deal['status'] = self::get_status((object)$deal);
+            $deal->status = self::get_status($deal);
         }
 
         foreach ($parent_sku_details as &$deal) {
