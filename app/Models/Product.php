@@ -2403,6 +2403,15 @@ class Product extends Model
         $prod[0] = (object) array_merge((array)$prod[0], $product_inventory_details);
 
         $is_wishlisted = Wishlist::is_wishlisted($user, $sku);
+
+        /*
+        $product,
+        $variations,
+        $is_listing_API_call = null,
+        $isMarked = false,
+        $isTrending = false,
+        $is_details_minimal = false
+         */
         return [
             "seo_data" => Product::product_seo($sku, $prod[0]->LS_ID),
             "product" => Product::get_details($prod[0], $variations_data, false, $is_wishlisted)

@@ -8,39 +8,38 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Input;
 use Auth;
 
-class Wishlist extends Model {
-    public static function get_whishlist($is_board_view = false) 
+class Wishlist extends Model
+{
+    public static function get_whishlist($is_board_view = false)
     {
-        if(Auth::check()) {
+        if (Auth::check()) {
             $user = Auth::user();
             $products = DB::table("user_wishlists")
                 ->join("master_data", "master_data.product_sku", "=", "user_wishlists.product_id")
                 ->join("master_brands", "master_data.site_name", "=", "master_brands.value");
 
-            if($is_board_view) 
+            if ($is_board_view)
                 $products->where("master_data.image_xbg_processed", 1);
 
             $products = $products->where("user_id", $user->id)
                 ->where("is_active", 1)
                 ->get()->toArray();
-                
+
             $products_structured = [];
-            foreach((object) $products as $prod) {
+            foreach ((object) $products as $prod) {
                 $variations = Product::get_variations($prod, null, true);
 
                 // inject inventory details
                 $product_inventory_details = Inventory::get_product_from_inventory($user, $prod->product_sku);
                 $prod = (object) array_merge($product_inventory_details, (array) $prod);
-                
+
                 array_push($products_structured, Product::get_details($prod, $variations, true, true));
             }
-            
+
             return [
                 "products" => $products_structured
             ];
-            
         }
-        
     }
     public static function mark_favourite_product($sku)
     {
@@ -68,6 +67,12 @@ class Wishlist extends Model {
                     $result["msg"] = "Product marked favourite successfully";
                 }
             } else {
+
+                // update is_active to 1 by default
+                DB::table("user_wishlists")
+                    ->where("user_id", $user->id)
+                    ->where("product_id", $sku)
+                    ->update(["is_active" => 1]);
                 $result["msg"] = "Product already marked favourite";
             }
         } else {
@@ -98,14 +103,15 @@ class Wishlist extends Model {
                     "msg" => json_encode($update)
                 ];
             }
-        } else { 
+        } else {
             // handle no login requests
             return [];
         }
         return $result;
     }
 
-    public static function is_wishlisted($user, $sku) {
+    public static function is_wishlisted($user, $sku)
+    {
 
         $user_id  = $user->id;
         $product_sku = $sku;
