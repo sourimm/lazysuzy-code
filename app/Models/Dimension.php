@@ -72,7 +72,6 @@ class Dimension extends Model
             return [];
         }
 
-        echo "str: " . $str;
         if (strpos($str, " x ") == false)
             return $str;
 
