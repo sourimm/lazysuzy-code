@@ -140,6 +140,7 @@ class NewProductsController extends Controller
                 }
                 $new_product = new Product();
                 $new_product->fill(json_decode(json_encode($product, true), true));
+                $new_product->product_dimension = json_encode($new_product->product_dimension);
                 $new_product->save();
             }
         } catch (Exception $e) {
