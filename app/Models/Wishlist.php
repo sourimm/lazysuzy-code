@@ -121,7 +121,6 @@ class Wishlist extends Model
             ->where("user_id", $user_id)
             ->where("is_active", 1);
 
-        echo Utility::get_sql_raw($q);
         return $q->exists();
     }
 }

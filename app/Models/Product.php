@@ -2269,6 +2269,7 @@ class Product extends Model
     {
         $user = Auth::user();
         $product_inventory_details = Inventory::get_product_from_inventory($user, $sku);
+        $is_wishlisted = Wishlist::is_wishlisted($user, $sku);
 
         // check if product needs to be redirected
         $redirection = Product::is_redirect($sku);
@@ -2341,7 +2342,7 @@ class Product extends Model
                 // adding inventory object details to main product array
                 $product_details = array_merge($product_details, $product_inventory_details);
 
-                $product = Product::get_details((object) $product_details, $variations_data);
+                $product = Product::get_details((object) $product_details, $variations_data, false, $is_wishlisted);
                 $product['redirect_url'] = $redirect_url;
                 $product['redirect'] = true;
 
