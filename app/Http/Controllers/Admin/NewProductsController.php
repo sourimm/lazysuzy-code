@@ -70,8 +70,8 @@ class NewProductsController extends Controller
 
     public function remove_background_from_image(Request $request)
     {
-        $root = '\var\www\html';
-        $destination = '\original';
+        $root = '/var/www/html';
+        $destination = '/original';
         $image = str_replace('/',DIRECTORY_SEPARATOR,$request->get('image'));
         $imagePath = pathinfo($root.$image);
         $sourceImageFolderName = str_replace($root, '', $imagePath['dirname']);
