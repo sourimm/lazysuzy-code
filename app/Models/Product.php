@@ -1520,8 +1520,8 @@ class Product extends Model
 
         // call coming from the board
         if ($is_details_minimal || $isMarked) {
-            $data['board_thumb'] = strlen($product->image_xbg_thumb) > 0 ? env('APP_URL') . $product->image_xbg_thumb : null;
-            $data['board_cropped'] = strlen($product->image_xbg_cropped) > 0 ? env('APP_URL') . $product->image_xbg_cropped : null;
+            $data['board_thumb'] = (isset($product->image_xbg_thumb) && strlen($product->image_xbg_thumb)) > 0 ? env('APP_URL') . $product->image_xbg_thumb : null;
+            $data['board_cropped'] = (isset($product->image_xbg_cropped) && strlen($product->image_xbg_cropped)) > 0 ? env('APP_URL') . $product->image_xbg_cropped : null;
         }
 
         if (isset($variations) && !$is_details_minimal) {
