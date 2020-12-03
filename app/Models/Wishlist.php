@@ -116,10 +116,12 @@ class Wishlist extends Model
         $user_id  = $user->id;
         $product_sku = $sku;
 
-        return DB::table("user_wishlists")
+        $q =  DB::table("user_wishlists")
             ->where("product_id", $product_sku)
             ->where("user_id", $user_id)
-            ->where("is_active", 1)
-            ->exists();
+            ->where("is_active", 1);
+
+        echo Utility::get_sql_raw($q);
+        return $q->exists();
     }
 }
