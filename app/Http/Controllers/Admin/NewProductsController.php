@@ -68,19 +68,19 @@ class NewProductsController extends Controller
         ]);
     }
 
-    private function getFilters()
+    public function remove_background_from_image(Request $request)
     {
-        $filters = DB::table('filters')->get()->groupBy('filter_label');
-        return $filters;
-    }
+        $root = '\var\www\html';
+        $destination = '\original';
+        $image = str_replace('/',DIRECTORY_SEPARATOR,$request->get('image'));
+        $imagePath = pathinfo($root.$image);
+        $sourceImageFolderName = str_replace($root, '', $imagePath['dirname']);
 
-    private function getMappingCore()
-    {
-        $mapping_core = DB::table('mapping_core')
-            ->select('LS_ID', 'dept_name_short', 'cat_name_short', 'cat_sub_name')
-            ->get();
-        return $mapping_core;
+        $destinationImageFolderName = $destination . $sourceImageFolderName . DIRECTORY_SEPARATOR;
+        $destinationImageCompleteFolderName = $root . $destination . $sourceImageFolderName;
+        dd($imagePath,$destinationImageFolderName,$destinationImageCompleteFolderName);    
     }
+    
 
     /**
      * Update Multiple Products.
@@ -262,6 +262,19 @@ class NewProductsController extends Controller
         $inventoryService->update($to_update);
     }
 
+    private function getFilters()
+    {
+        $filters = DB::table('filters')->get()->groupBy('filter_label');
+        return $filters;
+    }
+
+    private function getMappingCore()
+    {
+        $mapping_core = DB::table('mapping_core')
+            ->select('LS_ID', 'dept_name_short', 'cat_name_short', 'cat_sub_name')
+            ->get();
+        return $mapping_core;
+    }
 
     // private function addVariations($to_insert,$variation_skus)
     // {
