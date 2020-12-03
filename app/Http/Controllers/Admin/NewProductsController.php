@@ -72,13 +72,33 @@ class NewProductsController extends Controller
     {
         $root = '/var/www/html';
         $destination = '/original';
-        $image = str_replace('/',DIRECTORY_SEPARATOR,$request->get('image'));
-        $imagePath = pathinfo($root.$image);
-        $sourceImageFolderName = str_replace($root, '', $imagePath['dirname']);
+        $image = $request->get('image');
+        $imagePathInfo = pathinfo($root.$image);
+        $imagePath = $root.$image;
+        $sourceImageFolderName = str_replace($root, '', $imagePathInfo['dirname']);
 
-        $destinationImageFolderName = $destination . $sourceImageFolderName . DIRECTORY_SEPARATOR;
-        $destinationImageCompleteFolderName = $root . $destination . $sourceImageFolderName;
-        dd($imagePath,$destinationImageFolderName,$destinationImageCompleteFolderName);    
+        // First copy the file to 'Original' Folder
+        $destinationImageFolderName = $root.$destination.$sourceImageFolderName.DIRECTORY_SEPARATOR;
+        $imageOriginalStore = $destinationImageFolderName.$imagePathInfo['basename'];        
+        if(file_exists($root.$image)){
+            if(!file_exists($destinationImageFolderName)){
+                mkdir($destinationImageFolderName,0777,true);
+            }
+            copy($imagePath,$imageOriginalStore);
+        }
+        else{
+            return response()->json([
+                'status'=> 'failed',
+                'error' => 'File does not exist'
+            ],404);
+        }
+        
+        // Remove background from the image
+
+        // Return the response with new Image Name
+        return response()->json([
+            'status'=> 'success',
+        ],201);
     }
     
 
