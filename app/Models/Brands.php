@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Models;
 
 use App\Models\Utility;
@@ -21,7 +22,8 @@ class Brands extends Model
     public static $xbg_sites = ['nw', 'westelm'];
 
 
-    public static function get_all($key) {
+    public static function get_all($key)
+    {
         $rows = Brands::select("*");
 
         if ($key !== null) $rows = $rows->where("value", $key);
@@ -31,7 +33,7 @@ class Brands extends Model
 
         $brands = [];
 
-        foreach($rows as $row) {
+        foreach ($rows as $row) {
             array_push($brands, [
                 'name' => $row['name'],
                 'value' => $row['value'],
@@ -43,40 +45,45 @@ class Brands extends Model
         }
 
         return $brands;
-
     }
 
-    public static function get_banners() {
-        
+    public static function get_banners()
+    {
+
         $banners = [];
         $rows = DB::table("site_banners")
-                    ->select("*")
-                    ->where("is_active", 1)
-                    ->get();
+            ->select("*")
+            ->where("is_active", 1)
+            ->get();
 
         $agent = $_SERVER['HTTP_USER_AGENT'];
-        
+
         if (Utility::is_mobile($agent)) {
             $image_col = "image_mobile";
-        }
-        else {
+        } else {
             $image_col = "image";
         }
 
-        foreach($rows as $row) {
-            
+        foreach ($rows as $row) {
+
             array_push($banners, [
                 "name" => $row->name,
                 "image" => Brands::$base_site_url . $row->$image_col,
-                "link" => Brands::$base_site_url . $row->url
+                "link" => Brands::$base_site_url . $row->url,
+                "link_label" => $row->link,
+                "banner_label" => $row->label,
+                "font_hex" => $row->font_hex,
+                "position" => $row->position,
+                "rank" => $row->rank
             ]);
         }
-        
+
         return $banners;
     }
 
-    public static function convert_normal_master_format($product, $min_price, $max_price, $pop_index, $dim = null) {
-    
+    public static function convert_normal_master_format($product, $min_price, $max_price, $pop_index, $dim = null)
+    {
+
         $arr =  array(
             'product_sku'         => $product->product_sku,
             'sku_hash'            => $product->product_sku,
@@ -126,9 +133,9 @@ class Brands extends Model
         }
 
         return $arr;
-    
     }
-    public static function convert_id_brand_master_data($product, $min_price, $max_price, $pop_index, $dim = null) {
+    public static function convert_id_brand_master_data($product, $min_price, $max_price, $pop_index, $dim = null)
+    {
 
         $arr =  array(
             'product_sku'         => $product->product_id,
@@ -168,7 +175,7 @@ class Brands extends Model
         }
 
 
-        if (in_array($product->site_name,Brands::$xbg_sites)) {
+        if (in_array($product->site_name, Brands::$xbg_sites)) {
             $arr['image_xbg'] = $product->image_xbg;
         }
 
@@ -184,7 +191,8 @@ class Brands extends Model
         return $arr;
     }
 
-    public static function get_brand_LS_IDs($brands) {
+    public static function get_brand_LS_IDs($brands)
+    {
         $brand_LSID_rows = DB::table(config('tables.master_table'))
             ->select('LS_ID')
             ->whereIn('brand', $brands)
@@ -199,7 +207,7 @@ class Brands extends Model
                 if (strlen($a) > 0)
                     $brand_LSID_array[$a] = true;
         }
-        
+
         return $brand_LSID_array;
     }
 }
