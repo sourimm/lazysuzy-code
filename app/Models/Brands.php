@@ -41,6 +41,8 @@ class Brands extends Model
                 'url' => $row['url'],
                 'description' => $row['description'],
                 'cover_image' => $row['cover_image'],
+                'location' => $row['location'],
+                'feature' => $row['feature']
             ]);
         }
 
