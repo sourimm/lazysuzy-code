@@ -28,7 +28,7 @@ class Brands extends Model
 
         if ($key !== null) $rows = $rows->where("value", $key);
 
-        $rows = $rows->get()
+        $rows = $rows->where('is_active', 1)->get()
             ->toArray();;
 
         $brands = [];
