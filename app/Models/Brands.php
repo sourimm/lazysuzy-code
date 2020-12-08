@@ -40,7 +40,7 @@ class Brands extends Model
                 'logo' => Brands::$base_site_url . $row['logo'],
                 'url' => $row['url'],
                 'description' => $row['description'],
-                'cover_image' => $row['cover_image'],
+                'cover_image' => Brands::$base_site_url . $row['cover_image'],
                 'location' => $row['location'],
                 'feature' => $row['feature']
             ]);
