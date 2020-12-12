@@ -25,9 +25,9 @@ class Product extends Model
     const CREATED_AT = 'created_date';
     const UPDATED_AT = 'updated_date';
 
-    protected $casts = [
+    /* protected $casts = [
         'product_dimension' => 'array',
-    ];
+    ]; */
     public static $base_siteurl = 'https://www.lazysuzy.com';
     static $count = 0;
     private static $color_map = null;
@@ -1545,7 +1545,6 @@ class Product extends Model
         $dims_from_features = Config::get('meta.dims_form_feature_brands'); // these extract dimensions data from features data.
         $sets_enabled_brands = Config::get('meta.sets_enabled_brands');
         $dims_text = in_array($product->name, $dims_from_features) ? $product->product_feature : $product->product_dimension;
-
         $children = null;
         if (!$is_listing_API_call) {
 
@@ -2295,6 +2294,7 @@ class Product extends Model
                 $product = DB::table($prod_table)
                     ->where($sku_col, $sku)
                     ->get();
+
                 $brand_name_verbose = DB::table("master_brands")
                     ->select(["name"])
                     ->where("value", $redirection->brand)
@@ -2359,10 +2359,11 @@ class Product extends Model
                 return [];
             }
         }
+
         $prod = Product::where('product_sku', $sku)
             ->join("master_brands", "master_data.brand", "=", "master_brands.value")
             ->get()->toArray();
-
+        echo json_encode($prod);
         if (!isset($prod[0]))
             return [];
 
@@ -2400,6 +2401,7 @@ class Product extends Model
 
         $variations_data = Product::get_variations((object)$prod[0], $westelm_variations_data, false);
         $prod[0] = (object) array_merge((array)$prod[0], $product_inventory_details);
+
         $is_wishlisted = Wishlist::is_wishlisted($user, $sku);
         return [
             "seo_data" => Product::product_seo($sku, $prod[0]->LS_ID),
