@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\Admin;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\NewProduct;
 use App\Models\Product;
 use App\Services\InventoryService;
 use Exception;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class NewProductsController extends Controller
@@ -19,19 +19,19 @@ class NewProductsController extends Controller
     private $inventory_maintained_products = [
         1 => 'cb2',
         2 => 'nw',
-        3 => 'cab'
+        3 => 'cab',
     ];
 
     private $variation_sku_tables = array(
         'cb2_products_variations' => 'cb2',
-        'crateandbarrel_products_variations' => 'cab'
+        'crateandbarrel_products_variations' => 'cab',
     );
 
     private $table_site_map = array(
         'cb2_products_new_new' => 'cb2',
         'nw_products_API' => 'nw',
         'westelm_products_parents' => 'westelm',
-        'crateandbarrel_products' => 'cab'
+        'crateandbarrel_products' => 'cab',
         //'floyd_products_parents',
         //'potterybarn_products_parents'
     );
@@ -40,7 +40,6 @@ class NewProductsController extends Controller
     {
         return $shipping_code == 49 ? 'WGNW' : 'SCNW';
     }
-
 
     /**
      *
@@ -56,7 +55,7 @@ class NewProductsController extends Controller
         if ($brand && $brand !== 'all') {
             $new_products->where('site_name', 'Like', $brand);
         }
-        $new_products=$new_products->orderBy('created_date', 'asc')
+        $new_products = $new_products->orderBy('created_date', 'asc')
             ->paginate($limit);
         $extra['filters'] = $this->getFilters();
         $extra['mapping_core'] = $this->getMappingCore();
@@ -68,18 +67,36 @@ class NewProductsController extends Controller
         ]);
     }
 
-    private function getFilters()
+    public function remove_background_from_image(Request $request)
     {
-        $filters = DB::table('filters')->get()->groupBy('filter_label');
-        return $filters;
-    }
+        $root = '/var/www/html';
+        $destination = '/original';
+        $image = $request->get('image');
+        $imagePathInfo = pathinfo($root . $image);
+        $imagePath = $root . $image;
+        $sourceImageFolderName = str_replace($root, '', $imagePathInfo['dirname']);
 
-    private function getMappingCore()
-    {
-        $mapping_core = DB::table('mapping_core')
-            ->select('LS_ID', 'dept_name_short', 'cat_name_short', 'cat_sub_name')
-            ->get();
-        return $mapping_core;
+        // First copy the file to 'Original' Folder
+        $destinationImageFolderName = $root . $destination . $sourceImageFolderName . DIRECTORY_SEPARATOR;
+        $imageOriginalStore = $destinationImageFolderName . $imagePathInfo['basename'];
+        if (file_exists($root . $image)) {
+            if (!file_exists($destinationImageFolderName)) {
+                mkdir($destinationImageFolderName, 0777, true);
+            }
+            copy($imagePath, $imageOriginalStore);
+        } else {
+            return response()->json([
+                'status' => 'failed',
+                'error' => 'File does not exist',
+            ], 404);
+        }
+
+        // Remove background from the image
+
+        // Return the response with new Image Name
+        return response()->json([
+            'status' => 'success',
+        ], 201);
     }
 
     /**
@@ -122,7 +139,7 @@ class NewProductsController extends Controller
             $inventory_products = [];
             if ($rejected_products->count() > 0) {
                 NewProduct::whereIn('id', $rejected_products->pluck('id'))->update([
-                    'status' => 'rejected'
+                    'status' => 'rejected',
                 ]);
             }
 
@@ -187,7 +204,7 @@ class NewProductsController extends Controller
                         'was_price' => $row->was_price,
                         'ship_code' => $shipping_code,
                         'brand' => $key,
-                        'ship_custom' => $shipping_code == 'SCNW' ? $row->shipping_code : NULL
+                        'ship_custom' => $shipping_code == 'SCNW' ? $row->shipping_code : null,
                     ];
                 } else if ($key == 'cab' || $key == 'cb2') {
                     $shipping_code = $this->code_map[$row->shipping_code] . strtoupper($key);
@@ -198,7 +215,7 @@ class NewProductsController extends Controller
                             'price' => $row->price,
                             'was_price' => $row->was_price,
                             'brand' => $key,
-                            'ship_code' => $shipping_code
+                            'ship_code' => $shipping_code,
                         ];
                         // DB::table('lz_inventory')->where('product_sku',$product->product_sku)
                         // ->update($toUpdate);
@@ -209,7 +226,7 @@ class NewProductsController extends Controller
                             'price' => $row->price,
                             'was_price' => $row->was_price,
                             'brand' => $key,
-                            'ship_code' => $shipping_code
+                            'ship_code' => $shipping_code,
                         ];
                     }
 
@@ -217,7 +234,7 @@ class NewProductsController extends Controller
                     $variation_skus = DB::table($variation_table)->where([
                         'product_sku' => $product->product_sku,
                         'has_parent_sku' => 0,
-                        'is_active' => 'active'
+                        'is_active' => 'active',
                     ])->get();
                     if ($variation_skus) {
                         foreach ($variation_skus as $variation) {
@@ -229,7 +246,7 @@ class NewProductsController extends Controller
                                     'price' => $variation->price,
                                     'was_price' => $variation->was_price,
                                     'brand' => $key,
-                                    'ship_code' => $shipping_code
+                                    'ship_code' => $shipping_code,
                                 ];
                             } else {
                                 $to_update[] = [
@@ -237,7 +254,7 @@ class NewProductsController extends Controller
                                     'price' => $variation->price,
                                     'was_price' => $variation->was_price,
                                     'brand' => $key,
-                                    'ship_code' => $shipping_code
+                                    'ship_code' => $shipping_code,
                                 ];
                             }
                         }
@@ -262,6 +279,19 @@ class NewProductsController extends Controller
         $inventoryService->update($to_update);
     }
 
+    private function getFilters()
+    {
+        $filters = DB::table('filters')->get()->groupBy('filter_label');
+        return $filters;
+    }
+
+    private function getMappingCore()
+    {
+        $mapping_core = DB::table('mapping_core')
+            ->select('LS_ID', 'dept_name_short', 'cat_name_short', 'cat_sub_name')
+            ->get();
+        return $mapping_core;
+    }
 
     // private function addVariations($to_insert,$variation_skus)
     // {
@@ -278,6 +308,5 @@ class NewProductsController extends Controller
     //     }
     //     return $to_insert;
     // }
-
 
 }
