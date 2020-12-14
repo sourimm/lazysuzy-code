@@ -2363,7 +2363,6 @@ class Product extends Model
         $prod = Product::where('product_sku', $sku)
             ->join("master_brands", "master_data.brand", "=", "master_brands.value")
             ->get()->toArray();
-        echo json_encode($prod);
         if (!isset($prod[0]))
             return [];
 
