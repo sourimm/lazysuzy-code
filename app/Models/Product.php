@@ -1510,6 +1510,8 @@ class Product extends Model
             'reviews'          => $product->reviews,
             'rating'           => (float) $product->rating,
             'wishlisted'       => $isMarked,
+
+            // add availablilty data for all products
             'is_back_order'    => $product->is_back_order,
             'back_order_msg'   => $product->back_order_msg,
             'back_order_msg_date' => $product->back_order_msg_date,
