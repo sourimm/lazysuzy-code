@@ -278,11 +278,6 @@ class Cart extends Model
                     $vrow->site = $row->site;
                     $vrow->brand_id = $row->site_name;
                     $vrow->mfg_county = $row->mfg_country;
-
-                    $vrow->is_back_order = $row->is_back_order;
-                    $vrow->back_order_msg = $row->is_back_order;
-                    $vrow->back_order_msg_date = $row->is_back_order;
-                    $vrow->online_msg = $row->is_back_order;
                     $cart[] = $vrow;
                 }
             }
@@ -306,6 +301,12 @@ class Cart extends Model
                 'master_data.reviews',
                 'master_data.rating',
                 'master_data.mfg_country',
+
+                'master_data.is_back_order',
+                'master_data.back_order_msg',
+                'master_data.back_order_msg_date',
+                'master_data.online_msg',
+
                 'master_brands.name as site',
                 'master_brands.value as brand_id',
                 'lz_ship_code.label'
