@@ -216,7 +216,13 @@ class Cart extends Model
                 "mfg_country",
                 "product_description",
                 "master_brands.value as site_value",
-                "master_brands.name as site"
+                "master_brands.name as site",
+
+                // availability related data
+                "is_back_order",
+                "back_order_msg",
+                "back_order_msg_date",
+                "online_msg"
             ])
             ->whereIn('master_data.product_sku', $dist_parents)
             ->join("master_brands", "master_data.site_name", "=", "master_brands.value")
@@ -273,6 +279,10 @@ class Cart extends Model
                     $vrow->brand_id = $row->site_name;
                     $vrow->mfg_county = $row->mfg_country;
 
+                    $vrow->is_back_order = $row->is_back_order;
+                    $vrow->back_order_msg = $row->is_back_order;
+                    $vrow->back_order_msg_date = $row->is_back_order;
+                    $vrow->online_msg = $row->is_back_order;
                     $cart[] = $vrow;
                 }
             }
