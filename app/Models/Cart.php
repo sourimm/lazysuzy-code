@@ -269,6 +269,8 @@ class Cart extends Model
 
                 // one parent SKU can have many variations SKUs 
                 // in the cart
+                // if you need to add any new info from master table to cart API do it 
+                // here and in one more place in the below section 
                 foreach ($vrows as &$vrow) {
                     $vrow->parent_sku = $row->product_sku;
                     $vrow->parent_name = $row->product_name;
@@ -278,11 +280,18 @@ class Cart extends Model
                     $vrow->site = $row->site;
                     $vrow->brand_id = $row->site_name;
                     $vrow->mfg_county = $row->mfg_country;
+
+                    $vrow->is_back_order = $row->is_back_order;
+                    $vrow->back_order_msg = $row->back_order_msg;
+                    $vrow->back_order_msg_date = $row->back_order_msg_date;
+                    $vrow->online_msg = $row->online_msg;
                     $cart[] = $vrow;
                 }
             }
         }
 
+        // if you need to add data from master table to card API output 
+        // do it in this section
         $rows = DB::table(Cart::$cart_table)
             ->select(
                 Cart::$cart_table . '.product_sku',
