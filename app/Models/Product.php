@@ -1758,7 +1758,7 @@ class Product extends Model
             "variation_sku",
             "swatch_image",
             "variation_image",
-            "variation_name",
+            //"variation_name",
             "has_parent_sku",
             "price",
             "was_price"
