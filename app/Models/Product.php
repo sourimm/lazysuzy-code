@@ -1512,10 +1512,10 @@ class Product extends Model
             'wishlisted'       => $isMarked,
 
             // add availablilty data for all products
-            'is_back_order'    => $product->is_back_order,
-            'back_order_msg'   => $product->back_order_msg,
-            'back_order_msg_date' => $product->back_order_msg_date,
-            'online_msg'       => $product->online_msg
+            'is_back_order'    => isset($product->is_back_order) ? $product->is_back_order : "",
+            'back_order_msg'   => isset($product->back_order_msg) ? $product->back_order_msg : "",
+            'back_order_msg_date' => isset($product->back_order_msg_date) ? $product->back_order_msg_date : "",
+            'online_msg'       => isset($product->online_msg) ? $product->online_msg : ""
             //    'LS_ID'            => $product->LS_ID,
         ];
 
@@ -1758,7 +1758,7 @@ class Product extends Model
             "variation_sku",
             "swatch_image",
             "variation_image",
-            "variation_name",
+            //"variation_name",
             "has_parent_sku",
             "price",
             "was_price"
@@ -1815,7 +1815,7 @@ class Product extends Model
             $v = [
                 "product_sku" => $variation->product_sku,
                 "variation_sku" => $variation->variation_sku,
-                "name" => $variation->variation_name,
+                //"name" => $variation->variation_name,
                 "has_parent_sku" => $variation->has_parent_sku == 1 ? true : false,
                 "swatch_image" => $swatch_image,
                 "image" => isset($v_image) ? Product::$base_siteurl . $v_image : null,
