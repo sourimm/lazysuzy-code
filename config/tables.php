@@ -11,10 +11,10 @@ return [
         ],
         'cab' => [
             'table' => 'crateandbarrel_products_variations',
-            'name' => 'variation_name',
-            'image' => 'swatch_image',
-            'sku' => 'variation_sku',
-            'parent_sku' => 'product_sku'
+            'name' => 'sku',
+            'image' => 'swatch_image_path',
+            'sku' => 'sku',
+            'parent_sku' => 'product_id'
         ],
         'cb2' => [
             'table' => 'cb2_products_variations',
