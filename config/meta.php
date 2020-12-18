@@ -44,6 +44,7 @@ return [
         "sku",
         "product_id",
         "swatch_image_path",
+        "has_parent_sku",
         "image_path",
         "attribute_1",
         "attribute_2",

@@ -81,14 +81,14 @@ Route::get('/api/user/details', 'API@user_details')->middleware(['cors', 'auth:a
 
 
 // deals
-Route::get('/api/deals', 'API@get_deals')->name('get-deals');
+Route::get('/api/deals', 'API@get_deals')->middleware(['auth:api', 'cached'])->name('get-deals');
 
 Route::get('/api/collections', 'API@get_all_collections')->middleware('auth:api')->name('get-collections');
 Route::get('/api/collection', 'API@get_collection_details')->middleware('auth:api')->name('get-collection-details');
 
-Route::get('/api/brand/{key?}', 'API@get_all_brands')->middleware('auth:api')->name('get_all_brands');
+Route::get('/api/brand/{key?}', 'API@get_all_brands')->middleware(['auth:api', 'cached'])->name('get_all_brands');
 Route::get('/api/categories/{dept}', 'API@get_categories')->middleware('auth:api')->name('cat-api');
-Route::get('/api/all-departments', 'DepartmentController@index')->middleware(['auth:api'/* , 'cached' */])->name('get_all_departments');
+Route::get('/api/all-departments', 'DepartmentController@index')->middleware(['auth:api', 'cached'])->name('get_all_departments');
 Route::get('/api/departments/{dept}', 'DepartmentController@get_department')->middleware('auth:api')->name('get_department');
 Route::get('/api/categories', 'CategoryController@get_all_categories')->middleware('auth:api')->name('get_category');
 Route::get('/api/products/{dept}/{cat?}/{subCat?}', 'API@filter_products')->middleware(['auth:api'/* , 'cached' */])->name('get-products');
@@ -177,6 +177,16 @@ Route::group(['prefix' => '/api/cache'], function () {
         // clear all the cached data in my cache.
         Cache::flush();
         return json_encode(["msg" => "cache flushed"]);
+    });
+
+    Route::get('keys', function () {
+        $keys = cache()->getMemcached()->getAllKeys();
+        $cached_data = [];
+        foreach ($keys as $key) {
+            $cached_data[$key] = Cache::get(explode(":", $key)[1]);
+        }
+
+        return $cached_data;
     });
 });
 
