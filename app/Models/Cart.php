@@ -265,6 +265,7 @@ class Cart extends Model
                     ->where($table . '.' . $parent_sku_field, $row->product_sku) // where parent SKU is given in variations table
                     ->groupBy(Cart::$cart_table . '.product_sku');
 
+                echo Utility::get_sql_raw($vrows);
                 $vrows = $vrows->get()->toArray();
 
                 // one parent SKU can have many variations SKUs 
@@ -328,8 +329,10 @@ class Cart extends Model
             ->where(Cart::$cart_table . '.user_id', $user_id)
             ->where(Cart::$cart_table . '.is_active', 1)
 
-            ->groupBy([Cart::$cart_table . '.user_id', Cart::$cart_table . '.product_sku'])
-            ->get()->toArray();
+            ->groupBy([Cart::$cart_table . '.user_id', Cart::$cart_table . '.product_sku']);
+
+        echo Utility::get_sql_raw($rows);
+        $rows = $rows->get()->toArray();
 
         $cart_rows = array_merge($rows, $cart);
         $products = [];

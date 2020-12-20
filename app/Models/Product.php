@@ -1946,6 +1946,7 @@ class Product extends Model
                 $variation_extras = [];
 
 
+
                 foreach ($var as $prod) {
                     $features = [];
                     for ($i = 1; $i <= $attr_count; $i++) {
