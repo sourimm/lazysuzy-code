@@ -335,10 +335,10 @@ class Cart extends Model
         //$cart_rows = array_merge($rows, $cart);
         $cart_rows = $vrows;
         foreach ($rows as $parent_product) {
-            $parent_sku = $parent_product['product_sku'];
+            $parent_sku = $parent_product->product_sku;
             $parent_sku_found = false;
             foreach ($cart_rows as $in_cart_variation) {
-                if ($in_cart_variation['product_sku'] == $parent_sku) {
+                if ($in_cart_variation->product_sku == $parent_sku) {
                     $parent_sku_found = true;
                     break;
                 }
