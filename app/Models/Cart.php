@@ -333,7 +333,7 @@ class Cart extends Model
         $rows = $rows->get()->toArray();
 
         //$cart_rows = array_merge($rows, $cart);
-        $cart_rows = $vrows;
+        $cart_rows = $cart;
         foreach ($rows as $parent_product) {
             $parent_sku = $parent_product->product_sku;
             $parent_sku_found = false;
