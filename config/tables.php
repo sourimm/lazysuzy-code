@@ -57,4 +57,5 @@ return [
         'dim_square' => 'Square'
     ],
     'shipping_codes' => 'lz_ship_code',
+    'trending_products' => 'master_trending'
 ];
