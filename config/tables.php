@@ -12,7 +12,7 @@ return [
         'cab' => [
             'table' => 'crateandbarrel_products_variations',
             'name' => 'sku',
-            'image' => 'swatch_image_path',
+            'image' => 'image_path',
             'sku' => 'sku',
             'parent_sku' => 'product_id'
         ],
