@@ -32,7 +32,7 @@ class Trending extends Model
                 null,
                 true,
                 Wishlist::is_wishlisted(Auth::user(), $prod->product_sku),
-                true,
+                false,
                 true
             );
         }
