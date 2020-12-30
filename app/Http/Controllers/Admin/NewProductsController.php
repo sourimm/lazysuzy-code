@@ -241,7 +241,7 @@ class NewProductsController extends Controller
             }
             if($data){
                 $to_insert = array_merge($to_insert, $data['to_insert']);
-                $to_update = array_merge($to_insert, $data['to_update']);
+                $to_update = array_merge($to_update, $data['to_update']);
             }
         }
         $this->updateInventoryTable($to_insert, $to_update);
