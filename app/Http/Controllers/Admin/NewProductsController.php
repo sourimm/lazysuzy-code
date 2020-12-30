@@ -420,26 +420,6 @@ class NewProductsController extends Controller
         foreach ($product_skus as $product) {
             $row = DB::table($table)->where('product_id', $product->product_sku)->first();
             $shipping_code = $this->get_wm_ship_code($product->brand,$product->site_name, $row->description_shipping);
-            $isInInventory = $this->inventory_products->where('product_sku', $product->product_sku)->isNotEmpty();
-            if ($isInInventory) {
-                $to_update[] = [
-                    'product_sku' => $product->product_sku,
-                    'price' => $row->price,
-                    'was_price' => $product->was_price,
-                    'brand' => $key,
-                    'ship_code' => $shipping_code,
-                ];
-            } else {
-                $to_insert[] = [
-                    'product_sku' => $product->product_sku,
-                    'quantity' => 100,
-                    'price' => $row->price,
-                    'was_price' => $row->was_price,
-                    'brand' => $product->brand,
-                    'ship_code' => $shipping_code,
-                ];
-            }
-
             $variation_table = array_search($key, $this->variation_sku_tables);
             $variation_skus = DB::table($variation_table)->where([
                 'product_id' => $product->product_sku,
@@ -451,6 +431,7 @@ class NewProductsController extends Controller
                     if (!$isPresent) {
                         $to_insert[] = [
                             'product_sku' => $variation->sku,
+                            'parent_sku'=> $product->product_sku,
                             'quantity' => 100,
                             'price' => $variation->price,
                             'was_price' => $variation->was_price,
@@ -460,6 +441,7 @@ class NewProductsController extends Controller
                     } else {
                         $to_update[] = [
                             'product_sku' => $variation->sku,
+                            'parent_sku'=> $product->product_sku,
                             'price' => $variation->price,
                             'was_price' => $variation->was_price,
                             'brand' => $product->brand,
