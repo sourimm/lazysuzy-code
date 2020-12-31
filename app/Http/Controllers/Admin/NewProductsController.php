@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\NewProduct;
 use App\Models\Product;
+use App\Services\DimensionService;
 use App\Services\InventoryService;
 use Exception;
 use Illuminate\Http\Request;
@@ -180,6 +181,7 @@ class NewProductsController extends Controller
                 $this->addInventoryProducts($accepted_products);
                 NewProduct::whereIn('id', $accepted_products->pluck('id'))->delete();
             }
+            $dimensionService = new DimensionService();
             foreach ($accepted_products as $product) {
                 unset($product->status);
                 if (!$product->image_xbg_processed) {
@@ -188,9 +190,11 @@ class NewProductsController extends Controller
                 if (!$product->manual_adj) {
                     unset($product->manual_adj);
                 }
+                $product->product_dimension = json_encode($product->product_dimension);
+                $dims = $dimensionService->get_dims($product);
+                $product = $this->updateDimensionsOfProduct($product,$dims);
                 $new_product = new Product();
                 $new_product->fill(json_decode(json_encode($product, true), true));
-                $new_product->product_dimension = json_encode($new_product->product_dimension);
                 $new_product->save();
             }
         } catch (Exception $e) {
@@ -505,20 +509,20 @@ class NewProductsController extends Controller
         return $mapping_core;
     }
 
-    // private function addVariations($to_insert,$variation_skus)
-    // {
-    //     foreach($variation_skus as $variation)
-    //     {
-    //         $to_insert[] = [
-    //             'product_sku' => $variation->variation_sku,
-    //                     'quantity' => 100,
-    //                     'price' => $variation->price,
-    //                     'was_price' => $variation->was_price,
-    //                     'brand'=> $key,
-    //                     'ship_code'=> $shipping_code
-    //         ];
-    //     }
-    //     return $to_insert;
-    // }
-
+    /// DIMS Function from CRON MERGE SCRIPT
+    public function updateDimensionsOfProduct($product, $dims){
+        if (isset($dims)) {
+            $product->dim_width = strlen($dims['width']) > 0 ? (float) $dims['width'] : null;
+            $product->dim_height = strlen($dims['height']) > 0 ? (float) explode(",", $dims['height'])[0] : null;
+            $product->dim_depth = strlen($dims['depth']) > 0 ? (float) $dims['depth'] : null;
+            $product->dim_length = strlen($dims['length']) > 0 ? (float) $dims['length'] : null;
+            $product->dim_diameter = strlen($dims['diameter']) > 0 ? (float) $dims['diameter'] : null;
+            $product->dim_square = strlen($dims['square']) > 0 ? (float) $dims['square'] : null;
+        }
+        // if ($product->site_name == 'cb2' || $product->site_name == 'cab') {
+        //     $product->shape = $product->shape;
+        //     $product->seating = $product->seat_capacity;
+        // }
+        return $product;
+    }
 }
