@@ -12,6 +12,21 @@ use Illuminate\Support\Facades\DB;
  */
 class DimensionService{
     // Define all private Fields
+    public $CLEAN_SYMBOLS = ['.'];
+    public $DIMS = [
+        'w' => 'width',
+        'h' => 'height',
+        'd' => 'depth',
+        'l' => 'length',
+        'h.' => 'height',
+        'dia' => 'diameter',
+        'dia.' => 'diameter',
+        'diam' => 'diameter',
+        'diam.' => 'diameter',
+        'sq' => 'square',
+        'sq.' => 'square',
+        'd.' => 'depth',
+    ];
     public function get_dims($product)
     {
         $dims = [];
@@ -106,7 +121,7 @@ class DimensionService{
 
     public function clean_str($str)
     {
-        return str_replace($this->$CLEAN_SYMBOLS, '', $str);
+        return str_replace($this->CLEAN_SYMBOLS, '', $str);
     }
 
     public function format_cab($str)
@@ -143,8 +158,8 @@ class DimensionService{
                 if (isset($val_pair[0]) && isset($val_pair[1])) {
                     $val = $val_pair[0];
 
-                    if (isset($this->$DIMS[$val_pair[1]])) {
-                        $label = $this->$DIMS[$val_pair[1]];
+                    if (isset($this->DIMS[$val_pair[1]])) {
+                        $label = $this->DIMS[$val_pair[1]];
                         $x++;
                     } else {
                         $label = $val_pair[1];
