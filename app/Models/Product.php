@@ -2315,7 +2315,7 @@ class Product extends Model
 
                     // handle product sku col it site is a ID site 
                     if ($sku_col == "product_id") {
-                        //$product->product_sku = $product->product_id;
+                        $product->product_sku = $product->product_id;
                     }
 
                     $brand = $brand_name_verbose[0];
