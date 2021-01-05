@@ -2501,7 +2501,7 @@ class Product extends Model
                 break;
 
             case 'westelm':
-                return Dimension::format_westelm($dim_str);
+                return Dimension::format_cb2($dim_str);
                 break;
 
             case 'cab':
