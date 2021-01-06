@@ -33,7 +33,7 @@ class Trending extends Model
                 true,
                 Wishlist::is_wishlisted(Auth::user(), $prod->product_sku),
                 false,
-                true
+                false // this is true if it was a admin dashboard call
             );
         }
         return $trending_products;
