@@ -1513,13 +1513,13 @@ class Product extends Model
             'wishlisted'       => $isMarked,
 
             // add availablilty data for all products
-            'is_back_order'    => isset($product->is_back_order) ? $product->is_back_order : "",
-            'back_order_msg'   => isset($product->back_order_msg) ? $product->back_order_msg : "",
-            'back_order_msg_date' => isset($product->back_order_msg_date) ? $product->back_order_msg_date : "",
+            'is_back_order'    => isset($product->is_back_order) ? $product->is_back_order : null,
+            'back_order_msg'   => isset($product->back_order_msg) ? $product->back_order_msg : null,
+            'back_order_msg_date' => isset($product->back_order_msg_date) ? $product->back_order_msg_date : null,
             'online_msg'       => isset($product->online_msg) ? $product->online_msg : "",
 
-            'product_assembly'       => isset($product->product_assembly) ? $product->product_assembly : "",
-            'product_care'       => isset($product->product_care) ? $product->product_care : ""
+            'product_assembly'       => isset($product->product_assembly) ? $product->product_assembly : null,
+            'product_care'       => isset($product->product_care) ? $product->product_care : null
             //    'LS_ID'            => $product->LS_ID,
         ];
 
