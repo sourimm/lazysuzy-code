@@ -335,7 +335,7 @@ class Product extends Model
         if ($sale_products_only == true) {
             $query = $query->whereRaw('price >  0')
                 ->whereRaw('was_price > 0')
-                ->whereRaw('was_price > price')
+                ->whereRaw('convert(was_price, unsigned) > convert(price, unsigned)')
                 ->orderBy(DB::raw("`price` / `was_price`"), 'asc');
         }
 
