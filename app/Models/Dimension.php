@@ -24,6 +24,37 @@ class Dimension extends Model
         return str_replace(Dimension::$CLEAN_SYMBOLS, '', $str);
     }
 
+    public static function normalize_dimension($dim_str, $site)
+    {
+
+        switch ($site) {
+            case 'cb2':
+                return Dimension::format_cb2($dim_str);
+                break;
+
+            case 'pier1':
+                return Dimension::format_pier1($dim_str);
+                break;
+
+            case 'westelm':
+                return Dimension::format_westelm($dim_str);
+                break;
+
+            case 'cab':
+                return Dimension::format_cab($dim_str);
+                break;
+
+            case 'nw':
+                return Dimension::format_new_world($dim_str);
+                break;
+            case 'floyd':
+                return Dimension::format_westelm($dim_str);
+                break;
+            default:
+                return Dimension::format_westelm($dim_str);;
+                break;
+        }
+    }
 
     public static function format_cb2($str)
     {
