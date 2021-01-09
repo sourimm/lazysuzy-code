@@ -140,10 +140,8 @@ Route::get('/api/board/get/options', '\App\Board\Controllers\BoardController@get
 // search keywords
 Route::get('/api/search-keywords', 'SearchController@get_all')->middleware(['cors'])->name('search-keywords');
 
-
-Route::get('/api/review', 'API@save_product_review')->middleware(['auth:api'])->name('save-product-review');
-
-//Route::post('/api/user/details/update', 'Auth\UserController@details_update')->middleware('auth:api');
+// Save review
+Route::post('/api/review', 'API@save_product_review')->middleware(['auth:api'])->name('save-product-review');
 
 /* ==================================================BACKEND ADMIN APIS========================================== */
 
