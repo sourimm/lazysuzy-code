@@ -2573,7 +2573,7 @@ class Product extends Model
     }
 
     public static function get_selected_products($sku_array)
-    {
+    {dd($sku_array);
         $product_rows = Product::whereIn('product_sku', $sku_array)->get();
         $response = [];
 
