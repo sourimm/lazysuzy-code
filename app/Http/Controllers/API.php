@@ -244,8 +244,8 @@ class API extends Controller
         return Trending::get_trending();
     }
 	
-	public function save_product_review($sku)
-    {
-        return Review::save_product_review($sku);
+	public function save_product_review(Request $request)
+    {dd($request);
+       // return Review::save_product_review($sku);
     }
 }
