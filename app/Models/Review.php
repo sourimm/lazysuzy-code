@@ -52,7 +52,7 @@ class Review extends Model
       $validator = null;
     
 	  
-	     $is_inserted = DB::table(Cart::$cart_table)
+	     $is_inserted = DB::table('master_reviews')
                     ->insert([
 								'user_id' => $user_id,
 								'product_sku' => $data['product_sku'],
