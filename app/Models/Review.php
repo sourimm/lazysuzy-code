@@ -47,8 +47,8 @@ class Review extends Model
 	 
 	
 	
-	public function save_product_review(Request $request,$user_id) {
-      $data = $request->all();
+	public function save_product_review($data,$user_id) {
+     // $data = $request->all();
       $validator = null;
     
 	  
