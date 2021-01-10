@@ -248,11 +248,8 @@ class API extends Controller
 	
 	public function save_product_review(Request $request) {
         $data = $request->all();
-        
-        // in order to update the user must be logged in
-        if (Auth::check()) {
-            $user = Auth::user();
-
+        $id= Auth::check() ? Auth::user()->id : 0;
+		 
             if (isset($data['user_email'])) {
                 $validator = Validator::make($data, ['user_email' => ['required', 'string', 'user_email', 'max:255']]);
 
@@ -263,7 +260,7 @@ class API extends Controller
             }
 
 
-            return Review::save_product_review(Request $request,Auth::user()->id);
+            return Review::save_product_review(Request $request,$id);
             
         }
     }
