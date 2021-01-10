@@ -250,14 +250,14 @@ class API extends Controller
         $data = $request->all();
         $id= Auth::check() ? Auth::user()->id : 0;
 		 
-            if (isset($data['user_email'])) {
+           /* if (isset($data['user_email'])) {
                 $validator = Validator::make($data, ['user_email' => ['required', 'string', 'user_email', 'max:255']]);
 
                 if ($validator->fails())
                     return response()->json(['error' => $validator->errors()], 401);
 
                
-            }
+            }*/
 
 
             return Review::save_product_review($data, $id);
