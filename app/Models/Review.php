@@ -13,7 +13,7 @@ class Review extends Model
   
 	
 	public static function save_product_review($data,$user_id) {
-     // $data = $request->all();
+     // $data = $request->all();  'rating' => $data['rating'],
       $validator = null;
     
 	  
@@ -28,7 +28,6 @@ class Review extends Model
 								'count_helpful' => $data['count_helpful'],
 								'count_reported' => $data['count_reported'],
 								'source' => $data['source'],
-								'rating' => $data['rating'],
 								'headline' => $data['headline'],
 								'review' => $data['review']
 							]);
