@@ -10,44 +10,9 @@ use Auth;
 
 class Review extends Model
 {
-   /* public static function get_review($is_board_view = false)
-    {
-        if (Auth::check()) {
-            $user = Auth::user();
-            $products = DB::table("user_wishlists")
-                ->join("master_data", "master_data.product_sku", "=", "user_wishlists.product_id")
-                ->join("master_brands", "master_data.site_name", "=", "master_brands.value");
-
-            if ($is_board_view)
-                $products->where("master_data.image_xbg_processed", 1);
-
-            $products = $products->where("user_wishlists.user_id", $user->id)
-                ->where("user_wishlists.is_active", 1)
-                ->get()->toArray();
-
-            $products_structured = [];
-            foreach ((object) $products as $prod) {
-                $variations = Product::get_variations($prod, null, true);
-
-                // inject inventory details
-                $product_inventory_details = Inventory::get_product_from_inventory($user, $prod->product_sku);
-                $prod = (object) array_merge($product_inventory_details, (array) $prod);
-
-                array_push($products_structured, Product::get_details($prod, $variations, true, true));
-            }
-
-            return [
-                "products" => $products_structured
-            ];
-        }
-    }
-    
+  
 	
-	*/
-	 
-	
-	
-	public function save_product_review($data,$user_id) {
+	public static function save_product_review($data,$user_id) {
      // $data = $request->all();
       $validator = null;
     
