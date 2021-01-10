@@ -18,6 +18,7 @@ use App\Models\Dimension;
 use App\Models\Inventory;
 use App\Models\Trending;
 use App\Models\UserVisits;
+use App\Models\Review;
 use Auth;
 use Illuminate\Support\Facades\Validator;
 use Subscribe as GlobalSubscribe;
