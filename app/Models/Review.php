@@ -44,101 +44,36 @@ class Review extends Model
     
 	
 	*/
-	public static function save_product_review(Request $request)
-    {
-		
-		 $data = $request->all(); dd($data); 
-        /*$result = [];
-        $result["status"] = 0;
-
-        if (Auth::check()) {
-            $result["type"] = "permanent";
-
-            $user = Auth::user();
-            $wishlist_product_count = DB::table("user_wishlists")
-                ->where("user_id", $user->id)
-                ->where("product_id", $sku)
-                ->get();
-
-            if (count($wishlist_product_count) == 0) {
-                $id = DB::table("user_wishlists")
-                    ->insertGetId([
-                        "user_id" => $user->id,
-                        "product_id" => $sku
-                    ]);
-
-                if ($id != null) {
-                    $result["status"] = 1;
-                    $result["msg"] = "Product marked favourite successfully";
-                }
-            } else {
-
-                // update is_active to 1 by default
-                DB::table("user_wishlists")
-                    ->where("user_id", $user->id)
-                    ->where("product_id", $sku)
-                    ->update(["is_active" => 1]);
-                $result["msg"] = "Product already marked favourite";
-            }
-        } else {
-            $result["type"] = "temporary";
-            // handle no login requests
-        }
-
-        return $result;*/
-    }
+	 
 	
 	
-	public function details_update(Request $request) {
+	public function save_product_review(Request $request,$user_id) {
       $data = $request->all();
       $validator = null;
-      $user = Auth::user(); // get the user
+    
+	  
+	     $is_inserted = DB::table(Cart::$cart_table)
+                    ->insert([
+								'user_id' => $user_id,
+								'product_sku' => $data['product_sku'],
+								'user_name' => $data['user_name'],
+								'user_email' => $data['user_email'],
+								'user_location' => $data['user_location'],
+								'status' => $data['status'],
+								'count_helpful' => $data['count_helpful'],
+								'count_reported' => $data['count_reported'],
+								'source' => $data['source'],
+								'rating' => $data['rating'],
+								'headline' => $data['headline'],
+								'review' => $data['review']
+							]);
 
-
-      // allow users to save empty values in the following fields
-      // update info if request has the attrs
-      if(array_key_exists('description', $data) 
-        && (isset($data['description']) || strlen($data['description']) == 0))
-        $user->description = $data['description'];
-      
-      if (array_key_exists('location', $data) 
-        && (isset($data['location']) || strlen($data['location']) == 0))
-        $user->location = $data['location'];
-      
-      if (array_key_exists('tag_line', $data)
-        && (isset($data['tag_line']) || strlen($data['tag_line']) == 0))
-        $user->tag_line = $data['tag_line'];
-      
-      // update data once that does not require validation
-      $user->update();
-
-      // validated data will be updated seperately so that if 
-      // any data fails the validation all the other info 
       // sent in the request is updated
       $error = [];
-      if (array_key_exists('website', $data)
-          && (isset($data['website']) || strlen($data['website']) == 0)) {
-          
-          $user->website = $data['website'];
-          $user->update();
-        
-      }
 
-      if (array_key_exists('username', $data)
-          && (isset($data['username']) && strlen($data['username']) > 0)) {
-        $validator = Validator::make($data, [
-          'username' => 'unique:users|alpha_dash'
-        ]);
 
-        if ($validator->fails())
-          $error[] = response()->json(['error' => $validator->errors()], 422);
-        else {
-          $user->username = $data['username'];
-          $user->update();
-        }
-      }
 
-      if(array_key_exists('image', $data)
+      /*if(array_key_exists('image', $data)
         && isset($data['image'])) {
         $validator = Validator::make($data, [
           'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
@@ -160,7 +95,7 @@ class Review extends Model
             $error[] = response()->json(['error' => 'image could not be uploaded. Please try again.'], 422);
          
         }
-      }
+      }*/
       
       return [
         'errors' => $error, 

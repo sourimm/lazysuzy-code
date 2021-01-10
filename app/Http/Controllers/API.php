@@ -244,8 +244,29 @@ class API extends Controller
         return Trending::get_trending();
     }
 	
-	public function save_product_review(Request $request)
-    {dd($request);
-       // return Review::save_product_review($sku);
+ 
+	
+	public function save_product_review(Request $request) {
+        $data = $request->all();
+        
+        // in order to update the user must be logged in
+        if (Auth::check()) {
+            $user = Auth::user();
+
+            if (isset($data['user_email'])) {
+                $validator = Validator::make($data, ['user_email' => ['required', 'string', 'user_email', 'max:255']]);
+
+                if ($validator->fails())
+                    return response()->json(['error' => $validator->errors()], 401);
+
+               
+            }
+
+
+            return Review::save_product_review(Request $request,Auth::user()->id);
+            
+        }
     }
+	
+	
 }
