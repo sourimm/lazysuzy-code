@@ -29,7 +29,8 @@ class Review extends Model
 								'count_reported' => $data['count_reported'],
 								'source' => $data['source'],
 								'headline' => $data['headline'],
-								'review' => $data['review']
+								'review' => $data['review'],
+								'rating' => $data['rating']
 							]);
 
       // sent in the request is updated
@@ -67,5 +68,23 @@ class Review extends Model
       ];
         
     }
+	
+	 public static function get_product_review($sku){
+		 
+		$all_reviews = [];
+        $rows = DB::table("master_reviews")
+            ->select("*")
+            ->where('product_sku', '=', $sku)
+            ->orderBy("id", "DESC")
+            ->get();
+
+		foreach ($rows as $row){
+            array_push($all_reviews, $row);
+	    }
+        return $all_reviews; 
+	 
+	 }
+	
+	
    
 }

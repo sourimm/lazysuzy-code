@@ -264,6 +264,12 @@ class API extends Controller
             return Review::save_product_review($data, $id);
             
     }
+	
+	public function get_product_review($sku) {
+         
+            return Review::get_product_review($sku);
+            
+    }
     
 	
 	
