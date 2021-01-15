@@ -154,7 +154,12 @@ class Dimension extends Model
 
     public static function format_westelm($str)
     {
-        return Dimension::format_cb2(Dimension::clean_str($str));
+        $data = json_decode($str);
+        if (!json_last_error())
+            return $data;
+
+        return json_last_error_msg();
+        //return Dimension::format_cb2(Dimension::clean_str($str));
     }
 
     public static function format_new_world($str)
