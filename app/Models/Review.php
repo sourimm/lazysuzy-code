@@ -72,16 +72,48 @@ class Review extends Model
 	 public static function get_product_review($sku){
 		 
 		$all_reviews = [];
+		$highest_reviews = [];
+		$lowest_reviews = [];
+		$reviews = [];
+		
         $rows = DB::table("master_reviews")
             ->select("*")
             ->where('product_sku', '=', $sku)
             ->orderBy("id", "DESC")
-            ->get();
- print_r($rows);
+			 ->limit(6)
+            ->get(); 
+			
 		foreach ($rows as $row){
             array_push($all_reviews, $row);
 	    }
-        return $all_reviews; 
+		 
+        $rows = DB::table("master_reviews")
+            ->select("*")
+            ->where('product_sku', '=', $sku)
+            ->orderBy("rating", "DESC")
+			 ->limit(6)
+            ->get(); 
+			
+		foreach ($rows as $row){
+            array_push($highest_reviews, $row);
+	    }
+		
+		$all_reviews = [];
+        $rows = DB::table("master_reviews")
+            ->select("*")
+            ->where('product_sku', '=', $sku)
+             ->orderBy("rating", "ASC")
+            ->get(); 
+			
+		foreach ($rows as $row){
+            array_push($lowest_reviews, $row);
+	    }
+		
+		$reviews['all_reviews']= $all_reviews;
+		$reviews['highest_reviews']= $highest_reviews;
+		$reviews['lowest_reviews']= $lowest_reviews;
+		
+        return $reviews; 
 	 
 	 }
 	
