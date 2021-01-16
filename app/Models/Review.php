@@ -77,7 +77,7 @@ class Review extends Model
             ->where('product_sku', '=', $sku)
             ->orderBy("id", "DESC")
             ->get();
-
+ print_r($rows);
 		foreach ($rows as $row){
             array_push($all_reviews, $row);
 	    }
