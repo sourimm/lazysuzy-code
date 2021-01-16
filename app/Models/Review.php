@@ -98,7 +98,7 @@ class Review extends Model
             array_push($highest_reviews, $row);
 	    }
 		
-		$all_reviews = [];
+		
         $rows = DB::table("master_reviews")
             ->select("*")
             ->where('product_sku', '=', $sku)
