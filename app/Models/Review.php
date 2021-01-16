@@ -103,15 +103,25 @@ class Review extends Model
             ->select("*")
             ->where('product_sku', '=', $sku)
              ->orderBy("rating", "ASC")
+			 ->limit(6)
             ->get(); 
 			
 		foreach ($rows as $row){
             array_push($lowest_reviews, $row);
-	    }
+	    } 
+		
+		$row_cnt = DB::table("master_reviews")
+            ->select("COUNT(*) as cnt")
+            ->where('product_sku', '=', $sku)
+            ->get(); 
+		print_r($row_cnt);
+		$tot_rating = DB::table('master_reviews')->sum('raing')->where('product_sku' '=' $sku);
 		
 		$reviews['all_reviews']= $all_reviews;
 		$reviews['highest_reviews']= $highest_reviews;
 		$reviews['lowest_reviews']= $lowest_reviews;
+		$reviews['tot_rating']= $tot_rating;
+		//$reviews['tot_rating']= $tot_rating;
 		
         return $reviews; 
 	 
