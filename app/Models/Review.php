@@ -14,6 +14,7 @@ class Review extends Model
 	
 	public static function save_product_review($request, $data,$user_id) {
 		 
+		 print_r($request->image);
 		if(array_key_exists('rimage', $data) && isset($data['rimage'])) {
 			
 			$upload_folder = public_path('uimg');
