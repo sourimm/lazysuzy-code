@@ -12,7 +12,7 @@ class Review extends Model
 {
   
 	
-	public static function save_product_review($request, $data,$user_id) {
+	public static function save_product_review($data,$user_id) {
 		
 		 $validator = null;
 		 $imglist = '';
