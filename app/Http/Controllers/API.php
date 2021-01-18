@@ -269,7 +269,7 @@ class API extends Controller
 			else 
 				$error[] = response()->json(['error' => 'image could not be uploaded. Please try again.'], 422);
 		}*/
-		
+		echo $request->hasFile('rimage'); die;
 		if ($request->hasFile('rimage')) {
 			$destinationPath = public_path('uimg');
 			$files = $request->file('rimage'); // will get all files
