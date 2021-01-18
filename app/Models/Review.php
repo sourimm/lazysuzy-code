@@ -15,22 +15,7 @@ class Review extends Model
 	public static function save_product_review($request, $data,$user_id) {
 		 
 		 print_r($request->image);
-		if(array_key_exists('rimage', $data) && isset($data['rimage'])) {
-			
-			$upload_folder = public_path('uimg');
-			for($i=0;$i<count($request->rimage);$i++){
-			$image_name = time() . '-' . Utility::generateID() . '.jpg' ;echo $image_name;
-			$uplaod = $request->rimage[$i]->move($upload_folder, $image_name);
-			echo $upload;
-			}
-
-			if($uplaod) {
-				//$user->picture = '/uimg/' . $image_name;
-				//$user->update();
-			}
-			else 
-				$error[] = response()->json(['error' => 'image could not be uploaded. Please try again.'], 422);
-		}
+		
      
         
     }
