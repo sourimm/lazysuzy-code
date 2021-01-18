@@ -17,20 +17,27 @@ class Review extends Model
 		 $validator = null;
 		 $imglist = '';
 		if(array_key_exists('rimage', $data) && isset($data['rimage'])) {
+				$validator = Validator::make($data, [
+			  'rimage' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+			]);
 			
-			$upload_folder = public_path('uimg');
-			for($i=0;$i<count($data['rimage']);$i++){
-			$image_name = time() . '-' . Utility::generateID() . '.'. $data['rimage'][$i]->getClientOriginalExtension() ;
-			$uplaod = $data['rimage'][$i]->move($upload_folder, $image_name);
-			$imglist .= $image_name.',,';
-			} 
-			
-			if($uplaod) {
-				//$user->picture = '/uimg/' . $image_name;
-				//$user->update();
-			}
-			else 
-				$error[] = response()->json(['error' => 'image could not be uploaded. Please try again.'], 422);
+			if ($validator->fails())
+			  $error[] = response()->json(['error' => $validator->errors()], 422);
+			else {
+					$upload_folder = public_path('uimg');
+					for($i=0;$i<count($data['rimage']);$i++){
+					$image_name = time() . '-' . Utility::generateID() . '.'. $data['rimage'][$i]->getClientOriginalExtension() ;
+					$uplaod = $data['rimage'][$i]->move($upload_folder, $image_name);
+					$imglist .= $image_name.',,';
+					} 
+					
+					if($uplaod) {
+						//$user->picture = '/uimg/' . $image_name;
+						//$user->update();
+					}
+					else 
+						$error[] = response()->json(['error' => 'image could not be uploaded. Please try again.'], 422);
+				}
 		}
 		
 		
@@ -52,7 +59,10 @@ class Review extends Model
 							]);
 
       // sent in the request is updated
-      $error = [];
+      return [
+        'errors' => $error, 
+       // 'user' => Auth::user()
+      ];
 
      
         
