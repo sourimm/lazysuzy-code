@@ -253,36 +253,10 @@ class API extends Controller
         $id= Auth::check() ? Auth::user()->id : 0;
 		 
          
-			/*if(array_key_exists('rimage', $data) && isset($data['rimage'])) {
-			
-			$upload_folder = public_path('uimg');
-			for($i=0;$i<count($request->rimage);$i++){
-			$image_name = time() . '-' . Utility::generateID() . '.jpg' ;echo $image_name;
-			$uplaod = $request->rimage[$i]->move($upload_folder, $image_name);
-			echo $upload;
-			}
-
-			if($uplaod) {
-				//$user->picture = '/uimg/' . $image_name;
-				//$user->update();
-			}
-			else 
-				$error[] = response()->json(['error' => 'image could not be uploaded. Please try again.'], 422);
-		}*/
 	 
-		if (isset($request->rimage)) {
-			$destinationPath = public_path('uimg');
-			$files = $request->rimage; // will get all files
+	
 
-			foreach ($files as $file) {//this statement will loop through all files.
-				$file_name = $file->getClientOriginalName(); //Get file original name
-				echo $file_name;
-				$file->move($destinationPath , $file_name); // move files to destination folder
-			}
-		}
-
-
-           // return Review::save_product_review($request,$data, $id);
+             return Review::save_product_review($request,$data, $id);
             
     }
 	
