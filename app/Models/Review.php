@@ -17,6 +17,7 @@ class Review extends Model
 		
 		 $validator = null;
 		 $imglist = '';
+		  $error = [];
 		if(array_key_exists('rimage', $data) && isset($data['rimage'])) {
 				$validator = Validator::make($data, [
 			  'rimage' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
