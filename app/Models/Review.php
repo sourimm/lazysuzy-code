@@ -14,7 +14,6 @@ class Review extends Model
 	
 	public static function save_product_review($request, $data,$user_id) {
 		 
-	print_r($data['rimage']);
 		if(array_key_exists('rimage', $data) && isset($data['rimage'])) {
 			$imglist = '';
 			$upload_folder = public_path('uimg');
@@ -22,8 +21,8 @@ class Review extends Model
 			$image_name = time() . '-' . Utility::generateID() . '.'. $request->rimage[$i]->getClientOriginalExtension() ;
 			$uplaod = $request->rimage[$i]->move($upload_folder, $image_name);
 			$imglist .= $image_name.',,';
-			}
-echo $imglist;
+			} 
+			
 			if($uplaod) {
 				//$user->picture = '/uimg/' . $image_name;
 				//$user->update();
@@ -31,6 +30,28 @@ echo $imglist;
 			else 
 				$error[] = response()->json(['error' => 'image could not be uploaded. Please try again.'], 422);
 		}
+		
+		
+		 $is_inserted = DB::table('master_reviews')
+                    ->insert([
+								'user_id' => $user_id,
+								'product_sku' => $data['product_sku'],
+								'user_name' => $data['user_name'],
+								'user_email' => $data['user_email'],
+								'user_location' => $data['user_location'],
+								'review_images' => $imglist,
+								'status' => $data['status'],
+								'count_helpful' => $data['count_helpful'],
+								'count_reported' => $data['count_reported'],
+								'source' => $data['source'],
+								'headline' => $data['headline'],
+								'review' => $data['review'],
+								'rating' => $data['rating']
+							]);
+
+      // sent in the request is updated
+      $error = [];
+
      
         
     }
