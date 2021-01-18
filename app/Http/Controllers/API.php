@@ -269,10 +269,10 @@ class API extends Controller
 			else 
 				$error[] = response()->json(['error' => 'image could not be uploaded. Please try again.'], 422);
 		}*/
-		echo $request->hasFile('rimage'); die;
-		if ($request->hasFile('rimage')) {
+	 
+		if (isset($request->rimage)) {
 			$destinationPath = public_path('uimg');
-			$files = $request->file('rimage'); // will get all files
+			$files = $request->rimage; // will get all files
 
 			foreach ($files as $file) {//this statement will loop through all files.
 				$file_name = $file->getClientOriginalName(); //Get file original name
@@ -282,7 +282,7 @@ class API extends Controller
 		}
 
 
-            return Review::save_product_review($request,$data, $id);
+           // return Review::save_product_review($request,$data, $id);
             
     }
 	
