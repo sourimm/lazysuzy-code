@@ -13,7 +13,7 @@ class Review extends Model
   
 	
 	public static function save_product_review($data,$user_id) {
-     print_r($_FILES["file"]["name"]);
+     print_r($_FILES["file"]);
      
         
     }
