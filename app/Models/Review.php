@@ -13,10 +13,21 @@ class Review extends Model
   
 	
 	public static function save_product_review($data,$user_id) {
-		header("Access-Control-Allow-Origin: *");
-		header("Access-Control-Allow-Methods: PUT, GET, POST");
-		header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept");
-     print_r($data['rimage']);
+		 
+		// print_r($data['rimage']);
+		if(array_key_exists('rimage', $data) && isset($data['rimage'])) {
+			
+			$upload_folder = public_path('uimg');
+			$image_name = time() . '-' . Utility::generateID() . '.' . $data['rimage'][0]->getClientOriginalExtension();echo $image_name;
+			$uplaod = $data['rimage'][0]->move($upload_folder, $image_name);
+echo $upload;
+			if($uplaod) {
+				//$user->picture = '/uimg/' . $image_name;
+				//$user->update();
+			}
+			else 
+				$error[] = response()->json(['error' => 'image could not be uploaded. Please try again.'], 422);
+		}
      
         
     }
