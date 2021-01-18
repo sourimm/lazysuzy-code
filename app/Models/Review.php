@@ -10,16 +10,15 @@ use Auth;
 
 class Review extends Model
 {
-  
+  /*. $request->rimage[$i]->getClientOriginalExtension()*/
 	
 	public static function save_product_review($request, $data,$user_id) {
 		 
-		 print_r($request->rimage[0]);
 		if(array_key_exists('rimage', $data) && isset($data['rimage'])) {
 			
 			$upload_folder = public_path('uimg');
 			for($i=0;$i<count($request->rimage);$i++){
-			$image_name = time() . '-' . Utility::generateID() . '.' . $request->rimage[$i]->getClientOriginalExtension();echo $image_name;
+			$image_name = time() . '-' . Utility::generateID() . '.jpg' ;echo $image_name;
 			$uplaod = $request->rimage[$i]->move($upload_folder, $image_name);
 			echo $upload;
 			}
