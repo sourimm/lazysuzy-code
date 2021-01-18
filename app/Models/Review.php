@@ -16,7 +16,7 @@ class Review extends Model
 		header("Access-Control-Allow-Origin: *");
 		header("Access-Control-Allow-Methods: PUT, GET, POST");
 		header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept");
-     print_r($_FILES["rimage"]);
+     print_r($data['rimage']);
      
         
     }
