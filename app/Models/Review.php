@@ -15,9 +15,9 @@ class Review extends Model
 	public static function save_product_review($request, $data,$user_id) {
 		
 		 $validator = null;
-		 
+		 $imglist = '';
 		if(array_key_exists('rimage', $data) && isset($data['rimage'])) {
-			$imglist = '';
+			
 			$upload_folder = public_path('uimg');
 			for($i=0;$i<count($data['rimage']);$i++){
 			$image_name = time() . '-' . Utility::generateID() . '.'. $data['rimage'][$i]->getClientOriginalExtension() ;
