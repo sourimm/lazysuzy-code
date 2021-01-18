@@ -79,6 +79,7 @@ class Review extends Model
         $rows = DB::table("master_reviews")
             ->select("*")
             ->where('product_sku', '=', $sku)
+			->where('status', '2')
             ->orderBy("id", "DESC")
 			 ->limit(6)
             ->get(); 
@@ -90,6 +91,7 @@ class Review extends Model
         $rows = DB::table("master_reviews")
             ->select("*")
             ->where('product_sku', '=', $sku)
+			->where('status', '2')
             ->orderBy("rating", "DESC")
 			 ->limit(6)
             ->get(); 
@@ -102,6 +104,7 @@ class Review extends Model
         $rows = DB::table("master_reviews")
             ->select("*")
             ->where('product_sku', '=', $sku)
+			->where('status', '2')
              ->orderBy("rating", "ASC")
 			 ->limit(6)
             ->get(); 
@@ -110,10 +113,10 @@ class Review extends Model
             array_push($lowest_reviews, $row);
 	    } 
 	  
-		 $count_rating = DB::table('master_reviews')->where('product_sku', '=', $sku)->count();	
+		 $count_rating = DB::table('master_reviews')->where('product_sku', '=', $sku)->where('status', '2')->count();	
 			
 		//print_r($count2);
-		$tot_rating = DB::table('master_reviews')->where('product_sku', '=', $sku)->sum('rating');
+		$tot_rating = DB::table('master_reviews')->where('product_sku', '=', $sku)->where('status', '2')->sum('rating');
 		//print_r('rat='.$count2);
 		
 		$reviews['all_reviews']= $all_reviews;
