@@ -16,14 +16,14 @@ class Review extends Model
 		 
 	print_r($data['rimage']);
 		if(array_key_exists('rimage', $data) && isset($data['rimage'])) {
-			
+			$imglist = '';
 			$upload_folder = public_path('uimg');
 			for($i=0;$i<count($request->rimage);$i++){
-			$image_name = time() . '-' . Utility::generateID() . '.'. $request->rimage[$i]->getClientOriginalExtension() ;echo $image_name;
+			$image_name = time() . '-' . Utility::generateID() . '.'. $request->rimage[$i]->getClientOriginalExtension() ;
 			$uplaod = $request->rimage[$i]->move($upload_folder, $image_name);
-			echo $upload;
+			$imglist .= $image_name.',,';
 			}
-
+echo $imglist;
 			if($uplaod) {
 				//$user->picture = '/uimg/' . $image_name;
 				//$user->update();
