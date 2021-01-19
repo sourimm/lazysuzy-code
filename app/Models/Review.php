@@ -19,13 +19,13 @@ class Review extends Model
 		 $imglist = '';
 		  $error = [];
 		if(array_key_exists('rimage', $data) && isset($data['rimage'])) {
-				$validator = Validator::make($data, [
+			/*	$validator = Validator::make($data, [
 			  'rimage' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-			]);
+			]);*/
 			
-			if ($validator->fails())
+			/*if ($validator->fails())
 			  $error[] = response()->json(['error' => $validator->errors()], 422);
-			else {
+			else {*/
 					$upload_folder = public_path('uimg');
 					for($i=0;$i<count($data['rimage']);$i++){
 					$image_name = time() . '-' . Utility::generateID() . '.'. $data['rimage'][$i]->getClientOriginalExtension() ;
@@ -39,7 +39,7 @@ class Review extends Model
 					}
 					else 
 						$error[] = response()->json(['error' => 'image could not be uploaded. Please try again.'], 422);
-				}
+				//}
 		}
 		
 		
