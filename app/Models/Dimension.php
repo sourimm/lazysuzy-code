@@ -58,6 +58,7 @@ class Dimension extends Model
 
     public static function format_cb2($str)
     {
+        return json_decode($str);
         // some products of cb2 and cab started sending arrays 
         // in place of dim. string, some changes in the product API (mapper)
         // not clear 
