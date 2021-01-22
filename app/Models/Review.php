@@ -70,8 +70,7 @@ class Review extends Model
         
     }
 	
-	 public static function get_product_review($sku,$limit){
-		 echo $sku.'=========='.$limit;
+	 public static function get_product_review($sku,$limit){ 
 		$all_reviews = [];
 		$highest_reviews = [];
 		$lowest_reviews = [];
@@ -82,7 +81,7 @@ class Review extends Model
             ->where('product_sku', '=', $sku)
 			->where('status', '2')
             ->orderBy("id", "DESC")
-			 ->limit(6)
+			 ->limit($limit)
             ->get(); 
 			
 		foreach ($rows as $row){
@@ -94,7 +93,7 @@ class Review extends Model
             ->where('product_sku', '=', $sku)
 			->where('status', '2')
             ->orderBy("rating", "DESC")
-			 ->limit(6)
+			 ->limit($limit)
             ->get(); 
 			
 		foreach ($rows as $row){
@@ -107,7 +106,7 @@ class Review extends Model
             ->where('product_sku', '=', $sku)
 			->where('status', '2')
              ->orderBy("rating", "ASC")
-			 ->limit(6)
+			 ->limit($limit)
             ->get(); 
 			
 		foreach ($rows as $row){
