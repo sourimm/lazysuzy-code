@@ -260,9 +260,9 @@ class API extends Controller
             
     }
 	
-	public function get_product_review($sku) {
-         
-            return Review::get_product_review($sku);
+	public function get_product_review($sku,$limit=6) {
+            $sku = substr($sku,10); 
+            return Review::get_product_review($sku,$limit);
             
     }
     
