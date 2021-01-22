@@ -57,7 +57,8 @@ class Review extends Model
 								'source' => $data['source'],
 								'headline' => $data['headline'],
 								'review' => $data['review'],
-								'rating' => $data['rating']
+								'rating' => $data['rating'],
+								'submission_time' => date("Y-m-d H:i:s")
 							]);
 
       // sent in the request is updated
