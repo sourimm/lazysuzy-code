@@ -261,7 +261,7 @@ class API extends Controller
     }
 	
 	public function get_product_review($sku,$limit=6) {
-            $sku = substr($sku,10); 
+            $sku = str_replace('getreview-','',$sku);
             return Review::get_product_review($sku,$limit);
             
     }
