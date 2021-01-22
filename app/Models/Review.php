@@ -71,7 +71,7 @@ class Review extends Model
     }
 	
 	 public static function get_product_review($sku,$limit){
-		 echo $sku.==========.$limit;
+		 echo $sku.'=========='.$limit;
 		$all_reviews = [];
 		$highest_reviews = [];
 		$lowest_reviews = [];
