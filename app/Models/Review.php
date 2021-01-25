@@ -84,7 +84,7 @@ class Review extends Model
             ->orderBy("id", "DESC")
 			 ->limit($limit)
             ->get(); 
-			echo $rows->toSql();die;
+		//	echo $rows->toSql();die;
 		foreach ($rows as $row){
             array_push($all_reviews, $row);
 	    }
