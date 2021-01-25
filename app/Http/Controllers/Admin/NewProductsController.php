@@ -158,6 +158,8 @@ class NewProductsController extends Controller
             $fabric = $product->fabric ?? [];
             $ls_id = $product->ls_id ?? [];
             $mfg_country = $product->mfg_country ?? [];
+            $style = $product->style ?? [];
+            $firmness = $product->firmness ?? [];
 
             $product->color = implode(',', $color);
             $product->seating = implode(',', $seating);
@@ -166,6 +168,8 @@ class NewProductsController extends Controller
             $product->fabric = implode(',', $fabric);
             $product->ls_id = implode(',', $ls_id);
             $product->mfg_country = implode(',', $mfg_country);
+            $product->style = implode(',', $style);
+            $product->firmness = implode(',', $firmness);
 
             return $product;
         });
@@ -192,8 +196,8 @@ class NewProductsController extends Controller
                     unset($product->manual_adj);
                 }
                 $product->product_dimension = json_encode($product->product_dimension);
-                $dims = $dimensionService->get_dims($product);
-                $product = $this->updateDimensionsOfProduct($product,$dims);
+                // $dims = $dimensionService->get_dims($product);
+                // $product = $this->updateDimensionsOfProduct($product,$dims);
                 $new_product = new Product();
                 $new_product->fill(json_decode(json_encode($product, true), true));
                 $new_product->save();
@@ -469,8 +473,8 @@ class NewProductsController extends Controller
 		// match the product desc
 		$possible_matches = [
 			"free shipping" => "F0",
-			"front door delivery" => "SVWE",
-			"UPS" => "SVWE"
+			"front door delivery" => "SVwestelm",
+			"UPS" => "SVwestelm"
 		];
 
 		$possible_keys = array_keys($possible_matches);
@@ -482,7 +486,7 @@ class NewProductsController extends Controller
 			}
 		}
 
-		return "WGWE";
+		return "WGwestelm";
 	}
     private function searchForSku($item, $key)
     {
