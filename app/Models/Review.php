@@ -84,7 +84,7 @@ class Review extends Model
             ->orderBy("id", "DESC")
 			 ->limit($limit)
             ->get(); 
-			
+			echo $rows->toSql();die;
 		foreach ($rows as $row){
             array_push($all_reviews, $row);
 	    }
@@ -197,8 +197,8 @@ class Review extends Model
         $all_filters['count_all'] = $query->count();
         $query = $query->offset($start)->limit($limit);
 		$query = $query->get();
-       /* echo $query->toSql();
-        print_r($query->getBindings());
+      echo $query->toSql();
+      /*  print_r($query->getBindings());
         die(); */
 		
 		foreach ($query as $row){
