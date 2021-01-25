@@ -132,11 +132,11 @@ class Review extends Model
 	
 	   public static function get_all_review($sku)
     {
-        $perPage = 24; 
+        $perPage = 2; 
         $RATING_ASC = "rating_low_to_high";
         $RATING_DESC = "rating_high_to_low"; 
 
-        $sort_type_filter = [
+       /* $sort_type_filter = [
             
             [
                 "name" => "Rating: Low to High",
@@ -149,7 +149,7 @@ class Review extends Model
                 "enabled" => false
             ]
 
-        ];
+        ];*/
 
         // getting all the extra params from URL to parse applied filters
         $page_num    = Input::get("pageno");
@@ -159,13 +159,13 @@ class Review extends Model
         $all_filters = [];
         $query       = DB::table('master_reviews')->where('product_sku', '=', $sku)->where('status', '2');
 
-        if (isset($sort_type)) {
+       /* if (isset($sort_type)) {
             for ($i = 0; $i < sizeof($sort_type_filter); $i++) {
                 if ($sort_type_filter[$i]['value'] == $sort_type) {
                     $sort_type_filter[$i]['enabled'] = true;
                 }
             }
-        }
+        }*/
 
         $all_filters['sort_type'] = $sort_type_filter;
         if (!isset($limit)) {
