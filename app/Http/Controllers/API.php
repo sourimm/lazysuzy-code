@@ -266,6 +266,10 @@ class API extends Controller
             
     }
     
-	
+	  public function get_all_review($sku)
+    {
+        return Review::get_all_review($sku);
+    }
+
 	
 }

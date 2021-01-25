@@ -146,6 +146,10 @@ Route::post('/api/review', 'API@save_product_review')->middleware(['auth:api'])-
 // Get review
 Route::get('/api/review/getreview-{sku}/{limit}', 'API@get_product_review')->middleware(['auth:api'])->name('get-product-review');
 
+
+// Get All reviews
+Route::get('/api/allreviews/{sku}', 'API@get_all_review')->middleware(['auth:api'])->name('get-all-review');
+
 /* ==================================================BACKEND ADMIN APIS========================================== */
 
 Route::middleware(['auth:api', 'cors', 'admin'])->group(function () {
