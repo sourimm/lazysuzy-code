@@ -197,9 +197,9 @@ class Review extends Model
         $all_filters['count_all'] = $query->count();
         $query = $query->offset($start)->limit($limit);
 		$query = $query->get();
-        echo $query->toSql();
+       /* echo $query->toSql();
         print_r($query->getBindings());
-        die(); 
+        die(); */
 		
 		foreach ($query as $row){
             array_push($all_reviews, $row);
