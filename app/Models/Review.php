@@ -167,7 +167,7 @@ class Review extends Model
             }
         }*/
 
-        $all_filters['sort_type'] = $sort_type_filter;
+     //   $all_filters['sort_type'] = $sort_type_filter;
         if (!isset($limit)) {
             $limit = $perPage;
         }
