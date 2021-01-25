@@ -132,24 +132,11 @@ class Review extends Model
 	
 	   public static function get_all_review($sku)
     {
-        $perPage = 2; 
+        $perPage = 12; 
         $RATING_ASC = "rating_low_to_high";
         $RATING_DESC = "rating_high_to_low"; 
 
-       /* $sort_type_filter = [
-            
-            [
-                "name" => "Rating: Low to High",
-                "value" => $RATING_ASC,
-                "enabled" => false
-            ],
-            [
-                "name" => "Rating: High to Low",
-                "value" => $RATING_DESC,
-                "enabled" => false
-            ]
-
-        ];*/
+ 
 
         // getting all the extra params from URL to parse applied filters
         $page_num    = Input::get("pageno");
@@ -159,15 +146,6 @@ class Review extends Model
         $all_filters = [];
         $query       = DB::table('master_reviews')->where('product_sku', '=', $sku)->where('status', '2');
 
-       /* if (isset($sort_type)) {
-            for ($i = 0; $i < sizeof($sort_type_filter); $i++) {
-                if ($sort_type_filter[$i]['value'] == $sort_type) {
-                    $sort_type_filter[$i]['enabled'] = true;
-                }
-            }
-        }*/
-
-     //   $all_filters['sort_type'] = $sort_type_filter;
         if (!isset($limit)) {
             $limit = $perPage;
         }
@@ -189,29 +167,16 @@ class Review extends Model
                 $query = $query->orderBy('id', 'desc');
         }
 
-     
-
-
-        // 6. limit
-        $all_filters['limit'] = $limit;
-        $all_filters['count_all'] = $query->count();
+      
         $query = $query->offset($start)->limit($limit);
-		$query = $query->get();
-    //  echo $query->toSql();
-      /*  print_r($query->getBindings());
-        die(); */
+		$query = $query->get(); 
 		$all_reviews = [];
 		foreach ($query as $row){
             array_push($all_reviews, $row);
 	    } 
 		
 		return $all_reviews; 
-       
-       // $a = Product::get_product_obj($query->get(), $all_filters, $sku);
-
-        // add debug params to test quickly
-       // $a['a'] = Utility::get_sql_raw($query);
-     //   return $a;
+  
     }
 
   
