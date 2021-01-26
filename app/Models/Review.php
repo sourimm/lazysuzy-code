@@ -30,7 +30,7 @@ class Review extends Model
 					for($i=0;$i<count($data['rimage']);$i++){
 					$image_name = time() . '-' . Utility::generateID() . '.'. $data['rimage'][$i]->getClientOriginalExtension() ;
 					$uplaod = $data['rimage'][$i]->move($upload_folder, $image_name);
-					$imglist .= 'public/images/uimg/'.$image_name.',,';
+					$imglist .= 'images/uimg/'.$image_name.',,';
 					} 
 					
 					if($uplaod) {
@@ -58,7 +58,7 @@ class Review extends Model
 								'headline' => $data['headline'],
 								'review' => $data['review'],
 								'rating' => $data['rating'],
-								'submission_time' => date("Y-m-d H:i:s")
+								'submission_time' => date("F j, Y"); 
 							]);
 
       // sent in the request is updated
