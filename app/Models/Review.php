@@ -179,6 +179,47 @@ class Review extends Model
   
     }
 
-  
+	
+	public static function mark_helpful_review($data){
+		$review_id = $data['review_id'];
+		$user_id = $data['user_id'];
+		$helpfuluser_arr = [];
+		
+		$getrow = DB::table("master_reviews")
+            ->select("*")
+            ->where('id', '=', $review_id)
+            ->get(); 
+			
+		if (isset($getrow[0])) {	
+			$helpfuluser_str = $getrow[0]->users_helpful;
+			if($helpfuluser_str!='' || $helpfuluser_str!=NULL)
+			{	
+				$helpfuluser_arr = explode(",",$helpfuluser_str);
+			
+				if (in_array($user_id, $helpfuluser_arr))
+				{
+					$a['status']=false;
+					$a['msg']='User Id Exist';
+				}
+				else
+				{
+					$a['status']=true;
+					$a['msg']='User Id Inserted Successfully';
+				}
+			}
+			else
+			{
+				$a['status']=true;
+				$a['msg']='User Id Inserted Successfully';
+			}
+			
+		}
+		else
+		{
+			$a['status']=false;
+			$a['msg']='No Review found';
+		}
+		return $a;
+	}
    
 }

@@ -150,6 +150,9 @@ Route::get('/api/review/getreview-{sku}/{limit}', 'API@get_product_review')->mid
 // Get All reviews
 Route::get('/api/allreviews/{sku}', 'API@get_all_review')->middleware(['auth:api'])->name('get-all-review');
 
+// Save Helpful review
+Route::post('/api/mark-helpful', 'API@mark_helpful_review')->middleware(['auth:api'])->name('mark-helpful-review');
+
 /* ==================================================BACKEND ADMIN APIS========================================== */
 
 Route::middleware(['auth:api', 'cors', 'admin'])->group(function () {
