@@ -184,40 +184,55 @@ class Review extends Model
 		$review_id = $data['review_id'];
 		$user_id = $data['user_id'];
 		$helpfuluser_arr = [];
-		
+		$flag = 0;
+		$insertedstr = 	$user_id;
 		$getrow = DB::table("master_reviews")
             ->select("*")
             ->where('id', '=', $review_id)
             ->get(); 
 			
-		if (isset($getrow[0])) {	
-			$helpfuluser_str = $getrow[0]->users_helpful;
-			if($helpfuluser_str!='' || $helpfuluser_str!=NULL)
-			{	
-				$helpfuluser_arr = explode(",",$helpfuluser_str);
-			
-				if (in_array($user_id, $helpfuluser_arr))
-				{
-					$a['status']=false;
-					$a['msg']='User Id Exist';
+		if (isset($getrow[0])) 
+		{	
+				$helpfuluser_str = $getrow[0]->users_helpful;
+				if($helpfuluser_str!='' || $helpfuluser_str!=NULL)
+				{	
+					$helpfuluser_arr = explode(",",$helpfuluser_str);
+				
+					if (in_array($user_id, $helpfuluser_arr))
+					{
+						$a['status']=false;
+						$a['msg']='User Id Exist';
+					}
+					else
+					{
+						$flag = 1; 
+						$insertedstr = 	$helpfuluser_str.','.$user_id;
+					}
 				}
 				else
 				{
+					$flag = 1; 
+				}
+				
+				if($flag)
+				{
+					
+					$is_insert= DB::table('master_reviews')
+								->where('id', $review_id)
+								->update(['users_helpful' => $insertedstr]);
+								
 					$a['status']=true;
 					$a['msg']='User Id Inserted Successfully';
+						
+						
+					
 				}
-			}
-			else
-			{
-				$a['status']=true;
-				$a['msg']='User Id Inserted Successfully';
-			}
 			
 		}
 		else
 		{
-			$a['status']=false;
-			$a['msg']='No Review found';
+				$a['status']=false;
+				$a['msg']='No Review found';
 		}
 		return $a;
 	}
