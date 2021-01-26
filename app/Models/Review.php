@@ -237,4 +237,60 @@ class Review extends Model
 		return $a;
 	}
    
+    public static function mark_reported_review($data){
+		$review_id = $data['review_id'];
+		$user_id = $data['user_id'];
+		$reporteduser_arr = [];
+		$flag = 0;
+		$insertedstr = 	$user_id;
+		$getrow = DB::table("master_reviews")
+            ->select("*")
+            ->where('id', '=', $review_id)
+            ->get(); 
+			
+		if (isset($getrow[0])) 
+		{	
+				$reporteduser_str = $getrow[0]->users_reported;
+				if($reporteduser_str!='' || $reporteduser_str!=NULL)
+				{	
+					$reporteduser_arr = explode(",",$reporteduser_str);
+				
+					if (in_array($user_id, $reporteduser_arr))
+					{
+						$a['status']=false;
+						$a['msg']='User Id Exist';
+					}
+					else
+					{
+						$flag = 1; 
+						$insertedstr = 	$reporteduser_str.','.$user_id;
+					}
+				}
+				else
+				{
+					$flag = 1; 
+				}
+				
+				if($flag)
+				{
+					
+					$is_insert= DB::table('master_reviews')
+								->where('id', $review_id)
+								->update(['users_reported' => $insertedstr]);
+								
+					$a['status']=true;
+					$a['msg']='User Id Inserted Successfully';
+						
+						
+					
+				}
+			
+		}
+		else
+		{
+				$a['status']=false;
+				$a['msg']='No Review found';
+		}
+		return $a;
+	} 
 }

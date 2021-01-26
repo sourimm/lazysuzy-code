@@ -271,6 +271,12 @@ class API extends Controller
 		$data = $request->all();
         return Review::mark_helpful_review($data);
     }
+	
+	public function mark_reported_review(Request $request)
+    {
+		$data = $request->all();
+        return Review::mark_reported_review($data);
+    }
 
 	
 }
