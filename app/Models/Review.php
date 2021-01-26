@@ -41,7 +41,7 @@ class Review extends Model
 						$error[] = response()->json(['error' => 'image could not be uploaded. Please try again.'], 422);
 				//}
 		}
-		$datetime = date("F j, Y");echo $datetime;
+		//$datetime = date("F j, Y");echo $datetime;
 		
 		 $is_inserted = DB::table('master_reviews')
                     ->insert([
@@ -58,7 +58,7 @@ class Review extends Model
 								'headline' => $data['headline'],
 								'review' => $data['review'],
 								'rating' => $data['rating'],
-								'submission_time' => date("F j, Y")
+								'submission_time' => $datetime 
 							]);
 
       // sent in the request is updated
