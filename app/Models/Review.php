@@ -86,6 +86,15 @@ class Review extends Model
             ->get(); 
 		//	echo $rows->toSql();die;
 		foreach ($rows as $row){
+			$helpfuluser_str = $row->users_helpful;
+			if($helpfuluser_str!='' || $helpfuluser_str!=NULL)
+				{	
+					$helpfuluser_arr = explode(",",$helpfuluser_str);
+					$row->helpful_count = count($helpfuluser_arr);
+				}
+				else{
+					$row->helpful_count = 0;
+				}
             array_push($all_reviews, $row);
 	    }
 		 
@@ -98,6 +107,15 @@ class Review extends Model
             ->get(); 
 			
 		foreach ($rows as $row){
+			$helpfuluser_str = $row->users_helpful;
+			if($helpfuluser_str!='' || $helpfuluser_str!=NULL)
+				{	
+					$helpfuluser_arr = explode(",",$helpfuluser_str);
+					$row->helpful_count = count($helpfuluser_arr);
+				}
+				else{
+					$row->helpful_count = 0;
+				}
             array_push($highest_reviews, $row);
 	    }
 		
@@ -111,6 +129,15 @@ class Review extends Model
             ->get(); 
 			
 		foreach ($rows as $row){
+			$helpfuluser_str = $row->users_helpful;
+				if($helpfuluser_str!='' || $helpfuluser_str!=NULL)
+				{	
+					$helpfuluser_arr = explode(",",$helpfuluser_str);
+					$row->helpful_count = count($helpfuluser_arr);
+				}
+				else{
+					$row->helpful_count = 0;
+				}
             array_push($lowest_reviews, $row);
 	    } 
 	  
