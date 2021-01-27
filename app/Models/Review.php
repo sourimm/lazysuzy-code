@@ -88,13 +88,24 @@ class Review extends Model
 		foreach ($rows as $row){
 			$helpfuluser_str = $row->users_helpful;
 			if($helpfuluser_str!='' || $helpfuluser_str!=NULL)
-				{	
-					$helpfuluser_arr = explode(",",$helpfuluser_str);
-					$row->helpful_count = count($helpfuluser_arr);
-				}
-				else{
-					$row->helpful_count = 0;
-				}
+			{	
+				$helpfuluser_arr = explode(",",$helpfuluser_str);
+				$row->helpful_user_count = count($helpfuluser_arr);
+			}
+			else{
+				$row->helpful_user_count = 0;
+			}
+			
+				
+			$reporteduser_str = $row->users_reported;
+			if($reporteduser_str!='' || $reporteduser_str!=NULL)
+			{	
+				$reporteduser_arr = explode(",",$reporteduser_str);
+				$row->reported_user_count = count($reporteduser_arr);
+			}
+			else{
+				$row->reported_user_count = 0;
+			}	
             array_push($all_reviews, $row);
 	    }
 		 
@@ -109,13 +120,23 @@ class Review extends Model
 		foreach ($rows as $row){
 			$helpfuluser_str = $row->users_helpful;
 			if($helpfuluser_str!='' || $helpfuluser_str!=NULL)
-				{	
-					$helpfuluser_arr = explode(",",$helpfuluser_str);
-					$row->helpful_count = count($helpfuluser_arr);
-				}
-				else{
-					$row->helpful_count = 0;
-				}
+			{	
+				$helpfuluser_arr = explode(",",$helpfuluser_str);
+				$row->helpful_user_count = count($helpfuluser_arr);
+			}
+			else{
+				$row->helpful_user_count = 0;
+			}
+			
+			$reporteduser_str = $row->users_reported;
+			if($reporteduser_str!='' || $reporteduser_str!=NULL)
+			{	
+				$reporteduser_arr = explode(",",$reporteduser_str);
+				$row->reported_user_count = count($reporteduser_arr);
+			}
+			else{
+				$row->reported_user_count = 0;
+			}
             array_push($highest_reviews, $row);
 	    }
 		
@@ -130,14 +151,25 @@ class Review extends Model
 			
 		foreach ($rows as $row){
 			$helpfuluser_str = $row->users_helpful;
-				if($helpfuluser_str!='' || $helpfuluser_str!=NULL)
-				{	
-					$helpfuluser_arr = explode(",",$helpfuluser_str);
-					$row->helpful_count = count($helpfuluser_arr);
-				}
-				else{
-					$row->helpful_count = 0;
-				}
+			if($helpfuluser_str!='' || $helpfuluser_str!=NULL)
+			{	
+				$helpfuluser_arr = explode(",",$helpfuluser_str);
+				$row->helpful_user_count = count($helpfuluser_arr);
+			}
+			else{
+				$row->helpful_user_count = 0;
+			}
+			
+			$reporteduser_str = $row->users_reported;
+			if($reporteduser_str!='' || $reporteduser_str!=NULL)
+			{	
+				$reporteduser_arr = explode(",",$reporteduser_str);
+				$row->reported_user_count = count($reporteduser_arr);
+			}
+			else{
+				$row->reported_user_count = 0;
+			}
+			
             array_push($lowest_reviews, $row);
 	    } 
 	  
@@ -199,6 +231,27 @@ class Review extends Model
 		$query = $query->get(); 
 		$all_reviews = [];
 		foreach ($query as $row){
+			
+			$helpfuluser_str = $row->users_helpful;
+			if($helpfuluser_str!='' || $helpfuluser_str!=NULL)
+			{	
+				$helpfuluser_arr = explode(",",$helpfuluser_str);
+				$row->helpful_user_count = count($helpfuluser_arr);
+			}
+			else{
+				$row->helpful_user_count = 0;
+			}
+			
+			$reporteduser_str = $row->users_reported;
+			if($reporteduser_str!='' || $reporteduser_str!=NULL)
+			{	
+				$reporteduser_arr = explode(",",$reporteduser_str);
+				$row->reported_user_count = count($reporteduser_arr);
+			}
+			else{
+				$row->reported_user_count = 0;
+			}
+			
             array_push($all_reviews, $row);
 	    } 
 		
