@@ -2449,6 +2449,6 @@ class Product extends Model
 		}
 		
 
-        return $response_product;
+        return $product_rows;
     }
 };
