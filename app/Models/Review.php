@@ -231,7 +231,7 @@ class Review extends Model
 		$query = $query->get(); 
 		$all_reviews = [];
 		foreach ($query as $row){
-			
+			$row->submission_time = date("F j, Y", strtotime($row->submission_time));
 			$helpfuluser_str = $row->users_helpful;
 			if($helpfuluser_str!='' || $helpfuluser_str!=NULL)
 			{	
