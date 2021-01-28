@@ -2422,14 +2422,16 @@ class Product extends Model
             ->get();
  
 
+        $response_user_str = '';
 		if(isset($user_rows)){
 			foreach ($user_rows as $ur) { 
-			   array_push($response_user,$ur);
+			  // array_push($response_user,$ur);
+			  $response_user_str = $response_user_str.",".$ur->user_id
 			}
 			
-			$response_user_str =  implode(",",$response_user);
+		//	$response_user_str =  implode(",",$response_user);
 			
-			$product_rows = DB::table('master_reviews')
+		/*	$product_rows = DB::table('master_reviews')
             ->select(['product_sku'])
             ->whereIn('product_sku', $response_user_str)
 			->where('product_sku', '!=', $sku)
@@ -2439,13 +2441,13 @@ class Product extends Model
 				foreach ($product_rows as $pr) { 
 				   array_push($response_product,$pr);
 				}
-			}
+			}*/
 		}
 		else{
 		      // No User found
 		}
 		
 
-        return $response_product;
+        return $response_user_str;
     }
 };
