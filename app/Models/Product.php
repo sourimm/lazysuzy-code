@@ -2410,5 +2410,41 @@ class Product extends Model
         return $response;
     }
 	
-	
+	 public static function get_userproduct_list($sku)
+    {
+       // $product_rows = Product::whereIn('product_sku', $sku_array)->get();
+        $response_user = [];
+        $response_product = [];
+		
+		 $user_rows = DB::table('master_reviews')
+            ->select(['user_id'])
+            ->where('product_sku', $product_sku)
+            ->get();
+ 
+
+		if(isset($user_rows)){
+			foreach ($user_rows as $ur) { 
+			   array_push($response_user,$ur);
+			}
+			
+			$response_user_str =  implode(",",$response_user);
+			
+			$product_rows = DB::table('master_reviews')
+            ->select(['product_sku'])
+            ->whereIn('product_sku', $response_user_str)
+			->where('product_sku', '!=', $sku)
+            ->get();
+			
+			if(isset($product_rows)){
+			foreach ($product_rows as $pr) { 
+			   array_push($response_product,$pr);
+			}
+		}
+		else{
+		      // No User found
+		}
+		
+
+        return $response_product;
+    }
 };
