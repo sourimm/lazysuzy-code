@@ -86,6 +86,7 @@ class Review extends Model
             ->get(); 
 		//	echo $rows->toSql();die;
 		foreach ($rows as $row){
+			$row->submission_time = date("F j, Y", strtotime($row->submission_time));
 			$helpfuluser_str = $row->users_helpful;
 			if($helpfuluser_str!='' || $helpfuluser_str!=NULL)
 			{	
@@ -118,6 +119,7 @@ class Review extends Model
             ->get(); 
 			
 		foreach ($rows as $row){
+			$row->submission_time = date("F j, Y", strtotime($row->submission_time));
 			$helpfuluser_str = $row->users_helpful;
 			if($helpfuluser_str!='' || $helpfuluser_str!=NULL)
 			{	
@@ -150,6 +152,7 @@ class Review extends Model
             ->get(); 
 			
 		foreach ($rows as $row){
+			$row->submission_time = date("F j, Y", strtotime($row->submission_time));
 			$helpfuluser_str = $row->users_helpful;
 			if($helpfuluser_str!='' || $helpfuluser_str!=NULL)
 			{	
