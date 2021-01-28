@@ -2589,4 +2589,28 @@ class Product extends Model
 
         return $response;
     }
+	
+	 public static function get_user_related_product($sku)
+    {
+        $product_rows = DB::table('user_views')
+            ->select([user_id])
+            ->where('product_sku', $sku)
+            ->get();
+		
+		
+		
+        $response = [];
+
+       /* $variations = null;
+        $is_listing_API_call = true;
+        $isMarked = false;
+        $is_details_minimal = false;*/
+
+        foreach ($product_rows as $product) {
+           // $response[] = Product::get_details($product, $variations, $is_listing_API_call, $isMarked, false, $is_details_minimal);
+		   array_push($response,$product);
+        }
+
+        return $response;
+    }
 };

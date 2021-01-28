@@ -156,6 +156,9 @@ Route::post('/api/mark-helpful', 'API@mark_helpful_review')->middleware(['auth:a
 // Save Reported review
 Route::post('/api/mark-reported', 'API@mark_reported_review')->middleware(['auth:api'])->name('mark-reported-review');
 
+// Get User Related Product
+Route::get('/api/productlist/userrelated-{sku}', 'API@get_user_related_product')->middleware(['auth:api'])->name('get-user-related-product');
+
 /* ==================================================BACKEND ADMIN APIS========================================== */
 
 Route::middleware(['auth:api', 'cors', 'admin'])->group(function () {
