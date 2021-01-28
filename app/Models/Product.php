@@ -2592,25 +2592,35 @@ class Product extends Model
 	
 	 public static function get_user_related_product($sku)
     {
-        $product_rows = DB::table('user_views')
+        $user_rows = DB::table('user_views')
             ->select('user_id')
             ->where('product_sku', $sku)
             ->get();
 		
 		
 		
-        $response = [];
+        $response_user = [];
+        $response_product = [];
 
        /* $variations = null;
         $is_listing_API_call = true;
         $isMarked = false;
         $is_details_minimal = false;*/
 
-        foreach ($product_rows as $product) {
-           // $response[] = Product::get_details($product, $variations, $is_listing_API_call, $isMarked, false, $is_details_minimal);
-		   array_push($response,$product);
+        foreach ($user_rows as $user) { 
+		   array_push($response_user,$user);
         }
 
-        return $response;
+		$product_rows = DB::table('user_views')
+            ->select('product_sku')
+            ->whereIn('user_id', $response_user)
+			->where('product_sku', '!=', $sku)
+            ->get();
+			
+		  foreach ($product_rows as $prod) { 
+		   array_push($response_product,$prod);
+        }	
+			
+        return $response_product;
     }
 };
