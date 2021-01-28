@@ -2417,7 +2417,7 @@ class Product extends Model
         $response_product = [];
 		
 		 $user_rows = DB::table('master_reviews')
-            ->select(['user_id'])
+            ->select(DISTINCT(user_id))
             ->where('product_sku', $sku)
             ->get();
  
@@ -2428,7 +2428,7 @@ class Product extends Model
 			  // array_push($response_user,$ur);
 			  $response_user_str = $response_user_str.",".$ur->user_id;
 			}
-			
+			$response_user_str = ltrim($response_user_str, ',');
 		//	$response_user_str =  implode(",",$response_user);
 			
 		/*	$product_rows = DB::table('master_reviews')
