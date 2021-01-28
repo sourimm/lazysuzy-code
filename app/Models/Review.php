@@ -81,7 +81,7 @@ class Review extends Model
             ->select("*")
             ->where('product_sku', '=', $sku)
 			->where('status', '2')
-            ->orderBy("id", "DESC")
+            ->orderBy("submission_time", "DESC")
 			 ->limit($limit)
             ->get(); 
 		//	echo $rows->toSql();die;
@@ -219,11 +219,11 @@ class Review extends Model
             } else if ($sort_type == $RATING_DESC) {
                 $query = $query->orderBy('rating', 'desc');
             }else {
-                $query = $query->orderBy('id', 'desc');
+                $query = $query->orderBy('submission_time', 'desc');
             }
         }
         else { 
-                $query = $query->orderBy('id', 'desc');
+                $query = $query->orderBy('submission_time', 'desc');
         }
 
       
