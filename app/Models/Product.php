@@ -2412,8 +2412,10 @@ class Product extends Model
 	
 	 public static function get_userproduct_list($sku)
     {
-        $response_user = [];
-        $response_product = [];
+		$response_user = [];
+		$response_product = [];
+		$response_user_str = '';
+		$response_sku_str = '';
 		
 		 $user_rows = DB::table('user_views')
             ->select('user_id')
@@ -2422,7 +2424,7 @@ class Product extends Model
             ->get();
  
 
-        $response_user_str = '';
+       
 		if(isset($user_rows)){
 			foreach ($user_rows as $ur) { 
 			  // array_push($response_user,$ur);
