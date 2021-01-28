@@ -2452,7 +2452,7 @@ class Product extends Model
 				
 				
 				$product_rows = DB::table('master_data')
-				->select('id','serial','product_status','product_name','product_sku','LS_ID')
+				->select(['id','serial','product_status','product_name','product_sku','LS_ID'])
 				->whereIn('product_sku', $sku_array)  
 				->get();
 			
