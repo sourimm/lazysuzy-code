@@ -2436,8 +2436,9 @@ class Product extends Model
             ->get();
 			
 			if(isset($product_rows)){
-			foreach ($product_rows as $pr) { 
-			   array_push($response_product,$pr);
+				foreach ($product_rows as $pr) { 
+				   array_push($response_product,$pr);
+				}
 			}
 		}
 		else{
