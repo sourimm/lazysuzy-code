@@ -2433,7 +2433,7 @@ class Product extends Model
 			$sku_array = explode(",",$response_user_str);
 			
 		 	$product_rows = DB::table('master_reviews')
-            ->select(['product_sku'])
+            ->select('product_sku')
             ->whereIn('product_sku', $sku_array)
 			->where('product_sku', '!=', $sku)
             ->get();
