@@ -2416,6 +2416,7 @@ class Product extends Model
 		$response_product = [];
 		$response_user_str = '';
 		$response_sku_str = '';
+		$response = [];
 		
 		 $user_rows = DB::table('user_views')
             ->select('user_id')
@@ -2452,7 +2453,7 @@ class Product extends Model
 				
 				
 				$product_rows = DB::table('master_data')
-				->select(["id","LS_ID"])
+				->select(['id','serial','product_status','product_name','product_sku','LS_ID'])
 				->whereIn('product_sku', $sku_array)  
 				->get();
 			
