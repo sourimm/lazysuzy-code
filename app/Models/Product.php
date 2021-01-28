@@ -2590,37 +2590,5 @@ class Product extends Model
         return $response;
     }
 	
-	 public static function get_user_related_product($sku)
-    {
-        $user_rows = DB::table('user_views')
-            ->select('user_id')
-            ->where('product_sku', $sku)
-            ->get();
-		
-		
-		
-        $response_user = [];
-        $response_product = [];
-
-       /* $variations = null;
-        $is_listing_API_call = true;
-        $isMarked = false;
-        $is_details_minimal = false;*/
-
-        foreach ($user_rows as $user) { 
-		   array_push($response_user,$user);
-        }
-
-		$product_rows = DB::table('user_views')
-            ->select('product_sku')
-            ->whereIn('user_id', $response_user)
-			->where('product_sku', '!=', $sku)
-            ->get();
-			
-		  foreach ($product_rows as $prod) { 
-		   array_push($response_product,$prod);
-        }	
-			
-        return $response_product;
-    }
+	
 };
