@@ -2430,10 +2430,11 @@ class Product extends Model
 			  $response_user_str = $response_user_str.",".$ur->user_id;
 			}
 			$response_user_str = ltrim($response_user_str, ',');
+			$sku_array = explode(",",$response_user_str);
 			
 		 	$product_rows = DB::table('master_reviews')
             ->select(['product_sku'])
-            ->whereIn('product_sku', $response_user_str)
+            ->whereIn('product_sku', $sku_array)
 			->where('product_sku', '!=', $sku)
             ->get();
 			
