@@ -2412,11 +2412,10 @@ class Product extends Model
 	
 	 public static function get_userproduct_list($sku)
     {
-       // $product_rows = Product::whereIn('product_sku', $sku_array)->get();
         $response_user = [];
         $response_product = [];
 		
-		 $user_rows = DB::table('master_reviews')
+		 $user_rows = DB::table('user_views')
             ->select('user_id')
 			->distinct()
             ->where('product_sku', $sku)
@@ -2432,7 +2431,7 @@ class Product extends Model
 			$response_user_str = ltrim($response_user_str, ',');
 			$sku_array = explode(",",$response_user_str);
 			
-		 	$product_rows = DB::table('master_reviews')
+		 	$product_rows = DB::table('user_views')
             ->select('product_sku')
             ->whereIn('user_id',$sku_array) //$sku_array
 			->where('product_sku', '!=', $sku)
