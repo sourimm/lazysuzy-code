@@ -2433,7 +2433,7 @@ class Product extends Model
 			$response_user_str = ltrim($response_user_str, ',');
 			$user_array = explode(",",$response_user_str);
 			
-		 	$product_rows = DB::table('user_views')
+		 	$product_sku_rows = DB::table('user_views')
             ->select('product_sku')
             ->whereIn('user_id',$user_array)  
 			->where('product_sku', '!=', $sku)
@@ -2441,9 +2441,9 @@ class Product extends Model
 			
 			
 			
-			if(isset($product_rows)){
-				foreach ($product_rows as $pr) { 
-				  array_push($response_product,$pr);
+			if(isset($product_sku_rows)){
+				foreach ($product_sku_rows as $pr) { 
+				 // array_push($response_product,$pr);
 				  $response_sku_str = $response_sku_str.",".$pr->product_sku;
 				   
 				}
@@ -2451,15 +2451,18 @@ class Product extends Model
 				$sku_array = explode(",",$response_sku_str);
 				
 				
-				$product_rows = Product::whereIn('product_sku', $sku_array)->get();
+				$product_rows = DB::table('master_data')
+				->select('id','serial','product_status','product_name','product_sku','LS_ID')
+				->whereIn('product_sku', $sku_array)  
+				->get();
+			
 				
-				$variations = null;
-				$is_listing_API_call = true;
-				$isMarked = false;
-				$is_details_minimal = false;
+				
+				
+				 
 
 				foreach ($product_rows as $product) {
-					$response[] = Product::get_details($product, $variations, $is_listing_API_call, $isMarked, false, $is_details_minimal);
+					array_push($response,$product);
 				}
 				
 				
