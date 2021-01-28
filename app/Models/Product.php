@@ -2451,7 +2451,7 @@ class Product extends Model
 				$sku_array = explode(",",$response_sku_str);
 				
 				
-				$product_rows = DB::table('master_data')
+				/*$product_rows = DB::table('master_data')
 				->select(['id','serial','product_status','product_name','product_sku','LS_ID'])
 				->whereIn('product_sku', $sku_array)  
 				->get();
@@ -2464,7 +2464,7 @@ class Product extends Model
 				foreach ($product_rows as $product) {
 					array_push($response,$product);
 				}
-				
+				*/
 				
 				
 			} 
@@ -2474,6 +2474,6 @@ class Product extends Model
 		}
 		
 
-        return $response;
+        return $sku_array;
     }
 };
