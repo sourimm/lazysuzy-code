@@ -2437,9 +2437,15 @@ class Product extends Model
 			->where('product_sku', '!=', $sku)
             ->get();
 			
+			  $variations = null;
+        $is_listing_API_call = true;
+        $isMarked = false;
+        $is_details_minimal = false;
+			
 			if(isset($product_rows)){
 				foreach ($product_rows as $pr) { 
-				   array_push($response_product,$pr);
+				  // array_push($response_product,$pr);
+				   $response[] = Product::get_details($pr, $variations, $is_listing_API_call, $isMarked, false, $is_details_minimal);
 				}
 			} 
 		}
@@ -2448,6 +2454,6 @@ class Product extends Model
 		}
 		
 
-        return $response_product;
+        return $response;
     }
 };
