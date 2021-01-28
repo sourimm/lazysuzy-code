@@ -2426,7 +2426,7 @@ class Product extends Model
 		if(isset($user_rows)){
 			foreach ($user_rows as $ur) { 
 			  // array_push($response_user,$ur);
-			  $response_user_str = $response_user_str.",".$ur->user_id
+			  $response_user_str = $response_user_str.",".$ur->user_id;
 			}
 			
 		//	$response_user_str =  implode(",",$response_user);
