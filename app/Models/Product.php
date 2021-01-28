@@ -2593,7 +2593,7 @@ class Product extends Model
 	 public static function get_user_related_product($sku)
     {
         $product_rows = DB::table('user_views')
-            ->select([user_id])
+            ->select('user_id')
             ->where('product_sku', $sku)
             ->get();
 		
