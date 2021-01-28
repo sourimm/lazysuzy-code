@@ -2417,7 +2417,7 @@ class Product extends Model
         $response_product = [];
 		
 		 $user_rows = DB::table('master_reviews')
-            ->select(['user_id'])
+            ->select('user_id')
             ->where('product_sku', $product_sku)
             ->get();
  
@@ -2430,7 +2430,7 @@ class Product extends Model
 			$response_user_str =  implode(",",$response_user);
 			
 			$product_rows = DB::table('master_reviews')
-            ->select(['product_sku'])
+            ->select('product_sku')
             ->whereIn('product_sku', $response_user_str)
 			->where('product_sku', '!=', $sku)
             ->get();
