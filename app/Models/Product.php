@@ -2417,7 +2417,7 @@ class Product extends Model
         $response_product = [];
 		
 		 $user_rows = DB::table('master_reviews')
-            ->select(user_id)
+            ->select('user_id')
 			->distinct()
             ->where('product_sku', $sku)
             ->get();
