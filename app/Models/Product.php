@@ -2434,7 +2434,7 @@ class Product extends Model
 			
 		 	$product_rows = DB::table('master_reviews')
             ->select('product_sku')
-            ->whereIn('product_sku',["511","1093","1097","1105","1131"]) //$sku_array
+            ->whereIn('user_id',$sku_array) //$sku_array
 			->where('product_sku', '!=', $sku)
             ->get();
 			
@@ -2449,6 +2449,6 @@ class Product extends Model
 		}
 		
 
-        return $product_rows;
+        return $response_product;
     }
 };
