@@ -2555,6 +2555,7 @@ class Product extends Model
 					->select(array('product_sku', DB::raw('COUNT(user_id) as cnt')))
 					->whereIn('product_sku', $sku_array)  
 					->groupBy('product_sku')
+					->orderBy(\DB::raw('count(user_id)'), 'DESC')
 					->get();
 					
 					
