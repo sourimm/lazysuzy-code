@@ -2417,6 +2417,7 @@ class Product extends Model
 		$response_user_str = '';
 		$response_sku_str = '';
 		$response = [];
+		$response_nmatch = [];
 		
 		 $user_rows = DB::table('user_views')
             ->select('user_id')
@@ -2467,8 +2468,22 @@ class Product extends Model
 					
 					//$product->LS_ID_arr = explode(",",$product->LS_ID);
 				//	if(strcmp("0",$product->LS_ID)) 
-						if (strpos($product->LS_ID, '0') !== false)
+					if (strpos($product->LS_ID, '0') !== false)
+					{
+						
+						
+						
+						
+						
+						
+						
+						
+						
 						array_push($response,$product);
+					}
+					else{
+						   array_push($response_nmatch,$product);
+					}
 				}
 				
 				
@@ -2482,6 +2497,6 @@ class Product extends Model
 		}
 		
 
-        return $response;
+        return $response_nmatch;
     }
 };
