@@ -2618,7 +2618,7 @@ class Product extends Model
 		foreach($product_rows as $pr){
 				
 			$LS_ID_arr = explode(",",$pr->LS_ID);
-			 
+			 return $LS_ID_arr;
 			if(in_array($LSID, $LS_ID_arr)){
 				array_push($response_identical,$pr);
 			}
