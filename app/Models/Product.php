@@ -2496,7 +2496,7 @@ class Product extends Model
 		$response_identical = [];
 		$remainarr = [];
 		
-		$LSID_arr = explode("",$LSID) ;
+		$LSID_arr = explode('',$LSID) ;
 		
 		foreach ($product_rows as $product) {
 					
@@ -2601,7 +2601,7 @@ class Product extends Model
 				
 				$response = array_values(array_merge($response_identical, $response_deptsame, $response_deptother,  $response_nmatch));
 				
-				return $LSID_arr;
+				return $LSID;
 	}
 	
  
