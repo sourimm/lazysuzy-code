@@ -2615,8 +2615,8 @@ class Product extends Model
 		$response_identical = [];
 		$remainarr = [];
 		
-		foreach($product_rows as $pr){ return strcmp($LSID,$pr->LS_ID);
-		 	$LS_ID_arr =  $pr->LS_ID;
+		foreach($product_rows as $pr){ 
+		 	$LS_ID_arr =  '1123';return strcmp($LSID,$pr->LS_ID);
 			//$flag = in_array($LSID, $LS_ID_arr);
 			//if(in_array($LSID, $LS_ID_arr)){
 			if( strcmp($LSID,$pr->LS_ID)==0){	
