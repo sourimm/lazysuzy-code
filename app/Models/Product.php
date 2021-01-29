@@ -2572,9 +2572,11 @@ class Product extends Model
 					$a = [];
 					foreach ($product_rows1 as $pr) {  
 					  array_push($a,$pr);
-					   
+					  
 					}
 					
+					$rs = [];
+					$rs = array_merge_recursive($remainarr, $a);
 					
 				}
 				
@@ -2588,6 +2590,6 @@ class Product extends Model
 		}
 		
 
-        return $a;
+        return $rs;
     }
 };
