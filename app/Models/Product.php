@@ -2552,11 +2552,11 @@ class Product extends Model
 					$sku_array = explode(",",$response_sku_str);
 					
 					$product_rows1 = DB::table('user_views') 
+					->whereIn('user_views.product_sku', $sku_array)  
+					->join('master_data', 'user_views.product_sku', '=', 'master_data.product_sku')					
 					->select(array('master_data.id','master_data.serial','master_data.product_status','master_data.product_name','master_data.product_sku','master_data.LS_ID','user_views.product_sku', DB::raw('COUNT(user_views.user_id) as cnt')))
-					->whereIn('product_sku', $sku_array)  
-					->join('master_data', 'user_views.product_sku', '=', 'master_data.product_sku')
-					->groupBy('product_sku')
-					->orderBy(\DB::raw('count(user_id)'), 'DESC')
+					->groupBy('user_views.product_sku')
+					->orderBy(\DB::raw('count(user_views.user_id)'), 'DESC')
 					->get();
 					
 					
