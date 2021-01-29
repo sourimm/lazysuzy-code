@@ -2423,6 +2423,7 @@ class Product extends Model
 		$response_deptother = [];
 		$response_catsame = [];
 		$response_catother = [];
+		$response_identical = [];
 		
 		 $user_rows = DB::table('user_views')
             ->select('user_id')
@@ -2512,11 +2513,16 @@ class Product extends Model
 					
 					for($i=0;$i<count($LS_ID_arr);$i++){
 						if (strpos($LS_ID_arr[$i], '5') !== false){
-							if((strpos($LS_ID_arr[$i],"5"))==0){
-								array_push($response_deptsame,$dept);
+							if($LS_ID_arr[$i] == '507'){
+								array_push($response_identical,$dept);
 							}
 							else{
-									array_push($response_deptother,$dept);
+									if((strpos($LS_ID_arr[$i],"5"))==0){
+										array_push($response_deptsame,$dept);
+									}
+									else{
+											array_push($response_deptother,$dept);
+									}
 							}
 						}
 					}
@@ -2526,11 +2532,15 @@ class Product extends Model
 				/* ================== Sort By Department End =========================== */  
 				
 				
-				$response = array_values((array_merge(array_values($response_deptsame),array_values($response_deptother), array_values($response_catother), array_values($response_nmatch))));
+				$response_deptsame = array_values(array_unique($response_deptsame,SORT_REGULAR));
+				$$response_identical = array_values(array_unique($response_identical,SORT_REGULAR));
+				$$response_deptother = array_values(array_unique($response_deptother,SORT_REGULAR));
+				$$response_catother = array_values(array_unique($response_catother,SORT_REGULAR));
+				$$response_nmatch = array_values(array_unique($response_nmatch,SORT_REGULAR));
 				
-				//$response = array_unique((array_merge($response_match,$response_nmatch)),SORT_REGULAR);
 				
-				
+				$response = array_values((array_merge($response_identical, $response_deptsame, $response_deptother, $response_catother, $response_nmatch))));
+ 
 			} 
 		}
 		else{
