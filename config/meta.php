@@ -51,5 +51,17 @@ return [
         "attribute_3",
         "price",
         "was_price"
+    ],
+    'cb2_variations_cols' => [
+        "sku",
+        "product_id",
+        "swatch_image_path",
+        "has_parent_sku",
+        "image_path",
+        "attribute_1",
+        "attribute_2",
+        "attribute_3",
+        "price",
+        "was_price"
     ]
 ];
