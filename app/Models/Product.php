@@ -2418,6 +2418,9 @@ class Product extends Model
 		$response_sku_str = '';
 		$response = [];
 		$response_nmatch = [];
+		$response_match = [];
+		$response_same = [];
+		$response_other = [];
 		
 		 $user_rows = DB::table('user_views')
             ->select('user_id')
@@ -2470,24 +2473,35 @@ class Product extends Model
 				//	if(strcmp("0",$product->LS_ID)) 
 					if (strpos($product->LS_ID, '0') !== false)
 					{
-						
-						
-						
-						
-						
-						
-						
-						
-						
-						array_push($response,$product);
+						array_push($response_match,$product);
 					}
 					else{
 						   array_push($response_nmatch,$product);
 					}
 				}
 				
+				foreach($response_match as $match){
+				
+					$LS_ID_arr = explode(",",$match->LS_ID);
+					
+					for($i=0;$i<count($LS_ID_arr);$i++){
+						if (strpos($LS_ID_arr[$i], '0') !== false){
+							if((strpos($LS_ID_arr[$i],"0"))==1){
+								array_push($response_same,$match);
+							}
+							else{
+									array_push($response_other,$match);
+							}
+						}
+					}
+					$response_match = array_merge($response_same,$response_other);
+					
 				
 				
+				}
+				
+				
+				$response = array_merge($response_match,$response_nmatch);
 				
 				
 			} 
@@ -2497,6 +2511,6 @@ class Product extends Model
 		}
 		
 
-        return $response_nmatch;
+        return $response;
     }
 };
