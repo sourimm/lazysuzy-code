@@ -2576,7 +2576,7 @@ class Product extends Model
 					}
 					
 					$rs = [];
-					$rs = array_merge_recursive($remainarr, $a);
+					$rs = my_array_merge($remainarr, $a);
 					
 				}
 				
@@ -2592,4 +2592,12 @@ class Product extends Model
 
         return $rs;
     }
+	
+	function my_array_merge(&$array1, &$array2) {
+    $result = Array();
+    foreach($array1 as $key => &$value) {
+        $result[$key] = array_merge($value, $array2[$key]);
+    }
+    return $result;
+}
 };
