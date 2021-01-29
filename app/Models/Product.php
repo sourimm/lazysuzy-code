@@ -2417,14 +2417,14 @@ class Product extends Model
 		$response_user_str = '';
 		$response_sku_str = '';
 		$response = [];
-		$response_nmatch = [];
+		/*$response_nmatch = [];
 		$response_match = [];
 		$response_deptsame = [];
 		$response_deptother = [];
 		$response_catsame = [];
 		$response_catother = [];
 		$response_identical = [];
-		$remainarr = [];
+		$remainarr = [];*/
 		
 		 $user_rows = DB::table('user_views')
             ->select('user_id')
@@ -2441,6 +2441,7 @@ class Product extends Model
 		$main_LSID = explode(",",$main_product_LSID[0]->LS_ID) ;		
 				
 		$LSID = $main_LSID[0];		
+		
 				
 				
        
@@ -2476,9 +2477,36 @@ class Product extends Model
 				->where('product_status','active') 
 				->get();
 			
-			
+			    if(strlen($LSID)==3){
+			        $response = Product::get_product_for_three_digit($product_rows,$LSID);
+				}
+				else{
+				}
+			} 
+		}
+		else{
+		      // No User found
+		}
+		
 
-				foreach ($product_rows as $product) {
+        return $response;
+    }
+	
+	
+	
+	public static function get_product_for_three_digit($product_rows,$LSID){
+		
+		$response = [];
+		$response_nmatch = [];
+		$response_match = [];
+		$response_deptsame = [];
+		$response_deptother = [];
+		$response_catsame = [];
+		$response_catother = [];
+		$response_identical = [];
+		$remainarr = [];
+		
+		foreach ($product_rows as $product) {
 					
 					if (strpos($product->LS_ID, '0') !== false)
 					{
@@ -2580,16 +2608,9 @@ class Product extends Model
 				
 				
 				$response = array_values(array_merge($response_identical, $response_deptsame, $response_deptother,  $response_nmatch));
- 
-			} 
-		}
-		else{
-		      // No User found
-		}
-		
-
-        return $LSID;
-    }
+				
+				return $response;
+	}
 	
  
 };
