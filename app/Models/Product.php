@@ -2576,7 +2576,7 @@ class Product extends Model
 					}
 					
 					$rs = [];
-					$rs = my_array_merge($remainarr, $a);
+					$rs = Product::my_array_merge($remainarr, $a);
 					
 				}
 				
