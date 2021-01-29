@@ -2615,10 +2615,23 @@ class Product extends Model
 		$response_identical = [];
 		$remainarr = [];
 
+		foreach($product_rows as $pr){
+				
+			$LS_ID_arr = explode(",",$pr->LS_ID);
+			 
+			if(in_array($LSID, $LS_ID_arr)){
+				array_push($response_identical,$pr);
+			}
+			else{
+					array_push($response_deptother,$pr);
+			}
+			
+		}
 		
+		$LSID_dept = $LSID[0].$LSID[1].$LSID[2];
 		
 				
-				return $product_rows;
+		return $LSID_dept;
 	}
 	
  
