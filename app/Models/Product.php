@@ -2539,7 +2539,7 @@ class Product extends Model
 				$$response_nmatch = array_values(array_unique($response_nmatch,SORT_REGULAR));
 				
 				
-				$response = array_values((array_merge($response_identical, $response_deptsame, $response_deptother, $response_catother, $response_nmatch))));
+				$response = array_values(array_merge($response_identical, $response_deptsame, $response_deptother, $response_catother, $response_nmatch));
  
 			} 
 		}
