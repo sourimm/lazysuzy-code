@@ -2559,20 +2559,9 @@ class Product extends Model
 					->orderBy(\DB::raw('count(user_views.user_id)'), 'DESC')
 					->get();
 					
-					
-					/*
-					
-					$product_rows = DB::table('user_views') 
-					->select(array('user_views.product_sku', DB::raw('COUNT(user_views.user_id) as cnt')))
-					->whereIn('product_sku', $sku_array)  
-					->join('master_data', 'user_views.product_sku', '=', 'master_data.product_sku')
-					->groupBy('issues.id')
-					->get();
-					*/
-					
-					$a = [];
+					$response_nmatch = [];
 					foreach ($product_rows1 as $pr) {  
-					  array_push($a,$pr);
+					  array_push($response_nmatch,$pr);
 					  
 					}
 					
@@ -2580,7 +2569,7 @@ class Product extends Model
 				}
 				
 				
-				$response = array_values(array_merge($response_identical, $response_deptsame, $response_deptother, $response_catother, $response_nmatch));
+				$response = array_values(array_merge($response_identical, $response_deptsame, $response_deptother,  $response_nmatch));
  
 			} 
 		}
@@ -2589,14 +2578,8 @@ class Product extends Model
 		}
 		
 
-        return $a;
+        return $response;
     }
 	
-	 public static function my_array_merge(&$array1, &$array2) {
-    $result = Array();
-    foreach($array1 as $key => &$value) {
-        $result[$key] = array_merge($value, $array2[$key]);
-    }
-    return $result;
-}
+ 
 };
