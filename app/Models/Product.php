@@ -2615,7 +2615,7 @@ class Product extends Model
 		$response_identical = [];
 		$remainarr = [];
 		
-		foreach($product_rows as $pr){ 
+		foreach($product_rows as $pr){ return strcmp($LSID,$pr->LS_ID);
 		 	$LS_ID_arr =  $pr->LS_ID;
 			//$flag = in_array($LSID, $LS_ID_arr);
 			//if(in_array($LSID, $LS_ID_arr)){
@@ -2627,7 +2627,7 @@ class Product extends Model
 			}
 			
 		}
-		return $LS_ID_arr;
+		
 		$LSID_dept = $LSID[0].$LSID[1].$LSID[2];
 		
 		
