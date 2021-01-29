@@ -2593,7 +2593,7 @@ class Product extends Model
         return $rs;
     }
 	
-	function my_array_merge(&$array1, &$array2) {
+	 public static function my_array_merge(&$array1, &$array2) {
     $result = Array();
     foreach($array1 as $key => &$value) {
         $result[$key] = array_merge($value, $array2[$key]);
