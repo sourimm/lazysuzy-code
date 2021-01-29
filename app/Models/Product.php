@@ -2614,12 +2614,12 @@ class Product extends Model
 		$response_catother = [];
 		$response_identical = [];
 		$remainarr = [];
-
+$flag = 0;
 		foreach($product_rows as $pr){
 				
 			$LS_ID_arr = explode(",",$pr->LS_ID);
 			
-			if(in_array($LSID, $LS_ID_arr)){
+			if(in_array($LSID, $LS_ID_arr)){$flag++;
 				array_push($response_identical,$pr);
 			}
 			else{
@@ -2627,7 +2627,7 @@ class Product extends Model
 			}
 			
 		}
-		return $response_identical;
+		return $flag;
 		$LSID_dept = $LSID[0].$LSID[1].$LSID[2];
 		
 		
