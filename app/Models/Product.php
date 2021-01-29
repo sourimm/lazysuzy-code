@@ -2432,7 +2432,17 @@ class Product extends Model
             ->where('product_sku', $sku)
             ->get();
  
-
+		$main_product_LSID = $product_rows = DB::table('master_data')
+				->select(['LS_ID'])
+				->where('product_sku', $sku)  
+				->get();
+				
+				
+		$main_LSID = explode(",",$main_product_LSID[0]->LS_ID) ;		
+				
+		$LSID = $main_LSID[0];		
+				
+				
        
 		if(isset($user_rows)){
 			foreach ($user_rows as $ur) { 
@@ -2578,7 +2588,7 @@ class Product extends Model
 		}
 		
 
-        return $response;
+        return $LSID;
     }
 	
  
