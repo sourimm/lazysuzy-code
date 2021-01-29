@@ -2464,7 +2464,8 @@ class Product extends Model
 				 
 
 				foreach ($product_rows as $product) {
-					if(in_array(0, $product->LS_ID))
+					$LS_ID_array = explode(","$product->LS_ID);
+					if(in_array(0, $LS_ID_array))
 						array_push($response,$product);
 				}
 				
