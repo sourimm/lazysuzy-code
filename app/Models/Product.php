@@ -2616,7 +2616,7 @@ class Product extends Model
 		$remainarr = [];
 $flag = 0;
 		foreach($product_rows as $pr){
-				
+			$pr->LS_ID = '1123';	
 			$LS_ID_arr = explode(",",$pr->LS_ID);
 			
 			if(in_array($LSID, $LS_ID_arr)){$flag++;
