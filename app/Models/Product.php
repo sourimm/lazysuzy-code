@@ -2538,6 +2538,6 @@ class Product extends Model
 		}
 		
 
-        return $response_catsame;
+        return $response_deptsame;
     }
 };
