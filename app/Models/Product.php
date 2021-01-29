@@ -2623,15 +2623,44 @@ class Product extends Model
 				array_push($response_identical,$pr);
 			}
 			else{
-					array_push($response_deptother,$pr);
+					array_push($response_catother,$pr);
 			}
 			
 		}
 		
 		$LSID_dept = $LSID[0].$LSID[1].$LSID[2];
 		
+		
+	/* ================== Sort By Department Start =========================== */  
+		   
+		foreach($response_catother as $dept){
+		
+			$LS_ID_arr = explode(",",$dept->LS_ID);
+			
+			for($i=0;$i<count($LS_ID_arr);$i++){
+				if (strpos($LS_ID_arr[$i], $LSID_dept) == 0){ 
+					array_push($response_deptsame,$dept);
+				}
+				else{
+						
+						array_push($response_deptother,$dept); 
+				}
+			}
+			
+		
+		}
+		
+		/* ================== Sort By Department End =========================== */  
+		
+		$response_identical = array_values(array_unique($response_identical,SORT_REGULAR));
+		$response_deptsame = array_values(array_unique($response_deptsame,SORT_REGULAR));
+		$response_deptother = array_values(array_unique($response_deptother,SORT_REGULAR)); // cat same
+		//$response_catother = array_values(array_unique($response_catother,SORT_REGULAR)); 
+		//$response_nmatch = array_values(array_unique($response_nmatch,SORT_REGULAR));
+						
+		$response = array_values(array_merge($response_identical, $response_deptsame, $response_deptother));
 				
-		return $LSID_dept;
+		return $response;
 	}
 	
  
