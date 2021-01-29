@@ -2660,7 +2660,7 @@ class Product extends Model
 						
 		$response = array_values(array_merge($response_identical, $response_deptsame, $response_deptother));
 				
-		return $response_identical;
+		return $product_rows;
 	}
 	
  
