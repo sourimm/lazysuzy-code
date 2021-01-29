@@ -2496,7 +2496,7 @@ class Product extends Model
 		$response_identical = [];
 		$remainarr = [];
 		
-		$LSID_arr = explode(",",$LSID) ;
+		$LSID_arr = explode("",$LSID) ;
 		
 		foreach ($product_rows as $product) {
 					
