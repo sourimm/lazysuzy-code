@@ -2416,15 +2416,7 @@ class Product extends Model
 		$response_product = [];
 		$response_user_str = '';
 		$response_sku_str = '';
-		$response = [];
-		/*$response_nmatch = [];
-		$response_match = [];
-		$response_deptsame = [];
-		$response_deptother = [];
-		$response_catsame = [];
-		$response_catother = [];
-		$response_identical = [];
-		$remainarr = [];*/
+		$response = []; 
 		
 		 $user_rows = DB::table('user_views')
             ->select('user_id')
@@ -2446,8 +2438,7 @@ class Product extends Model
 				
        
 		if(isset($user_rows)){
-			foreach ($user_rows as $ur) { 
-			  // array_push($response_user,$ur);
+			foreach ($user_rows as $ur) {  
 			  $response_user_str = $response_user_str.",".$ur->user_id;
 			}
 			$response_user_str = ltrim($response_user_str, ',');
@@ -2462,8 +2453,7 @@ class Product extends Model
 			
 			
 			if(isset($product_sku_rows)){
-				foreach ($product_sku_rows as $pr) { 
-				 // array_push($response_product,$pr);
+				foreach ($product_sku_rows as $pr) {  
 				  $response_sku_str = $response_sku_str.",".$pr->product_sku;
 				   
 				}
@@ -2506,9 +2496,11 @@ class Product extends Model
 		$response_identical = [];
 		$remainarr = [];
 		
+		$LSID_arr = explode(",",$LSID) ;
+		
 		foreach ($product_rows as $product) {
 					
-					if (strpos($product->LS_ID, '0') !== false)
+					if (strpos($product->LS_ID, $LSID_arr[1]) !== false)
 					{
 						array_push($response_match,$product);
 					}
@@ -2526,8 +2518,8 @@ class Product extends Model
 					$LS_ID_arr = explode(",",$cat->LS_ID);
 					
 					for($i=0;$i<count($LS_ID_arr);$i++){
-						if (strpos($LS_ID_arr[$i], '0') !== false){
-							if((strpos($LS_ID_arr[$i],"0"))==1){
+						if (strpos($LS_ID_arr[$i], $LSID_arr[1]) !== false){
+							if((strpos($LS_ID_arr[$i],$LSID_arr[1]))==1){
 								array_push($response_catsame,$cat);
 							}
 							else{
@@ -2551,12 +2543,12 @@ class Product extends Model
 					$LS_ID_arr = explode(",",$dept->LS_ID);
 					
 					for($i=0;$i<count($LS_ID_arr);$i++){
-						if (strpos($LS_ID_arr[$i], '5') !== false){
-							if($LS_ID_arr[$i] == '507'){
+						if (strpos($LS_ID_arr[$i], $LSID_arr[0]) !== false){
+							if($LS_ID_arr[$i] == $LSID){
 								array_push($response_identical,$dept);
 							}
 							else{
-									if((strpos($LS_ID_arr[$i],"5"))==0){
+									if((strpos($LS_ID_arr[$i],$LSID_arr[0]))==0){
 										array_push($response_deptsame,$dept);
 									}
 									else{
