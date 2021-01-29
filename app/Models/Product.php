@@ -2652,7 +2652,7 @@ class Product extends Model
 		
 		/* ================== Sort By Department End =========================== */  
 		
-		$response_identical = array_values(array_unique($response_identical,SORT_REGULAR));
+		//$response_identical = array_values(array_unique($response_identical,SORT_REGULAR));
 		$response_deptsame = array_values(array_unique($response_deptsame,SORT_REGULAR));
 		$response_deptother = array_values(array_unique($response_deptother,SORT_REGULAR)); // cat same
 		//$response_catother = array_values(array_unique($response_catother,SORT_REGULAR)); 
@@ -2660,7 +2660,7 @@ class Product extends Model
 						
 		$response = array_values(array_merge($response_identical, $response_deptsame, $response_deptother));
 				
-		return $response;
+		return $response_identical;
 	}
 	
  
