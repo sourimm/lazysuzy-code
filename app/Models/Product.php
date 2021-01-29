@@ -2424,6 +2424,7 @@ class Product extends Model
 		$response_catsame = [];
 		$response_catother = [];
 		$response_identical = [];
+		$remainarr = [];
 		
 		 $user_rows = DB::table('user_views')
             ->select('user_id')
@@ -2538,6 +2539,44 @@ class Product extends Model
 				$response_catother = array_values(array_unique($response_catother,SORT_REGULAR)); 
 				$response_nmatch = array_values(array_unique($response_nmatch,SORT_REGULAR));
 				
+				$remainarr = array_values(array_merge($response_catother,$response_nmatch));
+				$response_sku_str = '';
+				$sku_array = [];
+				
+				if(isset($remainarr)){
+					foreach ($remainarr as $pr) {  
+					  $response_sku_str = $response_sku_str.",".$pr->product_sku;
+					   
+					}
+					$response_sku_str = ltrim($response_sku_str, ',');
+					$sku_array = explode(",",$response_sku_str);
+					
+					$product_rows1 = DB::table('user_views') 
+					->select(array('product_sku', DB::raw('COUNT(user_id) as cnt')))
+					->whereIn('product_sku', $sku_array)  
+					->group_by('issues.id')
+					->get();
+					
+					
+					/*
+					
+					$product_rows = DB::table('user_views') 
+					->select(array('user_views.product_sku', DB::raw('COUNT(user_views.user_id) as cnt')))
+					->whereIn('product_sku', $sku_array)  
+					->join('master_data', 'user_views.product_sku', '=', 'master_data.product_sku')
+					->group_by('issues.id')
+					->get();
+					*/
+					
+					$a = [];
+					foreach ($product_rows1 as $pr) {  
+					  array_push($a,$pr);
+					   
+					}
+					
+					
+				}
+				
 				
 				$response = array_values(array_merge($response_identical, $response_deptsame, $response_deptother, $response_catother, $response_nmatch));
  
@@ -2548,6 +2587,6 @@ class Product extends Model
 		}
 		
 
-        return $response_catother;
+        return $a;
     }
 };
