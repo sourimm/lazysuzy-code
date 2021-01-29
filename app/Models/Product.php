@@ -2619,7 +2619,7 @@ $flag = 0;
 			$LS_ID_arr = explode(",",$pr->LS_ID);
 			//$flag = in_array($LSID, $LS_ID_arr);
 			//if(in_array($LSID, $LS_ID_arr)){
-			if( strcmp($LSID,$pr->LS_ID)){	
+			if( strcmp($LSID,$pr->LS_ID)==0){	
 				array_push($response_identical,$pr);
 			}
 			else{
