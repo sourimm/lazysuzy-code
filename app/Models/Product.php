@@ -2526,7 +2526,7 @@ class Product extends Model
 				/* ================== Sort By Department End =========================== */  
 				
 				
-				$response = array_unique((array_merge(array_values($response_deptsame),array_values($response_deptother), array_values($response_catother), array_values($response_nmatch))),SORT_REGULAR);
+				$response = array_values(array_unique((array_merge(array_values($response_deptsame),array_values($response_deptother), array_values($response_catother), array_values($response_nmatch))),SORT_REGULAR));
 				
 				//$response = array_unique((array_merge($response_match,$response_nmatch)),SORT_REGULAR);
 				
