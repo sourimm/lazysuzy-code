@@ -2419,8 +2419,10 @@ class Product extends Model
 		$response = [];
 		$response_nmatch = [];
 		$response_match = [];
-		$response_same = [];
-		$response_other = [];
+		$response_deptsame = [];
+		$response_deptother = [];
+		$response_catsame = [];
+		$response_catother = [];
 		
 		 $user_rows = DB::table('user_views')
             ->select('user_id')
@@ -2462,15 +2464,10 @@ class Product extends Model
 				->where('product_status','active') 
 				->get();
 			
-				
-				
-				
-				 
+			
 
 				foreach ($product_rows as $product) {
 					
-					//$product->LS_ID_arr = explode(",",$product->LS_ID);
-				//	if(strcmp("0",$product->LS_ID)) 
 					if (strpos($product->LS_ID, '0') !== false)
 					{
 						array_push($response_match,$product);
@@ -2480,28 +2477,60 @@ class Product extends Model
 					}
 				}
 				
-				foreach($response_match as $match){
+				$response_match = array_unique($response_match,SORT_REGULAR);
 				
-					$LS_ID_arr = explode(",",$match->LS_ID);
+				/* ================== Sort By Category Start =========================== */   
+				
+				foreach($response_match as $cat){
+				
+					$LS_ID_arr = explode(",",$cat->LS_ID);
 					
 					for($i=0;$i<count($LS_ID_arr);$i++){
 						if (strpos($LS_ID_arr[$i], '0') !== false){
 							if((strpos($LS_ID_arr[$i],"0"))==1){
-								array_push($response_same,$match);
+								array_push($response_catsame,$cat);
 							}
 							else{
-									array_push($response_other,$match);
+									array_push($response_catother,$cat);
 							}
 						}
 					}
-					$response_match = array_merge(array_unique($response_same,SORT_REGULAR),array_unique($response_other,SORT_REGULAR));
-					
 				
+				}
+				/* ================== Sort By Category End =========================== */  
+				
+				//$response_match = array_merge(array_unique($response_same,SORT_REGULAR),array_unique($response_other,SORT_REGULAR));
+				
+				
+					
+				$response_catsame = array_unique($response_catsame,SORT_REGULAR);
+				
+				
+				/* ================== Sort By Department Start =========================== */  
+				   
+				foreach($response_catsame as $dept){
+				
+					$LS_ID_arr = explode(",",$dept->LS_ID);
+					
+					for($i=0;$i<count($LS_ID_arr);$i++){
+						if (strpos($LS_ID_arr[$i], '0') !== false){
+							if((strpos($LS_ID_arr[$i],"5"))==0){
+								array_push($response_deptsame,$dept);
+							}
+							else{
+									array_push($response_deptother,$dept);
+							}
+						}
+					}
 				
 				}
 				
+				/* ================== Sort By Department End =========================== */  
 				
-				$response = array_unique((array_merge($response_match,$response_nmatch)),SORT_REGULAR);
+				
+				$response = array_unique((array_merge($response_deptsame,$response_deptother, $response_catother, response_nmatch)),SORT_REGULAR);
+				
+				//$response = array_unique((array_merge($response_match,$response_nmatch)),SORT_REGULAR);
 				
 				
 			} 
