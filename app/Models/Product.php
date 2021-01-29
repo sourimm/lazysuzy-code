@@ -2511,7 +2511,7 @@ class Product extends Model
 					$LS_ID_arr = explode(",",$dept->LS_ID);
 					
 					for($i=0;$i<count($LS_ID_arr);$i++){
-						if (strpos($LS_ID_arr[$i], '0') !== false){
+						if (strpos($LS_ID_arr[$i], '5') !== false){
 							if((strpos($LS_ID_arr[$i],"5"))==0){
 								array_push($response_deptsame,$dept);
 							}
