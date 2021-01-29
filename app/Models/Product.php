@@ -2601,7 +2601,7 @@ class Product extends Model
 				
 				$response = array_values(array_merge($response_identical, $response_deptsame, $response_deptother,  $response_nmatch));
 				
-				return $response;
+				return $LSID_arr;
 	}
 	
  
