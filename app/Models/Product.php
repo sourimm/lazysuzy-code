@@ -2554,7 +2554,7 @@ class Product extends Model
 					$product_rows1 = DB::table('user_views') 
 					->select(array('product_sku', DB::raw('COUNT(user_id) as cnt')))
 					->whereIn('product_sku', $sku_array)  
-					->group_by('issues.id')
+					->group_by('product_sku')
 					->get();
 					
 					
