@@ -2477,7 +2477,7 @@ class Product extends Model
 					}
 				}
 				
-				$response_match = array_unique($response_match,SORT_REGULAR);
+				$response_match = array_values(array_unique($response_match,SORT_REGULAR));
 				
 				/* ================== Sort By Category Start =========================== */   
 				
@@ -2497,13 +2497,11 @@ class Product extends Model
 					}
 				
 				}
-				/* ================== Sort By Category End =========================== */  
-				
-				//$response_match = array_merge(array_unique($response_same,SORT_REGULAR),array_unique($response_other,SORT_REGULAR));
+				/* ================== Sort By Category End =========================== */   
 				
 				
 					
-				$response_catsame = array_unique($response_catsame,SORT_REGULAR);
+				$response_catsame = array_values(array_unique($response_catsame,SORT_REGULAR));
 				
 				
 				/* ================== Sort By Department Start =========================== */  
@@ -2528,7 +2526,7 @@ class Product extends Model
 				/* ================== Sort By Department End =========================== */  
 				
 				
-				$response = array_unique((array_merge($response_deptsame,$response_deptother, $response_catother, $response_nmatch)),SORT_REGULAR);
+				$response = array_unique((array_merge(array_values($response_deptsame),array_values($response_deptother), array_values($response_catother), array_values($response_nmatch))),SORT_REGULAR);
 				
 				//$response = array_unique((array_merge($response_match,$response_nmatch)),SORT_REGULAR);
 				
