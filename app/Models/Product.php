@@ -2494,14 +2494,14 @@ class Product extends Model
 							}
 						}
 					}
-					$response_match = array_merge($response_same,$response_other);
+					$response_match = array_merge(array_unique($response_same),array_unique($response_other));
 					
 				
 				
 				}
 				
 				
-				$response = array_merge($response_match,$response_nmatch);
+				$response = array_unique(array_merge($response_match,$response_nmatch));
 				
 				
 			} 
