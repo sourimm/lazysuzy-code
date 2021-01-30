@@ -2610,7 +2610,7 @@ class Product extends Model
 
 	public static function get_product_for_four_digit($product_rows,$LSID){
 		
-		$product_rows=array (
+	/*	$product_rows=array (
   0 => 
   array (
     'id' => 673,
@@ -2647,7 +2647,7 @@ class Product extends Model
     'product_sku' => '584087',
     'LS_ID' => '1123,407',
   ),
-);
+);*/
 		 
 		$response = [];
 		$response_nmatch = [];
@@ -2660,8 +2660,8 @@ class Product extends Model
 		$remainarr = [];
 		
 		foreach($product_rows as $pr){
-		// $LS_ID_arr = explode(',',$pr->LS_ID); 
-		 $LS_ID_arr = explode(',',$pr['LS_ID']); 
+		 $LS_ID_arr = explode(',',$pr->LS_ID); 
+		 //$LS_ID_arr = explode(',',$pr['LS_ID']); 
 		 
 		 
 		 
@@ -2682,28 +2682,20 @@ class Product extends Model
 		 $flag1=0;  
 		foreach($response_catother as $dept){
 		
-			//$LS_ID_arr = explode(",",$dept->LS_ID);
-			$LS_ID_arr = explode(",",$dept['LS_ID']);
+			$LS_ID_arr = explode(",",$dept->LS_ID);
+			//$LS_ID_arr = explode(",",$dept['LS_ID']);
 			
-			for($i=0;$i<count($LS_ID_arr);$i++){
-				//if ((strpos($LS_ID_arr[$i], $LSID_dept)) == '0'){ 
-				if ((substr($LS_ID_arr[$i], 0, 3))==  $LSID_dept){ 
-				//	$flag=1;
+			for($i=0;$i<count($LS_ID_arr);$i++){ 
+				if ((substr($LS_ID_arr[$i], 0, 3))==  $LSID_dept){  
 					array_push($response_deptsame,$dept);
 				 	break;
 					
 				}
-				else{
-						//$flag=0;
+				else{ 
 						array_push($response_deptother,$dept); 
 						
 				}
-				/*if($flag){
-					array_push($response_deptsame,$dept);
-				}
-				else{
-						array_push($response_deptother,$dept); 
-				}*/
+				 
 			}
 			 
 			
@@ -2715,24 +2707,20 @@ class Product extends Model
 		
 		$response_identical = array_values(array_unique($response_identical,SORT_REGULAR));
 		$response_deptsame = array_values(array_unique($response_deptsame,SORT_REGULAR));
-		$response_deptother = array_values(array_unique($response_deptother,SORT_REGULAR)); // cat same
-		//$response_catother = array_values(array_unique($response_catother,SORT_REGULAR)); 
-		//$response_nmatch = array_values(array_unique($response_nmatch,SORT_REGULAR));
-		
+		$response_deptother = array_values(array_unique($response_deptother,SORT_REGULAR)); // cat same 
 		
 		
 		
 		
 		/* ================= User View Count Matching Start ========================== */
-				
-			//	$remainarr = array_values(array_merge($response_catother,$response_nmatch));
+				 
 				$response_sku_str = '';
 				$sku_array = [];
 				
 				if(isset($response_deptother)){
 					foreach ($response_deptother as $pr) {  
-					 // $response_sku_str = $response_sku_str.",".$pr->product_sku;
-					   $response_sku_str = $response_sku_str.",".$pr['product_sku'];
+					  $response_sku_str = $response_sku_str.",".$pr->product_sku;
+					//   $response_sku_str = $response_sku_str.",".$pr['product_sku'];
 					}
 					$response_sku_str = ltrim($response_sku_str, ',');
 					$sku_array = explode(",",$response_sku_str);
