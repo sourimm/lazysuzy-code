@@ -2605,39 +2605,44 @@ class Product extends Model
 
 	public static function get_product_for_four_digit($product_rows,$LSID){
 		
-		$product_rows=json_decode([{
-        "id": 673,
-        "serial": 29,
-        "product_status": "active",
-        "product_name": "Stone Table Rectangle 95\"",
-        "product_sku": "479397",
-        "LS_ID": "507"
-    },
-    {
-        "id": 701,
-        "serial": 51,
-        "product_status": "active",
-        "product_name": "Harper Brass Dining Table with Glass Top",
-        "product_sku": "359011",
-        "LS_ID": "507"
-    },
-    {
-        "id": 1073,
-        "serial": 20,
-        "product_status": "active",
-        "product_name": "Harper White Dining Table with Black Marble Top",
-        "product_sku": "580101",
-        "LS_ID": "507"
-    },
-    {
-        "id": 1111,
-        "serial": 13,
-        "product_status": "active",
-        "product_name": "Babylon Round Small Table",
-        "product_sku": "584087",
-        "LS_ID": "507"
-    }
-]);
+		$product_rows=array (
+  0 => 
+  array (
+    'id' => 673,
+    'serial' => 29,
+    'product_status' => 'active',
+    'product_name' => 'Stone Table Rectangle 95"',
+    'product_sku' => '479397',
+    'LS_ID' => '507',
+  ),
+  1 => 
+  array (
+    'id' => 701,
+    'serial' => 51,
+    'product_status' => 'active',
+    'product_name' => 'Harper Brass Dining Table with Glass Top',
+    'product_sku' => '359011',
+    'LS_ID' => '507',
+  ),
+  2 => 
+  array (
+    'id' => 1073,
+    'serial' => 20,
+    'product_status' => 'active',
+    'product_name' => 'Harper White Dining Table with Black Marble Top',
+    'product_sku' => '580101',
+    'LS_ID' => '507',
+  ),
+  3 => 
+  array (
+    'id' => 1111,
+    'serial' => 13,
+    'product_status' => 'active',
+    'product_name' => 'Babylon Round Small Table',
+    'product_sku' => '584087',
+    'LS_ID' => '507',
+  ),
+);
 		
 		return $product_rows;
 		$response = [];
