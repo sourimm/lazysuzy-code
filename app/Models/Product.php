@@ -2673,7 +2673,7 @@ class Product extends Model
 			}
 			
 		} 
-		 return $response_catother;
+		
 		$LSID_dept = $LSID[0].$LSID[1].$LSID[2];
 		
 		
@@ -2696,7 +2696,7 @@ class Product extends Model
 			
 		
 		} 
-		
+		 return $response_deptsame;
 		/* ================== Sort By Department End =========================== */  
 		
 		$response_identical = array_values(array_unique($response_identical,SORT_REGULAR));
