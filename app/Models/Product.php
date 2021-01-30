@@ -2678,24 +2678,25 @@ class Product extends Model
 		
 		
 	/* ================== Sort By Department Start =========================== */  
-		   
+		 $flag=0;  
+		 $flag1=0;  
 		foreach($response_catother as $dept){
 		
 			//$LS_ID_arr = explode(",",$dept->LS_ID);
 			$LS_ID_arr = explode(",",$dept['LS_ID']);
 			
-			for($i=0;$i<count($LS_ID_arr);$i++){return $LS_ID_arr[$i]."===========".$LSID_dept; $a =strpos($LS_ID_arr[$i], $LSID_dept); 
+			for($i=0;$i<count($LS_ID_arr);$i++){
 				if ((strpos($LS_ID_arr[$i], $LSID_dept)) == '0'){ 
-					$flag=1;
+					$flag++;
 					break;
 					
 				}
 				else{
-						$flag=0;
+						$flag1++;
 						
 				}
 			}
-			return $flag;
+			return $flag.'===='.$flag1;
 			if($flag){
 					array_push($response_deptsame,$dept);
 			}
