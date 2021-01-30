@@ -2604,6 +2604,1322 @@ class Product extends Model
  
 
 	public static function get_product_for_four_digit($product_rows,$LSID){
+		
+		$product_rows=[[
+    {
+        "id": 673,
+        "serial": 29,
+        "product_status": "active",
+        "product_name": "Stone Table Rectangle 95\"",
+        "product_sku": "479397",
+        "LS_ID": "507"
+    },
+    {
+        "id": 701,
+        "serial": 51,
+        "product_status": "active",
+        "product_name": "Harper Brass Dining Table with Glass Top",
+        "product_sku": "359011",
+        "LS_ID": "507"
+    },
+    {
+        "id": 1073,
+        "serial": 20,
+        "product_status": "active",
+        "product_name": "Harper White Dining Table with Black Marble Top",
+        "product_sku": "580101",
+        "LS_ID": "507"
+    },
+    {
+        "id": 1111,
+        "serial": 13,
+        "product_status": "active",
+        "product_name": "Babylon Round Small Table",
+        "product_sku": "584087",
+        "LS_ID": "507"
+    },
+    {
+        "id": 1353,
+        "serial": 14,
+        "product_status": "active",
+        "product_name": "Stadium Dining Table",
+        "product_sku": "628206",
+        "LS_ID": "507"
+    },
+    {
+        "id": 1391,
+        "serial": 6,
+        "product_status": "active",
+        "product_name": "Cruz Travertine Dining Table",
+        "product_sku": "601352",
+        "LS_ID": "507"
+    },
+    {
+        "id": 1409,
+        "serial": 27,
+        "product_status": "active",
+        "product_name": "Babylon All Marble Table",
+        "product_sku": "246571",
+        "LS_ID": "507"
+    },
+    {
+        "id": 1493,
+        "serial": 1,
+        "product_status": "active",
+        "product_name": "Cy Metal and Marble Dining Table",
+        "product_sku": "157291",
+        "LS_ID": "507"
+    },
+    {
+        "id": 1526,
+        "serial": 1,
+        "product_status": "active",
+        "product_name": "Graywashed Pine Rylie Dining Table",
+        "product_sku": "585354",
+        "LS_ID": "507"
+    },
+    {
+        "id": 1527,
+        "serial": 2,
+        "product_status": "active",
+        "product_name": "Galvin Cafeteria Table",
+        "product_sku": "473823",
+        "LS_ID": "507"
+    },
+    {
+        "id": 1528,
+        "serial": 1,
+        "product_status": "active",
+        "product_name": "Marble Top Leilani Tulip Dining Table",
+        "product_sku": "578200",
+        "LS_ID": "507"
+    },
+    {
+        "id": 4040,
+        "serial": 6,
+        "product_status": "active",
+        "product_name": "Jensen Dining Table",
+        "product_sku": "jensen-dining-table-h1039",
+        "LS_ID": "507"
+    },
+    {
+        "id": 4042,
+        "serial": 8,
+        "product_status": "active",
+        "product_name": "Open Pedestal Round Dining Table",
+        "product_sku": "open-pedestal-wood-round-dining-table-h4386",
+        "LS_ID": "507"
+    },
+    {
+        "id": 4131,
+        "serial": 18,
+        "product_status": "active",
+        "product_name": "Anton Solid Wood Dining Table - Burnt Wax",
+        "product_sku": "anton-solid-wood-dining-table-h4231",
+        "LS_ID": "507"
+    },
+    {
+        "id": 4242,
+        "serial": 75,
+        "product_status": "active",
+        "product_name": "Live Edge Wood Dining Table",
+        "product_sku": "live-edge-wood-table-h1850",
+        "LS_ID": "507"
+    },
+    {
+        "id": 5095,
+        "serial": 97,
+        "product_status": "active",
+        "product_name": "Anton Solid Wood Dining Table (72\") & 6 Holland Chairs Set",
+        "product_sku": "anton-solid-wood-dining-table-72-6-holland-chairs-set-h5037",
+        "LS_ID": "507"
+    },
+    {
+        "id": 7822,
+        "serial": 5,
+        "product_status": "active",
+        "product_name": "Hayes 48\" Round Acacia Dining Table",
+        "product_sku": "314111",
+        "LS_ID": "507"
+    },
+    {
+        "id": 8912,
+        "serial": 17,
+        "product_status": "active",
+        "product_name": "Walton Ribbed Leg Dining Table",
+        "product_sku": "564780",
+        "LS_ID": "99,507"
+    },
+    {
+        "id": 9307,
+        "serial": 52,
+        "product_status": "active",
+        "product_name": "Basque Honey 82\" Dining Table",
+        "product_sku": "658582",
+        "LS_ID": "507"
+    },
+    {
+        "id": 390,
+        "serial": 56,
+        "product_status": "active",
+        "product_name": "Primitivo White Chair",
+        "product_sku": "543286",
+        "LS_ID": "504,213"
+    },
+    {
+        "id": 410,
+        "serial": 10,
+        "product_status": "active",
+        "product_name": "Venice Studio Grey Task/Office Chair",
+        "product_sku": "394097",
+        "LS_ID": "601,504,213"
+    },
+    {
+        "id": 449,
+        "serial": 4,
+        "product_status": "active",
+        "product_name": "Sophia Black Dining Chair",
+        "product_sku": "377458",
+        "LS_ID": "504,89,213"
+    },
+    {
+        "id": 451,
+        "serial": 18,
+        "product_status": "active",
+        "product_name": "Lucinda Black Stacking Chair",
+        "product_sku": "591035",
+        "LS_ID": "504,89,213"
+    },
+    {
+        "id": 1042,
+        "serial": 8,
+        "product_status": "active",
+        "product_name": "Foley Faux Mohair Grey Dining Chair",
+        "product_sku": "591088",
+        "LS_ID": "504,213"
+    },
+    {
+        "id": 1103,
+        "serial": 11,
+        "product_status": "active",
+        "product_name": "Foley Mink Velvet Dining Chair",
+        "product_sku": "591090",
+        "LS_ID": "504,213"
+    },
+    {
+        "id": 1408,
+        "serial": 101,
+        "product_status": "active",
+        "product_name": "Matera Dining Bench",
+        "product_sku": "164105",
+        "LS_ID": "216,504,815"
+    },
+    {
+        "id": 1464,
+        "serial": 6,
+        "product_status": "active",
+        "product_name": "Thea Cane Dining Chair",
+        "product_sku": "687311",
+        "LS_ID": "504"
+    },
+    {
+        "id": 1466,
+        "serial": 1,
+        "product_status": "active",
+        "product_name": "Lisette Grey Dining Chair",
+        "product_sku": "121175",
+        "LS_ID": "504"
+    },
+    {
+        "id": 1524,
+        "serial": 0,
+        "product_status": "active",
+        "product_name": "Wood Farmhouse Leona Extension Dining Table",
+        "product_sku": "542375",
+        "LS_ID": "508"
+    },
+    {
+        "id": 1534,
+        "serial": 5,
+        "product_status": "active",
+        "product_name": "Two Tone Wood Dominick Extension Dining Table",
+        "product_sku": "566633",
+        "LS_ID": "508"
+    },
+    {
+        "id": 1575,
+        "serial": 0,
+        "product_status": "active",
+        "product_name": "Round Back Paige Upholstered Dining Chair Set of 2",
+        "product_sku": "10008028",
+        "LS_ID": "504"
+    },
+    {
+        "id": 1582,
+        "serial": 72,
+        "product_status": "active",
+        "product_name": "Charcoal Gray Woven Aimee Dining Chair Set of 2",
+        "product_sku": "549863",
+        "LS_ID": "504"
+    },
+    {
+        "id": 1587,
+        "serial": 9,
+        "product_status": "active",
+        "product_name": "Weathered Gray Wood Jozy Dining Chairs Set of 2",
+        "product_sku": "526102",
+        "LS_ID": "504"
+    },
+    {
+        "id": 1588,
+        "serial": 34,
+        "product_status": "active",
+        "product_name": "Black Wood Kamron High Back Windsor Chairs Set of 2",
+        "product_sku": "534985",
+        "LS_ID": "504"
+    },
+    {
+        "id": 1591,
+        "serial": 6,
+        "product_status": "active",
+        "product_name": "Velvet Channel Back Isadora Dining Chair Set of 2",
+        "product_sku": "574148",
+        "LS_ID": "504"
+    },
+    {
+        "id": 1637,
+        "serial": 36,
+        "product_status": "active",
+        "product_name": "Burnt Alder Farmhouse Granger Dining Chair Set of 2",
+        "product_sku": "589812",
+        "LS_ID": "504"
+    },
+    {
+        "id": 1671,
+        "serial": 0,
+        "product_status": "active",
+        "product_name": "Distressed Wood Bistro Counter Stool",
+        "product_sku": "437525",
+        "LS_ID": "505"
+    },
+    {
+        "id": 1673,
+        "serial": 2,
+        "product_status": "active",
+        "product_name": "Zarah Wingback Upholstered Counter Stool",
+        "product_sku": "566631",
+        "LS_ID": "505"
+    },
+    {
+        "id": 2737,
+        "serial": 4,
+        "product_status": "active",
+        "product_name": "Distressed Wood Bistro Dining Chair Set of 2",
+        "product_sku": "433870",
+        "LS_ID": "504"
+    },
+    {
+        "id": 3453,
+        "serial": 1,
+        "product_status": "active",
+        "product_name": "Slope Leather Dining Chair",
+        "product_sku": "leather-slope-dining-chair-h1529",
+        "LS_ID": "504"
+    },
+    {
+        "id": 3454,
+        "serial": 1,
+        "product_status": "active",
+        "product_name": "Slope Leather Bar & Counter Stools",
+        "product_sku": "slope-leather-bar-counter-stools-h1752",
+        "LS_ID": "505"
+    },
+    {
+        "id": 3455,
+        "serial": 2,
+        "product_status": "active",
+        "product_name": "Framework Leather Dining Chair - Saddle",
+        "product_sku": "framework-dining-chair-leather-saddle-h2681",
+        "LS_ID": "504"
+    },
+    {
+        "id": 3460,
+        "serial": 5,
+        "product_status": "active",
+        "product_name": "Wire Frame Leather Dining Chair",
+        "product_sku": "wire-frame-leather-dining-chair-h4005",
+        "LS_ID": "504"
+    },
+    {
+        "id": 4035,
+        "serial": 1,
+        "product_status": "active",
+        "product_name": "Mid-Century Expandable Dining Table - Walnut",
+        "product_sku": "parker-expandable-dining-table-g830",
+        "LS_ID": "508"
+    },
+    {
+        "id": 4036,
+        "serial": 2,
+        "product_status": "active",
+        "product_name": "Mid-Century Rounded Expandable Dining Table",
+        "product_sku": "mid-century-expandable-dining-table-round-h4230",
+        "LS_ID": "508"
+    },
+    {
+        "id": 4038,
+        "serial": 4,
+        "product_status": "active",
+        "product_name": "Mid-Century Expandable Dining Table - Pebble",
+        "product_sku": "mid-century-expandable-dining-table-pebble-h3996",
+        "LS_ID": "508"
+    },
+    {
+        "id": 4041,
+        "serial": 7,
+        "product_status": "active",
+        "product_name": "Fishs Eddy Expandable Dining Table",
+        "product_sku": "fishs-eddy-expandable-dining-table-h2403",
+        "LS_ID": "508"
+    },
+    {
+        "id": 4047,
+        "serial": 2,
+        "product_status": "active",
+        "product_name": "Mid-Century A-Frame Bench",
+        "product_sku": "a-frame-bench-h4311",
+        "LS_ID": "503"
+    },
+    {
+        "id": 4048,
+        "serial": 6,
+        "product_status": "active",
+        "product_name": "Mid-Century Upholstered Dining Chair - Wood Legs",
+        "product_sku": "mid-century-dining-chairs-h1361",
+        "LS_ID": "504"
+    },
+    {
+        "id": 4051,
+        "serial": 8,
+        "product_status": "active",
+        "product_name": "Classic Café Dining Chair",
+        "product_sku": "classic-cafe-dining-chair-walnut-h2099",
+        "LS_ID": "504"
+    },
+    {
+        "id": 4058,
+        "serial": 4,
+        "product_status": "active",
+        "product_name": "Classic Café Walnut Bar & Counter Stools",
+        "product_sku": "classic-cafe-walnut-bar-counter-stools-h3193",
+        "LS_ID": "505"
+    },
+    {
+        "id": 4187,
+        "serial": 18,
+        "product_status": "active",
+        "product_name": "Mid-Century Upholstered Dining Chair - Metal Legs",
+        "product_sku": "mid-century-upholstered-dining-chair-metal-h4713",
+        "LS_ID": "504"
+    },
+    {
+        "id": 4252,
+        "serial": 24,
+        "product_status": "active",
+        "product_name": "Holland Dining Chair",
+        "product_sku": "holland-dining-chair-h4232",
+        "LS_ID": "504"
+    },
+    {
+        "id": 4265,
+        "serial": 37,
+        "product_status": "active",
+        "product_name": "Ellis Upholstered Dining Chair",
+        "product_sku": "ellis-dining-chair-h2563",
+        "LS_ID": "504"
+    },
+    {
+        "id": 4992,
+        "serial": 59,
+        "product_status": "active",
+        "product_name": "Round Back Dining Chair",
+        "product_sku": "round-back-dining-chair-h5305",
+        "LS_ID": "504"
+    },
+    {
+        "id": 6510,
+        "serial": 6,
+        "product_status": "active",
+        "product_name": "Lowe Onyx Leather Dining Chair",
+        "product_sku": "305358",
+        "LS_ID": "504,99"
+    },
+    {
+        "id": 7795,
+        "serial": 20,
+        "product_status": "active",
+        "product_name": "Tate Walnut Extendable Midcentury Dining Table",
+        "product_sku": "296405",
+        "LS_ID": "508"
+    },
+    {
+        "id": 7828,
+        "serial": 141,
+        "product_status": "active",
+        "product_name": "French Kitchen Island",
+        "product_sku": "131558",
+        "LS_ID": "514,509"
+    },
+    {
+        "id": 7829,
+        "serial": 7,
+        "product_status": "active",
+        "product_name": "Camille Anthracite Italian Dining Chair",
+        "product_sku": "585299",
+        "LS_ID": "504"
+    },
+    {
+        "id": 7831,
+        "serial": 16,
+        "product_status": "active",
+        "product_name": "Mist Acrylic Dining Chair",
+        "product_sku": "291175",
+        "LS_ID": "504"
+    },
+    {
+        "id": 7835,
+        "serial": 2,
+        "product_status": "active",
+        "product_name": "Crescent Black Rush Seat Dining Chair",
+        "product_sku": "319130",
+        "LS_ID": "504"
+    },
+    {
+        "id": 7839,
+        "serial": 3,
+        "product_status": "active",
+        "product_name": "Tig Indoor/Outdoor White Metal Dining Chair",
+        "product_sku": "442132",
+        "LS_ID": "504"
+    },
+    {
+        "id": 7854,
+        "serial": 8,
+        "product_status": "active",
+        "product_name": "Libby Cane Dining Chair",
+        "product_sku": "581832",
+        "LS_ID": "504"
+    },
+    {
+        "id": 7868,
+        "serial": 64,
+        "product_status": "active",
+        "product_name": "Folio Merlot Top-Grain Leather Dining Chair",
+        "product_sku": "545959",
+        "LS_ID": "504"
+    },
+    {
+        "id": 7872,
+        "serial": 11,
+        "product_status": "active",
+        "product_name": "Curran Black Dining Chair",
+        "product_sku": "570536",
+        "LS_ID": "504"
+    },
+    {
+        "id": 7937,
+        "serial": 1,
+        "product_status": "active",
+        "product_name": "Curran Quilted Chocolate Counter Stool",
+        "product_sku": "559961",
+        "LS_ID": "505,506"
+    },
+    {
+        "id": 8429,
+        "serial": 7,
+        "product_status": "active",
+        "product_name": "Tate 60\" Walnut Desk with Power Outlet",
+        "product_sku": "455730",
+        "LS_ID": "506,602"
+    },
+    {
+        "id": 8927,
+        "serial": 5,
+        "product_status": "active",
+        "product_name": "Helsing Desk",
+        "product_sku": "565685",
+        "LS_ID": "506,602,99"
+    },
+    {
+        "id": 8934,
+        "serial": 29,
+        "product_status": "active",
+        "product_name": "Addison White Slipcovered Dining Chair",
+        "product_sku": "593162",
+        "LS_ID": "504"
+    },
+    {
+        "id": 8987,
+        "serial": 1,
+        "product_status": "active",
+        "product_name": "Folio Green Top-Grain Leather Dining Chair",
+        "product_sku": "636024",
+        "LS_ID": "504"
+    },
+    {
+        "id": 8988,
+        "serial": 17,
+        "product_status": "active",
+        "product_name": "Folio Dark Green Top-Grain Leather Dining Chair",
+        "product_sku": "635970",
+        "LS_ID": "504"
+    },
+    {
+        "id": 9154,
+        "serial": 13,
+        "product_status": "active",
+        "product_name": "Folio Dark Blue Top-Grain Leather Dining Chair",
+        "product_sku": "635470",
+        "LS_ID": "504"
+    },
+    {
+        "id": 9155,
+        "serial": 15,
+        "product_status": "active",
+        "product_name": "Folio Dark Grey Top-Grain Leather Dining Chair",
+        "product_sku": "635457",
+        "LS_ID": "504"
+    },
+    {
+        "id": 9157,
+        "serial": 80,
+        "product_status": "active",
+        "product_name": "Folio Beige Top-Grain Leather Dining Chair",
+        "product_sku": "635400",
+        "LS_ID": "504"
+    },
+    {
+        "id": 9194,
+        "serial": 10,
+        "product_status": "active",
+        "product_name": "Folio Sand Top-Grain Leather Dining Chair",
+        "product_sku": "543476",
+        "LS_ID": "504,99"
+    },
+    {
+        "id": 9196,
+        "serial": 5,
+        "product_status": "active",
+        "product_name": "Clairette Rose Red Dining Armchair",
+        "product_sku": "643264",
+        "LS_ID": "504"
+    },
+    {
+        "id": 9311,
+        "serial": 2,
+        "product_status": "active",
+        "product_name": "Lakin 81\" Recycled Teak Extendable Dining Table",
+        "product_sku": "462000",
+        "LS_ID": "508"
+    },
+    {
+        "id": 1093,
+        "serial": 1,
+        "product_status": "active",
+        "product_name": "Burnham File Credenza",
+        "product_sku": "598085",
+        "LS_ID": "605"
+    },
+    {
+        "id": 1408,
+        "serial": 101,
+        "product_status": "active",
+        "product_name": "Matera Dining Bench",
+        "product_sku": "164105",
+        "LS_ID": "216,504,815"
+    },
+    {
+        "id": 1971,
+        "serial": 44,
+        "product_status": "active",
+        "product_name": "Metal Sylvia Accent Table with Numbered Drawers",
+        "product_sku": "500123",
+        "LS_ID": "315,225,402"
+    },
+    {
+        "id": 6516,
+        "serial": 1,
+        "product_status": "active",
+        "product_name": "Spotlight Ebony Credenza",
+        "product_sku": "186514",
+        "LS_ID": "605,99"
+    },
+    {
+        "id": 1856,
+        "serial": 8,
+        "product_status": "active",
+        "product_name": "Rose Pink Tyley Upholstered Chair",
+        "product_sku": "526571",
+        "LS_ID": "210"
+    },
+    {
+        "id": 1925,
+        "serial": 62,
+        "product_status": "active",
+        "product_name": "Espresso Rattan Papasan Chair Frame",
+        "product_sku": "370647",
+        "LS_ID": "220,210"
+    },
+    {
+        "id": 2741,
+        "serial": 0,
+        "product_status": "active",
+        "product_name": "Dusty Rose Faux Fur Papasan Chair Cushion",
+        "product_sku": "573990",
+        "LS_ID": "220"
+    },
+    {
+        "id": 4353,
+        "serial": 2,
+        "product_status": "active",
+        "product_name": "Anton Burnt Wax Floor Mirror",
+        "product_sku": "rune-mirror-standing-d7606",
+        "LS_ID": "1110"
+    },
+    {
+        "id": 4354,
+        "serial": 3,
+        "product_status": "active",
+        "product_name": "Anton Mirror - Round",
+        "product_sku": "rune-mirror-round-d7605",
+        "LS_ID": "1110"
+    },
+    {
+        "id": 4685,
+        "serial": 1,
+        "product_status": "active",
+        "product_name": "Reflected Diamonds Indoor/Outdoor Rug",
+        "product_sku": "reflected-diamonds-indoor-outdoor-rug-t4384",
+        "LS_ID": "1103"
+    },
+    {
+        "id": 4708,
+        "serial": 8,
+        "product_status": "active",
+        "product_name": "Mid-Century Asymmetrical Wood Framed Floor Mirror",
+        "product_sku": "mid-century-asymmetrical-floor-mirror-w2834",
+        "LS_ID": "1110"
+    },
+    {
+        "id": 4710,
+        "serial": 10,
+        "product_status": "active",
+        "product_name": "Industrial Shadowbox Floor Mirror - Antique Copper",
+        "product_sku": "industrial-shadowbox-floor-mirror-h3373",
+        "LS_ID": "1110"
+    },
+    {
+        "id": 5628,
+        "serial": 5,
+        "product_status": "active",
+        "product_name": "SZKLO Glass Triangle Mirror",
+        "product_sku": "lcl-szklo-glass-triangle-mirror-d8922",
+        "LS_ID": "1110"
+    },
+    {
+        "id": 5921,
+        "serial": 29,
+        "product_status": "active",
+        "product_name": "Kids Ever Simple White Small Desk",
+        "product_sku": "449191",
+        "LS_ID": "930"
+    },
+    {
+        "id": 5931,
+        "serial": 2,
+        "product_status": "active",
+        "product_name": "Kids Paxson Desk",
+        "product_sku": "144202",
+        "LS_ID": "930"
+    },
+    {
+        "id": 9207,
+        "serial": 100,
+        "product_status": "active",
+        "product_name": "Marcelene Rug 8'x10'",
+        "product_sku": "138453",
+        "LS_ID": "1130"
+    },
+    {
+        "id": 9325,
+        "serial": 3,
+        "product_status": "active",
+        "product_name": "Surina Black Rug 6'x9'",
+        "product_sku": "567435",
+        "LS_ID": "1130"
+    },
+    {
+        "id": 9386,
+        "serial": 41,
+        "product_status": "active",
+        "product_name": "Edge Brass 36\" Round Mirror",
+        "product_sku": "137576",
+        "LS_ID": "1110"
+    },
+    {
+        "id": 9492,
+        "serial": 155,
+        "product_status": "active",
+        "product_name": "Birch Terra Cotta Wool-Blend Abstract Rug 6'x9'",
+        "product_sku": "229748",
+        "LS_ID": "1130"
+    },
+    {
+        "id": 9493,
+        "serial": 156,
+        "product_status": "active",
+        "product_name": "Birch Terra Cotta Wool-Blend Abstract Rug 8'x10'",
+        "product_sku": "229996",
+        "LS_ID": "1130"
+    },
+    {
+        "id": 9497,
+        "serial": 164,
+        "product_status": "active",
+        "product_name": "Ceri Grey Indoor/Outdoor Rug 3'x5'",
+        "product_sku": "325618",
+        "LS_ID": "1130"
+    },
+    {
+        "id": 9500,
+        "serial": 167,
+        "product_status": "active",
+        "product_name": "Ceri Grey Indoor/Outdoor Rug 8'x10'",
+        "product_sku": "325664",
+        "LS_ID": "1130"
+    },
+    {
+        "id": 9504,
+        "serial": 172,
+        "product_status": "active",
+        "product_name": "Yumi Grey Multi-Color Rag Rug 5'x8'",
+        "product_sku": "279231",
+        "LS_ID": "1130"
+    },
+    {
+        "id": 9536,
+        "serial": 211,
+        "product_status": "active",
+        "product_name": "Cityscape Flatweave 8x10 Rug",
+        "product_sku": "509940",
+        "LS_ID": "1130"
+    },
+    {
+        "id": 9757,
+        "serial": 528,
+        "product_status": "active",
+        "product_name": "Torra Red Persian-Style Rug 9'x12'",
+        "product_sku": "275203",
+        "LS_ID": "1130"
+    },
+    {
+        "id": 9837,
+        "serial": 158,
+        "product_status": "active",
+        "product_name": "Louna Sofa",
+        "product_sku": "106584",
+        "LS_ID": "0"
+    },
+    {
+        "id": 34,
+        "serial": 35,
+        "product_status": "active",
+        "product_name": "3-Piece Peekaboo Acrylic Nesting Table Set",
+        "product_sku": "102926",
+        "LS_ID": "315,225,99"
+    },
+    {
+        "id": 329,
+        "serial": 2,
+        "product_status": "active",
+        "product_name": "Gwyneth Boucle Chair",
+        "product_sku": "529566",
+        "LS_ID": "99,213"
+    },
+    {
+        "id": 419,
+        "serial": 1,
+        "product_status": "active",
+        "product_name": "Boomerang Lounge Rattan Tub Chair Black",
+        "product_sku": "516858",
+        "LS_ID": "213"
+    },
+    {
+        "id": 779,
+        "serial": 5,
+        "product_status": "active",
+        "product_name": "Dorset Linen Credenza",
+        "product_sku": "317352",
+        "LS_ID": "99,512"
+    },
+    {
+        "id": 786,
+        "serial": 39,
+        "product_status": "active",
+        "product_name": "Reflect Rattan Credenza",
+        "product_sku": "126995",
+        "LS_ID": "512"
+    },
+    {
+        "id": 822,
+        "serial": 20,
+        "product_status": "active",
+        "product_name": "Stairway White 96\" Wall Mounted Bookcase",
+        "product_sku": "474749",
+        "LS_ID": "99"
+    },
+    {
+        "id": 1038,
+        "serial": 19,
+        "product_status": "active",
+        "product_name": "Casco Chair",
+        "product_sku": "612120",
+        "LS_ID": "213"
+    },
+    {
+        "id": 1382,
+        "serial": 22,
+        "product_status": "active",
+        "product_name": "Pavia Lounge Chair",
+        "product_sku": "672137",
+        "LS_ID": "213"
+    },
+    {
+        "id": 1414,
+        "serial": 20,
+        "product_status": "active",
+        "product_name": "Fitz Grey Swivel Chair",
+        "product_sku": "107818",
+        "LS_ID": "213"
+    },
+    {
+        "id": 1415,
+        "serial": 22,
+        "product_status": "active",
+        "product_name": "Matter Ivory Cement Square Coffee Table",
+        "product_sku": "180914",
+        "LS_ID": "224,823"
+    },
+    {
+        "id": 1416,
+        "serial": 15,
+        "product_status": "active",
+        "product_name": "Matter Grey Cement Rectangle Coffee Table",
+        "product_sku": "180936",
+        "LS_ID": "224,99,823"
+    },
+    {
+        "id": 1854,
+        "serial": 0,
+        "product_status": "active",
+        "product_name": "Feather Filled Swivel Brynn Armchair",
+        "product_sku": "565724",
+        "LS_ID": "211"
+    },
+    {
+        "id": 1934,
+        "serial": 0,
+        "product_status": "active",
+        "product_name": "Round White Marble Milan Coffee Table",
+        "product_sku": "557811",
+        "LS_ID": "224"
+    },
+    {
+        "id": 1935,
+        "serial": 0,
+        "product_status": "active",
+        "product_name": "Live Edge Wood Sansur Coffee Table",
+        "product_sku": "565754",
+        "LS_ID": "224"
+    },
+    {
+        "id": 2052,
+        "serial": 1,
+        "product_status": "active",
+        "product_name": "Black Suti Pouf",
+        "product_sku": "507178",
+        "LS_ID": "218"
+    },
+    {
+        "id": 2061,
+        "serial": 0,
+        "product_status": "active",
+        "product_name": "Woven Textured Floor Pouf",
+        "product_sku": "550230",
+        "LS_ID": "218"
+    },
+    {
+        "id": 2067,
+        "serial": 0,
+        "product_status": "active",
+        "product_name": "Gray Carved Wood Iver Ottoman",
+        "product_sku": "550018",
+        "LS_ID": "217"
+    },
+    {
+        "id": 2121,
+        "serial": 12,
+        "product_status": "active",
+        "product_name": "Bajot Stool with Sari Pouf",
+        "product_sku": "508523",
+        "LS_ID": "219,218"
+    },
+    {
+        "id": 2971,
+        "serial": 1,
+        "product_status": "active",
+        "product_name": "Milo Twin Bunk Bed - Pebble / White",
+        "product_sku": "milo-twin-bunk-bed-d7223",
+        "LS_ID": "911"
+    },
+    {
+        "id": 2983,
+        "serial": 1,
+        "product_status": "active",
+        "product_name": "Mid-Century 6-Drawer Dresser - White",
+        "product_sku": "mid-century-6-drawer-dresser-white-g988",
+        "LS_ID": "314"
+    },
+    {
+        "id": 2984,
+        "serial": 1,
+        "product_status": "active",
+        "product_name": "Mid-Century Nightstand - White Lacquer",
+        "product_sku": "mid-century-nightstand-white-g967",
+        "LS_ID": "315"
+    },
+    {
+        "id": 3168,
+        "serial": 52,
+        "product_status": "active",
+        "product_name": "Playa Outdoor Lounge Chair",
+        "product_sku": "playa-outdoor-lounge-chair-h4127",
+        "LS_ID": "811"
+    },
+    {
+        "id": 3564,
+        "serial": 1,
+        "product_status": "active",
+        "product_name": "Mid-Century Pop-Up Storage Coffee Table",
+        "product_sku": "mid-century-pop-up-storage-coffee-table-h1903",
+        "LS_ID": "224"
+    },
+    {
+        "id": 3565,
+        "serial": 2,
+        "product_status": "active",
+        "product_name": "Terrace Coffee Table",
+        "product_sku": "terrace-coffee-table-h1030",
+        "LS_ID": "224"
+    },
+    {
+        "id": 3693,
+        "serial": 25,
+        "product_status": "active",
+        "product_name": "Reeve Mid-Century Side Table - Marble",
+        "product_sku": "reeve-mid-century-side-table-marble-h955",
+        "LS_ID": "225"
+    },
+    {
+        "id": 3964,
+        "serial": 31,
+        "product_status": "active",
+        "product_name": "Ladder Bookshelf - Wide (Sand/Stone)",
+        "product_sku": "ladder-bookshelf-wide-sand-stone-h3442",
+        "LS_ID": "228"
+    },
+    {
+        "id": 4097,
+        "serial": 17,
+        "product_status": "active",
+        "product_name": "Roar & Rabbit™ Brass Geo Inlay Nightstand - Raw Mango",
+        "product_sku": "roar-rabbit-brass-geo-inlay-nightstand-h1806",
+        "LS_ID": "315"
+    },
+    {
+        "id": 4422,
+        "serial": 1,
+        "product_status": "active",
+        "product_name": "Mid-Century Headboard Storage Platform Bed - Acorn",
+        "product_sku": "mid-century-bed-storage-headboard-acorn-d7192",
+        "LS_ID": "911"
+    },
+    {
+        "id": 4424,
+        "serial": 3,
+        "product_status": "active",
+        "product_name": "Mid-Century Side Storage Platform Bed - White",
+        "product_sku": "mid-century-storage-platform-bed-white-d7200",
+        "LS_ID": "911"
+    },
+    {
+        "id": 4791,
+        "serial": 26,
+        "product_status": "active",
+        "product_name": "Jordan Shelf Brackets (Set of 2)",
+        "product_sku": "jordan-shelf-brackets-set-of-2-brass-d7812",
+        "LS_ID": "228"
+    },
+    {
+        "id": 5948,
+        "serial": 1,
+        "product_status": "active",
+        "product_name": "Avery Dusty Mauve Velvet Swivel Chair",
+        "product_sku": "139388",
+        "LS_ID": "921,99"
+    },
+    {
+        "id": 5990,
+        "serial": 2,
+        "product_status": "active",
+        "product_name": "Devon Black and Natural Modern Kids Chair",
+        "product_sku": "257289",
+        "LS_ID": "921"
+    },
+    {
+        "id": 6020,
+        "serial": 113,
+        "product_status": "active",
+        "product_name": "Small Mint Dash Nod Chair",
+        "product_sku": "384851",
+        "LS_ID": "921"
+    },
+    {
+        "id": 6036,
+        "serial": 2,
+        "product_status": "active",
+        "product_name": "Large Pink Velvet Bean Bag Chair",
+        "product_sku": "387814",
+        "LS_ID": "923,921"
+    },
+    {
+        "id": 6041,
+        "serial": 1,
+        "product_status": "active",
+        "product_name": "Large Mint Bean Bag Chair",
+        "product_sku": "305361",
+        "LS_ID": "99,923,921"
+    },
+    {
+        "id": 6044,
+        "serial": 13,
+        "product_status": "active",
+        "product_name": "Small Charcoal Bean Bag Chair",
+        "product_sku": "608207",
+        "LS_ID": "99,923,921"
+    },
+    {
+        "id": 6096,
+        "serial": 1,
+        "product_status": "active",
+        "product_name": "Dillon Natural Yukas Round Wood Coffee Table",
+        "product_sku": "117217",
+        "LS_ID": "224"
+    },
+    {
+        "id": 6108,
+        "serial": 49,
+        "product_status": "active",
+        "product_name": "Era Limestone Round Coffee Table",
+        "product_sku": "337759",
+        "LS_ID": "224"
+    },
+    {
+        "id": 6200,
+        "serial": 1,
+        "product_status": "active",
+        "product_name": "Leif Black Bunching Table",
+        "product_sku": "435154",
+        "LS_ID": "225"
+    },
+    {
+        "id": 6480,
+        "serial": 28,
+        "product_status": "active",
+        "product_name": "Axis II Armless Chair",
+        "product_sku": "225172",
+        "LS_ID": "99"
+    },
+    {
+        "id": 6854,
+        "serial": 2,
+        "product_status": "active",
+        "product_name": "Hampshire Spindle Olive Green Daybed",
+        "product_sku": "269704",
+        "LS_ID": "911"
+    },
+    {
+        "id": 6874,
+        "serial": 3,
+        "product_status": "active",
+        "product_name": "Simmons Kids® BeautySleep® Naturally Contoured Changing Pad",
+        "product_sku": "185070",
+        "LS_ID": "913"
+    },
+    {
+        "id": 7021,
+        "serial": 51,
+        "product_status": "active",
+        "product_name": "Maze Small White Bookcase",
+        "product_sku": "327494",
+        "LS_ID": "941"
+    },
+    {
+        "id": 8036,
+        "serial": 1,
+        "product_status": "active",
+        "product_name": "Ventana Glass Display Cabinet",
+        "product_sku": "671101",
+        "LS_ID": "99,511,229"
+    },
+    {
+        "id": 8553,
+        "serial": 230,
+        "product_status": "active",
+        "product_name": "Hoyne 21.5\" Iron Pendant",
+        "product_sku": "108362",
+        "LS_ID": "1123"
+    },
+    {
+        "id": 8555,
+        "serial": 1,
+        "product_status": "active",
+        "product_name": "Cosmo Brass Wire Pendant Light",
+        "product_sku": "612912",
+        "LS_ID": "1123"
+    },
+    {
+        "id": 8711,
+        "serial": 1,
+        "product_status": "active",
+        "product_name": "Nesting Charcoal and Grey Stain Play Table and Chairs Set",
+        "product_sku": "341403",
+        "LS_ID": "921"
+    },
+    {
+        "id": 8794,
+        "serial": 24,
+        "product_status": "active",
+        "product_name": "Clive 6-Arm Brass Chandelier",
+        "product_sku": "562687",
+        "LS_ID": "1126"
+    },
+    {
+        "id": 8920,
+        "serial": 1,
+        "product_status": "active",
+        "product_name": "Rio Nightstand",
+        "product_sku": "563782",
+        "LS_ID": "315"
+    },
+    {
+        "id": 8921,
+        "serial": 2,
+        "product_status": "active",
+        "product_name": "Renard Nightstand",
+        "product_sku": "563371",
+        "LS_ID": "315"
+    },
+    {
+        "id": 8923,
+        "serial": 4,
+        "product_status": "active",
+        "product_name": "Anaise Cane Nightstand",
+        "product_sku": "563574",
+        "LS_ID": "315"
+    },
+    {
+        "id": 9085,
+        "serial": 2,
+        "product_status": "active",
+        "product_name": "Kids Jewel Blush Dresser",
+        "product_sku": "568078",
+        "LS_ID": "943"
+    },
+    {
+        "id": 9220,
+        "serial": 4,
+        "product_status": "active",
+        "product_name": "Yellow Corduroy Small Nod Chair",
+        "product_sku": "646212",
+        "LS_ID": "921"
+    },
+    {
+        "id": 9221,
+        "serial": 2,
+        "product_status": "active",
+        "product_name": "Pink Corduroy Small Nod Chair",
+        "product_sku": "646198",
+        "LS_ID": "921"
+    },
+    {
+        "id": 9238,
+        "serial": 11,
+        "product_status": "active",
+        "product_name": "Snoozer Charcoal Storage Ottoman",
+        "product_sku": "630517",
+        "LS_ID": "921"
+    },
+    {
+        "id": 9286,
+        "serial": 16,
+        "product_status": "active",
+        "product_name": "Printed Play Chair Animal Print",
+        "product_sku": "659268",
+        "LS_ID": "921"
+    },
+    {
+        "id": 9287,
+        "serial": 17,
+        "product_status": "active",
+        "product_name": "Printed Play Chair Blue Palm Leaf",
+        "product_sku": "659383",
+        "LS_ID": "921"
+    },
+    {
+        "id": 9288,
+        "serial": 19,
+        "product_status": "active",
+        "product_name": "Printed Play Chair Orange Stripe",
+        "product_sku": "659405",
+        "LS_ID": "921"
+    },
+    {
+        "id": 9394,
+        "serial": 37,
+        "product_status": "active",
+        "product_name": "Finn Fur Armchair",
+        "product_sku": "203479",
+        "LS_ID": "211"
+    },
+    {
+        "id": 9461,
+        "serial": 1,
+        "product_status": "active",
+        "product_name": "Babyletto Washed Natural Origami Crib",
+        "product_sku": "216536",
+        "LS_ID": "912"
+    },
+    {
+        "id": 9847,
+        "serial": 1,
+        "product_status": "active",
+        "product_name": "Wrightwood Denim Blue Trundle Bed",
+        "product_sku": "227361",
+        "LS_ID": ""
+    }
+]];
+		
 		return $product_rows;
 		$response = [];
 		$response_nmatch = [];
