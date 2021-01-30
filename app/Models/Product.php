@@ -2695,7 +2695,7 @@ class Product extends Model
 			}
 			
 		
-		}
+		} return $response_deptother;
 		
 		/* ================== Sort By Department End =========================== */  
 		
