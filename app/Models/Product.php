@@ -2613,7 +2613,7 @@ class Product extends Model
     'product_status' => 'active',
     'product_name' => 'Stone Table Rectangle 95"',
     'product_sku' => '479397',
-    'LS_ID' => '507',
+    'LS_ID' => '1126',
   ),
   1 => 
   array (
@@ -2631,7 +2631,7 @@ class Product extends Model
     'product_status' => 'active',
     'product_name' => 'Harper White Dining Table with Black Marble Top',
     'product_sku' => '580101',
-    'LS_ID' => '507',
+    'LS_ID' => '1123',
   ),
   3 => 
   array (
@@ -2640,11 +2640,10 @@ class Product extends Model
     'product_status' => 'active',
     'product_name' => 'Babylon Round Small Table',
     'product_sku' => '584087',
-    'LS_ID' => '507',
+    'LS_ID' => '1123,407',
   ),
 );
-		
-		return $product_rows;
+		 
 		$response = [];
 		$response_nmatch = [];
 		$response_match = [];
@@ -2656,9 +2655,9 @@ class Product extends Model
 		$remainarr = [];
 		
 		foreach($product_rows as $pr){ 
-		 //	$pr->LS_ID =  '1123';return strcmp($LSID,$pr->LS_ID);
+		 $LS_ID_arr = explode(',',$pr->LS_ID);
 			//$flag = in_array($LSID, $LS_ID_arr);
-			//if(in_array($LSID, $LS_ID_arr)){
+		 if(in_array($LSID, $LS_ID_arr)){
 			if( (strcmp($LSID,$pr->LS_ID))==0){	
 				array_push($response_identical,$pr);
 			}
@@ -2666,8 +2665,7 @@ class Product extends Model
 					array_push($response_catother,$pr);
 			}
 			
-		}
-		return $response_identical;
+		} 
 		$LSID_dept = $LSID[0].$LSID[1].$LSID[2];
 		
 		
@@ -2692,7 +2690,7 @@ class Product extends Model
 		
 		/* ================== Sort By Department End =========================== */  
 		
-		//$response_identical = array_values(array_unique($response_identical,SORT_REGULAR));
+		$response_identical = array_values(array_unique($response_identical,SORT_REGULAR));
 		$response_deptsame = array_values(array_unique($response_deptsame,SORT_REGULAR));
 		$response_deptother = array_values(array_unique($response_deptother,SORT_REGULAR)); // cat same
 		//$response_catother = array_values(array_unique($response_catother,SORT_REGULAR)); 
@@ -2700,7 +2698,7 @@ class Product extends Model
 						
 		$response = array_values(array_merge($response_identical, $response_deptsame, $response_deptother));
 				
-		return $product_rows;
+		return $response;
 	}
 	
  
