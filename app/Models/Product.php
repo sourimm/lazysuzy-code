@@ -2743,13 +2743,8 @@ class Product extends Model
 				
 		/* ================= User View Count Matching End ========================== */
 		
-		
-		
-		
-		
-		
-						
-		$response = array_values(array_merge($response_identical, $response_deptsame, $response_deptother));
+	
+		$response = array_values(array_merge($response_identical, $response_deptsame, $response_nmatch));
 				
 		return $response;
 	}
