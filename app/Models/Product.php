@@ -2566,6 +2566,9 @@ class Product extends Model
 				$response_catother = array_values(array_unique($response_catother,SORT_REGULAR)); 
 				$response_nmatch = array_values(array_unique($response_nmatch,SORT_REGULAR));
 				
+				
+				/* ================= User View Count Matching Start ========================== */
+				
 				$remainarr = array_values(array_merge($response_catother,$response_nmatch));
 				$response_sku_str = '';
 				$sku_array = [];
@@ -2596,6 +2599,8 @@ class Product extends Model
 				}
 				
 				
+				/* ================= User View Count Matching End ========================== */
+				
 				$response = array_values(array_merge($response_identical, $response_deptsame, $response_deptother,  $response_nmatch));
 				
 				return $response;
@@ -2605,7 +2610,7 @@ class Product extends Model
 
 	public static function get_product_for_four_digit($product_rows,$LSID){
 		
-	/*	$product_rows=array (
+		$product_rows=array (
   0 => 
   array (
     'id' => 673,
@@ -2642,7 +2647,7 @@ class Product extends Model
     'product_sku' => '584087',
     'LS_ID' => '1123,407',
   ),
-);*/
+);
 		 
 		$response = [];
 		$response_nmatch = [];
@@ -2699,6 +2704,50 @@ class Product extends Model
 		$response_deptother = array_values(array_unique($response_deptother,SORT_REGULAR)); // cat same
 		//$response_catother = array_values(array_unique($response_catother,SORT_REGULAR)); 
 		//$response_nmatch = array_values(array_unique($response_nmatch,SORT_REGULAR));
+		
+		
+		
+		
+		
+		/* ================= User View Count Matching Start ========================== */
+				
+			//	$remainarr = array_values(array_merge($response_catother,$response_nmatch));
+				$response_sku_str = '';
+				$sku_array = [];
+				
+				if(isset($response_deptother)){
+					foreach ($response_deptother as $pr) {  
+					  $response_sku_str = $response_sku_str.",".$pr->product_sku;
+					   
+					}
+					$response_sku_str = ltrim($response_sku_str, ',');
+					$sku_array = explode(",",$response_sku_str);
+					
+					$product_rows1 = DB::table('user_views') 
+					->whereIn('user_views.product_sku', $sku_array)  
+					->join('master_data', 'user_views.product_sku', '=', 'master_data.product_sku')					
+					->select(array('master_data.id','master_data.serial','master_data.product_status','master_data.product_name','master_data.product_sku','master_data.LS_ID','user_views.product_sku', DB::raw('count(user_views.user_id)')))
+					->groupBy('user_views.product_sku')
+					->orderBy(\DB::raw('count(user_views.user_id)'), 'DESC')
+					->get();
+					
+					$response_nmatch = [];
+					foreach ($product_rows1 as $pr) {  
+					  array_push($response_nmatch,$pr);
+					  
+					}
+					
+					 
+				}
+				
+				
+		/* ================= User View Count Matching End ========================== */
+		
+		
+		
+		
+		
+		
 						
 		$response = array_values(array_merge($response_identical, $response_deptsame, $response_deptother));
 				
