@@ -2731,8 +2731,8 @@ class Product extends Model
 				
 				if(isset($response_deptother)){
 					foreach ($response_deptother as $pr) {  
-					  $response_sku_str = $response_sku_str.",".$pr->product_sku;
-					   
+					 // $response_sku_str = $response_sku_str.",".$pr->product_sku;
+					   $response_sku_str = $response_sku_str.",".$pr['product_sku'];
 					}
 					$response_sku_str = ltrim($response_sku_str, ',');
 					$sku_array = explode(",",$response_sku_str);
