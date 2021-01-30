@@ -2695,7 +2695,7 @@ class Product extends Model
 						
 				}
 			}
-			
+			return $flag;
 			if($flag){
 					array_push($response_deptsame,$dept);
 			}
