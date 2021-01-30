@@ -2688,20 +2688,22 @@ class Product extends Model
 			for($i=0;$i<count($LS_ID_arr);$i++){return substr($LS_ID_arr[$i], 0, 3);
 				//if ((strpos($LS_ID_arr[$i], $LSID_dept)) == '0'){ 
 				if ((substr($LS_ID_arr[$i], 0, 3))==  $LSID_dept){ 
-					$flag=1;
-					break;
+				//	$flag=1;
+					array_push($response_deptsame,$dept);
+				 	break;
 					
 				}
 				else{
-						$flag=0;
+						//$flag=0;
+						array_push($response_deptother,$dept); 
 						
 				}
-				if($flag){
+				/*if($flag){
 					array_push($response_deptsame,$dept);
 				}
 				else{
 						array_push($response_deptother,$dept); 
-				}
+				}*/
 			}
 			 
 			
