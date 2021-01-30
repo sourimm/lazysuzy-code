@@ -2618,7 +2618,7 @@ class Product extends Model
     'product_status' => 'active',
     'product_name' => 'Stone Table Rectangle 95"',
     'product_sku' => '479397',
-    'LS_ID' => '4446',
+    'LS_ID' => '1126',
   ),
   1 => 
   array (
