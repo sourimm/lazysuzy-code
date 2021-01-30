@@ -2605,7 +2605,7 @@ class Product extends Model
 
 	public static function get_product_for_four_digit($product_rows,$LSID){
 		
-		$product_rows=[[
+		$product_rows=[
     {
         "id": 673,
         "serial": 29,
@@ -3918,7 +3918,7 @@ class Product extends Model
         "product_sku": "227361",
         "LS_ID": ""
     }
-]];
+];
 		
 		return $product_rows;
 		$response = [];
