@@ -2605,7 +2605,7 @@ class Product extends Model
 
 	public static function get_product_for_four_digit($product_rows,$LSID){
 		
-		$product_rows=array (
+	/*	$product_rows=array (
   0 => 
   array (
     'id' => 673,
@@ -2642,7 +2642,7 @@ class Product extends Model
     'product_sku' => '584087',
     'LS_ID' => '1123,407',
   ),
-);
+);*/
 		 
 		$response = [];
 		$response_nmatch = [];
