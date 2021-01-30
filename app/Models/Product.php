@@ -2710,7 +2710,7 @@ class Product extends Model
 			
 		
 		} 
-		 return $response_deptsame;
+		 return $response_deptother;
 		/* ================== Sort By Department End =========================== */  
 		
 		$response_identical = array_values(array_unique($response_identical,SORT_REGULAR));
