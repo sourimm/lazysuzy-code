@@ -2684,8 +2684,8 @@ class Product extends Model
 			//$LS_ID_arr = explode(",",$dept->LS_ID);
 			$LS_ID_arr = explode(",",$dept['LS_ID']);
 			
-			for($i=0;$i<count($LS_ID_arr);$i++){ return strpos($LS_ID_arr[$i], $LSID_dept);
-				if (strpos($LS_ID_arr[$i], $LSID_dept) == 0){ 
+			for($i=0;$i<count($LS_ID_arr);$i++){ return strpos((string)$LS_ID_arr[$i], (string)$LSID_dept);
+				if ((strpos($LS_ID_arr[$i], $LSID_dept)) == '0'){ 
 					$flag=1;
 					break;
 					
