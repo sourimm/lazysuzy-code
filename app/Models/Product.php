@@ -2696,14 +2696,15 @@ class Product extends Model
 						$flag=0;
 						
 				}
+				if($flag){
+					array_push($response_deptsame,$dept);
+				}
+				else{
+						array_push($response_deptother,$dept); 
+				}
 			}
 			 
-			if($flag){
-					array_push($response_deptsame,$dept);
-			}
-			else{
-					array_push($response_deptother,$dept); 
-			}
+			
 			
 		
 		} 
