@@ -2654,14 +2654,13 @@ class Product extends Model
 		$response_identical = [];
 		$remainarr = [];
 		
-		foreach($product_rows as $pr){$pr['LS_ID']; 
+		foreach($product_rows as $pr){
 		// $LS_ID_arr = explode(',',$pr->LS_ID); 
 		 $LS_ID_arr = explode(',',$pr['LS_ID']); 
 		 
 		 
 		 
-		 if(in_array($LSID, $LS_ID_arr)){
-			//if( (strcmp($LSID,$pr->LS_ID))==0){	
+		 if(in_array($LSID, $LS_ID_arr)){	
 				array_push($response_identical,$pr);
 			}
 			else{
@@ -2669,8 +2668,7 @@ class Product extends Model
 			}
 			
 		} 
-		
-		return $response_identical;
+		 
 		$LSID_dept = $LSID[0].$LSID[1].$LSID[2];
 		
 		
@@ -2678,7 +2676,8 @@ class Product extends Model
 		   
 		foreach($response_catother as $dept){
 		
-			$LS_ID_arr = explode(",",$dept->LS_ID);
+			//$LS_ID_arr = explode(",",$dept->LS_ID);
+			$LS_ID_arr = explode(",",$dept['LS_ID']);
 			
 			for($i=0;$i<count($LS_ID_arr);$i++){
 				if (strpos($LS_ID_arr[$i], $LSID_dept) == 0){ 
