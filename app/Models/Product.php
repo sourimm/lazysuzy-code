@@ -2669,6 +2669,8 @@ class Product extends Model
 			}
 			
 		} 
+		
+		return $response_identical;
 		$LSID_dept = $LSID[0].$LSID[1].$LSID[2];
 		
 		
