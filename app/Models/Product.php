@@ -2673,7 +2673,7 @@ class Product extends Model
 			}
 			
 		} 
-		
+		 return $response_catother;
 		$LSID_dept = $LSID[0].$LSID[1].$LSID[2];
 		
 		
@@ -2695,7 +2695,7 @@ class Product extends Model
 			}
 			
 		
-		}  return $response_deptother;
+		} 
 		
 		/* ================== Sort By Department End =========================== */  
 		
