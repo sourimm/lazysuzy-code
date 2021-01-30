@@ -2604,7 +2604,7 @@ class Product extends Model
  
 
 	public static function get_product_for_four_digit($product_rows,$LSID){
-		
+		return $product_rows;
 		$response = [];
 		$response_nmatch = [];
 		$response_match = [];
