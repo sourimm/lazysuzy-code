@@ -2654,7 +2654,7 @@ class Product extends Model
 		$response_identical = [];
 		$remainarr = [];
 		
-		foreach($product_rows as $pr){ 
+		foreach($product_rows as $pr){return $pr; 
 		 $LS_ID_arr = explode(',',$pr->LS_ID);
 			//$flag = in_array($LSID, $LS_ID_arr);
 		 if(in_array($LSID, $LS_ID_arr)){
