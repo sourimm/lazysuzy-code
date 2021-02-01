@@ -2459,7 +2459,7 @@ class Product extends Model
 				
 				
 				$product_rows = DB::table('master_data') 
-				->select(['master_data.id','master_data.serial','master_data.product_status','master_data.product_name','master_data.product_sku','master_data.brand','master_data.price','master_data.was_price','master_data.main_product_images','master_data.LS_ID'])
+				->select(['master_data.id','master_data.serial','master_data.product_status','master_data.product_name','master_data.product_sku','master_data.brand','master_data.price','master_data.was_price','master_data.main_product_images as image','master_data.LS_ID'])
 				->whereIn('product_sku', $sku_array)  
 				->where('product_status','active') 
 				->get();
@@ -2496,7 +2496,7 @@ class Product extends Model
 		 
 		
 		foreach ($product_rows as $product) {
-			         $product->main_product_images =  env('APP_URL').$product->main_product_images; 
+			         $product->image =  env('APP_URL').$product->image; 
 					
 					if (strpos($product->LS_ID, $LSID[1]) !== false)
 					{
@@ -2585,13 +2585,14 @@ class Product extends Model
 					$product_rows1 = DB::table('user_views') 
 					->whereIn('user_views.product_sku', $sku_array)  
 					->join('master_data', 'user_views.product_sku', '=', 'master_data.product_sku')					
-					->select(array('master_data.id','master_data.serial','master_data.product_status','master_data.product_name','master_data.product_sku','master_data.brand','master_data.price','master_data.was_price','master_data.main_product_images','master_data.LS_ID','user_views.product_sku'))
+					->select(array('master_data.id','master_data.serial','master_data.product_status','master_data.product_name','master_data.product_sku','master_data.brand','master_data.price','master_data.was_price','master_data.main_product_images as image','master_data.LS_ID','user_views.product_sku'))
 					->groupBy('user_views.product_sku')
 					->orderBy(\DB::raw('count(user_views.user_id)'), 'DESC')
 					->get();
 					
 					$response_nmatch = [];
 					foreach ($product_rows1 as $pr) {  
+					 $pr->image =  env('APP_URL').$pr->image; 
 					  array_push($response_nmatch,$pr);
 					  
 					}
@@ -2661,7 +2662,7 @@ class Product extends Model
 		$remainarr = [];
 		
 		foreach($product_rows as $pr){
-			 $pr->main_product_images =  env('APP_URL').$pr->main_product_images; 
+			 $pr->image =  env('APP_URL').$pr->image; 
 		 $LS_ID_arr = explode(',',$pr->LS_ID); 
 		 //$LS_ID_arr = explode(',',$pr['LS_ID']); 
 		 
@@ -2730,13 +2731,14 @@ class Product extends Model
 					$product_rows1 = DB::table('user_views') 
 					->whereIn('user_views.product_sku', $sku_array)  
 					->join('master_data', 'user_views.product_sku', '=', 'master_data.product_sku')					
-					->select(array('master_data.id','master_data.serial','master_data.product_status','master_data.product_name','master_data.product_sku','master_data.brand','master_data.price','master_data.was_price','master_data.main_product_images','master_data.LS_ID','user_views.product_sku'))
+					->select(array('master_data.id','master_data.serial','master_data.product_status','master_data.product_name','master_data.product_sku','master_data.brand','master_data.price','master_data.was_price','master_data.main_product_images as image','master_data.LS_ID','user_views.product_sku'))
 					->groupBy('user_views.product_sku')
 					->orderBy(\DB::raw('count(user_views.user_id)'), 'DESC')
 					->get();
 					
 					$response_nmatch = [];
 					foreach ($product_rows1 as $pr) {  
+					 $pr->image =  env('APP_URL').$pr->image; 
 					  array_push($response_nmatch,$pr);
 					  
 					}
