@@ -2457,13 +2457,9 @@ class Product extends Model
 				$response_sku_str = ltrim($response_sku_str, ',');
 				$sku_array = explode(",",$response_sku_str);
 				
-				env('APP_URL')
 				
-				 DB::raw("CONCAT('" . env('APP_URL') . "', 'master_data.main_product_images' . ") AS image")
-				 
-				 
 				$product_rows = DB::table('master_data') 
-				->select(['master_data.id','master_data.serial','master_data.product_status','master_data.product_name','master_data.product_sku','master_data.brand','master_data.price','master_data.was_price','master_data.main_product_images','DB::raw("CONCAT(\'" . env(\'APP_URL\') . "\', \'master_data.main_product_images\' . ") AS image")','master_data.LS_ID'])
+				->select(['master_data.id','master_data.serial','master_data.product_status','master_data.product_name','master_data.product_sku','master_data.brand','master_data.price','master_data.was_price','master_data.main_product_images','master_data.LS_ID'])
 				->whereIn('product_sku', $sku_array)  
 				->where('product_status','active') 
 				->get();
@@ -2500,6 +2496,7 @@ class Product extends Model
 		 
 		
 		foreach ($product_rows as $product) {
+			         $product->image =  env('APP_URL').$product->main_product_images; 
 					
 					if (strpos($product->LS_ID, $LSID[1]) !== false)
 					{
