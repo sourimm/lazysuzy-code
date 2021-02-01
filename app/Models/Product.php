@@ -2458,8 +2458,8 @@ class Product extends Model
 				$sku_array = explode(",",$response_sku_str);
 				
 				
-				$product_rows = DB::table('master_data')
-				->select(['id','serial','product_status','product_name','product_sku','LS_ID'])
+				$product_rows = DB::table('master_data') 
+				->select(['id','serial','product_status','product_name','product_sku','brand','price','was_price','main_product_images','LS_ID'])
 				->whereIn('product_sku', $sku_array)  
 				->where('product_status','active') 
 				->get();
@@ -2584,7 +2584,7 @@ class Product extends Model
 					$product_rows1 = DB::table('user_views') 
 					->whereIn('user_views.product_sku', $sku_array)  
 					->join('master_data', 'user_views.product_sku', '=', 'master_data.product_sku')					
-					->select(array('master_data.id','master_data.serial','master_data.product_status','master_data.product_name','master_data.product_sku','master_data.LS_ID','user_views.product_sku'))
+					->select(array('master_data.id','master_data.serial','master_data.product_status','master_data.product_name','master_data.product_sku','master_data.brand','master_data.price','master_data.was_price','master_data.main_product_images','master_data.LS_ID','user_views.product_sku'))
 					->groupBy('user_views.product_sku')
 					->orderBy(\DB::raw('count(user_views.user_id)'), 'DESC')
 					->get();
@@ -2728,7 +2728,7 @@ class Product extends Model
 					$product_rows1 = DB::table('user_views') 
 					->whereIn('user_views.product_sku', $sku_array)  
 					->join('master_data', 'user_views.product_sku', '=', 'master_data.product_sku')					
-					->select(array('master_data.id','master_data.serial','master_data.product_status','master_data.product_name','master_data.product_sku','master_data.LS_ID','user_views.product_sku'))
+					->select(array('master_data.id','master_data.serial','master_data.product_status','master_data.product_name','master_data.product_sku','master_data.brand','master_data.price','master_data.was_price','master_data.main_product_images','master_data.LS_ID','user_views.product_sku'))
 					->groupBy('user_views.product_sku')
 					->orderBy(\DB::raw('count(user_views.user_id)'), 'DESC')
 					->get();
