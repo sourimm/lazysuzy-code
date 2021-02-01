@@ -2496,7 +2496,7 @@ class Product extends Model
 		 
 		
 		foreach ($product_rows as $product) {
-			         $product->image =  env('APP_URL').$product->main_product_images; 
+			         $product->main_product_images =  env('APP_URL').$product->main_product_images; 
 					
 					if (strpos($product->LS_ID, $LSID[1]) !== false)
 					{
@@ -2661,6 +2661,7 @@ class Product extends Model
 		$remainarr = [];
 		
 		foreach($product_rows as $pr){
+			 $pr->main_product_images =  env('APP_URL').$pr->main_product_images; 
 		 $LS_ID_arr = explode(',',$pr->LS_ID); 
 		 //$LS_ID_arr = explode(',',$pr['LS_ID']); 
 		 
