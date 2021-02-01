@@ -157,7 +157,7 @@ Route::post('/api/mark-helpful', 'API@mark_helpful_review')->middleware(['auth:a
 Route::post('/api/mark-reported', 'API@mark_reported_review')->middleware(['auth:api'])->name('mark-reported-review');
 
 // Get User Related Product
-Route::get('/api/productlist/userrelated-{sku}', 'API@get_userproduct_list')->middleware(['auth:api'])->name('get-userproduct-list');
+Route::get('/api/other-views/userrelated-{sku}', 'API@get_userproduct_list')->middleware(['auth:api'])->name('get-userproduct-list');
 
 /* ==================================================BACKEND ADMIN APIS========================================== */
 
