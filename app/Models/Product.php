@@ -2459,9 +2459,10 @@ class Product extends Model
 				
 				
 				$product_rows = DB::table('master_data') 
-				->select(['master_data.id','master_data.serial','master_data.product_status','master_data.product_name','master_data.product_sku','master_data.brand','master_data.price','master_data.was_price','master_data.main_product_images as image','master_data.LS_ID'])
 				->whereIn('product_sku', $sku_array)  
 				->where('product_status','active') 
+				->join('user_views', 'user_views.product_sku', '=', 'master_data.product_sku')	
+				->select(['master_data.id','master_data.serial','master_data.product_status','master_data.product_name','master_data.product_sku','master_data.brand','master_data.price','master_data.was_price','master_data.main_product_images as image','master_data.LS_ID','user_views.updated_at','user_views.num_views'])
 				->get();
 			
 			    if(strlen($LSID)==3){
@@ -2681,8 +2682,7 @@ class Product extends Model
 		
 		
 	/* ================== Sort By Department Start =========================== */  
-		 $flag=0;  
-		 $flag1=0;  
+	
 		foreach($response_catother as $dept){
 		
 			$LS_ID_arr = explode(",",$dept->LS_ID);
