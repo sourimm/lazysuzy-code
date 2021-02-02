@@ -2607,7 +2607,7 @@ class Product extends Model
 				/* ================= User View Count Matching End ========================== */
 				
 				$response = array_values(array_merge($response_identical, $response_deptsame, $response_deptother,  $response_nmatch));
-				$response = array_slice($response,0,10);
+				$response = array_slice($response,0,20);
 				return $response;
 	}
 	
@@ -2754,7 +2754,7 @@ class Product extends Model
 		
 	
 		$response = array_values(array_merge($response_identical, $response_deptsame, $response_nmatch));
-		$response = array_slice($response,0,10);
+		$response = array_slice($response,0,20);
 				
 		return $response;
 	}
