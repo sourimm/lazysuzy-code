@@ -35,7 +35,7 @@ class Order extends Model
 			->where('user_id', $user_id)    						
 			->select("*")
 			->get();
-			return $product_rows_child.length;
+			return count($product_rows_child);
 				
 			foreach($product_rows as $pr) {  
 				array_push($head_array,$pr); 
