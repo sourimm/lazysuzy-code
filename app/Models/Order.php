@@ -30,17 +30,23 @@ class Order extends Model
 			->where('user_id', $user_id)   						
 			->select(*)
 			->get();
+			
+			$product_rows_child = DB::table('lz_orders') 
+			->where('user_id', $user_id)    						
+			->select(*)
+			->get();
 				
 			foreach($product_rows as $pr) {  
 				array_push($head_array,$pr); 
 					
-				$product_rows_child = DB::table('lz_orders') 
-				->where('product_sku', $product_rows->$product_rows)   						
-				->select(*)
-				->get();
-
-				
-				$head_array->orders = 	$product_rows_child ;
+				for(var i = 0; i < product_rows_child.length; i++)
+				{
+				  if(product_rows_child[i].product_sku == $pr->product_sku)
+				  {
+					array_push($child_array,product_rows_child[i]);
+				  }
+				}
+				$head_array->orders = 	$child_array ;
 			}
 			
 			$a['status']=true;
