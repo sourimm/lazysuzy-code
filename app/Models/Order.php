@@ -28,12 +28,12 @@ class Order extends Model
 			
 			$product_rows = DB::table('lz_order_delivery') 
 			->where('user_id', $user_id)   						
-			->select(*)
+			->select("*")
 			->get();
 			
 			$product_rows_child = DB::table('lz_orders') 
 			->where('user_id', $user_id)    						
-			->select(*)
+			->select("*")
 			->get();
 				
 			foreach($product_rows as $pr) {  
