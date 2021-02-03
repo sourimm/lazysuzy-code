@@ -159,6 +159,9 @@ Route::post('/api/mark-reported', 'API@mark_reported_review')->middleware(['auth
 // Get User Related Product
 Route::get('/api/other-views/userrelated-{sku}', 'API@get_userproduct_list')->middleware(['auth:api'])->name('get-userproduct-list');
 
+// Get Order History
+Route::get('/api/order_history', 'API@get_order_history')->middleware(['auth:api'])->name('get-order-history');
+
 /* ==================================================BACKEND ADMIN APIS========================================== */
 
 Route::middleware(['auth:api', 'cors', 'admin'])->group(function () {

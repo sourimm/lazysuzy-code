@@ -282,5 +282,14 @@ class API extends Controller
             $sku = str_replace('getreview-','',$sku);
             return Product::get_userproduct_list($sku);
             
-    }	
+    }
+	
+	public function get_order_history() {
+		
+		$id= Auth::check() ? Auth::user()->id : 0;
+		$id = 1055;
+		return Product::get_order_history($id);
+            
+    }
+	
 }
