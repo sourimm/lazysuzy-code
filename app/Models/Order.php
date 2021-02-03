@@ -43,7 +43,7 @@ class Order extends Model
 				{
 				  if($product_rows_child[$i]->order_id == $pr->order_id)
 				  {
-					array_push($child_array,$product_rows_child[i]);
+					array_push($child_array,$product_rows_child[$i]);
 				  }
 				}
 				$head_array->orders = 	$child_array ;
