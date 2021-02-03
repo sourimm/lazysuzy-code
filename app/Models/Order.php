@@ -41,14 +41,14 @@ class Order extends Model
 			foreach($product_rows as $pr) {  
 				
 					
-				for($i = 0; $i < count($product_rows_child); $i++)
+				/*for($i = 0; $i < count($product_rows_child); $i++)
 				{
 				  if($product_rows_child[$i]->order_id == $pr->order_id)
 				  {
 					array_push($child_array,$product_rows_child[$i]);
 				  }
 				}
-				$pr->orders = 	json_encode($child_array) ;
+				$pr->orders = 	json_encode($child_array) ;*/
 				array_push($head_array,$pr); 
 			}
 			
