@@ -23,6 +23,7 @@ use App\Models\Utility;
 use Auth;
 use Illuminate\Support\Facades\Validator;
 use Subscribe as GlobalSubscribe;
+use App\Models\Order;
 
 class API extends Controller
 {
@@ -288,7 +289,7 @@ class API extends Controller
 		
 		$id= Auth::check() ? Auth::user()->id : 0;
 		$id = 1055;
-		return Product::get_order_history($id);
+		return Order::get_order_history($id);
             
     }
 	
