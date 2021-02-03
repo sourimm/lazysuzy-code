@@ -35,15 +35,16 @@ class Order extends Model
 			->where('user_id', $user_id)    						
 			->select("*")
 			->get();
+			return $product_rows_child.length;
 				
 			foreach($product_rows as $pr) {  
 				array_push($head_array,$pr); 
 					
-				for(var i = 0; i < product_rows_child.length; i++)
+				for($i = 0; $i < $product_rows_child.length; $i++)
 				{
-				  if(product_rows_child[i].product_sku == $pr->product_sku)
+				  if($product_rows_child[$i].product_sku == $pr->product_sku)
 				  {
-					array_push($child_array,product_rows_child[i]);
+					array_push($child_array,$product_rows_child[i]);
 				  }
 				}
 				$head_array->orders = 	$child_array ;
