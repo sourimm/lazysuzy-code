@@ -39,7 +39,7 @@ class Order extends Model
 			->get(); 
 				
 			foreach($product_rows as $pr) {  
-				array_push($head_array,$pr); 
+				
 					
 				for($i = 0; $i < count($product_rows_child); $i++)
 				{
@@ -48,7 +48,8 @@ class Order extends Model
 					array_push($child_array,$product_rows_child[$i]);
 				  }
 				}
-				$head_array->orders = 	json_encode($child_array) ;
+				$pr->orders = 	json_encode($child_array) ;
+				array_push($head_array,$pr); 
 			}
 			
 			$a['status']=true;
