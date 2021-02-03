@@ -23,6 +23,8 @@ class Order extends Model
 	public static function get_order_history($user_id)
     {
 		$head_array = [];
+		$child_array = [];
+		
 		if($user_id>0)
 		{
 			
