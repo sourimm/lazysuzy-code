@@ -48,7 +48,7 @@ class Order extends Model
 					array_push($child_array,$product_rows_child[$i]);
 				  }
 				}
-				$head_array->orders = 	$child_array ;
+				$head_array->orders = 	json_encode($child_array) ;
 			}
 			
 			$a['status']=true;
