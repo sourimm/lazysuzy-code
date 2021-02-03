@@ -41,7 +41,7 @@ class Order extends Model
 					
 				for($i = 0; $i < count($product_rows_child); $i++)
 				{
-				  if($product_rows_child[$i].product_sku == $pr->product_sku)
+				  if($product_rows_child[$i]->order_id == $pr->order_id)
 				  {
 					array_push($child_array,$product_rows_child[i]);
 				  }
