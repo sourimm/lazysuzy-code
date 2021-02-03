@@ -28,17 +28,18 @@ class Order extends Model
 		if($user_id>0)
 		{
 			
-			$product_rows = DB::table('lz_order_delivery') 
+			/*$product_rows = DB::table('lz_order_delivery') 
 			->where('user_id', $user_id)   						
 			->select("*")
-			->get();
+			->get();*/
 			
 			$product_rows_child = DB::table('lz_orders') 
 			->where('user_id', $user_id)    						
 			->select("*")
 			->get(); 
 				
-			foreach($product_rows as $pr) {  
+			/*foreach($product_rows as $pr) {  */
+			 foreach($product_rows_child as $pr) {  
 				
 					
 				/*for($i = 0; $i < count($product_rows_child); $i++)
