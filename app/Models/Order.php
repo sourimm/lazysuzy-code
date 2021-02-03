@@ -34,13 +34,12 @@ class Order extends Model
 			$product_rows_child = DB::table('lz_orders') 
 			->where('user_id', $user_id)    						
 			->select("*")
-			->get();
-			return count($product_rows_child);
+			->get(); 
 				
 			foreach($product_rows as $pr) {  
 				array_push($head_array,$pr); 
 					
-				for($i = 0; $i < $product_rows_child.length; $i++)
+				for($i = 0; $i < count($product_rows_child); $i++)
 				{
 				  if($product_rows_child[$i].product_sku == $pr->product_sku)
 				  {
