@@ -72,8 +72,7 @@ class Order extends Model
 	{
 		$orderid   = Input::get("orderid");
 		$zipcode   = Input::get("zipcode");
-		$arr = [];
-		$arr1 = [];
+		$arr = []; 
 			
 		if($user_id>0)
 		{
@@ -91,10 +90,9 @@ class Order extends Model
 					->where('shipping_zipcode', $zipcode);
 			}
 			 
-			$data = $data->get();
-			array_push($arr1,$data[0]); 
-			if(count($arr1)>0){
-				$response['header']=$arr1;
+			$data = $data->get(); 
+			if(!empty($data)){
+				$response['header']=$data;
 				$response['status']=true;
 				
 				$product_rows_child = DB::table('lz_orders') 
