@@ -91,8 +91,7 @@ class Order extends Model
 			}
 			 
 			$data = $data->get(); 
-			return $data;
-			if(!empty($data)){
+			if(!empty($data)){return $data;
 				$response['header']=$data;
 				$response['status']=true;
 				
@@ -116,6 +115,7 @@ class Order extends Model
 			else{
 					$response['status']=false;
 					$response['msg']='No data found.';
+					return $response;
 			}
 				
 		}
