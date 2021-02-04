@@ -72,6 +72,7 @@ class Order extends Model
 	{
 		$orderid   = Input::get("orderid");
 		$zipcode   = Input::get("zipcode");
+		$arr = [];
 			
 		if($user_id>0)
 		{
@@ -94,6 +95,20 @@ class Order extends Model
 			if(isset($data)){
 				$response['header']=$data;
 				$response['status']=true;
+				
+				$product_rows_child = DB::table('lz_orders') 
+					->where('order_id', $data[0]->order_id)    	
+					->join('master_data', 'master_data.product_sku', '=', 'lz_orders.product_sku')		
+					->join('lz_inventory', 'lz_inventory.product_sku', '=', 'lz_orders.product_sku')		
+					->join('lz_ship_code', 'lz_inventory.ship_code', '=', ' lz_ship_code.code')		
+					->select(array('lz_orders.quantity','lz_orders.price','lz_orders.status','lz_orders.note','lz_orders.delivery_date','lz_orders.delivery_time','lz_orders.tracking','lz_orders.racking_url','lz_inventory.ship_code','lz_ship_code.label','master_data.product name','master_data.product image','master_data.brand','master_data.product sku'))
+					->get(); 
+					
+				foreach($product_rows_child as $pr){
+					array_push($arr,$pr);
+				
+				}					
+				$response['details']=$arr;
 			
 			}
 			else{
