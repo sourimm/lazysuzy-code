@@ -2417,11 +2417,19 @@ class Product extends Model
 		$response_user_str = '';
 		$response_sku_str = '';
 		$response = []; 
+		$uid = 0;
 		
+		$is_authenticated = Auth::check();
+        if ($is_authenticated) {
+            $user = Auth::user();
+			$uid = $user->id;
+		}
+			
 		 $user_rows = DB::table('user_views')
             ->select('user_id')
 			->distinct()
             ->where('product_sku', $sku)
+			->where('user_id','!=', $uid)
             ->get();
  
 		$main_product_LSID = $product_rows = DB::table('master_data')
