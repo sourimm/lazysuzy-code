@@ -91,9 +91,9 @@ class Order extends Model
 			}
 			 
 			$data = $data->get();
-			return isset($data);
-			if(isset($data)){
-				$response['header']=$data;
+			array_push($arr1,$data[0]); 
+			if(count($arr1)>0){
+				$response['header']=$arr1;
 				$response['status']=true;
 				
 				$product_rows_child = DB::table('lz_orders') 
