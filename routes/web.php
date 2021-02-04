@@ -163,7 +163,7 @@ Route::get('/api/other-views/userrelated-{sku}', 'API@get_userproduct_list')->mi
 Route::get('/api/order_history', 'API@get_order_history')->middleware(['auth:api'])->name('get-order-history');
 
 // Get Order Status
-Route::get('/api/order_status/{orderid}/{zipcode}', 'API@get_order_status')->middleware(['auth:api'])->name('get-order-status');
+Route::get('/api/order_status', 'API@get_order_status')->middleware(['auth:api'])->name('get-order-status');
 
 /* ==================================================BACKEND ADMIN APIS========================================== */
 

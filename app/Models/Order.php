@@ -68,36 +68,37 @@ class Order extends Model
 
    
   
-	public static function get_order_status($user_id,$orderid,$zipcode)
+	public static function get_order_status($user_id)
 	{
-	
+		$orderid   = Input::get("orderid");
+		$zipcode   = Input::get("zipcode");
 			
-			if($user_id>0)
-			{
-				$data   = DB::table('lz_order_delivery')
-							->select('shipping_f_name','shipping_l_name','shipping_address_line1','shipping_address_line2','shipping_state','shipping_zipcode','order_id')
-							->where('user_id', $user_id)   ;
-							
- 
-				if ($orderid != '') { 
-					$data = $data
-						->where('order_id', $orderid);
-				} 
-				if ($zipcode != '') { 
-					$data = $data
-						->where('shipping_zipcode', $zipcode);
-				}
-				 
-				
-				if(isset($data)){
-					$response['header']=$data;
-					$response['status']=true;
-				
-				}
-				else{
-						$response['status']=false;
-						$response['msg']='No data found.';
-				}
+		if($user_id>0)
+		{
+			$data   = DB::table('lz_order_delivery')
+						->select('shipping_f_name','shipping_l_name','shipping_address_line1','shipping_address_line2','shipping_state','shipping_zipcode','order_id')
+						->where('user_id', $user_id)   ;
+						
+
+			if ($orderid != '') { 
+				$data = $data
+					->where('order_id', $orderid);
+			} 
+			if ($zipcode != '') { 
+				$data = $data
+					->where('shipping_zipcode', $zipcode);
+			}
+			 
+			
+			if(isset($data)){
+				$response['header']=$data;
+				$response['status']=true;
+			
+			}
+			else{
+					$response['status']=false;
+					$response['msg']='No data found.';
+			}
 				
 		}
 		else{
@@ -105,6 +106,7 @@ class Order extends Model
 				$response['msg']='Not authenticaticated User.';
 		}
 		
-		return $response;	
+		return $response;
+	}		
 
 };

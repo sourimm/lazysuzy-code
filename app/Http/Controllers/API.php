@@ -293,11 +293,11 @@ class API extends Controller
             
     }
 	
-	public function get_order_status($orderid='',$zipcode=0) {
+	public function get_order_status() {
 		
 		$id= Auth::check() ? Auth::user()->id : 0;
 		$id = 1055;
-		return Order::get_order_status($id,$orderid,$zipcode);
+		return Order::get_order_status($id);
             
     }
 	
