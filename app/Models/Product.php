@@ -2469,9 +2469,10 @@ class Product extends Model
 				$product_rows = DB::table('master_data') 
 				->whereIn('master_data.product_sku', $sku_array)  
 				->where('master_data.product_status','active') 
-				//->join('user_views', 'user_views.product_sku', '=', 'master_data.product_sku')	
-				->join('master_brands', 'master_brands.value', '=', 'master_data.brand')		
+				->join('user_views', 'user_views.product_sku', '=', 'master_data.product_sku')	
+				->join('master_brands', 'master_brands.value', '=', 'master_data.brand')
 				->select(['master_data.id','master_data.product_description','master_data.product_status','master_data.product_name','master_data.product_sku','master_brands.name as brand_name','master_data.price','master_data.was_price','master_data.main_product_images as image','master_data.LS_ID'])//,'user_views.updated_at as last_visit','user_views.num_views as visit_count'
+				->orderBy(\DB::raw('count(user_views.user_id)'), 'DESC')	
 				->get();
 			
 			    if(strlen($LSID)==3){
@@ -2507,6 +2508,7 @@ class Product extends Model
 		
 		foreach ($product_rows as $product) {
 			         $product->image =  env('APP_URL').$product->image; 
+					 
 					
 					if (strpos($product->LS_ID, $LSID[1]) !== false)
 					{
