@@ -89,6 +89,7 @@ class Order extends Model
 					->where('shipping_zipcode', $zipcode);
 			}
 			 
+			$data = $data->get();
 			
 			if(isset($data)){
 				$response['header']=$data;
