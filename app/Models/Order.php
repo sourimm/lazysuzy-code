@@ -100,8 +100,8 @@ class Order extends Model
 					->where('order_id', $data[0]->order_id)    	
 					->join('master_data', 'master_data.product_sku', '=', 'lz_orders.product_sku')		
 					->join('lz_inventory', 'lz_inventory.product_sku', '=', 'lz_orders.product_sku')		
-					->join('lz_ship_code', 'lz_inventory.ship_code', '=', ' lz_ship_code.code')		
-					->select(array('lz_orders.quantity','lz_orders.price','lz_orders.status','lz_orders.note','lz_orders.date','lz_orders.note','lz_orders.tracking','lz_inventory.ship_code','lz_ship_code.label','master_data.product_name','master_data.product_image','master_data.brand','master_data.product_sku'))
+					->join('lz_ship_code', 'lz_ship_code.code', '=', 'lz_inventory.ship_code')		
+					->select(array('lz_orders.quantity','lz_orders.price','lz_orders.status','lz_orders.note','lz_orders.date','lz_orders.tracking','lz_inventory.ship_code','lz_ship_code.label','master_data.product_name','master_data.main_product_images as image','master_data.brand','master_data.product_sku','lz_ship_code.label'))
 					->get(); 
 					
 				foreach($product_rows_child as $pr){
