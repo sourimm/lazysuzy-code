@@ -73,6 +73,7 @@ class Order extends Model
 		$orderid   = Input::get("orderid");
 		$zipcode   = Input::get("zipcode");
 		$arr = [];
+		$arr1 = [];
 			
 		if($user_id>0)
 		{
