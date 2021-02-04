@@ -162,6 +162,9 @@ Route::get('/api/other-views/userrelated-{sku}', 'API@get_userproduct_list')->mi
 // Get Order History
 Route::get('/api/order_history', 'API@get_order_history')->middleware(['auth:api'])->name('get-order-history');
 
+// Get Order Status
+Route::get('/api/order_status/{orderid}/{zipcode}', 'API@get_order_status')->middleware(['auth:api'])->name('get-order-status');
+
 /* ==================================================BACKEND ADMIN APIS========================================== */
 
 Route::middleware(['auth:api', 'cors', 'admin'])->group(function () {
