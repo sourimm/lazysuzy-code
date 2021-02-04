@@ -113,15 +113,15 @@ class Order extends Model
 		return $a;	
 	}
 
-	public static function get_order_history($user_id,$orderid,$zipcode)
+	public static function get_order_status($user_id,$orderid,$zipcode)
 	{
-		/*	$head_array = [];
+			$head_array = [];
 			$child_array = [];
 			
 			if($user_id>0)
 			{
-				$data   = DB::table('z_order_delivery')
-							->select('LS_ID')
+				$data   = DB::table('lz_order_delivery')
+							->select('shipping_f_name','shipping_l_name','shipping_address_line1','shipping_address_line2','shipping_state','shipping_zipcode','order_id')
 							->where('user_id', $user_id)   ;
 							
  
@@ -140,18 +140,19 @@ class Order extends Model
 				->where('user_id', $user_id)    						
 				->select("*")
 				->get(); 
-					 
+					
+				/*foreach($product_rows as $pr) {  */
 				 foreach($product_rows_child as $pr) {  
 					
 						
-					for($i = 0; $i < count($product_rows_child); $i++)
+					/*for($i = 0; $i < count($product_rows_child); $i++)
 					{
 					  if($product_rows_child[$i]->order_id == $pr->order_id)
 					  {
 						array_push($child_array,$product_rows_child[$i]);
 					  }
 					}
-					$pr->orders = 	json_encode($child_array) ;
+					$pr->orders = 	json_encode($child_array) ;*/
 					array_push($head_array,$pr); 
 				}
 				
@@ -165,7 +166,7 @@ class Order extends Model
 					$a['msg']='Not authenticaticated User.';
 			}	
 
-			return $a;	*/
+			return $a;	
 		}
 
 };
