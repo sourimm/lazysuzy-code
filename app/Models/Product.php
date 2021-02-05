@@ -2552,7 +2552,7 @@ class Product extends Model
 					 
 					$LS_ID_arr = explode(",",$product->LS_ID);
 				//$LS_ID_arr = explode(",",$product['LS_ID']);
-					
+					return 'ggg='.count($LS_ID_arr);
 					
 					if(count($LS_ID_arr)==1){return $product_rows;
 						if($LS_ID_arr[0]==$LSID){
