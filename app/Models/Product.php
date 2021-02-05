@@ -9034,7 +9034,7 @@ are exactly alike.',
 					}
 				
 				}
-				return $response_deptsame;
+				return $response_deptother;
 				/* ================== Sort By Department End =========================== */  
 				
 				
