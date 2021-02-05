@@ -2494,6 +2494,47 @@ class Product extends Model
 	
 	
 	public static function get_product_for_three_digit($product_rows,$LSID){ 
+	
+	
+	
+	$product_rows=array (
+  0 => 
+  array (
+    'id' => 673,
+    'serial' => 29,
+    'product_status' => 'active',
+    'product_name' => 'Stone Table Rectangle 95"',
+    'product_sku' => '479397',
+    'LS_ID' => '551',
+  ),
+  1 => 
+  array (
+    'id' => 701,
+    'serial' => 51,
+    'product_status' => 'active',
+    'product_name' => 'Harper Brass Dining Table with Glass Top',
+    'product_sku' => '359011',
+    'LS_ID' => '507',
+  ),
+  2 => 
+  array (
+    'id' => 1073,
+    'serial' => 20,
+    'product_status' => 'active',
+    'product_name' => 'Harper White Dining Table with Black Marble Top',
+    'product_sku' => '580101',
+    'LS_ID' => '1123',
+  ),
+  3 => 
+  array (
+    'id' => 1111,
+    'serial' => 13,
+    'product_status' => 'active',
+    'product_name' => 'Babylon Round Small Table',
+    'product_sku' => '584087',
+    'LS_ID' => '407,551',
+  ),
+);
 		
 		$response = [];
 		$response_nmatch = [];
@@ -2512,7 +2553,7 @@ class Product extends Model
 					$LS_ID_arr = explode(",",$product->LS_ID);
 					
 					
-					if(count($LS_ID_arr)==1){return $LS_ID_arr[0];
+					if(count($LS_ID_arr)==1){
 						if($LS_ID_arr[0]==$LSID){
 							array_push($response_match,$product);
 						}
