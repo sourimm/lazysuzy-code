@@ -91,10 +91,10 @@ class Order extends Model
 			}
 			 
 			$data = $data->get(); 
-			if($data!=''){return $data;
+			if($data!='[]'){
 				$response['header']=$data;
 				$response['status']=true;
-				
+				return $response;
 				$product_rows_child = DB::table('lz_orders') 
 					->where('order_id', $data[0]->order_id)    	
 					->join('master_data', 'master_data.product_sku', '=', 'lz_orders.product_sku')		
