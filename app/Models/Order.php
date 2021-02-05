@@ -81,7 +81,7 @@ class Order extends Model
 
 			$is_authenticated = Auth::check();
             if ($is_authenticated) {	
-					$user = Auth::user(); 
+					$user = Auth::user(); return $user;
 					$data = $data
 					->where('user_id', $user->id);
 			}
