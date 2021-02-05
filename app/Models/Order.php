@@ -111,7 +111,7 @@ class Order extends Model
 					->get(); 
 					
 					foreach($product_rows_child as $pr){
-						$pr->image =  env('APP_URL').$pr->image; 
+					//	$pr->image =  env('APP_URL').$pr->image; 
 						array_push($arr,$pr);
 					
 					}
