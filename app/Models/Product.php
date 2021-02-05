@@ -2477,7 +2477,7 @@ class Product extends Model
 				->get(); 
 				
 			    if(strlen($LSID)==3){
-						$response = Product::get_product_for_three_digit_old($product_rows,$LSID);
+						$response = Product::get_product_for_three_digit($product_rows,$LSID);
 				}
 				else{
 						$response = Product::get_product_for_four_digit($product_rows,$LSID);
