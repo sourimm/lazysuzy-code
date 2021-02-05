@@ -8924,22 +8924,22 @@ are exactly alike.',
 				 
 					for($i=0;$i<count($LS_ID_arr);$i++){
 						
-						if(substr($LS_ID_arr[$i], 0, 2)==$LSID[0].$LSID[1]){
+						/*if(substr($LS_ID_arr[$i], 0, 2)==$LSID[0].$LSID[1]){
 							array_push($response_catsame,$catdept);
 							break;
 						}
 						else{
 								array_push($response_catother,$catdept);
-						}
+						}*/
 						
-						/*if (strpos($LS_ID_arr[$i], $LSID[1]) !== false){
-							if((strpos($LS_ID_arr[$i],$LSID[1]))==1){
+						 if (strpos($LS_ID_arr[$i], $LSID[0].$LSID[1]) !== false){
+							if((strpos($LS_ID_arr[$i],$LSID[0].$LSID[1]))==0){
 								array_push($response_catsame,$cat);
 							}
 							else{
 									array_push($response_catother,$cat);
 							}
-						}*/
+						} 
 					}
 				 
 				
