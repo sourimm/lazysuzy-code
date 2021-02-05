@@ -91,7 +91,7 @@ class Order extends Model
 			}
 			 
 			$data = $data->get(); 
-			if(!empty($data)){return $data;
+			if($data!=''){return $data;
 				$response['header']=$data;
 				$response['status']=true;
 				
