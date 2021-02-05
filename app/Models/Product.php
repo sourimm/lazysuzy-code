@@ -8882,8 +8882,8 @@ are exactly alike.',
 		foreach ($product_rows as $product) {
 			     //   $product->image =  env('APP_URL').$product->image; 
 					 
-					$LS_ID_arr = explode(",",$product->LS_ID);
-				//$LS_ID_arr = explode(",",$product['LS_ID']);
+				//	$LS_ID_arr = explode(",",$product->LS_ID);
+				$LS_ID_arr = explode(",",$product['LS_ID']);
 					//return 'ggg='.$LS_ID_arr[0].'=='.$LSID;
 					
 					if(count($LS_ID_arr)==1){ 
@@ -8895,8 +8895,8 @@ are exactly alike.',
 						}
 					}
 					else if(count($LS_ID_arr)>1){ 
-						if (strpos($product->LS_ID, $LSID[1]) !== false)
-					//    if (strpos($product['LS_ID'], $LSID[1]) !== false)		
+						//if (strpos($product->LS_ID, $LSID[1]) !== false)
+					    if (strpos($product['LS_ID'], $LSID[1]) !== false)		
 						{
 							array_push($response_match,$product);
 						}
