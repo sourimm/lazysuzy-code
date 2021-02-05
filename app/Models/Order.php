@@ -116,6 +116,7 @@ class Order extends Model
 					
 					}
 					$response['details'][$datasingle->order_id]=$arr;
+					$arr = [];
 					 
 				}	
 				
