@@ -108,11 +108,11 @@ class Order extends Model
 					$product_rows_child = DB::table('lz_orders') 
 					->where('order_id', $datasingle->order_id)   
 					->join('master_data', 'master_data.product_sku', '=', 'lz_orders.product_sku')						
-					->select(array('lz_orders.quantity','lz_orders.price','lz_orders.status','lz_orders.note','lz_orders.date','lz_orders.tracking','master_data.product_name','master_data.main_product_images as image','master_brands.name as brand_name','master_data.product_sku'))
+					->select(array('lz_orders.quantity','lz_orders.price','lz_orders.status','lz_orders.note','lz_orders.date','lz_orders.tracking','master_data.product_name','master_data.main_product_images as image','master_data.product_sku'))
 					->get(); 
 					
 					foreach($product_rows_child as $pr){
-					//	$pr->image =  env('APP_URL').$pr->image; 
+					 	$pr->image =  env('APP_URL').$pr->image; 
 						array_push($arr,$pr);
 					
 					}
