@@ -2497,7 +2497,7 @@ class Product extends Model
 	
 	
 	
-	$product_rows=array (
+/*	$product_rows=array (
   0 => 
   array (
     'id' => 673,
@@ -2535,7 +2535,7 @@ class Product extends Model
     'LS_ID' => '407,551',
   ),
 );
-		
+	*/	
 		$response = [];
 		$response_nmatch = [];
 		$response_match = [];
