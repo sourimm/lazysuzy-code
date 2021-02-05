@@ -2511,8 +2511,8 @@ class Product extends Model
 					 
 					$LS_ID_arr = explode(",",$product->LS_ID);
 					
-					return $LS_ID_arr;
-					if(count($LS_ID_arr)==1){
+					
+					if(count($LS_ID_arr)==1){return $LS_ID_arr[0];
 						if($LS_ID_arr[0]==$LSID){
 							array_push($response_match,$product);
 						}
