@@ -2550,8 +2550,8 @@ class Product extends Model
 		foreach ($product_rows as $product) {
 			     //   $product->image =  env('APP_URL').$product->image; 
 					 
-				//	$LS_ID_arr = explode(",",$product->LS_ID);
-				$LS_ID_arr = explode(",",$product['LS_ID']);
+					$LS_ID_arr = explode(",",$product->LS_ID);
+				//$LS_ID_arr = explode(",",$product['LS_ID']);
 					
 					
 					if(count($LS_ID_arr)==1){
@@ -2563,8 +2563,8 @@ class Product extends Model
 						}
 					}
 					else if(count($LS_ID_arr)>1){
-					//	if (strpos($product->LS_ID, $LSID[1]) !== false)
-					    if (strpos($product['LS_ID'], $LSID[1]) !== false)		
+						if (strpos($product->LS_ID, $LSID[1]) !== false)
+					//    if (strpos($product['LS_ID'], $LSID[1]) !== false)		
 						{
 							array_push($response_match,$product);
 						}
