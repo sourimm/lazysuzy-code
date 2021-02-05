@@ -2540,7 +2540,7 @@ shoes, helping you stay clutter-free.
     'price' => '1499-2099',
     'was_price' => '1499-2099',
     'image' => '/westelm/westelm_images/ansel-side-storage-bed-h4962_main.jpg',
-    'LS_ID' => '344',
+    'LS_ID' => '304,551,507',
     'viewers' => 94,
   ),
   2 => 
