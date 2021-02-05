@@ -8884,7 +8884,7 @@ are exactly alike.',
 					 
 				//	$LS_ID_arr = explode(",",$product->LS_ID);
 				$LS_ID_arr = explode(",",$product['LS_ID']);
-					//return 'ggg='.$LS_ID_arr[0].'=='.$LSID;
+					 return 'ggg='.$LS_ID_arr[0].'=='.$LSID;
 					
 					if(count($LS_ID_arr)==1){ 
 						if($LS_ID_arr[0]==$LSID){
