@@ -8987,7 +8987,7 @@ are exactly alike.',
 					}
 				
 				}
-				return $response_catsame;
+				return $response_catother;
 				/* ================== Sort By Category End =========================== */   
 				
 				
