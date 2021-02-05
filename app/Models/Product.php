@@ -2554,7 +2554,7 @@ class Product extends Model
 				//$LS_ID_arr = explode(",",$product['LS_ID']);
 					
 					
-					if(count($LS_ID_arr)==1){
+					if(count($LS_ID_arr)==1){return $product_rows;
 						if($LS_ID_arr[0]==$LSID){
 							array_push($response_match,$product);
 						}
@@ -2562,7 +2562,7 @@ class Product extends Model
 							array_push($response_nmatch,$product);
 						}
 					}
-					else if(count($LS_ID_arr)>1){
+					else if(count($LS_ID_arr)>1){return $LS_ID_arr;
 						if (strpos($product->LS_ID, $LSID[1]) !== false)
 					//    if (strpos($product['LS_ID'], $LSID[1]) !== false)		
 						{
