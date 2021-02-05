@@ -9018,7 +9018,7 @@ are exactly alike.',
 				
 				
 				$response = array_values(array_merge($response_match, $response_catdeptsame, $response_catsame, $response_deptsame, $response_deptother));
-				//$response = array_slice($response,0,30);
+				$response = array_slice($response,0,30);
 				return $response;
 	}
 	
@@ -9198,6 +9198,7 @@ are exactly alike.',
 		$response = [];
 		$response_nmatch = [];
 		$response_match = [];
+		$response_match1 = [];
 		$response_deptsame = [];
 		$response_deptother = [];
 		$response_catsame = [];
@@ -9205,21 +9206,53 @@ are exactly alike.',
 		$response_identical = [];
 		$remainarr = [];
 		
-		foreach($product_rows as $pr){
+		foreach($product_rows as $pr)
+		{
 			 $pr->image =  env('APP_URL').$pr->image; 
-		 $LS_ID_arr = explode(',',$pr->LS_ID); 
-		 //$LS_ID_arr = explode(',',$pr['LS_ID']); 
+			 $LS_ID_arr = explode(',',$pr->LS_ID); 
+			 //$LS_ID_arr = explode(',',$pr['LS_ID']); 
 		 
-		 
-		 
-		 if(in_array($LSID, $LS_ID_arr)){	
+					 
+			 if(count($LS_ID_arr)==1)
+			{ 
+				if($LS_ID_arr[0]==$LSID){
+					array_push($response_identical,$pr); 
+				}
+				else{
+					array_push($response_catother,$pr);
+				} 
+			}
+			
+			else {  
+			
+					if(in_array($LSID,$LS_ID_arr))		
+					{
+						array_push($response_match1,$pr);
+					}
+					else{
+						   array_push($response_catother,$pr);
+					}
+				
+			}
+					
+					
+					
+		} 
+		$response_identical = array_merge($response_identical,$response_match1);
+				
+				
+				
+				
+				
+				
+		/* if(in_array($LSID, $LS_ID_arr)){	
 				array_push($response_identical,$pr);
 			}
 			else{
 					array_push($response_catother,$pr);
 			}
-			
-		} 
+			*/
+		 
 		
 		$LSID_dept = $LSID[0].$LSID[1].$LSID[2];
 		
@@ -9227,40 +9260,45 @@ are exactly alike.',
 	/* ================== Sort By Department Start =========================== */  
 	
 		foreach($response_catother as $dept){
-		
+			$flag=0;
 			$LS_ID_arr = explode(",",$dept->LS_ID);
 			//$LS_ID_arr = explode(",",$dept['LS_ID']);
 			
 			for($i=0;$i<count($LS_ID_arr);$i++){ 
 				if ((substr($LS_ID_arr[$i], 0, 3))==  $LSID_dept){  
-					array_push($response_deptsame,$dept);
+					$flag=1;
 				 	break;
 					
 				}
 				else{ 
-						array_push($response_deptother,$dept); 
+						$flag=0;
 						
 				}
 				 
 			}
 			 
-			
+			if($flag==1){
+				array_push($response_deptsame,$dept);
+			}
+			else{
+				array_push($response_deptother,$dept); 
+			}
 			
 		
 		} 
 		
 		/* ================== Sort By Department End =========================== */  
 		
-		$response_identical = array_values(array_unique($response_identical,SORT_REGULAR));
+	/*	$response_identical = array_values(array_unique($response_identical,SORT_REGULAR));
 		$response_deptsame = array_values(array_unique($response_deptsame,SORT_REGULAR));
 		$response_deptother = array_values(array_unique($response_deptother,SORT_REGULAR)); // cat same 
 		
-		
+		*/
 		
 		
 		/* ================= User View Count Matching Start ========================== */
 				 
-				$response_sku_str = '';
+				/*$response_sku_str = '';
 				$sku_array = [];
 				
 				if(isset($response_deptother)){
@@ -9288,13 +9326,14 @@ are exactly alike.',
 					}
 					
 					 
-				}
+				}*/
 				
 				
 		/* ================= User View Count Matching End ========================== */
 		
 	
-		$response = array_values(array_merge($response_identical, $response_deptsame, $response_nmatch));
+		//$response = array_values(array_merge($response_identical, $response_deptsame, $response_nmatch));
+		$response = array_values(array_merge($response_identical, $response_deptsame, $response_deptother));
 		$response = array_slice($response,0,30);
 				
 		return $response;
