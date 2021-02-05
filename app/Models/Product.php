@@ -8923,17 +8923,9 @@ are exactly alike.',
 				 
 					for($i=0;$i<count($LS_ID_arr);$i++){
 						
-						 if(substr($LS_ID_arr[$i], 0, 2)==$LSID[0].$LSID[1]){
-							//array_push($response_catsame,$catdept);
-							$flag = 1;
-							break;
-						}
-						else{
-							   $flag = 0;
-								//array_push($response_catother,$catdept);
-						} 
+						 
 						// if (strpos($LS_ID_arr[$i], $LSID[0].$LSID[1]) !== false){
-						/*	if((strpos($LS_ID_arr[$i],$LSID[0].$LSID[1]))==0){
+						 	if((strpos($LS_ID_arr[$i],$LSID[0].$LSID[1]))==0){
 								//array_push($response_catsame,$catdept);
 								$flag = 1;
 								break;
@@ -8941,7 +8933,7 @@ are exactly alike.',
 							else{
 									//array_push($response_catother,$catdept);
 									$flag =0;
-							}*/
+							} 
 						//} 
 						
 							
