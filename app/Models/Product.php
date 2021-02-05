@@ -8945,14 +8945,14 @@ are exactly alike.',
 							}*/
 						//} 
 						
-							if($flag==1){
+							
+					}
+					if($flag==1){
 								array_push($response_catsame,$catdept);
 							}
 							else{
 								array_push($response_catother,$catdept);
 							}
-					}
-					
 				
 					
 				 
