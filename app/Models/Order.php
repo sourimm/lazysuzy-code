@@ -97,7 +97,7 @@ class Order extends Model
 				
 				foreach($data as $datasingle){
 					$i=0;
-				$product_rows_child = DB::table('lz_orders') 
+					$product_rows_child = DB::table('lz_orders') 
 					->where('order_id', $datasingle->order_id)    	
 					->join('master_data', 'master_data.product_sku', '=', 'lz_orders.product_sku')		
 					->join('lz_inventory', 'lz_inventory.product_sku', '=', 'lz_orders.product_sku')		
@@ -111,7 +111,7 @@ class Order extends Model
 						array_push($arr,$pr);
 					
 					}
-					$response['details'][$i]=$arr;
+					$response['details'][$datasingle->order_id]=$arr;
 					$i++;
 				}	
 				
