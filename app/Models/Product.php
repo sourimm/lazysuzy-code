@@ -8916,35 +8916,31 @@ are exactly alike.',
 				
 				/* ================== Sort By Category+Department Start =========================== */   
 				
-				foreach($response_nmatch as $catdept){ $flag =0; 
+				foreach($response_nmatch as $catdept){ 
+					$flag =0; 
 					//$LS_ID_arr = explode(",",$catdept->LS_ID);
 					$LS_ID_arr = explode(",",$catdept['LS_ID']);
 					
 				 
 					for($i=0;$i<count($LS_ID_arr);$i++){
 						
-						 
-						// if (strpos($LS_ID_arr[$i], $LSID[0].$LSID[1]) !== false){
-						 	if((strpos($LS_ID_arr[$i],$LSID[0].$LSID[1]))==0){
-								//array_push($response_catsame,$catdept);
-								$flag = 1;
-								break;
-							}
-							else{
-									//array_push($response_catother,$catdept);
-									$flag =0;
-							} 
-						//} 
-						
-							
+						 if(substr($LS_ID_arr[$i], 0, 2)==$LSID[0].$LSID[1]){
+							//array_push($response_catsame,$catdept);
+							$flag = 1;
+							break;
+						}
+						else{
+							   $flag = 0;
+								//array_push($response_catother,$catdept);
+						} 
+				
 					}
-					//return 'FLAG='.$flag;
 					if($flag==1){
-								array_push($response_catsame,$catdept);
-							}
-							else{
-								array_push($response_catother,$catdept);
-							}
+						array_push($response_catsame,$catdept);
+					}
+					else{
+						array_push($response_catother,$catdept);
+					}
 				
 					
 				 
