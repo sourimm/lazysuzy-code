@@ -2411,7 +2411,7 @@ class Product extends Model
     }
 	
 	 public static function get_userproduct_list($sku)
-    {
+    {return $sku;
 		$response_user = [];
 		$response_product = [];
 		$response_user_str = '';
