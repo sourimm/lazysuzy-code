@@ -2495,9 +2495,171 @@ class Product extends Model
 	
 	public static function get_product_for_three_digit($product_rows,$LSID){ 
 	
+ 
 	
+		$response = [];
+		$response_nmatch = [];
+		$response_match = [];
+		$response_match1 = [];
+		$response_deptsame = [];
+		$response_deptother = [];
+		$response_catsame = [];
+		$response_catother = [];
+		$response_catdeptsame = [];
+		$response_catdeptother = [];  
+		
+		
+		/* ================== Sort By Identical Start =========================== */     
+		
+		foreach ($product_rows as $product) {
+			       $product->image =  env('APP_URL').$product->image; 
+					 
+					$LS_ID_arr = explode(",",$product->LS_ID);
+				//$LS_ID_arr = explode(",",$product['LS_ID']);
+					
+					if(count($LS_ID_arr)==1){ 
+						if($LS_ID_arr[0]==$LSID){
+							array_push($response_match,$product); 
+						}
+						else{
+							array_push($response_nmatch,$product);
+						} 
+					}
+					
+					else {  
+					
+							if(in_array($LSID,$LS_ID_arr))		
+							{
+								array_push($response_match1,$product);
+							}
+							else{
+								   array_push($response_nmatch,$product);
+							}
+						
+					}
+					
+					
+					
+				} 
+				$response_match = array_merge($response_match,$response_match1);
+				
+				  
+		        /* ================== Sort By Identical End =========================== */ 
+				
+				
+				
+				
+				/* ================== Sort By Category+Department Start =========================== */   
+				
+				foreach($response_nmatch as $catdept){ 
+					$flag =0; 
+					$LS_ID_arr = explode(",",$catdept->LS_ID);
+					//$LS_ID_arr = explode(",",$catdept['LS_ID']);
+					
+				 
+					for($i=0;$i<count($LS_ID_arr);$i++){
+						
+						if(substr($LS_ID_arr[$i], 0, 2)==$LSID[0].$LSID[1]){ 
+							$flag = 1;
+							break;
+						}
+						else{
+							   $flag = 0; 
+						} 
+				
+					}
+					if($flag==1){
+						array_push($response_catdeptsame,$catdept);
+					}
+					else{
+						array_push($response_catdeptother,$catdept);
+					}
+				
+					
+				 
+				
+				} 
+				/* ================== Sort By Category+Department End =========================== */   
+				
+				
+				 
+				/* ================== Sort By Category Start =========================== */   
+				
+				foreach($response_catdeptother as $cat){
+					$flag = 0; 
+				
+					$LS_ID_arr = explode(",",$cat->LS_ID);
+					//$LS_ID_arr = explode(",",$cat['LS_ID']);
+					
+					for($i=0;$i<count($LS_ID_arr);$i++){
+						 
+						
+						if(substr($LS_ID_arr[$i], 1, 1)==$LSID[1]){ 
+							$flag = 1;
+							break;
+						}
+						else{
+							   $flag = 0; 
+						} 
+					}
+					
+					if($flag==1){
+						array_push($response_catsame,$cat);
+					}
+					else{
+						array_push($response_catother,$cat);
+					}
+				
+				} 
+				/* ================== Sort By Category End =========================== */   
+				
+				 
+				
+				
+				/* ================== Sort By Department Start =========================== */  
+				   
+				foreach($response_catother as $dept){
+					$flag = 0; 
+					$LS_ID_arr = explode(",",$dept->LS_ID);
+					//$LS_ID_arr = explode(",",$dept['LS_ID']);
+					
+					for($i=0;$i<count($LS_ID_arr);$i++){
+					 
+						
+						if(substr($LS_ID_arr[$i], 0, 1)==$LSID[0]){ 
+							$flag = 1;
+							break;
+						}
+						else{
+							   $flag = 0; 
+						} 
+					}
+					
+					if($flag==1){
+						array_push($response_deptsame,$dept);
+					}
+					else{
+						array_push($response_deptother,$dept);
+					}
+				
+				}
+				
+				/* ================== Sort By Department End =========================== */  
+				
+				
+				
+				
+				
+				
+				$response = array_values(array_merge($response_match, $response_catdeptsame, $response_catsame, $response_deptsame, $response_deptother));
+				$response = array_slice($response,0,30);
+				return $response;
+	}
 	
- /*	$product_rows=array (
+ 
+
+	public static function get_product_for_three_digit_old($product_rows,$LSID){
+		/*	$product_rows=array (
   0 => 
   array (
     'id' => 36317,
@@ -8867,165 +9029,6 @@ are exactly alike.',
     'viewers' => 1,
   ),
 );*/
-	
-		$response = [];
-		$response_nmatch = [];
-		$response_match = [];
-		$response_match1 = [];
-		$response_deptsame = [];
-		$response_deptother = [];
-		$response_catsame = [];
-		$response_catother = [];
-		$response_catdeptsame = [];
-		$response_catdeptother = [];
-		$response_identical = [];
-		$remainarr = [];
-		 
-		
-		foreach ($product_rows as $product) {
-			       $product->image =  env('APP_URL').$product->image; 
-					 
-					$LS_ID_arr = explode(",",$product->LS_ID);
-				//$LS_ID_arr = explode(",",$product['LS_ID']);
-					
-					if(count($LS_ID_arr)==1){ 
-						if($LS_ID_arr[0]==$LSID){
-							array_push($response_match,$product); 
-						}
-						else{
-							array_push($response_nmatch,$product);
-						} 
-					}
-					
-					else {  
-					
-							if(in_array($LSID,$LS_ID_arr))		
-							{
-								array_push($response_match1,$product);
-							}
-							else{
-								   array_push($response_nmatch,$product);
-							}
-						
-					}
-					
-					
-					
-				} 
-				$response_match = array_merge($response_match,$response_match1);
-				
-				
-				/* ================== Sort By Category+Department Start =========================== */   
-				
-				foreach($response_nmatch as $catdept){ 
-					$flag =0; 
-					$LS_ID_arr = explode(",",$catdept->LS_ID);
-					//$LS_ID_arr = explode(",",$catdept['LS_ID']);
-					
-				 
-					for($i=0;$i<count($LS_ID_arr);$i++){
-						
-						if(substr($LS_ID_arr[$i], 0, 2)==$LSID[0].$LSID[1]){ 
-							$flag = 1;
-							break;
-						}
-						else{
-							   $flag = 0; 
-						} 
-				
-					}
-					if($flag==1){
-						array_push($response_catdeptsame,$catdept);
-					}
-					else{
-						array_push($response_catdeptother,$catdept);
-					}
-				
-					
-				 
-				
-				} 
-				/* ================== Sort By Category+Department End =========================== */   
-				
-				
-				 
-				/* ================== Sort By Category Start =========================== */   
-				
-				foreach($response_catdeptother as $cat){
-					$flag = 0; 
-				
-					$LS_ID_arr = explode(",",$cat->LS_ID);
-					//$LS_ID_arr = explode(",",$cat['LS_ID']);
-					
-					for($i=0;$i<count($LS_ID_arr);$i++){
-						 
-						
-						if(substr($LS_ID_arr[$i], 1, 1)==$LSID[1]){ 
-							$flag = 1;
-							break;
-						}
-						else{
-							   $flag = 0; 
-						} 
-					}
-					
-					if($flag==1){
-						array_push($response_catsame,$cat);
-					}
-					else{
-						array_push($response_catother,$cat);
-					}
-				
-				} 
-				/* ================== Sort By Category End =========================== */   
-				
-				 
-				
-				
-				/* ================== Sort By Department Start =========================== */  
-				   
-				foreach($response_catother as $dept){
-					$flag = 0; 
-					$LS_ID_arr = explode(",",$dept->LS_ID);
-					//$LS_ID_arr = explode(",",$dept['LS_ID']);
-					
-					for($i=0;$i<count($LS_ID_arr);$i++){
-					 
-						
-						if(substr($LS_ID_arr[$i], 0, 1)==$LSID[0]){ 
-							$flag = 1;
-							break;
-						}
-						else{
-							   $flag = 0; 
-						} 
-					}
-					
-					if($flag==1){
-						array_push($response_deptsame,$dept);
-					}
-					else{
-						array_push($response_deptother,$dept);
-					}
-				
-				}
-				
-				/* ================== Sort By Department End =========================== */  
-				
-				
-				
-				
-				
-				
-				$response = array_values(array_merge($response_match, $response_catdeptsame, $response_catsame, $response_deptsame, $response_deptother));
-				$response = array_slice($response,0,30);
-				return $response;
-	}
-	
- 
-
-	public static function get_product_for_three_digit_old($product_rows,$LSID){
-		
 		$response = [];
 		$response_nmatch = [];
 		$response_match = [];
