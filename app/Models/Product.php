@@ -8919,7 +8919,8 @@ are exactly alike.',
 				
 				foreach($response_nmatch as $catdept){
 				
-					$LS_ID_arr = explode(",",$catdept->LS_ID);
+					//$LS_ID_arr = explode(",",$catdept->LS_ID);
+					$LS_ID_arr = explode(",",$catdept['LS_ID']);
 					
 					for($i=0;$i<count($LS_ID_arr);$i++){
 						
