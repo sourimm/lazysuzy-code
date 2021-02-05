@@ -79,7 +79,7 @@ class Order extends Model
 						->select('shipping_f_name','shipping_l_name','shipping_address_line1','shipping_address_line2','shipping_state','shipping_zipcode','order_id');
 			
 
-			$is_authenticated = Auth::check();
+			$is_authenticated = Auth::check();return $is_authenticated;
             if ($is_authenticated) {	
 					$user = Auth::user();
 			 
