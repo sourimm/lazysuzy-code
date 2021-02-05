@@ -8893,26 +8893,23 @@ are exactly alike.',
 						}
 						else{
 							array_push($response_nmatch,$product);
-						}
-					//	return $response_nmatch;
+						} 
 					}
-					else { 
-						//if (strpos($product->LS_ID, $LSID[1]) !== false)
-					//    if (strpos($product['LS_ID'], $LSID[1]) !== false)	
-						if(in_array($LSID,$LS_ID_arr))		
-						{
-							array_push($response_match,$product);
-						}
-						else{
-							   array_push($response_nmatch,$product);
-						}
+					else {  
+					
+							if(in_array($LSID,$LS_ID_arr))		
+							{
+								array_push($response_match,$product);
+							}
+							else{
+								   array_push($response_nmatch,$product);
+							}
 						
 					}
 					
 					
 					
-				}
-				//return $response_nmatch;
+				} 
 				$response_match = array_values(array_unique($response_match,SORT_REGULAR));
 				
 				
@@ -8945,8 +8942,7 @@ are exactly alike.',
 					
 				 
 				
-				}
-				//return $response_catother;
+				} 
 				/* ================== Sort By Category+Department End =========================== */   
 				
 				
@@ -8960,15 +8956,7 @@ are exactly alike.',
 					$LS_ID_arr = explode(",",$cat['LS_ID']);
 					
 					for($i=0;$i<count($LS_ID_arr);$i++){
-						/*if (strpos($LS_ID_arr[$i], $LSID[1]) !== false){
-							if((strpos($LS_ID_arr[$i],$LSID[1]))==1){
-								array_push($response_catsame,$cat);
-							}
-							else{
-									array_push($response_catother,$cat);
-							}
-						}*/
-						
+						 
 						
 						if(substr($LS_ID_arr[$i], 1, 1)==$LSID[1]){ 
 							$flag = 1;
@@ -8986,13 +8974,10 @@ are exactly alike.',
 						array_push($response_catother,$cat);
 					}
 				
-				}
-				//return $response_catsame;
+				} 
 				/* ================== Sort By Category End =========================== */   
 				
-				
-					
-				//$response_catsame = array_values(array_unique($response_catsame,SORT_REGULAR));
+				 
 				
 				
 				/* ================== Sort By Department Start =========================== */  
@@ -9003,19 +8988,7 @@ are exactly alike.',
 					$LS_ID_arr = explode(",",$dept['LS_ID']);
 					
 					for($i=0;$i<count($LS_ID_arr);$i++){
-						/*if (strpos($LS_ID_arr[$i], $LSID[0]) !== false){
-							if($LS_ID_arr[$i] == $LSID){
-								array_push($response_identical,$dept);
-							}
-							else{
-									if((strpos($LS_ID_arr[$i],$LSID[0]))==0){
-										array_push($response_deptsame,$dept);
-									}
-									else{
-											array_push($response_deptother,$dept);
-									}
-							}
-						}*/
+					 
 						
 						if(substr($LS_ID_arr[$i], 0, 1)==$LSID[0]){ 
 							$flag = 1;
@@ -9034,55 +9007,16 @@ are exactly alike.',
 					}
 				
 				}
-				return $response_deptother;
+				
 				/* ================== Sort By Department End =========================== */  
 				
 				
-				$response_identical = array_values(array_unique($response_identical,SORT_REGULAR));
-				$response_deptsame = array_values(array_unique($response_deptsame,SORT_REGULAR));
-				$response_deptother = array_values(array_unique($response_deptother,SORT_REGULAR)); // cat same
-				$response_catother = array_values(array_unique($response_catother,SORT_REGULAR)); 
-				$response_nmatch = array_values(array_unique($response_nmatch,SORT_REGULAR));
 				
 				
-				/* ================= User View Count Matching Start ========================== */
-				
-				$remainarr = array_values(array_merge($response_catother,$response_nmatch));
-				$response_sku_str = '';
-				$sku_array = [];
-				
-				if(isset($remainarr)){
-					foreach ($remainarr as $pr) {  
-					  $response_sku_str = $response_sku_str.",".$pr->product_sku;
-					   
-					}
-					$response_sku_str = ltrim($response_sku_str, ',');
-					$sku_array = explode(",",$response_sku_str);
-					
-					$product_rows1 = DB::table('user_views') 
-					->whereIn('user_views.product_sku', $sku_array)  
-					->join('master_data', 'user_views.product_sku', '=', 'master_data.product_sku')		
-					->join('master_brands', 'master_brands.value', '=', 'master_data.brand')						
-					->select(array('master_data.id','master_data.product_description','master_data.product_status','master_data.product_name','master_data.product_sku','master_brands.name as brand_name','master_data.price','master_data.was_price','master_data.main_product_images as image','master_data.LS_ID',DB::raw('count(user_views.user_id) as viewers')))//,'user_views.updated_at as last_visit','user_views.num_views as visit_count'
-					->groupBy('user_views.product_sku')
-					->orderBy(\DB::raw('count(user_views.user_id)'), 'DESC')
-					->get();
-					
-					$response_nmatch = [];
-					foreach ($product_rows1 as $pr) {  
-					 $pr->image =  env('APP_URL').$pr->image; 
-					  array_push($response_nmatch,$pr);
-					  
-					}
-					
-					 
-				}
 				
 				
-				/* ================= User View Count Matching End ========================== */
-				
-				$response = array_values(array_merge($response_identical, $response_deptsame, $response_deptother,  $response_nmatch));
-				$response = array_slice($response,0,30);
+				$response = array_values(array_merge($response_match, $response_catdeptsame, $response_catsame, $response_deptsame, $response_deptother));
+				//$response = array_slice($response,0,30);
 				return $response;
 	}
 	
