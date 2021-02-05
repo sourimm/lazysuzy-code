@@ -8897,7 +8897,8 @@ are exactly alike.',
 					}
 					else { 
 						//if (strpos($product->LS_ID, $LSID[1]) !== false)
-					    if (strpos($product['LS_ID'], $LSID[1]) !== false)		
+					//    if (strpos($product['LS_ID'], $LSID[1]) !== false)	
+						if(in_array($LSID,$LS_ID_arr))		
 						{
 							array_push($response_match,$product);
 						}
