@@ -8987,7 +8987,7 @@ are exactly alike.',
 					}
 				
 				}
-				return $response_catsame;
+				//return $response_catsame;
 				/* ================== Sort By Category End =========================== */   
 				
 				
@@ -9025,9 +9025,16 @@ are exactly alike.',
 							   $flag = 0; 
 						} 
 					}
+					
+					if($flag==1){
+						array_push($response_deptsame,$dept);
+					}
+					else{
+						array_push($response_deptother,$dept);
+					}
 				
 				}
-				
+				return $response_deptsame;
 				/* ================== Sort By Department End =========================== */  
 				
 				
