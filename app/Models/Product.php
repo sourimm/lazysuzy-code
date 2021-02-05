@@ -8934,10 +8934,10 @@ are exactly alike.',
 						
 						 if (strpos($LS_ID_arr[$i], $LSID[0].$LSID[1]) !== false){
 							if((strpos($LS_ID_arr[$i],$LSID[0].$LSID[1]))==0){
-								array_push($response_catsame,$cat);
+								array_push($response_catsame,$catdept);
 							}
 							else{
-									array_push($response_catother,$cat);
+									array_push($response_catother,$catdept);
 							}
 						} 
 					}
