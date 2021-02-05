@@ -8944,7 +8944,13 @@ are exactly alike.',
 						//} 
 					}
 					
-					return 'Flag='.$flag;
+					if($flag==1){
+						array_push($response_catsame,$catdept);
+					}
+					else{
+						array_push($response_catother,$catdept);
+					}
+					
 				 
 				
 				}
