@@ -8893,6 +8893,7 @@ are exactly alike.',
 						else{
 							array_push($response_nmatch,$product);
 						}
+						return $response_nmatch;
 					}
 					else if(count($LS_ID_arr)>1){ 
 						//if (strpos($product->LS_ID, $LSID[1]) !== false)
