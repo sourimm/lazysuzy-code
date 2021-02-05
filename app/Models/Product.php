@@ -8931,7 +8931,7 @@ are exactly alike.',
 						else{
 								array_push($response_catother,$catdept);
 						}*/
-						
+						return strpos($LS_ID_arr[$i], $LSID[0].$LSID[1]);
 						 if (strpos($LS_ID_arr[$i], $LSID[0].$LSID[1]) !== false){
 							if((strpos($LS_ID_arr[$i],$LSID[0].$LSID[1]))==0){
 								array_push($response_catsame,$catdept);
