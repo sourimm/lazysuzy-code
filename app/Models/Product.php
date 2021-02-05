@@ -2510,7 +2510,7 @@ class Product extends Model
     'price' => '40',
     'was_price' => '40',
     'image' => '/westelm/westelm_images/jordan-shelf-brackets-set-of-2-brass-d7812_main.jpg',
-    'LS_ID' => '304,552,507',
+    'LS_ID' => '304,542,507',
     'viewers' => 98,
   ),
   1 => 
@@ -8947,6 +8947,7 @@ are exactly alike.',
 						
 							
 					}
+					return 'FLAG='.$flag;
 					if($flag==1){
 								array_push($response_catsame,$catdept);
 							}
