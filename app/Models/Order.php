@@ -94,8 +94,10 @@ class Order extends Model
 			if($data!='[]'){
 				$response['status']=true;
 				$response['header']=$data; 
+				
+				foreach($data as $datasingle){
 				$product_rows_child = DB::table('lz_orders') 
-					->where('order_id', $data[0]->order_id)    	
+					->where('order_id', $datasingle->order_id)    	
 					->join('master_data', 'master_data.product_sku', '=', 'lz_orders.product_sku')		
 					->join('lz_inventory', 'lz_inventory.product_sku', '=', 'lz_orders.product_sku')		
 					->join('lz_ship_code', 'lz_ship_code.code', '=', 'lz_inventory.ship_code')		
@@ -103,11 +105,12 @@ class Order extends Model
 					->select(array('lz_orders.quantity','lz_orders.price','lz_orders.status','lz_orders.note','lz_orders.date','lz_orders.tracking','lz_inventory.ship_code','lz_ship_code.label','master_data.product_name','master_data.main_product_images as image','master_brands.name as brand_name','master_data.product_sku','lz_ship_code.label'))
 					->get(); 
 					
-				foreach($product_rows_child as $pr){
-					$pr->image =  env('APP_URL').$pr->image; 
-					array_push($arr,$pr);
-				
-				}					
+					foreach($product_rows_child as $pr){
+						$pr->image =  env('APP_URL').$pr->image; 
+						array_push($arr,$pr);
+					
+					}
+				}	
 				$response['details']=$arr;
 			
 			}
