@@ -8913,7 +8913,7 @@ are exactly alike.',
 				}
 				//return $response_nmatch;
 				$response_match = array_values(array_unique($response_match,SORT_REGULAR));
-				return $response_nmatch;
+				return $response_match;
 				/* ================== Sort By Category Start =========================== */   
 				
 				foreach($response_match as $cat){
