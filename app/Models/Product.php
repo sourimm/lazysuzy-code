@@ -8921,37 +8921,29 @@ are exactly alike.',
 					//$LS_ID_arr = explode(",",$catdept->LS_ID);
 					$LS_ID_arr = explode(",",$catdept['LS_ID']);
 					
-					if(count($LS_ID_arr)==1){ 
-							if(substr($LS_ID_arr[0], 0, 2)==$LSID[0].$LSID[1]){
-									array_push($response_catsame,$catdept);
+				 
+					for($i=0;$i<count($LS_ID_arr);$i++){
+						
+						if(substr($LS_ID_arr[$i], 0, 2)==$LSID[0].$LSID[1]){
+							array_push($response_catsame,$catdept);
+						}
+						else{
+								array_push($response_catother,$catdept);
+						}
+						
+						/*if (strpos($LS_ID_arr[$i], $LSID[1]) !== false){
+							if((strpos($LS_ID_arr[$i],$LSID[1]))==1){
+								array_push($response_catsame,$cat);
 							}
 							else{
-									array_push($response_catother,$catdept);
+									array_push($response_catother,$cat);
 							}
+						}*/
 					}
-					else{
-							for($i=0;$i<count($LS_ID_arr);$i++){
-								
-								if(substr($LS_ID_arr[$i], 0, 2)==$LSID[0].$LSID[1]){
-									array_push($response_catsame,$catdept);
-								}
-								else{
-										array_push($response_catother,$catdept);
-								}
-								
-								/*if (strpos($LS_ID_arr[$i], $LSID[1]) !== false){
-									if((strpos($LS_ID_arr[$i],$LSID[1]))==1){
-										array_push($response_catsame,$cat);
-									}
-									else{
-											array_push($response_catother,$cat);
-									}
-								}*/
-							}
-					}
+				 
 				
 				}
-				return $response_catsame;
+				return $response_catother;
 				/* ================== Sort By Category+Department End =========================== */   
 				
 				
