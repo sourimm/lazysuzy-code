@@ -8917,7 +8917,7 @@ are exactly alike.',
 				/* ================== Sort By Category+Department Start =========================== */   
 				
 				foreach($response_nmatch as $catdept){
-				
+				$catdept['LS_ID'] = '304,552,507';
 					//$LS_ID_arr = explode(",",$catdept->LS_ID);
 					$LS_ID_arr = explode(",",$catdept['LS_ID']);
 					
