@@ -107,8 +107,9 @@ class Order extends Model
 					
 					$product_rows_child = DB::table('lz_orders') 
 					->where('order_id', $datasingle->order_id)   
-					->join('master_data', 'master_data.product_sku', '=', 'lz_orders.product_sku')						
-					->select(array('lz_orders.quantity','lz_orders.price','lz_orders.status','lz_orders.note','lz_orders.date','lz_orders.tracking','master_data.product_name','master_data.main_product_images as image','master_data.product_sku'))
+					->join('master_data', 'master_data.product_sku', '=', 'lz_orders.product_sku')	
+					->join('master_brands', 'master_brands.value', '=', 'master_data.brand')						
+					->select(array('lz_orders.quantity','lz_orders.price','lz_orders.status','lz_orders.note','lz_orders.date','lz_orders.tracking','master_data.product_name','master_data.main_product_images as image','master_data.product_sku','master_brands.name as brand_name'))
 					->get(); 
 					
 					foreach($product_rows_child as $pr){
