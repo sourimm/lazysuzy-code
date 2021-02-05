@@ -2510,7 +2510,7 @@ class Product extends Model
     'price' => '40',
     'was_price' => '40',
     'image' => '/westelm/westelm_images/jordan-shelf-brackets-set-of-2-brass-d7812_main.jpg',
-    'LS_ID' => '551',
+    'LS_ID' => '304,551,507',
     'viewers' => 98,
   ),
   1 => 
@@ -2540,7 +2540,7 @@ shoes, helping you stay clutter-free.
     'price' => '1499-2099',
     'was_price' => '1499-2099',
     'image' => '/westelm/westelm_images/ansel-side-storage-bed-h4962_main.jpg',
-    'LS_ID' => '304,551,507',
+    'LS_ID' => '551',
     'viewers' => 94,
   ),
   2 => 
@@ -8884,7 +8884,7 @@ are exactly alike.',
 					 
 				//	$LS_ID_arr = explode(",",$product->LS_ID);
 				$LS_ID_arr = explode(",",$product['LS_ID']);
-					//  return 'ggg='.$product["LS_ID"].'=='.$LSID[1];
+					  return 'ggg='.in_array($LSID,$LS_ID_arr);
 					
 					if(count($LS_ID_arr)==1){ 
 						if($LS_ID_arr[0]==$LSID){
