@@ -87,7 +87,7 @@ class Order extends Model
 			else{
 					if ($orderid != '' && $zipcode != ''){
 						$data = $data
-							->where('order_id', $orderid);
+							->where('order_id', $orderid)
 							->where('shipping_zipcode', $zipcode);
 					}
 				     else{
