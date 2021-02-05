@@ -8888,8 +8888,7 @@ are exactly alike.',
 					
 					if(count($LS_ID_arr)==1){ 
 						if($LS_ID_arr[0]==$LSID){
-							array_push($response_match,$product);
-							return $response_match;
+							array_push($response_match,$product); 
 						}
 						else{
 							array_push($response_nmatch,$product);
