@@ -8884,7 +8884,7 @@ are exactly alike.',
 					 
 				//	$LS_ID_arr = explode(",",$product->LS_ID);
 				$LS_ID_arr = explode(",",$product['LS_ID']);
-					// return 'ggg='.$LS_ID_arr[0].'=='.$LSID;
+					  return 'ggg='.$product["LS_ID"].'=='.$LSID[1];
 					
 					if(count($LS_ID_arr)==1){ 
 						if($LS_ID_arr[0]==$LSID){
@@ -8895,7 +8895,7 @@ are exactly alike.',
 						}
 						return $response_nmatch;
 					}
-					else if(count($LS_ID_arr)>1){ 
+					else { 
 						//if (strpos($product->LS_ID, $LSID[1]) !== false)
 					    if (strpos($product['LS_ID'], $LSID[1]) !== false)		
 						{
@@ -8906,6 +8906,7 @@ are exactly alike.',
 						}
 						
 					}
+					
 					
 					
 				}
