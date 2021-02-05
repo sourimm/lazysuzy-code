@@ -8871,6 +8871,7 @@ are exactly alike.',
 		$response = [];
 		$response_nmatch = [];
 		$response_match = [];
+		$response_match1 = [];
 		$response_deptsame = [];
 		$response_deptother = [];
 		$response_catsame = [];
@@ -8895,11 +8896,12 @@ are exactly alike.',
 							array_push($response_nmatch,$product);
 						} 
 					}
+					
 					else {  
 					
 							if(in_array($LSID,$LS_ID_arr))		
 							{
-								array_push($response_match,$product);
+								array_push($response_match1,$product);
 							}
 							else{
 								   array_push($response_nmatch,$product);
@@ -8910,7 +8912,7 @@ are exactly alike.',
 					
 					
 				} 
-				$response_match = array_values(array_unique($response_match,SORT_REGULAR));
+				$response_match = array_merge($response_match,$response_match1);
 				
 				
 				/* ================== Sort By Category+Department Start =========================== */   
