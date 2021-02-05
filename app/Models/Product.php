@@ -2497,7 +2497,7 @@ class Product extends Model
 	
 	
 	
- 	$product_rows=array (
+ /*	$product_rows=array (
   0 => 
   array (
     'id' => 36317,
@@ -8866,7 +8866,7 @@ are exactly alike.',
     'LS_ID' => '551',
     'viewers' => 1,
   ),
-);
+);*/
 	
 		$response = [];
 		$response_nmatch = [];
@@ -8883,10 +8883,10 @@ are exactly alike.',
 		 
 		
 		foreach ($product_rows as $product) {
-			     //   $product->image =  env('APP_URL').$product->image; 
+			       $product->image =  env('APP_URL').$product->image; 
 					 
-				//	$LS_ID_arr = explode(",",$product->LS_ID);
-				$LS_ID_arr = explode(",",$product['LS_ID']);
+					$LS_ID_arr = explode(",",$product->LS_ID);
+				//$LS_ID_arr = explode(",",$product['LS_ID']);
 					
 					if(count($LS_ID_arr)==1){ 
 						if($LS_ID_arr[0]==$LSID){
@@ -8919,8 +8919,8 @@ are exactly alike.',
 				
 				foreach($response_nmatch as $catdept){ 
 					$flag =0; 
-					//$LS_ID_arr = explode(",",$catdept->LS_ID);
-					$LS_ID_arr = explode(",",$catdept['LS_ID']);
+					$LS_ID_arr = explode(",",$catdept->LS_ID);
+					//$LS_ID_arr = explode(",",$catdept['LS_ID']);
 					
 				 
 					for($i=0;$i<count($LS_ID_arr);$i++){
@@ -8954,8 +8954,8 @@ are exactly alike.',
 				foreach($response_catdeptother as $cat){
 					$flag = 0; 
 				
-					//$LS_ID_arr = explode(",",$cat->LS_ID);
-					$LS_ID_arr = explode(",",$cat['LS_ID']);
+					$LS_ID_arr = explode(",",$cat->LS_ID);
+					//$LS_ID_arr = explode(",",$cat['LS_ID']);
 					
 					for($i=0;$i<count($LS_ID_arr);$i++){
 						 
@@ -8986,8 +8986,8 @@ are exactly alike.',
 				   
 				foreach($response_catother as $dept){
 					$flag = 0; 
-					//$LS_ID_arr = explode(",",$dept->LS_ID);
-					$LS_ID_arr = explode(",",$dept['LS_ID']);
+					$LS_ID_arr = explode(",",$dept->LS_ID);
+					//$LS_ID_arr = explode(",",$dept['LS_ID']);
 					
 					for($i=0;$i<count($LS_ID_arr);$i++){
 					 
