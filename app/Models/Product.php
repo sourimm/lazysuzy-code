@@ -8916,7 +8916,7 @@ are exactly alike.',
 				
 				/* ================== Sort By Category+Department Start =========================== */   
 				
-				foreach($response_nmatch as $catdept){
+				foreach($response_nmatch as $catdept){ $flag =0;
 				$catdept['LS_ID'] = '304,552,507';
 					//$LS_ID_arr = explode(",",$catdept->LS_ID);
 					$LS_ID_arr = explode(",",$catdept['LS_ID']);
@@ -8933,13 +8933,18 @@ are exactly alike.',
 						}*/
 						// if (strpos($LS_ID_arr[$i], $LSID[0].$LSID[1]) !== false){
 							if((strpos($LS_ID_arr[$i],$LSID[0].$LSID[1]))==0){
-								array_push($response_catsame,$catdept);
+								//array_push($response_catsame,$catdept);
+								$flag = 1;
+								break;
 							}
 							else{
-									array_push($response_catother,$catdept);
+									//array_push($response_catother,$catdept);
+									$flag =0;
 							}
 						//} 
 					}
+					
+					return 'Flag='.$flag;
 				 
 				
 				}
