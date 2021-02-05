@@ -8956,7 +8956,7 @@ are exactly alike.',
 				 
 				
 				}
-				return $response_catother;
+				return $response_catsame;
 				/* ================== Sort By Category+Department End =========================== */   
 				
 				
