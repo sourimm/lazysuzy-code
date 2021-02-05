@@ -2511,7 +2511,7 @@ class Product extends Model
 					 
 					$LS_ID_arr = explode(",",$product->LS_ID);
 					
-					
+					 
 					if(count($LS_ID_arr)==1){
 						if($LS_ID_arr[0]==$LSID){
 							array_push($response_match,$product);
@@ -2530,10 +2530,10 @@ class Product extends Model
 						}
 						
 					}
-					return $response_match;
+					
 					
 				}
-				
+				return $response_match;
 				$response_match = array_values(array_unique($response_match,SORT_REGULAR));
 				
 				/* ================== Sort By Category Start =========================== */   
