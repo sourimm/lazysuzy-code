@@ -8875,6 +8875,8 @@ are exactly alike.',
 		$response_deptother = [];
 		$response_catsame = [];
 		$response_catother = [];
+		$response_catdeptsame = [];
+		$response_catdeptother = [];
 		$response_identical = [];
 		$remainarr = [];
 		 
@@ -8924,51 +8926,68 @@ are exactly alike.',
 				 
 					for($i=0;$i<count($LS_ID_arr);$i++){
 						
-						 if(substr($LS_ID_arr[$i], 0, 2)==$LSID[0].$LSID[1]){
-							//array_push($response_catsame,$catdept);
+						if(substr($LS_ID_arr[$i], 0, 2)==$LSID[0].$LSID[1]){ 
 							$flag = 1;
 							break;
 						}
 						else{
-							   $flag = 0;
-								//array_push($response_catother,$catdept);
+							   $flag = 0; 
 						} 
 				
 					}
 					if($flag==1){
-						array_push($response_catsame,$catdept);
+						array_push($response_catdeptsame,$catdept);
 					}
 					else{
-						array_push($response_catother,$catdept);
+						array_push($response_catdeptother,$catdept);
 					}
 				
 					
 				 
 				
 				}
-				return $response_catother;
+				//return $response_catother;
 				/* ================== Sort By Category+Department End =========================== */   
 				
 				
 				 
 				/* ================== Sort By Category Start =========================== */   
 				
-				foreach($response_match as $cat){
+				foreach($response_catdeptother as $cat){
+					$flag = 0; 
 				
-					$LS_ID_arr = explode(",",$cat->LS_ID);
+					//$LS_ID_arr = explode(",",$cat->LS_ID);
+					$LS_ID_arr = explode(",",$cat['LS_ID']);
 					
 					for($i=0;$i<count($LS_ID_arr);$i++){
-						if (strpos($LS_ID_arr[$i], $LSID[1]) !== false){
+						/*if (strpos($LS_ID_arr[$i], $LSID[1]) !== false){
 							if((strpos($LS_ID_arr[$i],$LSID[1]))==1){
 								array_push($response_catsame,$cat);
 							}
 							else{
 									array_push($response_catother,$cat);
 							}
+						}*/
+						
+						
+						if(substr($LS_ID_arr[$i], 0, 2)==$LSID[1]){ 
+							$flag = 1;
+							break;
 						}
+						else{
+							   $flag = 0; 
+						} 
+					}
+					
+					if($flag==1){
+						array_push($response_catsame,$cat);
+					}
+					else{
+						array_push($response_catother,$cat);
 					}
 				
 				}
+				return $response_catsame;
 				/* ================== Sort By Category End =========================== */   
 				
 				
