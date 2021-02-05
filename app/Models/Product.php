@@ -8926,6 +8926,7 @@ are exactly alike.',
 						
 						if(substr($LS_ID_arr[$i], 0, 2)==$LSID[0].$LSID[1]){
 							array_push($response_catsame,$catdept);
+							break;
 						}
 						else{
 								array_push($response_catother,$catdept);
