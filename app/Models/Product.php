@@ -8931,15 +8931,14 @@ are exactly alike.',
 						else{
 								array_push($response_catother,$catdept);
 						}*/
-						return 'jjj='.strpos('552', '65');
-						 if (strpos($LS_ID_arr[$i], $LSID[0].$LSID[1]) !== false){
+						// if (strpos($LS_ID_arr[$i], $LSID[0].$LSID[1]) !== false){
 							if((strpos($LS_ID_arr[$i],$LSID[0].$LSID[1]))==0){
 								array_push($response_catsame,$catdept);
 							}
 							else{
 									array_push($response_catother,$catdept);
 							}
-						} 
+						//} 
 					}
 				 
 				
