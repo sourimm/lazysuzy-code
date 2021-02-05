@@ -68,7 +68,7 @@ class Order extends Model
 
    
   
-	public static function get_order_status($user_id)
+	public static function get_order_status()
 	{
 			$orderid   = Input::get("orderid");
 			$zipcode   = Input::get("zipcode");
@@ -77,12 +77,14 @@ class Order extends Model
 		 
 			$data   = DB::table('lz_order_delivery')
 						->select('shipping_f_name','shipping_l_name','shipping_address_line1','shipping_address_line2','shipping_state','shipping_zipcode','order_id');
-						
 			
-			if($user_id>0)
-			{
+
+			$is_authenticated = Auth::check();
+            if ($is_authenticated) {	
+					$user = Auth::user();
+			 
 					$data = $data
-					->where('user_id', $user_id);
+					->where('user_id', $user->id);
 			}
 			else{
 					if ($orderid != '' && $zipcode != ''){
