@@ -2475,7 +2475,7 @@ class Product extends Model
 				->groupBy('user_views.product_sku')
 				->orderBy(\DB::raw('count(user_views.user_id)'), 'DESC')	
 				->get();
-			return $response;
+			return $product_rows;
 			    if(strlen($LSID)==3){
 						$response = Product::get_product_for_three_digit($product_rows,$LSID);
 				}
