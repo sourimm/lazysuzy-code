@@ -70,25 +70,37 @@ class Order extends Model
   
 	public static function get_order_status($user_id)
 	{
-		$orderid   = Input::get("orderid");
-		$zipcode   = Input::get("zipcode");
-		$arr = []; 
+			$orderid   = Input::get("orderid");
+			$zipcode   = Input::get("zipcode");
+			$arr = []; 
 			
-		if($user_id>0)
-		{
+		 
 			$data   = DB::table('lz_order_delivery')
 						->select('shipping_f_name','shipping_l_name','shipping_address_line1','shipping_address_line2','shipping_state','shipping_zipcode','order_id')
-						->where('user_id', $user_id)   ;
 						
-
-			if ($orderid != '') { 
-				$data = $data
-					->where('order_id', $orderid);
-			} 
-			if ($zipcode != '') { 
-				$data = $data
-					->where('shipping_zipcode', $zipcode);
+			
+			if($user_id>0)
+			{
+					$data = $data
+					->where('user_id', $user_id)   ;
 			}
+			else{
+					if ($orderid != '' && $zipcode != ''){
+						$data = $data
+							->where('order_id', $orderid);
+							->where('shipping_zipcode', $zipcode);
+					}
+				     else{
+						 
+							$response['status']=false;
+							$response['msg']='Order Number & Zipcode both are required.';
+							return $response;
+					 }
+					
+				
+			}
+
+		
 			 
 			$data = $data->get(); 
 			if($data!='[]'){
@@ -123,11 +135,7 @@ class Order extends Model
 					$response['msg']='No data found.';
 			}
 				
-		}
-		else{
-				$response['status']=false;
-				$response['msg']='Not authenticaticated User.';
-		}
+		 
 		
 		return $response;
 	}		
