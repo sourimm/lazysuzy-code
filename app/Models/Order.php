@@ -92,9 +92,8 @@ class Order extends Model
 			 
 			$data = $data->get(); 
 			if($data!='[]'){
-				$response['header']=$data;
 				$response['status']=true;
-				return $response;
+				$response['header']=$data; 
 				$product_rows_child = DB::table('lz_orders') 
 					->where('order_id', $data[0]->order_id)    	
 					->join('master_data', 'master_data.product_sku', '=', 'lz_orders.product_sku')		
@@ -115,7 +114,6 @@ class Order extends Model
 			else{
 					$response['status']=false;
 					$response['msg']='No data found.';
-					return $response;
 			}
 				
 		}
