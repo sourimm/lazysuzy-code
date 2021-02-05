@@ -8916,8 +8916,7 @@ are exactly alike.',
 				
 				/* ================== Sort By Category+Department Start =========================== */   
 				
-				foreach($response_nmatch as $catdept){ $flag =0;
-				$catdept['LS_ID'] = '304,552,507';
+				foreach($response_nmatch as $catdept){ $flag =0; 
 					//$LS_ID_arr = explode(",",$catdept->LS_ID);
 					$LS_ID_arr = explode(",",$catdept['LS_ID']);
 					
@@ -8947,7 +8946,7 @@ are exactly alike.',
 						
 							
 					}
-					return 'FLAG='.$flag;
+					//return 'FLAG='.$flag;
 					if($flag==1){
 								array_push($response_catsame,$catdept);
 							}
