@@ -76,7 +76,7 @@ class Order extends Model
 			
 		 
 			$data   = DB::table('lz_order_delivery')
-						->select('shipping_f_name','shipping_l_name','shipping_address_line1','shipping_address_line2','shipping_state','shipping_zipcode','order_id');
+						->select('shipping_f_name','shipping_l_name','shipping_address_line1','shipping_address_line2','shipping_state','shipping_zipcode','order_id','shipping_city','created_at');
 			
 
 			$is_authenticated = Auth::check();
@@ -107,6 +107,7 @@ class Order extends Model
 			$data = $data->get(); 
 			if($data!='[]'){
 				$response['status']=true;
+				$data[0]->created_at = date("F j, Y", strtotime($data[0]->created_at));
 				$response['header']=$data; 
 				
 				foreach($data as $datasingle){ 
