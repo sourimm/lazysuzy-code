@@ -111,7 +111,7 @@ class Order extends Model
 				//$response['header']=$data; 
 				
 				foreach($data as $datasingle){ 
-				   
+				   $i=0;
 				   $datasingle->created_at = date("F j, Y", strtotime($datasingle->created_at));
 				   array_push($arrheader,$datasingle);
 					$product_rows_child = DB::table('lz_orders') 
@@ -126,11 +126,12 @@ class Order extends Model
 					
 					foreach($product_rows_child as $pr){
 					 	$pr->image =  env('APP_URL').$pr->image; 
-						array_push($arrheader,$pr);
+					//	array_push($arrheader,$pr);
+					$arrheader['products'][$i]=$pr;
 					
 					}
-					$arrheader['products']=[];
-					$arr = [];
+				//	$arrheader['products']=[];
+				//	$arr = [];
 					 
 				}	
 				
