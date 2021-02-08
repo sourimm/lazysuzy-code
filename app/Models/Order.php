@@ -80,10 +80,10 @@ class Order extends Model
 
 			$is_authenticated = Auth::check();
 			$user = Auth::user();
-            if ($user->user_type>=0) {	
+            if ($user->user_type>0) {	
 					 
 					$data = $data
-					->where('user_id', '992');
+					->where('user_id', $user->id);
 			}
 			else{
 					if ($orderid != '' && $zipcode != ''){
@@ -113,10 +113,10 @@ class Order extends Model
 					$product_rows_child = DB::table('lz_orders') 
 					->where('order_id', $datasingle->order_id)    	
 					->join('master_data', 'master_data.product_sku', '=', 'lz_orders.product_sku')		
-					//->join('lz_inventory', 'lz_inventory.product_sku', '=', 'lz_orders.product_sku')		
-					//->join('lz_ship_code', 'lz_ship_code.code', '=', 'lz_inventory.ship_code')		
+					->join('lz_inventory', 'lz_inventory.product_sku', '=', 'lz_orders.product_sku')		
+					->join('lz_ship_code', 'lz_ship_code.code', '=', 'lz_inventory.ship_code')		
 					->join('master_brands', 'master_brands.value', '=', 'master_data.brand')	
-					->select(array('lz_orders.quantity','lz_orders.price','lz_orders.status','lz_orders.note','lz_orders.date','lz_orders.tracking','lz_orders.tracking_url', 'master_data.product_name','master_data.main_product_images as image','master_brands.name as brand_name','master_data.product_sku',))
+					->select(array('lz_orders.quantity','lz_orders.price','lz_orders.status','lz_orders.note','lz_orders.date','lz_orders.tracking','lz_orders.tracking_url','lz_inventory.ship_code','lz_ship_code.label','master_data.product_name','master_data.main_product_images as image','master_brands.name as brand_name','master_data.product_sku','lz_ship_code.label'))
 					->get(); 
 				
 					
