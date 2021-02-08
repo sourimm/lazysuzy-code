@@ -73,18 +73,17 @@ class Order extends Model
 			$orderid   = Input::get("orderid");
 			$zipcode   = Input::get("zipcode");
 			$arr = []; 
-			$arrheader = [];
-		  //  $arrheader['products'] = [];
+			$arrheader = []; 
 			$data   = DB::table('lz_order_delivery')
 						->select('shipping_f_name','shipping_l_name','shipping_address_line1','shipping_address_line2','shipping_state','shipping_zipcode','order_id','shipping_city','created_at');
 			
 
 			$is_authenticated = Auth::check();
 			$user = Auth::user();
-            if ($user->user_type>0) {	
+            if ($user->user_type>=0) {	
 					 
 					$data = $data
-					->where('user_id', $user->id);
+					->where('user_id', '992');
 			}
 			else{
 					if ($orderid != '' && $zipcode != ''){
@@ -107,11 +106,8 @@ class Order extends Model
 			$data = $data->get(); 
 			if($data!='[]'){
 				$response['status']=true;
-				//$data[0]->created_at = date("F j, Y", strtotime($data[0]->created_at));
-				//$response['header']=$data; 
 				
 				foreach($data as $datasingle){ 
-				   $i=0;
 				   $datasingle->created_at = date("F j, Y", strtotime($datasingle->created_at));
 				   
 					$product_rows_child = DB::table('lz_orders') 
@@ -127,13 +123,11 @@ class Order extends Model
 					foreach($product_rows_child as $pr){
 					 	$pr->image =  env('APP_URL').$pr->image; 
 						array_push($arr,$pr);
-					//$arrheader['products'][$i]=$pr;
 					
 					}
 					$datasingle->products = $arr;
-					array_push($arrheader,$datasingle);
-				//	$arrheader['products']=[];
-				 $arr = [];
+					array_push($arrheader,$datasingle); 
+					$arr = [];
 					 
 				}	
 				
