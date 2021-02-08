@@ -80,7 +80,7 @@ class Order extends Model
 			
 
 			$is_authenticated = Auth::check();
-			$user = Auth::user();
+			$user = Auth::user();return $user;
             if ($user->user_type>0) {	
 					 
 					$data = $data
