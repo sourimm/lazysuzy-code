@@ -74,7 +74,7 @@ class Order extends Model
 			$zipcode   = Input::get("zipcode");
 			$arr = []; 
 			$arrheader = [];
-		    $arrheader['products'] = [];
+		  //  $arrheader['products'] = [];
 			$data   = DB::table('lz_order_delivery')
 						->select('shipping_f_name','shipping_l_name','shipping_address_line1','shipping_address_line2','shipping_state','shipping_zipcode','order_id','shipping_city','created_at');
 			
@@ -107,7 +107,7 @@ class Order extends Model
 			$data = $data->get(); 
 			if($data!='[]'){
 				$response['status']=true;
-				$data[0]->created_at = date("F j, Y", strtotime($data[0]->created_at));
+				//$data[0]->created_at = date("F j, Y", strtotime($data[0]->created_at));
 				//$response['header']=$data; 
 				
 				foreach($data as $datasingle){ 
@@ -126,7 +126,7 @@ class Order extends Model
 					
 					foreach($product_rows_child as $pr){
 					 	$pr->image =  env('APP_URL').$pr->image; 
-						array_push($arrheader['products'],$pr);
+						array_push($arrheader,$pr);
 					
 					}
 					$arrheader['products']=[];
