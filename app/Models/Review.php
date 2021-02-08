@@ -64,7 +64,7 @@ class Review extends Model
 								'status' => $data['status'],
 								'submission_time' => $datetime
 							]);
-		if(is_inserted==1){
+		if($is_inserted==1){
 			$a['status']=true;
 		}
 		else{
