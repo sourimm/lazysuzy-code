@@ -108,7 +108,7 @@ class Order extends Model
 			if($data!='[]'){
 				$response['status']=true;
 				$data[0]->created_at = date("F j, Y", strtotime($data[0]->created_at));
-				$response['header']=$data; 
+				//$response['header']=$data; 
 				
 				foreach($data as $datasingle){ 
 				   
