@@ -249,7 +249,7 @@ class API extends Controller
 	
  
 	
-	public function save_product_review(Request $request) {return $request;
+	public function save_product_review(Request $request) {return Auth::user();
         $data = $request->all();
         $id= Auth::check() ? Auth::user()->id : 0;
 		return Review::save_product_review($data, $id);
