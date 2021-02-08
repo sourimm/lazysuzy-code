@@ -13,7 +13,13 @@ class Review extends Model
 {
   
 	
-	public static function save_product_review($data,$user_id) {return $user_id; 
+	public static function save_product_review($data,$user_id) {
+		
+		
+		$is_authenticated = Auth::check();
+			$user = Auth::user();return $user;
+		
+		
 		if(!isset($data['user_location'])){
 			$data['user_location']='null';
 		}
