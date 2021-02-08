@@ -90,7 +90,7 @@ class Review extends Model
 		
 		
 		$is_authenticated = Auth::check();
-			$user = Auth::user();return $user;
+			$user = Auth::user(); 
 		
 		
 		if(!isset($data['user_location'])){
@@ -131,7 +131,7 @@ class Review extends Model
 		
 		 $is_inserted = DB::table('user_reviews')
                     ->insert([
-								'user_id' => $user_id,
+								'user_id' =>  $user->id,
 								'product_sku' => $data['product_sku'],
 								'headline' => $data['headline'],
 								'review' => $data['review'],
