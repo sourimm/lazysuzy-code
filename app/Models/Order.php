@@ -144,7 +144,7 @@ class Order extends Model
 	}
 
 
-    public static function save_product_review($data,$user_id) {
+    public static function save_product_review($data) {
 		
 		
 		$is_authenticated = Auth::check();
