@@ -126,10 +126,10 @@ class Order extends Model
 					
 					foreach($product_rows_child as $pr){
 					 	$pr->image =  env('APP_URL').$pr->image; 
-						array_push($arr,$pr);
+						array_push($arrheader['products'],$pr);
 					
 					}
-					$arrheader['products']=$arr;
+					$arrheader['products']=[];
 					$arr = [];
 					 
 				}	
