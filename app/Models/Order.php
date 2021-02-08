@@ -148,7 +148,7 @@ class Order extends Model
 		
 		
 		$is_authenticated = Auth::check();
-			$user = Auth::user();return $data;
+			$user = Auth::user();return $user;
 		
 		
 		if(!isset($data['user_location'])){
