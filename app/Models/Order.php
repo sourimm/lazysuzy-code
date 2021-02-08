@@ -73,7 +73,7 @@ class Order extends Model
 			$orderid   = Input::get("orderid");
 			$zipcode   = Input::get("zipcode");
 			$arr = []; 
-			
+			$arrheader = [];
 		 
 			$data   = DB::table('lz_order_delivery')
 						->select('shipping_f_name','shipping_l_name','shipping_address_line1','shipping_address_line2','shipping_state','shipping_zipcode','order_id','shipping_city','created_at');
@@ -111,6 +111,9 @@ class Order extends Model
 				$response['header']=$data; 
 				
 				foreach($data as $datasingle){ 
+				   
+				   $datasingle->created_at = date("F j, Y", strtotime($datasingle->created_at));
+				   array_push($arrheader['header'],$datasingle);
 					$product_rows_child = DB::table('lz_orders') 
 					->where('order_id', $datasingle->order_id)    	
 					->join('master_data', 'master_data.product_sku', '=', 'lz_orders.product_sku')		
@@ -126,7 +129,7 @@ class Order extends Model
 						array_push($arr,$pr);
 					
 					}
-					$response['details'][$datasingle->order_id]=$arr;
+					$arrheader['products']=$arr;
 					$arr = [];
 					 
 				}	
@@ -137,7 +140,7 @@ class Order extends Model
 					$response['status']=false;
 					$response['msg']='No data found.';
 			}
-				
+			$response['data']=$arrheader;	
 		 
 		
 		return $response;
