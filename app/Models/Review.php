@@ -86,14 +86,14 @@ class Review extends Model
 	
 	
 	 
-	 public static function get_product_review($sku,$limit){ 
+	 public static function get_product_review($sku,$limit){ return $sku;
 		$all_reviews = [];
 		$highest_reviews = [];
 		$lowest_reviews = [];
 		$reviews = [];
 		
         $rows = DB::table("master_reviews")
-            ->select("*")
+            ->select(['review_id','product_sku','headline','review','rating','review_images','user_name','user_location','status','count_helpful','count_reported','users_helpful','users_reported','source','submission_time'])
             ->where('product_sku', '=', $sku)
 			->where('status', '2')
 			->orWhere('status', '3')
@@ -133,7 +133,7 @@ class Review extends Model
 	    }
 		 
         $rows = DB::table("master_reviews")
-            ->select("*")
+            ->select(['review_id','product_sku','headline','review','rating','review_images','user_name','user_location','status','count_helpful','count_reported','users_helpful','users_reported','source','submission_time'])
             ->where('product_sku', '=', $sku)
 			->where('status', '2')
 			->orWhere('status', '3')
@@ -173,7 +173,7 @@ class Review extends Model
 		
 		
         $rows = DB::table("master_reviews")
-            ->select("*")
+            ->select(['review_id','product_sku','headline','review','rating','review_images','user_name','user_location','status','count_helpful','count_reported','users_helpful','users_reported','source','submission_time'])
             ->where('product_sku', '=', $sku)
 			->where('status', '2')
 			->orWhere('status', '3')
@@ -312,7 +312,7 @@ class Review extends Model
 		$flag = 0;
 		$insertedstr = 	$user_id;
 		$getrow = DB::table("master_reviews")
-            ->select("*")
+           ->select(['review_id','product_sku','headline','review','rating','review_images','user_name','user_location','status','count_helpful','count_reported','users_helpful','users_reported','source','submission_time'])
             ->where('id', '=', $review_id)
             ->get(); 
 			
@@ -369,7 +369,7 @@ class Review extends Model
 		$flag = 0;
 		$insertedstr = 	$user_id;
 		$getrow = DB::table("master_reviews")
-            ->select("*")
+            ->select(['review_id','product_sku','headline','review','rating','review_images','user_name','user_location','status','count_helpful','count_reported','users_helpful','users_reported','source','submission_time'])
             ->where('id', '=', $review_id)
             ->get(); 
 			
