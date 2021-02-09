@@ -136,11 +136,18 @@ class Review extends Model
             ->select("*")
             ->where('product_sku', '=', $sku)
 			->where('status', '2')
+			->where('status', '3')
             ->orderBy("rating", "DESC")
 			 ->limit($limit)
             ->get(); 
 			
 		foreach ($rows as $row){
+			if($row->status==3){
+				$$row->statusmsg='Verified Purchase';			
+			}
+			else{
+				$$row->statusmsg='';	
+			}
 			$row->submission_time = date("F j, Y", strtotime($row->submission_time));
 			$helpfuluser_str = $row->users_helpful;
 			if($helpfuluser_str!='' || $helpfuluser_str!=NULL)
