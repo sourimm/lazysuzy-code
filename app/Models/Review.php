@@ -176,11 +176,18 @@ class Review extends Model
             ->select("*")
             ->where('product_sku', '=', $sku)
 			->where('status', '2')
+			->where('status', '3')
              ->orderBy("rating", "ASC")
 			 ->limit($limit)
             ->get(); 
 			
 		foreach ($rows as $row){
+			if($row->status==3){
+				$$row->statusmsg='Verified Purchase';			
+			}
+			else{
+				$$row->statusmsg='';	
+			}
 			$row->submission_time = date("F j, Y", strtotime($row->submission_time));
 			$helpfuluser_str = $row->users_helpful;
 			if($helpfuluser_str!='' || $helpfuluser_str!=NULL)
@@ -235,7 +242,7 @@ class Review extends Model
         $sort_type   = Input::get("sort_type");
 
         $all_filters = [];
-        $query       = DB::table('master_reviews')->where('product_sku', '=', $sku)->where('status', '2');
+        $query       = DB::table('master_reviews')->where('product_sku', '=', $sku)->where('status', '2')->where('status', '3');
 
         if (!isset($limit)) {
             $limit = $perPage;
@@ -263,6 +270,12 @@ class Review extends Model
 		$query = $query->get(); 
 		$all_reviews = [];
 		foreach ($query as $row){
+			if($row->status==3){
+				$$row->statusmsg='Verified Purchase';			
+			}
+			else{
+				$$row->statusmsg='';	
+			}
 			$row->submission_time = date("F j, Y", strtotime($row->submission_time));
 			$helpfuluser_str = $row->users_helpful;
 			if($helpfuluser_str!='' || $helpfuluser_str!=NULL)
