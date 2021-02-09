@@ -270,7 +270,7 @@ class Review extends Model
 		$query = $query->get(); 
 		$all_reviews = [];
 		foreach ($query as $row){
-			if($row->status==3){
+			if($row->status==2){
 				$row->statusmsg='Verified Purchase';			
 			}
 			else{
