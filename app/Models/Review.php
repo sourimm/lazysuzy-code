@@ -103,10 +103,10 @@ class Review extends Model
 		//	echo $rows->toSql();die;
 		foreach ($rows as $row){
 			if($row->status==3){
-				$$row->statusmsg='Verified Purchase';			
+				$row->statusmsg='Verified Purchase';			
 			}
 			else{
-				$$row->statusmsg='';	
+				$row->statusmsg='';	
 			}
 			$row->submission_time = date("F j, Y", strtotime($row->submission_time));
 			$helpfuluser_str = $row->users_helpful;
@@ -143,10 +143,10 @@ class Review extends Model
 			
 		foreach ($rows as $row){
 			if($row->status==3){
-				$$row->statusmsg='Verified Purchase';			
+				$row->statusmsg='Verified Purchase';			
 			}
 			else{
-				$$row->statusmsg='';	
+				$row->statusmsg='';	
 			}
 			$row->submission_time = date("F j, Y", strtotime($row->submission_time));
 			$helpfuluser_str = $row->users_helpful;
@@ -183,10 +183,10 @@ class Review extends Model
 			
 		foreach ($rows as $row){
 			if($row->status==3){
-				$$row->statusmsg='Verified Purchase';			
+				$row->statusmsg='Verified Purchase';			
 			}
 			else{
-				$$row->statusmsg='';	
+				$row->statusmsg='';	
 			}
 			$row->submission_time = date("F j, Y", strtotime($row->submission_time));
 			$helpfuluser_str = $row->users_helpful;
@@ -271,10 +271,10 @@ class Review extends Model
 		$all_reviews = [];
 		foreach ($query as $row){
 			if($row->status==3){
-				$$row->statusmsg='Verified Purchase';			
+				$row->statusmsg='Verified Purchase';			
 			}
 			else{
-				$$row->statusmsg='';	
+				$row->statusmsg='';	
 			}
 			$row->submission_time = date("F j, Y", strtotime($row->submission_time));
 			$helpfuluser_str = $row->users_helpful;
