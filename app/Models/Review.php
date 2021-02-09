@@ -209,10 +209,10 @@ class Review extends Model
             array_push($lowest_reviews, $row);
 	    } 
 	  
-		 $count_rating = DB::table('master_reviews')->where('product_sku', '=', $sku)->->where('status','>=', '2')->count();	
+		 $count_rating = DB::table('master_reviews')->where('product_sku', '=', $sku)->where('status','>=', '2')->count();	
 			
 		//print_r($count2);
-		$tot_rating = DB::table('master_reviews')->where('product_sku', '=', $sku)->->where('status','>=', '2')->sum('rating');
+		$tot_rating = DB::table('master_reviews')->where('product_sku', '=', $sku)->where('status','>=', '2')->sum('rating');
 		//print_r('rat='.$count2);
 		
 		$reviews['all_reviews']= $all_reviews;
@@ -239,7 +239,7 @@ class Review extends Model
         $sort_type   = Input::get("sort_type");
 
         $all_filters = [];
-        $query       = DB::table('master_reviews')->where('product_sku', '=', $sku)->->where('status','>=', '2');
+        $query       = DB::table('master_reviews')->where('product_sku', '=', $sku)->where('status','>=', '2');
 
         if (!isset($limit)) {
             $limit = $perPage;
