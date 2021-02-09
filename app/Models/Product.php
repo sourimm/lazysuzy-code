@@ -2452,7 +2452,8 @@ class Product extends Model
 		 	$product_sku_rows = DB::table('user_views')
             ->select('product_sku')
             ->whereIn('user_id',$user_array)  
-			->where('product_sku', '!=', $sku)
+			->where('product_sku', '!=', $sku)			
+			->where('user_id','!=', $uid)
             ->get();
 			
 			
