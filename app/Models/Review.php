@@ -96,7 +96,7 @@ class Review extends Model
             ->select("*")
             ->where('product_sku', '=', $sku)
 			->where('status', '2')
-			->where('status', '3')
+			->orWhere('status', '3')
             ->orderBy("submission_time", "DESC")
 			 ->limit($limit)
             ->get(); 
@@ -136,7 +136,7 @@ class Review extends Model
             ->select("*")
             ->where('product_sku', '=', $sku)
 			->where('status', '2')
-			->where('status', '3')
+			->orWhere('status', '3')
             ->orderBy("rating", "DESC")
 			 ->limit($limit)
             ->get(); 
@@ -176,7 +176,7 @@ class Review extends Model
             ->select("*")
             ->where('product_sku', '=', $sku)
 			->where('status', '2')
-			->where('status', '3')
+			->orWhere('status', '3')
              ->orderBy("rating", "ASC")
 			 ->limit($limit)
             ->get(); 
@@ -242,7 +242,7 @@ class Review extends Model
         $sort_type   = Input::get("sort_type");
 
         $all_filters = [];
-        $query       = DB::table('master_reviews')->where('product_sku', '=', $sku)->where('status', '2')->where('status', '3');
+        $query       = DB::table('master_reviews')->where('product_sku', '=', $sku)->where('status', '2')->orWhere('status', '3');
 
         if (!isset($limit)) {
             $limit = $perPage;
