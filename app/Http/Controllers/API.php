@@ -284,14 +284,6 @@ class API extends Controller
             
     }
 	
-	public function get_order_history() {
-		
-		$id= Auth::check() ? Auth::user()->id : 0;
-		//$id = 1055;
-		return Order::get_order_history($id);
-            
-    }
-	
 	public function get_order_status() {
 		
 		//$id= Auth::check() ? Auth::user()->id : 0;

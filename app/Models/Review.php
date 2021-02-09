@@ -11,81 +11,7 @@ use Auth;
 
 class Review extends Model
 {
-  
-	
-	public static function save_product_review1($data,$user_id) {
-		
-		
-		$is_authenticated = Auth::check();
-			$user = Auth::user();return $user;
-		
-		
-		if(!isset($data['user_location'])){
-			$data['user_location']='null';
-		}
-		if(!isset($data['headline'])){
-			$data['headline']='null';
-		}
-		if(!isset($data['review'])){
-			$data['review']='null';
-		}
-		 $validator = null;
-		 $imglist = '';
-		  $error = [];
-		if(array_key_exists('rimage', $data) && isset($data['rimage'])) {
-			
-					$upload_folder = public_path('public/images/uimg');
-					for($i=0;$i<count($data['rimage']);$i++){
-					$image_name = time() . '-' . Utility::generateID() . '.'. $data['rimage'][$i]->getClientOriginalExtension() ;
-					$uplaod = $data['rimage'][$i]->move($upload_folder, $image_name);
-					$imglist .= 'images/uimg/'.$image_name.',,';
-					} 
-					
-					if($uplaod) {
-						//$user->picture = '/uimg/' . $image_name;
-						//$user->update();
-					}
-					else 
-						$error[] = response()->json(['error' => 'image could not be uploaded. Please try again.'], 422);
-		}
-		 $datetime = date("Y-m-d H:i:s");
-		
-		/*						
-			'count_helpful' => $data['count_helpful'],
-			'count_reported' => $data['count_reported'],
-			'source' => $data['source'],
-		*/
-		
-		 $is_inserted = DB::table('user_reviews')
-                    ->insert([
-								'user_id' => $user_id,
-								'product_sku' => $data['product_sku'],
-								'headline' => $data['headline'],
-								'review' => $data['review'],
-								'rating' => $data['rating'],
-								'review_images' => $imglist,
-								'user_name' => $data['user_name'], 
-								'user_email' => $data['user_email'],
-								'user_location' => $data['user_location'],
-								'status' => $data['status'],
-								'submission_time' => $datetime
-							]);
-		if($is_inserted==1){
-			$a['status']=true;
-		}
-		else{
-			$a['status']=false;
-		}
-		
-		$a['errors'] = $error;
-	
-        return $a;
-
-     
-        
-    }
-	
-	 
+  	 
 	 public static function save_product_review($data) {
 		
 		
@@ -170,11 +96,18 @@ class Review extends Model
             ->select("*")
             ->where('product_sku', '=', $sku)
 			->where('status', '2')
+			->where('status', '3')
             ->orderBy("submission_time", "DESC")
 			 ->limit($limit)
             ->get(); 
 		//	echo $rows->toSql();die;
 		foreach ($rows as $row){
+			if($row->status==3){
+				$$row->statusmsg='Verified Purchase';			
+			}
+			else{
+				$$row->statusmsg='';	
+			}
 			$row->submission_time = date("F j, Y", strtotime($row->submission_time));
 			$helpfuluser_str = $row->users_helpful;
 			if($helpfuluser_str!='' || $helpfuluser_str!=NULL)
