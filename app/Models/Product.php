@@ -2429,6 +2429,7 @@ class Product extends Model
             ->select('user_id')
 			->distinct()
             ->where('product_sku', $sku)
+			->where('user_id','!=', $uid)
             ->get();
  
 		$main_product_LSID = $product_rows = DB::table('master_data')
