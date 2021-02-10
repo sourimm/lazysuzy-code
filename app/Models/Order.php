@@ -69,6 +69,7 @@ class Order extends Model
 				
 					
 					foreach($product_rows_child as $pr){
+						$pr->date = date("F j, Y", strtotime($pr->date));
 					 	$pr->image =  env('APP_URL').$pr->image; 
 						array_push($arr,$pr);
 					
