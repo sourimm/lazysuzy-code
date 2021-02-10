@@ -15,11 +15,7 @@ use App\Models\Cart;
 use Auth;
 
 class Order extends Model
-{
-    protected $table = "master_data";
-    public static $base_siteurl = 'https://www.lazysuzy.com';
-	
-	
+{ 	
 	public static function get_order_status()
 	{
 			$orderid   = Input::get("orderid");
@@ -68,7 +64,7 @@ class Order extends Model
 					->join('lz_inventory', 'lz_inventory.product_sku', '=', 'lz_orders.product_sku')		
 					->join('lz_ship_code', 'lz_ship_code.code', '=', 'lz_inventory.ship_code')		
 					->join('master_brands', 'master_brands.value', '=', 'master_data.brand')	
-					->select(array('lz_orders.quantity','lz_orders.price','lz_orders.status','lz_orders.note','lz_orders.date','lz_orders.tracking','lz_orders.tracking_url','lz_inventory.ship_code','lz_ship_code.label','master_data.product_name','master_data.main_product_images as image','master_brands.name as brand_name','master_data.product_sku','lz_ship_code.label'))
+					->select(array('lz_orders.quantity','lz_orders.price','lz_orders.status','lz_orders.note','lz_orders.date','lz_orders.tracking','lz_orders.tracking_url','lz_orders.delivery_date','lz_inventory.ship_code','lz_ship_code.label','master_data.product_name','master_data.main_product_images as image','master_brands.name as brand_name','master_data.product_sku','lz_ship_code.label'))
 					->get(); 
 				
 					
