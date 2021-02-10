@@ -2424,6 +2424,7 @@ class Product extends Model
             $user = Auth::user();
 			$uid = $user->id;
 		}
+		return $uid;
 	//	$uid = 511;	
 		 $user_rows = DB::table('user_views')
             ->select('user_id')
