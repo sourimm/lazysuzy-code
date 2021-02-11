@@ -138,7 +138,7 @@ class Order extends Model
 			if($data!='[]'){
 				$response['status']=true;
 				
-				foreach($data as $datasingle){  return $datasingle;
+				foreach($data as $datasingle){  
 				   $datasingle->created_at = date("F j, Y", strtotime($datasingle->created_at));
 				   
 				 
@@ -161,11 +161,13 @@ class Order extends Model
 					 $prod->delivery_date = $product_rows_child[0]->delivery_date;   
 					 
 					
-					  
+					  array_push($arr,$prod);
 					   
 					   
 				   }
-				   
+				    $datasingle->products = $arr; 
+					array_push($arrheader,$datasingle); 
+					$arr = [];
 				    
 				   
 				   
