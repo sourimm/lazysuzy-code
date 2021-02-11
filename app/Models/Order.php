@@ -152,13 +152,13 @@ class Order extends Model
 					->select(array('lz_orders.quantity','lz_orders.status','lz_orders.note','lz_orders.date','lz_orders.tracking','lz_orders.tracking_url','lz_orders.delivery_date'))
 					->get();
 					   
-					 $prod->quantity = $prod,$product_rows_child[0]->quantity;  
-					 $prod->status = $prod,$product_rows_child[0]->status;  
-					 $prod->note = $prod,$product_rows_child[0]->note;  
-					 $prod->date = $prod,$product_rows_child[0]->date;  
-					 $prod->tracking = $prod,$product_rows_child[0]->tracking;  
-					 $prod->tracking_url = $prod,$product_rows_child[0]->tracking_url;  
-					 $prod->delivery_date = $prod,$product_rows_child[0]->delivery_date;   
+					 $prod->quantity = $product_rows_child[0]->quantity;  
+					 $prod->status = $product_rows_child[0]->status;  
+					 $prod->note = $product_rows_child[0]->note;  
+					 $prod->date = $product_rows_child[0]->date;  
+					 $prod->tracking = $product_rows_child[0]->tracking;  
+					 $prod->tracking_url = $product_rows_child[0]->tracking_url;  
+					 $prod->delivery_date = $product_rows_child[0]->delivery_date;   
 					 
 					 return $prod;
 					  
