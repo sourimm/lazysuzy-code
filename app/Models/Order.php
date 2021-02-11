@@ -144,7 +144,7 @@ class Order extends Model
 				 
 				  //s return $datasingle->order_json->products;
 				   foreach((json_decode($datasingle->order_json)->products) as $prod){
-					   
+					  return $prod;  
 				 
 					$product_rows_child = DB::table('lz_orders') 
 					->where('product_sku', $prod->product_sku)   
@@ -160,7 +160,7 @@ class Order extends Model
 					 $prod->tracking_url = $product_rows_child[0]->tracking_url;  
 					 $prod->delivery_date = $product_rows_child[0]->delivery_date;   
 					 
-					 return $prod;
+					
 					  
 					   
 					   
