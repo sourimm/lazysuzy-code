@@ -102,10 +102,11 @@ class Order extends Model
 			$orderid   = Input::get("orderid");
 			$zipcode   = Input::get("zipcode");
 			$arr = []; 
+			
 			$arrheader = []; 
 			$data   = DB::table('lz_order_delivery')
 			           ->join('lz_order_dump', 'lz_order_dump.order_id', '=', 'lz_order_delivery.order_id')	 
-						->select('lz_order_delivery.shipping_f_name','lz_order_delivery.shipping_l_name','lz_order_delivery.shipping_address_line1','lz_order_delivery.shipping_address_line2','lz_order_delivery.shipping_state','lz_order_delivery.shipping_zipcode','lz_order_delivery.order_id','lz_order_delivery.shipping_city','lz_order_delivery.created_at','lz_order_dump.order_json');
+						->select('lz_order_dump.order_id','lz_order_delivery.shipping_f_name','lz_order_delivery.shipping_l_name','lz_order_delivery.shipping_address_line1','lz_order_delivery.shipping_address_line2','lz_order_delivery.shipping_state','lz_order_delivery.shipping_zipcode','lz_order_delivery.order_id','lz_order_delivery.shipping_city','lz_order_delivery.created_at','lz_order_dump.order_json');
 			
 
 			$is_authenticated = Auth::check();
@@ -140,19 +141,26 @@ class Order extends Model
 				foreach($data as $datasingle){ 
 				   $datasingle->created_at = date("F j, Y", strtotime($datasingle->created_at));
 				   
-				   $sku = '';
+				 
 				  //s return $datasingle->order_json->products;
 				   foreach((json_decode($datasingle->order_json)->products) as $prod){
 					   
-						$sku = $sku.'=='. $prod->product_sku;
+				 
+					$product_rows_child = DB::table('lz_orders') 
+					->where('product_sku', $prod->product_sku)   
+					->where('order_id', $prod->order_id) 					
+					->select(array('lz_orders.quantity','lz_orders.price','lz_orders.status','lz_orders.note','lz_orders.date','lz_orders.tracking','lz_orders.tracking_url','lz_orders.delivery_date'))
+					->get();
 					   
+					$arr = array_merge($prod,$product_rows_child[0]);    
 					   
-					   
+					 return $arr;
+					  
 					   
 					   
 				   }
 				   
-				   return $sku;
+				    
 				   
 				   
 					/*$product_rows_child = DB::table('lz_orders') 
