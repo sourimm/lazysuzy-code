@@ -141,7 +141,7 @@ class Order extends Model
 				   $datasingle->created_at = date("F j, Y", strtotime($datasingle->created_at));
 				   
 				   $sku = '';
-				   foreach((datasingle->order_json->products as $prod){
+				   foreach(datasingle->order_json->products as $prod){
 					   
 						$sku = $sku.'=='. $prod->product_sku;
 					   
