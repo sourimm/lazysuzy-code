@@ -148,7 +148,7 @@ class Order extends Model
 				 
 					$product_rows_child = DB::table('lz_orders') 
 					->where('product_sku', $prod->product_sku)   
-					->where('order_id', $prod->order_id) 					
+					->where('order_id', $datasingle->order_id) 					
 					->select(array('lz_orders.quantity','lz_orders.price','lz_orders.status','lz_orders.note','lz_orders.date','lz_orders.tracking','lz_orders.tracking_url','lz_orders.delivery_date'))
 					->get();
 					   
