@@ -68,7 +68,7 @@ class Order extends Model
 					->get(); */
 					
 					
-					*$product_rows_child = DB::table('lz_order_dump') 
+					$product_rows_child = DB::table('lz_order_dump') 
 					->where('order_id', $datasingle->order_id)  
 					->get();
 					
