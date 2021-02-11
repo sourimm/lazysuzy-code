@@ -71,16 +71,15 @@ class Order extends Model
 					$product_rows_child = DB::table('lz_order_dump') 
 					->where('order_id', $datasingle->order_id)  
 					->get();
-					
-					//return json_decode($product_rows_child[0]->['order_json']['products']);
-					return  json_decode($product_rows_child[0]->order_json)->products;
-					foreach($product_rows_child as $pr){
-					//	$pr->date = date("F j, Y", strtotime($pr->date));
-					// 	$pr->image =  env('APP_URL').$pr->image; 
+					 
+					/*foreach($product_rows_child as $pr){
+					   $pr->date = date("F j, Y", strtotime($pr->date));
+					  	$pr->image =  env('APP_URL').$pr->image; 
 						array_push($arr,$pr);
 					
 					}
-					$datasingle->products = $arr;
+					 $datasingle->products = $arr;*/
+					$datasingle->products = json_decode($product_rows_child[0]->order_json)->products;
 					array_push($arrheader,$datasingle); 
 					$arr = [];
 					 
