@@ -73,7 +73,7 @@ class Order extends Model
 					->get();
 					
 					//return json_decode($product_rows_child[0]->['order_json']['products']);
-					return htmlspecialchars_decode($product_rows_child);
+					return htmlspecialchars_decode($product_rows_child->['order_json']);
 					foreach($product_rows_child as $pr){
 					//	$pr->date = date("F j, Y", strtotime($pr->date));
 					// 	$pr->image =  env('APP_URL').$pr->image; 
