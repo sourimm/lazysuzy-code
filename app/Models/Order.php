@@ -138,13 +138,13 @@ class Order extends Model
 			if($data!='[]'){
 				$response['status']=true;
 				
-				foreach($data as $datasingle){ 
+				foreach($data as $datasingle){  return $datasingle;
 				   $datasingle->created_at = date("F j, Y", strtotime($datasingle->created_at));
 				   
 				 
 				  //s return $datasingle->order_json->products;
 				   foreach((json_decode($datasingle->order_json)->products) as $prod){
-					  return $prod;  
+					   
 				 
 					$product_rows_child = DB::table('lz_orders') 
 					->where('product_sku', $prod->product_sku)   
