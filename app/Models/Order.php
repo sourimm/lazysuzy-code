@@ -58,19 +58,24 @@ class Order extends Model
 				foreach($data as $datasingle){ 
 				   $datasingle->created_at = date("F j, Y", strtotime($datasingle->created_at));
 				   
-					$product_rows_child = DB::table('lz_orders') 
+					/*$product_rows_child = DB::table('lz_orders') 
 					->where('order_id', $datasingle->order_id)    	
 					->join('master_data', 'master_data.product_sku', '=', 'lz_orders.product_sku')		
 					->join('lz_inventory', 'lz_inventory.product_sku', '=', 'lz_orders.product_sku')		
 					->join('lz_ship_code', 'lz_ship_code.code', '=', 'lz_inventory.ship_code')		
 					->join('master_brands', 'master_brands.value', '=', 'master_data.brand')	
 					->select(array('lz_orders.quantity','lz_orders.price','lz_orders.status','lz_orders.note','lz_orders.date','lz_orders.tracking','lz_orders.tracking_url','lz_orders.delivery_date','lz_inventory.ship_code','lz_ship_code.label','master_data.product_name','master_data.main_product_images as image','master_brands.name as brand_name','master_data.product_sku','lz_ship_code.label'))
-					->get(); 
-				
+					->get(); */
 					
+					
+					*$product_rows_child = DB::table('lz_order_dump') 
+					->where('order_id', $datasingle->order_id)  
+					->get();
+					
+					return $product_rows_child;
 					foreach($product_rows_child as $pr){
-						$pr->date = date("F j, Y", strtotime($pr->date));
-					 	$pr->image =  env('APP_URL').$pr->image; 
+					//	$pr->date = date("F j, Y", strtotime($pr->date));
+					// 	$pr->image =  env('APP_URL').$pr->image; 
 						array_push($arr,$pr);
 					
 					}
