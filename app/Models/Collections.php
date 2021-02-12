@@ -71,7 +71,7 @@ class Collections extends Model
         ];
         $collection_details['sub_details'] = [];
 		
-		foreach($row->desc_sub as $desc_sub){
+		foreach(json_decode($row->desc_sub) as $desc_sub){
 		
 			$desc_sub->image =  env('APP_URL') . $desc_sub->image;
 			array_push($arr,$desc_sub);
