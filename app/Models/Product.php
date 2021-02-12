@@ -1488,6 +1488,7 @@ class Product extends Model
             'inventory_product_details' => isset($product->inventory_product_details) ? $product->inventory_product_details : null,
             //    'sku_hash'         => $product->sku_hash,
             'site'             => $product->name,
+            'return_policy'    => $product->return_policy,
             'name'             => $product->product_name,
             'product_url'      => urldecode($product->product_url),
             'product_detail_url' => Product::$base_siteurl . "/product/" . $product->product_sku,
@@ -2181,8 +2182,7 @@ class Product extends Model
         $redirection = Product::is_redirect($sku);
         $prod = Product::where('product_sku', $sku)
             ->join("master_brands", "master_data.brand", "=", "master_brands.value")
-            ->get()->toArray();
-return $prod[0];
+            ->get()->toArray(); 
         if (!isset($prod[0])) {
             return ["message" => "SKU " . $sku . " NOT FOUND"];
         }
