@@ -69,7 +69,12 @@ class Collections extends Model
             'description' => $row->desc_cover
         ];
         $collection_details['sub_details'] = [];
-		return 'CNT='.count(json_decode($row->desc_sub));
+		
+		foreach($row->desc_sub as desc_sub){
+		
+			desc_sub->image =  env('APP_URL') . $row->$desc_sub->image;
+		
+		}
 		 $collection_details['sub_details'] = json_decode($row->desc_sub);
 
         /*for($i = 1; $i <= $collection_detail_count; $i++) {
