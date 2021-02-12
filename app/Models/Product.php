@@ -2182,7 +2182,7 @@ class Product extends Model
         $prod = Product::where('product_sku', $sku)
             ->join("master_brands", "master_data.brand", "=", "master_brands.value")
             ->get()->toArray();
-
+return $prod[0];
         if (!isset($prod[0])) {
             return ["message" => "SKU " . $sku . " NOT FOUND"];
         }
