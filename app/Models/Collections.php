@@ -69,8 +69,10 @@ class Collections extends Model
             'description' => $row->desc_cover
         ];
         $collection_details['sub_details'] = [];
+		
+		 $collection_details['sub_details'][] = $row->desc_sub;
 
-        for($i = 1; $i <= $collection_detail_count; $i++) {
+        /*for($i = 1; $i <= $collection_detail_count; $i++) {
             $desc_key = 'desc_sub_' . $i;
             $img_key = 'image_sub_' . $i;
 
@@ -82,7 +84,7 @@ class Collections extends Model
                 ];
             }
             
-        }
+        }*/
 
         return $collection_details;
     }
