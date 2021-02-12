@@ -134,7 +134,7 @@ class Order extends Model
 
 		
 			 
-			$data = $data->->orderBy("lz_order_delivery.created_at", "DESC")->get(); 
+			$data = $data->orderBy("lz_order_delivery.created_at", "DESC")->get(); 
 			if($data!='[]'){
 				$response['status']=true;
 				
