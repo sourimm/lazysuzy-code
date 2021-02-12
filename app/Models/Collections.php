@@ -70,7 +70,7 @@ class Collections extends Model
         ];
         $collection_details['sub_details'] = [];
 		
-		 $collection_details['sub_details'][] = $row->desc_sub;
+		 $collection_details['sub_details'] = json_decode($row->desc_sub);
 
         /*for($i = 1; $i <= $collection_detail_count; $i++) {
             $desc_key = 'desc_sub_' . $i;
