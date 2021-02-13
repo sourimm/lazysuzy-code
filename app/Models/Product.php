@@ -1537,8 +1537,6 @@ class Product extends Model
         }
 
         if (isset($variations) && !$is_details_minimal) {
-
-
             if (is_array($variations)) {
                 for ($i = 0; $i < sizeof($variations); $i++) {
                     if (isset($variations[$i]['image'])) {
