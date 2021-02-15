@@ -154,8 +154,8 @@ class Collections extends Model
 		 $arr = [];
 		
 		$sql = DB::table('master_data') 
-				->selectRaw("COUNT(product_sku) AS product_count")
-				->where('collection' '!=' 'NULL')
+				->select('COUNT(product_sku) AS product_count')
+				->where('collection', '!=', 'NULL')
 				->groupBy("collection")				
 				->get();
 				
