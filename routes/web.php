@@ -168,6 +168,9 @@ Route::get('/api/order_status', 'API@get_order_status')->middleware(['auth:api']
 // Save Reported review
 Route::post('/api/save_checkout', 'API@save_email_checkout')->middleware(['auth:api']);
 
+// Get Collection Name and SKU count
+Route::get('/api/get_all_collection', 'API@get_all_collection_with_count')->name('get-all-collection-with-count');
+
 /* ==================================================BACKEND ADMIN APIS========================================== */
 
 Route::middleware(['auth:api', 'cors', 'admin'])->group(function () {
