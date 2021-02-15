@@ -291,5 +291,9 @@ class API extends Controller
 		return Order::get_order_status();
             
     }
-	
+	public function save_email_checkout(Request $request)
+    {
+		$data = $request->all();
+        return Cart::save_email_checkout($data);
+    }
 }
