@@ -540,6 +540,8 @@ class Cart extends Model
             ->where("user_id", $user_id)
             ->where("is_active", 1) 
 			->update(['email' => $emailid]);
+			
+		return 	'is_updated='.$is_updated;
 
 	}
 }
