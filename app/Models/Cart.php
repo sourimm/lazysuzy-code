@@ -526,7 +526,7 @@ class Cart extends Model
         return $res;
     }
 	
-	public static save_email_checkout($data){
+	public static function save_email_checkout($data){
 		
 		 if (Auth::check()) {
             $user_id = Auth::user()->id;
