@@ -524,7 +524,7 @@ class Cart extends Model
         $res['order']['sub_total'] = round((float) $res['order']['sub_total'], 2);
         $res['order']['shipment_total'] = round((float) $res['order']['shipment_total'], 2);
         $res['order']['total_cost'] = round((float) $res['order']['total_cost'], 2);
-		$res[
+		 
         return $res;
     }
 	
