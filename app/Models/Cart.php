@@ -532,8 +532,8 @@ class Cart extends Model
             $user_id = Auth::user()->id;
         } else {
             $user_id = 0;
-        }
-		return $user_id;
+        } 
+		$user_id = 9;
         $emailid  = $data['emailid'];
 
         $is_updated = DB::table('lz_user_cart') 
