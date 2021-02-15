@@ -153,9 +153,8 @@ class Collections extends Model
 	public static function get_all_collection_with_count(){
 		$arr = [];
 		
-		$sql = DB::table('master_data')
-				->distinct('collection')
-				->selectRaw("COUNT(product_sku) AS product_count")
+		$sql = DB::table('master_data') 
+				->selectRaw("COUNT(product_sku) AS product_count, distinct 'collection'")
 				->where('collection IS NOT NULL')
 				->groupBy("collection")				
 				->get();
