@@ -155,7 +155,7 @@ class Collections extends Model
 		
 		$sql = DB::table('master_data')
 				->distinct('collection')
-				->select(COUNT(product_sku) AS product_count)
+				->selectRaw(COUNT(product_sku) AS product_count)
 				->where('collection IS NOT NULL')
 				->groupBy("collection")				
 				->get();
