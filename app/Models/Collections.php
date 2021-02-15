@@ -154,7 +154,7 @@ class Collections extends Model
 		 $arr = [];
 		
 		$sql = DB::table('master_data') 
-				->select(DB::raw('count(product_sku) as product_count'))
+				->select('collection', DB::raw('count(product_sku) as product_count'))
 				->distinct('collection')
 				->where('collection', '!=', 'NULL')
 				->where('collection', '!=', '')
