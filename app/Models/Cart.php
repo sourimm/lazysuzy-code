@@ -527,21 +527,21 @@ class Cart extends Model
     }
 	
 	public static function save_email_checkout($data){
-		
+		$a['msg'] = 'Successfully updated';
+		$a['status'] = 1;
 		 if (Auth::check()) {
             $user_id = Auth::user()->id;
         } else {
             $user_id = 0;
-        } 
-		$user_id = 9;
-        $emailid  = $data['emailid'];
-
+        }  
+		
+        $emailid  = $data['emailid']; 
         $is_updated = DB::table('lz_user_cart') 
             ->where("user_id", $user_id)
             ->where("is_active", 1) 
 			->update(['email' => $emailid]);
 			
-		return 	'is_updated='.$is_updated;
+		return 	$a;
 
 	}
 }
