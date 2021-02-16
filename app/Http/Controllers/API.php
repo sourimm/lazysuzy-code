@@ -23,6 +23,7 @@ use App\Models\Utility;
 use Auth;
 use Illuminate\Support\Facades\Validator;
 use Subscribe as GlobalSubscribe;
+use App\Models\Order;
 
 class API extends Controller
 {
@@ -249,9 +250,8 @@ class API extends Controller
  
 	
 	public function save_product_review(Request $request) {
-        $data = $request->all();
-        $id= Auth::check() ? Auth::user()->id : 0;
-		return Review::save_product_review($data, $id);
+        $data = $request->all(); 
+		return Review::save_product_review($data);
             
     }
 	
@@ -278,5 +278,22 @@ class API extends Controller
         return Review::mark_reported_review($data);
     }
 
+	public function get_userproduct_list($sku) {
+            $sku = str_replace('getreview-','',$sku);
+            return Product::get_userproduct_list($sku);
+            
+    }
 	 
+	
+	public function get_order_status() {
+		  
+		return Order::get_order_status();
+            
+    }
+	
+	public function get_all_collection_with_count() { 
+		return Collections::get_all_collection_with_count();
+            
+    }
+	
 }
