@@ -97,8 +97,11 @@ class Mailer extends Mailable {
                     ]);
     }
 
-    public static function send_receipt($to, $to_name, $mail_data) {
+   
+    public static function send_receipt($to, $to_name, $mail_data, $mail_template_id = null) {
 
+        $mail_template = isset($mail_template_id) ? $mail_template_id : env('MAILER_RECEIPT_TEMPLATE_ID');
+ 
         $curl = curl_init();
         $subject = str_replace("$", " ", env('MAILER_RECEIPT_SUBJECT'));
         $dy_data = [
@@ -122,8 +125,16 @@ class Mailer extends Mailable {
                         "email" => env('MAILER_FROM'),
                         "name" => env('MAILER_FROM_NAME')
                     ],
-            "template_id"=> env('MAILER_RECEIPT_TEMPLATE_ID')
+            "template_id"=> $mail_template
         ];
+
+        if(isset($mail_template_id)) {
+            $dy_data['personalizations'][0]['cc'] = [
+                    [
+                        'email' => 'www.lazysuzy.com+d82844d1fe@invite.trustpilot.com'
+                    ]
+                    ];
+        }
 
         $auth = [
                 "authorization: Bearer " . env('MAILER_STRIPE_KEY'),
