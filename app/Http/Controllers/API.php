@@ -301,4 +301,10 @@ class API extends Controller
 		return Collections::get_all_collection_with_count();
             
     }
+	
+	public function save_collection(Request $request)
+    {
+		$data = $request->all();
+        return Collections::save_collection($data);
+    }
 }

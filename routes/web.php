@@ -171,6 +171,9 @@ Route::post('/api/save_checkout', 'API@save_email_checkout')->middleware(['auth:
 // Get Collection Name and SKU count
 Route::get('/api/get_all_collection', 'API@get_all_collection_with_count')->name('get-all-collection-with-count');
 
+// Save Collection
+Route::post('/api/save_collection', 'API@save_collection')->middleware(['auth:api']);
+
 /* ==================================================BACKEND ADMIN APIS========================================== */
 
 Route::middleware(['auth:api', 'cors', 'admin'])->group(function () {
