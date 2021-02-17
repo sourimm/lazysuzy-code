@@ -186,7 +186,7 @@ class Collections extends Model
 		
 		$error = [];
 		$arr = [];
-		
+		$desc_sub = '';
 		if(array_key_exists('feature', $data) && isset($data['feature'])) {
 			
 					$upload_folder = public_path('public/images/collection');
@@ -201,12 +201,15 @@ class Collections extends Model
 					if($uplaod) {
 						//$user->picture = '/uimg/' . $image_name;
 						//$user->update();
+						$desc_sub = json_encode($arr);
 					}
 					else 
 						$error[] = response()->json(['error' => 'image could not be uploaded. Please try again.'], 422);
+					
+					
 		}
 		
-		$desc_sub = json_encode($arr);
+		
 		
 		// $datetime = date("Y-m-d H:i:s");
 		
