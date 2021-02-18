@@ -302,9 +302,9 @@ class API extends Controller
             
     }
 	
-	public function save_collection(Request $request)
+	/*public function save_collection(Request $request)
     {
 		$data = $request->all();
         return Collections::save_collection($data);
-    }
+    }*/
 }
