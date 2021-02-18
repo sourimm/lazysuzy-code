@@ -190,7 +190,7 @@ class Collections extends Model
 		$desc_sub = '';
 		if(array_key_exists('feature', $data) && isset($data['feature'])) {
 			
-			$desc_sub = json_encode($data['feature']);
+			$desc_sub = $data['feature'];
 			
 				/*	$upload_folder = public_path('public/images/collection');
 					for($i=0;$i<count($data['feature']);$i++){
@@ -212,9 +212,7 @@ class Collections extends Model
 					*/
 		}
 		
-		
-		
-		// $datetime = date("Y-m-d H:i:s");
+		 
 		
 	return $desc_sub;
 		
