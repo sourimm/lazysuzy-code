@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Input;
+use App\Models\Collections;
 
 class Dashboard extends Controller
 {
@@ -133,5 +134,11 @@ class Dashboard extends Controller
                     'params' => $request->all()
                 ], 422);
             }
+    }
+	
+	public function save_collection(Request $request)
+    {
+		$data = $request->all();
+        return Collections::save_collection($data);
     }
 }
