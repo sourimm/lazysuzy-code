@@ -78,23 +78,23 @@ class OrderDeliveredMailer extends Command
             if(strlen($order_details['delivery'][0]->shipping_address_line1) > 0)
                 $shipping_addr = $order_details['delivery'][0]->shipping_address_line1;
             
-            if(strlen($order_details['delivery'][0]->shipping_address_line2)) {
+            if(strlen($order_details['delivery'][0]->shipping_address_line2) > 0) {
                 $shipping_addr .= ", " . $order_details['delivery'][0]->shipping_address_line1;
             }
 
-            if(strlen($order_details['delivery'][0]->shipping_city)) {
+            if(strlen($order_details['delivery'][0]->shipping_city) > 0) {
                 $shipping_addr .= ", " . $order_details['delivery'][0]->shipping_city;
             }
 
-            if(strlen($order_details['delivery'][0]->shipping_state)) {
+            if(strlen($order_details['delivery'][0]->shipping_state) > 0) {
                 $shipping_addr .= ", " . $order_details['delivery'][0]->shipping_state;
             }
 
-            if(strlen($order_details['delivery'][0]->shipping_country)) {
+            if(strlen($order_details['delivery'][0]->shipping_country) > 0) {
                 $shipping_addr .= ", " . $order_details['delivery'][0]->shipping_country;
             }
             
-            if(strlen($order_details['delivery'][0]->shipping_zipcode)) {
+            if(strlen($order_details['delivery'][0]->shipping_zipcode) > 0) {
                 $shipping_addr .= ", " . $order_details['delivery'][0]->shipping_zipcode;
             }
             
