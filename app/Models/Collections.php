@@ -214,8 +214,7 @@ class Collections extends Model
 		
 		 
 		
-	return $desc_sub;
-		
+	 
 		 $is_inserted = DB::table('master_collections')
                     ->insert([
 								'name' =>  $name,
