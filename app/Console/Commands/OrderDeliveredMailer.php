@@ -67,6 +67,8 @@ class OrderDeliveredMailer extends Command
             $mailer_data['shipping_addr_line_1'] = $order_details['delivery'][0]->shipping_address_line1;
             $mailer_data['shipping_addr_line_2'] = $order_details['delivery'][0]->shipping_address_line2;
             $mailer_data['shipping_state'] = $order_details['delivery'][0]->shipping_state;
+            $mailer_data['shipping_city'] = $order_details['delivery'][0]->shipping_city;
+
             $mailer_data['shipping_contry'] = $order_details['delivery'][0]->shipping_country;
             $mailer_data['shipping_zipcode'] = $order_details['delivery'][0]->shipping_zipcode;
             $mailer_data['shipping_company'] = $order_details['delivery'][0]->shipping_company_name;
