@@ -158,6 +158,7 @@ class Collections extends Model
 				->distinct('collection')
 				->where('collection', '!=', 'NULL')
 				->where('collection', '!=', '')
+				->where('product_status', '=', 'active')
 				->groupBy('collection')				
 				->get();
 				
