@@ -183,13 +183,16 @@ class Collections extends Model
 		$desc_header = empty($data['desc_header'])?'':$data['desc_header'];
 		$desc_cover = empty($data['desc_cover'])?'':$data['desc_cover'];
 		$image_cover = empty($data['image_cover'])?'':$data['image_cover'];
+		$isdisplay = empty($data['isdisplay'])?'':$data['isdisplay'];
 		
 		$error = [];
 		$arr = [];
 		$desc_sub = '';
 		if(array_key_exists('feature', $data) && isset($data['feature'])) {
 			
-					$upload_folder = public_path('public/images/collection');
+			$desc_sub = json_encode($data['feature']);
+			
+				/*	$upload_folder = public_path('public/images/collection');
 					for($i=0;$i<count($data['feature']);$i++){
 					$image_name = time() . '-' . Utility::generateID() . '.'. $data['feature'][$i]['image']->getClientOriginalExtension() ;
 					$uplaod = $data['feature'][$i]['image']->move($upload_folder, $image_name);
@@ -206,14 +209,14 @@ class Collections extends Model
 					else 
 						$error[] = response()->json(['error' => 'image could not be uploaded. Please try again.'], 422);
 					
-					
+					*/
 		}
 		
 		
 		
 		// $datetime = date("Y-m-d H:i:s");
 		
-	
+	return $desc_sub;
 		
 		 $is_inserted = DB::table('master_collections')
                     ->insert([
@@ -225,7 +228,7 @@ class Collections extends Model
 								'desc_cover' => $desc_cover,
 								'desc_sub' => $desc_sub, 
 								'is_active' => '1',
-								'display' => '1'
+								'display' => $isdisplay
 							]);
 		if($is_inserted==1){
 			$a['status']=true;
