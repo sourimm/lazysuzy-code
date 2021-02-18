@@ -62,6 +62,43 @@ class OrderDeliveredMailer extends Command
 
         if (sizeof($delivered_products) > 0) {
             $mailer_data['products'] = $delivered_products;
+
+            $name_and_company = "";
+            $shipping_addr = "";
+
+            if(strlen($order_details['delivery'][0]->shipping_f_Name) > 0)
+                $name_and_company  = $order_details['delivery'][0]->shipping_f_Name;
+
+            if(strlen($order_details['delivery'][0]->shipping_l_Name) > 0)
+                $name_and_company .= " " . $order_details['delivery'][0]->shipping_l_Name;
+
+            if(strlen($order_details['delivery'][0]->shipping_company_name))
+                $name_and_company .= ", " . $order_details['delivery'][0]->shipping_company_name;
+
+            if(strlen($order_details['delivery'][0]->shipping_address_line1) > 0)
+                $shipping_addr = $order_details['delivery'][0]->shipping_address_line1;
+            
+            if(strlen($order_details['delivery'][0]->shipping_address_line2)) {
+                $shipping_addr .= ", " . $order_details['delivery'][0]->shipping_address_line1;
+            }
+
+            if(strlen($order_details['delivery'][0]->shipping_city)) {
+                $shipping_addr .= ", " . $order_details['delivery'][0]->shipping_city;
+            }
+
+            if(strlen($order_details['delivery'][0]->shipping_state)) {
+                $shipping_addr .= ", " . $order_details['delivery'][0]->shipping_state;
+            }
+
+            if(strlen($order_details['delivery'][0]->shipping_country)) {
+                $shipping_addr .= ", " . $order_details['delivery'][0]->shipping_country;
+            }
+            
+            if(strlen($order_details['delivery'][0]->shipping_zipcode)) {
+                $shipping_addr .= ", " . $order_details['delivery'][0]->shipping_zipcode;
+            }
+            
+
             $mailer_data['shipping_f_name'] = $order_details['delivery'][0]->shipping_f_Name;
             $mailer_data['shipping_l_name'] = $order_details['delivery'][0]->shipping_l_Name;
             $mailer_data['shipping_addr_line_1'] = $order_details['delivery'][0]->shipping_address_line1;
@@ -75,8 +112,11 @@ class OrderDeliveredMailer extends Command
             $mailer_data['order_id'] = $order_details['delivery'][0]->order_id;
             $mailer_data['email'] = $order_details['delivery'][0]->email;
             $mailer_data['name'] =  $mailer_data['shipping_f_name'] . " " . $mailer_data['shipping_l_name'];
-            echo json_encode($mailer_data);
+            $mailer_data['name_and_company'] = $name_and_company;
+            $mailer_data['shipping_addr'] = $shipping_addr;
 
+            echo json_encode($mailer_data);
+            echo $name_and_company , "\n" . $shipping_addr , "\n";
 
             $send = Mailer::send_receipt($mailer_data['email'], $mailer_data['name'], $mailer_data, env('MAILER_RECEIPT_ORDER_DELIVERED_TEMPLATE_ID'));
             if ($send['status']) {
