@@ -134,6 +134,9 @@ class Mailer extends Mailable
             $dy_data['personalizations'][0]['bcc'] = [
                 [
                     'email' => 'www.lazysuzy.com+d82844d1fe@invite.trustpilot.com'
+                ],
+                [
+                    'email' => 'hello@lazysuzy.com'
                 ]
             ];
         }
