@@ -1822,6 +1822,7 @@ class Product extends Model
                 $var = $var->where("product_id", (string)$product->product_sku)
                     ->whereRaw("LENGTH(swatch_image_path) != 0");
 
+                    echo Utility::get_sql_raw($var);
                 if ($is_listing_API_call) $var = $var->limit(7);
                 //->limit(20)
                 $var = $var->get();
@@ -2065,6 +2066,9 @@ class Product extends Model
                 $variations = Product::get_pier1_variations($product);
                 break;
             case 'westelm':
+                $variations = Product::get_westelm_variations($product, $wl_v, $is_listing_API_call, $product->site_name);
+                break;
+            case 'nw':
                 $variations = Product::get_westelm_variations($product, $wl_v, $is_listing_API_call, $product->site_name);
                 break;
             default:
