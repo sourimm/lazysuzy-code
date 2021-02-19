@@ -1822,7 +1822,6 @@ class Product extends Model
                 $var = $var->where("product_id", (string)$product->product_sku)
                     ->whereRaw("LENGTH(swatch_image_path) != 0");
 
-                    echo Utility::get_sql_raw($var);
                 if ($is_listing_API_call) $var = $var->limit(7);
                 //->limit(20)
                 $var = $var->get();
