@@ -51,7 +51,7 @@ class PromoDiscount extends Model
 				
 				
 				if($sql=='[]'){
-					 return in_cart_skus;
+					 return $in_cart_skus;
 				}else{
 					return $in_cart_skus;
 				}
