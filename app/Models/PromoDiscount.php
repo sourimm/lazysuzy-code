@@ -40,13 +40,13 @@ class PromoDiscount extends Model
 				$in_cart_skus = [];
 				foreach ($cart['products'] as $product) {
 					$in_cart_skus[] = $product->product_sku;
-				}return $in_cart_skus;
+				} 
 				$a = implode(',',$in_cart_skus); 
 			
 				$sql = DB::table('lz_inventory') 
 				->select('product_sku', 'parent_sku') 
 				->where('promo_id', '=', $promo_details['discount_details']['id']) 
-				->whereIn('product_sku', implode(',',$in_cart_skus))
+				->whereIn('product_sku', $a )
 				->get();
 				return 'sql=='.$sql;
 			
