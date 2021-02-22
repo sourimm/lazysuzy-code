@@ -34,7 +34,7 @@ class PromoDiscount extends Model
 		
 		$total_dicount_availed = 0;
 
-        $promo_details = $promo_status['details']; 
+        $promo_details = $promo_status['details']; return $promo_details;
 		if($promo_details['discount_details']['is_SKU_specific']==1){
 			
 				$in_cart_skus = [];
