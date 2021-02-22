@@ -502,7 +502,7 @@ class Cart extends Model
         $res['order']['total_promo_discount'] = 0;
         $res['order']['original_total_cost'] = round($res['order']['total_cost'], 2);
         $res['order']['original_sub_total'] = round($res['order']['sub_total'], 2);
-
+return $promo_code;
         if (isset($promo_code))
             $res = PromoDiscount::calculate_discount($res, $promo_code);
 

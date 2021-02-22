@@ -210,7 +210,7 @@ class PromoDiscount extends Model
     }
 
     private static function check_promo_code($user, $cart, $promo_code)
-    {return $user;
+    {
 
         $status = [];
         $status['is_valid'] = false;
