@@ -22,12 +22,12 @@ class PromoDiscount extends Model
      */
     public static function calculate_discount($cart, $promo_code)
     {
-return $cart;
+
         $user = Auth::user();
 
         // first check if the promo code is valid or not.
         // fast fail system.
-        $promo_status = self::check_promo_code($user, $cart, $promo_code);
+        $promo_status = self::check_promo_code($user, $cart, $promo_code);return $promo_status;
         if (!$promo_status['is_valid']) {
             $cart['promo_details'] = $promo_status['details'];
             return $cart;
