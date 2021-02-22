@@ -40,8 +40,8 @@ class PromoDiscount extends Model
 				$in_cart_skus = [];
 				foreach ($cart['products'] as $product) {
 					$in_cart_skus[] = $product->product_sku;
-				}
-				$a = implode(',',$in_cart_skus); return $a;
+				}return $in_cart_skus;
+				$a = implode(',',$in_cart_skus); 
 			
 				$sql = DB::table('lz_inventory') 
 				->select('product_sku', 'parent_sku') 
