@@ -26,7 +26,7 @@ class PromoDiscount extends Model
         $user = Auth::user(); 
         // first check if the promo code is valid or not.
         // fast fail system.
-        $promo_status = self::check_promo_code($user, $cart, $promo_code); return  $promo_status;
+        $promo_status = self::check_promo_code($user, $cart, $promo_code);  
         if (!$promo_status['is_valid']) {
             $cart['promo_details'] = $promo_status['details'];
             return $cart;
@@ -44,7 +44,7 @@ class PromoDiscount extends Model
 			
 				$sql = DB::table('lz_inventory') 
 				->select('product_sku', 'parent_sku') 
-				->where('promo_id', '=', $promo_details['discount_details']['promo_id']) 
+				->where('promo_id', '=', $promo_details['discount_details']['id']) 
 				->whereIn('product_sku', implode(',',$in_cart_skus))
 				->get();
 				return 'sql=='.$sql;
