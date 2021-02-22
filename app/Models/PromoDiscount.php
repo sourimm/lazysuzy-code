@@ -173,12 +173,11 @@ class PromoDiscount extends Model
 	
 	private static function add_promo_discount($applicable_SKUs, $cart, $promo_details)
     {
- 
+ return $cart['products'];
         // check if promo is percentage type or flat type
         $promo_type = $promo_details['type'];
         $total_promo_discount = 0;
-        foreach ($cart['products'] as &$product) {
-return 'inarr='.in_array($product->product_sku, $applicable_SKUs);
+        foreach ($cart['products'] as &$product) { 
             // if this SKU is applicable for promo code
             if (in_array($product->product_sku, $applicable_SKUs)) {
                 $total_product_cost_before_discount = (float)$product->total_price;
