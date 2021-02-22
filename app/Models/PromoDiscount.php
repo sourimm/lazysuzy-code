@@ -58,7 +58,7 @@ class PromoDiscount extends Model
 						foreach($sql as $data){
 							array_push($arr,$data);
 						}
-						$cart = self::add_promo_discount($arr, $cart, $promo_details['discount_details']);
+						$cart = self::add_promo_discount($arr, $cart, $promo_details['discount_details']);return $cart;
 					   
 				}
 				
