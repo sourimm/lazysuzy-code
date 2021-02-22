@@ -41,7 +41,7 @@ class PromoDiscount extends Model
 				foreach ($cart['products'] as $product) {
 					$in_cart_skus[] = $product->product_sku;
 				} 
-				//$a = explode(',',$in_cart_skus); 
+				  
 			
 				$sql = DB::table('lz_inventory') 
 				->select('product_sku', 'parent_sku') 
@@ -51,9 +51,15 @@ class PromoDiscount extends Model
 				
 				
 				if($sql=='[]'){
-					 return $in_cart_skus;
+					$cart['promo_details']['error_msg'] = "Sorry! This coupon is not applicable on any product in your cart";
+					return $cart;
 				}else{
-					return $in_cart_skus;
+					    $arr = [];
+						foreach($sql as $data){
+							array_push($arr,$data);
+						}
+						$cart = self::add_promo_discount($arr, $cart, $promo_details['discount_details']);
+					   
 				}
 				
 			
