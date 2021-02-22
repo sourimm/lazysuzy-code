@@ -139,48 +139,15 @@ class PromoDiscount extends Model
     
 	
 	
-	private static function add_promo_discount_for_product($applicable_SKUs, $cart, $promo_details)
-    {
-        // check if promo is percentage type or flat type
-        $promo_type = $promo_details['type'];
-        $total_promo_discount = 0;
-        foreach ($cart['products'] as &$product) {
-
-            // if this SKU is applicable for promo code
-            if (in_array($product->product_sku, $applicable_SKUs)) {
-                $total_product_cost_before_discount = (float)$product->total_price;
-                $product->is_promo_applied = true;
-                if ($promo_type == Config::get('meta.discount_percent')) {
-                    $promo_discount = $total_product_cost_before_discount * ((float) $promo_details['value'] / 100);
-                } else if ($promo_type == Config::get('meta.discount_flat')) {
-                    $promo_discount = round((float)$promo_details['value'], 2);
-                }
-
-                $promo_discount = round($promo_discount, 2);
-                $price_after_discount = max(0, $total_product_cost_before_discount - $promo_discount);
-                $product->promo_discount = $price_after_discount == 0 ? ($total_product_cost_before_discount) : $promo_discount;
-
-                $product->total_price = $price_after_discount;
-                $product->original_total_price = $total_product_cost_before_discount;
-            } else {
-                $product->is_promo_applied = false;
-            }
-        }
-
-        return $cart;
-    }
-	
-	
 	private static function add_promo_discount($applicable_SKUs, $cart, $promo_details)
     {
 
         // check if promo is percentage type or flat type
         $promo_type = $promo_details['type'];
-        $total_promo_discount = 0;
-		$v = 0;
+        $total_promo_discount = 0; 
         foreach ($cart['products'] as &$product) { 
             // if this SKU is applicable for promo code
-            if (in_array($product->product_sku, $applicable_SKUs)) { $v = $v+2;
+            if (in_array($product->product_sku, $applicable_SKUs)) {  
                 $total_product_cost_before_discount = (float)$product->total_price;
                 $product->is_promo_applied = true;
                 if ($promo_type == Config::get('meta.discount_percent')) {
@@ -196,7 +163,7 @@ class PromoDiscount extends Model
                 $product->total_price = $price_after_discount;
                 $product->original_total_price = $total_product_cost_before_discount;
             } else {
-				$v = $v-1;
+				 
                 $product->is_promo_applied = false;
             }
         }
