@@ -62,8 +62,7 @@ class PromoDiscount extends Model
 					   
 				}
 				
-			
-				$cart = self::add_promo_discount_for_product($cart, $promo_details['discount_details']);
+			 
 			
 		}
 		else{
