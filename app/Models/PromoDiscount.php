@@ -48,7 +48,14 @@ class PromoDiscount extends Model
 				->where('promo_id', '=', $promo_details['discount_details']['id']) 
 				->whereIn('product_sku', $in_cart_skus )
 				->get();
-				return 'sql=='.$sql;
+				
+				
+				if($sql=='[]'){
+					 return '====================='.$in_cart_skus;
+				}else{
+					return $in_cart_skus;
+				}
+				
 			
 				$cart = self::add_promo_discount_for_product($cart, $promo_details['discount_details']);
 			
