@@ -22,7 +22,7 @@ class PromoDiscount extends Model
      */
     public static function calculate_discount($cart, $promo_code)
     {
-
+return $cart;
         $user = Auth::user();
 
         // first check if the promo code is valid or not.
