@@ -200,7 +200,7 @@ class PromoDiscount extends Model
                 $product->is_promo_applied = false;
             }
         }
-return '================'.$v;
+
         return $cart;
     }
 
