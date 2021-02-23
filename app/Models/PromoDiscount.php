@@ -74,6 +74,8 @@ class PromoDiscount extends Model
 					$cart['promo_details']['error_msg'] = "Sorry! This coupon is not applicable on any product in your cart";
 					return $cart;
 				} else {
+					
+							
 
 							// check if promo applies on the whole order or on individual products
 							$promo_apply = $promo_details['discount_details']['apply_on'];
@@ -132,6 +134,11 @@ class PromoDiscount extends Model
 
         if ($total_product_price_before_discount - $promo_discount_value <= 0)
             $promo_discount = $total_product_price_before_discount;
+		
+		$allow_count = $promo_details['allowed_count']-1;
+		$sql = DB::table('lz_promo')
+                    ->where('id', $promo_details['id'])
+                    ->update(['allowed_count' => $allow_count]);
 
         return round($promo_discount, 2);
     }
@@ -162,11 +169,18 @@ class PromoDiscount extends Model
 
                 $product->total_price = $price_after_discount;
                 $product->original_total_price = $total_product_cost_before_discount;
-            } else {
+
+			} else {
 				 
                 $product->is_promo_applied = false;
             }
         }
+		
+		$allow_count = $promo_details['allowed_count']-1;
+		
+		$sql = DB::table('lz_promo')
+                    ->where('id', $promo_details['id'])
+                    ->update(['allowed_count' => $allow_count]);
 
         return $cart;
     }
@@ -248,7 +262,8 @@ class PromoDiscount extends Model
                     return $status;
                 }
             } else {
-                $status['details']['error_msg'] = 'Seems like you have already exhausted maximum limit for this discount code.';
+               // $status['details']['error_msg'] = 'Seems like you have already exhausted maximum limit for this discount code.';
+				$status['details']['error_msg'] = 'This promo code has expired or been fully redeemed. Please contact us if you need further assistance.'; 
                 return $status;
             }
         } else {
