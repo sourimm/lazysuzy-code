@@ -148,7 +148,7 @@ class PromoDiscount extends Model
 	
 	private static function add_promo_discount($applicable_SKUs, $cart, $promo_details)
     {
-
+ return json_decode($promo_details['discount_value_json']);
         // check if promo is percentage type or flat type
         $promo_type = $promo_details['type'];
         $total_promo_discount = 0; 
@@ -181,7 +181,7 @@ class PromoDiscount extends Model
 					else{
 							$promo_discount = 0;
 							if($promo_details['discount_value_json']!=''){
-							  return json_decode($promo_details['discount_value_json']);
+							 
 								foreach(json_decode($promo_details['discount_value_json']) as $desc_sub){
 									if($product->total_price >= $desc_sub->discount){
 										$promo_discount = round((float)$desc_sub->discount, 2); 
