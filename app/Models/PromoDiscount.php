@@ -158,9 +158,39 @@ class PromoDiscount extends Model
                 $total_product_cost_before_discount = (float)$product->total_price;
                 $product->is_promo_applied = true;
                 if ($promo_type == Config::get('meta.discount_percent')) {
-                    $promo_discount = $total_product_cost_before_discount * ((float) $promo_details['value'] / 100);
+					if($promo_details['value']>0){
+						 $promo_discount = $total_product_cost_before_discount * ((float) $promo_details['value'] / 100);
+					}
+					else{ 
+					        $promo_discount = 0;
+							if($promo_details['discount_value_json']!=''){
+							  
+								foreach(json_decode($promo_details['discount_value_json']) as $desc_sub){
+									if($product->total_price >= $desc_sub->discount){
+										$promo_discount = $total_product_cost_before_discount * ((float) $desc_sub->discount / 100);
+									}
+									
+								}
+							}
+					}
+                   
                 } else if ($promo_type == Config::get('meta.discount_flat')) {
-                    $promo_discount = round((float)$promo_details['value'], 2);
+					if($promo_details['value']>0){
+						 $promo_discount = round((float)$promo_details['value'], 2);
+					}
+					else{
+							$promo_discount = 0;
+							if($promo_details['discount_value_json']!=''){
+							  
+								foreach(json_decode($promo_details['discount_value_json']) as $desc_sub){
+									if($product->total_price >= $desc_sub->discount){
+										$promo_discount = round((float)$desc_sub->discount, 2); 
+									}
+									
+								}
+							}
+					}
+                    
                 }
 
                 $promo_discount = round($promo_discount, 2);
