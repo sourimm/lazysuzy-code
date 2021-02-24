@@ -156,14 +156,15 @@ class PromoDiscount extends Model
                 $total_product_cost_before_discount = (float)$product->total_price;
                 
                 if ($promo_type == Config::get('meta.discount_percent')) {
-						 
+						 	if($promo_details['value']>0){
 								 $promo_discount = $total_product_cost_before_discount * ((float) $promo_details['value'] / 100);
-						 
+						    }
 							 
                    
                 } else if ($promo_type == Config::get('meta.discount_flat')) {
-							 
+							if($promo_details['value']>0){ 
 								 $promo_discount = round((float)$promo_details['value'], 2);
+							}
 							 
                     
                 }
