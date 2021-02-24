@@ -156,7 +156,7 @@ class PromoDiscount extends Model
             // if this SKU is applicable for promo code
             if (in_array($product->product_sku, $applicable_SKUs)) {  
                 $total_product_cost_before_discount = (float)$product->total_price;
-                $product->is_promo_applied = true;
+                
                 if ($promo_type == Config::get('meta.discount_percent')) {
 							if($promo_details['value']>0){
 								 $promo_discount = $total_product_cost_before_discount * ((float) $promo_details['value'] / 100);
@@ -194,6 +194,12 @@ class PromoDiscount extends Model
                 }
 
                 $promo_discount = round($promo_discount, 2);
+				if($promo_discount>0){
+					$product->is_promo_applied = true;
+				}
+				else{
+						$product->is_promo_applied = false;
+				}
                 $price_after_discount = max(0, $total_product_cost_before_discount - $promo_discount);
                 $product->promo_discount = $price_after_discount == 0 ? ($total_product_cost_before_discount) : $promo_discount;
 
