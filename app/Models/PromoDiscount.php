@@ -76,7 +76,7 @@ class PromoDiscount extends Model
 						//include
 				}
 				
-				
+				return $valid_SKUs_for_discount ;
 				if (sizeof($valid_SKUs_for_discount) == 0) {
 					$cart['promo_details']['error_msg'] = "Sorry! This coupon is not applicable on any product in your cart";
 					return $cart;
