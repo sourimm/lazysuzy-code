@@ -69,9 +69,9 @@ class PromoDiscount extends Model
 			
 				$valid_SKUs_for_discount = self::LSIDs_allowed($cart, $promo_details['discount_details']);
 				if($promo_details['discount_details']['clearance']=='exclude'){
-						$valid_SKUs_for_discount = self::clearance_filter($valid_SKUs_for_discount,'exclude');
+						$valid_SKUs_for_discount = self::clearance_filter($valid_SKUs_for_discount,0);
 				}else if($promo_details['discount_details']['clearance']=='only'){
-						$valid_SKUs_for_discount = self::clearance_filter($valid_SKUs_for_discount,'only');
+						$valid_SKUs_for_discount = self::clearance_filter($valid_SKUs_for_discount,1);
 				}else{
 						//include
 				}
@@ -441,8 +441,7 @@ class PromoDiscount extends Model
         foreach ($cart['products'] as $product) {
             $in_cart_skus[] = $product->product_sku;
         }
-		
-		return $in_cart_skus;
+ 
 
         // [SKU] => "lsid1,lsid2,lsid3..."
         $sku_lsid_map = self::get_product_LSID($in_cart_skus);
@@ -567,6 +566,12 @@ class PromoDiscount extends Model
     }
 	
 	private static function clearance_filter($allowed_SKUs, $clearancefilter){
-		return $allowed_SKUs;
+		
+		$sql = DB::table('master_data') 
+				->select('product_sku', 'parent_sku') 
+				->where('is_clearance', '=', $clearancefilter) 
+				->whereIn('product_sku', $allowed_SKUs )
+				->get();
+				return $sql;
 	}
 }
