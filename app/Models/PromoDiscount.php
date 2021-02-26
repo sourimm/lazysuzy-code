@@ -68,6 +68,13 @@ class PromoDiscount extends Model
 		else{
 			
 				$valid_SKUs_for_discount = self::LSIDs_allowed($cart, $promo_details['discount_details']);
+				if($promo_details['discount_details']['clearance']=='exclude'){
+						$valid_SKUs_for_discount = self::clearance_filter($valid_SKUs_for_discount,'exclude');
+				}else if($promo_details['discount_details']['clearance']=='only'){
+						$valid_SKUs_for_discount = self::clearance_filter($valid_SKUs_for_discount,'only');
+				}else{
+						//include
+				}
 				
 				
 				if (sizeof($valid_SKUs_for_discount) == 0) {
@@ -558,4 +565,8 @@ class PromoDiscount extends Model
         // expiry should be a future date, hence it should be greater that now()
         return ($expiry - $today) > 0;
     }
+	
+	private static function clearance_filter($allowed_SKUs, $clearancefilter){
+		return $allowed_SKUs;
+	}
 }
