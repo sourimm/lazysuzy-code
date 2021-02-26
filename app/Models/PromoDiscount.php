@@ -68,7 +68,7 @@ class PromoDiscount extends Model
 		else{
 			
 				$valid_SKUs_for_discount = self::LSIDs_allowed($cart, $promo_details['discount_details']); 
-				/*if($promo_details['discount_details']['clearance']=='exclude'){
+				if($promo_details['discount_details']['clearance']=='exclude'){
 						$valid_SKUs_for_discount = self::clearance_filter($valid_SKUs_for_discount,0);
 				}else if($promo_details['discount_details']['clearance']=='only'){
 						$valid_SKUs_for_discount = self::clearance_filter($valid_SKUs_for_discount,1);
@@ -76,7 +76,7 @@ class PromoDiscount extends Model
 						//include
 				}
 				
-				return $valid_SKUs_for_discount ;*/
+				return $valid_SKUs_for_discount ;
 				if (sizeof($valid_SKUs_for_discount) == 0) {
 					$cart['promo_details']['error_msg'] = "Sorry! This coupon is not applicable on any product in your cart";
 					return $cart;
@@ -566,7 +566,7 @@ class PromoDiscount extends Model
     }
 	
 	private static function clearance_filter($allowed_SKUs, $clearancefilter){
-		return $allowed_SKUs;
+	//	return $allowed_SKUs;
 		$sql = DB::table('master_data') 
 				->select('product_sku') 
 				->where('is_clearance', $clearancefilter) 
