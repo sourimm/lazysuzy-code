@@ -54,11 +54,21 @@ class PromoDiscount extends Model
 					$cart['promo_details']['error_msg'] = "Sorry! This coupon is not applicable on any product in your cart";
 					return $cart;
 				}else{
-					    $arr = [];
+					
+						
+					    $valid_SKUs_for_discount = [];
 						foreach($sql as $data){
-							array_push($arr,$data->product_sku);
+							array_push($valid_SKUs_for_discount,$data->product_sku);
 						}
-						$cart = self::add_promo_discount($arr, $cart, $promo_details['discount_details']);//return $cart;
+						
+						if($promo_details['discount_details']['clearance']=='exclude'){
+								$valid_SKUs_for_discount = self::clearance_filter($valid_SKUs_for_discount,0);
+						}else if($promo_details['discount_details']['clearance']=='only'){
+								$valid_SKUs_for_discount = self::clearance_filter($valid_SKUs_for_discount,1);
+						}else{
+								//include
+						}
+						$cart = self::add_promo_discount($valid_SKUs_for_discount, $cart, $promo_details['discount_details']);//return $cart;
 					   
 				}
 				
