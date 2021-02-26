@@ -566,10 +566,10 @@ class PromoDiscount extends Model
     }
 	
 	private static function clearance_filter($allowed_SKUs, $clearancefilter){
-		return 'clearancefilter='.$clearancefilter;
+		//return 'clearancefilter='.$clearancefilter;
 		$sql = DB::table('master_data') 
 				->select('product_sku') 
-				->where('is_clearance', '=', $clearancefilter) 
+				->where('is_clearance', $clearancefilter) 
 				->whereIn('product_sku', $allowed_SKUs )
 				->toSql();
 				//->get();
