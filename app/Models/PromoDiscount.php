@@ -75,8 +75,7 @@ class PromoDiscount extends Model
 				}else{
 						//include
 				}
-				
-				return $valid_SKUs_for_discount ;
+				 
 				if (sizeof($valid_SKUs_for_discount) == 0) {
 					$cart['promo_details']['error_msg'] = "Sorry! This coupon is not applicable on any product in your cart";
 					return $cart;
@@ -573,6 +572,16 @@ class PromoDiscount extends Model
 				->whereIn('product_sku', $allowed_SKUs )
 				//->toSql();
 				->get();
-				return $sql;
+		$arr = [];
+		if($sql=='[]'){ 
+						
+		}else{
+				 
+				foreach($sql as $data){
+					array_push($arr,$data->product_sku);
+				} 
+			   
+		}
+		return $arr;
 	}
 }
