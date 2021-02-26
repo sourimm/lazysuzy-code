@@ -571,7 +571,7 @@ class PromoDiscount extends Model
 				->select('product_sku') 
 				->where('is_clearance', '=', $clearancefilter) 
 				->whereIn('product_sku', $allowed_SKUs )
-				->get();
+				//->get();
 				return $sql;
 	}
 }
