@@ -67,7 +67,7 @@ class PromoDiscount extends Model
 		}
 		else{
 			
-				$valid_SKUs_for_discount = self::LSIDs_allowed($cart, $promo_details['discount_details']);
+				$valid_SKUs_for_discount = self::LSIDs_allowed($cart, $promo_details['discount_details']);return 'clearance='.$promo_details['discount_details']['clearance'] ;
 				if($promo_details['discount_details']['clearance']=='exclude'){
 						$valid_SKUs_for_discount = self::clearance_filter($valid_SKUs_for_discount,0);
 				}else if($promo_details['discount_details']['clearance']=='only'){
