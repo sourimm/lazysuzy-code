@@ -169,7 +169,7 @@ class Product extends Model
 
         // Added for trending products
          if(isset($trending)){
-				$query = $query->join("trending_products", "master_data.product_sku", "=", "trending_products.product_sku");
+				$query = $query->join("master_trending", "master_data.product_sku", "=", "master_trending.product_sku");
 		}		
 		
         if (isset($sort_type)) {
@@ -318,7 +318,7 @@ class Product extends Model
 			
 				  // Added for trending products
 				if(isset($trending)){
-					$query = $query->orderBy("trending_products.rank", "ASC");
+					$query = $query->orderBy("master_trending.trend_score", "DESC");
 				}
 				else{ 
 						if ($sale_products_only == false && !$new_products_only)
