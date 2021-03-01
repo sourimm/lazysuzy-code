@@ -70,12 +70,13 @@ class Collections extends Model
             'description' => $row->desc_cover
         ];
         $collection_details['sub_details'] = [];
-		
-		foreach(json_decode($row->desc_sub) as $desc_sub){
-		
-			$desc_sub->image =  env('APP_URL') . $desc_sub->image;
-			array_push($arr,$desc_sub);
-		
+		if($row->desc_sub!=''){
+			foreach(json_decode($row->desc_sub) as $desc_sub){
+			
+				$desc_sub->image =  env('APP_URL') . $desc_sub->image;
+				array_push($arr,$desc_sub);
+			
+			}
 		}
 		// $collection_details['sub_details'] = json_decode($row->desc_sub);
 		 $collection_details['sub_details'] = $arr;
