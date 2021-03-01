@@ -166,6 +166,12 @@ class Product extends Model
         $all_filters = [];
         $query       = DB::table('master_data')->where('product_status', 'active');
 
+        // Added for trending products
+         if(isset($trending)){
+				$query = ->join("trending_products", "master_data.product_sku", "=", "trending_products.product_sku") 
+                ->orderBy("trending_products.rank", "ASC")
+		}		
+		
         if (isset($sort_type)) {
             for ($i = 0; $i < sizeof($sort_type_filter); $i++) {
                 if ($sort_type_filter[$i]['value'] == $sort_type) {
