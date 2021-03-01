@@ -24,6 +24,7 @@ class Trending extends Model
         )->where(Config::get('tables.trending_products') . '.is_active', '1')
             ->orderBy(Config::get('tables.trending_products') . '.trend_score', 'DESC')->limit(12)->get();
 
+$a = Utility::get_sql_raw($products); return $a;
         $trending_products = [];
 
         foreach ($products as $prod) {
