@@ -118,7 +118,7 @@ class Product extends Model
     }
 
     public static function get_filter_products($dept, $cat = null, $subCat = null, $isAdmiAPICall = false)
-    {
+    {return 'subcat='.$subCat;
         $perPage = 24;
         $LS_IDs = null;
         $PRICE_ASC = "price_low_to_high";
@@ -285,6 +285,7 @@ class Product extends Model
             $LS_IDs = ['99'];
         }
 
+        if()
         $query = $query->whereRaw('LS_ID REGEXP "' . implode("|", $LS_IDs) . '"');
         $query = DimensionsFilter::apply($query, $all_filters);
         $query = CollectionFilter::apply($query, $all_filters);
