@@ -169,8 +169,7 @@ class Product extends Model
 
         // Added for trending products
          if(isset($trending)){
-				$query = $query->join("trending_products", "master_data.product_sku", "=", "trending_products.product_sku") 
-                ->orderBy("trending_products.rank", "ASC");
+				$query = $query->join("trending_products", "master_data.product_sku", "=", "trending_products.product_sku");
 		}		
 		
         if (isset($sort_type)) {
@@ -314,8 +313,18 @@ class Product extends Model
         }
         // set default sorting to popularity
         else {
-            if ($sale_products_only == false && !$new_products_only)
-                $query = $query->orderBy('serial', 'asc');
+			
+				  // Added for trending products
+				if(isset($trending)){
+					$query = $query->orderBy("trending_products.rank", "ASC");
+				}
+				else{ 
+						if ($sale_products_only == false && !$new_products_only)
+						$query = $query->orderBy('serial', 'asc');
+				}
+           
+			
+			
         }
 
         if ($is_details_minimal) {
