@@ -168,8 +168,8 @@ class Product extends Model
 
         // Added for trending products
          if(isset($trending)){
-				$query = ->join("trending_products", "master_data.product_sku", "=", "trending_products.product_sku") 
-                ->orderBy("trending_products.rank", "ASC")
+				$query = $query->join("trending_products", "master_data.product_sku", "=", "trending_products.product_sku") 
+                ->orderBy("trending_products.rank", "ASC");
 		}		
 		
         if (isset($sort_type)) {
