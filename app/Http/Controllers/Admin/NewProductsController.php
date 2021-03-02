@@ -142,7 +142,7 @@ class NewProductsController extends Controller
     public function update_multiple_new_product(Request $request)
     {
         //convert products recieved by default as associative arrays to Collection
-
+		
         $products = collect(json_decode(json_encode($request->get('products'))));
         $accepted_products = $products->filter(function ($product) {
             return $product->status === 'approved';
@@ -160,6 +160,23 @@ class NewProductsController extends Controller
             $mfg_country = $product->mfg_country ?? [];
             $style = $product->style ?? [];
             $firmness = $product->firmness ?? [];
+			$arr = [];
+			
+			$arr[0]['header'] = $product->product_sub_header_1 ?? '' ; 
+			$arr[0]['desc'] = $product->product_sub_desc_1 ?? '' ; 
+			$arr[0]['image'] = $product->product_image_sub_1 ?? '' ; 
+			
+			$arr[1]['header'] = $product->product_sub_header_2 ?? '' ; 
+			$arr[1]['desc'] = $product->product_sub_desc_2 ?? '' ; 
+			$arr[1]['image'] = $product->product_image_sub_2 ?? '' ; 
+			
+			$arr[2]['header'] = $product->product_sub_header_3 ?? '' ; 
+			$arr[2]['desc'] = $product->product_sub_desc_3 ?? '' ; 
+			$arr[2]['image'] = $product->product_image_sub_3 ?? '' ; 
+			
+			$arr[3]['header'] = $product->product_sub_header_4 ?? '' ; 
+			$arr[3]['desc'] = $product->product_sub_desc_4 ?? '' ; 
+			$arr[3]['image'] = $product->product_image_sub_4 ?? '' ; 
 
             $product->color = implode(',', $color);
             $product->seating = implode(',', $seating);
@@ -170,6 +187,7 @@ class NewProductsController extends Controller
             $product->mfg_country = implode(',', $mfg_country);
             $product->style = implode(',', $style);
             $product->firmness = implode(',', $firmness);
+            $product->desc_sub = json_encode($arr);;
 
             return $product;
         });
