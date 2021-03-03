@@ -19,7 +19,7 @@ class Subscribe extends Model
 				$user = Auth::user();
 				$userid = $user->id;
 			}
-
+return $user;
             $rows = DB::table('user_subscriptions')
                 ->where('email', $_GET['email'])
                 ->get();
