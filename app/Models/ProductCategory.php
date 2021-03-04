@@ -23,6 +23,7 @@ class ProductCategory extends Model
         $rows = DB::table("mapping_core")
             ->select(['dept_name_long', 'dept_name_short', 'dept_name_url'])
 			->distinct('dept_name_short') 
+			->orderBy('dept_name_short','ASC')
             ->get();
 
         foreach ($rows as $product) {
