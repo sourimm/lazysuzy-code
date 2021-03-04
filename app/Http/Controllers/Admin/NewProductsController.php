@@ -240,7 +240,7 @@ class NewProductsController extends Controller
         $skipped_skus = [];
         // get all the product_skus from the Inventory. Reduces the no of queries performed when
         // checking if an product or variation is already in the table
-        $this->inventory_products = DB::table('lz_inventory')->select('product_sku')->get();
+        $this->inventoryProducts = DB::table('lz_inventory')->select('product_sku')->get();
         $products = $products->groupBy('site_name');
 
         foreach ($products as $key => $value) {
@@ -280,7 +280,7 @@ class NewProductsController extends Controller
         foreach ($product_skus as $product) {
             $row = DB::table($table)->where('product_sku', $product->product_sku)->first();
             $shipping_code = $this->get_nw_ship_code($row->shipping_code);
-            $isInInventory = $this->inventory_products->where('product_sku', $product->product_sku)->isNotEmpty();
+            $isInInventory = $this->inventoryProducts->where('product_sku', $product->product_sku)->isNotEmpty();
             if (!$isInInventory) {
                 $to_insert[] = [
                     'product_sku' => $product->product_sku,
@@ -309,7 +309,7 @@ class NewProductsController extends Controller
         foreach ($product_skus as $product) {
             $row = DB::table($table)->where('product_sku', $product->product_sku)->first();
             $shipping_code = $this->code_map[$row->shipping_code] . strtoupper($key);
-            $isInInventory = $this->inventory_products->where('product_sku', $product->product_sku)->isNotEmpty();
+            $isInInventory = $this->inventoryProducts->where('product_sku', $product->product_sku)->isNotEmpty();
             if (!$isInInventory) {
                 $to_insert[] = [
                     'product_sku' => $product->product_sku,
@@ -341,7 +341,7 @@ class NewProductsController extends Controller
                             'ship_code' => $shipping_code,
                         ];
                     } else {
-                        $skipped_skus = $product->product_sku;
+                        $skipped_skus[] = $product->product_sku;
                         break;
                     }
                 }
@@ -359,11 +359,11 @@ class NewProductsController extends Controller
         $skipped_skus  = [];
         $table = array_search($key, $this->table_site_map);
         $skus = array_column($product_skus, 'product_sku');
-        $isInInventory = $this->inventory_products->whereIn('product_sku', $skus)->isNotEmpty();
+        $isInInventory = $this->inventoryProducts->whereIn('product_sku', $skus)->isNotEmpty();
         foreach ($product_skus as $product) {
             $row = DB::table($table)->where('product_sku', $product->product_sku)->first();
             $shipping_code = $this->code_map[$row->shipping_code] . strtoupper($key);
-            $isInInventory = $this->inventory_products->where('product_sku', $product->product_sku)->isNotEmpty();
+            $isInInventory = $this->inventoryProducts->where('product_sku', $product->product_sku)->isNotEmpty();
             if (!$isInInventory) {
                 $to_insert[] = [
                     'product_sku' => $product->product_sku,
@@ -396,7 +396,7 @@ class NewProductsController extends Controller
                             'ship_code' => $shipping_code,
                         ];
                     } else {
-                        $skipped_skus = $product->product_sku;
+                        $skipped_skus[] = $product->product_sku;
                         break;
                     }
                 }
@@ -433,7 +433,7 @@ class NewProductsController extends Controller
                             'ship_code' => $shipping_code,
                         ];
                     } else {
-                        $skipped_skus = $product->product_sku;
+                        $skipped_skus[] = $product->product_sku;
                         break;
                     }
                 }
