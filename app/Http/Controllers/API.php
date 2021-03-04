@@ -24,6 +24,7 @@ use Auth;
 use Illuminate\Support\Facades\Validator;
 use Subscribe as GlobalSubscribe;
 use App\Models\Order;
+use App\Models\ProductCategory;
 
 class API extends Controller
 {
@@ -306,5 +307,10 @@ class API extends Controller
     {
 		$data = $request->all();
         return Collections::save_collection($data);
+    }
+	
+	public function get_dept_list()
+    {
+        return ProductCategory::get_dept_list();
     }
 }
