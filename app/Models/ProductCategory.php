@@ -32,24 +32,7 @@ class ProductCategory extends Model
 
         return $arr;
     }
-
-    public static function get_dept_list()
-    {
-
-        $arr = [];
-        $rows = DB::table("mapping_core")
-            ->select(['dept_name_long', 'dept_name_short', 'dept_name_url'])
-			->distinct('dept_name_short') 
-			->orderBy('dept_name_long','ASC')
-            ->get();
-
-        foreach ($rows as $product) {
-            array_push($arr, $product);
-        }
-
-        return $arr;
-    }
-	
+ 
     public static function get_cat_list($deptname)
     {
 
