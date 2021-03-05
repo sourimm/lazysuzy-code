@@ -177,6 +177,9 @@ Route::post('/api/save_collection', 'API@save_collection')->middleware(['auth:ap
 // Get Department List
 Route::get('/api/departmentlist', 'API@get_dept_list')->middleware(['auth:api'])->name('get-dept-list');
 
+// Get Category List
+Route::get('/api/categorylist/{deptname}', 'API@get_cat_list')->middleware(['auth:api'])->name('get-cat-list');
+
 /* ==================================================BACKEND ADMIN APIS========================================== */
 
 Route::middleware(['auth:api', 'cors', 'admin'])->group(function () {
