@@ -9,6 +9,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Input;
 use App\Models\PromoDiscount;
+use App\Models\Collections;
 
 class Dashboard extends Controller
 {
